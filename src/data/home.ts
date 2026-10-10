@@ -42,7 +42,7 @@ export const home = {
     text: 'It is with great pleasure that I announce the resumption of classes!',
     newsletter: {
       text: 'Be the first to know about our news, articles and upcoming activities',
-      cta: { label: 'Subscribe to our Newsletter', href: site.routes.contact },
+      cta: { label: 'Subscribe to our Newsletter', href: '#newsletter' },
     },
     // The three course titles shown as image tiles. The first two have sample course pages.
     courses: [

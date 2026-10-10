@@ -316,11 +316,43 @@ const isCurrent = (href: string) => {
     .header__links li:not(.header__phone, .header__lang) a::after {
       display: none;
     }
+    /* The number is in the footer and on the contact section; the menu stays short */
     .header__phone {
-      margin-top: 1rem;
+      display: none;
     }
     .header__lang {
-      margin-top: 0.6rem;
+      margin-top: 1.1rem;
+    }
+    /* Each link slides in a little and a light-blue brush mark sweeps in behind it */
+    .header__links li:not(.header__phone, .header__lang) a {
+      isolation: isolate;
+      padding-inline: 0.35rem 0.6rem;
+      margin-left: -0.35rem;
+      transition:
+        translate var(--dur-2) var(--ease-out),
+        color var(--dur-1);
+    }
+    .header__links li:not(.header__phone, .header__lang) a::before {
+      content: '';
+      position: absolute;
+      inset: 12% -0.7rem 6% -0.45rem;
+      z-index: -1;
+      background: var(--blue-light);
+      border-radius: 46% 54% 38% 62% / 62% 44% 56% 38%;
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: transform var(--dur-2) var(--ease-out);
+    }
+    .header__links li:not(.header__phone, .header__lang) a:hover,
+    .header__links li:not(.header__phone, .header__lang) a:focus-visible,
+    .header__links li:not(.header__phone, .header__lang) a[aria-current='page'] {
+      color: var(--blue-deep);
+      translate: 0.4rem 0;
+    }
+    .header__links li:not(.header__phone, .header__lang) a:hover::before,
+    .header__links li:not(.header__phone, .header__lang) a:focus-visible::before,
+    .header__links li:not(.header__phone, .header__lang) a[aria-current='page']::before {
+      transform: none;
     }
     .header__links .header__lang a:hover {
       background: var(--blue-deep);

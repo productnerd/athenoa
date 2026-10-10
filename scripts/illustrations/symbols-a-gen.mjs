@@ -29,15 +29,35 @@ function tetractys() {
   const cx = 160;
   const d = 64;
   const step = (d * Math.sqrt(3)) / 2;
-  const top = 38;
+  const top = V === 'b' || V === 'c' ? 62 : 38;
   const at = (r, i) => [cx + (i - r / 2) * d, top + r * step];
   const out = [];
+  const R = 14.5;
+  if (V === 'b' || V === 'c') {
+    // fine lines joining neighbours, stopping short of each point
+    const link = (p, q) => {
+      const len = Math.hypot(q[0] - p[0], q[1] - p[1]);
+      const u = [(q[0] - p[0]) / len, (q[1] - p[1]) / len];
+      const g = R + 5.5;
+      out.push(line([p[0] + u[0] * g, p[1] + u[1] * g], [q[0] - u[0] * g, q[1] - u[1] * g]));
+    };
+    for (let r = 0; r < 4; r++) {
+      for (let i = 0; i <= r; i++) {
+        if (i < r) link(at(r, i), at(r, i + 1));
+        if (r < 3 && (V === 'b' || i === 0 || i === r || true)) {
+          if (V === 'b' || i === 0) link(at(r, i), at(r + 1, i));
+          if (V === 'b' || i === r) link(at(r, i), at(r + 1, i + 1));
+        }
+      }
+    }
+  }
   for (let r = 0; r < 4; r++) {
     for (let i = 0; i <= r; i++) {
-      out.push(circle(...at(r, i), 14.5));
+      out.push(circle(...at(r, i), R));
       out.push(dot(...at(r, i), 5.6));
     }
   }
+  if (V === 'b' || V === 'c') return svg(320, 320, SW, out.join(''));
   // "The fount and root of ever-flowing nature": the four rows return below as four waves.
   const base = top + 3 * step;
   const rand = rng(7);
@@ -62,17 +82,18 @@ function tetractys() {
 function monad() {
   const c = 160;
   const out = [];
-  out.push(dot(c, c, 5));
-  out.push(circle(c, c, 30));
-  out.push(circle(c, c, 65));
-  const n = 36;
+  out.push(dot(c, c, 5.5));
+  out.push(circle(c, c, 25));
+  const n = V === 'b' ? 24 : 28;
   for (let i = 0; i < n; i++) {
     const a = (i / n) * TAU - Math.PI / 2;
-    const p0 = [c + Math.cos(a) * 77, c + Math.sin(a) * 77];
-    const p1 = [c + Math.cos(a) * 116, c + Math.sin(a) * 116];
-    out.push(path(spline(wavy(p0, p1, { waves: 1, amp: 2.7, phase: i % 2 ? 0 : Math.PI, per: 8 }))));
+    const r0 = V === 'b' ? 44 : 41;
+    const r1 = i % 2 ? 90 : 108;
+    const p0 = [c + Math.cos(a) * r0, c + Math.sin(a) * r0];
+    const p1 = [c + Math.cos(a) * r1, c + Math.sin(a) * r1];
+    out.push(path(spline(wavy(p0, p1, { waves: i % 2 ? 1.5 : 2, amp: V === 'b' ? 3.4 : 3, phase: 0, per: 8 }))));
   }
-  out.push(circle(c, c, 128));
+  out.push(circle(c, c, 126));
   return svg(320, 320, SW, out.join(''));
 }
 

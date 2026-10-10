@@ -1,14 +1,25 @@
 ---
-// Opening of "About Athena": the title and the three introductory paragraphs beside a tall
+// Opening of "About Dr. Athena Potari": the title and the three introductory paragraphs beside a tall
 // arch portrait. Depth, far to near: sun rays, a blue paper arch, the photograph.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import temple from '../../assets/media/temple-blue-dress.jpg';
-import { about } from '../../data/about';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
-// The first word sits on its own line; the name follows on the next.
-const [firstWord, ...nameWords] = about.title.split(' ');
-const name = nameWords.join(' ');
+const locale = getLocale(Astro.url);
+const { about, site } = content(locale);
+const t = {
+  en: { photo: 'A woman in a long blue dress stands between the marble columns of an ancient temple' },
+  el: { photo: 'Μια γυναίκα με μακρύ μπλε φόρεμα στέκεται ανάμεσα στους μαρμάρινους κίονες ενός αρχαίου ναού' },
+}[locale];
+
+// The title breaks where the name begins: a short opening line ("About"), then the name with its
+// title on a line of its own. The name starts at the honorific that also opens site.founder.
+const [honorific] = site.founder.split(' ');
+const at = Math.max(about.title.indexOf(honorific), 0);
+const opening = about.title.slice(0, at).trim();
+const name = about.title.slice(at);
 const [lead, ...paragraphs] = about.intro;
 ---
 
@@ -16,7 +27,7 @@ const [lead, ...paragraphs] = about.intro;
   <div class="wrap hero__grid">
     <div class="hero__head">
       <h1 class="hero__title t-hero" data-split style={`--name-chars:${name.length}`}>
-        {firstWord}{' '}<span class="hero__name">{name}</span>
+        {opening && <span class="hero__opening t-sub">{opening}</span>}{' '}<span class="hero__name">{name}</span>
       </h1>
     </div>
 
@@ -28,7 +39,7 @@ const [lead, ...paragraphs] = about.intro;
       <div class="hero__photo" data-depth="-0.05">
         <Media
           src={temple}
-          alt="A woman in a long blue dress stands between the marble columns of an ancient temple"
+          alt={t.photo}
           shape="arch"
           ratio="5 / 7"
           focus="60% 50%"
@@ -74,6 +85,11 @@ const [lead, ...paragraphs] = about.intro;
   }
   .hero__title {
     font-size: min(var(--step-5), calc(100cqi / (var(--name-chars) * 0.45)));
+  }
+  /* The opening words are set as the title's smaller first line, in the lighter blue of a subtitle */
+  .hero__opening {
+    margin: 0 0 0.1em;
+    font-size: 0.58em;
   }
   .hero__name {
     display: block;

@@ -1,0 +1,221 @@
+---
+// Type test: every typeface option on one page, in English and Greek. A working page for choosing
+// fonts, not part of the public site (noindex, left out of the sitemap). Delete it once the choice is made.
+import Base from '../layouts/Base.astro';
+import '@fontsource/alegreya/400-italic.css';
+
+const sets = [
+  {
+    id: 'a',
+    name: 'EB Garamond',
+    note: 'Open licence and shipped with the site, so every visitor sees it. Complete Greek, including ancient polytonic.',
+  },
+  {
+    id: 'b',
+    name: 'Tekst',
+    note: 'Loaded from this computer (trial cut). Greek capitals and plain lowercase only: accented Greek vowels, and & € ( ) % and curly quotes, fall back to EB Garamond.',
+  },
+  {
+    id: 'c',
+    name: 'PP Editorial New',
+    note: 'Loaded from this computer. Latin only: everything in Greek falls back to EB Garamond.',
+  },
+];
+
+const voices = [
+  {
+    name: 'Noto Serif Display Italic (in use)',
+    note: 'Open licence. Complete Greek, including polytonic.',
+    style: "font-family:'Noto Serif Display Variable',serif;font-style:italic;font-weight:320",
+  },
+  {
+    name: 'Alegreya Italic',
+    note: 'Open licence. Complete Greek, including polytonic.',
+    style: "font-family:'Alegreya',serif;font-style:italic;font-weight:400",
+  },
+  {
+    name: 'EB Garamond Italic',
+    note: 'Already shipped. Complete Greek, including polytonic.',
+    style: "font-family:'EB Garamond Variable',serif;font-style:italic;font-weight:400",
+  },
+];
+
+const sample = {
+  en: {
+    lang: 'en',
+    label: 'English',
+    title: ['STUDY AT THE MODERN ', 'PLATONIC', 'ACADEMY'],
+    sub: '& REMEMBER WHO YOU REALLY ARE',
+    h2: 'Benefits of Joining ATHENOA',
+    h3: 'You will follow in the footsteps of Education followed by the Ancient Sages',
+    lead: 'Would you like to study methodically on the Path of Greek Philosophy and Light?',
+    voice: 'Dear Friends and Bright Fellow Travelers on the Path of the Greek Light,',
+    button: 'Get started',
+    figures: '€200 & VAT (24%) ~ 387 BC - 529 AD ~ “philo” ~ ‘sophia’',
+  },
+  el: {
+    lang: 'el',
+    label: 'Ελληνικά',
+    title: ['ΣΠΟΥΔΑΣΤΕ ΣΤΗ ΣΥΓΧΡΟΝΗ ', 'ΠΛΑΤΩΝΙΚΗ', 'ΑΚΑΔΗΜΙΑ'],
+    sub: '& ΘΥΜΗΘΕΙΤΕ ΠΟΙΟΙ ΠΡΑΓΜΑΤΙΚΑ ΕΙΣΤΕ',
+    h2: 'Τα οφέλη της συμμετοχής στην ATHENOA',
+    h3: 'Θα ακολουθήσετε τα βήματα της Παιδείας που ακολούθησαν οι Αρχαίοι Σοφοί',
+    lead: 'Θα θέλατε να σπουδάσετε μεθοδικά στον Δρόμο της Ελληνικής Φιλοσοφίας και του Φωτός;',
+    voice: 'Αγαπητοί Φίλοι και Φωτεινοί Συνοδοιπόροι στον Δρόμο του Ελληνικού Φωτός,',
+    button: 'Ξεκινήστε',
+    figures: '€200 & ΦΠΑ (24%) ~ 387 π.Χ. - 529 μ.Χ. ~ «φιλο-» ~ «σοφία»',
+  },
+};
+---
+
+<Base title="Type test | ATHENOA" description="Every typeface option for the site, in English and Greek." noindex>
+  <section class="section wrap intro">
+    <h1 class="t-1">Type test</h1>
+    <p class="lead">
+      Three options for titles and reading, and three for the calligraphic voice, each in English and Greek.
+    </p>
+  </section>
+
+  {
+    sets.map((set) => (
+      <section class="wrap set" data-fonts={set.id}>
+        <header class="set__head">
+          <h2 class="t-2">{set.name}</h2>
+          <p class="set__note">{set.note}</p>
+        </header>
+        <div class="set__cols">
+          {[sample.en, sample.el].map((text) => (
+            <div class="set__col stack" lang={text.lang}>
+              <p class="set__lang">{text.label}</p>
+              <p class="t-hero set__hero">
+                {text.title[0]}
+                <span class="hl">
+                  <span class="hl__w">{text.title[1]}</span> <span class="hl__w">{text.title[2]}</span>
+                </span>
+                <span class="t-sub">{text.sub}</span>
+              </p>
+              <p class="t-2">{text.h2}</p>
+              <p class="t-3">{text.h3}</p>
+              <p class="lead">{text.lead}</p>
+              {text.lang === 'en' ? (
+                <p class="measure">
+                  The Greek philosophical tradition did not originate from division; it did not begin with an
+                  ontological rupture between being and mind, <strong>spirit and matter</strong>,{' '}
+                  <em>knower and known</em>, inner and outer. What the Ancients called the Good life:{' '}
+                  <span lang="grc">Εὖ Ζῆν</span>.
+                </p>
+              ) : (
+                <p class="measure">
+                  Η ελληνική φιλοσοφική παράδοση δεν γεννήθηκε από τον διχασμό· δεν ξεκίνησε με μια οντολογική ρήξη
+                  ανάμεσα στο είναι και τον νου, <strong>το πνεύμα και την ύλη</strong>,{' '}
+                  <em>τον γνώστη και το γνωστό</em>, το μέσα και το έξω. Αυτό που οι Αρχαίοι ονόμαζαν:{' '}
+                  <span lang="grc">Εὖ Ζῆν</span>.
+                </p>
+              )}
+              <p class="set__figures">{text.figures}</p>
+              <p>
+                <span class="btn">{text.button}</span>
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="wrap set">
+    <header class="set__head">
+      <h2 class="t-2">The voice</h2>
+      <p class="set__note">
+        Used where Athena speaks in her own voice: greetings, asides and maxims. No true script font with an open
+        licence covers Greek, so these are the most pen-like italics that do.
+      </p>
+    </header>
+    <div class="voices">
+      {
+        voices.map((voice) => (
+          <div class="voice">
+            <p class="set__lang">
+              {voice.name}. {voice.note}
+            </p>
+            <p class="voice__line" style={voice.style}>{sample.en.voice}</p>
+            <p class="voice__line" style={voice.style} lang="el">{sample.el.voice}</p>
+            <p class="voice__small" style={voice.style}>
+              I await you with joy and enthusiasm on a New Initiatic Journey ~ <span lang="grc">Εὖ Ζῆν</span> ~{' '}
+              <span lang="grc">Γνῶθι σαυτόν</span>
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    padding-bottom: var(--space-l);
+  }
+  .set {
+    padding-block: var(--space-l);
+    border-top: 1.5px solid var(--line);
+  }
+  .set__head {
+    display: grid;
+    gap: 0.4rem;
+    margin-bottom: var(--space-l);
+  }
+  .set__note,
+  .set__lang {
+    font-family: system-ui, sans-serif;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 62ch;
+  }
+  .set__cols {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-l) clamp(2rem, 1rem + 4vw, 5rem);
+  }
+  .set__col {
+    --stack: var(--space-m);
+    min-width: 0;
+  }
+  /* The hero size is scaled down here so two columns fit; proportions between sets are kept */
+  .set__hero {
+    font-size: calc(var(--step-5) * 0.46);
+  }
+  .set__hero :global(.t-sub),
+  .set__hero .t-sub {
+    font-size: calc(var(--step-3) * 0.5);
+  }
+  .set__figures {
+    font-variant-numeric: lining-nums;
+  }
+  .voices {
+    display: grid;
+    gap: var(--space-l);
+  }
+  .voice__line {
+    font-size: var(--step-2);
+    line-height: 1.16;
+    color: var(--blue);
+  }
+  .voice__small {
+    margin-top: 0.5rem;
+    font-size: var(--step-1);
+    line-height: 1.25;
+    color: var(--blue);
+  }
+  @media (max-width: 56rem) {
+    .set__cols {
+      grid-template-columns: 1fr;
+    }
+    .set__hero {
+      font-size: calc(var(--step-5) * 0.7);
+    }
+    .set__hero .t-sub {
+      font-size: calc(var(--step-3) * 0.7);
+    }
+  }
+</style>

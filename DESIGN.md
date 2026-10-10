@@ -53,7 +53,7 @@ All-caps eyebrow labels (unless the source text is already in capitals), numbere
 - `<SocialIcons />`.
 - SVG filters available by id: `#rough`, `#rough-sm` (edges of shapes), `#wobble` (line art). Apply filters to decorative layers only, never to text, and never to a large element that also moves.
 
-View the kit at `/lab/kit/`.
+See the type options at `/font-test/`.
 
 ## Illustration style
 
@@ -84,9 +84,9 @@ Everything is attribute-driven and inert without JavaScript or with `prefers-red
 The dev server is already running at http://localhost:4321 (do not start another, do not run `astro build`).
 
 ```
-node scripts/shot.mjs /lab/kit/ shots/kit.png                 # full page, desktop 1440, motion off
-node scripts/shot.mjs /lab/kit/ shots/kit-m.png --mobile      # 390 wide
-node scripts/shot.mjs /lab/kit/ shots/kit-b.png --fonts b     # type set b (Tekst); c is PP Editorial New
+node scripts/shot.mjs /courses/ shots/page.png                # full page, desktop 1440, motion off
+node scripts/shot.mjs /courses/ shots/page-m.png --mobile     # 390 wide
+node scripts/shot.mjs /courses/ shots/page-b.png --fonts b    # type set b (Tekst); c is PP Editorial New
 node scripts/shot.mjs / shots/top.png --viewport --motion     # first screen only, motion on, after the load sequence
 node scripts/shot.mjs / shots/mid.png --scroll 1400 --motion  # viewport after scrolling
 ```

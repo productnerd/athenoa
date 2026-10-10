@@ -1,16 +1,19 @@
 ---
-// About Athena (replaces the old "About Us"). The biography leads; the contact form closes the page.
+// About Dr. Athena Potari (replaces the old "About Us"). The biography leads; the contact form closes the page.
+// The same file renders /about-athena/ and /el/about-athena/: the copy follows the address.
 import Base from '../layouts/Base.astro';
 import AboutHero from '../components/about/AboutHero.astro';
 import AboutStory from '../components/about/AboutStory.astro';
 import AboutContact from '../components/about/AboutContact.astro';
-import { about } from '../data/about';
-import { site } from '../data/site';
+import { content } from '../data';
+import { barePath, getLocale } from '../lib/locale';
 import { personSchema, breadcrumbSchema } from '../data/schema';
 
-// The breadcrumb takes its names from the navigation, so the two cannot drift apart.
+const { about, site } = content(getLocale(Astro.url));
+
+// The breadcrumb takes its names and addresses from the navigation, so the two cannot drift apart.
 const trail = site.nav
-  .filter((item) => item.href === '/' || item.href === '/about-athena/')
+  .filter((item) => ['/', '/about-athena/'].includes(barePath(item.href)))
   .map((item) => ({ name: item.label, path: item.href }));
 ---
 

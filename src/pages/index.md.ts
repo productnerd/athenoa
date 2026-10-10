@@ -1,5 +1,6 @@
-// /index.md: the Markdown twin of the home page.
+// /index.md and /el/index.md: the Markdown twin of the home page.
 import type { APIRoute } from 'astro';
-import { homeMarkdown, textResponse } from '../lib/markdown';
+import { getLocale } from '../lib/locale';
+import { textPages } from '../lib/markdown';
 
-export const GET: APIRoute = () => textResponse(homeMarkdown(), 'text/markdown', '/');
+export const GET: APIRoute = ({ url }) => textPages(getLocale(url)).home();

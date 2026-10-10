@@ -6,7 +6,6 @@ import SvgDefs from '../components/SvgDefs.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import FontToggle from '../components/FontToggle.astro';
-import LabBar from '../components/LabBar.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -70,7 +69,6 @@ const { ui } = content(locale);
     </main>
     {footer && <Footer />}
     <FontToggle />
-    <LabBar />
     <script>
       import '../scripts/motion.ts';
     </script>

@@ -1,13 +1,36 @@
-// Render any SVG files on crème with blue ink, to look at them: node symbols-b-peek.mjs out.png width a.svg b.svg ...
+// Quick look at any SVG files, side by side, without a browser: node symbols-b-peek.mjs out.png width a.svg b.svg ...
+// A width under 10 is a scale instead (pixels per unit of the viewBox), so stroke weights can be compared.
+// Add --blue for crème ink on Greek blue. currentColor and the paper variable are substituted,
+// because the renderer does not know the page's ink.
 import { readFileSync } from 'node:fs';
-import { chromium } from 'playwright-core';
-const [out, width, ...files] = process.argv.slice(2);
-const cells = files.map((f) => `<figure style="width:${width}px">${readFileSync(f, 'utf8')}</figure>`).join('');
-const html = `<!doctype html><meta charset="utf-8"><style>html,body{margin:0}body{width:max-content;font:0/0 a}
-.row{display:flex;align-items:center;gap:30px;padding:30px;--paper:#f2e9d3;background:#f2e9d3;color:#0b1c8c}
-figure{margin:0;flex:none}svg{display:block;width:100%;height:auto;overflow:visible}</style><div class="row">${cells}</div>`;
-const browser = await chromium.launch({ channel: 'chrome' });
-const page = await browser.newPage({ viewport: { width: 1200, height: 800 }, deviceScaleFactor: 1 });
-await page.setContent(html);
-await page.locator('body').screenshot({ path: out });
-await browser.close();
+import sharp from 'sharp';
+
+const args = process.argv.slice(2);
+const blue = args.includes('--blue');
+const [out, width, ...files] = args.filter((a) => a !== '--blue');
+const paper = blue ? '#0b1c8c' : '#f2e9d3';
+const ink = blue ? '#f2e9d3' : '#0b1c8c';
+const pad = 24;
+
+const tiles = [];
+let x = pad;
+let height = 0;
+for (const f of files) {
+  const src = readFileSync(f, 'utf8')
+    .replaceAll('currentColor', ink)
+    .replace(/var\(--paper[^)]*\)/g, paper)
+    .replace(/var\(--blue-light[^)]*\)/g, '#b3c0f3')
+    .replace(/var\(--blue-deep[^)]*\)/g, '#071260')
+    .replace(/var\(--blue[^)]*\)/g, '#0b1c8c');
+  const [, , , vw, vh] = src.match(/viewBox="([\d.]+) ([\d.]+) ([\d.]+) ([\d.]+)"/).map(Number);
+  const w = Math.round(Number(width) < 10 ? vw * Number(width) : Number(width));
+  const input = await sharp(Buffer.from(src), { density: (72 * w) / vw }).resize({ width: w }).png().toBuffer();
+  const h = Math.round((w * vh) / vw);
+  tiles.push({ input, left: x, top: pad });
+  x += w + pad;
+  height = Math.max(height, h);
+}
+await sharp({ create: { width: x, height: height + pad * 2, channels: 3, background: paper } })
+  .composite(tiles)
+  .png({ compressionLevel: 9 })
+  .toFile(out);

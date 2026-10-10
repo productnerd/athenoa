@@ -49,12 +49,12 @@ const SW = 2.5;
 function wheat() {
   const rand = rng(4);
   const axis = [
-    [89, 353],
-    [93, 310],
-    [98, 264],
-    [100, 224],
-    [100, 166],
-    [100, 110],
+    [89, 354],
+    [92, 326],
+    [96, 296],
+    [100, 262],
+    [100, 184],
+    [100, 106],
   ];
   const per = 16;
   const dense = sample(axis, per);
@@ -62,28 +62,28 @@ function wheat() {
   const earFrom = lens[3 * per] / lens[lens.length - 1];
   const GRAIN = [0.3, 1.04, 0.76, 0.9];
 
-  const N = 10;
+  const N = 14;
   let awns = '';
   const grains = [];
   for (let i = 0; i < N; i++) {
     const side = i % 2 ? 1 : -1;
     const u = i / (N - 1);
     const b = along(dense, earFrom + (1 - earFrom) * ((i + 0.1) / (N + 0.75)), lens);
-    const dir = b.ang + side * (27 - 4 * u) * deg;
-    const len = 36 - 7 * u;
-    const g = leaf(b.x, b.y, dir, len, 11.6 - 2.6 * u, side * 0.06, 0.6, GRAIN);
+    const dir = b.ang + side * (27 - 5 * u) * deg;
+    const len = 35 - 8 * u;
+    const g = leaf(b.x, b.y, dir, len, 11.4 - 3 * u, side * 0.06, 0.6, GRAIN);
     grains.push(path(g.outline, true));
     // awn: leaves the tip in the direction of the grain, then straightens a little
-    const L = 128 - 50 * u + (rand() - 0.5) * 9;
-    const endDir = b.ang + side * (22.5 - 11 * u + (rand() - 0.5) * 1.6) * deg;
+    const L = 118 - 42 * u + (rand() - 0.5) * 9;
+    const endDir = b.ang + side * (22 - 11 * u + (rand() - 0.5) * 1.6) * deg;
     const c = [g.tip[0] + Math.cos(dir) * L * 0.4, g.tip[1] + Math.sin(dir) * L * 0.4];
     const e = [g.tip[0] + Math.cos(endDir) * L, g.tip[1] + Math.sin(endDir) * L];
     awns += `M${P(...g.tip)}Q${P(...c)} ${P(...e)}`;
   }
   // the grain that closes the ear, and its awn straight on
   const top = along(dense, 1, lens);
-  const tg = leaf(top.x, top.y + 5, top.ang, 29, 8.2, 0, 0.6, GRAIN);
-  awns += `M${P(...tg.tip)}Q${P(tg.tip[0] + 1.6, tg.tip[1] - 34)} ${P(tg.tip[0] - 1, tg.tip[1] - 67)}`;
+  const tg = leaf(top.x, top.y + 5, top.ang, 27, 7.6, 0, 0.6, GRAIN);
+  awns += `M${P(...tg.tip)}Q${P(tg.tip[0] + 1.6, tg.tip[1] - 34)} ${P(tg.tip[0] - 1, tg.tip[1] - 66)}`;
   const ear = path(tg.outline, true) + grains.reverse().join('');
 
   // two blades on the straw
@@ -97,24 +97,24 @@ function wheat() {
   };
   const right = blade(
     [
-      [94.6, 300],
-      [106, 270],
-      [126, 244],
-      [150, 232],
-      [170, 239],
-      [181, 257],
+      [94.4, 310],
+      [105, 286],
+      [124, 268],
+      [146, 262],
+      [164, 272],
+      [174, 291],
     ],
-    11,
+    10,
   );
   const left = blade(
     [
-      [91.4, 328],
-      [82, 300],
-      [66, 278],
-      [46, 266],
-      [28, 268],
+      [91.4, 334],
+      [82, 312],
+      [66, 297],
+      [47, 291],
+      [30, 296],
     ],
-    10,
+    9,
     0.6,
   );
 
@@ -129,79 +129,80 @@ function wheat() {
 // oracle rising.
 function tripod() {
   const cx = 150;
-  const rimTop = 143;
-  const rimBottom = 150.6;
-  const pawY = 316;
+  const rimTop = 147;
+  const rimBottom = 155;
+  const pawY = 315;
 
   // vapour: three threads rising out of the bowl between the handles
   const vapour =
-    path(spline(wavy([150, 100], [150, 15], 2.5, 5.6, 0, 12))) +
-    path(spline(wavy([125.5, 137], [122, 44], 2.6, 5.2, Math.PI, 12))) +
-    path(spline(wavy([174.5, 137], [178, 44], 2.6, 5.2, 0, 12)));
+    path(spline(wavy([150, 103], [150, 14], 2.6, 5.8, 0, 12))) +
+    path(spline(wavy([124, 141], [120, 46], 2.7, 5.4, Math.PI, 12))) +
+    path(spline(wavy([176, 141], [180, 46], 2.7, 5.4, 0, 12)));
 
-  // ring handles
-  const ringY = rimTop - 16;
-  const rings = [101, cx, 199].map((x) => circle(x, ringY, 15.4, true) + circle(x, ringY, 9.2)).join('');
+  // ring handles standing on the rim
+  const ringY = rimTop - 17.4;
+  const rings = [97, cx, 203].map((x) => circle(x, ringY, 17, true) + circle(x, ringY, 10)).join('');
 
-  // lebes: a deep bowl, a band under the rim with a row of tongues hanging from it
-  const bandY = 161.5;
-  const tongues = (x0) => `M${P(x0, bandY)}` + 'a5.1 6.2 0 0 0 10.2 0'.repeat(4);
+  // lebes: a deep round bowl, a band under the rim with a row of tongues hanging from it
+  const bandY = 167;
+  const tongues = (x0, n) => `M${P(x0, bandY)}` + 'a5.2 6.6 0 0 0 10.4 0'.repeat(n);
   const bowl =
-    path(`M103 ${rimBottom}C103 190 123 213 ${cx} 213C177 213 197 190 197 ${rimBottom}Z`, true) +
-    path(`M103 ${bandY}H197`) +
-    path(tongues(102.2) + tongues(157));
-  const rim = `<rect x="82" y="${rimTop}" width="136" height="${n1(rimBottom - rimTop)}" rx="2.4" fill="var(--paper, #f2e9d3)"/>`;
+    path(`M94 ${rimBottom}C94 203 118 234 ${cx} 234C182 234 206 203 206 ${rimBottom}Z`, true) +
+    path(`M95 ${bandY}H205`) +
+    path(tongues(100.6, 4) + tongues(157.8, 4));
+  const rim = `<rect x="78" y="${rimTop}" width="144" height="${n1(rimBottom - rimTop)}" rx="2.6" fill="var(--paper, #f2e9d3)"/>`;
 
   // stays: an arched band between each pair of legs, running into them
   const arch = (x0, x1, y, rise) => {
     const m = (x0 + x1) / 2;
     return `M${P(x0, y)}C${P(x0, y - rise * 0.72)} ${P(m - (x1 - x0) * 0.27, y - rise)} ${P(m, y - rise)}S${P(x1, y - rise * 0.72)} ${P(x1, y)}`;
   };
-  const stays = path(arch(89, 149, 284, 37) + arch(93.6, 145, 291, 37.5));
+  const stays = path(arch(84, 149, 292, 40) + arch(91.6, 143, 292, 31.6));
 
   // a leg narrows a little towards the ankle and runs straight into a lion paw seen from the
   // front; `lean` pushes the paw a little to one side
   const leg = (xt, xb, lean) => {
     const y = pawY;
-    const c = xb + lean * 2.6;
-    const l = c - 12.6;
-    const r = c + 12.6;
+    const c = xb + lean * 3;
+    const l = c - 14.4;
+    const r = c + 14.4;
     const tw = (r - l) / 3;
-    const yt = y + 16.4;
-    let d = `M${P(xt - 6.6, rimBottom)}L${P(xb - 5.4, y)}C${P(xb - 5.4, y + 5)} ${P(l, y + 3.4)} ${P(l, y + 11)}L${P(l, yt)}`;
-    for (let i = 0; i < 3; i++) d += `a${n1(tw / 2)} 3.4 0 0 0 ${n1(tw)} 0`;
-    d += `L${P(r, y + 11)}C${P(r, y + 3.4)} ${P(xb + 5.4, y + 5)} ${P(xb + 5.4, y)}L${P(xt + 6.6, rimBottom)}`;
-    const toes = `M${P(l + tw, yt)}q0.6 -3.4 -0.4 -6.2M${P(l + 2 * tw, yt)}q-0.6 -3.4 0.4 -6.2`;
+    const yt = y + 19;
+    let d = `M${P(xt - 7.6, rimBottom)}L${P(xb - 6, y)}C${P(xb - 6, y + 6)} ${P(l, y + 4)} ${P(l, y + 12.6)}L${P(l, yt)}`;
+    for (let i = 0; i < 3; i++) d += `a${n1(tw / 2)} 3.8 0 0 0 ${n1(tw)} 0`;
+    d += `L${P(r, y + 12.6)}C${P(r, y + 4)} ${P(xb + 6, y + 6)} ${P(xb + 6, y)}L${P(xt + 7.6, rimBottom)}`;
+    const toes = `M${P(l + tw, yt)}q0.7 -4 -0.5 -7.4M${P(l + 2 * tw, yt)}q-0.7 -4 0.5 -7.4`;
     return path(d, true) + path(toes);
   };
-  const sideLeg = leg(96, 87, -1);
+  const sideLeg = leg(94, 82, -1);
   const midLeg = leg(cx, cx, 0);
 
-  // laurel either side
+  // laurel either side, leaning in towards the handles
   const sprig = () => {
     const rand = rng(5);
     const stemPts = [
-      [45, 346],
-      [31, 308],
-      [23, 264],
-      [25, 218],
-      [37, 178],
+      [43, 350],
+      [29, 310],
+      [21, 264],
+      [22, 216],
+      [31, 174],
+      [44, 142],
     ];
     const dense = sample(stemPts, 14);
     const lens = lengths(dense);
     let out = path(spline(stemPts));
-    const nodes = [0.15, 0.31, 0.47, 0.63, 0.78, 0.91];
+    const nodes = [0.13, 0.27, 0.41, 0.55, 0.68, 0.8, 0.91];
     nodes.forEach((f, i) => {
-      const size = 1 - 0.3 * (i / (nodes.length - 1)) ** 1.4;
+      const size = 1 - 0.32 * (i / (nodes.length - 1)) ** 1.4;
       for (const side of [-1, 1]) {
-        const b = along(dense, f + side * 0.014, lens);
+        const b = along(dense, f + side * 0.012, lens);
         const spread = (38 + rand() * 9) * deg;
-        const lf = leaf(b.x, b.y, b.ang + side * spread, (26 + rand() * 4) * size, 5.8 * (0.75 + 0.25 * size), -side * 0.07, 0.72, SLIM);
+        const lf = leaf(b.x, b.y, b.ang + side * spread, (25 + rand() * 4) * size, 5.8 * (0.75 + 0.25 * size), -side * 0.07, 0.72, SLIM);
         out += path(lf.outline + lf.rib);
       }
     });
     const end = along(dense, 1, lens);
-    const last = leaf(end.x, end.y, end.ang + 3 * deg, 21, 4.5, 0.04, 0.72, SLIM);
+    const last = leaf(end.x, end.y, end.ang + 3 * deg, 20, 4.4, 0.04, 0.72, SLIM);
     return out + path(last.outline + last.rib);
   };
   const laurel = sprig();
@@ -231,25 +232,61 @@ function butterfly() {
     return `C${P(a[0] + dx * e + nx, a[1] + dy * e + ny)} ${P(b[0] - dx * e + nx, b[1] - dy * e + ny)} ${P(...b)}`;
   };
   const row = (pts, h) => `M${P(...pts[0])}` + pts.slice(1).map((p, i) => scallop(pts[i], p, h)).join('');
-  const eye = (x, y, r) => circle(x, y, r, true) + circle(x, y, r * 0.56) + circle(x, y, 1.1);
-  const veins = (root, targets, starts, halo) =>
-    targets
-      .map((t, i) => {
-        const d = Math.hypot(t[0] - root[0], t[1] - root[1]);
-        const a = [root[0] + ((t[0] - root[0]) * starts[i]) / d, root[1] + ((t[1] - root[1]) * starts[i]) / d];
-        const bend = t[2] ?? 0;
-        const m = [(a[0] + t[0]) / 2 - ((t[1] - a[1]) / d) * bend, (a[1] + t[1]) / 2 + ((t[0] - a[0]) / d) * bend];
-        const fine = sample([a, m, [t[0], t[1]]], 24);
-        return visibleRuns(fine, (q) => Math.hypot(q[0] - halo[0], q[1] - halo[1]) < halo[2], 4)
-          .map((run) => spline(run))
-          .join('');
-      })
+  const eye = (x, y, r) => circle(x, y, r, true) + circle(x, y, r * 0.55) + circle(x, y, 1.1);
+  // a vein from a to b, bowed sideways by `bend`, broken where it would run under the eye
+  const vein = (a, b, bend, halo) => {
+    const d = Math.hypot(b[0] - a[0], b[1] - a[1]);
+    const m = [(a[0] + b[0]) / 2 - ((b[1] - a[1]) / d) * bend, (a[1] + b[1]) / 2 + ((b[0] - a[0]) / d) * bend];
+    const fine = sample([a, m, b], 24);
+    return visibleRuns(fine, (q) => Math.hypot(q[0] - halo[0], q[1] - halo[1]) < halo[2], 4)
+      .filter((run) => lengths(run).at(-1) > 9)
+      .map((run) => spline(run))
       .join('');
+  };
+  const between = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
 
-  /* hindwing: scalloped edge, a second row of scales inside it */
+  /* forewing: a smooth edge with two rows of scales standing on it */
+  const forePts = [
+    [166, 97],
+    [193, 65],
+    [238, 40],
+    [281, 28],
+    [301, 34],
+    [305, 63],
+    [297, 100],
+    [279, 133],
+    [247, 138],
+    [206, 127],
+    [166, 114],
+  ];
+  const foreD = spline(forePts, { closed: true });
+  const foreEdge = sample(forePts, 12, true).slice(4 * 12 - 2, 7 * 12 + 3);
+  const nF = 6;
+  const f1 = resample(foreEdge, nF + 1);
+  const f2 = resample(offset(foreEdge, -9.4), 2 * nF + 1).filter((_, i) => i % 2 === 1);
+  const fEye = [253, 79, 14.5];
+  const fHalo = [fEye[0], fEye[1], fEye[2] + 4.6];
+  const fRoot = [170, 106];
+  const fA = [224, 73];
+  const fB = [219, 107];
+  const fCell = `M${P(...fRoot)}Q${P(196, 80)} ${P(...fA)}Q${P(226, 91)} ${P(...fB)}Q${P(194, 109)} ${P(...fRoot)}`;
+  const fVeins =
+    vein(fA, f2[0], -5, fHalo) +
+    vein(between(fA, fB, 0.12), f2[1], -3, fHalo) +
+    vein(between(fA, fB, 0.42), f2[2], -1, fHalo) +
+    vein(between(fA, fB, 0.72), f2[3], 2, fHalo) +
+    vein(fB, f2[4], 3, fHalo) +
+    vein([200, 116], f2[5], 4, fHalo);
+  const fore =
+    path(foreD, true) +
+    group(path(row(f1, -8.6) + row(f2, -8.6)), { 'clip-path': 'url(#butterfly-fore)' }) +
+    path(fCell + fVeins) +
+    eye(...fEye);
+
+  /* hindwing: a scalloped edge, a second row of scales inside it */
   const hindEdge = sample(
     [
-      [270, 148],
+      [270, 147],
       [284, 176],
       [277, 210],
       [254, 238],
@@ -260,74 +297,29 @@ function butterfly() {
     12,
   );
   const nH = 6;
-  const hOuter = resample(hindEdge, nH + 1);
-  const hInnerLine = offset(hindEdge, -12.5);
-  const hInner = resample(hInnerLine, 2 * nH + 1).filter((_, i) => i % 2 === 1);
+  const h1 = resample(hindEdge, nH + 1);
+  const h2 = resample(offset(hindEdge, -11.6), 2 * nH + 1).filter((_, i) => i % 2 === 1);
   const hindD =
-    `M166 108C196 121 240 131 ${P(...hOuter[0])}` +
-    hOuter.slice(1).map((p, i) => scallop(hOuter[i], p, -6.4)).join('') +
+    `M166 108C196 121 240 131 ${P(...h1[0])}` +
+    h1.slice(1).map((p, i) => scallop(h1[i], p, -6.2)).join('') +
     `C170 196 167 160 166 126Z`;
-  const hEye = [231, 191, 15];
-  const hind =
-    path(hindD, true) +
-    path(row(hInner, -10.6)) +
-    path(
-      veins(
-        [168, 116],
-        [
-          [...hInner[0], -5],
-          [...hInner[1], -3],
-          [...hInner[3], 3],
-          [...hInner[4], 4],
-        ],
-        [26, 20, 20, 26],
-        [hEye[0], hEye[1], hEye[2] + 4.5],
-      ),
-    ) +
-    eye(...hEye);
-
-  /* forewing: smooth edge, a row of scales standing against it */
-  const forePts = [
-    [165, 96],
-    [194, 65],
-    [240, 40],
-    [284, 29],
-    [302, 38],
-    [304, 68],
-    [293, 106],
-    [274, 136],
-    [243, 139],
-    [205, 128],
-    [166, 114],
-  ];
-  const foreD = spline(forePts, { closed: true });
-  const foreEdge = sample(forePts, 12, true).slice(4 * 12 - 3, 7 * 12 + 5);
-  const nF = 6;
-  const fInnerLine = offset(foreEdge, -11.5);
-  const fInner = resample(fInnerLine, nF + 1);
-  const fEye = [257, 76, 14.5];
-  const fore =
-    path(foreD, true) +
-    path(row(fInner, -9.6)) +
-    path(
-      veins(
-        [168, 105],
-        [
-          [...fInner[1], -4],
-          [...fInner[2], -2],
-          [...fInner[3], 1],
-          [...fInner[4], 3],
-          [...fInner[5], 4],
-        ],
-        [34, 24, 30, 22, 30],
-        [fEye[0], fEye[1], fEye[2] + 4.5],
-      ),
-    ) +
-    eye(...fEye);
+  const hEye = [229, 193, 14.5];
+  const hHalo = [hEye[0], hEye[1], hEye[2] + 4.6];
+  const hRoot = [170, 119];
+  const hA = [214, 150];
+  const hB = [196, 164];
+  const hCell = `M${P(...hRoot)}Q${P(196, 128)} ${P(...hA)}Q${P(207, 160)} ${P(...hB)}Q${P(178, 142)} ${P(...hRoot)}`;
+  const hVeins =
+    vein(hA, h2[0], -4, hHalo) +
+    vein(between(hA, hB, 0.1), h2[1], -2, hHalo) +
+    vein(between(hA, hB, 0.4), h2[2], 0, hHalo) +
+    vein(between(hA, hB, 0.7), h2[3], 2, hHalo) +
+    vein(hB, h2[4], 3, hHalo) +
+    vein([178, 150], h2[5], 4, hHalo);
+  const hind = path(hindD, true) + path(row(h2, -9.8)) + path(hCell + hVeins) + eye(...hEye);
 
   /* body */
-  const antenna =
-    path(`M157.2 76C151 58 137 41 121 32`) + ellipse(117.4, 30, 4.6, 2.7, 28, true);
+  const antenna = path(`M157.2 76C151 58 137 41 121 32`) + ellipse(117.4, 30, 4.6, 2.7, 28, true);
   const abdomen =
     path(`M152.6 120C151.4 150 154 184 157.4 202C158.2 206.4 161.8 206.4 162.6 202C166 184 168.6 150 167.4 120Z`, true) +
     path(
@@ -340,8 +332,9 @@ function butterfly() {
     );
   const body = abdomen + ellipse(cx, 104.5, 9.2, 17.5, 0, true) + circle(cx, 81.5, 7, true);
 
+  const clip = `<clipPath id="butterfly-fore"><path d="${foreD}"/></clipPath>`;
   const wings = hind + fore;
-  return svg(320, 280, SW, wings + mirror(wings, cx) + antenna + mirror(antenna, cx) + body);
+  return svg(320, 280, SW, clip + wings + mirror(wings, cx) + antenna + mirror(antenna, cx) + body);
 }
 
 /* ------------------------------------------------------------- orphic egg */

@@ -1,20 +1,38 @@
 ---
-// Home: the annual membership invitation, on crème paper.
-// Apollo stands in a plain arch niche; the three promises step down
-// beside him as three different cut-outs; the frieze procession passes in front as a ribbon.
+// Home: the annual membership invitation, on crème paper with light-blue cut-outs.
+// Apollo stands in a plain arch niche with a ring of light behind; the three promises sit beside
+// him as three different cut-outs; the frieze procession passes in front as a ribbon.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import apollo from '../../assets/media/apollo-statue.jpg';
 import frieze from '../../assets/media/frieze-procession.jpg';
-import { home } from '../../data/home';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
+const locale = getLocale(Astro.url);
+const { home } = content(locale);
 const { title, question, points, cta } = home.membership;
 
-// One look per point, in the order of the copy: shape, ink, emblem and scroll depth all differ.
+// Words this component adds itself.
+const t = {
+  en: {
+    apolloAlt: 'Gilded statue of Apollo holding a lyre, standing on top of an Ionic column',
+    friezeAlt: 'Painted frieze of a procession of women in white robes carrying flowers and offerings',
+    newTab: '(opens in a new tab)',
+  },
+  el: {
+    apolloAlt: 'Επίχρυσο άγαλμα του Απόλλωνα με λύρα, στημένο πάνω σε ιωνικό κίονα',
+    friezeAlt: 'Ζωγραφιστή ζωφόρος με πομπή γυναικών σε λευκούς χιτώνες, που κρατούν άνθη και προσφορές',
+    newTab: '(ανοίγει σε νέα καρτέλα)',
+  },
+}[locale];
+
+// One look per point, in the order of the copy: paper with a light-blue plate behind it,
+// a light-blue pebble, darker paper. Shape and emblem differ; the depths stay close together.
 const looks = [
-  { emblem: 'icon-spirit', box: 'box box--offset', depth: '0.03' },
-  { emblem: 'icon-community', box: 'box box--blue on-blue', depth: '-0.07' },
-  { emblem: 'icon-contribution', box: 'box box--deep', depth: '0.06' },
+  { emblem: 'icon-spirit', box: 'box box--offset', depth: '0.02' },
+  { emblem: 'icon-community', box: 'box on-blue-light', depth: '-0.03' },
+  { emblem: 'icon-contribution', box: 'box box--deep', depth: '0.02' },
 ];
 ---
 
@@ -33,7 +51,7 @@ const looks = [
       <Media
         class="niche__statue"
         src={apollo}
-        alt="Gilded statue of Apollo holding a lyre, standing on top of an Ionic column"
+        alt={t.apolloAlt}
         shape="arch"
         ratio="3 / 5"
         focus="50% 12%"
@@ -63,14 +81,14 @@ const looks = [
 
     <p class="membership__cta" data-reveal>
       <a class="btn" href={cta.href} target="_blank" rel="noopener">
-        {cta.label}<span class="visually-hidden"> (opens in a new tab)</span>
+        {cta.label}<span class="visually-hidden"> {t.newTab}</span>
       </a>
     </p>
 
     <Media
       class="membership__frieze"
       src={frieze}
-      alt="Painted frieze of a procession of women in white robes carrying flowers and offerings"
+      alt={t.friezeAlt}
       shape="pill"
       focus="62% 30%"
       widths={[560, 800, 1096]}
@@ -163,35 +181,36 @@ const looks = [
     max-width: 44ch;
   }
 
-  /* 1: a wide sheet with a misregistered outline, emblem beside the text */
+  /* 1: a wide sheet of paper. The second plate of the print, in light blue, shows behind it. */
   .points .point--1 {
     --box-r: var(--r-soft);
-    margin-right: 5%;
   }
-  /* 2: a blue pebble. The shape overshoots its text so the curve never crowds a word. */
+  .points .point--1::after {
+    border: 0;
+    background: var(--blue-light);
+    filter: url(#rough-sm);
+  }
+  /* 2: a light-blue pebble. The shape overshoots its text so the curve never crowds a word. */
   .points .point--2 {
     --box-r: var(--r-pebble-2);
     width: min(84%, 21rem);
-    margin-left: auto;
-    margin-right: 0.6rem;
+    margin-inline: auto;
     margin-block: 1.4rem 1.2rem;
     padding: 1.9rem 2rem 2.2rem 2.4rem;
   }
   .points .point--2::before {
     inset: -1.9rem -1.3rem -2.1rem -1rem;
   }
-  /* 3: a sand-coloured leaf, its emblem pinned to the corner, half on the paper */
+  /* 3: a leaf of darker paper, its emblem set on the upper edge, half on the page */
   .points .point--3 {
     --box-r: var(--r-leaf);
-    width: min(90%, 24rem);
     padding-inline: clamp(1.9rem, 1.4rem + 1.6vw, 2.5rem);
   }
   .point--3 :global(.point__emblem) {
     position: absolute;
     top: -2.1rem;
-    right: 1.1rem;
+    right: 1.6rem;
     width: clamp(3.75rem, 3.2rem + 1.6vw, 4.75rem);
-    rotate: 9deg;
   }
   .point--3 .point__copy {
     padding-right: 1rem;
@@ -245,29 +264,28 @@ const looks = [
       width: 230%;
       margin: -115% 0 0 -115%;
     }
+    /* One wide sheet, then the pebble and the leaf side by side on one axis */
     .points {
       grid-column: 1 / span 8;
       grid-row: 2;
       grid-template-columns: repeat(8, minmax(0, 1fr));
-      row-gap: 0;
+      align-items: center;
+      row-gap: calc(var(--space-m) + 2rem);
       margin-top: var(--space-l);
     }
     .points .point--1 {
       grid-column: 1 / span 6;
       grid-row: 1;
-      margin-right: 0;
     }
     .points .point--2 {
-      grid-column: 5 / span 4;
-      grid-row: 2;
-      width: auto;
-      margin: 0.6rem 0.5rem 0 1.5rem;
-    }
-    .points .point--3 {
       grid-column: 1 / span 4;
       grid-row: 2;
       width: auto;
-      margin: 7.5rem -1rem 0 1.25rem;
+      margin: 0 1.5rem 0 1rem;
+    }
+    .points .point--3 {
+      grid-column: 5 / span 4;
+      grid-row: 2;
     }
     .membership__cta {
       grid-column: 1 / span 6;

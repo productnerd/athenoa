@@ -64,6 +64,15 @@ Status: building (go-ahead received 2026-10-10: fix typos, English buttons, thre
 
 State when work stopped: all background agents were stopped. Hero candidates A/B/C exist but were never judged. Olympus footer has far and mid layers (near layer is still the Attica stand-in). Aegean footer has three draft layers. The 404 scene has a draft component and sea-*.svg layers, unverified. None of the twelve symbols has been drawn. Screenshots in shots/ were deleted to free space.
 
+## Added by Maria on 2026-10-10 (third round)
+
+- [ ] Newsletter sign-up as a popup inside an architectural frame of Greek columns, with blurred background; headline, description, one email field (being built; then include once in Base)
+- [x] Remove the "In progress" page selector from the preview
+- [ ] About page: crop the graduation photo to 1:1 with Athena in the centre (do after the About agent finishes with that file: ratio "1 / 1", focus about "78% 50%")
+- [x] Footer: social icons left-aligned under "Follow us" (check the About contact block too)
+- [x] /font-test page with every type option in English and Greek; kit page deleted
+- [x] Mobile menu: hover effect on the links, phone number removed
+
 ## Open questions
 
 See the chat message of 2026-10-10.

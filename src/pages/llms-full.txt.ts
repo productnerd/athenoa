@@ -1,5 +1,6 @@
-// /llms-full.txt: the whole site's copy as one Markdown document.
+// /llms-full.txt and /el/llms-full.txt: one language's whole copy as one Markdown document.
 import type { APIRoute } from 'astro';
-import { llmsFullTxt, textResponse } from '../lib/markdown';
+import { getLocale } from '../lib/locale';
+import { textPages } from '../lib/markdown';
 
-export const GET: APIRoute = () => textResponse(llmsFullTxt(), 'text/plain');
+export const GET: APIRoute = ({ url }) => textPages(getLocale(url)).llmsFull();

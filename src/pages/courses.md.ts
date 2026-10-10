@@ -1,6 +1,6 @@
-// /courses.md: the Markdown twin of the Courses page.
+// /courses.md and /el/courses.md: the Markdown twin of the Courses page.
 import type { APIRoute } from 'astro';
-import { site } from '../data/site';
-import { coursesMarkdown, textResponse } from '../lib/markdown';
+import { getLocale } from '../lib/locale';
+import { textPages } from '../lib/markdown';
 
-export const GET: APIRoute = () => textResponse(coursesMarkdown(), 'text/markdown', site.routes.courses);
+export const GET: APIRoute = ({ url }) => textPages(getLocale(url)).courses();

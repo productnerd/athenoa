@@ -43,7 +43,7 @@ export const home = {
     text: 'Με μεγάλη χαρά ανακοινώνω την επανέναρξη των μαθημάτων!',
     newsletter: {
       text: 'Ενημερωθείτε πρώτοι για τα νέα, τα άρθρα και τις προσεχείς δραστηριότητές μας',
-      cta: { label: 'Εγγραφείτε στο Ενημερωτικό μας Δελτίο', href: site.routes.contact },
+      cta: { label: 'Εγγραφείτε στο Ενημερωτικό μας Δελτίο', href: '#newsletter' },
     },
     // The three course titles shown as image tiles. The first two have sample course pages.
     courses: [

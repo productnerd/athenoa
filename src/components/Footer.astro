@@ -173,6 +173,11 @@ const custom = Object.entries(images).find(([file]) =>
   .footer__list a:hover {
     text-decoration-color: currentColor;
   }
+  /* The row of icons starts on the same left edge as its heading */
+  .footer__col :global(.social) {
+    justify-content: flex-start;
+    margin-left: -0.3rem;
+  }
 
   /* The landscape: no box, no border, drawn straight onto the page.
      The scene is exactly as wide as the drawing (never narrower than 64rem, so small screens

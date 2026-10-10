@@ -2,7 +2,7 @@
 // keyboard checks for the course tabs, an overflow report and a contrast probe for the fresco.
 //
 // node scripts/lab-home-b-shot.mjs <out.png> [--sel .series] [--width 1440] [--height 900] [--mobile]
-//   [--fonts b] [--nojs] [--motion] [--tab 5] [--keys "End,ArrowUp"] [--report] [--contrast] [--full]
+//   [--fonts b] [--nojs] [--motion] [--tab 5] [--keys "End,ArrowUp"] [--report] [--contrast] [--full] [--el]
 import { chromium } from 'playwright-core';
 
 const [, , out = 'shots/home-b.png', ...rest] = process.argv;
@@ -15,7 +15,7 @@ const opt = (name, fallback) => {
 const mobile = flag('mobile');
 const width = Number(opt('width', mobile ? 390 : 1440));
 const height = Number(opt('height', mobile ? 844 : 900));
-const url = new URL('/lab/home-b/', process.env.SHOT_BASE ?? 'http://localhost:4321');
+const url = new URL(flag('el') ? '/el/lab/home-b/' : '/lab/home-b/', process.env.SHOT_BASE ?? 'http://localhost:4321');
 if (!flag('motion')) url.searchParams.set('nomotion', '1');
 if (opt('fonts')) url.searchParams.set('fonts', opt('fonts'));
 
