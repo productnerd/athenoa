@@ -281,7 +281,11 @@ const looks = [
       grid-column: 1 / span 4;
       grid-row: 2;
       width: auto;
-      margin: 0 1.5rem 0 1rem;
+      margin: 0 1rem 0 1.25rem;
+      padding-inline: 1.5rem 1rem;
+    }
+    .points .point--2::before {
+      inset-inline: -1.75rem -1.5rem;
     }
     .points .point--3 {
       grid-column: 5 / span 4;
@@ -290,7 +294,7 @@ const looks = [
     .membership__cta {
       grid-column: 1 / span 6;
       grid-row: 3;
-      margin-top: var(--space-l);
+      margin-top: calc(var(--space-l) + 1rem);
       padding-left: 1.25rem;
     }
     /* The procession passes behind the niche: its far end is hidden by the arch */

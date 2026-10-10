@@ -157,7 +157,7 @@ function tripod() {
     const m = (x0 + x1) / 2;
     return `M${P(x0, y)}C${P(x0, y - rise * 0.72)} ${P(m - (x1 - x0) * 0.27, y - rise)} ${P(m, y - rise)}S${P(x1, y - rise * 0.72)} ${P(x1, y)}`;
   };
-  const stays = path(arch(84, 149, 292, 40) + arch(91.6, 143, 292, 31.6));
+  const stays = path(arch(86, 148, 300, 46));
 
   // a leg narrows a little towards the ankle and runs straight into a lion paw seen from the
   // front; `lean` pushes the paw a little to one side
@@ -244,6 +244,17 @@ function butterfly() {
       .join('');
   };
   const between = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+  // the inner row of scales: n arches on a line `inset` inside the edge, half a step out of line
+  // with the row on the edge, running out past both ends so the wing's outline cuts them off.
+  // `crests` are the tops of the arches, where the veins end.
+  const innerRow = (edge, n, inset, h) => {
+    const q = resample(offset(edge, -inset), 2 * n + 1);
+    const before = [2 * q[0][0] - q[1][0], 2 * q[0][1] - q[1][1]];
+    const after = [2 * q[2 * n][0] - q[2 * n - 1][0], 2 * q[2 * n][1] - q[2 * n - 1][1]];
+    const cusps = q.filter((_, i) => i % 2 === 1);
+    const crests = q.filter((_, i) => i % 2 === 0).map(([x, y, ang]) => [x - Math.sin(ang) * h, y + Math.cos(ang) * h]);
+    return { crests, d: row([before, ...cusps, after], -h) };
+  };
 
   /* forewing: a smooth edge with two rows of scales standing on it */
   const forePts = [
@@ -263,23 +274,23 @@ function butterfly() {
   const foreEdge = sample(forePts, 12, true).slice(4 * 12 - 2, 7 * 12 + 3);
   const nF = 6;
   const f1 = resample(foreEdge, nF + 1);
-  const f2 = resample(offset(foreEdge, -9.4), 2 * nF + 1).filter((_, i) => i % 2 === 1);
-  const fEye = [253, 79, 14.5];
+  const f2 = innerRow(foreEdge, nF, 9.4, 8.6);
+  const fEye = [260, 80, 13.6];
   const fHalo = [fEye[0], fEye[1], fEye[2] + 4.6];
   const fRoot = [170, 106];
-  const fA = [224, 73];
-  const fB = [219, 107];
-  const fCell = `M${P(...fRoot)}Q${P(196, 80)} ${P(...fA)}Q${P(226, 91)} ${P(...fB)}Q${P(194, 109)} ${P(...fRoot)}`;
+  const fA = [213, 79];
+  const fB = [209, 107];
+  const fCell = `M${P(...fRoot)}Q${P(190, 85)} ${P(...fA)}Q${P(215, 93)} ${P(...fB)}Q${P(190, 109)} ${P(...fRoot)}`;
   const fVeins =
-    vein(fA, f2[0], -5, fHalo) +
-    vein(between(fA, fB, 0.12), f2[1], -3, fHalo) +
-    vein(between(fA, fB, 0.42), f2[2], -1, fHalo) +
-    vein(between(fA, fB, 0.72), f2[3], 2, fHalo) +
-    vein(fB, f2[4], 3, fHalo) +
-    vein([200, 116], f2[5], 4, fHalo);
+    vein(fA, f2.crests[1], -5, fHalo) +
+    vein(between(fA, fB, 0.25), f2.crests[2], -2, fHalo) +
+    vein(between(fA, fB, 0.5), f2.crests[3], 0, fHalo) +
+    vein(between(fA, fB, 0.75), f2.crests[4], 2, fHalo) +
+    vein(fB, f2.crests[5], 3, fHalo) +
+    vein([196, 115], f2.crests[6], 3, fHalo);
   const fore =
     path(foreD, true) +
-    group(path(row(f1, -8.6) + row(f2, -8.6)), { 'clip-path': 'url(#butterfly-fore)' }) +
+    group(path(row(f1, -8.6) + f2.d), { 'clip-path': 'url(#butterfly-fore)' }) +
     path(fCell + fVeins) +
     eye(...fEye);
 
@@ -298,25 +309,28 @@ function butterfly() {
   );
   const nH = 6;
   const h1 = resample(hindEdge, nH + 1);
-  const h2 = resample(offset(hindEdge, -11.6), 2 * nH + 1).filter((_, i) => i % 2 === 1);
+  const h2 = innerRow(hindEdge, nH, 11.6, 9.8);
   const hindD =
     `M166 108C196 121 240 131 ${P(...h1[0])}` +
     h1.slice(1).map((p, i) => scallop(h1[i], p, -6.2)).join('') +
     `C170 196 167 160 166 126Z`;
-  const hEye = [229, 193, 14.5];
+  const hEye = [231, 194, 13.6];
   const hHalo = [hEye[0], hEye[1], hEye[2] + 4.6];
   const hRoot = [170, 119];
   const hA = [214, 150];
   const hB = [196, 164];
   const hCell = `M${P(...hRoot)}Q${P(196, 128)} ${P(...hA)}Q${P(207, 160)} ${P(...hB)}Q${P(178, 142)} ${P(...hRoot)}`;
   const hVeins =
-    vein(hA, h2[0], -4, hHalo) +
-    vein(between(hA, hB, 0.1), h2[1], -2, hHalo) +
-    vein(between(hA, hB, 0.4), h2[2], 0, hHalo) +
-    vein(between(hA, hB, 0.7), h2[3], 2, hHalo) +
-    vein(hB, h2[4], 3, hHalo) +
-    vein([178, 150], h2[5], 4, hHalo);
-  const hind = path(hindD, true) + path(row(h2, -9.8)) + path(hCell + hVeins) + eye(...hEye);
+    vein(hA, h2.crests[1], -4, hHalo) +
+    vein(between(hA, hB, 0.3), h2.crests[2], -2, hHalo) +
+    vein(between(hA, hB, 0.65), h2.crests[3], 0, hHalo) +
+    vein(hB, h2.crests[4], 2, hHalo) +
+    vein([178, 150], h2.crests[5], 3, hHalo);
+  const hind =
+    path(hindD, true) +
+    group(path(h2.d), { 'clip-path': 'url(#butterfly-hind)' }) +
+    path(hCell + hVeins) +
+    eye(...hEye);
 
   /* body */
   const antenna = path(`M157.2 76C151 58 137 41 121 32`) + ellipse(117.4, 30, 4.6, 2.7, 28, true);
@@ -332,7 +346,9 @@ function butterfly() {
     );
   const body = abdomen + ellipse(cx, 104.5, 9.2, 17.5, 0, true) + circle(cx, 81.5, 7, true);
 
-  const clip = `<clipPath id="butterfly-fore"><path d="${foreD}"/></clipPath>`;
+  const clip =
+    `<clipPath id="butterfly-fore"><path d="${foreD}"/></clipPath>` +
+    `<clipPath id="butterfly-hind"><path d="${hindD}"/></clipPath>`;
   const wings = hind + fore;
   return svg(320, 280, SW, clip + wings + mirror(wings, cx) + antenna + mirror(antenna, cx) + body);
 }
@@ -478,78 +494,89 @@ function cicada() {
     const ay = Math.cos(tilt * deg);
     return (u, v) => [bx + u * ax + v * ay, by + u * ay - v * ax];
   };
-  const inPoly = (poly) => (q) => !inside(q, poly);
-  const cut = (pts, poly, per = 12) =>
-    visibleRuns(sample(pts, per), inPoly(poly), 3)
+  const outside = (shape) => (q) => !inside(q, shape);
+  const cut = (pts, shape, per = 12) =>
+    visibleRuns(sample(pts, per), outside(shape), 3)
       .map((run) => spline(run))
       .join('');
 
-  /* forewing */
-  const L = 194;
-  const F = frame(187, 103, 20.5);
+  /* forewing: longer than the body, widest past the middle */
+  const L = 210;
+  const F = frame(184, 104, 27);
+  const f = (u, v) => F(u * L, v);
   const foreLocal = [
     [0, 0],
-    [0.08, 9],
-    [0.3, 17.5],
-    [0.55, 22.5],
-    [0.78, 22],
-    [0.93, 14],
-    [1, 1],
-    [0.955, -12],
-    [0.8, -22.5],
-    [0.58, -27.5],
-    [0.34, -24],
-    [0.14, -14],
-  ].map(([u, v]) => F(u * L, v));
+    [0.1, 10],
+    [0.35, 20],
+    [0.6, 24],
+    [0.82, 21],
+    [0.95, 12],
+    [1, 0],
+    [0.96, -12],
+    [0.84, -24],
+    [0.64, -32],
+    [0.42, -31],
+    [0.2, -21],
+    [0.07, -9],
+  ].map(([u, v]) => f(u, v));
   const foreD = spline(foreLocal, { closed: true });
   const forePoly = sample(foreLocal, 12, true);
-  const seamAll = offset([...forePoly, forePoly[0]], -6.4);
-  // the seam runs from the node on the fore edge, round the tip, to the node on the hind edge
-  const seam = seamAll.slice(3 * 12 + 2, 9 * 12 - 1);
-  const node = [F(0.565 * L, 22.6), F(0.615 * L, 9.5), F(0.56 * L, -2.5), F(0.61 * L, -14), F(0.565 * L, -27.6)];
-  const nodal = poly(node);
-  const long =
-    path(spline([F(0.035 * L, 3), F(0.3 * L, 10.5), node[1]])) +
-    path(spline([F(0.035 * L, -3.4), F(0.3 * L, -12.5), node[3]])) +
-    path(spline([F(0.26 * L, -10.6), F(0.42 * L, -5), node[2]]));
-  const apical = path(
-    cut([node[1], F(0.8 * L, 12), F(1.02 * L, 14)], seamAll) +
-      cut([node[2], F(0.8 * L, -1), F(1.05 * L, -1.5)], seamAll) +
-      cut([node[3], F(0.78 * L, -13), F(1.0 * L, -19)], seamAll),
-  );
-  const fore = path(foreD, true) + path(spline(seam.filter((_, i) => i % 3 === 0))) + path(nodal) + long + apical;
+  const seamAll = offset([...forePoly, forePoly[0]], -6.6);
+  // the cross veins: a zigzag from the node on the fore edge to the hind edge
+  const n0 = forePoly[3 * 12 - 1];
+  const n5 = forePoly[9 * 12];
+  const node = [n0, f(0.635, 12.5), f(0.585, 1), f(0.64, -10.5), f(0.6, -21.5), n5];
+  // the seam runs just inside the edge from one end of the zigzag round the tip to the other
+  const seam = seamAll.slice(3 * 12 + 2, 9 * 12 - 2).filter((_, i) => i % 3 === 0);
+  const fore =
+    path(foreD, true) +
+    path(spline([n0, ...seam, n5])) +
+    path(poly(node)) +
+    // the long veins from the root to the zigzag
+    path(spline([f(0.08, 3.4), f(0.34, 9.6), node[1]])) +
+    path(spline([f(0.08, -1.6), f(0.32, -4), node[2]])) +
+    path(spline([f(0.1, -7.4), f(0.26, -14), f(0.45, -14.6), node[3]])) +
+    path(spline([f(0.27, -14.2), f(0.43, -23.2), node[4]])) +
+    // the veins of the tip, from the zigzag out to the seam
+    path(
+      cut([node[1], f(0.82, 13.4), f(1.03, 14)], seamAll) +
+        cut([node[2], f(0.82, 3.6), f(1.06, 1.5)], seamAll) +
+        cut([node[3], f(0.81, -7.6), f(1.04, -9)], seamAll) +
+        cut([node[4], f(0.79, -18), f(0.99, -22)], seamAll),
+    );
 
-  /* hindwing */
-  const Lh = 122;
-  const H = frame(176, 130, 15);
+  /* hindwing: shorter, tucked under the forewing beside the abdomen */
+  const Lh = 124;
+  const H = frame(177, 134, 9);
+  const h = (u, v) => H(u * Lh, v);
   const hindLocal = [
     [0, 0],
-    [0.1, 8],
-    [0.4, 16],
-    [0.7, 17],
-    [0.93, 10],
+    [0.1, 10],
+    [0.4, 24],
+    [0.7, 28],
+    [0.92, 17],
     [1, 0],
-    [0.93, -9.5],
-    [0.7, -14.5],
-    [0.4, -14],
+    [0.93, -10],
+    [0.7, -16],
+    [0.4, -15],
     [0.1, -7],
-  ].map(([u, v]) => H(u * Lh, v));
+  ].map(([u, v]) => h(u, v));
   const hindPoly = sample(hindLocal, 12, true);
-  const hSeamAll = offset([...hindPoly, hindPoly[0]], -6);
+  const hSeamAll = offset([...hindPoly, hindPoly[0]], -6.2);
   const hind =
     path(spline(hindLocal, { closed: true }), true) +
-    path(spline(hSeamAll.slice(3 * 12, 8 * 12 + 4).filter((_, i) => i % 3 === 0))) +
-    path(cut([H(0.06 * Lh, 0), H(0.5 * Lh, 1.5), H(1.05 * Lh, 1)], hSeamAll));
+    path(spline(hSeamAll.slice(2 * 12, 8 * 12 + 4).filter((_, i) => i % 3 === 0))) +
+    path(cut([h(0.08, 0), h(0.5, -1), h(1.05, -3)], hSeamAll) + cut([h(0.3, 1), h(0.6, 9), h(1.02, 13)], hSeamAll));
 
   /* body */
   const sideL = sample(
     [
-      [122.5, 141],
-      [119, 162],
-      [121.5, 188],
-      [130.5, 215],
-      [141, 236],
-      [150, 250],
+      [119.6, 148],
+      [117.4, 167],
+      [120, 191],
+      [128.6, 216],
+      [139.6, 236],
+      [150, 248],
     ],
     14,
   );
@@ -564,28 +591,41 @@ function cicada() {
   const abdomen =
     path(spline([...sideL.filter((_, i) => i % 7 === 0), ...sideR.filter((_, i) => i % 7 === 0).slice(1)]), true) +
     path(
-      [160, 176, 192, 207, 221, 234]
+      [166, 181, 195.6, 209.4, 222, 233.4]
         .map((y, i) => {
           const x = xAt(y);
-          const sag = 7.5 - i * 0.7;
+          const sag = 7.6 - i * 0.8;
           return `M${P(x, y)}Q${P(cx, y + sag * 2)} ${P(2 * cx - x, y)}`;
         })
         .join(''),
     );
+  // the big shield of the thorax with its three marks hanging from the front
   const meso =
-    path(`M107 93C103 112 111 136 123 144Q150 153 177 144C189 136 197 112 193 93Z`, true) +
-    path(`M131.5 100C132.5 114 138 124 145.6 127.4M168.5 100C167.5 114 162 124 154.4 127.4`) +
-    path(`M142 133.4Q150 139.6 158 133.4M143.4 144.6Q150 139.2 156.6 144.6`);
-  const head = path(`M111 68C108 52 127 39.6 150 39.6C173 39.6 192 52 189 68Z`, true);
-  const eyes = circle(107.6, 60.4, 10.2, true) + circle(192.4, 60.4, 10.2, true);
-  const ocelli = circle(144.2, 57.6, 1.5) + circle(155.8, 57.6, 1.5) + circle(150, 50.4, 1.5);
-  const feelers = path(`M134.6 43.4Q131 35 125.6 29.6M165.4 43.4Q169 35 174.4 29.6`);
+    path(`M106 96.6C103 116 111 138 123 147.6Q150 155 177 147.6C189 138 197 116 194 96.6Z`, true) +
+    path(
+      `M141.6 97.4C141.8 110 145 119.6 150 123C155 119.6 158.2 110 158.4 97.4` +
+        `M123.4 97.4C124 114 130.6 127.4 140.4 133.4M176.6 97.4C176 114 169.4 127.4 159.6 133.4`,
+    );
+  // the head, as wide as the thorax, the eyes bulging at its corners
+  const eyes =
+    ellipse(112, 63.4, 10.4, 12, 0, true) +
+    ellipse(188, 63.4, 10.4, 12, 0, true) +
+    path(`M107.4 56.6Q104.6 63 107.6 70.4M192.6 56.6Q195.4 63 192.4 70.4`);
+  const head =
+    path(`M118.6 73C117 64 117.6 56.4 120 52C130 50.4 135 48.6 138 46C143 42.2 157 42.2 162 46C165 48.6 170 50.4 180 52C182.4 56.4 183 64 181.4 73Z`, true);
+  const ocelli = circle(143.6, 63.4, 1.5) + circle(156.4, 63.4, 1.5) + circle(150, 57.6, 1.5);
+  const feelers = path(`M130 50Q126.6 41 120.4 35.6M170 50Q173.4 41 179.6 35.6`);
   const pro =
-    path(`M110.5 67.4C122 63.4 178 63.4 189.5 67.4L196.4 90.6C197.6 96.4 102.4 96.4 103.6 90.6Z`, true) +
-    path(`M118 86.4Q150 91.6 182 86.4`);
+    path(`M113 70.4C126 66.6 174 66.6 187 70.4L194.8 91C195.8 95 194.4 97.6 190.6 97.6L109.4 97.6C105.6 97.6 104.2 95 105.2 91Z`, true) +
+    path(`M108.4 88.4Q150 93.2 191.6 88.4`);
 
   const wings = hind + fore;
-  return svg(300, 320, SW, wings + mirror(wings, cx) + abdomen + meso + feelers + head + eyes + ocelli + pro);
+  return svg(
+    300,
+    320,
+    SW,
+    group(wings + mirror(wings, cx) + abdomen + meso + feelers + eyes + head + ocelli + pro, { transform: 'translate(0 -5)' }),
+  );
 }
 
 /* -------------------------------------------------------- spring, cypress */
@@ -593,117 +633,135 @@ function cicada() {
 // The tree is left bare, it is white; the water of Memory comes out of the rock at its foot and
 // gathers in rings. A few stars for "child of Earth and starry Heaven".
 function springCypress() {
+  // the cypress: a tall spindle, widest low down, drawn by its outline only
   const cypress =
     path(
       spline(
         [
-          [114, 15],
-          [122, 46],
-          [131, 88],
-          [139, 132],
-          [144, 174],
-          [144, 212],
-          [138, 240],
-          [127, 256],
-          [113, 261],
-          [99, 256],
-          [88, 240],
-          [82, 212],
-          [81, 174],
-          [86, 132],
-          [94, 88],
-          [104, 46],
+          [111, 13],
+          [118, 42],
+          [126, 82],
+          [134, 126],
+          [139, 170],
+          [140, 208],
+          [135, 238],
+          [125, 256],
+          [111, 262],
+          [97, 256],
+          [87, 238],
+          [82, 208],
+          [82, 170],
+          [86, 126],
+          [93, 82],
+          [102, 42],
         ],
         { closed: true },
       ),
       true,
-    ) + path(`M107.4 260.4L106.4 281M118.6 260.4L119.6 281`);
-  const ground = path(`M26 284C52 280 80 282 104 281.4M122 281.4C132 280.6 140 281.4 148 283`);
+    ) + path(`M105.4 261.4L104.6 283M116.6 261.4L117.6 283`);
+  const ground = path(`M22 285.4C48 281.6 78 283 102.4 282.6M119.8 282.6C130 281.8 139 282.4 147 284`);
 
-  // rocks: the big one behind, two smaller in front with the water coming down between them
-  const rockA = path(
-    spline([
-      [158, 286],
-      [156, 258],
-      [165, 232],
-      [183, 213],
-      [207, 205],
-      [231, 211],
-      [248, 229],
-      [259, 253],
-      [265, 286],
-    ]),
+  // the rock: a crag behind with a cleft in it, two boulders in front, the water coming down
+  // between them
+  const crag = path(
+    spline(
+      [
+        [155, 290],
+        [153, 266],
+        [160, 244],
+        [172, 229],
+        [178, 210],
+        [193, 197],
+        [212, 194],
+        [226, 203],
+        [233, 219],
+        [249, 228],
+        [259, 247],
+        [264, 268],
+        [266, 290],
+      ],
+      { k: 0.72 },
+    ),
     true,
   );
-  const creases = path(`M186 226Q198 220 212 222M226 226Q238 234 243 248M170 246Q174 236 181 231`);
-  const mouth = path(`M190 258C190 246 196 239 203 239C210 239 216 246 216 258`);
-  const rockB = path(
-    spline([
-      [147, 288],
-      [148, 268],
-      [160, 256],
-      [176, 257],
-      [186, 270],
-      [189, 288],
-    ]),
+  const creases = path(`M178 210Q186 216 187 228M233 219Q227 224 227 235M249 228Q244 240 247 252M166 250Q170 243 176 241`);
+  const cleft = path(`M193 262C192 244 197 231 205 228C213 231 218 244 217 262`);
+  const boulderL = path(
+    spline(
+      [
+        [146, 291],
+        [146, 274],
+        [155, 262],
+        [171, 259],
+        [184, 266],
+        [190, 280],
+        [191, 291],
+      ],
+      { k: 0.8 },
+    ),
     true,
   );
-  const rockC = path(
-    spline([
-      [217, 289],
-      [218, 270],
-      [229, 258],
-      [246, 259],
-      [257, 272],
-      [262, 289],
-    ]),
+  const boulderR = path(
+    spline(
+      [
+        [219, 291],
+        [220, 277],
+        [228, 265],
+        [243, 262],
+        [256, 269],
+        [263, 281],
+        [265, 291],
+      ],
+      { k: 0.8 },
+    ),
     true,
   );
   const water = path(
     spline([
-      [196.5, 250],
-      [196, 266],
-      [192, 282],
-      [190.5, 298],
+      [198.6, 246],
+      [198.4, 264],
+      [195.4, 282],
+      [194, 300],
     ]) +
       spline([
-        [203, 247],
-        [203.4, 266],
-        [201, 284],
-        [201.6, 300],
+        [205, 240],
+        [205.4, 262],
+        [204.4, 282],
+        [205, 303],
       ]) +
       spline([
-        [209.5, 250],
-        [210.6, 266],
-        [210, 282],
-        [212.6, 298],
+        [211.4, 246],
+        [212, 264],
+        [213.6, 282],
+        [216, 300],
       ]),
   );
 
   // the pool: rings round the place where the water lands
-  const px = 200;
-  const py = 318;
+  const px = 205;
+  const py = 320;
   const arc = (rx, ry, a0, a1) => {
     const p = (a) => [px + rx * Math.cos(a * deg), py + ry * Math.sin(a * deg)];
     return `M${P(...p(a0))}A${n1(rx)} ${n1(ry)} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${P(...p(a1))}`;
   };
   const pool = path(
-    arc(19, 5.4, -200, 150) +
-      arc(43, 11.6, 8, 172) +
-      arc(43, 11.6, 196, 338) +
-      arc(69, 18.2, -4, 118) +
-      arc(69, 18.2, 136, 196) +
-      arc(96, 25, 22, 86) +
-      arc(96, 25, 100, 168),
+    arc(18, 5.2, -200, 150) +
+      arc(41, 11.4, 6, 170) +
+      arc(41, 11.4, 200, 252) +
+      arc(41, 11.4, 290, 342) +
+      arc(65, 17.6, -6, 112) +
+      arc(65, 17.6, 132, 196) +
+      arc(88, 24, 24, 84) +
+      arc(88, 24, 100, 166),
   );
 
-  const star = (x, y, s) => {
-    const k = 0.13 * s;
-    return `M${P(x, y - s)}Q${P(x + k, y - k)} ${P(x + s, y)}Q${P(x + k, y + k)} ${P(x, y + s)}Q${P(x - k, y + k)} ${P(x - s, y)}Q${P(x - k, y - k)} ${P(x, y - s)}Z`;
+  const star = (x, y, r) => {
+    const k = 0.13 * r;
+    return `M${P(x, y - r)}Q${P(x + k, y - k)} ${P(x + r, y)}Q${P(x + k, y + k)} ${P(x, y + r)}Q${P(x - k, y + k)} ${P(x - r, y)}Q${P(x - k, y - k)} ${P(x, y - r)}Z`;
   };
-  const stars = path(star(206, 58, 10.5) + star(254, 124, 7) + star(48, 96, 8) + star(176, 142, 5));
+  const stars = path(star(204, 60, 10.5) + star(252, 128, 7) + star(44, 100, 8) + star(178, 146, 5));
 
-  return svg(300, 360, SW, stars + ground + cypress + rockA + creases + mouth + water + rockB + rockC + pool);
+  return svg(300, 360, SW, stars + ground + cypress + crag + creases + cleft + water + boulderL + boulderR + pool);
 }
 
 /* ------------------------------------------------------------------ write */

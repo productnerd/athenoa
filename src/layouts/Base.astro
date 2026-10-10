@@ -5,7 +5,6 @@ import Seo from '../components/Seo.astro';
 import SvgDefs from '../components/SvgDefs.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import FontToggle from '../components/FontToggle.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -35,7 +34,7 @@ const { ui } = content(locale);
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="alternate" type="text/plain" href="/llms.txt" title="Site summary for AI agents" />
     <Seo {...seo} />
-    <!-- Runs before first paint: decides whether motion is on and which type set is being previewed -->
+    <!-- Runs before first paint: decides whether motion is on -->
     <script is:inline>
       (function () {
         function apply() {
@@ -43,12 +42,6 @@ const { ui } = content(locale);
           var query = new URLSearchParams(location.search);
           var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           root.classList.toggle('motion', !reduce && !query.has('nomotion'));
-          var fonts = query.get('fonts');
-          try {
-            fonts = fonts || localStorage.getItem('ath-fonts');
-          } catch (e) {}
-          if (fonts === 'b' || fonts === 'c') root.dataset.fonts = fonts;
-          else delete root.dataset.fonts;
         }
         apply();
         document.addEventListener('astro:after-swap', apply);
@@ -68,7 +61,6 @@ const { ui } = content(locale);
       <slot />
     </main>
     {footer && <Footer />}
-    <FontToggle />
     <script>
       import '../scripts/motion.ts';
     </script>

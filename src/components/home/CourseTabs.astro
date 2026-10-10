@@ -1,10 +1,12 @@
 ---
-// Home: the full detail of the featured course as six tabs on a large paper cut-out.
+// Home: the full detail of the featured course as six tabs on a large light-blue sheet.
 // Without JavaScript the tab list stays hidden and the six panels read one after another under their headings.
+// Every word here comes from the data (tab labels included); the script adds none.
 import Illustration from '../Illustration.astro';
-import { home } from '../../data/home';
-import { courses, registrationTab } from '../../data/courses';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
+const { home, courses, registrationTab } = content(getLocale(Astro.url));
 const course = courses.find((item) => item.slug === home.series.courseSlug)!;
 const cta = home.series.cta;
 const tabs = [...course.sections, registrationTab];
@@ -12,7 +14,7 @@ const tabs = [...course.sections, registrationTab];
 
 <section class="ctabs section" id="course-details" aria-labelledby="course-details-title" data-tabs>
   <div class="wrap">
-    <div class="ctabs__sheet panel panel--big">
+    <div class="ctabs__sheet panel panel--big on-blue-light">
       <Illustration name="monad" class="ctabs__mark" draw data-depth="-0.06" />
 
       <div class="ctabs__layout">
@@ -69,7 +71,7 @@ const tabs = [...course.sections, registrationTab];
             <div class="ctabs__fees">
               {
                 course.price && (
-                  <p class="ctabs__price box box--blue on-blue">
+                  <p class="ctabs__price box on-blue-deep">
                     <span class="ctabs__price-label">{course.price.label}</span>
                     <span class="ctabs__price-amount t-2">{course.price.display}</span>
                   </p>
@@ -182,7 +184,6 @@ const tabs = [...course.sections, registrationTab];
 
 <style>
   .ctabs__sheet {
-    --paper: var(--creme-light);
     --pad: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
     padding-inline: var(--pad);
   }
@@ -196,12 +197,15 @@ const tabs = [...course.sections, registrationTab];
     border-radius: inherit;
     pointer-events: none;
   }
-  /* The symbol sits on the top edge of the sheet */
+  /* The monad (the One, a circle about its point) is centred on the sheet's top edge:
+     half on the paper, half on the blue. */
   .ctabs__mark {
+    --mark: clamp(5rem, 3rem + 7vw, 9rem);
     position: absolute;
-    right: clamp(3.5rem, 14%, 13rem);
-    bottom: calc(100% - 1.1rem);
-    width: clamp(4.5rem, 3rem + 6vw, 8rem);
+    right: clamp(2.25rem, 11%, 10rem);
+    top: calc(var(--mark) * -0.5);
+    width: var(--mark);
+    color: var(--blue);
     pointer-events: none;
   }
   .ctabs__title {
@@ -222,9 +226,7 @@ const tabs = [...course.sections, registrationTab];
     margin-bottom: var(--space-m);
   }
   .ctabs__heading .hand {
-    margin-top: 0.3rem;
-    rotate: -1.5deg;
-    transform-origin: left center;
+    margin-top: 0.4rem;
   }
   .ctabs__panel:focus-visible {
     outline-offset: 0.9rem;
@@ -273,9 +275,9 @@ const tabs = [...course.sections, registrationTab];
     display: grid;
     align-content: center;
     gap: 0.1rem;
-    width: min(15rem, 68vw);
+    width: min(17rem, 74vw);
     min-height: 5.25rem;
-    padding: 0.8rem 1.5rem 0.95rem;
+    padding: 0.85rem 1.5rem 1rem;
     border: 0;
     border-radius: var(--tab-r);
     background: none;
@@ -293,7 +295,7 @@ const tabs = [...course.sections, registrationTab];
     inset: 0;
     z-index: -1;
     border-radius: var(--tab-r);
-    background: var(--tab-bg, var(--creme-deep));
+    background: var(--tab-bg, var(--creme-light));
     filter: url(#rough-sm);
     transition: background-color var(--dur-1);
   }
@@ -304,7 +306,8 @@ const tabs = [...course.sections, registrationTab];
     --tab-r: 2.9rem 2.2rem 2.4rem 2.8rem / 2.3rem 2.6rem 2.2rem 2.7rem;
   }
   .ctabs__tab:hover {
-    --tab-bg: var(--blue-wash);
+    --tab-bg: var(--blue-bright);
+    color: var(--creme-light);
   }
   .ctabs__tab[aria-selected='true'] {
     --tab-bg: var(--blue);
@@ -321,9 +324,13 @@ const tabs = [...course.sections, registrationTab];
     letter-spacing: var(--title-tracking);
     font-variant-numeric: lining-nums;
   }
+  /* The voice face is thin: Greek blue on the paper pebbles, crème on the blue one. */
   .ctabs__sub {
-    font-size: 1.02rem;
-    line-height: 1.15;
+    font-size: 1.22rem;
+    line-height: 1.16;
+    color: var(--blue);
+  }
+  .ctabs__tab:is(:hover, [aria-selected='true']) .ctabs__sub {
     color: inherit;
   }
 
@@ -342,7 +349,6 @@ const tabs = [...course.sections, registrationTab];
     gap: 0.35rem;
     flex: 0 1 auto;
     padding: 1.4rem clamp(1.4rem, 5vw, 2.1rem) 1.6rem;
-    rotate: -2deg;
   }
   .ctabs__price-label {
     font-size: var(--step--1);
@@ -363,7 +369,7 @@ const tabs = [...course.sections, registrationTab];
       max-width: 24ch;
       margin-bottom: var(--space-l);
     }
-    /* The sheet moves in from the left and a loose column of pebbles straddles its edge */
+    /* The sheet moves in from the left and an even column of pebbles straddles its edge */
     .ctabs.is-tabbed .ctabs__sheet {
       --hang: clamp(3.5rem, 7vw, 7rem);
       margin-left: var(--hang);
@@ -393,16 +399,8 @@ const tabs = [...course.sections, registrationTab];
       width: auto;
       padding-inline: 1.7rem 1.4rem;
     }
-    .ctabs__tab:nth-child(odd) {
-      margin-left: 1.1rem;
-      margin-right: -0.4rem;
-    }
-    .ctabs__tab:nth-child(3n) {
-      margin-left: 0.4rem;
-      margin-right: 0.5rem;
-    }
     .ctabs__tab[aria-selected='true'] {
-      translate: 1.3rem 0;
+      translate: 0.75rem 0;
     }
   }
 </style>

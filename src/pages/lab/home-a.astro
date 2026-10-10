@@ -5,9 +5,15 @@ import Base from '../../layouts/Base.astro';
 import Membership from '../../components/home/Membership.astro';
 import Announcement from '../../components/home/Announcement.astro';
 import Seminar from '../../components/home/Seminar.astro';
+import { getLocale } from '../../lib/locale';
+
+const t = {
+  en: { title: 'Home A | ATHENOA lab', description: 'Home sections: membership, announcement, seminar' },
+  el: { title: 'Αρχική Α | Εργαστήριο ATHENOA', description: 'Ενότητες της αρχικής: μέλη, ανακοίνωση, σεμινάριο' },
+}[getLocale(Astro.url)];
 ---
 
-<Base title="Home A | ATHENOA lab" description="Home sections: membership, announcement, seminar" noindex>
+<Base title={t.title} description={t.description} noindex>
   <div class="wrap filler" aria-hidden="true"></div>
   <Membership />
   <Announcement />

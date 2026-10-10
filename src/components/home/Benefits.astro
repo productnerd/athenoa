@@ -1,16 +1,94 @@
 ---
-// Home: "Benefits of Joining ATHENOA". Three paper boxes of different cut step down one side;
-// four photographs overlap in a loose collage on the other.
+// Home: "Benefits of Joining ATHENOA", on paper. Three benefits, each one a single piece: a photograph in
+// an organic window set into the edge of its box. The photo changes side from one to the next and the
+// boxes step through the three blues (light, Greek, darker). The fourth photo completes the first benefit.
+import type { ComponentProps } from 'astro/types';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import column from '../../assets/media/academy-column.jpg';
 import gathering from '../../assets/media/gathering-amphitheatre.jpg';
 import reading from '../../assets/media/reading-by-the-sea.jpg';
 import hilltop from '../../assets/media/hilltop-meditation.png';
-import { home } from '../../data/home';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
-const { benefits } = home;
-const boxClass = ['box box--offset', 'box box--blue on-blue', 'box box--deep'];
+const locale = getLocale(Astro.url);
+const { benefits } = content(locale).home;
+const t = {
+  en: {
+    gatheringAlt: 'A circle of women dressed in white embrace on a stone terrace beside a pool, high above the sea',
+    hilltopAlt: 'A woman sits in meditation among ancient stones on a sunlit hilltop, hazy mountains beyond',
+    readingAlt: 'A smiling woman reads a book in the sun, the sea and a bright sky behind her',
+    columnAlt:
+      'A woman in a blue dress stands before the Academy of Athens, under the tall column that carries the statue of Athena',
+  },
+  el: {
+    gatheringAlt:
+      'Ένας κύκλος γυναικών ντυμένων στα λευκά αγκαλιάζονται σε ένα πέτρινο πλάτωμα δίπλα σε μια πισίνα, ψηλά πάνω από τη θάλασσα',
+    hilltopAlt:
+      'Μια γυναίκα κάθεται σε διαλογισμό ανάμεσα σε αρχαίες πέτρες, σε έναν ηλιόλουστο λόφο, με θαμπά βουνά στο βάθος',
+    readingAlt:
+      'Μια χαμογελαστή γυναίκα διαβάζει ένα βιβλίο στον ήλιο, με τη θάλασσα και τον φωτεινό ουρανό πίσω της',
+    columnAlt:
+      'Μια γυναίκα με μπλε φόρεμα στέκεται μπροστά στην Ακαδημία Αθηνών, κάτω από τον ψηλό κίονα με το άγαλμα της Αθηνάς',
+  },
+}[locale];
+
+// One look per benefit, in the order of the copy: the experiential path and its community,
+// methodical training in the texts, the footsteps of the Ancient Sages and the Platonic Academy.
+// `surface` is the blue of the box, `mat` the blue of the cut-out behind the photograph.
+type Photo = Pick<ComponentProps<typeof Media>, 'src' | 'alt' | 'shape' | 'ratio' | 'focus' | 'widths' | 'sizes'>;
+const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = [
+  {
+    surface: 'on-blue-light',
+    mat: 'on-blue',
+    photo: {
+      src: gathering,
+      alt: t.gatheringAlt,
+      shape: 'pebble-1',
+      ratio: '5 / 4',
+      focus: '50% 62%',
+      widths: [360, 560, 800, 1100],
+      sizes: '(min-width: 60rem) 34rem, 80vw',
+    },
+    // A small file (690px wide): it is never shown wider than about 23rem.
+    second: {
+      src: hilltop,
+      alt: t.hilltopAlt,
+      shape: 'pill',
+      ratio: '690 / 300',
+      focus: '70% 60%',
+      widths: [360, 520, 690],
+      sizes: '(min-width: 60rem) 23rem, 50vw',
+    },
+  },
+  {
+    surface: 'on-blue',
+    mat: 'on-blue-light',
+    photo: {
+      src: reading,
+      alt: t.readingAlt,
+      shape: 'pebble-3',
+      ratio: '1 / 1',
+      focus: '42% 45%',
+      widths: [360, 560, 869],
+      sizes: '(min-width: 60rem) 30rem, 80vw',
+    },
+  },
+  {
+    surface: 'on-blue-deep',
+    mat: 'on-blue-light',
+    photo: {
+      src: column,
+      alt: t.columnAlt,
+      shape: 'arch',
+      ratio: '3 / 4.1',
+      focus: '50% 60%',
+      widths: [360, 560, 800, 1100],
+      sizes: '(min-width: 60rem) 26rem, 64vw',
+    },
+  },
+];
 ---
 
 <section class="benefits section" aria-labelledby="benefits-title">
@@ -21,58 +99,25 @@ const boxClass = ['box box--offset', 'box box--blue on-blue', 'box box--deep'];
       <Illustration name="olive-branch" class="benefits__olive" draw />
     </header>
 
-    <div class="benefits__collage">
-      <span class="benefits__blob" aria-hidden="true" data-depth="0.2"></span>
-      <Media
-        class="benefits__photo benefits__photo--column"
-        src={column}
-        alt="A woman in a blue dress stands before the Academy of Athens, under the tall column that carries the statue of Athena"
-        shape="arch"
-        focus="50% 60%"
-        widths={[240, 360, 560, 800]}
-        sizes="(min-width: 60rem) 24rem, 46vw"
-        data-depth="0.12"
-      />
-      <Media
-        class="benefits__photo benefits__photo--gathering"
-        src={gathering}
-        alt="A circle of women dressed in white embrace on a stone terrace beside a pool, high above the sea"
-        shape="pebble-1"
-        focus="50% 60%"
-        widths={[240, 360, 560, 800]}
-        sizes="(min-width: 60rem) 26rem, 46vw"
-        data-depth="-0.1"
-      />
-      <Media
-        class="benefits__photo benefits__photo--reading"
-        src={reading}
-        alt="A smiling woman reads a book in the sun, the sea and a bright sky behind her"
-        shape="pebble-3"
-        focus="42% 45%"
-        widths={[240, 360, 560, 869]}
-        sizes="(min-width: 60rem) 18rem, 46vw"
-        data-depth="-0.16"
-      />
-      <Media
-        class="benefits__photo benefits__photo--hilltop"
-        src={hilltop}
-        alt="A woman sits in meditation among ancient stones on a sunlit hilltop, hazy mountains beyond"
-        shape="pill"
-        focus="66% 70%"
-        widths={[360, 520, 690]}
-        sizes="(min-width: 60rem) 32rem, 46vw"
-        data-depth="0.06"
-      />
-    </div>
-
-    <ul class="benefits__items" role="list">
+    <ul class="benefits__units" role="list">
       {
-        benefits.items.map((item, i) => (
-          <li class:list={['benefits__item', boxClass[i]]} data-reveal>
-            <h3 class="benefits__item-title">{item.title}</h3>
-            <p>{item.italic ? <em>{item.text}</em> : item.text}</p>
-          </li>
-        ))
+        benefits.items.map((item, i) => {
+          const { surface, mat, photo, second } = looks[i];
+          return (
+            <li class:list={['unit', `unit--${i + 1}`]}>
+              <div class="unit__photos" data-depth="-0.05">
+                <div class:list={['unit__frame', mat]}>
+                  <Media class="unit__photo" {...photo} />
+                </div>
+                {second && <Media class="unit__photo unit__photo--second" {...second} data-depth="-0.04" />}
+              </div>
+              <div class:list={['unit__box box', surface]} data-reveal>
+                <h3 class="unit__title">{item.title}</h3>
+                <p>{item.italic ? <em>{item.text}</em> : item.text}</p>
+              </div>
+            </li>
+          );
+        })
       }
     </ul>
   </div>
@@ -93,76 +138,86 @@ const boxClass = ['box box--offset', 'box box--blue on-blue', 'box box--deep'];
   .benefits__olive {
     width: clamp(8rem, 5rem + 14vw, 15rem);
     margin-top: var(--space-m);
-    rotate: -6deg;
   }
 
-  /* ---------- Collage. Narrow screens: two staggered columns. ---------- */
-  .benefits__collage {
-    position: relative;
-    isolation: isolate;
+  /* ---------- A benefit: photograph and box as one piece ---------- */
+  .benefits__units {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.9rem;
-    align-items: start;
-    padding-bottom: 2.75rem;
-  }
-  /* The shared arch token flattens its lower corners on a narrow frame, so this arch sets its own. */
-  .benefits__photo--column {
-    --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
-    --ratio: 3 / 4.5;
-    grid-area: 1 / 1;
-  }
-  .benefits__photo--gathering {
-    --ratio: 4 / 4.6;
-    grid-area: 1 / 2;
-    margin-top: 2.75rem;
-  }
-  .benefits__photo--reading {
-    --ratio: 1 / 1.04;
-    grid-area: 2 / 1;
-    margin-left: 0.6rem;
-  }
-  .benefits__photo--hilltop {
-    --ratio: 1 / 1;
-    grid-area: 2 / 2;
-    margin: 2.75rem 0.5rem 0 -0.9rem;
-  }
-  .benefits__blob {
-    position: absolute;
-    left: 18%;
-    top: 30%;
-    z-index: -1;
-    width: 78%;
-    aspect-ratio: 1 / 0.9;
-    border-radius: var(--r-pebble-2);
-    background-color: var(--creme-deep);
-    background-image: var(--grain);
-    background-size: 400px 400px;
-  }
-
-  /* ---------- Three boxes, each cut differently, stepping from side to side ---------- */
-  .benefits__items {
-    display: grid;
-    gap: var(--space-m);
+    gap: var(--space-l);
     margin: 0;
   }
-  .benefits__item:nth-child(1) {
-    --box-r: var(--r-soft);
-    margin-right: 6%;
+  .unit {
+    --lap: 4.5rem; /* how far the photograph reaches down into its box on narrow screens */
+    display: grid;
   }
-  .benefits__item:nth-child(2) {
-    --box-r: var(--r-leaf);
-    margin-left: 7%;
-    padding-block: clamp(2rem, 1.2rem + 3vw, 3.25rem);
+  .unit__photos {
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+    width: min(80%, 25rem);
+    margin-bottom: calc(var(--lap) * -1);
   }
-  .benefits__item:nth-child(3) {
-    --box-r: 3.6rem 2.4rem 4.4rem 2.6rem / 2.6rem 3.8rem 2.8rem 4rem;
-    margin-right: 3%;
+  .unit--2 .unit__photos {
+    justify-self: end;
   }
-  .benefits__item p {
+  .unit--3 .unit__photos {
+    width: min(62%, 19rem);
+    margin-left: 6%;
+  }
+  .unit__frame {
+    position: relative;
+  }
+  /* A cut-out in another blue lies behind each photograph and shows as a rim on one side. */
+  .unit__frame::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    background-color: var(--paper);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
+  }
+  .unit--1 .unit__frame::before {
+    inset: -3% 2% -5% -6%;
+    border-radius: var(--r-pebble-3);
+  }
+  .unit--2 .unit__frame::before {
+    inset: -5% -6% -3% 2%;
+    border-radius: var(--r-pebble-1);
+  }
+  .unit--3 .unit__frame::before {
+    inset: -0.7rem;
+    border-radius: 50% 50% 3rem 3.4rem / 31% 31% 2.8rem 3.2rem;
+  }
+  /* The shared arch token flattens its lower corners on a narrow frame, so this arch sets its own. */
+  .unit--3 .unit__photo {
+    --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
+  }
+  /* The second, smaller photograph of the first benefit rests on the lower edge of the first. */
+  .unit__photo--second {
+    position: absolute;
+    right: -22%;
+    bottom: -1.25rem;
+    width: 62%;
+  }
+
+  .unit__box {
+    padding-top: calc(var(--lap) + var(--space-m));
+  }
+  .unit--1 .unit__box {
+    --box-r: 3.4rem 4.6rem 3.8rem 5rem / 4.4rem 3.6rem 5rem 3.8rem;
+    padding-top: calc(var(--lap) + 1.25rem + var(--space-m));
+  }
+  .unit--2 .unit__box {
+    --box-r: 5rem 3.2rem 4.6rem 3.6rem / 3.6rem 4.8rem 3.4rem 4.6rem;
+  }
+  .unit--3 .unit__box {
+    --box-r: 3.8rem 5.2rem 3.4rem 4.4rem / 4.8rem 3.4rem 4.6rem 3.6rem;
+  }
+  .unit__box p {
     max-width: var(--measure);
   }
-  .benefits__item-title {
+  .unit__title {
     margin-bottom: 0.7em;
     font-family: var(--font-title);
     font-weight: var(--title-weight);
@@ -172,28 +227,19 @@ const boxClass = ['box box--offset', 'box box--blue on-blue', 'box box--deep'];
     color: var(--ink-strong);
   }
 
-  /* Between phone and desktop the two columns stop growing: two of the photographs are small files. */
+  /* Between phone and desktop the pieces stop growing: two of the photographs are small files. */
   @media (min-width: 40rem) {
-    .benefits__collage {
-      max-width: 36rem;
-    }
-    .benefits__photo--hilltop {
-      --ratio: 3 / 2;
-    }
-    .benefits__items {
+    .benefits__units {
       max-width: 44rem;
     }
   }
 
   @media (min-width: 60rem) {
     .benefits__grid {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: var(--space-m);
-      row-gap: var(--space-l);
+      row-gap: var(--space-xl);
     }
     /* The olive sprig lies beside the question, under the title */
     .benefits__head {
-      grid-column: 1 / -1;
       display: grid;
       grid-template-columns: minmax(0, max-content) auto;
       justify-content: start;
@@ -207,66 +253,56 @@ const boxClass = ['box box--offset', 'box box--blue on-blue', 'box box--deep'];
       width: clamp(8rem, 12vw, 12rem);
       margin: 0 0 0.4rem;
     }
-    .benefits__items {
-      grid-column: 1 / span 7;
-      grid-row: 2;
-      gap: 0;
-      align-content: start;
-      max-width: none;
-    }
-    .benefits__item:nth-child(1) {
-      margin-right: 14%;
-    }
-    .benefits__item:nth-child(2) {
-      z-index: 2;
-      margin: -1.4rem -5% 0 17%;
-    }
-    .benefits__item:nth-child(3) {
-      margin: -1.1rem 9% 0 5%;
-    }
 
-    /* The collage climbs up beside the question. Its two clusters keep their overlaps and share out any slack. */
-    .benefits__collage {
-      grid-column: 8 / -1;
-      grid-row: 2;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
+    /* Photograph and box share one row and overlap by two columns; the photograph is the taller of the
+       two, so it stands a little proud of the box above and below. Odd pieces carry the photograph on
+       the left, the even one on the right. */
+    .benefits__units {
       max-width: none;
-      margin: -11rem calc(var(--gutter) * -0.35) 0 0;
-      padding: 0 0 var(--space-m);
+      gap: var(--space-m);
     }
-    .benefits__photo--column {
-      --ratio: 3 / 4.2;
-      align-self: flex-end;
-      width: 72%;
+    .unit {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--space-m);
+      align-items: center;
     }
-    .benefits__photo--gathering {
-      --ratio: 4 / 3.3;
-      z-index: 2;
-      align-self: flex-start;
-      width: 82%;
-      margin: -26% 0 auto -9%;
+    .unit__photos,
+    .unit__box {
+      grid-row: 1;
     }
-    .benefits__photo--hilltop {
-      --ratio: 690 / 300;
-      z-index: 1;
-      align-self: flex-end;
-      width: min(104%, 32rem);
-      margin: 12% -4% 0 0;
+    .unit__photos,
+    .unit--3 .unit__photos {
+      grid-column: 1 / span 5;
+      width: auto;
+      margin: 0;
     }
-    .benefits__photo--reading {
-      --ratio: 1 / 1;
-      z-index: 3;
-      order: 4;
-      align-self: flex-start;
-      width: 54%;
-      margin: -12% 0 0 6%;
+    .unit__box,
+    .unit--1 .unit__box {
+      grid-column: 4 / span 8;
+      padding-block: clamp(2.25rem, 1rem + 3vw, 3.75rem);
+      padding-left: calc(25% + var(--space-l));
+      padding-right: clamp(2rem, 1rem + 2.6vw, 3.75rem);
     }
-    .benefits__blob {
-      left: -20%;
-      top: 30%;
-      width: 100%;
+    .unit--2 .unit__photos {
+      grid-column: 8 / span 5;
+      justify-self: stretch;
+      margin-left: 9%;
+    }
+    .unit--2 .unit__box {
+      grid-column: 2 / span 8;
+      padding-left: clamp(2rem, 1rem + 2.6vw, 3.75rem);
+      padding-right: calc(25% + var(--space-l));
+    }
+    .unit--3 .unit__photos {
+      margin-inline: 4% 16%;
+    }
+    /* First benefit: the small photograph sits under the large one and reaches across onto the box. */
+    .unit__photo--second {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      width: 68%;
+      margin: -2.25rem 0 0 14%;
     }
   }
 </style>

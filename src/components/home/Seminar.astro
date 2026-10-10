@@ -1,27 +1,29 @@
 ---
-// Home: the monthly seminar on the Orphic Hymns. A blue cut-out with a round end like an apse,
-// the lyre drawn inside it with light radiating behind; a symbol sits on the top edge, an olive
-// branch slips out from underneath, and the date note is pencilled on the paper below.
+// Home: the monthly seminar on the Orphic Hymns. A Greek-blue cut-out with a round end like an apse.
+// Inside it the lyre stands before a dark disc with light radiating around it; the Orphic egg sits
+// on a light-blue pebble laid over the top edge, an olive branch slips out from underneath, and the
+// date note is written on the paper below. All three blues meet here.
 import Illustration from '../Illustration.astro';
-import { home } from '../../data/home';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
+const { home } = content(getLocale(Astro.url));
 const { kicker, title, open, note } = home.seminar;
 ---
 
 <section class="section seminar" aria-labelledby="seminar-title">
   <div class="wrap">
     <div class="seminar__stage">
-      <div class="seminar__mark" data-depth="-0.05">
-        <Illustration name="orphic-egg" draw />
-      </div>
-      <div class="seminar__branch" data-depth="-0.12">
+      <div class="seminar__branch" data-depth="-0.08">
         <Illustration name="olive-branch" draw />
       </div>
 
       <div class="seminar__panel panel panel--arch on-blue">
         <div class="panel__clip">
-          <div class="seminar__rays" data-depth="0.32">
-            <Illustration name="sun-rays" />
+          <div class="seminar__sun" data-depth="0.2">
+            <div class="seminar__rays">
+              <Illustration name="sun-rays" />
+            </div>
           </div>
         </div>
 
@@ -35,9 +37,13 @@ const { kicker, title, open, note } = home.seminar;
           <p class="seminar__open lead" data-reveal style="--delay:350ms"><strong>{open}</strong></p>
         </div>
       </div>
+
+      <div class="seminar__egg on-blue-light" data-reveal="grow" data-depth="-0.04">
+        <Illustration name="orphic-egg" draw />
+      </div>
     </div>
 
-    <p class="seminar__note hand hand--m hand--tilt" data-reveal>{note}</p>
+    <p class="seminar__note hand hand--m" data-reveal>{note}</p>
   </div>
 </section>
 
@@ -51,6 +57,7 @@ const { kicker, title, open, note } = home.seminar;
   .seminar__panel {
     --lyre-w: min(46vw, 15rem);
     --pad-t: clamp(3.5rem, 16vw, 6rem);
+    --rays-w: calc(var(--lyre-w) * 3.1);
     z-index: 1;
     display: grid;
     gap: var(--space-l);
@@ -61,19 +68,29 @@ const { kicker, title, open, note } = home.seminar;
     width: var(--lyre-w);
     margin-inline: auto;
   }
-  /* Light behind the lyre: clipped to the cut-out, far away */
-  .seminar__rays {
+  /* Behind the lyre, far away and cut to the outline: a disc of darker blue, light all round it */
+  .seminar__sun {
     position: absolute;
-    --rays-w: calc(var(--lyre-w) * 3.1);
     left: 50%;
     top: calc(var(--pad-t) + var(--lyre-w) * 0.6 - 5px);
     width: var(--rays-w);
+    aspect-ratio: 1;
     margin: calc(var(--rays-w) / -2) 0 0 calc(var(--rays-w) / -2);
-    /* The light thins out before it reaches the words */
+  }
+  .seminar__sun::after {
+    content: '';
+    position: absolute;
+    inset: calc(50% - var(--lyre-w) * 0.66);
+    border-radius: var(--r-pebble-1);
+    background: var(--blue-deep);
+    filter: url(#rough-sm);
+  }
+  /* The light thins out before it reaches the words */
+  .seminar__rays {
     mask-image: linear-gradient(180deg, #000 50%, transparent 74%);
   }
   .seminar__rays :global(.illo) {
-    color: color-mix(in srgb, var(--creme) 30%, transparent);
+    color: color-mix(in srgb, var(--blue-light) 62%, transparent);
   }
 
   .seminar__kicker {
@@ -88,28 +105,43 @@ const { kicker, title, open, note } = home.seminar;
     max-width: none;
   }
 
-  /* ---------- Ornaments tucked behind the cut-out ---------- */
-  .seminar__mark,
+  /* ---------- The Orphic egg, on a light-blue pebble at the shoulder of the arch ---------- */
+  .seminar__egg {
+    position: absolute;
+    z-index: 2;
+    top: -4.6rem;
+    right: -0.35rem;
+    width: 7.5rem;
+    padding: 1rem 1.15rem 1.1rem;
+    pointer-events: none;
+  }
+  .seminar__egg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: var(--r-pebble-1);
+    background-color: var(--paper);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
+  }
+  /* Drawn small here, so the line is thickened to keep the weight of the other drawings */
+  .seminar__egg :global(svg) {
+    stroke-width: 3.6;
+  }
+
+  /* ---------- The olive branch, tucked under the lower edge ---------- */
   .seminar__branch {
     position: absolute;
     z-index: 0;
+    width: 9.5rem;
+    right: 4%;
+    top: calc(100% - 2.1rem);
     pointer-events: none;
   }
-  /* The symbol sits at the shoulder of the arch */
-  .seminar__mark {
-    width: 4.25rem;
-    right: 5%;
-    bottom: calc(100% - 3.9rem);
-    rotate: 5deg;
-  }
-  .seminar__branch {
-    width: 9.5rem;
-    right: 2%;
-    top: calc(100% - 1.9rem);
-    rotate: -7deg;
-  }
 
-  /* ---------- The pencilled note ---------- */
+  /* ---------- The note on the paper below ---------- */
   .seminar__note {
     position: relative;
     z-index: 2;
@@ -129,6 +161,7 @@ const { kicker, title, open, note } = home.seminar;
     .seminar__panel {
       --lyre-w: clamp(13rem, 8rem + 14vw, 21rem);
       --pad-r: clamp(3.5rem, 1rem + 6vw, 7.5rem);
+      --rays-w: calc(var(--lyre-w) * 2.8);
       --panel-r: 3.2rem 19rem 19rem 3.8rem / 3rem 50% 50% 3.4rem;
       grid-template-columns: minmax(0, 1fr) var(--lyre-w);
       align-items: center;
@@ -143,7 +176,7 @@ const { kicker, title, open, note } = home.seminar;
       max-width: 44rem;
     }
     .seminar__copy h2 {
-      max-width: 20ch;
+      max-width: 22ch;
     }
     .seminar__lyre {
       grid-column: 2;
@@ -151,21 +184,22 @@ const { kicker, title, open, note } = home.seminar;
       width: auto;
       margin: 0;
     }
-    .seminar__rays {
-      --rays-w: calc(var(--lyre-w) * 2.8);
-      mask-image: linear-gradient(90deg, transparent 7%, #000 36%);
+    .seminar__sun {
       left: auto;
       right: calc(var(--pad-r) + var(--lyre-w) / 2 - var(--rays-w) / 2 - 5px);
       top: 50%;
-      width: var(--rays-w);
       margin: calc(var(--rays-w) / -2) 0 0;
     }
-    .seminar__mark {
-      width: clamp(5.5rem, 3.5rem + 4vw, 7.75rem);
+    .seminar__rays {
+      mask-image: linear-gradient(90deg, transparent 7%, #000 36%);
+    }
+    /* The pebble lines up with the text below it */
+    .seminar__egg {
+      top: -6.5rem;
       right: auto;
-      left: 10%;
-      bottom: calc(100% - 1.3rem);
-      rotate: -3deg;
+      left: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
+      width: clamp(9rem, 6.5rem + 4vw, 11rem);
+      padding: 1.5rem 2rem 1.6rem;
     }
     .seminar__branch {
       width: clamp(13rem, 8rem + 12vw, 19rem);
@@ -173,8 +207,8 @@ const { kicker, title, open, note } = home.seminar;
       top: calc(100% - 2.6rem);
     }
     .seminar__note {
-      max-width: 30ch;
-      margin: var(--space-m) 0 0 clamp(2rem, 7vw, 7rem);
+      max-width: 38ch;
+      margin: var(--space-m) 0 0 clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
     }
   }
 </style>

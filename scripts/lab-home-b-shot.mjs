@@ -31,7 +31,11 @@ await context.routeWebSocket(/.*/, () => {});
 const page = await context.newPage();
 page.on('pageerror', (error) => console.log('PAGE ERROR', error.message));
 page.on('console', (msg) => msg.type() === 'error' && console.log('CONSOLE', msg.text()));
-await page.goto(url.href, { waitUntil: 'load' });
+await page.goto(url.href, { waitUntil: 'load', timeout: 120000 });
+// Section shots are taken without the fixed header and lab controls, which would sit on top of them.
+if (opt('sel') && !flag('viewport') && !flag('nojs')) {
+  await page.addStyleTag({ content: '[data-header], .font-toggle, .lab-bar { display: none !important; }' });
+}
 
 if (flag('nojs')) {
   // Without scripts lazy images never get scrolled to by evaluate(); use the wheel instead.

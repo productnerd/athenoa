@@ -22,57 +22,54 @@ const V = opt('v', '');
 
 const SW = 2.5;
 
+// A wavy ray along a straight line: whole or half waves, so it starts and ends on the axis.
+function ray(a, b, waves, amp, flip = 1) {
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const len = Math.hypot(dx, dy) || 1;
+  const n = Math.round(waves * 8);
+  const pts = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    const o = Math.sin(t * waves * TAU) * amp * flip * (0.7 + 0.3 * t);
+    pts.push([a[0] + dx * t - (dy / len) * o, a[1] + dy * t + (dx / len) * o]);
+  }
+  return path(spline(pts));
+}
+
 // ---------------------------------------------------------------------------------------------
 // Tetractys: ten points in rows of one, two, three and four, an exact equilateral lattice.
 // Each point is itself a small monad (the point within the circle).
 function tetractys() {
   const cx = 160;
-  const d = 64;
+  const d = 60;
   const step = (d * Math.sqrt(3)) / 2;
-  const top = V === 'b' || V === 'c' ? 62 : 38;
+  const top = 37;
   const at = (r, i) => [cx + (i - r / 2) * d, top + r * step];
   const out = [];
-  const R = 14.5;
-  if (V === 'b' || V === 'c') {
-    // fine lines joining neighbours, stopping short of each point
-    const link = (p, q) => {
-      const len = Math.hypot(q[0] - p[0], q[1] - p[1]);
-      const u = [(q[0] - p[0]) / len, (q[1] - p[1]) / len];
-      const g = R + 5.5;
-      out.push(line([p[0] + u[0] * g, p[1] + u[1] * g], [q[0] - u[0] * g, q[1] - u[1] * g]));
-    };
-    for (let r = 0; r < 4; r++) {
-      for (let i = 0; i <= r; i++) {
-        if (i < r) link(at(r, i), at(r, i + 1));
-        if (r < 3 && (V === 'b' || i === 0 || i === r || true)) {
-          if (V === 'b' || i === 0) link(at(r, i), at(r + 1, i));
-          if (V === 'b' || i === r) link(at(r, i), at(r + 1, i + 1));
-        }
-      }
-    }
-  }
   for (let r = 0; r < 4; r++) {
     for (let i = 0; i <= r; i++) {
-      out.push(circle(...at(r, i), R));
-      out.push(dot(...at(r, i), 5.6));
+      out.push(circle(...at(r, i), 13.6));
+      out.push(dot(...at(r, i), 5.3));
     }
   }
-  if (V === 'b' || V === 'c') return svg(320, 320, SW, out.join(''));
-  // "The fount and root of ever-flowing nature": the four rows return below as four waves.
+  // "The fount and root of ever-flowing nature": the rows return below as water, four crests
+  // under the four points, then three, two, one.
   const base = top + 3 * step;
-  const rand = rng(7);
-  const halves = [128, 101, 73, 44];
-  halves.forEach((half, k) => {
-    const y = base + 44 + k * 19.5;
-    const lean = (rand() - 0.5) * 8;
-    const pts = wavy([cx - half + lean, y], [cx + half + lean, y + (rand() - 0.5) * 2], {
-      waves: (2 * half) / 62,
-      amp: 4.8 - k * 0.25,
-      phase: Math.PI + k * 1.3 + rand() * 0.5,
-      per: 6,
-    });
+  const amp = 4.2;
+  for (let k = 0; k < 4; k++) {
+    const m = 4 - k;
+    const y = base + 43 + k * 17.5;
+    const x0 = cx - m * (d / 2);
+    const pts = [];
+    const n = m * 8;
+    // a crest under each point of the row it mirrors; the ends run out in a quarter wave
+    for (let i = -2; i <= n + 2; i++) {
+      const x = x0 + (i * d) / 8;
+      pts.push([x, y + Math.cos(((x - x0) / d) * TAU) * amp]);
+    }
     out.push(path(spline(pts)));
-  });
+  }
   return svg(320, 320, SW, out.join(''));
 }
 
@@ -82,18 +79,22 @@ function tetractys() {
 function monad() {
   const c = 160;
   const out = [];
-  out.push(dot(c, c, 5.5));
-  out.push(circle(c, c, 25));
-  const n = V === 'b' ? 24 : 28;
-  for (let i = 0; i < n; i++) {
-    const a = (i / n) * TAU - Math.PI / 2;
-    const r0 = V === 'b' ? 44 : 41;
-    const r1 = i % 2 ? 90 : 108;
-    const p0 = [c + Math.cos(a) * r0, c + Math.sin(a) * r0];
-    const p1 = [c + Math.cos(a) * r1, c + Math.sin(a) * r1];
-    out.push(path(spline(wavy(p0, p1, { waves: i % 2 ? 1.5 : 2, amp: V === 'b' ? 3.4 : 3, phase: 0, per: 8 }))));
+  out.push(dot(c, c, 5.6));
+  out.push(circle(c, c, 24));
+  out.push(circle(c, c, 50));
+  // The One and the Many: each circle further out is broken three times finer than the last,
+  // until the outermost is a ring of points.
+  [[76, 6, 15], [100, 18, 11.5]].forEach(([r, parts, gapLen], k) => {
+    const gap = gapLen / r;
+    for (let i = 0; i < parts; i++) {
+      const a0 = (i / parts) * TAU - Math.PI / 2 + gap / 2 + (k ? 0 : Math.PI / parts);
+      out.push(path(arc(c, c, r, a0, a0 + TAU / parts - gap)));
+    }
+  });
+  for (let i = 0; i < 54; i++) {
+    const a = (i / 54) * TAU - Math.PI / 2;
+    out.push(dot(c + Math.cos(a) * 123, c + Math.sin(a) * 123, 2.2));
   }
-  out.push(circle(c, c, 126));
   return svg(320, 320, SW, out.join(''));
 }
 
@@ -179,17 +180,21 @@ function bowLyre() {
 // circle.
 function caveSun() {
   const out = [];
-  const lipU = [239, 150];
-  const lipL = [258, 172];
+  const lipU = [236, 151];
+  const lipL = [257, 173];
 
   // Ground line: the hill over the cave, then the mouth, then the open ground under the sun.
-  const hill = sample([[14, 152], [40, 130], [74, 100], [112, 84], [150, 87], [188, 101], [214, 121], [230, 138], lipU], 10);
-  const groundR = sample([lipL, [280, 172], [306, 168], [330, 165], [348, 166]], 8);
+  const hillPts = [[26, 170], [52, 147], [86, 116], [122, 98], [158, 99], [192, 112], [217, 131], lipU];
+  const hill = sample(hillPts, 10);
+  const groundR = sample([lipL, [280, 174], [306, 171], [334, 169]], 8);
 
-  // The cave: a roof of hanging scallops down the passage and over the chamber, the back wall
-  // and floor, then the stair back up to the mouth.
-  const cusps = [lipU, [214, 168], [188, 190], [161, 211], [127, 205], [93, 207], [63, 221]];
-  const bulge = [8, 9, 10, 15, 15, 13];
+  // The cave: the roof runs down the passage and opens into the chamber, then the back wall and
+  // floor, then the stair back up to the mouth.
+  const floorY = 269;
+  const footX = 149;
+  // Roof: scallops of rock, cusps hanging down, three over the chamber and three down the passage.
+  const cusps = [lipU, [212, 169], [187, 191], [160, 211], [127, 205], [94, 207], [64, 221]];
+  const bulge = V === 'b' ? [8, 9, 10, 17, 17, 14] : [8, 9, 10, 15, 15, 13];
   const roof = [cusps[0]];
   let roofD = `M${P(...cusps[0])}`;
   for (let i = 0; i < cusps.length - 1; i++) {
@@ -206,13 +211,15 @@ function caveSun() {
       ]);
     }
   }
-  const back = sample([cusps[cusps.length - 1], [52, 238], [50, 255], [59, 267], [80, 272], [112, 272.5], [150, 268]], 6);
-  const stair = [[150, 268]];
+  const last = cusps[cusps.length - 1];
+  const backPts = [last, [53, 238], [51, 255], [60, 267], [81, floorY + 2.5], [113, floorY + 3], [footX, floorY]];
+  const back = sample(backPts, 6);
+  const stair = [[footX, floorY]];
   for (let i = 0; i < 8; i++) {
     const [x, y] = stair[stair.length - 1];
     stair.push([x, y - 12], [x + 13.5, y - 12]);
   }
-  const caveD = `${roofD}${spline(thin(back, 3)).replace(/^M[^C]*/, '')}${poly(stair).replace('M', 'L')}`;
+  const caveD = `${roofD}${spline(backPts).replace(/^M[^C]*/, '')}${poly(stair).replace('M', 'L')}`;
   const cave = [...roof, ...back.slice(1), ...stair.slice(1)];
   const denseCave = [];
   cave.forEach((p, i) => {
@@ -223,11 +230,7 @@ function caveSun() {
   const nearCave = (p, m) => inside(p, denseCave) || distTo(p, denseCave, true) < m;
 
   // Strata: the ground line repeated downward, flattening as it goes, cut where the cave is.
-  const guide = sample(
-    [[14, 152], [40, 130], [74, 100], [112, 84], [150, 87], [188, 101], [220, 123], [246, 148], [268, 164],
-      [290, 169], [318, 167], [348, 166]],
-    10,
-  );
+  const guide = sample([...hillPts.slice(0, -1), [240, 152], [262, 168], [284, 173], [308, 171], [334, 169]], 10);
   const yOn = (lineP) => (x) => {
     for (let i = 1; i < lineP.length; i++) {
       if (x <= lineP[i][0]) {
@@ -240,23 +243,23 @@ function caveSun() {
     return lineP[lineP.length - 1][1];
   };
   const guideY = yOn(guide);
-  const rand = rng(23);
-  const mean = 152;
+  const mean = 160;
   let depth = 0;
-  for (let k = 1; k <= 10; k++) {
-    depth += 14.6 + k * 0.5;
-    const flat = Math.min(0.88, k * 0.09);
+  const K = 9;
+  for (let k = 1; k <= K; k++) {
+    depth += 14.4 + k * 0.35;
+    const flat = Math.min(0.9, k * 0.1);
     // the block of earth rounds off toward the bottom
-    const round = Math.max(0, k - 5) ** 1.8 * 4;
-    const x0 = 16 + round + rand() * 12;
-    const x1 = 346 - round - rand() * 12;
+    const round = Math.max(0, k - 4) ** 1.9 * 3.2;
+    const x0 = 27 + round + (k % 2 ? 0 : 7);
+    const x1 = 333 - round - (k % 3 === 1 ? 8 : 0);
     const pts = [];
     for (let x = x0; x <= x1; x += 3) {
       const t = guideY(x);
-      const wob = Math.sin(x / 33 + k * 1.7) * (0.5 + k * 0.2);
+      const wob = Math.sin(x / 36 + k * 1.7) * (0.4 + k * 0.16);
       pts.push([x, t + depth - (t - mean) * flat + wob]);
     }
-    visibleRuns(pts, (p) => nearCave(p, 5.5), 26).forEach((run) => out.push(path(spline(thin(run, 5)))));
+    visibleRuns(pts, (p) => nearCave(p, 6), 24).forEach((run) => out.push(path(spline(thin(run, 5)))));
   }
 
   // The dark of the cave.
@@ -265,7 +268,7 @@ function caveSun() {
   out.push(path(spline(thin(hill, 5))));
   out.push(path(spline(thin(groundR, 4))));
   // The fire inside: the lesser light.
-  const f = [100, 272];
+  const f = [101, floorY + 2.5];
   const fl = (pts) => pts.map(([x, y]) => P(f[0] + x, f[1] + y));
   const o = fl([[0, -1.5], [-11, -2], [-12, -14], [-5, -22], [-2, -25.5], [0, -30], [0.5, -34], [8, -27], [12.5, -17], [11, -9], [10, -4], [6, -1.5]]);
   out.push(path(`M${o[0]}C${o[1]} ${o[2]} ${o[3]}C${o[4]} ${o[5]} ${o[6]}C${o[7]} ${o[8]} ${o[9]}C${o[10]} ${o[11]} ${o[0]}Z`, PAPER));
@@ -273,19 +276,20 @@ function caveSun() {
   out.push(path(`M${q[0]}C${q[1]} ${q[2]} ${q[3]}C${q[4]} ${q[5]} ${q[0]}Z`));
 
   // The sun.
-  const sun = [296, 74];
-  out.push(dot(...sun, 4.2));
+  const sun = [286, 82];
+  out.push(dot(...sun, 4.6));
   out.push(circle(...sun, 17));
   const hillY = yOn([...hill, ...groundR]);
-  const n = 20;
+  const n = 16;
   for (let i = 0; i < n; i++) {
     const a = (i / n) * TAU - Math.PI / 2;
-    const r0 = 27;
-    const r1 = i % 2 ? 42 : 55;
+    const r0 = 28;
+    const long = i % 2 === 0;
+    const r1 = long ? 58 : 48;
     const p0 = [sun[0] + Math.cos(a) * r0, sun[1] + Math.sin(a) * r0];
     const p1 = [sun[0] + Math.cos(a) * r1, sun[1] + Math.sin(a) * r1];
-    const ray = wavy(p0, p1, { waves: 1, amp: i % 2 ? 1.6 : 2.4, phase: i % 2 ? 0 : Math.PI, per: 12 });
-    visibleRuns(ray, (p) => p[1] > hillY(p[0]) - 8, 5).forEach((run) => out.push(path(spline(thin(run, 2)))));
+    if (p1[1] > hillY(p1[0]) - 9) continue;
+    out.push(ray(p0, p1, long ? 1.5 : 1, 3.2));
   }
   return svg(360, 320, SW, out.join(''));
 }

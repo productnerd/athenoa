@@ -29,11 +29,11 @@ const t = {
   },
 }[locale];
 
-// How each picture is cropped. The frames hang still; the depth is inside them.
+// How each picture is cropped.
 const hang = {
-  'course-platos-republic': { src: republic, ratio: '4 / 5', focus: '52% 50%', depth: 0.07 },
-  'course-marcus-aurelius': { src: aurelius, ratio: '6 / 5', focus: '50% 50%', depth: 0.1 },
-  'plato-statue': { src: plato, ratio: '4 / 5', focus: '80% 50%', depth: 0.07 },
+  'course-platos-republic': { src: republic, ratio: '4 / 5', focus: '52% 50%' },
+  'course-marcus-aurelius': { src: aurelius, ratio: '6 / 5', focus: '50% 50%' },
+  'plato-statue': { src: plato, ratio: '4 / 5', focus: '80% 50%' },
 };
 ---
 
@@ -52,7 +52,7 @@ const hang = {
       </div>
     </div>
 
-    <ul class="tiles" role="list">
+    <ul class="tiles" role="list" data-depth="0.04">
       {
         courses.map((course, i) => {
           const look = hang[course.image];
@@ -67,7 +67,6 @@ const hang = {
                   shape="arch"
                   ratio={look.ratio}
                   focus={look.focus}
-                  innerDepth={look.depth}
                   widths={[360, 560, 800, 940]}
                   sizes="(min-width: 56rem) 36vw, 88vw"
                 />
@@ -185,12 +184,12 @@ const hang = {
   a.tile__body:focus-visible .tile__title {
     text-decoration-color: currentColor;
   }
-  /* The photo is already enlarged for its inner parallax; hover leans in a little further */
   a.tile__body :global(.media__clip picture) {
+    display: block;
     transition: scale var(--dur-3) var(--ease-out);
   }
   a.tile__body:hover :global(.media__clip picture) {
-    scale: 1.2;
+    scale: 1.045;
   }
   a.tile__body:focus-visible {
     outline-offset: 0.6rem;
@@ -244,12 +243,13 @@ const hang = {
       padding-left: clamp(3rem, 1rem + 5vw, 5.5rem);
     }
     /* On a wide sheet the laurel moves to the foot of the letter, where a seal would go:
-       pressed over the lower edge, half on the sheet and half on the page */
+       pressed over the lower edge, half on the sheet and half on the page, clear of the words */
     .letter :global(.letter__seal) {
+      --seal-w: clamp(6.5rem, 3.5rem + 6vw, 9.75rem);
       top: auto;
       right: clamp(2rem, 5vw, 4.5rem);
-      bottom: -2.5rem;
-      width: clamp(6.5rem, 3.5rem + 6vw, 9.75rem);
+      bottom: calc(var(--seal-w) * -0.52);
+      width: var(--seal-w);
     }
     .slip {
       grid-column: 2 / span 4;
@@ -266,11 +266,11 @@ const hang = {
       max-width: 24ch;
     }
 
-    /* Three pictures on one rail, at slightly different heights */
+    /* Three pictures on one rail, evenly spaced, at slightly different heights */
     .tiles {
       --rail: 3rem;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: clamp(1rem, 0.4rem + 1.7vw, 2rem);
+      grid-template-columns: 3fr 5fr 3fr;
+      column-gap: clamp(2.5rem, 7%, 6rem);
       align-items: start;
       row-gap: var(--space-l);
       margin-top: calc(var(--space-xl) + var(--rail) + 1rem);
@@ -285,15 +285,10 @@ const hang = {
     }
     .tile--1 {
       --drop: 2.25rem;
-      grid-column: 1 / span 3;
       width: auto;
-    }
-    .tile--2 {
-      grid-column: 5 / span 5;
     }
     .tile--3 {
       --drop: 3.75rem;
-      grid-column: 10 / span 3;
       width: auto;
       margin-left: 0;
     }

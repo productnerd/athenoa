@@ -1,11 +1,23 @@
 ---
 // Home: "Let's Get Started". Raphael's fresco fills a very large arch, printed in blue ink like a cyanotype,
-// with Athena's two lines written across it by hand.
+// with Athena's two lines set across it in the voice face.
 import Media from '../Media.astro';
 import fresco from '../../assets/media/school-of-athens.jpg';
-import { home } from '../../data/home';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
-const { start } = home;
+const locale = getLocale(Astro.url);
+const { start } = content(locale).home;
+const t = {
+  en: {
+    frescoAlt:
+      'Raphael’s fresco The School of Athens: the philosophers of antiquity gathered beneath a great vaulted hall',
+  },
+  el: {
+    frescoAlt:
+      'Η τοιχογραφία του Ραφαήλ «Η Σχολή των Αθηνών»: οι φιλόσοφοι της αρχαιότητας συγκεντρωμένοι κάτω από μια μεγάλη θολωτή αίθουσα',
+  },
+}[locale];
 ---
 
 <section class="start section" aria-labelledby="start-title">
@@ -16,7 +28,7 @@ const { start } = home;
           <Media
             class="start__fresco"
             src={fresco}
-            alt="Raphael’s fresco The School of Athens: the philosophers of antiquity gathered beneath a great vaulted hall"
+            alt={t.frescoAlt}
             shape="arch"
             innerDepth={0.14}
             reveal={false}
@@ -34,7 +46,7 @@ const { start } = home;
         <div class="start__lines">
           {
             start.lines.map((line, i) => (
-              <p class="hand" data-reveal style={`--i:${i * 3 + 4}`}>
+              <p class="hand hand--l" data-reveal style={`--i:${i * 3 + 4}`}>
                 {line}
               </p>
             ))
@@ -57,6 +69,16 @@ const { start } = home;
     min-height: clamp(38rem, 150cqw, 46rem);
     padding: calc(var(--arch) * 0.72) clamp(1.4rem, 7cqw, 7rem) clamp(2.5rem, 7cqw, 5.5rem);
   }
+  /* A light-blue hairline echoes the arch just inside its edge, like the border of a label. */
+  .start__arch::after {
+    content: '';
+    position: absolute;
+    inset: clamp(0.55rem, 1.5cqw, 1.1rem);
+    z-index: -1;
+    border: 1.5px solid color-mix(in srgb, var(--blue-light) 62%, transparent);
+    border-radius: inherit;
+    pointer-events: none;
+  }
 
   /* The fresco fills the arch; the arch outline comes from the panel, so the photo's own radius is dropped. */
   .start__picture,
@@ -76,7 +98,7 @@ const { start } = home;
   }
 
   /* Blue ink wash, printed from two plates so the fresco becomes a two-tone picture:
-     nothing is lighter than the highlight plate, nothing darker than deep blue.
+     nothing is lighter than the highlight plate, nothing darker than the darker blue.
      The highlight is the limit that keeps crème text above 4.5:1 anywhere on the fresco. */
   .start__plate--light {
     background-color: color-mix(in srgb, var(--blue-light) 30%, var(--blue));
@@ -88,33 +110,31 @@ const { start } = home;
     background-size: 400px 400px;
     mix-blend-mode: lighten;
   }
-  /* A plain pool of ink under the words, so the handwriting does not fight the figures. */
+  /* A plain pool of Greek blue under the words: the voice face is thin and must not fight the figures. */
   .start__pool {
     background: radial-gradient(
-      ellipse 120% 52% at 40% 76%,
-      color-mix(in srgb, var(--blue) 90%, transparent) 0%,
-      color-mix(in srgb, var(--blue) 74%, transparent) 50%,
+      ellipse 130% 60% at 40% 78%,
+      color-mix(in srgb, var(--blue) 96%, transparent) 0%,
+      color-mix(in srgb, var(--blue) 86%, transparent) 55%,
       transparent 100%
     );
   }
 
   .start__text {
     position: relative;
-    max-width: min(100%, 46rem);
+    max-width: min(100%, 48rem);
   }
   .start__lines {
     margin-top: var(--space-m);
-    rotate: -2deg;
-    transform-origin: left center;
   }
   .start__lines .hand {
-    max-width: 27ch;
-    font-size: clamp(1.5rem, 1.1rem + 3.4cqw, 2.8rem);
-    line-height: 1.16;
+    max-width: 30ch;
+    font-size: clamp(1.7rem, 1.2rem + 3.4cqw, 3rem);
+    font-weight: 380;
+    line-height: 1.18;
   }
   .start__lines .hand + .hand {
-    margin-top: 0.45em;
-    margin-left: clamp(0.75rem, 6cqw, 4.5rem);
+    margin-top: 0.4em;
   }
 
   @media (min-width: 60rem) {
@@ -123,9 +143,9 @@ const { start } = home;
     }
     .start__pool {
       background: radial-gradient(
-        ellipse 62% 56% at 26% 74%,
-        color-mix(in srgb, var(--blue) 90%, transparent) 0%,
-        color-mix(in srgb, var(--blue) 74%, transparent) 50%,
+        ellipse 68% 62% at 27% 76%,
+        color-mix(in srgb, var(--blue) 96%, transparent) 0%,
+        color-mix(in srgb, var(--blue) 86%, transparent) 55%,
         transparent 100%
       );
     }

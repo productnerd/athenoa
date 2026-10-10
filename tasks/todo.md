@@ -73,6 +73,14 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] /font-test page with every type option in English and Greek; kit page deleted
 - [x] Mobile menu: hover effect on the links, phone number removed
 
+## Added by Maria on 2026-10-10 (fourth round)
+
+- [x] Wave lines flow sideways slowly and breathe (waves.svg regenerated to loop seamlessly; CSS in motion.css)
+- [x] Type decided: PP Editorial New titles, Tekst reading text; type switch removed (alternatives stay on /font-test)
+- [ ] Handwritten voice face not settled: six candidates on /font-test, waiting for Maria's pick
+- [x] Unknown addresses show the site's own 404 in the preview (trailingSlash 'ignore')
+- [ ] Before launch: web licences for PP Editorial New and Tekst (currently loaded from Maria's machine; Greek falls back to EB Garamond)
+
 ## Open questions
 
 See the chat message of 2026-10-10.

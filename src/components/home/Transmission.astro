@@ -1,12 +1,24 @@
 ---
-// Home: "Living Transmission". A deep-blue night cut-out with a sea of waves along its foot;
-// the photograph sits on a paper pebble that overlaps the cut-out's edge.
+// Home: "Living Transmission". A darker-blue night cut-out with a sea of waves along its foot, drawn in
+// three tones; the photograph sits on a light-blue pebble that overlaps the cut-out's edge, and a torch
+// (the flame handed on) stands beside the call to enrol.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import night from '../../assets/media/night-acropolis.png';
-import { home } from '../../data/home';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
-const { transmission } = home;
+const locale = getLocale(Astro.url);
+const { transmission } = content(locale).home;
+const t = {
+  en: {
+    photoAlt: 'A woman in a white blouse and a blue shawl sits in the dark, the floodlit Acropolis glowing behind her',
+  },
+  el: {
+    photoAlt:
+      'Μια γυναίκα με λευκή μπλούζα και μπλε εσάρπα κάθεται στο σκοτάδι, με τη φωταγωγημένη Ακρόπολη να λάμπει πίσω της',
+  },
+}[locale];
 ---
 
 <section class="trans section" aria-labelledby="transmission-title">
@@ -16,13 +28,13 @@ const { transmission } = home;
       <span class="trans__mat" aria-hidden="true" data-depth="0.1"></span>
       <Media
         src={night}
-        alt="A woman in a white blouse and a blue shawl sits in the dark, the floodlit Acropolis glowing behind her"
+        alt={t.photoAlt}
         shape="pebble-2"
         ratio="6 / 5"
         focus="58% 50%"
         widths={[360, 520, 690]}
         sizes="(min-width: 60rem) 32rem, 80vw"
-        data-depth="-0.08"
+        data-depth="-0.06"
       />
     </div>
 
@@ -35,8 +47,9 @@ const { transmission } = home;
       <div class="trans__text">
         <h2 class="t-2" id="transmission-title" data-split>{transmission.title}</h2>
         <p class="trans__lead" data-reveal>{transmission.text}</p>
-        <p data-reveal style="--i:1">
+        <p class="trans__cta" data-reveal style="--i:1">
           <a class="btn" href={transmission.cta.href}>{transmission.cta.label}</a>
+          <Illustration name="torch" class="trans__torch" draw />
         </p>
       </div>
     </div>
@@ -62,12 +75,11 @@ const { transmission } = home;
   }
   .trans__mat {
     position: absolute;
-    inset: -6% -7% -5% -6%;
+    inset: -6% -5% -7% -8%;
     border-radius: var(--r-pebble-3);
-    background-color: var(--creme-light);
+    background-color: var(--blue-light);
     background-image: var(--grain);
     background-size: 400px 400px;
-    rotate: -8deg;
   }
   .trans__panel {
     padding-top: 7.5rem;
@@ -84,8 +96,23 @@ const { transmission } = home;
     font-size: var(--step-1);
     line-height: 1.36;
   }
+  /* The torch stands at the end of the button's row, in the lighter blue. */
+  .trans__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-s) var(--space-m);
+  }
+  .trans__torch {
+    flex: none;
+    width: clamp(2.75rem, 2rem + 2.6cqw, 4.5rem);
+    margin-left: auto;
+    color: var(--blue-light);
+  }
 
-  /* Three bands of the same drawing, staggered and at different depths, make the sea. */
+  /* Three bands of the same drawing, staggered and at different depths, make the sea:
+     crème nearest, then light blue, then a mid blue far off. */
   .trans__waves {
     position: absolute;
     left: -8%;
@@ -97,13 +124,13 @@ const { transmission } = home;
     left: auto;
     right: -14%;
     bottom: 3.6rem;
-    opacity: 0.6;
+    color: var(--blue-light);
   }
   .trans__waves--3 {
     left: -18%;
     bottom: 5.6rem;
     width: max(132%, 52rem);
-    opacity: 0.32;
+    color: color-mix(in srgb, var(--blue-light) 42%, var(--blue));
   }
 
   @media (min-width: 60rem) {

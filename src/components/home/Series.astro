@@ -1,12 +1,13 @@
 ---
-// Home: "Explore our new course series". The course banner hangs like a large print with rays behind it;
-// the title runs above it and the text sits low on the left.
+// Home: "Explore our new course series", on paper. The course banner hangs like a large print on a
+// light-blue cut-out with rays behind it; the title runs above it and the text sits low on the left.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import banner from '../../assets/media/course-non-duality.jpg';
-import { home } from '../../data/home';
-import { courses } from '../../data/courses';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
+const { home, courses } = content(getLocale(Astro.url));
 const { series } = home;
 const course = courses.find((item) => item.slug === series.courseSlug)!;
 ---
@@ -16,6 +17,7 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
     <h2 class="series__title t-2" id="series-title" data-split>{series.title}</h2>
 
     <div class="series__art">
+      <span class="series__mat" aria-hidden="true" data-depth="0.1"></span>
       <Illustration name="sun-rays" class="series__rays" draw data-depth="0.22" />
       <Media
         class="series__banner"
@@ -24,7 +26,6 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
         shape="soft-2"
         ratio="16 / 9"
         innerDepth={0.06}
-        framed
         widths={[480, 800, 1200, 1600, 1920]}
         sizes="(min-width: 60rem) 62vw, 94vw"
       />
@@ -37,9 +38,9 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
       </p>
       <a class="series__more hand hand--m" href="#course-details" data-reveal style="--i:2">
         <span>{series.more}</span>
-        <svg viewBox="0 0 40 52" width="40" height="52" aria-hidden="true" focusable="false">
-          <path d="M5 6c14-3 28 5 26 20-1 8-6 14-13 19"></path>
-          <path d="M15 33l3 12 12-3"></path>
+        <svg viewBox="0 0 16 44" width="16" height="44" aria-hidden="true" focusable="false">
+          <path d="M8 2v38"></path>
+          <path d="M2 33l6 8 6-8"></path>
         </svg>
       </a>
     </div>
@@ -55,14 +56,24 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
     gap: var(--space-l) var(--space-m);
   }
   .series__title {
-    max-width: 14ch;
+    max-width: 16ch;
   }
   .series__art {
     position: relative;
+    isolation: isolate;
+  }
+  /* A light-blue cut-out behind the print: it shows above and to the right of the banner. */
+  .series__mat {
+    position: absolute;
+    inset: -9% -7% 16% 30%;
+    z-index: -2;
+    border-radius: var(--r-pebble-3);
+    background-color: var(--blue-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
   }
   .series__banner {
     position: relative;
-    rotate: -1deg;
   }
   /* The banner carries its own lettering close to the edges, so the parallax overscan is kept small. */
   .series__banner :global(.media__clip picture) {
@@ -72,8 +83,8 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
     position: absolute;
     right: -24%;
     top: -34%;
+    z-index: -1;
     width: min(74%, 34rem);
-    opacity: 0.5;
     pointer-events: none;
   }
   .series__body {
@@ -91,16 +102,15 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
   .series__more {
     display: inline-flex;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 0.7rem;
     padding-block: 0.4rem;
-    rotate: -2deg;
     text-decoration: none;
   }
   .series__more span {
     text-decoration: underline;
     text-decoration-color: var(--line);
-    text-decoration-thickness: 0.07em;
-    text-underline-offset: 0.22em;
+    text-decoration-thickness: 0.05em;
+    text-underline-offset: 0.24em;
     transition: text-decoration-color var(--dur-1);
   }
   .series__more:hover span {
@@ -108,12 +118,12 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
   }
   .series__more svg {
     flex: none;
-    width: 1.7rem;
+    width: 0.7rem;
     height: auto;
-    margin-top: 0.5em;
+    margin-top: 0.3em;
     fill: none;
     stroke: currentColor;
-    stroke-width: 2.4;
+    stroke-width: 1.4;
     stroke-linecap: round;
     stroke-linejoin: round;
     transition: translate var(--dur-2) var(--ease-out);

@@ -92,6 +92,30 @@ const scallops = (pts, k = 0.8, sweep = 1) =>
       return `A${f(r)} ${f(r)} 0 0 ${sweep} ${xy(p)}`;
     })
     .join('');
+// a polygon with worn corners: each corner is cut back by r (or the point's own third value) and rounded
+function worn(pts, r = 6, { closed = true, cont = false } = {}) {
+  const n = pts.length;
+  let d = '';
+  for (let i = 0; i < n; i++) {
+    const p = pts[i];
+    const cmd = i === 0 && !cont ? 'M' : 'L';
+    if (!closed && (i === 0 || i === n - 1)) {
+      d += `${cmd}${xy(p)}`;
+      continue;
+    }
+    const a = pts[(i - 1 + n) % n];
+    const b = pts[(i + 1) % n];
+    const da = Math.hypot(a[0] - p[0], a[1] - p[1]);
+    const db = Math.hypot(b[0] - p[0], b[1] - p[1]);
+    const rr = p[2] ?? r;
+    const ra = Math.min(rr, da * 0.46);
+    const rb = Math.min(rr, db * 0.46);
+    const p1 = [p[0] + ((a[0] - p[0]) * ra) / da, p[1] + ((a[1] - p[1]) * ra) / da];
+    const p2 = [p[0] + ((b[0] - p[0]) * rb) / db, p[1] + ((b[1] - p[1]) * rb) / db];
+    d += `${cmd}${xy(p1)}Q${xy(p)} ${xy(p2)}`;
+  }
+  return d + (closed ? 'Z' : '');
+}
 // a broken line that follows fn from x0 to x1: strokes of random length with gaps, kept out of masked places
 function broken(fn, x0, x1, rnd, { len = [80, 220], gap = [18, 60], step = 30, ok = () => true, min = 14, lead = 0 } = {}) {
   let d = '';

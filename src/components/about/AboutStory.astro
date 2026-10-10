@@ -1,14 +1,37 @@
 ---
 // "What Athena Says…": the first-person story in its four blocks, each with its photograph.
 // The composition changes from block to block so the long text never settles into a template:
-//   1 roots    a small pebble portrait hangs off the column and the text runs around it
+//   1 roots    a small pebble portrait hangs off the column and the text runs around it; the spring of
+//              Mnemosyne stands in the margin beside the paragraph that names her
 //   2 studies  the longest block; its photograph keeps the reader company (sticky on desktop)
-//   3 return   a blue cut-out; the arch portrait leans out of its top edge, Athena rises behind it
-//   4 academy  a light blue sheet laid over the corner of the last photograph, then the maxim and the call
+//   3 return   a darker blue cut-out; the arch portrait stands out of its top edge, Athena rises behind it
+//   4 academy  a light blue sheet laid over the corner of the last photograph, the Delphic tripod above
+//              it, then the maxim and the call
 import type { ImageMetadata } from 'astro';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
-import { about } from '../../data/about';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const { about } = content(locale);
+const t = {
+  en: {
+    library: 'A woman with dark hair and a white blouse smiles between library bookshelves, holding a book',
+    graduation:
+      'Graduates in red and blue academic gowns take their seats in a ceremony hall; one of them looks back over her shoulder',
+    sea: 'A woman in white sits with her eyes closed and her hands folded, high above the blue sea',
+    pines: 'A small group sits in a circle under pine trees, with the Acropolis on its rock behind them',
+  },
+  el: {
+    library:
+      'Μια γυναίκα με σκούρα μαλλιά και λευκή μπλούζα χαμογελά ανάμεσα στα ράφια μιας βιβλιοθήκης, κρατώντας ένα βιβλίο',
+    graduation:
+      'Απόφοιτοι με κόκκινες και μπλε ακαδημαϊκές τηβέννους παίρνουν τις θέσεις τους σε μια αίθουσα τελετών· μία απόφοιτη κοιτάζει πίσω, πάνω από τον ώμο της',
+    sea: 'Μια γυναίκα ντυμένη στα λευκά κάθεται με κλειστά μάτια και ενωμένα χέρια, ψηλά πάνω από τη γαλάζια θάλασσα',
+    pines: 'Μια μικρή ομάδα κάθεται σε κύκλο κάτω από πεύκα, με την Ακρόπολη πάνω στον βράχο της πίσω τους',
+  },
+}[locale];
 
 const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/media/*.jpg', { eager: true });
 const photo = (name: string) => files[`../../assets/media/${name}.jpg`].default;
@@ -24,7 +47,7 @@ const [roots, studies, back, academy] = about.story;
           <div data-depth="0.06">
             <Media
               src={photo(roots.image)}
-              alt="A woman with dark hair and a white blouse smiles between library bookshelves, holding a book"
+              alt={t.library}
               shape="pebble-1"
               ratio="1 / 1"
               widths={[260, 389]}
@@ -33,7 +56,14 @@ const [roots, studies, back, academy] = about.story;
             />
           </div>
         </div>
-        {roots.paragraphs.map((text) => <p set:html={text} />)}
+        {
+          roots.paragraphs.map((text, i) => (
+            <>
+              {i === 1 && <Illustration name="spring-cypress" class="roots__spring" draw />}
+              <p set:html={text} />
+            </>
+          ))
+        }
       </div>
     </div>
 
@@ -43,13 +73,13 @@ const [roots, studies, back, academy] = about.story;
           <div class="studies__pebble" data-reveal="grow"></div>
           <Media
             src={photo(studies.image)}
-            alt="Graduates in red and blue academic gowns take their seats in a ceremony hall; one of them looks back over her shoulder"
+            alt={t.graduation}
             shape="leaf"
             ratio="4 / 3"
             focus="55% 50%"
             sizes="(min-width: 62rem) 46vw, 88vw"
           />
-          <Illustration name="laurel" class="studies__laurel drift" draw />
+          <Illustration name="laurel" class="studies__laurel" draw />
         </div>
       </div>
       <div class="story__text studies__text" data-reveal>
@@ -59,14 +89,14 @@ const [roots, studies, back, academy] = about.story;
 
     <div class="story__block back">
       <Illustration name="athena" class="back__athena" draw data-depth="0.2" />
-      <div class="panel panel--big on-blue back__panel">
+      <div class="panel panel--big on-blue-deep back__panel">
         <div class="panel__clip">
           <Illustration name="waves" class="back__waves" data-depth="0.12" />
         </div>
         <div class="back__photo" data-depth="-0.07">
           <Media
             src={photo(back.image)}
-            alt="A woman in white sits with her eyes closed and her hands folded, high above the blue sea"
+            alt={t.sea}
             shape="arch"
             ratio="3 / 4"
             focus="60% 40%"
@@ -86,10 +116,11 @@ const [roots, studies, back, academy] = about.story;
           {academy.paragraphs.map((text) => <p set:html={text} />)}
         </div>
       </div>
+      <Illustration name="tripod" class="academy__tripod" draw />
       <div class="academy__photo" data-depth="0.1">
         <Media
           src={photo(academy.image)}
-          alt="A small group sits in a circle under pine trees, with the Acropolis on its rock behind them"
+          alt={t.pines}
           shape="soft-2"
           ratio="3 / 2"
           sizes="(min-width: 62rem) 64vw, 90vw"
@@ -116,9 +147,8 @@ const [roots, studies, back, academy] = about.story;
   .story__title {
     margin-bottom: var(--space-l);
     font-size: clamp(2.4rem, 1.5rem + 3.8vw, 4.75rem);
+    font-weight: 320;
     line-height: 1.05;
-    rotate: -2.5deg;
-    transform-origin: left center;
   }
 
   /* The reading column: about 64 characters to the line, open leading */
@@ -126,7 +156,7 @@ const [roots, studies, back, academy] = about.story;
     max-width: 25.5em;
     line-height: 1.62;
   }
-  .story__text > p + p {
+  .story__text > p ~ p {
     margin-top: 1em;
   }
   .story__text :global([lang='grc']) {
@@ -139,12 +169,23 @@ const [roots, studies, back, academy] = about.story;
     width: 11.5rem;
     margin: 0 0 var(--space-m) 0.75rem;
   }
+  .roots__text {
+    position: relative;
+  }
   .roots__text > p:first-of-type {
     font-size: calc(var(--step-0) * 1.16);
     line-height: 1.5;
     /* The opening quotation mark hangs in the margin */
     text-indent: -0.42em;
     hanging-punctuation: none;
+  }
+  /* The spring by the white cypress, where the Orphic soul drinks from Mnemosyne.
+     On a phone it stands beside the portrait. */
+  .roots__spring {
+    position: absolute;
+    top: 1.75rem;
+    right: 1rem;
+    width: 5.75rem;
   }
 
   /* ---------- 2. Studies ---------- */
@@ -215,17 +256,22 @@ const [roots, studies, back, academy] = about.story;
     --r-soft-2: 5rem 8rem 6rem 9rem / 7rem 5rem 8rem 6rem;
     margin: -2.75rem calc(var(--gutter) * -0.4) 0 9%;
   }
-  /* The Apollonian command, written out by hand */
+  /* The Apollonian command, set in capitals like the inscription at Delphi. The voice face is a light
+     italic; a maxim cut in stone wants the upright title face. */
   .academy__text :global([lang='grc']) {
     display: block;
-    width: fit-content;
-    margin: 0.35em 0 0.2em;
-    font-family: var(--font-hand);
-    font-size: clamp(1.95rem, 1.4rem + 2.9vw, 3.9rem);
-    line-height: 1.1;
+    margin: 0.5em 0 0.28em;
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: clamp(1.9rem, 1.4rem + 2.5vw, 3.5rem);
+    line-height: 1.08;
+    letter-spacing: 0.04em;
+    white-space: normal;
     color: var(--ink-strong);
-    rotate: -2deg;
-    transform-origin: left center;
+  }
+  /* The tripod of Delphi stands in the open corner above the photograph, on wide screens only */
+  .academy__tripod {
+    display: none;
   }
   .academy__cta {
     position: relative;
@@ -238,7 +284,6 @@ const [roots, studies, back, academy] = about.story;
   .academy__olive {
     order: 2;
     width: 8.5rem;
-    rotate: -6deg;
   }
 
   /* Tablet and up: the first block takes its editorial shape */
@@ -261,6 +306,14 @@ const [roots, studies, back, academy] = about.story;
       margin: 0.4rem 1.9rem 1.2rem -9.75rem;
       shape-outside: circle(50%) border-box;
       shape-margin: 1.5rem;
+    }
+    /* In the margin under the portrait, level with the paragraph on Mnemosyne */
+    .roots__spring {
+      top: auto;
+      right: auto;
+      left: -8.75rem;
+      width: 7rem;
+      margin-top: 1.3em;
     }
 
     .academy__photo {
@@ -326,6 +379,17 @@ const [roots, studies, back, academy] = about.story;
       grid-column: 5 / -1;
       grid-row: 2;
       margin: -23rem calc(var(--gutter) * -0.5) 0 0;
+    }
+    /* Row 1 is as tall as the sheet and the photograph climbs 23rem into it: the tripod stands just
+       above the photograph's top edge. */
+    .academy__tripod {
+      display: block;
+      grid-column: 9 / span 3;
+      grid-row: 1;
+      align-self: end;
+      justify-self: center;
+      width: clamp(8rem, 11vw, 10.5rem);
+      margin-bottom: 25rem;
     }
     .academy__cta {
       grid-column: 1 / span 4;

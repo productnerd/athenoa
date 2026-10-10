@@ -28,21 +28,21 @@
   /* Subtitles under large titles: a lighter step of the same blue */
   --sub-ink: color-mix(in srgb, var(--blue) 56%, var(--blue-light));
 
-  /* Type families. Three sets are under test, switched with html[data-fonts]:
-       (default) EB Garamond throughout   |   'b' Tekst throughout   |   'c' PP Editorial New throughout
-     Only EB Garamond and the voice face (Noto Serif Display italic) are shipped; the others load from the
-     visitor's own machine. Anything a face lacks (Greek, some punctuation) falls back to EB Garamond. */
-  --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  /* Type families. Chosen set: PP Editorial New for titles, Tekst for reading, a calligraphic
+     voice face for the personal lines. Editorial New and Tekst load from the visitor's own machine
+     for now (the installed cuts are trial or separately licensed and may not be shipped); anyone
+     without them, and any glyph they lack (Greek in Editorial New, accented Greek and some
+     punctuation in the Tekst trial), falls back to EB Garamond, which is shipped. */
+  --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-body: 'ATH Tekst', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   /* The personal voice: greetings, asides, maxims. Calligraphic, not casual. */
   --font-hand: 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
   --title-weight: 400;
-  --title-weight-xl: 400;
-  --title-tracking: -0.022em;
-  --title-leading: 0.96;
-  --title-scale: 0.86;
-  --body-scale: 1;
-
+  --title-weight-xl: 200;
+  --title-tracking: -0.012em;
+  --title-leading: 0.95;
+  --title-scale: 1;
+  --body-scale: 0.93;
 
   /* Space */
   --space-2xs: 0.375rem;
@@ -87,7 +87,27 @@
   --header-h: clamp(4rem, 3.4rem + 2vw, 5.25rem);
 }
 
-/* Set B: Tekst throughout (Tekst D for titles, Tekst A for reading). Local trial cuts. */
+/* Alternates, used only by the /font-test page (a data-fonts attribute on a wrapper). */
+[data-fonts='main'] {
+  --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  --font-body: 'ATH Tekst', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  --title-weight: 400;
+  --title-weight-xl: 200;
+  --title-tracking: -0.012em;
+  --title-leading: 0.95;
+  --title-scale: 1;
+  --body-scale: 0.93;
+}
+[data-fonts='a'] {
+  --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --title-weight: 400;
+  --title-weight-xl: 400;
+  --title-tracking: -0.022em;
+  --title-leading: 0.96;
+  --title-scale: 0.86;
+  --body-scale: 1;
+}
 [data-fonts='b'] {
   --font-title: 'ATH Tekst D', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
   --font-body: 'ATH Tekst', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
@@ -98,8 +118,6 @@
   --title-scale: 0.78;
   --body-scale: 0.93;
 }
-
-/* Set C: PP Editorial New throughout. Local fonts. Latin only: Greek falls back to EB Garamond. */
 [data-fonts='c'] {
   --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
   --font-body: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
@@ -109,18 +127,6 @@
   --title-leading: 0.95;
   --title-scale: 1;
   --body-scale: 1.02;
-}
-
-/* Set A again, for an element that must show EB Garamond while the page is previewing another set */
-[data-fonts='a'] {
-  --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  --title-weight: 400;
-  --title-weight-xl: 400;
-  --title-tracking: -0.022em;
-  --title-leading: 0.96;
-  --title-scale: 0.86;
-  --body-scale: 1;
 }
 
 /* Type scale (fluid). Declared wherever a type set is chosen, so the sizes follow that set. */

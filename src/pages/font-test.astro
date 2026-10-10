@@ -6,18 +6,23 @@ import '@fontsource/alegreya/400-italic.css';
 
 const sets = [
   {
+    id: 'main',
+    name: 'In use: PP Editorial New titles, Tekst reading text',
+    note: 'Both load from this computer for now (trial or separately licensed cuts). Editorial New has no Greek and the Tekst trial has no accented Greek vowels, so Greek falls back to EB Garamond. A web licence for each is needed before launch.',
+  },
+  {
     id: 'a',
-    name: 'EB Garamond',
+    name: 'EB Garamond throughout',
     note: 'Open licence and shipped with the site, so every visitor sees it. Complete Greek, including ancient polytonic.',
   },
   {
     id: 'b',
-    name: 'Tekst',
+    name: 'Tekst throughout',
     note: 'Loaded from this computer (trial cut). Greek capitals and plain lowercase only: accented Greek vowels, and & € ( ) % and curly quotes, fall back to EB Garamond.',
   },
   {
     id: 'c',
-    name: 'PP Editorial New',
+    name: 'PP Editorial New throughout',
     note: 'Loaded from this computer. Latin only: everything in Greek falls back to EB Garamond.',
   },
 ];
@@ -25,8 +30,23 @@ const sets = [
 const voices = [
   {
     name: 'Noto Serif Display Italic (in use)',
-    note: 'Open licence. Complete Greek, including polytonic.',
+    note: 'Open licence, shipped. Complete Greek, including polytonic.',
     style: "font-family:'Noto Serif Display Variable',serif;font-style:italic;font-weight:320",
+  },
+  {
+    name: 'Trattatello',
+    note: 'A penned Renaissance hand. Built into macOS only, so other visitors would see the shipped fallback; a licensed web font would be needed. Modern Greek, no polytonic.',
+    style: "font-family:'Trattatello',serif",
+  },
+  {
+    name: 'Snell Roundhand',
+    note: 'Formal copperplate script. Built into macOS only. Complete Greek, including polytonic.',
+    style: "font-family:'Snell Roundhand',cursive;font-size:1.12em",
+  },
+  {
+    name: 'Savoye LET',
+    note: 'A light French-style script. Built into macOS only. Modern Greek, no polytonic.',
+    style: "font-family:'Savoye LET',cursive;font-size:1.35em",
   },
   {
     name: 'Alegreya Italic',
@@ -72,7 +92,7 @@ const sample = {
   <section class="section wrap intro">
     <h1 class="t-1">Type test</h1>
     <p class="lead">
-      Three options for titles and reading, and three for the calligraphic voice, each in English and Greek.
+      The type in use and its alternatives for titles and reading, then six options for the handwritten voice, each in English and Greek.
     </p>
   </section>
 
@@ -127,8 +147,8 @@ const sample = {
     <header class="set__head">
       <h2 class="t-2">The voice</h2>
       <p class="set__note">
-        Used where Athena speaks in her own voice: greetings, asides and maxims. No true script font with an open
-        licence covers Greek, so these are the most pen-like italics that do.
+        Used where Athena speaks in her own voice: greetings, asides and maxims. No script font with an open licence
+        covers Greek, so the true scripts here are ones built into macOS; the italics are the open alternatives.
       </p>
     </header>
     <div class="voices">

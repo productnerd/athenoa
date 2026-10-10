@@ -106,7 +106,7 @@ function edges(c, w, t0 = 0, t1 = 1, steps = 12) {
 function trunk(c, w, o = {}) {
   const [L, R] = edges(c, w, 0, 1, o.steps ?? 12);
   const tip = c(1);
-  S.paper(`${smooth([...L, [tip[0], tip[1] - 2], ...R.reverse()])}${o.open ? '' : 'Z'}`);
+  S.paper(`${smooth([...L, [tip[0], tip[1] - 2], ...R.reverse()])}${o.closed ? 'Z' : ''}`);
 }
 /** Plated bark: joints running in from either side in turn, so the plates sit staggered like armour. */
 function bark(c, w, H, t0, t1, step = 13) {
@@ -134,11 +134,26 @@ const qbez = (a, c, b) => (t) => [
   (1 - t) * (1 - t) * a[1] + 2 * (1 - t) * t * c[1] + t * t * b[1],
 ];
 
+/** A centreline through the given points (Catmull-Rom). */
+const through = (pts) => (t) => {
+  const m = pts.length - 1;
+  const f = Math.min(m - 1e-6, Math.max(0, t * m));
+  const i = Math.floor(f);
+  const u = f - i;
+  const p0 = pts[Math.max(0, i - 1)];
+  const p1 = pts[i];
+  const p2 = pts[i + 1];
+  const p3 = pts[Math.min(m, i + 2)];
+  const cr = (a, b, c, d) => 0.5 * (2 * b + (-a + c) * u + (2 * a - 5 * b + 4 * c - d) * u * u + (-a + 3 * b - 3 * c + d) * u * u * u);
+  return [cr(p0[0], p1[0], p2[0], p3[0]), cr(p0[1], p1[1], p2[1], p3[1])];
+};
+
 /**
  * A pine.
  * tiers: [t, side, reach, w, h, {rise, tilt, bare, inner}] from the lowest up; side -1 left, 1 right.
  *        inner: [w, h] a second, smaller pad nearer the trunk and a little higher.
- * limbs: [t, side, out, up, thick, [w, h, opts] | null] heavy limbs that leave the trunk and turn upward.
+ * limbs: [t, [[dx, dy], ...], thick, [w, h, opts] | null] heavy limbs, drawn through points given from where
+ *        they leave the trunk. With no pad the limb is a dead snag.
  * top:   [w, h, {dx, tilt, skew}] the crowning pad, or null for a dead tip.
  * stubs: [t, side, len] snags on the bare trunk.
  */
@@ -149,21 +164,22 @@ function pine(spec) {
   const pads = [];
   let twigs = '';
   // limbs go on first, so the trunk overlaps where they leave it
-  for (const [t, side, out, up, thick, crown, o = {}] of limbs) {
+  for (const [t, rel, thick, crown] of limbs) {
     const p = c(t);
-    const from = [p[0] + side * w(t) * 0.1, p[1] + thick * 0.3];
-    const tip = [p[0] + side * out, p[1] - up];
-    const lc = qbez(from, [p[0] + side * out * (o.belly ?? 0.92), p[1] - up * (o.knee ?? 0.08)], tip);
-    trunk(lc, (u) => lerp(thick, 2.6, u ** 0.9), { steps: 8 });
-    if (o.bark !== false) bark(lc, (u) => lerp(thick, 2.6, u ** 0.9), Math.hypot(out, up), 0.25, 0.7, 12);
-    for (const [u, s2, reach, pw, ph, po = {}] of o.tiers ?? []) {
-      const q = lc(u);
-      const end = [q[0] + s2 * reach, q[1] - (po.rise ?? reach * 0.25)];
-      twigs += `M${P(q)}Q${P([q[0] + s2 * reach * 0.6, q[1]])} ${P(end)}`;
-      pads.push([end[0] - s2 * pw * 0.28, end[1] + ph * 0.14, pw, ph, { tilt: -s2 * (3 + r() * 4), ...po }]);
+    const pts = rel.map(([dx, dy]) => [p[0] + dx, p[1] + dy]);
+    const lc = through(pts);
+    const lw = (u) => lerp(thick, crown ? 3.6 : 2, u ** 0.8);
+    trunk(lc, lw, { steps: 8 });
+    const tip = pts[pts.length - 1];
+    if (crown) {
+      bark(lc, lw, Math.hypot(tip[0] - p[0], tip[1] - p[1]) * 1.2, 0.3, 0.75, 13);
+      pads.push([tip[0] + (crown[2]?.dx ?? 0), tip[1] + crown[1] * 0.4, crown[0], crown[1], { tilt: j(3), ...(crown[2] ?? {}) }]);
+    } else {
+      // a bleached snag: one short fork near its end
+      const q = lc(0.62);
+      const side = Math.sign(tip[0] - p[0]) || 1;
+      twigs += `M${P(q)}q${n(side * 3)} ${n(-7)} ${n(side * 1)} ${n(-13)}`;
     }
-    if (crown) pads.push([tip[0] + (crown[2]?.dx ?? 0), tip[1] + crown[1] * 0.4, crown[0], crown[1], { tilt: j(3), ...(crown[2] ?? {}) }]);
-    else twigs += `M${P(lc(0.7))}l${n(side * 9)} ${n(-7)}M${P(lc(0.86))}l${n(-side * 6)} ${n(-8)}`;
   }
   trunk(c, w);
   bark(c, w, H, barkFrom, barkTo, W > 18 ? 15 : 13);
@@ -206,35 +222,44 @@ function pine(spec) {
 /**
  * Black pine, tiers set out by rule and loosened by the seeded jitter.
  * age: 'old' (bare below, crown widest high up, a broad table on top), 'grown' (ovoid), 'young' (a narrow cone).
+ * The tiers stand closer than a pad is deep, so the crown reads as stacked plates and the trunk
+ * only shows in the gaps.
  */
 function blackPine(x, H, age, o = {}) {
   const kind = {
-    old: { from: 0.52, count: 6, span: H * 0.25, f: (u) => 0.62 + 0.38 * Math.sin(Math.PI * (0.12 + 0.76 * u)), top: [H * 0.37, 31], W: H * 0.062 },
-    grown: { from: 0.4, count: 6, span: H * 0.27, f: (u) => 1 - 0.5 * u, top: [H * 0.24, 27], W: H * 0.058 },
-    young: { from: 0.2, count: 6, span: H * 0.29, f: (u) => 1 - 0.6 * u, top: [H * 0.2, 21], W: H * 0.062 },
+    old: { from: 0.55, to: 0.88, count: 6, wide: H * 0.34, f: (u) => 0.66 + 0.34 * Math.sin(Math.PI * (0.1 + 0.7 * u)), deep: 25, top: [H * 0.42, 33], W: H * 0.072 },
+    grown: { from: 0.36, to: 0.9, count: 7, wide: H * 0.37, f: (u) => (u === 0 ? 0.84 : 1 - 0.46 * u ** 1.3), deep: 23, top: [H * 0.24, 27], W: H * 0.068 },
+    young: { from: 0.22, to: 0.9, count: 6, wide: H * 0.47, f: (u) => (u === 0 ? 0.88 : 1 - 0.5 * u), deep: 18, top: [H * 0.25, 21], W: H * 0.078 },
   }[age];
   const count = o.count ?? kind.count;
   const from = o.from ?? kind.from;
-  const span = o.span ?? kind.span;
+  const wide = o.wide ?? kind.wide;
   let side = o.first ?? (r() < 0.5 ? -1 : 1);
   const tiers = [];
   for (let i = 0; i < count; i++) {
     const u = count > 1 ? i / (count - 1) : 0;
-    const t = from + (0.9 - from) * (i / count) ** 0.94 + j(0.008);
-    const reach = span * kind.f(u) * (0.92 + r() * 0.16);
-    const pw = reach * 1.08 + 12;
-    const ph = Math.max(14, Math.min(25, pw * 0.3));
+    const t = from + (kind.to - from) * u + j(0.006);
+    const pw = wide * kind.f(u) * (0.93 + r() * 0.14);
+    const ph = Math.max(15, Math.min(kind.deep, pw * 0.3)) + j(1);
+    const reach = pw * (age === 'young' ? 0.58 : 0.64 + r() * 0.1);
     const opts = {};
-    if (age === 'old' && i === 0) Object.assign(opts, { rise: -reach * 0.1, bare: 9 });
-    if (age !== 'young' && reach > 50) opts.inner = [pw * 0.56, ph * 0.86];
+    if (age === 'old' && i === 0) Object.assign(opts, { rise: -reach * 0.08 });
     tiers.push([t, side, reach, pw, ph, opts]);
     side = -side;
   }
-  const stubs = age === 'young' ? [] : [[from * 0.62 + j(0.03), side, 9 + r() * 4], [from * 0.84 + j(0.03), -side, 8 + r() * 5]];
+  // one low branch left over from when the tree was younger, and a couple of snags
+  const low = [];
+  const stubs = [];
+  if (age === 'old') {
+    low.push([from - 0.1 + j(0.015), side, 30 + r() * 8, 46, 17, { rise: -2, bare: 8 }]);
+    stubs.push([from - 0.2 + j(0.03), -side, 10 + r() * 4], [from - 0.3 + j(0.03), side, 8 + r() * 4]);
+  } else if (age === 'grown') {
+    stubs.push([from - 0.1 + j(0.02), side, 10 + r() * 4], [from - 0.18 + j(0.02), -side, 8 + r() * 4]);
+  }
   return pine({
     x, y: G(x), H, W: o.W ?? kind.W, lean: o.lean ?? j(5), sway: o.sway ?? j(3), bend: o.bend ?? 0,
-    barkTo: age === 'young' ? 0.18 : from - 0.03,
-    tiers, stubs,
+    barkTo: age === 'young' ? 0.16 : from - 0.04,
+    tiers: [...low, ...tiers], stubs,
     top: [o.top?.[0] ?? kind.top[0], o.top?.[1] ?? kind.top[1], { dx: j(3), ...(o.top?.[2] ?? {}) }],
     ...o.spec,
   });
@@ -245,14 +270,16 @@ function blackPine(x, H, age, o = {}) {
 function boulder(x, y, wide, tall, o = {}) {
   const lean = o.lean ?? 0;
   const a = [x - wide * 0.5, y + 8];
-  const b = [x - wide * (0.42 + r() * 0.06) + lean, y - tall * (0.5 + r() * 0.15)];
-  const c = [x - wide * (0.14 + r() * 0.1) + lean, y - tall * (0.92 + r() * 0.08)];
-  const e = [x + wide * (0.16 + r() * 0.1) + lean, y - tall * (0.82 + r() * 0.12)];
+  const b = [x - wide * (0.4 + r() * 0.06) + lean, y - tall * (0.42 + r() * 0.2)];
+  const c = [x - wide * (o.flat ? 0.3 : 0.14 + r() * 0.1) + lean, y - tall * (0.92 + r() * 0.08)];
+  const e = [x + wide * (o.flat ? 0.24 : 0.16 + r() * 0.1) + lean, y - tall * (o.flat ? 0.92 : 0.82 + r() * 0.12)];
   const f = [x + wide * (0.4 + r() * 0.06), y - tall * (0.38 + r() * 0.16)];
   const g = [x + wide * 0.5, y + 8];
   const k = [x + wide * (0.14 + r() * 0.08), y + 8]; // foot of the edge between the two faces
   const m = [(e[0] + k[0]) / 2 + j(2) - 2, (e[1] + k[1]) / 2];
-  S.paper(`${rock([a, b, c, e, f, g], r, 1.4)}Z`);
+  // a step in the top edge, so the block is not a box
+  const step = [lerp(c[0], e[0], 0.42 + r() * 0.2), lerp(c[1], e[1], 0.5) + (o.flat ? 2.5 : 1.5) * (r() < 0.5 ? -1 : 1)];
+  S.paper(`${rock([a, b, c, step, e, f, g], r, 1.4)}Z`);
   S.wash(`M${[e, f, g, k, m].map(P).join('L')}Z`);
   let d = rock([e, m, k], r, 1) + rock([e, f, g], r, 1.4);
   // strata on the lit face, parallel to its top edge
@@ -264,19 +291,11 @@ function boulder(x, y, wide, tall, o = {}) {
     d += rock([[lerp(p0[0], p1[0], 0.12 + r() * 0.2), lerp(p0[1], p1[1], 0.15)], [lerp(p0[0], p1[0], 0.6), lerp(p0[1], p1[1], 0.6) + j(1.5)], p1], r, 0.8);
   }
   S.line(d);
-  return { top: [(c[0] + e[0]) / 2, (c[1] + e[1]) / 2], c, e };
+  return { a, b, c, e, f, g, k, m };
 }
-/** Roots clamped over a rock: tapering fingers from the foot of a trunk. */
-function roots(foot, wide, list) {
-  for (const [dx, dy, thick, curl = 0] of list) {
-    const side = Math.sign(dx) || 1;
-    const from = [foot[0] + side * wide * 0.2, foot[1] - 5];
-    const to = [foot[0] + dx, foot[1] + dy];
-    const mid = [lerp(from[0], to[0], 0.55) + side * curl, lerp(from[1], to[1], 0.3)];
-    const a = [from[0] + side * thick, from[1] - thick * 0.2];
-    const b = [from[0] - side * thick * 0.3, from[1] + thick * 0.9];
-    S.paper(`M${P(a)}Q${P([mid[0] + side * thick * 0.5, mid[1] - thick * 0.6])} ${P(to)}Q${P([mid[0] - side * thick * 0.3, mid[1] + thick * 0.5])} ${P(b)}Z`);
-  }
+/** Roots clamped over a rock: thick fingers from the foot of a trunk, each drawn through the given points. */
+function roots(W, list) {
+  for (const pts of list) trunk(through(pts), (u) => lerp(W * 0.46, 2.6, u ** 0.7), { steps: 8 });
 }
 
 /* ---------- low juniper and grass: ink, as the bushes of the Attic footer are ---------- */
@@ -286,7 +305,8 @@ function juniper(x, wide, tall) {
   const pts = [];
   for (let i = 0; i <= count; i++) {
     const u = i / count;
-    pts.push([x - wide / 2 + wide * u + (i && i < count ? j(2) : 0), y - tall * Math.sin(Math.PI * u) ** 0.55 * (0.82 + r() * 0.2) * (i && i < count ? 1 : 0)]);
+    const inner = i > 0 && i < count;
+    pts.push([x - wide / 2 + wide * u + (inner ? j(2) : 0), y - (inner ? tall * Math.sin(Math.PI * u) ** 0.55 * (0.82 + r() * 0.2) : 0)]);
   }
   let d = `M${P(pts[0])}`;
   for (let i = 0; i < count; i++) d += arc(pts[i], pts[i + 1], 0.6);
@@ -300,46 +320,84 @@ function grass(x) {
 /* ================= the stand, far trees first ================= */
 const G = (x) => ground(x) + 8;
 
-// --- a test pair while the hand is being found ---
-pine({
-  x: 330, y: G(330), H: 286, W: 17, lean: 6, sway: -3,
+/**
+ * Robolo standing on a block of limestone, its roots running along the top of the rock and down
+ * over its edges. Everything about the tree is given by hand.
+ */
+function robolo({ x, rockW, rockH, rockDx = 0, ...spec }) {
+  const gy = ground(x);
+  const b = boulder(x + rockDx, gy, rockW, rockH, { cracks: 0, flat: true });
+  // stand the tree on the top edge of the rock, at x
+  const u = Math.max(0.15, Math.min(0.85, (x - b.c[0]) / (b.e[0] - b.c[0])));
+  const foot = [x, lerp(b.c[1], b.e[1], u) + 4];
+  pine({ x, y: foot[1], ...spec });
+  const W = spec.W;
+  // three roots come over the edge and down the lit face, like fingers
+  roots(W * 0.8, [
+    [[foot[0] - W * 0.26, foot[1] - 7], [foot[0] - W * 0.66, foot[1] + 9], [foot[0] - W * 0.92, foot[1] + 21], [foot[0] - W * 1.3, foot[1] + 29]],
+    [[foot[0] + W * 0.26, foot[1] - 7], [foot[0] + W * 0.6, foot[1] + 7], [foot[0] + W * 0.95, foot[1] + 16]],
+    [[foot[0] - 1, foot[1] - 5], [foot[0] + 1.5, foot[1] + 10], [foot[0] - 2, foot[1] + 23]],
+  ]);
+}
+
+// ---- left of the gorge ----
+blackPine(488, 118, 'young', { first: -1 });
+blackPine(-2, 250, 'old', { first: 1, lean: 4 });
+blackPine(112, 136, 'young', { first: 1 });
+blackPine(214, 222, 'grown', { first: -1, lean: -4 });
+blackPine(350, 274, 'old', { first: 1, lean: 5, sway: -3 });
+blackPine(590, 240, 'grown', { first: 1, lean: -5 });
+
+robolo({
+  x: 704, rockW: 130, rockH: 40, rockDx: 12,
+  H: 150, W: 27, tip: 5, lean: 6, bend: 32, flare: 3,
   barkTo: 0.5,
-  stubs: [[0.3, -1, 12], [0.38, 1, 9]],
-  tiers: [
-    [0.5, 1, 46, 56, 20],
-    [0.58, -1, 58, 66, 22],
-    [0.67, 1, 60, 72, 24],
-    [0.75, -1, 56, 74, 25],
-    [0.84, 1, 44, 70, 25],
+  limbs: [
+    [0.5, [[-4, 2], [-18, -4], [-32, -14]], 7, null],
+    [0.44, [[4, 3], [30, -2], [54, -14], [66, -34]], 13, [82, 30, { dx: 6 }]],
   ],
-  top: [112, 34, { dx: -4 }],
+  tiers: [[0.72, -1, 20, 58, 25, { rise: 8 }], [0.76, 1, 44, 70, 27, { rise: 8 }]],
+  top: [88, 32, { dx: 8, tilt: 5, skew: 0.4 }],
 });
-boulder(600, ground(600), 96, 40);
+
+// ---- right of the gorge ----
+blackPine(1340, 206, 'grown', { first: 1, lean: 4 });
+robolo({
+  x: 1016, rockW: 146, rockH: 46, rockDx: 10,
+  H: 176, W: 30, tip: 5.5, lean: 3, bend: 20, flare: 3,
+  barkTo: 0.42,
+  limbs: [
+    [0.3, [[4, 2], [24, -6], [42, -20]], 8, null],
+    [0.42, [[-4, 3], [-22, -7], [-36, -24], [-40, -46]], 14, [80, 31, { dx: -8 }]],
+    [0.56, [[4, 3], [28, -6], [48, -22], [54, -40]], 12, [78, 30, { dx: 6 }]],
+  ],
+  tiers: [[0.78, -1, 22, 60, 25, { rise: 8 }]],
+  top: [92, 33, { dx: 8, tilt: 3 }],
+});
+blackPine(1132, 128, 'young', { first: -1 });
+blackPine(1232, 270, 'old', { first: -1, lean: -4, sway: 3 });
 pine({
-  x: 604, y: ground(604) - 34, H: 176, W: 25, lean: 10, bend: 44, tip: 5,
-  barkTo: 0.55,
+  x: 1450, y: G(1450), H: 176, W: 16, lean: 6, bend: 48, tip: 3.6,
+  barkTo: 0.42,
+  stubs: [[0.3, -1, 10]],
   tiers: [
-    [0.45, -1, 30, 48, 20, { rise: 10 }],
-    [0.55, 1, 62, 70, 24, { rise: 14 }],
-    [0.7, 1, 74, 78, 25, { rise: 10 }],
-    [0.78, -1, 34, 54, 22, { rise: 12 }],
+    [0.48, 1, 50, 66, 21, { rise: 2 }],
+    [0.58, -1, 22, 44, 18],
+    [0.66, 1, 60, 82, 23, { rise: 4 }],
+    [0.78, 1, 52, 76, 23, { rise: 5 }],
+    [0.84, -1, 20, 42, 18],
   ],
-  top: [92, 31, { dx: 14, tilt: 4 }],
+  top: [88, 27, { dx: 16, tilt: 6, skew: 0.5 }],
 });
-roots([604, ground(604) - 34], 25, [[-34, 26, 6, -4], [30, 30, 6, 4], [-8, 30, 4.5]]);
-pine({
-  x: 190, y: G(190), H: 150, W: 10, lean: -3,
-  barkTo: 0.3,
-  tiers: [
-    [0.22, -1, 34, 44, 16],
-    [0.32, 1, 36, 46, 17],
-    [0.43, -1, 32, 42, 16],
-    [0.54, 1, 30, 40, 16],
-    [0.65, -1, 24, 36, 15],
-    [0.76, 1, 20, 32, 15],
-  ],
-  top: [34, 22, {}],
-});
+blackPine(1590, 248, 'old', { first: -1, lean: -3 });
+
+/* ---------- loose rocks ---------- */
+boulder(826, ground(826), 58, 22);
+boulder(872, ground(872), 40, 14);
+boulder(300, ground(300), 46, 17);
+boulder(1300, ground(1300), 52, 19);
+boulder(60, ground(60), 44, 16);
+boulder(1520, ground(1520), 40, 15);
 
 /* ---------- the ground ---------- */
 {
@@ -347,9 +405,10 @@ pine({
   for (let x = -20; x <= 1620; x += 20) pts.push([x, ground(x)]);
   S.ink(`${smooth(pts)}L1620 364L-20 364Z`);
 }
-juniper(250, 70, 13);
-juniper(700, 54, 11);
-grass(420);
-grass(520);
+for (const [x, wide, tall] of [
+  [36, 60, 11], [186, 74, 13], [428, 56, 11], [520, 44, 9], [776, 62, 12], [906, 50, 10], [1090, 58, 11], [1184, 46, 10],
+  [1400, 70, 13], [1548, 44, 9],
+]) juniper(x, wide, tall);
+for (const x of [96, 330, 612, 752, 942, 1160, 1290, 1436, 1502]) grass(x);
 
 S.write('footer-olympus-near.svg');

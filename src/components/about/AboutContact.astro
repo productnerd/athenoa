@@ -1,10 +1,12 @@
 ---
-// Contact section that closes the page: a blue cut-out with the form on it, the direct contact
-// details beside it, and an owl perched on the top edge.
+// Contact section that closes the page: a Greek blue cut-out with the form on it and the direct
+// contact details beside it.
 import SocialIcons from '../SocialIcons.astro';
-import { about } from '../../data/about';
-import { site } from '../../data/site';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
 
+// Every word here comes from the data; the component adds none of its own.
+const { about, site } = content(getLocale(Astro.url));
 const { contact } = about;
 ---
 
@@ -99,7 +101,7 @@ const { contact } = about;
             }
             <div class="contact__send">
               <button class="btn" type="submit">{contact.submit}</button>
-              <p class="hand contact__note">{contact.note}</p>
+              <p class="hand hand--m contact__note">{contact.note}</p>
             </div>
           </div>
         </form>
@@ -124,7 +126,8 @@ const { contact } = about;
       // service, for example fetch(endpoint, { method: 'POST', body: new FormData(form) }), and show its reply.
       const details = fields
         .filter((field) => !['subject', 'message'].includes(field.name) && field.value.trim())
-        .map((field) => `${field.dataset.label}${field.dataset.label?.endsWith('?') ? '' : ':'} ${field.value.trim()}`);
+        // A label that is itself a question keeps its own mark (";" is the Greek question mark).
+        .map((field) => `${field.dataset.label}${/[?;]$/.test(field.dataset.label ?? '') ? '' : ':'} ${field.value.trim()}`);
       // Mail links want CRLF line breaks.
       const body = [value('message'), '', ...details].join('\n').replace(/\r?\n/g, '\r\n');
       const address = form.getAttribute('action');
@@ -141,6 +144,7 @@ const { contact } = about;
   .contact__wrap {
     position: relative;
   }
+  /* A darker blue pebble carrying the scale pattern, cut off by the panel's corner */
   .contact__scales {
     position: absolute;
     left: -7rem;
@@ -148,6 +152,7 @@ const { contact } = about;
     width: clamp(19rem, 14rem + 16vw, 30rem);
     aspect-ratio: 1;
     border-radius: var(--r-pebble-2);
+    background-color: var(--blue-deep);
   }
 
   .contact__grid {
@@ -216,10 +221,6 @@ const { contact } = about;
     align-items: center;
     gap: var(--space-s) var(--space-m);
     margin-top: var(--space-2xs);
-  }
-  .contact__note {
-    font-size: var(--step-1);
-    rotate: -1.5deg;
   }
 
   @container (min-width: 35rem) {
