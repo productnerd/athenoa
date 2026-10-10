@@ -421,7 +421,8 @@ function orphicEgg() {
     const inner = (line) => visibleRuns(line, outsideEgg, 1)[0];
     const upper = inner(edgeLine(1));
     const lower = inner(edgeLine(-1));
-    const thin = (pts, every = 6) => pts.filter((_, i) => i % every === 0 || i === pts.length - 1);
+    // evenly spaced points along a line, so the curve drawn through them does not kink
+    const thin = (pts, gap = 9) => resample(pts, Math.max(3, Math.round(lengths(pts).at(-1) / gap) + 1)).map(([x, y]) => [x, y]);
     // the hook where the body turns behind the egg: from the point where an edge leaves the
     // outline, out by `bulge` and back onto the outline beyond the other edge
     const hook = (side, from, other) => {

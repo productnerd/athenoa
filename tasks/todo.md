@@ -102,6 +102,19 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Footer: "Internal Links" column removed
 - [ ] Integrate workflow finished: read its shared-file requests (sitemap i18n, header overflow on Greek phones, etc.) and wire the final home page
 
+## State when the usage limit was reached (2026-10-11)
+
+- [x] Hero subtitle set in the handwritten voice face (`.t-sub`)
+- Background agents were stopped. Still to do:
+  - [ ] Hero: two recreations of the original image exist (src/components/home/hero/PortalA.astro, PortalB.astro, at /lab/portal-a/ and /lab/portal-b/); judging and the polish pass did not finish. Pick one, polish, wire into src/pages/index.astro in place of the provisional title.
+  - [ ] Newsletter popup: build was in progress (src/components/NewsletterDialog.astro may be partial); finish, critique, then include once in Base. The "Subscribe" button already points at #newsletter.
+  - [ ] Twelve symbols: drawn and critiqued; the fix pass was interrupted.
+  - [ ] Olympus footer: redraw the foreground as clear pines (see sixth round), then point Footer.astro back at footer-olympus-near.
+  - [ ] Aegean footer: fix pass was interrupted.
+  - [ ] 404: an agent critique was running; its notes were not applied. The page follows Maria's seventh-round brief; do not restore the old parts.
+  - [ ] Integrate results: read the shared-file requests (sitemap for two languages, Greek header overflow on phones), assemble the final home page, run the responsive check, remove the lab pages.
+  - [ ] Voice face: waiting for Maria's pick on /font-test.
+
 ## Open questions
 
 See the chat message of 2026-10-10.
