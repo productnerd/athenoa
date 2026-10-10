@@ -187,11 +187,12 @@ const tabs = [...course.sections, registrationTab];
     --pad: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
     padding-inline: var(--pad);
   }
-  /* A second outline set slightly off, like a misregistered print plate */
+  /* A second outline set slightly off, like a misregistered print plate. It is shifted down and to
+     the left, so the top edge stays clear for the monad. */
   .ctabs__sheet::after {
     content: '';
     position: absolute;
-    inset: -0.8rem 0.7rem 0.8rem -0.7rem;
+    inset: 0.8rem 0.7rem -0.8rem -0.7rem;
     z-index: -3;
     border: 1.5px solid var(--line);
     border-radius: inherit;
@@ -387,8 +388,6 @@ const tabs = [...course.sections, registrationTab];
     .ctabs.is-tabbed .ctabs__list {
       grid-column: 1;
       grid-row: 1 / span 2;
-      position: sticky;
-      top: calc(var(--header-h) + 1.25rem);
       flex-direction: column;
       gap: 0.6rem;
       margin: 0.4rem 0 0 calc((var(--pad) + var(--hang)) * -1);
@@ -401,6 +400,14 @@ const tabs = [...course.sections, registrationTab];
     }
     .ctabs__tab[aria-selected='true'] {
       translate: 0.75rem 0;
+    }
+  }
+  /* The column follows the reader down the page only where the window is tall enough to show all
+     six pebbles under the header (the Greek labels make the tallest column). */
+  @media (min-width: 60rem) and (min-height: 51rem) {
+    .ctabs.is-tabbed .ctabs__list {
+      position: sticky;
+      top: calc(var(--header-h) + 1.25rem);
     }
   }
 </style>

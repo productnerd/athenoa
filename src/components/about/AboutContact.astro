@@ -8,6 +8,11 @@ import { getLocale } from '../../lib/locale';
 // Every word here comes from the data; the component adds none of its own.
 const { about, site } = content(getLocale(Astro.url));
 const { contact } = about;
+// A short title stays on one line; a longer one (the Greek) is sized so that its longest word fits the column.
+const fit =
+  contact.title.length <= 12 ? contact.title.length : Math.max(...contact.title.split(' ').map((word) => word.length));
+// A range of numbers ("2-3") stays on one line: browsers will otherwise break after its hyphen.
+const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</span>');
 ---
 
 <section class="contact" id="contact" aria-labelledby="contact-title">
@@ -19,7 +24,7 @@ const { contact } = about;
 
       <div class="contact__grid">
         <div class="contact__lead">
-          <h2 id="contact-title" class="t-1" data-split>{contact.title}</h2>
+          <h2 id="contact-title" class="t-1 contact__title" data-split style={`--fit:${fit}`}>{contact.title}</h2>
           <p class="lead" data-reveal>{contact.intro}</p>
 
           <ul class="contact__direct" data-reveal style="--i:1">
@@ -101,7 +106,7 @@ const { contact } = about;
             }
             <div class="contact__send">
               <button class="btn" type="submit">{contact.submit}</button>
-              <p class="hand hand--m contact__note">{contact.note}</p>
+              <p class="hand hand--m contact__note" set:html={note} />
             </div>
           </div>
         </form>
@@ -161,8 +166,15 @@ const { contact } = about;
   }
   .contact__lead {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-s);
     align-content: start;
+    container-type: inline-size;
+  }
+  /* Sized against its own column (0.45em is a generous average letter), so no word of the title can
+     reach under the form, in either language */
+  .contact__title {
+    font-size: min(var(--step-4), calc(100cqi / (var(--fit) * 0.45)));
   }
   .contact__direct {
     display: grid;
@@ -221,6 +233,13 @@ const { contact } = about;
     align-items: center;
     gap: var(--space-s) var(--space-m);
     margin-top: var(--space-2xs);
+  }
+  /* Even lines when the note wraps */
+  .contact__note {
+    text-wrap: balance;
+  }
+  .contact__note :global(.contact__range) {
+    white-space: nowrap;
   }
 
   @container (min-width: 35rem) {

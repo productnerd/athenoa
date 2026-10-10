@@ -20,7 +20,7 @@ const { kicker, title, open, note } = home.seminar;
 
       <div class="seminar__panel panel panel--arch on-blue">
         <div class="panel__clip">
-          <div class="seminar__sun" data-depth="0.2">
+          <div class="seminar__sun" data-depth="0.14">
             <div class="seminar__rays">
               <Illustration name="sun-rays" />
             </div>
@@ -80,7 +80,7 @@ const { kicker, title, open, note } = home.seminar;
   .seminar__sun::after {
     content: '';
     position: absolute;
-    inset: calc(50% - var(--lyre-w) * 0.66);
+    inset: calc(50% - var(--lyre-w) * 0.68);
     border-radius: var(--r-pebble-1);
     background: var(--blue-deep);
     filter: url(#rough-sm);
@@ -106,13 +106,18 @@ const { kicker, title, open, note } = home.seminar;
   }
 
   /* ---------- The Orphic egg, on a light-blue pebble at the shoulder of the arch ---------- */
+  /* The arch is half an ellipse as wide as the panel, so a point on its shoulder is a fixed share of
+     that width across and down (percentage margins also measure the width). The pebble's centre sits
+     just outside that point, and never further right than the page gutter allows. */
   .seminar__egg {
+    --egg-w: clamp(7.5rem, 4.6rem + 12vw, 10.5rem);
     position: absolute;
     z-index: 2;
-    top: -4.6rem;
-    right: -0.35rem;
-    width: 7.5rem;
-    padding: 1rem 1.15rem 1.1rem;
+    top: 0;
+    left: min(86% - var(--egg-w) / 2, 100% + 0.5rem - var(--egg-w));
+    width: var(--egg-w);
+    margin-top: calc(14.1% - var(--egg-w) * 0.95);
+    padding: calc(var(--egg-w) * 0.13) calc(var(--egg-w) * 0.155) calc(var(--egg-w) * 0.145);
     pointer-events: none;
   }
   .seminar__egg::before {
@@ -125,10 +130,6 @@ const { kicker, title, open, note } = home.seminar;
     background-image: var(--grain);
     background-size: 400px 400px;
     filter: url(#rough-sm);
-  }
-  /* Drawn small here, so the line is thickened to keep the weight of the other drawings */
-  .seminar__egg :global(svg) {
-    stroke-width: 3.6;
   }
 
   /* ---------- The olive branch, tucked under the lower edge ---------- */
@@ -187,13 +188,13 @@ const { kicker, title, open, note } = home.seminar;
     .seminar__rays {
       mask-image: linear-gradient(90deg, transparent 7%, #000 36%);
     }
-    /* The pebble lines up with the text below it */
+    /* The pebble lies over the straight top edge and lines up with the text below it */
     .seminar__egg {
-      top: -6.5rem;
-      right: auto;
+      --egg-w: clamp(10.5rem, 7rem + 5vw, 12.5rem);
+      top: auto;
+      bottom: calc(100% - 3.75rem);
       left: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
-      width: clamp(9rem, 6.5rem + 4vw, 11rem);
-      padding: 1.5rem 2rem 1.6rem;
+      margin-top: 0;
     }
     .seminar__branch {
       width: clamp(13rem, 8rem + 12vw, 19rem);

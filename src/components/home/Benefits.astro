@@ -244,7 +244,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     color: var(--ink-strong);
   }
 
-  /* Between phone and desktop the pieces stop growing: two of the photographs are small files. */
+  /* Between phone and desktop the pieces stop growing, so the lines of text stay a readable length. */
   @media (min-width: 40rem) {
     .benefits__units {
       max-width: 44rem;
@@ -271,9 +271,9 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       margin: 0 0 0.4rem;
     }
 
-    /* Photograph and box share one row and overlap by two columns; the photograph is the taller of the
-       two, so it stands a little proud of the box above and below. Odd pieces carry the photograph on
-       the left, the even one on the right. */
+    /* Photograph and box share one row, centred on each other, and overlap by two columns; the box keeps
+       that much of its width clear for the photograph. Odd pieces carry the photograph on the left,
+       the even one on the right. */
     .benefits__units {
       max-width: none;
       gap: var(--space-m);
@@ -287,8 +287,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     .unit__box {
       grid-row: 1;
     }
-    .unit__photos,
-    .unit--3 .unit__photos {
+    .unit__photos {
       grid-column: 1 / span 5;
       width: auto;
       margin: 0;
@@ -316,6 +315,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       align-items: end;
     }
     .unit--3 .unit__photos {
+      width: auto;
       margin: 0 16% calc(var(--pill-out) * -1) 4%;
     }
   }

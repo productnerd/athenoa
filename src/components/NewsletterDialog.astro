@@ -1,0 +1,467 @@
+---
+// The newsletter popup: one native <dialog id="newsletter"> for the whole site. Place it once, at
+// body level (not inside an on-blue surface). Any link whose href ends in "#newsletter" and any
+// element with data-newsletter-open opens it.
+//
+// The form stands inside a Greek portico drawn in five pieces (portico-*.svg, built by
+// scripts/illustrations/portico-gen.mjs). One unit of that drawing is 1/640 of the frame's width,
+// so the pieces always meet; only the shafts stretch with the content.
+//
+// Sign-up is NOT connected to a mailing service yet. Look for "NEWSLETTER SERVICE" below.
+import Illustration from './Illustration.astro';
+import { content } from '../data';
+import { newsletter } from '../data/newsletter';
+import { getLocale, pathIn } from '../lib/locale';
+
+const locale = getLocale(Astro.url);
+const { text, cta } = content(locale).home.announcement.newsletter;
+const t = newsletter[locale];
+const contactHref = pathIn(locale, '/about-athena/#contact');
+---
+
+<dialog class="nl" id="newsletter" aria-labelledby="newsletter-title">
+  <div class="nl__bar">
+    <button class="nl__close" type="button" data-newsletter-close>
+      <span>{t.close}</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M5 5.4c4.6 4.2 9 8.800 14 13.400M19 5c-4.400 4.800-9.200 9-13.800 14"></path>
+      </svg>
+    </button>
+    <!-- Without JavaScript the popup is shown by :target; this plain link leaves it again.
+         The fragment matches nothing on purpose, so the page does not jump. -->
+    <a class="nl__close nl__close--plain" href="#closed">{t.close}</a>
+  </div>
+
+  <div class="nl__frame">
+    <div class="nl__grid">
+      <div class="nl__paper"></div>
+      <Illustration name="portico-pediment" class="nl__pediment" />
+      {
+        ['left', 'right'].map((side) => (
+          <div class:list={['nl__column', `nl__column--${side}`]}>
+            <Illustration name="portico-capital" />
+            <Illustration name="portico-shaft" class="nl__shaft" />
+            <Illustration name="portico-base" />
+          </div>
+        ))
+      }
+
+      <div class="nl__body">
+        <h2 class="nl__title t-3" id="newsletter-title">{cta.label}</h2>
+        <p class="nl__text">{text}</p>
+
+        <!-- NEWSLETTER SERVICE, part 1 of 2. When a mailing service is connected, this form gets the
+             service's endpoint as action (method="post") and the input gets the field name the
+             service expects (name="email"; Mailchimp calls it EMAIL). Until then the input has no
+             name, so even a native submission would carry nothing. -->
+        <form class="nl__form" data-newsletter-form>
+          <div class="field">
+            <label for="newsletter-email">{t.label}</label>
+            <input
+              id="newsletter-email"
+              type="email"
+              required
+              autocomplete="email"
+              inputmode="email"
+              placeholder={t.placeholder}
+            />
+          </div>
+          <button class="btn" type="submit">{t.submit}</button>
+        </form>
+
+        <!-- Shown in place of the form after a valid address is entered (and, with no JavaScript,
+             from the start): sign-up is not connected yet, and the popup says so. -->
+        <div class="nl__note" role="status" tabindex="-1" data-newsletter-note>
+          <p>{t.pending}</p>
+          <p><a href={contactHref} data-newsletter-contact>{t.pendingLink}</a></p>
+        </div>
+      </div>
+
+      <Illustration name="portico-steps" class="nl__steps" />
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const motionOn = () => document.documentElement.classList.contains('motion');
+  const find = () => document.querySelector<HTMLDialogElement>('dialog#newsletter[data-ready]');
+  // What was clicked to open the popup: focus goes back there when it closes.
+  let opener: HTMLElement | null = null;
+
+  function open(dialog: HTMLDialogElement, from: HTMLElement | null) {
+    if (dialog.open) return;
+    opener = from;
+    dialog.classList.remove('is-closing');
+    dialog.showModal();
+  }
+
+  // Plays the closing transition, then closes for real.
+  function close(dialog: HTMLDialogElement) {
+    if (!dialog.open || dialog.classList.contains('is-closing')) return;
+    if (!motionOn()) return dialog.close();
+    const finish = () => {
+      clearTimeout(timer);
+      dialog.removeEventListener('transitionend', onEnd);
+      dialog.close();
+    };
+    const onEnd = (event: TransitionEvent) => {
+      if (event.target === dialog && event.propertyName === 'opacity') finish();
+    };
+    const timer = setTimeout(finish, 500);
+    dialog.addEventListener('transitionend', onEnd);
+    dialog.classList.add('is-closing');
+  }
+
+  function bind(dialog: HTMLDialogElement) {
+    const form = dialog.querySelector<HTMLFormElement>('[data-newsletter-form]')!;
+    const note = dialog.querySelector<HTMLElement>('[data-newsletter-note]')!;
+
+    dialog.querySelector('[data-newsletter-close]')!.addEventListener('click', () => close(dialog));
+
+    // Escape
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close(dialog);
+    });
+
+    // A click on the backdrop lands on the dialog element itself (so does one beside the gable,
+    // where the frame lets clicks through). The press must start there too, so dragging a text
+    // selection out of the field does not close the popup.
+    let pressedBackdrop = false;
+    dialog.addEventListener('pointerdown', (event) => (pressedBackdrop = event.target === dialog));
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog && pressedBackdrop) close(dialog);
+    });
+
+    // The browser only fires "submit" once the address has passed its own validation
+    // (required, type="email"); an empty or malformed one gets the native message instead.
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // NEWSLETTER SERVICE, part 2 of 2. Nothing is sent anywhere yet. To connect a service
+      // (a Brevo, Mailchimp or Buttondown form endpoint), replace the two lines below with
+      //   await fetch(form.action, { method: 'POST', body: new FormData(form) })
+      // and show a confirmation or an error instead of the "not connected yet" note
+      // (newsletter.pending in src/data/newsletter.ts, which can then go).
+      dialog.setAttribute('data-sent', '');
+      note.focus();
+    });
+
+    // The contact form may be on this very page: leave the popup before going there.
+    dialog.querySelector('[data-newsletter-contact]')!.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('close', () => {
+      dialog.classList.remove('is-closing');
+      dialog.removeAttribute('data-sent');
+      form.reset();
+      // Arrived by a link to .../#newsletter: drop the fragment (replaceState adds no history entry).
+      if (location.hash === '#newsletter') history.replaceState(history.state, '', location.pathname + location.search);
+      // Safari does not hand focus back to a clicked link by itself.
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
+      opener = null;
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const dialog = document.querySelector<HTMLDialogElement>('dialog#newsletter');
+    if (!dialog || dialog.hasAttribute('data-ready') || typeof dialog.showModal !== 'function') return;
+    dialog.setAttribute('data-ready', '');
+    bind(dialog);
+    // Arriving at .../#newsletter
+    if (location.hash === '#newsletter') open(dialog, null);
+  });
+
+  // One listener for every opener on every page. This module runs once, so it is never added twice.
+  // Capture phase: it answers before the page router treats the link as navigation.
+  document.addEventListener(
+    'click',
+    (event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const from =
+        event.target instanceof Element
+          ? event.target.closest<HTMLElement>('a[href$="#newsletter"], [data-newsletter-open]')
+          : null;
+      const dialog = from && find();
+      if (!dialog) return;
+      event.preventDefault();
+      open(dialog, from);
+    },
+    true,
+  );
+</script>
+
+<style>
+  .nl {
+    width: min(100% - 0.5rem, 39rem);
+    max-width: none;
+    max-height: calc(100dvh - 0.5rem);
+    margin: auto;
+    padding: 0.25rem;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+  }
+  /* The page behind: blurred, under a thin wash of the darker blue */
+  .nl::backdrop {
+    background: color-mix(in srgb, var(--blue-deep, #071260) 42%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  /* The page behind stays put while the popup is open */
+  :global(html:has(dialog.nl[open])) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  /* ---------- Close ---------- */
+  /* A bar of no height that stays at the top if the popup has to scroll; the control hangs from it,
+     in the open corner beside the gable. */
+  .nl__bar {
+    position: sticky;
+    top: 0;
+    z-index: 3;
+    display: flex;
+    justify-content: flex-end;
+    height: 0;
+  }
+  .nl__close {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 28%, transparent);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    background: var(--creme-light);
+    color: var(--blue);
+    font-size: var(--step--1);
+    font-weight: 560;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1),
+      color var(--dur-1),
+      rotate var(--dur-2) var(--ease-out);
+  }
+  .nl__close:hover {
+    background: var(--blue);
+    color: var(--creme-light);
+    rotate: -2deg;
+  }
+  .nl__close:focus-visible {
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    outline-color: var(--creme-light);
+    outline-offset: 3px;
+  }
+  .nl__close path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+  }
+  /* On a narrow screen the corner only has room for the cross */
+  .nl__close span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .nl__close--plain {
+    width: auto;
+    padding-inline: 1rem;
+  }
+
+  /* ---------- The portico ---------- */
+  .nl__frame {
+    container-type: inline-size;
+    margin-top: 1.25rem;
+    /* Clicks beside the gable fall through to the dialog, like clicks on the backdrop */
+    pointer-events: none;
+  }
+  .nl__grid {
+    --u: calc(100cqw / 640); /* one unit of the drawing */
+    --nl-line: 1.3px; /* its line weight */
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns:
+      calc(21 * var(--u)) calc(64 * var(--u)) minmax(0, 1fr)
+      calc(64 * var(--u)) calc(21 * var(--u));
+    padding: calc(8 * var(--u)) 0 calc(12 * var(--u));
+  }
+  /* The sheet: crème paper cut to the outline of a temple front, with the rough edge of the other
+     cut-outs. The clip sits on ::before and the filter on its parent, so the edge is displaced
+     after it has been cut. */
+  .nl__paper {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    filter: url(#rough);
+  }
+  .nl__paper::before {
+    --eave: calc(75.2 * var(--u));
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--creme);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    clip-path: polygon(
+      50% 0,
+      100% var(--eave),
+      100% calc(100% - 1.1rem),
+      calc(100% - 0.3rem) calc(100% - 0.3rem),
+      calc(100% - 1.1rem) 100%,
+      1.1rem 100%,
+      0.3rem calc(100% - 0.3rem),
+      0 calc(100% - 1.1rem),
+      0 var(--eave)
+    );
+    pointer-events: auto;
+  }
+  .nl__grid :global(svg) {
+    stroke-width: var(--nl-line);
+  }
+  .nl__pediment {
+    grid-area: 1 / 1 / 2 / -1;
+  }
+  .nl__steps {
+    grid-area: 3 / 1 / 4 / -1;
+  }
+  .nl__column {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  /* The same column, mirrored: both stand with their shaded side outwards */
+  .nl__column--right {
+    grid-column: 4;
+    scale: -1 1;
+  }
+  /* The only piece that stretches. It never falls below a believable height. */
+  .nl__shaft {
+    position: relative;
+    flex: 1 1 0;
+    min-height: calc(190 * var(--u));
+  }
+  .nl__shaft :global(svg) {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+
+  /* ---------- Between the columns ---------- */
+  .nl__body {
+    grid-row: 2;
+    grid-column: 3;
+    align-self: center;
+    display: grid;
+    gap: 0.85rem;
+    padding: 1.1rem 0.5rem 1.2rem;
+    text-align: center;
+    pointer-events: auto;
+  }
+  .nl__title {
+    font-size: calc(var(--step-2) * 0.9);
+  }
+  .nl__form {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 0.3rem;
+    text-align: left;
+  }
+  .nl__note {
+    display: grid;
+    gap: 0.5rem;
+    margin-top: 0.3rem;
+    outline: none;
+  }
+  .nl__note a {
+    color: var(--ink-strong);
+    font-weight: 560;
+  }
+  /* The form until an address has been entered, then the note. Without JavaScript: the note only. */
+  .nl[data-ready]:not([data-sent]) .nl__note,
+  .nl:not([data-ready]) .nl__form,
+  .nl[data-sent] .nl__form {
+    display: none;
+  }
+  .nl[data-ready] .nl__close--plain,
+  .nl:not([data-ready]) button.nl__close {
+    display: none;
+  }
+
+  @media (min-width: 34rem) {
+    .nl {
+      padding: 0.5rem;
+    }
+    .nl__frame {
+      margin-top: 0.5rem;
+    }
+    .nl__grid {
+      --nl-line: 1.6px;
+    }
+    .nl__close {
+      width: auto;
+      padding: 0 1rem 0.05rem 1.15rem;
+    }
+    .nl__close span {
+      position: static;
+      width: auto;
+      height: auto;
+      clip-path: none;
+    }
+    .nl__body {
+      gap: 1rem;
+      padding: 1.5rem clamp(1rem, 5cqw, 2.25rem) 1.75rem;
+    }
+  }
+
+  /* ---------- Without JavaScript ---------- */
+  /* A link to #newsletter still reveals the popup, as a block fixed over the page. */
+  .nl:target:not([data-ready]) {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    height: fit-content;
+    box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--blue-deep) 42%, transparent);
+  }
+
+  /* ---------- Open and close ---------- */
+  :global(html.motion) .nl[open] {
+    transition:
+      opacity var(--dur-1) var(--ease-soft),
+      transform var(--dur-2) var(--ease-out);
+    will-change: transform, opacity;
+  }
+  :global(html.motion) .nl[open]::backdrop {
+    transition: opacity var(--dur-2) var(--ease-soft);
+  }
+  @starting-style {
+    :global(html.motion) .nl[open] {
+      opacity: 0;
+      transform: translate3d(0, 1.5rem, 0) scale(0.965);
+    }
+    :global(html.motion) .nl[open]::backdrop {
+      opacity: 0;
+    }
+  }
+  :global(html.motion) .nl.is-closing {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0) scale(0.98);
+    transition-duration: 0.26s;
+    transition-timing-function: var(--ease-in-out);
+  }
+  :global(html.motion) .nl.is-closing::backdrop {
+    opacity: 0;
+    transition-duration: 0.26s;
+  }
+</style>

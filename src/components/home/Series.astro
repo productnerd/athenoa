@@ -79,12 +79,13 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
   .series__banner :global(.media__clip picture) {
     scale: 1.07;
   }
+  /* On narrow screens the rays stay inside the gap under the title. */
   .series__rays {
     position: absolute;
     right: -24%;
-    top: -34%;
+    top: -19%;
     z-index: -1;
-    width: min(74%, 34rem);
+    width: min(66%, 34rem);
     pointer-events: none;
   }
   .series__body {
@@ -98,11 +99,11 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
     flex: 0 0 100%;
     padding-right: max(0px, 100% - 36ch);
   }
-  /* A note in the margin that points down to the course details */
+  /* A note in the margin that points down to the course details. The mark is set inline,
+     so it follows the last word when the note runs to two lines (it does in Greek). */
   .series__more {
-    display: inline-flex;
-    align-items: flex-start;
-    gap: 0.7rem;
+    display: inline-block;
+    max-width: 100%;
     padding-block: 0.4rem;
     text-decoration: none;
   }
@@ -117,10 +118,11 @@ const course = courses.find((item) => item.slug === series.courseSlug)!;
     text-decoration-color: currentColor;
   }
   .series__more svg {
-    flex: none;
-    width: 0.7rem;
-    height: auto;
-    margin-top: 0.3em;
+    display: inline-block;
+    width: auto;
+    height: 1.05em;
+    margin-left: 0.35em;
+    vertical-align: -0.3em;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.4;

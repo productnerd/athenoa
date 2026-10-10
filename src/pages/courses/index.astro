@@ -7,12 +7,13 @@ import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
 import CourseCard from '../../components/courses/CourseCard.astro';
 import CourseDialog from '../../components/courses/CourseDialog.astro';
+import { trail } from '../../components/courses/trail';
 import { content } from '../../data';
 import { breadcrumbSchema, courseSchema } from '../../data/schema';
 import { getLocale } from '../../lib/locale';
 
-const { courses, coursesPage, site } = content(getLocale(Astro.url));
-const [home] = site.nav;
+const locale = getLocale(Astro.url);
+const { courses, coursesPage, site } = content(locale);
 const lead = courses.find((course) => course.status === 'open') ?? courses[0];
 const others = courses.filter((course) => course !== lead);
 const cuts = ['arch', 'paper'] as const;
@@ -21,13 +22,7 @@ const cuts = ['arch', 'paper'] as const;
 <Base
   title={`${coursesPage.title} | ${site.name}`}
   description={coursesPage.description}
-  schema={[
-    breadcrumbSchema([
-      { name: home.label, path: home.href },
-      { name: coursesPage.title, path: site.routes.courses },
-    ]),
-    ...courses.map(courseSchema),
-  ]}
+  schema={[breadcrumbSchema(trail(locale)), ...courses.map(courseSchema)]}
 >
   <section class="courses section">
     <div class="wrap">

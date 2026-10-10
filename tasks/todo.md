@@ -88,6 +88,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Header menu: Home link removed (the logo goes home); current page highlighted, with or without a trailing slash
 - [x] Footer text smaller
 
+## Added by Maria on 2026-10-10 (sixth round)
+
+- [x] Copyright line sits in its own band of ink under every footer scene
+- [x] Header item renamed "About Dr. Athena" (Greek "Σχετικά με τη Δρ. Αθηνά"); phone removed from the header
+- [x] Current page marked with an organic highlighter stroke (two ragged passes), desktop and mobile menu
+- [ ] Olympus footer foreground: Maria finds the new trees bonsai-like and prefers the earlier pines. About currently reuses footer-pines.svg. After the art workflow finishes, redraw footer-olympus-near.svg as unmistakable pines in that preferred manner (straight trunks, full layered crowns, no gnarled or wind-twisted shapes), then point Footer.astro back at it.
+
 ## Open questions
 
 See the chat message of 2026-10-10.

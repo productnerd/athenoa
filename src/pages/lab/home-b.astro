@@ -1,16 +1,33 @@
 ---
 // Lab page: the second half of the home page (course series to benefits). Not part of the published site.
+// Also served in Greek at /el/lab/home-b/ (see src/pages/el/lab/home-b.astro).
 import Base from '../../layouts/Base.astro';
 import Series from '../../components/home/Series.astro';
 import CourseTabs from '../../components/home/CourseTabs.astro';
 import Transmission from '../../components/home/Transmission.astro';
 import Start from '../../components/home/Start.astro';
 import Benefits from '../../components/home/Benefits.astro';
+import { getLocale } from '../../lib/locale';
+
+const t = {
+  en: {
+    title: 'Home B | ATHENOA lab',
+    description: 'Home page sections: series, course tabs, transmission, start, benefits',
+    above: 'Lab filler above',
+    below: 'Lab filler below',
+  },
+  el: {
+    title: 'Αρχική Β | Εργαστήριο ATHENOA',
+    description: 'Ενότητες της αρχικής σελίδας: σειρά μαθημάτων, καρτέλες του κύκλου, μετάδοση, έναρξη, οφέλη',
+    above: 'Δοκιμαστικό κείμενο επάνω',
+    below: 'Δοκιμαστικό κείμενο κάτω',
+  },
+}[getLocale(Astro.url)];
 ---
 
-<Base title="Home B | ATHENOA lab" description="Home page sections: series, course tabs, transmission, start, benefits" noindex>
+<Base title={t.title} description={t.description} noindex>
   <section class="section wrap">
-    <h1 class="t-3">Lab filler above</h1>
+    <h1 class="t-3">{t.above}</h1>
   </section>
   <Series />
   <CourseTabs />
@@ -18,6 +35,6 @@ import Benefits from '../../components/home/Benefits.astro';
   <Start />
   <Benefits />
   <section class="section wrap">
-    <p class="small">Lab filler below</p>
+    <p class="small">{t.below}</p>
   </section>
 </Base>

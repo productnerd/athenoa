@@ -1,26 +1,15 @@
 // Drawing helpers for the symbols-a set (tetractys, monad, bow-lyre, cave-sun, ladder, torch).
 // Monoline throughout: fill none, stroke currentColor, one weight. PAPER is for a closed shape
-// that has to hide the lines behind it; INK for a solid dot.
+// that has to hide the lines behind it; DEEP is the one flat wash (the dark of the cave); INK for
+// a solid point.
 
 export const PAPER = 'var(--paper, #f2e9d3)';
 export const DEEP = 'var(--blue-deep, #071260)';
-export const LIGHT = 'var(--blue-light, #b3c0f3)';
 export const INK = 'currentColor';
 export const TAU = Math.PI * 2;
 
 export const n1 = (v) => String(Math.round(v * 10) / 10);
 export const P = (x, y) => `${n1(x)} ${n1(y)}`;
-
-// Seeded random, so a drawing stays the same from run to run.
-export function rng(seed) {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) | 0;
-    let t = Math.imul(a ^ (a >>> 15), 1 | a);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
 
 // Smooth path through points (Catmull-Rom converted to cubic Béziers).
 export function spline(pts, { closed = false, k = 1, cont = false } = {}) {
@@ -69,26 +58,6 @@ export function sample(pts, per = 10, closed = false) {
 // Straight-segment path through points.
 export const poly = (pts, closed = false) =>
   `M${pts.map((p) => P(...p)).join('L')}${closed ? 'Z' : ''}`;
-
-// Point and heading at a fraction of the length of a dense polyline.
-export function along(dense, frac) {
-  const lens = [0];
-  for (let i = 1; i < dense.length; i++) {
-    lens.push(lens[i - 1] + Math.hypot(dense[i][0] - dense[i - 1][0], dense[i][1] - dense[i - 1][1]));
-  }
-  const target = Math.max(0, Math.min(1, frac)) * lens[lens.length - 1];
-  let i = 1;
-  while (i < lens.length - 1 && lens[i] < target) i++;
-  const a = dense[i - 1];
-  const b = dense[i];
-  const t = (target - lens[i - 1]) / (lens[i] - lens[i - 1] || 1);
-  return {
-    x: a[0] + (b[0] - a[0]) * t,
-    y: a[1] + (b[1] - a[1]) * t,
-    ang: Math.atan2(b[1] - a[1], b[0] - a[0]),
-    length: lens[lens.length - 1],
-  };
-}
 
 // The two edges of a band of varying width around a centre line (control points in, dense out).
 export function ribbon(center, widthAt, per = 6) {
@@ -199,9 +168,12 @@ const attrs = (o) =>
     .map(([k, v]) => ` ${k}="${v}"`)
     .join('');
 export const path = (d, fill) => `<path d="${d}"${attrs({ fill })}/>`;
-export const wash = (d, fill) => `<path d="${d}" fill="${fill}" stroke="none"/>`;
+// A flat area of colour without an outline. `fade` marks it data-nodraw, so that where the page
+// draws the strokes in (data-draw) the area fades in after them instead of standing there first.
+export const wash = (d, fill, fade = false) => `<path d="${d}" fill="${fill}" stroke="none"${fade ? ' data-nodraw=""' : ''}/>`;
 export const circle = (cx, cy, r, fill) => `<circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(r)}"${attrs({ fill })}/>`;
-export const dot = (cx, cy, r) => circle(cx, cy, r, INK);
+// A solid point; it fades in with data-draw rather than being drawn.
+export const dot = (cx, cy, r) => `<circle cx="${n1(cx)}" cy="${n1(cy)}" r="${n1(r)}" fill="${INK}" data-nodraw=""/>`;
 export const ellipse = (cx, cy, rx, ry, rot = 0, fill) =>
   `<ellipse cx="${n1(cx)}" cy="${n1(cy)}" rx="${n1(rx)}" ry="${n1(ry)}"${
     rot ? ` transform="rotate(${n1(rot)} ${n1(cx)} ${n1(cy)})"` : ''

@@ -212,9 +212,8 @@ function pine(spec) {
     const [tw, th, o = {}] = top;
     pad(tip[0] + (o.dx ?? 0), tip[1] + th * 0.42, tw, th, { tilt: o.tilt ?? j(2), ...o });
   } else {
-    // a dead, bleached tip: two bare twigs
-    const q = c(0.9);
-    S.line(`M${P(q)}l${n(8 + r() * 3)} ${n(-9)}M${P(c(0.8))}l${n(-9 - r() * 3)} ${n(-8)}`);
+    // a dead, bleached tip standing clear of the crown, with one bare twig
+    S.line(`M${P(c(0.93))}l${n(7 + r() * 3)} ${n(-9)}`);
   }
   return { c, w };
 }
@@ -227,9 +226,9 @@ function pine(spec) {
  */
 function blackPine(x, H, age, o = {}) {
   const kind = {
-    old: { from: 0.55, to: 0.88, count: 6, wide: H * 0.34, f: (u) => 0.66 + 0.34 * Math.sin(Math.PI * (0.1 + 0.7 * u)), deep: 25, top: [H * 0.42, 33], W: H * 0.072 },
-    grown: { from: 0.36, to: 0.9, count: 7, wide: H * 0.37, f: (u) => (u === 0 ? 0.84 : 1 - 0.46 * u ** 1.3), deep: 23, top: [H * 0.24, 27], W: H * 0.068 },
-    young: { from: 0.22, to: 0.9, count: 6, wide: H * 0.47, f: (u) => (u === 0 ? 0.88 : 1 - 0.5 * u), deep: 18, top: [H * 0.25, 21], W: H * 0.078 },
+    old: { from: 0.56, to: 0.87, count: 5, wide: H * 0.37, f: (u) => 0.72 + 0.28 * Math.sin(Math.PI * (0.1 + 0.7 * u)), deep: 27, top: [H * 0.43, 34], W: H * 0.08 },
+    grown: { from: 0.38, to: 0.89, count: 6, wide: H * 0.38, f: (u) => (u === 0 ? 0.84 : 1 - 0.44 * u ** 1.3), deep: 25, top: [H * 0.25, 28], W: H * 0.074 },
+    young: { from: 0.22, to: 0.84, count: 5, wide: H * 0.52, f: (u) => 1 - 0.56 * u, deep: 19, top: [H * 0.21, 21], W: H * 0.082 },
   }[age];
   const count = o.count ?? kind.count;
   const from = o.from ?? kind.from;
@@ -341,11 +340,10 @@ function robolo({ x, rockW, rockH, rockDx = 0, ...spec }) {
 }
 
 // ---- left of the gorge ----
-blackPine(488, 118, 'young', { first: -1 });
+blackPine(470, 124, 'young', { first: -1 });
 blackPine(-2, 250, 'old', { first: 1, lean: 4 });
-blackPine(112, 136, 'young', { first: 1 });
-blackPine(214, 222, 'grown', { first: -1, lean: -4 });
-blackPine(350, 274, 'old', { first: 1, lean: 5, sway: -3 });
+blackPine(176, 214, 'grown', { first: -1, lean: -4 });
+blackPine(336, 274, 'old', { first: 1, lean: 5, sway: -3 });
 blackPine(590, 240, 'grown', { first: 1, lean: -5 });
 
 robolo({
@@ -361,23 +359,22 @@ robolo({
 });
 
 // ---- right of the gorge ----
-blackPine(1340, 206, 'grown', { first: 1, lean: 4 });
 robolo({
   x: 1016, rockW: 146, rockH: 46, rockDx: 10,
-  H: 176, W: 30, tip: 5.5, lean: 3, bend: 20, flare: 3,
+  H: 184, W: 30, tip: 3, lean: 3, bend: 20, flare: 3,
   barkTo: 0.42,
   limbs: [
     [0.3, [[4, 2], [24, -6], [42, -20]], 8, null],
     [0.42, [[-4, 3], [-22, -7], [-36, -24], [-40, -46]], 14, [80, 31, { dx: -8 }]],
-    [0.56, [[4, 3], [28, -6], [48, -22], [54, -40]], 12, [78, 30, { dx: 6 }]],
+    [0.54, [[4, 3], [28, -6], [48, -22], [54, -40]], 12, [78, 30, { dx: 6 }]],
   ],
-  tiers: [[0.78, -1, 22, 60, 25, { rise: 8 }]],
-  top: [92, 33, { dx: 8, tilt: 3 }],
+  tiers: [[0.7, -1, 16, 62, 26, { rise: 6 }], [0.76, 1, 14, 58, 25, { rise: 6 }]],
+  top: null,
 });
-blackPine(1132, 128, 'young', { first: -1 });
-blackPine(1232, 270, 'old', { first: -1, lean: -4, sway: 3 });
+blackPine(1140, 132, 'young', { first: -1 });
+blackPine(1262, 270, 'old', { first: -1, lean: -4, sway: 3 });
 pine({
-  x: 1450, y: G(1450), H: 176, W: 16, lean: 6, bend: 48, tip: 3.6,
+  x: 1396, y: G(1396), H: 184, W: 16, lean: 6, bend: 48, tip: 3.6,
   barkTo: 0.42,
   stubs: [[0.3, -1, 10]],
   tiers: [
@@ -389,7 +386,7 @@ pine({
   ],
   top: [88, 27, { dx: 16, tilt: 6, skew: 0.5 }],
 });
-blackPine(1590, 248, 'old', { first: -1, lean: -3 });
+blackPine(1592, 244, 'grown', { first: 1, lean: -3 });
 
 /* ---------- loose rocks ---------- */
 boulder(826, ground(826), 58, 22);

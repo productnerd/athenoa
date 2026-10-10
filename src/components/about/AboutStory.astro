@@ -252,9 +252,10 @@ const [roots, studies, back, academy] = about.story;
     width: fit-content;
     margin-inline: calc(var(--gutter) * -0.3);
   }
+  /* Tucked under the sheet's lower edge, but only as far as the sky: the Acropolis stays in view */
   .academy__photo {
     --r-soft-2: 5rem 8rem 6rem 9rem / 7rem 5rem 8rem 6rem;
-    margin: -2.75rem calc(var(--gutter) * -0.4) 0 9%;
+    margin: -1.5rem calc(var(--gutter) * -0.4) 0 9%;
   }
   /* The Apollonian command, set in capitals like the inscription at Delphi. The voice face is a light
      italic; a maxim cut in stone wants the upright title face. */
@@ -273,16 +274,16 @@ const [roots, studies, back, academy] = about.story;
   .academy__tripod {
     display: none;
   }
+  /* The olive branch lies above the button at every width, whatever the length of the label */
   .academy__cta {
     position: relative;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: var(--space-s) var(--space-m);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-s);
     margin-top: var(--space-l);
   }
   .academy__olive {
-    order: 2;
     width: 8.5rem;
   }
 
@@ -318,7 +319,7 @@ const [roots, studies, back, academy] = about.story;
     }
 
     .academy__photo {
-      margin-top: -6rem;
+      margin-top: -3.5rem;
     }
   }
 
@@ -389,19 +390,16 @@ const [roots, studies, back, academy] = about.story;
       grid-row: 1;
       align-self: end;
       justify-self: center;
-      width: clamp(8rem, 11vw, 10.5rem);
-      margin-bottom: 25rem;
+      width: clamp(9rem, 13vw, 12.5rem);
+      margin-bottom: 24.75rem;
     }
     .academy__cta {
       grid-column: 1 / span 4;
       grid-row: 2;
       align-self: end;
-      flex-direction: column;
-      align-items: flex-start;
       margin: 0 0 var(--space-l);
     }
     .academy__olive {
-      order: 0;
       width: 14rem;
     }
   }

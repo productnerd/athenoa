@@ -9,11 +9,15 @@ import { content } from '../data';
 import { barePath, getLocale } from '../lib/locale';
 import { personSchema, breadcrumbSchema } from '../data/schema';
 
-const { about, site } = content(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
+const { about, site } = content(locale);
 
-// The breadcrumb takes its names and addresses from the navigation, so the two cannot drift apart.
-const trail = site.nav
-  .filter((item) => ['/', '/about-athena/'].includes(barePath(item.href)))
+// The breadcrumb takes its names and addresses from the site's own links (Home from the footer, this
+// page from the navigation), so the two cannot drift apart.
+const links = [...site.footer.links, ...site.nav];
+const trail = ['/', '/about-athena/']
+  .map((path) => links.find((item) => barePath(item.href) === path))
+  .filter((item) => item !== undefined)
   .map((item) => ({ name: item.label, path: item.href }));
 ---
 
@@ -21,7 +25,7 @@ const trail = site.nav
   title={about.meta.title}
   description={about.meta.description}
   type="profile"
-  schema={[personSchema(), breadcrumbSchema(trail)]}
+  schema={[personSchema(locale), breadcrumbSchema(trail)]}
 >
   <AboutHero />
   <AboutStory />

@@ -34,7 +34,7 @@ page.on('console', (msg) => msg.type() === 'error' && console.log('CONSOLE', msg
 await page.goto(url.href, { waitUntil: 'load', timeout: 120000 });
 // Section shots are taken without the fixed header and lab controls, which would sit on top of them.
 if (opt('sel') && !flag('viewport') && !flag('nojs')) {
-  await page.addStyleTag({ content: '[data-header], .font-toggle, .lab-bar { display: none !important; }' });
+  await page.addStyleTag({ content: '[data-header], [data-music] { display: none !important; }' });
 }
 
 if (flag('nojs')) {

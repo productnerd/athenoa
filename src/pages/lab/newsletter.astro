@@ -1,0 +1,22 @@
+---
+// Lab page: the newsletter popup on its own, at /lab/newsletter/ (Greek at /el/lab/newsletter/).
+// A link to #newsletter and an element with data-newsletter-open, the two ways of opening it.
+// Not part of the published site. Once the layout carries <NewsletterDialog />, drop it from here.
+import Base from '../../layouts/Base.astro';
+import NewsletterDialog from '../../components/NewsletterDialog.astro';
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
+
+const { text, cta } = content(getLocale(Astro.url)).home.announcement.newsletter;
+---
+
+<Base title="Newsletter popup | ATHENOA" description={text} noindex>
+  <section class="section">
+    <div class="wrap wrap--narrow stack" style="--stack: var(--space-m)">
+      <p class="lead">{text}</p>
+      <p><a class="btn" href="#newsletter" data-lab-link>{cta.label}</a></p>
+      <p><button class="btn btn--ghost" type="button" data-newsletter-open>{cta.label}</button></p>
+    </div>
+  </section>
+  <NewsletterDialog />
+</Base>

@@ -35,19 +35,6 @@ const isCurrent = (href: string) => {
             </li>
           ))
         }
-        <li class="header__phone">
-          <a href={site.phone.href}>
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
-              <path
-                d="M6.6 3.2c.5-.4 1.3-.3 1.7.2l2 2.8c.3.5.3 1.1-.1 1.5L8.9 9.1c.9 1.9 2.4 3.5 4.3 4.5l1.5-1.2c.4-.4 1.1-.4 1.5-.1l2.9 2c.5.4.6 1.1.2 1.6-1 1.4-2.6 2.2-4.3 1.8C9.7 18.4 5.4 14.2 4.2 8.9 3.9 7.3 4.8 5.8 6.6 3.2z"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-                stroke-linejoin="round"></path>
-            </svg>
-            <span>{site.phone.display}</span>
-          </a>
-        </li>
         <li class="header__lang" role="group" aria-label={ui.language}>
           {
             languages.map((language) => (
@@ -98,6 +85,8 @@ const isCurrent = (href: string) => {
 
 <style>
   .header {
+    /* A pass of a wide highlighter: one fat stroke with ragged second strokes above and below */
+    --marker: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cg fill='%23b3c0f3'%3E%3Cpath d='M4 22C2 12 14 7 30 6c22-2 48-3 68-1 12 1 20 6 19 14-1 9-13 14-29 15-24 2-50 3-68 1C9 34 5 30 4 22z'/%3E%3Cpath opacity='.6' d='M9 9C30 3 70 1 105 4c9 1 14 4 11 9C96 9 50 9 14 14c-6 0-9-3-5-5z'/%3E%3Cpath opacity='.6' d='M66 36c20-1 40-4 50-11 2 7-8 13-24 14-9 0-18-1-26-3z'/%3E%3Cpath opacity='.45' d='M1 25c1 6 6 10 14 11-7 2-14-2-14-11z'/%3E%3C/g%3E%3C/svg%3E");
     position: sticky;
     top: 0;
     z-index: 50;
@@ -187,7 +176,7 @@ const isCurrent = (href: string) => {
     white-space: nowrap;
   }
   /* Hand-drawn underline that draws in on hover and stays on the current page */
-  .header__links li:not(.header__phone, .header__lang) a::after {
+  .header__links li:not(.header__lang) a::after {
     content: '';
     position: absolute;
     left: -0.2rem;
@@ -203,35 +192,19 @@ const isCurrent = (href: string) => {
     clip-path: inset(0);
   }
   /* The page you are on sits on a light-blue brush mark */
-  .header__links li:not(.header__phone, .header__lang) a {
+  .header__links li:not(.header__lang) a {
     isolation: isolate;
   }
-  .header__links li:not(.header__phone, .header__lang) a[aria-current='page']::before {
+  .header__links li:not(.header__lang) a[aria-current='page']::before {
     content: '';
     position: absolute;
-    inset: 14% -0.7rem 10% -0.6rem;
+    inset: 2% -0.95rem -4% -0.85rem;
     z-index: -1;
-    background: var(--blue-light);
-    border-radius: 46% 54% 38% 62% / 62% 44% 56% 38%;
+    background: var(--marker) center / 100% 100% no-repeat;
+    rotate: -1.4deg;
   }
-  .header__links li:not(.header__phone, .header__lang) a[aria-current='page'] {
+  .header__links li:not(.header__lang) a[aria-current='page'] {
     color: var(--blue);
-  }
-  .header__links .header__phone a {
-    color: var(--blue);
-    font-size: var(--step--1);
-    font-variant-numeric: lining-nums;
-  }
-  /* Between the menu-button layout and a wide screen the number folds down to its icon */
-  @media (min-width: 64.01rem) and (max-width: 74rem) {
-    .header__phone span {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-      clip-path: inset(50%);
-      white-space: nowrap;
-    }
   }
   /* Language switch: two small marks, the current one filled */
   .header__lang {
@@ -318,29 +291,24 @@ const isCurrent = (href: string) => {
       translate: 0 0;
       transition-delay: 0s;
     }
-    .header__links a,
-    .header__links .header__phone a {
+    .header__links a {
       color: var(--creme-light);
     }
-    .header__links li:not(.header__phone, .header__lang) a {
+    .header__links li:not(.header__lang) a {
       font-family: var(--font-title);
       font-weight: var(--title-weight);
       font-size: var(--step-3);
       line-height: 1.05;
       padding-block: 0.25rem;
     }
-    .header__links li:not(.header__phone, .header__lang) a::after {
-      display: none;
-    }
-    /* The number is in the footer and on the contact section; the menu stays short */
-    .header__phone {
+    .header__links li:not(.header__lang) a::after {
       display: none;
     }
     .header__lang {
       margin-top: 1.1rem;
     }
     /* Each link slides in a little and a light-blue brush mark sweeps in behind it */
-    .header__links li:not(.header__phone, .header__lang) a {
+    .header__links li:not(.header__lang) a {
       isolation: isolate;
       padding-inline: 0.35rem 0.6rem;
       margin-left: -0.35rem;
@@ -348,26 +316,26 @@ const isCurrent = (href: string) => {
         translate var(--dur-2) var(--ease-out),
         color var(--dur-1);
     }
-    .header__links li:not(.header__phone, .header__lang) a::before {
+    .header__links li:not(.header__lang) a::before {
       content: '';
       position: absolute;
-      inset: 12% -0.7rem 6% -0.45rem;
+      inset: 4% -0.9rem -2% -0.6rem;
       z-index: -1;
-      background: var(--blue-light);
-      border-radius: 46% 54% 38% 62% / 62% 44% 56% 38%;
+      background: var(--marker) center / 100% 100% no-repeat;
+      rotate: -0.8deg;
       transform: scaleX(0);
       transform-origin: 0 50%;
       transition: transform var(--dur-2) var(--ease-out);
     }
-    .header__links li:not(.header__phone, .header__lang) a:hover,
-    .header__links li:not(.header__phone, .header__lang) a:focus-visible,
-    .header__links li:not(.header__phone, .header__lang) a[aria-current='page'] {
+    .header__links li:not(.header__lang) a:hover,
+    .header__links li:not(.header__lang) a:focus-visible,
+    .header__links li:not(.header__lang) a[aria-current='page'] {
       color: var(--blue-deep);
       translate: 0.4rem 0;
     }
-    .header__links li:not(.header__phone, .header__lang) a:hover::before,
-    .header__links li:not(.header__phone, .header__lang) a:focus-visible::before,
-    .header__links li:not(.header__phone, .header__lang) a[aria-current='page']::before {
+    .header__links li:not(.header__lang) a:hover::before,
+    .header__links li:not(.header__lang) a:focus-visible::before,
+    .header__links li:not(.header__lang) a[aria-current='page']::before {
       transform: none;
     }
     .header__links .header__lang a:hover {

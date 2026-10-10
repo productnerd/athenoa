@@ -3,9 +3,12 @@
 //   footer-aegean-mid.svg   calm water, the terraced cape with its columns and tamarisks, an islet, a far sail
 //   footer-aegean-near.svg  the sea in the foreground: wave bands in three blues, dolphins, sea-worn rocks
 // node scripts/illustrations/aegean-gen.mjs
+// Look at the result with scripts/illustrations/aegean-render.mjs (the three layers stacked as on the page).
 //
 // Footer.astro stacks the layers in a 1600 x 525 box: far sits 21 units from the top, mid 210.8,
-// near 165. The horizon is one line in all three: far y 310, mid y 120, near y 166 (scene y 331).
+// near 165. The far layer owns the horizon (far y 306, scene y 327) and has its own strip of sea
+// under it; the sea of the mid layer starts 4 units lower (mid y 120, scene y 331). Parallax lifts
+// the far layer a little against the mid one, which only widens that strip of far water.
 // Narrow screens see only the middle of the scene (x 500 to 1100), so the columns, the sun and
 // the dolphins all live there.
 import { writeFileSync } from 'node:fs';
@@ -17,7 +20,7 @@ const PAPER = 'var(--paper, #f2e9d3)';
 const LIGHT = 'var(--blue-light, #b3c0f3)';
 const DEEP = 'var(--blue-deep, #071260)';
 const TAU = Math.PI * 2;
-const SUN_X = 962; // the sun and its path on the water share one x in the far and mid layers
+const SUN_X = 940; // the sun and its path on the water share one x in the far and mid layers
 
 // ---------- small geometry kit ----------
 const f = (v) => {
@@ -152,7 +155,7 @@ const svg = (h, sw, body) =>
 const path = (d, attrs = '') => `<path ${attrs ? attrs + ' ' : ''}d="${d}"/>`;
 const paperFill = (d) => path(d, `fill="${PAPER}" stroke="none"`);
 const papered = (d) => path(d, `fill="${PAPER}"`);
-const wash = (d, nodraw = true) => path(d, `fill="${LIGHT}" stroke="none"${nodraw ? ' data-nodraw' : ''}`);
+const wash = (d, nodraw = true) => path(d, `fill="${LIGHT}" stroke="none"${nodraw ? ' data-nodraw=""' : ''}`);
 
 // a gull far off: two wing strokes meeting at the body
 const gull = (x, y, w, tilt = 0) => {
@@ -161,32 +164,28 @@ const gull = (x, y, w, tilt = 0) => {
 };
 
 // ====================================================================================
-// FAR: sky, sun, clouds, gulls, far islands.  Horizon at y 310.
+// FAR: sky, sun, clouds, gulls, far islands.  Horizon at y 306.
 // ====================================================================================
 function far() {
-  const H = 310;
+  const H = 306;
   const BOTTOM = 422;
   const rnd = prng(19);
   const out = [];
 
   // --- the sun, low over the water, in widening rings that break up as they go out.
-  // Disc and rings run on below the horizon: the sea of the mid layer hides what has set.
-  const [cx, cy] = [SUN_X, 293];
-  const below = H + 44;
+  // Disc and rings run on a little below the horizon and the far sea is laid over them.
+  const [cx, cy] = [SUN_X, H - 17];
+  const below = H + 8;
   out.push(`<circle cx="${cx}" cy="${cy}" r="29"/>`);
   const rings = [
     { r: 43, gaps: [] },
     { r: 58, gaps: [] },
-    { r: 75, gaps: [0.635] },
-    { r: 94, gaps: [0.23, 0.75] },
-    { r: 115, gaps: [0.11, 0.45, 0.84] },
-    { r: 138, gaps: [0.18, 0.37, 0.61, 0.89] },
+    { r: 75, gaps: [0.6] },
+    { r: 94, gaps: [0.19, 0.78] },
+    { r: 115, gaps: [0.1, 0.44, 0.86] },
+    { r: 138, gaps: [0.17, 0.36, 0.62, 0.9] },
   ];
   rings.forEach(({ r, gaps }, k) => {
-    if ((below - cy) / r >= 1) {
-      out.push(`<circle cx="${cx}" cy="${cy}" r="${r}"/>`);
-      return;
-    }
     const a0 = -Math.asin((below - cy) / r);
     const span = Math.PI - 2 * a0;
     const gapAngle = (12 + k * 2.4) / r; // a gap of about the same hand's width on every ring
@@ -202,12 +201,16 @@ function far() {
     out.push(path(d));
   });
 
-  // --- far islands: long low silhouettes. The nearer ones carry a light wash, the farthest is bare paper.
+  // --- the far sea: paper from the horizon down
+  out.push(paperFill(`M-40 ${H}H1640V${BOTTOM}H-40Z`));
+
+  // --- far islands: long low silhouettes standing on the horizon. The nearer ones carry a
+  // light wash, the farthest is bare paper.
   const island = (pts, contours, washed = true) => {
     const top = pts.map(([x, h]) => [x, H - h]);
     const h = lookup(pts);
     const d = smooth(top);
-    const closed = `${d}V${BOTTOM}H${f(top[0][0])}Z`;
+    const closed = `${d}V${H}H${f(top[0][0])}Z`;
     out.push(paperFill(closed));
     if (washed) out.push(wash(closed));
     out.push(path(d));
@@ -217,7 +220,7 @@ function far() {
   };
   // left: a high island far behind the land; its summit shows over the saddle between hill and cape
   island(
-    [[110, -30], [150, 10], [190, 40], [226, 62], [262, 78], [296, 84], [330, 80], [366, 68], [404, 58], [444, 50], [486, 38], [524, 20], [552, -30]],
+    [[104, 0], [128, 12], [158, 30], [192, 48], [226, 64], [262, 78], [296, 84], [330, 80], [366, 68], [404, 58], [444, 50], [486, 38], [520, 22], [546, 8], [566, 0]],
     [
       [236, 352, 0.86],
       [272, 330, 0.72],
@@ -225,7 +228,7 @@ function far() {
   );
   // right: a far ridge on bare paper, running off the edge
   island(
-    [[1290, -30], [1318, 6], [1348, 30], [1384, 50], [1422, 65], [1462, 72], [1502, 66], [1544, 56], [1586, 52], [1626, 55], [1660, 58]],
+    [[1296, 0], [1318, 12], [1348, 32], [1384, 51], [1422, 66], [1462, 73], [1502, 67], [1544, 57], [1586, 53], [1626, 56], [1660, 59]],
     [
       [1400, 1530, 0.78],
       [1570, 1660, 0.74],
@@ -234,13 +237,15 @@ function far() {
   );
   // right: the long low island in front of it
   island(
-    [[1212, -30], [1234, -4], [1262, 8], [1300, 17], [1346, 25], [1396, 30], [1444, 33], [1492, 40], [1538, 46], [1584, 44], [1626, 38], [1660, 34]],
+    [[1204, 0], [1226, 3.5], [1258, 9], [1300, 17], [1346, 25], [1396, 30], [1444, 33], [1492, 40], [1538, 46], [1584, 44], [1626, 38], [1660, 34]],
     [
       [1300, 1450, 0.6],
       [1476, 1640, 0.66],
       [1510, 1610, 0.34],
     ],
   );
+  // the horizon, drawn across the feet of the islands
+  out.push(path(smooth(sample((x) => H + Math.sin(x / 190) * 0.35, -40, 1640, 210))));
 
   // --- clouds: long evening clouds, scalloped above and level below, the wash printed a little
   // off register, thin streaks trailing beside them
@@ -313,15 +318,15 @@ function far() {
   );
 
   // --- gulls
-  out.push(path(gull(772, 172, 10, -6) + gull(806, 194, 7, 5) + gull(742, 200, 5.5, -3)));
-  out.push(path(gull(1128, 196, 8.5, 6) + gull(1160, 178, 6, -5)));
+  out.push(path(gull(744, 158, 10, -6) + gull(778, 180, 7, 5) + gull(716, 184, 5.5, -3)));
+  out.push(path(gull(1096, 190, 8.5, 6) + gull(1128, 172, 6, -5)));
   out.push(path(gull(470, 196, 6, -4) + gull(492, 182, 4.5, 4)));
 
   return svg(420, 2, out.join(''));
 }
 
 // ====================================================================================
-// MID: calm water, the terraced cape with its columns, an islet, a sail.  Horizon at y 120.
+// MID: calm water, the terraced cape with its columns, an islet, a sail.  Its sea starts at y 120.
 // A terraced hill stands at the left edge; behind it the cape climbs to the columns and falls
 // into the sea as a cliff. Each shore is printed with a thin strip of light blue under it.
 // ====================================================================================
@@ -332,7 +337,7 @@ function mid() {
 
   // the hill at the left edge: crest, then the long fall to the water
   const hill = [[-40, 90], [10, 79], [58, 72], [106, 70], [154, 73], [200, 80], [244, 91], [286, 105], [324, 121], [356, 137], [382, 151], [400, 162]];
-  const hillShore = [[400, 162], [372, 168], [330, 171], [282, 172], [232, 176], [180, 182], [124, 185], [66, 188], [10, 194], [-40, 198]];
+  const hillShore = [[400, 162], [372, 167.5], [338, 173], [300, 181], [262, 190], [222, 200], [180, 209], [120, 218], [40, 226], [-40, 232]];
   // skyline of the cape behind it, level under the columns
   const sky = [[200, 97], [250, 91], [300, 85.5], [356, 78], [414, 70], [470, 64], [526, 60], [580, 58], [640, 58], [700, 58], [716, 58.6]];
   // the cliff, from the lip down to the water, in ledges
@@ -347,20 +352,20 @@ function mid() {
   const landBottom = (x) => Math.max(x <= 400 ? hillShoreY(x) : -1e3, x >= 372 && x <= 770 ? shoreY(x) : -1e3);
 
   // the islet on the right: long, low, close to the water
-  const isleTop = [[1086, 124], [1093, 113.5], [1108, 106.5], [1132, 101], [1160, 97.5], [1186, 98], [1210, 102.5], [1234, 107.5], [1260, 108.5], [1286, 112.5], [1306, 118.5], [1320, 125.5]];
-  const isleShore = [[1320, 125.5], [1298, 130], [1258, 133], [1212, 134], [1166, 133.5], [1124, 131.5], [1098, 129], [1086, 124]];
+  const isleTop = [[1086, 124], [1092, 112], [1106, 102], [1126, 95], [1150, 92], [1176, 94], [1200, 100], [1222, 106], [1246, 107], [1270, 110], [1292, 116], [1310, 122], [1322, 126.5]];
+  const isleShore = [[1322, 126.5], [1300, 130.5], [1262, 132.5], [1214, 133], [1166, 132.5], [1126, 131], [1100, 129], [1086, 124]];
   const isleTopY = lookup(isleTop);
   const isleShoreY = lookup([...isleShore].reverse());
 
-  // --- the sea: paper down to the bottom, so the far layer sinks behind the horizon
+  // --- the sea: paper down to the bottom. The horizon itself belongs to the far layer, a few
+  // units higher, so this sheet only ever covers far water.
   out.push(paperFill(`M-40 ${H}H1640V302H-40Z`));
-  out.push(path(smooth(sample((x) => H + Math.sin(x / 170) * 0.4, 790, 1640, 170))));
 
   // --- the sun's path on the water: short level strokes, a few to a row, widening as it comes nearer
   const glitterHalf = (y) => 13 + (y - H) * 0.52;
   {
     let d = '';
-    let y = H + 6;
+    let y = H + 4.5;
     let row = 0;
     while (y < 236) {
       const half = glitterHalf(y);
@@ -383,7 +388,7 @@ function mid() {
 
   // --- calm water: long level strokes with gaps, further apart as they come nearer
   {
-    let y = H + 7.5;
+    let y = H + 5.5;
     let row = 0;
     while (y < 262) {
       const yy = y;
@@ -549,7 +554,8 @@ function mid() {
       `M${xy(t([4, -25.5]))}${scallops([[4, -25.5], [13, -22.5]].map(t), 0.68)}`;
     return path(trunk) + papered(d) + path(inner);
   };
-  out.push(tamarisk(438, skyY(438) + 1, 0.7, -2));
+  out.push(tamarisk(430, skyY(430) + 1, 0.7, -2));
+  out.push(tamarisk(506, 113, 0.9, 1));
   out.push(olive(553, 59.4, 0.82));
 
   // --- the hill at the left edge, in front of the cape
@@ -571,6 +577,8 @@ function mid() {
     out.push(path(line(40, -40, 300, 50)));
     out.push(path(line(63, -40, 262, 20)));
     out.push(path(line(88, -40, 214, 70)));
+    out.push(path(line(114, -40, 170, 10)));
+    out.push(path(line(141, -40, 96, 40)));
   }
   out.push(tamarisk(34, hillY(34) + 1.4, 0.98, -3));
   out.push(tamarisk(150, hillY(150) + 1, 0.74, 2));
@@ -591,14 +599,14 @@ function mid() {
         lead,
         ok: (x, y) => y < isleShoreY(x) - 5,
       });
-    out.push(path(line(10, 1104, 1300, 0) + line(21, 1100, 1270, 20)));
+    out.push(path(line(11, 1106, 1300, 0) + line(23, 1100, 1240, 20)));
   }
-  out.push(tamarisk(1146, isleTopY(1146) + 1, 0.56, -2));
+  out.push(tamarisk(1140, isleTopY(1140) + 1, 0.56, -2));
   out.push(skerry(1348, 126.5, 15, 7, -1) + skerry(1371, 127.5, 8, 3.6));
 
   // --- a sail far off, standing still on the horizon
   {
-    const [sx, sy] = [1420, 119.6];
+    const [sx, sy] = [1398, 119.6];
     out.push(
       papered(poly([[sx, sy - 1.4], [sx + 0.4, sy - 14.5], [sx + 8.4, sy - 1.6]], true)) +
         papered(poly([[sx - 1.8, sy - 2], [sx - 1.6, sy - 11], [sx - 7, sy - 2.2]], true)) +
@@ -610,10 +618,10 @@ function mid() {
 }
 
 // ====================================================================================
-// NEAR: the sea in the foreground.  Horizon would be y 166; the first wave line runs at y 236.
-// Bands of water come nearer and darker: paper, light blue, then the ink of deep water with
-// slow darker swells in it. Dolphins leap in the middle, sea-worn ledges of rock shelve into
-// the water at the right.
+// NEAR: the sea in the foreground.  The first wave line runs at y 232 (scene y 397).
+// Bands of water come nearer and larger: paper, light blue, a narrow trough of the darkest blue,
+// then the ink band that carries the copyright line. Dolphins leap in the middle, sea-worn rocks
+// stand in the water at the right.
 // ====================================================================================
 // A dolphin built along an arc: tail at u 0, beak at u 1; `top` and `bot` are the half-widths of the body.
 function dolphin(pl, { L = 100, bend = 1.1 } = {}) {
@@ -682,26 +690,27 @@ function near() {
   const across = (fn, step = 40) => smooth(sample(fn, -40, 1640, step));
   const band = (fn, step = 40) => `${across(fn, step)}V${BOTTOM}H-40Z`;
 
-  const w1 = swell(236, [
+  const w1 = swell(232, [
     [3.2, 176, 0.4],
     [1.5, 430, 2.1],
   ]);
-  const w2 = swell(259, [
-    [4.6, 250, 1.7],
+  const w2 = swell(254, [
+    [4.4, 250, 1.7],
     [2, 610, 0.3],
   ]);
-  const w3 = swell(294, [
-    [6.2, 340, 3.4],
-    [2.6, 790, 1.2],
+  // the dark trough behind the nearest swell, then the swell itself: the ink band
+  const w3 = swell(281, [
+    [4.6, 330, 3.4],
+    [2.2, 790, 1.2],
   ]);
-  const w4 = swell(329, [
-    [4.4, 460, 0.9],
-    [2, 1100, 2.6],
+  const w4 = swell(297.5, [
+    [4.2, 410, 0.6],
+    [2.2, 960, 2.6],
   ]);
 
   // --- dolphins, leaping in front of the calm water and falling back behind the first wave
-  out.push(dolphin({ x: 1030, y: 236, s: 0.88, rot: -5 }));
-  out.push(dolphin({ x: 860, y: 224, s: 1.24, rot: 3 }));
+  out.push(dolphin({ x: 992, y: 230, s: 0.88, rot: -5 }));
+  out.push(dolphin({ x: 818, y: 215, s: 1.26, rot: 4 }));
 
   // --- first band: paper, one wave line and a broken one under it
   out.push(paperFill(band(w1)));
@@ -718,68 +727,82 @@ function near() {
     ),
   );
 
+  // rings on the water where the dolphins leave it and fall back
+  const ripple = (x, y, w) =>
+    smooth([[x - w, y - 0.6], [x - w * 0.35, y + 1.6], [x + w * 0.4, y + 1.5], [x + w, y - 0.4]]) +
+    smooth([[x - w * 0.5, y + 4.4], [x + w * 0.05, y + 5.6], [x + w * 0.56, y + 4.2]]);
+  out.push(path(ripple(826, 238.5, 15) + ripple(962, 238, 12) + ripple(1076, 238, 11)));
+
   // --- sea-worn rocks at the right: blocks with worn corners, stepping down into the sea.
-  // Tops and sunward sides are paper; the face turned from the sun takes a light wash,
-  // printed a little off register.
-  const rock = (outline, lines, face) =>
-    papered(worn(outline, 9)) +
-    (face ? path(worn(face.map(([x, y, r]) => [x + 3.5, y + 3, r]), 6), `fill="${LIGHT}" stroke="none"`) : '') +
-    path(worn(outline, 9)) +
+  // Like the clouds, each takes a light wash printed a little off register, down and to the
+  // right, which leaves a rim of paper on the side that faces the sun.
+  const rock = (outline, lines, off = 8, r = 9) =>
+    papered(worn(outline, r)) +
+    path(worn(outline.map(([x, y, rr]) => [x + off, y + off * 0.9, rr]), r), `fill="${LIGHT}" stroke="none"`) +
+    path(worn(outline, r)) +
     path(lines.map((l) => smooth(l)).join(''));
   // the tall one, running off the edge
   out.push(
     rock(
-      [[1700, 166], [1650, 152, 16], [1594, 149, 18], [1544, 162, 16], [1512, 192, 16], [1498, 236, 12], [1502, 300], [1700, 300]],
+      [[1700, 158], [1604, 143, 14], [1552, 141, 14], [1510, 153, 13], [1484, 178, 13], [1476, 210, 12], [1460, 236, 10], [1456, 300], [1700, 300]],
       [
-        [[1516, 196], [1552, 188.5], [1600, 192], [1650, 184.5], [1690, 180]],
-        [[1600, 192], [1594, 216], [1603, 240], [1600, 262]],
-        [[1520, 228], [1548, 222.5], [1572, 225]],
-        [[1626, 218], [1660, 212.5]],
-        [[1622, 244], [1650, 240], [1680, 241]],
+        [[1492, 184], [1528, 177], [1572, 181.5], [1622, 175], [1660, 170]],
+        [[1528, 177], [1522, 200], [1531, 224]],
+        [[1474, 234], [1502, 228.5], [1534, 232]],
+        [[1566, 210], [1602, 204.5], [1640, 206]],
+        [[1576, 238], [1612, 234]],
       ],
-      [[1600, 193, 3], [1650, 185.5], [1700, 180], [1700, 300], [1601, 300], [1603, 240], [1594, 216, 8]],
+      9,
     ),
   );
   // the middle one, in front of it
   out.push(
     rock(
-      [[1382, 300], [1378, 254, 10], [1390, 226, 13], [1418, 210, 13], [1458, 208, 13], [1490, 222, 13], [1504, 248, 10], [1508, 300]],
+      [[1330, 300], [1328, 252, 10], [1338, 228, 12], [1362, 212, 12], [1398, 206, 12], [1432, 212, 12], [1454, 232, 12], [1464, 258, 8], [1466, 300]],
       [
-        [[1388, 238], [1416, 230.5], [1452, 234], [1496, 238.5]],
-        [[1452, 234], [1447, 252], [1454, 268]],
-        [[1398, 256], [1424, 251.5]],
+        [[1345, 234], [1374, 227.5], [1410, 231.5], [1449, 236.5]],
+        [[1410, 231.5], [1405, 246]],
+        [[1352, 250], [1378, 246]],
       ],
-      [[1452, 235, 3], [1496, 239.5], [1506, 252], [1508, 300], [1454, 300], [1447, 252, 6]],
+      8,
     ),
   );
   // two small ones further out
   out.push(
     rock(
-      [[1288, 300], [1288, 262, 6], [1300, 246, 9], [1324, 240.5, 9], [1346, 248, 9], [1355, 266, 6], [1357, 300]],
-      [[[1292, 257.5], [1320, 252], [1352, 259]]],
-      [[1320, 253, 3], [1352, 260], [1357, 300], [1318, 300]],
+      [[1234, 300], [1234, 258, 6], [1248, 242, 9], [1272, 236.5, 9], [1296, 244, 9], [1306, 262, 6], [1308, 300]],
+      [[[1242, 253], [1268, 248.5], [1298, 254.5]]],
+      6,
     ),
   );
-  out.push(rock([[1206, 300], [1208, 264, 5], [1222, 253.5, 7], [1242, 255, 7], [1251, 266, 5], [1253, 300]], []));
+  out.push(rock([[1154, 300], [1156, 257, 5], [1169, 243.5, 7], [1190, 241.5, 7], [1203, 251, 6], [1206, 300]], [[[1163, 251.5], [1184, 248.5]]], 5, 7));
 
   // --- second band: light blue
   out.push(path(band(w2), `fill="${LIGHT}"`));
   out.push(
     path(
-      broken((x) => w2(x) * 0.68 + w3(x) * 0.32 + 0.4, -40, 1640, rnd, { len: [150, 360], gap: [36, 90], step: 44, min: 50, lead: -30 }) +
-        broken((x) => w2(x) * 0.36 + w3(x) * 0.64 + 0.6, -40, 1640, rnd, { len: [130, 320], gap: [50, 130], step: 44, min: 50, lead: -110 }),
+      broken((x) => w2(x) * 0.64 + w3(x) * 0.36 + 0.4, -40, 1640, rnd, { len: [150, 360], gap: [36, 90], step: 44, min: 50, lead: -30 }) +
+        broken((x) => w2(x) * 0.3 + w3(x) * 0.7 + 0.4, -40, 1640, rnd, { len: [130, 320], gap: [60, 150], step: 44, min: 50, lead: -110 }),
     ),
   );
 
-  // --- deep water: the ink band, light lines riding near its top, slow darker swells below
-  out.push(path(band(w3), 'fill="currentColor"'));
+  // --- deep water: a narrow trough of the darkest blue, then the ink band that carries the
+  // copyright line, with a few light lines riding near its top
+  out.push(path(band(w3), `fill="${DEEP}" stroke="none"`));
+  out.push(path(band(w4), 'fill="currentColor"'));
   out.push(
     path(
-      broken((x) => w3(x) * 0.62 + w4(x) * 0.38 + 0.4, -40, 1640, rnd, { len: [150, 380], gap: [70, 170], step: 46, min: 60, lead: -80 }),
+      broken((x) => w4(x) + 9.5 + Math.sin(x / 150) * 1.2, -40, 1640, rnd, {
+        len: [150, 380],
+        gap: [80, 190],
+        step: 46,
+        min: 60,
+        lead: -80,
+        ok: (x) => x < 610 || x > 990, // the copyright line is set over the middle of the band
+      }),
       `stroke="${LIGHT}"`,
     ),
   );
-  out.push(path(band(w4, 56), `fill="${DEEP}" stroke="none"`));
 
   return svg(360, 2.6, out.join(''));
 }

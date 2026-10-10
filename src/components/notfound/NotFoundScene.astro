@@ -9,22 +9,32 @@
 // Every file is shown at (its viewBox width × --u), so the layers keep their proportions.
 // Copy: src/data/notfound.ts.
 //
+// Two languages in one page. A static site serves the same not-found page for every missing
+// address, so the language cannot be known when the page is built: the words of both languages
+// are in the markup, each marked with its language, and the small script below shows the Greek
+// ones on addresses that begin with /el/. English shows otherwise, and without JavaScript.
+//
 // Motion is CSS only. The loops run under html.motion (set by Base when motion is allowed) and
 // prefers-reduced-motion: no-preference; otherwise the same layers stand still as one picture,
 // with the boat right of centre.
 import Illustration from '../Illustration.astro';
-import { notfound, type NotFoundLocale } from '../../data/notfound';
+import { notfound } from '../../data/notfound';
 
-interface Props {
-  locale?: NotFoundLocale;
-}
-const { locale = 'en' } = Astro.props;
-const t = notfound[locale];
-// The sentence breaks by sense, after the ano teleia.
-const clauses = t.quote.text.split(/(?<=·)\s+/);
+const locales = ['en', 'el'] as const;
+// The ancient sentence is the same in both languages; it breaks by sense, after the ano teleia.
+const quote = notfound.en.quote;
+const clauses = quote.text.split(/(?<=·)\s+/);
+const headings = { en: notfound.en.heading, el: notfound.el.heading };
 ---
 
-<section class="nf" lang={locale}>
+<section class="nf">
+  <script is:inline data-astro-rerun define:vars={{ headings }}>
+    if (/^\/el(\/|$)/.test(location.pathname)) {
+      document.documentElement.setAttribute('data-nf-lang', 'el');
+      document.title = document.title.replace(headings.en, headings.el);
+    }
+  </script>
+
   <!-- The plain words come first in the source; the grid sets them on the near water. -->
   <div class="nf__near on-blue-deep">
     <div class="nf__deep" aria-hidden="true">
@@ -33,16 +43,27 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
       </div>
       <div class="nf__floor"><Illustration name="sea-floor" /></div>
     </div>
-    <div class="nf__words wrap">
-      <div class="nf__say">
-        <h1 class="nf__title t-3">{t.heading}</h1>
-        <p class="nf__line">{t.line}</p>
-      </div>
-      <p class="nf__ways">
-        <a class="btn" href={t.home.href}>{t.home.label}</a>
-        <a class="btn btn--ghost" href={t.courses.href}>{t.courses.label}</a>
-      </p>
-    </div>
+    {
+      locales.map((locale) => {
+        const t = notfound[locale];
+        return (
+          <div class="nf__words wrap" lang={locale} data-lang={locale}>
+            <div class="nf__say">
+              <h1 class="nf__title t-3">{t.heading}</h1>
+              <p class="nf__line">{t.line}</p>
+            </div>
+            <p class="nf__ways">
+              <a class="btn" href={t.home.href}>
+                {t.home.label}
+              </a>
+              <a class="btn btn--ghost" href={t.courses.href}>
+                {t.courses.label}
+              </a>
+            </p>
+          </div>
+        );
+      })
+    }
   </div>
 
   <div class="nf__sky">
@@ -60,7 +81,7 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     </div>
 
     <figure class="nf__quote">
-      <blockquote class="nf__greek t-2" lang={t.quote.lang} data-reveal style="--delay: 250ms">
+      <blockquote class="nf__greek t-2" lang={quote.lang} data-reveal style="--delay: 250ms">
         <p>
           {
             clauses.map((clause, i) => (
@@ -72,9 +93,15 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
           }
         </p>
       </blockquote>
-      <figcaption class="nf__caption" data-reveal style="--delay: 600ms">
-        <span class="nf__translation">{t.quote.translation}</span>
-        <span class="nf__source small">{t.quote.source}</span>
+      <figcaption data-reveal style="--delay: 600ms">
+        {
+          locales.map((locale) => (
+            <div class="nf__caption" lang={locale} data-lang={locale}>
+              <span class="nf__translation">{notfound[locale].quote.translation}</span>
+              <span class="nf__source small">{notfound[locale].quote.source}</span>
+            </div>
+          ))
+        }
       </figcaption>
     </figure>
 
@@ -107,22 +134,33 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
 
 <style>
   .nf {
-    /* One wave tile is 1600 drawing units and never narrower than the screen; --u is one unit. */
-    --tile: max(100vw, 64rem);
-    --u: calc(var(--tile) / 1600);
-    /* Horizon to the edge of the near water. Shorter screens get a shallower sea. */
-    --sea-h: min(calc(var(--u) * 206), 25svh);
+    /* --u is one drawing unit. By width, the picture is 1600 units across and never narrower than
+       64rem. By height, it must leave room for the words: --fixed is what the header, the
+       translation and the plain words take, and 638 units is the picture from the clouds to the
+       foot of the water (484) plus two lines of Greek (154). The smaller of the two is used, so
+       the whole page fits a laptop window; below --least of the width scale it stops shrinking
+       and the page scrolls instead. */
+    --vh: 100vh;
+    --fixed: 21rem;
+    --least: 0.5;
+    --uw: calc(max(100vw, 64rem) / 1600);
+    --u: clamp(calc(var(--uw) * var(--least)), calc((var(--vh) - var(--fixed)) / 638), var(--uw));
+    /* One wave tile. It may be narrower than the screen, so the bands are four tiles long. */
+    --tile: calc(var(--u) * 1600);
+    /* Horizon to the edge of the near water. */
+    --sea-h: calc(var(--u) * 206);
     /* Sky kept clear: for the clouds above the sentence, and for the sun and the islands below it. */
     --cloud-zone: calc(var(--u) * 96);
     --land-zone: calc(var(--u) * 90);
+    /* Where the sun stands along the horizon. */
+    --sun: 43%;
 
     position: relative;
     isolation: isolate;
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr) var(--sea-h) auto;
-    min-height: max(100vh, 36rem);
-    min-height: max(100svh, 36rem);
+    min-height: var(--vh);
     /* Pulled up under the sticky header, which keeps its strip of crème sky. */
     margin-top: calc(var(--header-h) * -1);
     /* A little paper under the water's lower edge. */
@@ -130,8 +168,24 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     overflow: clip;
     background-color: var(--paper);
   }
+  @supports (height: 100svh) {
+    .nf {
+      --vh: 100svh;
+    }
+  }
   .nf :global(.illo svg) {
     max-width: none;
+  }
+  /* Both languages are in the page; the address decides which one shows (see the script). */
+  :global(html:not([data-nf-lang='el'])) .nf [data-lang='el'],
+  :global(html[data-nf-lang='el']) .nf [data-lang='en'] {
+    display: none;
+  }
+  /* Editorial New has no Greek and the Tekst trial lacks accented Greek: the Greek words are set
+     in EB Garamond throughout, so that no word is pieced together from two typefaces. */
+  .nf [data-lang='el'] {
+    --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
   }
 
   /* ---------- rows ---------- */
@@ -148,10 +202,12 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     grid-row: 2;
     position: relative;
   }
+  /* The foot of the near water stays clear of the music button, which is fixed in the lower left
+     corner of every page (3rem square, at most 1.5rem from the edges). */
   .nf__near {
     grid-row: 3;
     position: relative;
-    padding: calc(var(--u) * 66) 0 clamp(1.25rem, 3svh, 2.25rem);
+    padding: calc(var(--u) * 66) 0 3rem;
   }
 
   /* ---------- the words ---------- */
@@ -161,11 +217,11 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     max-width: 100%;
     margin: 0;
   }
-  /* Polytonic Greek is always set in EB Garamond, whichever type set is on trial. */
+  /* The title face has no Greek: the polytonic sentence is set in EB Garamond. */
   .nf__greek {
     margin: 0;
     font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
-    font-size: min(calc(clamp(2.3rem, 1.5rem + 3.5vw, 4.7rem) * 0.86), 7svh);
+    font-size: max(1.5rem, min(calc(clamp(2.3rem, 1.5rem + 3.5vw, 4.7rem) * 0.86), calc(var(--u) * 70)));
     font-weight: 400;
     letter-spacing: -0.005em;
     line-height: 1.1;
@@ -179,6 +235,7 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     justify-items: center;
     gap: 0.3rem;
     margin-top: clamp(0.8rem, 2.2svh, 1.5rem);
+    font-family: var(--font-body);
   }
   .nf__translation {
     max-width: 46ch;
@@ -209,14 +266,15 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
   }
 
   /* ---------- the picture ---------- */
-  /* Sliding layers: two tiles wide, moved by exactly one tile. --at is where in the loop the
-     still picture stands, and where the loop starts from. */
+  /* Sliding layers: four tiles long, moved by exactly one tile (--step, a share of their own
+     length). --at is where in the loop the still picture stands, and where the loop starts from. */
   .nf__run {
+    --step: -25%;
     position: absolute;
     left: 0;
     top: 0;
-    width: calc(var(--tile) * 2);
-    transform: translate3d(calc(-50% * (1 - var(--at, 0))), 0, 0);
+    width: calc(var(--tile) * 4);
+    transform: translate3d(calc(var(--step) * (1 - var(--at, 0))), 0, 0);
   }
 
   .nf__clouds {
@@ -234,7 +292,9 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     top: calc(var(--u) * var(--y));
     width: 100%;
   }
+  /* Each cloud is set twice, one sky tile apart, on a strip two sky tiles long. */
   .nf__cloud .nf__run {
+    --step: -50%;
     width: calc(var(--sky-tile) * 2);
   }
   .nf__cloud :global(.illo) {
@@ -246,7 +306,9 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
   .nf__cloud :global(.illo + .illo) {
     left: calc(var(--x) + 50%);
   }
+  /* The slowest cloud is the farthest: the faster ones pass in front of it. */
   .nf__cloud--1 {
+    z-index: 2;
     --w: 330;
     --x: 7%;
     --y: 0;
@@ -254,6 +316,7 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     --at: 0.08;
   }
   .nf__cloud--2 {
+    z-index: 1;
     --w: 236;
     --x: 27%;
     --y: 30;
@@ -261,6 +324,7 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     --at: 0.5;
   }
   .nf__cloud--3 {
+    z-index: 3;
     --w: 420;
     --x: 36%;
     --y: 8;
@@ -280,19 +344,21 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
   .nf__land > * {
     position: absolute;
   }
+  /* The sun stands a little left of centre. The island ends just short of it on one side; the cape
+     runs off the right edge and, on narrow screens, further off, so it keeps clear on the other. */
   .nf__sun {
-    left: 36.5%;
+    left: var(--sun);
     bottom: calc(var(--u) * -64);
     width: calc(var(--u) * 300);
     margin-left: calc(var(--u) * -150);
   }
   .nf__island {
-    left: 1.5%;
+    left: calc(var(--sun) - var(--u) * 670);
     bottom: calc(var(--u) * -4);
     width: calc(var(--u) * 560);
   }
   .nf__cape {
-    right: calc(var(--u) * -80);
+    right: calc(max(var(--u) * 80, var(--u) * 670 - (100% - var(--sun))) * -1);
     bottom: calc(var(--u) * -4);
     width: calc(var(--u) * 560);
   }
@@ -302,7 +368,7 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     z-index: 1;
     left: 0;
     top: calc(var(--u) * -4);
-    width: var(--tile);
+    width: calc(var(--tile) * 2);
   }
   .nf__band {
     position: absolute;
@@ -380,7 +446,7 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
     position: absolute;
     left: 0;
     top: calc(100% - 1px);
-    width: var(--tile);
+    width: calc(var(--tile) * 2);
   }
 
   /* Paper grain over the whole picture, still while the layers move underneath. */
@@ -396,7 +462,7 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
   /* ---------- motion (only when it is allowed) ---------- */
   @keyframes nf-drift {
     from {
-      transform: translate3d(-50%, 0, 0);
+      transform: translate3d(var(--step), 0, 0);
     }
     to {
       transform: translate3d(0, 0, 0);
@@ -471,17 +537,12 @@ const clauses = t.quote.text.split(/(?<=·)\s+/);
 
   /* ---------- narrow screens: the sentence keeps the centre, the sea draws in ---------- */
   @media (max-width: 47.99rem) {
+    /* Four short lines of Greek and the words stacked take more of the height; the sea gives way,
+       but not below about three quarters of its size. */
     .nf {
+      --fixed: 32rem;
+      --least: 0.72;
       --cloud-zone: calc(var(--u) * 88);
-    }
-    .nf__island {
-      left: calc(var(--u) * -300);
-    }
-    .nf__sun {
-      left: 43%;
-    }
-    .nf__cape {
-      right: calc(var(--u) * -260);
     }
     .nf__boat {
       --voyage: 48s;

@@ -22,7 +22,7 @@ export const site = {
   ],
   // The logo links home, so the header menu does not repeat it.
   nav: [
-    { label: 'Σχετικά με τη Δρ. Αθηνά Ποτάρη', href: '/el/about-athena/' },
+    { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/el/about-athena/' },
     { label: 'Μαθήματα', href: '/el/courses/' },
   ],
   footer: {

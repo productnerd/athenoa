@@ -54,6 +54,10 @@ page.on('console', (message) => message.type() === 'error' && errors.push(messag
 const settle = () => page.waitForTimeout(motion ? 900 : 200);
 const shot = async (name) => {
   if (flag('no-shots')) return;
+  // A picture inside a popup only starts loading when the popup opens.
+  await page
+    .waitForFunction(() => [...document.querySelectorAll('dialog[open] img')].every((img) => img.complete), null, { timeout: 8000 })
+    .catch(() => {});
   await settle();
   const jpeg = flag('jpeg');
   await page.screenshot({
@@ -81,8 +85,16 @@ const focused = () =>
   });
 
 // ---------- Open from the card ----------
-await page.goto(address(home), { waitUntil: 'networkidle' });
+// 'load', not 'networkidle': the dev server is often busy rebuilding for other people.
+await page.goto(address(home), { waitUntil: 'load', timeout: 60000 });
 await page.evaluate(() => document.fonts.ready);
+await page.waitForFunction(() => document.querySelector('dialog[data-course-dialog][data-ready]'));
+const cardLinks = await page.locator('a[data-course-open]:not([tabindex="-1"])').evaluateAll((links) => links.map((a) => a.getAttribute('href')));
+check(
+  'card links lead to course pages in the page language',
+  cardLinks.length === 3 && cardLinks.every((href) => href.startsWith(`${lang === 'en' ? '' : `/${lang}`}/courses/`)),
+  cardLinks.join(' '),
+);
 await action(OPEN).scrollIntoViewIfNeeded();
 await action(OPEN).focus();
 await page.keyboard.press('Enter');
@@ -122,6 +134,11 @@ check(
   'empty form is held back by the browser',
   (await dialog(OPEN).locator('[data-enroll]').getAttribute('data-step')) === 'details',
 );
+// The words the browser shows come from the page, in the page's language.
+const said = (name) => dialog(OPEN).locator(`input[name="${name}"]`).evaluate((input) => input.validationMessage);
+const inPageLanguage = (text) => (lang === 'el' ? /[α-ω]/.test(text) && !/[a-z]{3,}/i.test(text.replace(/email/gi, '')) : /^[\x20-\x7e]+$/.test(text));
+check('an empty name is explained in the page language', inPageLanguage(await said('name')), await said('name'));
+check('an empty email is explained in the page language', inPageLanguage(await said('email')), await said('email'));
 await dialog(OPEN).locator('input[name="name"]').fill('Ada Lovelace');
 await dialog(OPEN).locator('input[name="email"]').fill('not-an-email');
 await dialog(OPEN).locator('form button[type="submit"]').click();
@@ -129,6 +146,8 @@ check(
   'a malformed email is held back by the browser',
   (await dialog(OPEN).locator('[data-enroll]').getAttribute('data-step')) === 'details',
 );
+check('a malformed email is explained in the page language', inPageLanguage(await said('email')), await said('email'));
+check('a filled name has nothing to explain', (await said('name')) === '', await said('name'));
 await dialog(OPEN).locator('input[name="email"]').fill('ada@example.com');
 const requests = [];
 page.on('request', (request) => requests.push(request.url()));
@@ -143,6 +162,8 @@ check(
 await shot('4-payment');
 await dialog(OPEN).locator('[data-enroll-pay]').click();
 check('Pay explains that Stripe is not connected', await dialog(OPEN).locator('[data-enroll-notice]').isVisible());
+const contact = await dialog(OPEN).locator('[data-enroll-notice] a').getAttribute('href');
+check('the contact link stays in the page language', contact.startsWith(lang === 'en' ? '/about-athena/' : `/${lang}/about-athena/`), contact);
 await shot('5-not-connected');
 check('nothing was sent anywhere', requests.length === 0, `${requests.length} requests`);
 check('address carries no personal data', !(await page.evaluate(() => location.href)).includes('ada'));
@@ -181,9 +202,10 @@ check(
 );
 
 // ---------- Arriving with the hash ----------
-await page.goto(address(home, OPEN), { waitUntil: 'networkidle' });
+await page.goto(address(home, OPEN), { waitUntil: 'load', timeout: 60000 });
 await dialog(OPEN).waitFor({ state: 'visible' });
-check('/courses/#<slug> loads with the popup open', await dialog(OPEN).evaluate((d) => d.open));
+check(`${home}#<slug> loads with the popup open`, await dialog(OPEN).evaluate((d) => d.open));
+check('the popup opened by the address is in the page language', (await dialog(OPEN).locator('[data-course-close]').innerText()).trim() === (lang === 'el' ? 'Κλείσιμο' : 'Close'));
 // The page behind scrolls smoothly to the card; let it arrive before the picture is taken.
 await page.waitForTimeout(1200);
 await shot('7-hash');

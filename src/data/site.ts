@@ -21,7 +21,7 @@ export const site = {
   ],
   // The logo links home, so the header menu does not repeat it.
   nav: [
-    { label: 'About Dr. Athena Potari', href: '/about-athena/' },
+    { label: 'About Dr. Athena', href: '/about-athena/' },
     { label: 'Courses', href: '/courses/' },
   ],
   footer: {

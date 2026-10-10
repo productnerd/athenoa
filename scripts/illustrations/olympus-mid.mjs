@@ -21,65 +21,58 @@ function ridge(crest, cliff, side) {
 }
 
 /**
- * A small mountain pine seen across the valley: one outline of two or three stacked pads, each
- * overhanging the one below, on a stub of trunk. Old ones stand on a longer trunk with a flat top.
+ * A small black pine seen across the valley, drawn the way the near ones are: a straight trunk,
+ * bare below, and pads of needles to left and right in turn with one on top. Old ones are taller,
+ * bare for half their height, under a broad table. Returns [trunk, pads] as two path strings.
  */
 function pine(x, y, h, old = false) {
-  const lean = j(h * 0.03);
-  const tiers = h < 19 ? 2 : 3;
-  const foot = old ? 0.4 : 0.15;
-  const wide = h * (old ? 0.33 : 0.27) * (0.92 + r() * 0.16);
-  const step = (1 - foot) / (tiers + 0.25);
-  const L = [];
-  for (let k = 0; k < tiers; k++) {
-    const a = wide * (1 - (old ? 0.3 : 0.25) * k);
-    L.push([a, foot + step * k]);
+  const lean = j(h * 0.04);
+  const at = (t) => [x + lean * t, y - h * t];
+  let side = r() < 0.5 ? -1 : 1;
+  const bare = old ? 0.48 + r() * 0.05 : 0.26 + r() * 0.06;
+  const count = old ? 2 : h < 28 ? 2 : 3;
+  const crown = 0.82;
+  const step = (crown - bare) / count;
+  let d = '';
+  const dome = (cx, cy, w, hh) => {
+    d += `M${n(cx - w / 2)} ${n(cy)}C${n(cx - w / 2)} ${n(cy - hh * 1.33)} ${n(cx + w / 2)} ${n(cy - hh * 1.33)} ${n(cx + w / 2)} ${n(cy)}Q${n(cx)} ${n(cy - hh * 0.22)} ${n(cx - w / 2)} ${n(cy)}Z`;
+  };
+  for (let k = 0; k < count; k++) {
+    const w = h * (old ? 0.36 : 0.33 - 0.035 * k) * (0.92 + r() * 0.16);
+    const p = at(bare + step * k);
+    dome(p[0] + side * w * 0.24, p[1], w, Math.min(step * h * 0.98, w * 0.56));
+    side = -side;
   }
-  const X = (dx, up) => `${n(x + dx + lean * up)} ${n(y - h * up)}`;
-  // up the left side
-  let d = `M${X(-L[0][0], L[0][1])}`;
-  for (let k = 0; k < tiers; k++) {
-    const [a, b] = L[k];
-    if (k < tiers - 1) {
-      const [a2, b2] = L[k + 1];
-      d += `Q${X(-a * 0.96, b2)} ${X(-a2 * 0.4, b2 + step * 0.12)}L${X(-a2, b2)}`;
-    } else {
-      d += `C${X(-a * 1.05, 1.04)} ${X(a * 1.05, 1.04)} ${X(a, b)}`;
-    }
-  }
-  // and down the right
-  for (let k = tiers - 2; k >= 0; k--) {
-    const [a, b] = L[k];
-    const [a2, b2] = L[k + 1];
-    d += `L${X(a2 * 0.4, b2 + step * 0.12)}Q${X(a * 0.96, b2)} ${X(a, b)}`;
-  }
-  d += `Q${X(0, L[0][1] + step * 0.3)} ${X(-L[0][0], L[0][1])}Z`;
-  // trunk
-  d += `M${X(0, L[0][1] + step * 0.14)}L${n(x)} ${n(y)}`;
-  return d;
+  const top = at(crown);
+  dome(top[0], top[1], h * (old ? 0.46 : 0.26) * (0.92 + r() * 0.16), h * (1 - crown) * 1.04);
+  return [`M${P(at(0))}L${P(at(crown))}`, d];
 }
 
 /**
  * A company of pines along a crest from x0 to x1. h: height of a grown tree here.
- * Neighbours overlap, so they are written to two paths in turn and the later hides the earlier.
+ * Trunks go down first as plain lines; the pads follow in two paths, written to in turn, so
+ * that each tree hides its own trunk and the neighbour behind it.
  */
 function company(ctrl, x0, x1, h, o = {}) {
   const y = curve(asc(ctrl));
+  const trunks = [];
   const a = [];
   const b = [];
   let x = x0 + h * 0.2;
   let i = 0;
-  let swell = r() * 6.28;
+  const swell = r() * 6.28;
   while (x < x1 - h * 0.2) {
     const u = (x - x0) / (x1 - x0);
     // lower at both ends of the company, and rolling a little along it
-    const size = h * (0.72 + 0.28 * Math.sin(Math.PI * u) ** 0.5) * (0.84 + 0.2 * Math.sin(u * 9 + swell) + r() * 0.14);
-    const old = size > h * 0.92 && r() < 0.3;
-    (i % 2 ? b : a).push(pine(x, y(x) + 1.5 + (o.drop ?? 0), old ? size * 1.22 : size, old));
-    x += size * (0.4 + r() * 0.16) + (r() < 0.12 ? size * 0.4 : 0);
+    const size = h * (0.8 + 0.2 * Math.sin(Math.PI * u) ** 0.5) * (0.9 + 0.12 * Math.sin(u * 9 + swell) + r() * 0.12);
+    const old = size > h * 0.94 && r() < 0.22;
+    const [trunk, pads] = pine(x, y(x) + 1.5 + (o.drop ?? 0), old ? size * 1.26 : size, old);
+    trunks.push(trunk);
+    (i % 2 ? b : a).push(pads);
+    x += size * (0.36 + r() * 0.12) + (r() < 0.14 ? size * 0.4 : 0);
     i++;
   }
-  // two paths per company, or the later trees of one would not hide the earlier of the other
+  S.line(trunks.join(''));
   if (a.length) S.paper(a.join(''));
   if (b.length) S.paper(b.join(''));
 }
@@ -98,85 +91,91 @@ function slope(ctrl, spans) {
 /** A lone pine or two out on a slope. [x, dy below the crest, height] */
 function loners(ctrl, list) {
   const y = curve(asc(ctrl));
-  S.paper(list.map(([x, dy, h]) => pine(x, y(x) + dy, h, h > 30)).join(''));
+  const trees = list.map(([x, dy, h]) => pine(x, y(x) + dy, h));
+  S.line(trees.map((t) => t[0]).join(''));
+  S.paper(trees.map((t) => t[1]).join(''));
 }
 
-/* ---------- the far pair: they cross over the head of the gorge ---------- */
-const BL0 = [[-40, 62], [50, 50], [150, 34], [250, 44], [340, 28], [440, 44], [530, 68], [610, 80], [690, 100], [760, 120], [812, 138], [846, 154], [864, 180], [872, 232], [876, 302]];
-const BR0 = [[1640, 98], [1560, 84], [1470, 66], [1380, 78], [1290, 58], [1200, 68], [1110, 88], [1030, 100], [960, 116], [905, 132], [868, 146], [846, 162], [836, 192], [832, 250], [830, 302]];
-S.line(ridge(BL0, null, 'left'));
-company(BL0, -30, 96, 17);
-company(BL0, 140, 420, 18);
-company(BL0, 500, 640, 16);
-company(BL0, 700, 790, 15);
-slope(BL0, [[60, 230, 30], [390, 560, 28], [640, 760, 24]]);
-S.line(ridge(BR0, null, 'right'));
-company(BR0, 900, 1010, 15);
-company(BR0, 1070, 1260, 17);
-company(BR0, 1310, 1500, 18);
-company(BR0, 1560, 1640, 17);
-slope(BR0, [[960, 1120, 24], [1230, 1400, 30], [1480, 1630, 30]]);
+/* ---------- the far pair: they meet in a notch at the head of the gorge ---------- */
+const NOTCH = [846, 122];
+const BL0 = [[-40, 82], [50, 70], [150, 54], [250, 62], [340, 46], [440, 56], [530, 70], [610, 78], [690, 90], [760, 102], [812, 112], NOTCH];
+const BR0 = [[1640, 104], [1560, 90], [1470, 72], [1380, 82], [1290, 62], [1200, 70], [1110, 84], [1030, 92], [960, 102], [905, 111], [868, 117], NOTCH];
+S.mask(`${smooth(BL0)}L846 302L-40 302Z`);
+S.mask(`${smooth(BR0)}L846 302L1640 302Z`);
+S.line(smooth(BL0));
+S.line(smooth(BR0));
+company(BL0, -30, 100, 25);
+company(BL0, 150, 420, 27);
+company(BL0, 500, 650, 24);
+company(BL0, 706, 800, 21);
+slope(BL0, [[60, 230, 28], [390, 560, 26], [620, 740, 22]]);
+company(BR0, 892, 1010, 21);
+company(BR0, 1070, 1260, 25);
+company(BR0, 1320, 1500, 27);
+company(BR0, 1560, 1640, 25);
+slope(BR0, [[960, 1120, 22], [1230, 1400, 28], [1480, 1630, 28]]);
 
-/* ---------- the waterfall: long parallel lines from the lip, a light-blue ribbon, rings where it lands ---------- */
+/* ---------- the gorge: a cleft in shadow, the fall and the stream left as bare paper ---------- */
+const RIM_L = [[836, 124], [822, 129], [808, 137], [797, 143]];
+const RIM_R = [[857, 124], [870, 131], [886, 141], [897, 152]];
+S.wash(`M${[...RIM_L, [756, 302], [940, 302], ...RIM_R.slice().reverse()].map(P).join('L')}Z`);
+S.line(rock(RIM_L, r, 0.9) + rock(RIM_R, r, 0.9));
 {
-  const lip = [[838, 160], [847, 156], [856, 157], [864, 161]];
-  const foot = [[829, 232], [843, 236], [858, 236], [873, 232]];
-  S.wash(`M${P(lip[0])}L${P(lip[3])}C${n(865)} 190 ${n(871)} 212 ${P(foot[3])}Q850 242 ${P(foot[0])}C${n(832)} 212 ${n(837)} 190 ${P(lip[0])}Z`);
+  // the fall: a ribbon from the lip, a little wider where it lands
+  const lip = [[838, 127], [844, 124], [850, 124], [856, 127]];
+  const foot = [[834, 196], [843, 199], [853, 199], [862, 196]];
+  S.mask(`M${P(lip[0])}L${P(lip[3])}C858 150 863 176 ${P(foot[3])}Q848 203 ${P(foot[0])}C833 176 836 150 ${P(lip[0])}Z`);
   S.line(
     lip
       .map((a, i) => {
         const b = foot[i];
-        return `M${P(a)}C${n(a[0] + (i - 1.5) * 0.6)} ${n(a[1] + 26)} ${n(b[0] - (i - 1.5) * 2)} ${n(b[1] - 30)} ${P(b)}`;
+        return `M${P(a)}C${n(a[0] + (i - 1.5) * 0.4)} ${n(a[1] + 24)} ${n(b[0] - (i - 1.5) * 1.2)} ${n(b[1] - 30)} ${P(b)}`;
       })
       .join(''),
   );
-  S.line('M822 240Q850 228 880 240M814 249Q850 235 888 249');
+  // the stream: out of the pool and down the floor of the gorge towards us, widening as it comes
+  const mid = [[848, 200], [843, 214], [853, 230], [845, 250], [849, 276], [846, 302]];
+  const half = [9, 9, 12, 17, 23, 28];
+  const bank = (s) => mid.map(([x, y], i) => [x + s * half[i], y]);
+  S.mask(`${smooth(bank(-1))}L${P(bank(1)[5])}${smooth(bank(1).reverse()).replace(/^M[^C]+/, '')}Z`);
+  S.line(smooth(bank(-1)) + smooth(bank(1)));
+  S.line(
+    smooth(mid.slice(1).map(([x, y], i) => [x - half[i + 1] * 0.36, y + 2])) +
+      smooth(mid.slice(2).map(([x, y], i) => [x + half[i + 2] * 0.3, y - 3])),
+  );
+  // rings where the fall lands
+  S.line('M830 203Q848 196 866 203');
 }
 
 /* ---------- the middle pair: their ends are the rock walls of the gorge ---------- */
-const L1 = [[-40, 122], [70, 110], [180, 118], [290, 100], [390, 112], [480, 128], [570, 138], [650, 146], [720, 152], [768, 158], [792, 166]];
-const R1 = [[1640, 140], [1540, 128], [1430, 136], [1320, 118], [1210, 128], [1110, 142], [1030, 152], [970, 158], [936, 162], [912, 166], [898, 172]];
-const L1cliff = [[800, 186], [793, 208], [802, 230], [796, 258], [801, 302]];
-const R1cliff = [[892, 190], [899, 212], [890, 236], [896, 262], [891, 302]];
+const L1 = [[-40, 118], [70, 106], [180, 114], [290, 96], [390, 106], [480, 118], [570, 126], [650, 132], [720, 136], [768, 138], [796, 142]];
+const R1 = [[1640, 136], [1540, 124], [1430, 132], [1320, 114], [1210, 122], [1110, 132], [1030, 140], [970, 144], [936, 146], [912, 148], [898, 152]];
+const L1cliff = [[804, 160], [798, 182], [806, 204], [800, 224], [790, 246], [772, 270], [762, 302]];
+const R1cliff = [[892, 170], [899, 192], [891, 214], [897, 232], [908, 252], [924, 274], [932, 302]];
 S.line(ridge(L1, L1cliff, 'left'));
-// the lit wall: a few falling strokes
-S.line('M786 180q-2 12 1 24M776 176q-1 9 0 16M790 216q2 14 -1 28M779 222q-1 8 1 14M786 262q1 12 -1 24');
-company(L1, -30, 150, 24);
-company(L1, 250, 470, 25);
-company(L1, 560, 742, 22);
-slope(L1, [[110, 300, 36], [430, 610, 32]]);
-loners(L1, [[196, 18, 20], [214, 22, 17], [520, 20, 19]]);
-ridge(R1, R1cliff, 'right');
-// the wall in shadow
-S.wash(`M${[[898, 172], ...R1cliff, [930, 302], [926, 250], [932, 206], [924, 176]].map(P).join('L')}Z`);
-S.line(smooth(R1) + rock([[898, 172], ...R1cliff], r, 1.2, false));
-S.line('M906 188q2 12 -1 24M916 184q1 9 0 16M904 224q-2 14 1 28M915 230q1 8 -1 14M906 268q-1 12 1 22');
-company(R1, 950, 1100, 22);
-company(R1, 1190, 1400, 25);
-company(R1, 1480, 1640, 24);
-slope(R1, [[1010, 1180, 30], [1290, 1470, 36]]);
-loners(R1, [[1132, 18, 19], [1150, 22, 17], [1440, 16, 20]]);
-
-/* ---------- the stream on the floor of the gorge ---------- */
-S.wash('M836 246C830 262 842 276 836 302L872 302C874 280 862 264 866 246Z');
-S.line(
-  smooth([[840, 250], [836, 264], [843, 280], [838, 302]]) +
-    smooth([[850, 252], [848, 266], [856, 282], [853, 302]]) +
-    smooth([[861, 250], [860, 264], [868, 280], [867, 302]]),
-);
+// falling strokes on the two walls
+S.line('M788 156q-2 12 1 24M777 152q-1 9 0 16M791 192q2 12 -1 24M780 198q-1 8 1 14M784 230q-2 8 -6 16');
+company(L1, -30, 150, 34);
+company(L1, 250, 470, 36);
+company(L1, 560, 760, 32);
+slope(L1, [[110, 300, 34], [430, 610, 30]]);
+loners(L1, [[196, 20, 27], [216, 24, 24], [520, 20, 26]]);
+S.line(ridge(R1, R1cliff, 'right'));
+S.line('M906 166q2 12 -1 24M917 162q1 9 0 16M904 202q-2 12 1 24M915 208q1 8 -1 14M911 238q2 8 6 16');
+company(R1, 934, 1100, 32);
+company(R1, 1190, 1400, 36);
+company(R1, 1480, 1640, 34);
+slope(R1, [[1010, 1180, 28], [1290, 1470, 34]]);
+loners(R1, [[1134, 20, 26], [1154, 24, 24], [1440, 18, 27]]);
 
 /* ---------- the near pair ---------- */
-const L2 = [[-40, 190], [80, 178], [200, 188], [320, 176], [430, 192], [530, 206], [620, 220], [690, 234], [730, 246]];
-const R2 = [[1640, 200], [1520, 188], [1400, 198], [1280, 186], [1170, 200], [1080, 216], [1010, 230], [972, 242], [958, 252]];
-S.line(ridge(L2, [[738, 268], [732, 302]], 'left') );
-company(L2, -30, 250, 32);
-company(L2, 360, 560, 30);
-company(L2, 610, 700, 24);
-slope(L2, [[60, 240, 30], [330, 500, 30]]);
-S.line(ridge(R2, [[952, 272], [956, 302]], 'right'));
-company(R2, 1000, 1110, 26);
-company(R2, 1180, 1420, 32);
-company(R2, 1500, 1640, 30);
-slope(R2, [[1100, 1260, 30], [1380, 1560, 30]]);
+const L2 = [[-40, 190], [80, 178], [200, 188], [320, 176], [430, 190], [530, 202], [620, 212], [690, 220], [734, 226]];
+const R2 = [[1640, 200], [1520, 188], [1400, 198], [1280, 186], [1170, 198], [1080, 210], [1010, 220], [972, 228], [956, 234]];
+S.line(ridge(L2, [[744, 248], [738, 302]], 'left'));
+company(L2, 396, 520, 40);
+slope(L2, [[40, 200, 26], [250, 400, 30], [540, 660, 22]]);
+S.line(ridge(R2, [[948, 256], [952, 302]], 'right'));
+company(R2, 1064, 1180, 40);
+slope(R2, [[1010, 1120, 22], [1250, 1420, 30], [1470, 1620, 26]]);
 
 S.write('footer-olympus-mid.svg');

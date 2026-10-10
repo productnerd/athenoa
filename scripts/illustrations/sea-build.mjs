@@ -3,14 +3,16 @@
 // Writes src/assets/illustrations/sea-*.svg. Every drawing is seeded, so a rerun gives the same files.
 //
 // One unit is the same size in every file (the component shows each at width = viewBox width * --u),
-// so the layers keep their proportions. The three wave bands are two identical 1600-unit tiles side
-// by side: the component slides each band by exactly one tile, which makes the loop seamless.
+// so the layers keep their proportions. The three wave bands are one 1600-unit tile drawn once and
+// repeated four times with <use>: the component slides each band by exactly one tile, which makes
+// the loop seamless, and four tiles keep a wide, low window covered while it slides.
 //
 // Colour: strokes follow currentColor. Washes use the palette custom properties with a hex fallback.
 // Lines that lie on a blue wash are printed light, as everywhere else in the picture.
 import { writeFileSync } from 'node:fs';
 
 const OUT = new URL('../../src/assets/illustrations/', import.meta.url);
+const PAPER = 'var(--paper, #f2e9d3)';
 const WHITE = 'var(--creme-light, #f9f3e3)';
 const LIGHT = 'var(--blue-light, #b3c0f3)';
 const BLUE = 'var(--blue, #0b1c8c)';
@@ -102,6 +104,7 @@ function wavePath(points, a, b, row) {
 
 /** Strokes of a broken line: runs of half-waves that begin and end in a trough, repeating every tile. */
 function strokes(points, row, seed, { min = 3, max = 7, gapMin = 1, gapMax = 2 } = {}) {
+  // only the runs that begin in this tile: the neighbouring copies bring their own
   const r = rng(seed);
   const n = points.length; // extrema per tile
   const runs = [];
@@ -113,38 +116,38 @@ function strokes(points, row, seed, { min = 3, max = 7, gapMin = 1, gapMax = 2 }
     runs.push([i, end]);
     i = end + 2 * (gapMin + Math.floor(r() * (gapMax - gapMin + 1)));
   }
-  let d = '';
-  for (const k of [-1, 0, 1, 2]) {
-    for (const [a, b] of runs) {
-      const x0 = at(points, a + k * n, row)[0];
-      const x1 = at(points, b + k * n, row)[0];
-      if (x1 < -20 || x0 > 2 * TILE + 20) continue;
-      d += wavePath(points, a + k * n, b + k * n, row);
-    }
-  }
-  return d;
+  return runs.map(([a, b]) => wavePath(points, a, b, row)).join('');
 }
 
 /**
- * One band of water, two tiles wide: a flat wash under a wave-cut edge, a full line that
+ * One band of water, four tiles wide: a flat wash under a wave-cut edge, a full line that
  * follows the edge and broken lines below it that calm down as they descend.
+ * The tile is drawn once and repeated with <use>. Each wash reaches a little way under the next
+ * one so that no seam can show, and all the washes are laid before any line.
  */
-function band({ n, seed, amp, edge, height, fill, rows, follow = 10, jitter }) {
+const REPEAT = 4;
+function band(name, { n, seed, amp, edge, height, fill, rows, follow = 10, jitter }) {
   const points = swell({ n, seed, jitter });
   const per = points.length;
   const top = { y: edge, amp };
-  const body = `<path d="${wavePath(points, -2, 2 * per + 2, top)}V${height}H${n1(at(points, -2, top)[0])}Z" fill="${fill}" stroke="none"/>`;
-  let lines = `<path d="${wavePath(points, -2, 2 * per + 2, { y: edge + follow, amp: amp * 0.92, shift: 3 })}"/>`;
+  const wash = `<path d="${wavePath(points, 0, per + 2, top)}V${height}H${n1(at(points, 0, top)[0])}Z"/>`;
+  let lines = `<path d="${wavePath(points, 0, per, { y: edge + follow, amp: amp * 0.92, shift: 3 })}"/>`;
   rows.forEach((row, i) => {
     lines += `<path d="${strokes(points, { y: row.y, amp: amp * row.amp, shift: row.shift }, seed * 31 + i * 7, row)}"/>`;
   });
-  return svg(2 * TILE, height, body + lines);
+  // one copy to the left as well: it brings the lines that run on into the first tile
+  const copies = (id) =>
+    [-1, ...Array.from({ length: REPEAT - 1 }, (_, i) => i + 1)].map((k) => `<use href="#${id}" x="${k * TILE}"/>`).join('');
+  const body =
+    `<g id="sea-${name}-wash" fill="${fill}" stroke="none">${wash}</g>${copies(`sea-${name}-wash`)}` +
+    `<g id="sea-${name}-lines">${lines}</g>${copies(`sea-${name}-lines`)}`;
+  return svg(REPEAT * TILE, height, body);
 }
 
 /* ---------- 1. Three bands of water, far to near ---------- */
 save(
   'waves-far',
-  band({
+  band('waves-far', {
     n: 22,
     seed: 11,
     amp: 3.4,
@@ -161,7 +164,7 @@ save(
 );
 save(
   'waves-mid',
-  band({
+  band('waves-mid', {
     n: 15,
     seed: 23,
     amp: 5.2,
@@ -179,7 +182,7 @@ save(
 );
 save(
   'waves-near',
-  band({
+  band('waves-near', {
     n: 10,
     seed: 37,
     amp: 7.6,
@@ -191,18 +194,20 @@ save(
   }),
 );
 
-/* ---------- 2. The far water: the horizon and a few still ripples on bare paper ---------- */
+/* ---------- 2. The far water: the horizon and a few still ripples on bare paper ----------
+   Two tiles wide and not repeated, so it still spans the window when the picture is scaled down. */
 {
   const r = rng(71);
+  const W = 2 * TILE;
   const line = [];
-  for (let x = -20; x <= TILE + 20; x += 82) line.push([x, 4 + (r() - 0.5) * 1.1]);
+  for (let x = -20; x <= W + 20; x += 82) line.push([x, 4 + (r() - 0.5) * 1.1]);
   let body = `<path d="${smooth(line)}"/>`;
   // short ripples, longer and closer together near the horizon, thinning out towards the viewer
   const rowsAt = [14, 26, 39, 52];
   rowsAt.forEach((y, row) => {
     let x = -40 + r() * 90;
     let d = '';
-    while (x < TILE + 20) {
+    while (x < W + 20) {
       const waves = 2 + Math.floor(r() * (row === 0 ? 5 : 4 - Math.min(row, 2)));
       const half = 13 + row * 2.5 + r() * 5;
       const rise = 1.5 + row * 0.35;
@@ -212,7 +217,7 @@ save(
     }
     body += `<path d="${d}"/>`;
   });
-  save('horizon', svg(TILE, 62, body));
+  save('horizon', svg(W, 62, body));
 }
 
 /* ---------- 3. The sun, low on the water, and its path of light ---------- */
@@ -382,7 +387,9 @@ function cloud({ w, h, base, cusps, inner = [], streaks = [], off = [7, 6] }) {
   const last = cusps[cusps.length - 1];
   const span = last[0] - first[0];
   outline += `C${n1(last[0] - span * 0.3)} ${n1(base + 5)} ${n1(first[0] + span * 0.34)} ${n1(base - 4)} ${pt(first)}Z`;
-  let body = `<path d="${outline}" transform="translate(${off[0]} ${off[1]})" fill="${LIGHT}" stroke="none" data-nodraw=""/>`;
+  // paper under the outline, so a nearer cloud hides a farther one when they pass
+  let body = `<path d="${outline}" fill="${PAPER}" stroke="none" data-nodraw=""/>`;
+  body += `<path d="${outline}" transform="translate(${off[0]} ${off[1]})" fill="${LIGHT}" stroke="none" data-nodraw=""/>`;
   body += `<path d="${outline}"/>`;
   if (inner.length) {
     body += `<path d="${inner
@@ -512,12 +519,13 @@ save(
   save('boat', svg(200, 178, body));
 }
 
-/* ---------- 7. The lower edge of the water: cut by hand, not ruled ---------- */
+/* ---------- 7. The lower edge of the water: cut by hand, not ruled. Two tiles wide. ---------- */
 {
   const r = rng(303);
+  const W = 2 * TILE;
   const pts = [];
   const edge = (x) => [x, 20 + (r() - 0.5) * 9 + 5 * Math.sin(x / 190)];
-  for (let x = -20; x < TILE; x += 36 + r() * 30) pts.push(edge(x));
-  pts.push(edge(TILE + 20));
-  save('floor', svg(TILE, 36, `<path d="${smooth(pts)}V-2H-20Z" fill="${DEEP}" stroke="none"/>`));
+  for (let x = -20; x < W; x += 36 + r() * 30) pts.push(edge(x));
+  pts.push(edge(W + 20));
+  save('floor', svg(W, 36, `<path d="${smooth(pts)}V-2H-20Z" fill="${DEEP}" stroke="none"/>`));
 }

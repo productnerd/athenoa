@@ -7,7 +7,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  LIGHT,
+  PAPER,
   P,
   SLIM,
   along,
@@ -42,6 +42,8 @@ const opt = (name, fallback) => {
 const outDir = resolve(opt('dir', resolve(here, '../../src/assets/illustrations')));
 const only = opt('only');
 const SW = 2.5;
+// one <path> per line, so that each is drawn in its own time when the drawing is revealed
+const each = (ds) => ds.map((d) => path(d)).join('');
 
 /* ----------------------------------------------------------------- wheat */
 // One bearded ear, the thing shown in silence at Eleusis. The grains overlap upward like scales,
@@ -63,7 +65,7 @@ function wheat() {
   const GRAIN = [0.3, 1.04, 0.76, 0.9];
 
   const N = 14;
-  let awns = '';
+  const awns = [];
   const grains = [];
   for (let i = 0; i < N; i++) {
     const side = i % 2 ? 1 : -1;
@@ -78,12 +80,12 @@ function wheat() {
     const endDir = b.ang + side * (22 - 11 * u + (rand() - 0.5) * 1.6) * deg;
     const c = [g.tip[0] + Math.cos(dir) * L * 0.4, g.tip[1] + Math.sin(dir) * L * 0.4];
     const e = [g.tip[0] + Math.cos(endDir) * L, g.tip[1] + Math.sin(endDir) * L];
-    awns += `M${P(...g.tip)}Q${P(...c)} ${P(...e)}`;
+    awns.push(`M${P(...g.tip)}Q${P(...c)} ${P(...e)}`);
   }
   // the grain that closes the ear, and its awn straight on
   const top = along(dense, 1, lens);
   const tg = leaf(top.x, top.y + 5, top.ang, 27, 7.6, 0, 0.6, GRAIN);
-  awns += `M${P(...tg.tip)}Q${P(tg.tip[0] + 1.6, tg.tip[1] - 34)} ${P(tg.tip[0] - 1, tg.tip[1] - 66)}`;
+  awns.push(`M${P(...tg.tip)}Q${P(tg.tip[0] + 1.6, tg.tip[1] - 34)} ${P(tg.tip[0] - 1, tg.tip[1] - 66)}`);
   const ear = path(tg.outline, true) + grains.reverse().join('');
 
   // two blades on the straw
@@ -119,7 +121,7 @@ function wheat() {
   );
 
   const straw = path(spline(axis.slice(0, 4)));
-  return svg(200, 360, SW, path(awns) + straw + left + right + ear);
+  return svg(200, 360, SW, awns.map((d) => path(d)).join('') + straw + left + right + ear);
 }
 
 /* ---------------------------------------------------------------- tripod */
@@ -243,7 +245,8 @@ function butterfly() {
       .map((run) => spline(run))
       .join('');
   };
-  const between = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+  // a point on the vein that closes the cell (a curve from a to b, pulled towards c)
+  const onCurve = (a, c, b, t) => [0, 1].map((i) => (1 - t) ** 2 * a[i] + 2 * t * (1 - t) * c[i] + t * t * b[i]);
   // the inner row of scales: n arches on a line `inset` inside the edge, half a step out of line
   // with the row on the edge, running out past both ends so the wing's outline cuts them off.
   // `crests` are the tops of the arches, where the veins end.
@@ -280,18 +283,21 @@ function butterfly() {
   const fRoot = [170, 106];
   const fA = [213, 79];
   const fB = [209, 107];
-  const fCell = `M${P(...fRoot)}Q${P(190, 85)} ${P(...fA)}Q${P(215, 93)} ${P(...fB)}Q${P(190, 109)} ${P(...fRoot)}`;
-  const fVeins =
-    vein(fA, f2.crests[1], -5, fHalo) +
-    vein(between(fA, fB, 0.25), f2.crests[2], -2, fHalo) +
-    vein(between(fA, fB, 0.5), f2.crests[3], 0, fHalo) +
-    vein(between(fA, fB, 0.75), f2.crests[4], 2, fHalo) +
-    vein(fB, f2.crests[5], 3, fHalo) +
-    vein([196, 115], f2.crests[6], 3, fHalo);
+  const fC = [215, 93];
+  const fCell = `M${P(...fRoot)}Q${P(190, 85)} ${P(...fA)}Q${P(...fC)} ${P(...fB)}Q${P(190, 109)} ${P(...fRoot)}`;
+  const fVeins = each([
+    vein(fA, f2.crests[1], -5, fHalo),
+    vein(onCurve(fA, fC, fB, 0.25), f2.crests[2], -2, fHalo),
+    vein(onCurve(fA, fC, fB, 0.5), f2.crests[3], 0, fHalo),
+    vein(onCurve(fA, fC, fB, 0.75), f2.crests[4], 2, fHalo),
+    vein(fB, f2.crests[5], 3, fHalo),
+    vein([196, 115], f2.crests[6], 3, fHalo),
+  ]);
   const fore =
     path(foreD, true) +
     group(path(row(f1, -8.6) + f2.d), { 'clip-path': 'url(#butterfly-fore)' }) +
-    path(fCell + fVeins) +
+    path(fCell) +
+    fVeins +
     eye(...fEye);
 
   /* hindwing: a scalloped edge, a second row of scales inside it */
@@ -319,30 +325,31 @@ function butterfly() {
   const hRoot = [170, 119];
   const hA = [214, 150];
   const hB = [196, 164];
-  const hCell = `M${P(...hRoot)}Q${P(196, 128)} ${P(...hA)}Q${P(207, 160)} ${P(...hB)}Q${P(178, 142)} ${P(...hRoot)}`;
-  const hVeins =
-    vein(hA, h2.crests[1], -4, hHalo) +
-    vein(between(hA, hB, 0.3), h2.crests[2], -2, hHalo) +
-    vein(between(hA, hB, 0.65), h2.crests[3], 0, hHalo) +
-    vein(hB, h2.crests[4], 2, hHalo) +
-    vein([178, 150], h2.crests[5], 3, hHalo);
+  const hC = [207, 160];
+  const hCell = `M${P(...hRoot)}Q${P(196, 128)} ${P(...hA)}Q${P(...hC)} ${P(...hB)}Q${P(178, 142)} ${P(...hRoot)}`;
+  const hVeins = each([
+    vein(hA, h2.crests[1], -4, hHalo),
+    vein(onCurve(hA, hC, hB, 0.3), h2.crests[2], -2, hHalo),
+    vein(onCurve(hA, hC, hB, 0.65), h2.crests[3], 0, hHalo),
+    vein(hB, h2.crests[4], 2, hHalo),
+    vein([178, 150], h2.crests[5], 3, hHalo),
+  ]);
   const hind =
     path(hindD, true) +
     group(path(h2.d), { 'clip-path': 'url(#butterfly-hind)' }) +
-    path(hCell + hVeins) +
+    path(hCell) +
+    hVeins +
     eye(...hEye);
 
   /* body */
   const antenna = path(`M157.2 76C151 58 137 41 121 32`) + ellipse(117.4, 30, 4.6, 2.7, 28, true);
   const abdomen =
     path(`M152.6 120C151.4 150 154 184 157.4 202C158.2 206.4 161.8 206.4 162.6 202C166 184 168.6 150 167.4 120Z`, true) +
-    path(
-      [136, 150, 164, 177, 189]
-        .map((y, i) => {
-          const w = 7.2 - i * 0.95;
-          return `M${P(cx - w, y)}Q${P(cx, y + 3.4)} ${P(cx + w, y)}`;
-        })
-        .join(''),
+    each(
+      [136, 150, 164, 177, 189].map((y, i) => {
+        const w = 7.2 - i * 0.95;
+        return `M${P(cx - w, y)}Q${P(cx, y + 3.4)} ${P(cx + w, y)}`;
+      }),
     );
   const body = abdomen + ellipse(cx, 104.5, 9.2, 17.5, 0, true) + circle(cx, 81.5, 7, true);
 
@@ -404,8 +411,9 @@ function orphicEgg() {
       if (isHead) return thick - 2.2 * Math.max(0, (t - 0.45) / 0.55) ** 1.2;
       return thick;
     };
-    const up = offset(mid, half);
-    const down = offset(mid, (t) => -half(t));
+    const thin = (pts) => pts.filter((_, i) => i % 3 === 0 || i === pts.length - 1);
+    const up = thin(offset(mid, half));
+    const down = thin(offset(mid, (t) => -half(t)));
     const cap = (p, ang, r, a0, a1) =>
       Array.from({ length: 7 }, (_, i) => {
         const a = ang + (a0 + ((a1 - a0) * (i + 1)) / 8) * deg;
@@ -446,7 +454,8 @@ function orphicEgg() {
     const tailEnd = isTail ? [] : cap(first, first[2], half(0), 90, 270);
     const outline = spline([...up, ...nose, ...down.reverse(), ...tailEnd], { closed: true, k: 0.9 });
 
-    // scales: columns of arches across the body, each opening towards the head
+    // scales: columns of arches across the body, each opening towards the head. The columns are
+    // joined outside the body into one line, so the scales draw along the serpent in turn.
     const du = 8.3;
     const sw = 13.4;
     let scales = '';
@@ -455,29 +464,34 @@ function orphicEgg() {
       return [q.x + Math.sin(q.ang) * -v, q.y + Math.cos(q.ang) * v];
     };
     const uEnd = isHead ? total + 4 : total + thick;
+    const tip = along(mid, 1, lens);
     for (let j = 0, u = isTail ? 16 : -thick * 0.2; u < uEnd; j++, u += du) {
       const shift = j % 2 ? sw / 2 : 0;
-      for (let v = -sw * 2 + shift; v < sw * 1.5; v += sw) {
-        if (Math.min(Math.abs(v), Math.abs(v + sw)) > thick) continue;
-        const a = pt(Math.min(u, total), v);
-        const b = pt(Math.min(u, total), v + sw);
-        const ext = Math.max(0, u - total);
-        const q = along(mid, 1, lens);
-        const sh = [Math.cos(q.ang) * ext, Math.sin(q.ang) * ext];
-        const A = [a[0] + sh[0], a[1] + sh[1]];
-        const B = [b[0] + sh[0], b[1] + sh[1]];
-        const back = along(mid, Math.max(0, Math.min(u, total)) / total, lens).ang + Math.PI;
-        const kx = Math.cos(back) * 9.2;
-        const ky = Math.sin(back) * 9.2;
-        scales += `M${P(...A)}C${P(A[0] + kx, A[1] + ky)} ${P(B[0] + kx, B[1] + ky)} ${P(...B)}`;
+      const uc = Math.max(0, Math.min(u, total));
+      const ext = Math.max(0, u - total);
+      const sx = Math.cos(tip.ang) * ext;
+      const sy = Math.sin(tip.ang) * ext;
+      const back = along(mid, uc / total, lens).ang + Math.PI;
+      const kx = Math.cos(back) * 9.2;
+      const ky = Math.sin(back) * 9.2;
+      const col = [];
+      for (let v = -sw * 2 + shift; v <= sw * 2 + 0.01; v += sw) {
+        const q = pt(uc, v);
+        col.push([q[0] + sx, q[1] + sy]);
+      }
+      if (j % 2) col.reverse();
+      scales += `${j ? 'L' : 'M'}${P(...col[0])}`;
+      for (let i = 1; i < col.length; i++) {
+        const A = col[i - 1];
+        const B = col[i];
+        scales += `C${P(A[0] + kx, A[1] + ky)} ${P(B[0] + kx, B[1] + ky)} ${P(...B)}`;
       }
     }
-    const id = `orphic-egg-pass-${k}`;
+    const id = `orphic-egg-coil-${k}`;
     out +=
-      `<clipPath id="${id}"><path d="${outline}"/></clipPath>` +
-      path(outline, true, true) +
-      group(path(scales), { 'clip-path': `url(#${id})` }) +
-      path(outline) +
+      `<path id="${id}" d="${outline}" fill="${PAPER}"/>` +
+      `<clipPath id="${id}-clip"><use href="#${id}"/></clipPath>` +
+      group(path(scales), { 'clip-path': `url(#${id}-clip)` }) +
       face;
   }
   return svg(280, 340, SW, egg + out);
@@ -591,22 +605,21 @@ function cicada() {
   const sideR = sideL.map(([x, y]) => [2 * cx - x, y]).reverse();
   const abdomen =
     path(spline([...sideL.filter((_, i) => i % 7 === 0), ...sideR.filter((_, i) => i % 7 === 0).slice(1)]), true) +
-    path(
-      [166, 181, 195.6, 209.4, 222, 233.4]
-        .map((y, i) => {
-          const x = xAt(y);
-          const sag = 7.6 - i * 0.8;
-          return `M${P(x, y)}Q${P(cx, y + sag * 2)} ${P(2 * cx - x, y)}`;
-        })
-        .join(''),
+    each(
+      [166, 181, 195.6, 209.4, 222, 233.4].map((y, i) => {
+        const x = xAt(y);
+        const sag = 7.6 - i * 0.8;
+        return `M${P(x, y)}Q${P(cx, y + sag * 2)} ${P(2 * cx - x, y)}`;
+      }),
     );
   // the big shield of the thorax with its three marks hanging from the front
   const meso =
     path(`M106 96.6C103 116 111 138 123 147.6Q150 155 177 147.6C189 138 197 116 194 96.6Z`, true) +
-    path(
-      `M141.6 97.4C141.8 110 145 119.6 150 123C155 119.6 158.2 110 158.4 97.4` +
-        `M123.4 97.4C124 114 130.6 127.4 140.4 133.4M176.6 97.4C176 114 169.4 127.4 159.6 133.4`,
-    );
+    each([
+      `M141.6 97.4C141.8 110 145 119.6 150 123C155 119.6 158.2 110 158.4 97.4`,
+      `M123.4 97.4C124 114 130.6 127.4 140.4 133.4`,
+      `M176.6 97.4C176 114 169.4 127.4 159.6 133.4`,
+    ]);
   // the head, as wide as the thorax, the eyes bulging at its corners
   // the eyes are the one solid thing in the set: dark beads, so they read as eyes and not as ears
   const bead = (x) => `<ellipse cx="${x}" cy="63.4" rx="9.6" ry="11.4" fill="currentColor" data-nodraw=""/>`;
@@ -684,7 +697,7 @@ function springCypress() {
     ),
     true,
   );
-  const creases = path(`M178 210Q186 216 187 228M233 219Q227 224 227 235M249 228Q244 240 247 252M166 250Q170 243 176 241`);
+  const creases = each([`M178 210Q186 216 187 228`, `M233 219Q227 224 227 235`, `M249 228Q244 240 247 252`, `M166 250Q170 243 176 241`]);
   const cleft = path(`M193 262C192 244 197 231 205 228C213 231 218 244 217 262`);
   const boulderL = path(
     spline(
@@ -716,26 +729,26 @@ function springCypress() {
     ),
     true,
   );
-  const water = path(
+  const water = each([
     spline([
       [198.6, 246],
       [198.4, 264],
       [195.4, 282],
       [194, 300],
-    ]) +
-      spline([
-        [205, 240],
-        [205.4, 262],
-        [204.4, 282],
-        [205, 303],
-      ]) +
-      spline([
-        [211.4, 246],
-        [212, 264],
-        [213.6, 282],
-        [216, 300],
-      ]),
-  );
+    ]),
+    spline([
+      [205, 240],
+      [205.4, 262],
+      [204.4, 282],
+      [205, 303],
+    ]),
+    spline([
+      [211.4, 246],
+      [212, 264],
+      [213.6, 282],
+      [216, 300],
+    ]),
+  ]);
 
   // the pool: rings round the place where the water lands
   const px = 205;
@@ -744,22 +757,22 @@ function springCypress() {
     const p = (a) => [px + rx * Math.cos(a * deg), py + ry * Math.sin(a * deg)];
     return `M${P(...p(a0))}A${n1(rx)} ${n1(ry)} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${P(...p(a1))}`;
   };
-  const pool = path(
-    arc(18, 5.2, -200, 150) +
-      arc(41, 11.4, 6, 170) +
-      arc(41, 11.4, 200, 252) +
-      arc(41, 11.4, 290, 342) +
-      arc(65, 17.6, -6, 112) +
-      arc(65, 17.6, 132, 196) +
-      arc(88, 24, 24, 84) +
-      arc(88, 24, 100, 166),
-  );
+  const pool = each([
+    arc(18, 5.2, -200, 150),
+    arc(41, 11.4, 6, 170),
+    arc(41, 11.4, 200, 252),
+    arc(41, 11.4, 290, 342),
+    arc(65, 17.6, -6, 112),
+    arc(65, 17.6, 132, 196),
+    arc(88, 24, 24, 84),
+    arc(88, 24, 100, 166),
+  ]);
 
   const star = (x, y, r) => {
     const k = 0.13 * r;
     return `M${P(x, y - r)}Q${P(x + k, y - k)} ${P(x + r, y)}Q${P(x + k, y + k)} ${P(x, y + r)}Q${P(x - k, y + k)} ${P(x - r, y)}Q${P(x - k, y - k)} ${P(x, y - r)}Z`;
   };
-  const stars = path(star(204, 60, 10.5) + star(252, 128, 7) + star(44, 100, 8) + star(178, 146, 5));
+  const stars = each([star(204, 60, 10.5), star(252, 128, 7), star(44, 100, 8), star(178, 146, 5)]);
 
   const all = stars + ground + cypress + crag + creases + cleft + water + boulderL + boulderR + pool;
   return svg(300, 360, SW, group(all, { transform: 'translate(-4 0)' }));

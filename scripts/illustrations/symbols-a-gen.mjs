@@ -6,8 +6,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  DEEP, INK, PAPER, TAU, P, along, arc, circle, distTo, dot, ellipse, inside, line, n1, path, poly,
-  band, ribbon, rng, sample, spline, svg, thin, visibleRuns, wash, wavy,
+  DEEP, PAPER, TAU, P, arc, band, circle, distTo, dot, ellipse, inside, line, n1, path, poly, sample,
+  spline, svg, thin, visibleRuns, wash, wavy,
 } from './symbols-a-lib.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -18,12 +18,11 @@ const opt = (name, fallback) => {
 };
 const outDir = resolve(opt('dir', resolve(here, '../../src/assets/illustrations')));
 const only = opt('only');
-const V = opt('v', '');
 
 const SW = 2.5;
 
 // A wavy ray along a straight line: whole or half waves, so it starts and ends on the axis.
-function ray(a, b, waves, amp, flip = 1) {
+function ray(a, b, waves, amp) {
   const dx = b[0] - a[0];
   const dy = b[1] - a[1];
   const len = Math.hypot(dx, dy) || 1;
@@ -31,7 +30,7 @@ function ray(a, b, waves, amp, flip = 1) {
   const pts = [];
   for (let i = 0; i <= n; i++) {
     const t = i / n;
-    const o = Math.sin(t * waves * TAU) * amp * flip * (0.7 + 0.3 * t);
+    const o = Math.sin(t * waves * TAU) * amp * (0.7 + 0.3 * t);
     pts.push([a[0] + dx * t - (dy / len) * o, a[1] + dy * t + (dx / len) * o]);
   }
   return path(spline(pts));
@@ -74,17 +73,17 @@ function tetractys() {
 }
 
 // ---------------------------------------------------------------------------------------------
-// Monad: the point within the circle, and the Many held inside the one well-rounded sphere,
-// "equally balanced in every direction from the centre".
+// Monad: the point within the circle, and round it the well-rounded sphere, "equally balanced in
+// every direction from the centre", going out from the One to the Many.
 function monad() {
   const c = 160;
   const out = [];
-  out.push(dot(c, c, 5.6));
-  out.push(circle(c, c, 24));
-  out.push(circle(c, c, 50));
+  out.push(dot(c, c, 5.8));
+  out.push(circle(c, c, 25));
+  out.push(circle(c, c, 52));
   // The One and the Many: each circle further out is broken three times finer than the last,
   // until the outermost is a ring of points.
-  [[76, 6, 15], [100, 18, 11.5]].forEach(([r, parts, gapLen], k) => {
+  [[79, 6, 15.5], [104, 18, 12]].forEach(([r, parts, gapLen], k) => {
     const gap = gapLen / r;
     for (let i = 0; i < parts; i++) {
       const a0 = (i / parts) * TAU - Math.PI / 2 + gap / 2 + (k ? 0 : Math.PI / parts);
@@ -93,7 +92,7 @@ function monad() {
   });
   for (let i = 0; i < 54; i++) {
     const a = (i / 54) * TAU - Math.PI / 2;
-    out.push(dot(c + Math.cos(a) * 123, c + Math.sin(a) * 123, 2.2));
+    out.push(dot(c + Math.cos(a) * 128, c + Math.sin(a) * 128, 1.7));
   }
   return svg(320, 320, SW, out.join(''));
 }
@@ -187,7 +186,7 @@ function caveSun() {
   // Ground line: the hill over the cave, then the mouth, then the open ground under the sun.
   const hillPts = [[26, 170], [52, 147], [86, 116], [122, 98], [158, 99], [192, 112], [217, 131], lipU];
   const hill = sample(hillPts, 10);
-  const groundR = sample([lipL, [280, 174], [306, 171], [334, 169]], 8);
+  const groundR = sample([lipL, [280, 174], [306, 171], [330, 169]], 8);
 
   // The cave: the roof runs down the passage and opens into the chamber, then the back wall and
   // floor, then the stair back up to the mouth.
@@ -195,7 +194,7 @@ function caveSun() {
   const footX = 149;
   // Roof: scallops of rock, cusps hanging down, three over the chamber and three down the passage.
   const cusps = [lipU, [212, 169], [187, 191], [160, 211], [127, 205], [94, 207], [64, 221]];
-  const bulge = V === 'b' ? [8, 9, 10, 17, 17, 14] : [8, 9, 10, 15, 15, 13];
+  const bulge = [8, 9, 10, 15, 15, 13];
   const roof = [cusps[0]];
   let roofD = `M${P(...cusps[0])}`;
   for (let i = 0; i < cusps.length - 1; i++) {
@@ -231,7 +230,7 @@ function caveSun() {
   const nearCave = (p, m) => inside(p, denseCave) || distTo(p, denseCave, true) < m;
 
   // Strata: the ground line repeated downward, flattening as it goes, cut where the cave is.
-  const guide = sample([...hillPts.slice(0, -1), [240, 152], [262, 168], [284, 173], [308, 171], [334, 169]], 10);
+  const guide = sample([...hillPts.slice(0, -1), [240, 152], [262, 168], [284, 173], [308, 171], [330, 169]], 10);
   const yOn = (lineP) => (x) => {
     for (let i = 1; i < lineP.length; i++) {
       if (x <= lineP[i][0]) {
@@ -248,23 +247,23 @@ function caveSun() {
   let depth = 0;
   const K = 9;
   for (let k = 1; k <= K; k++) {
-    depth += 14.4 + k * 0.35;
+    depth += 13.7 + k * 0.3;
     const flat = Math.min(0.9, k * 0.1);
     // the block of earth rounds off toward the bottom
     const round = Math.max(0, k - 4) ** 1.9 * 3.2;
     const x0 = 27 + round + (k % 2 ? 0 : 7);
-    const x1 = 333 - round - (k % 3 === 1 ? 8 : 0);
+    const x1 = 329 - round - (k % 3 === 1 ? 8 : 0);
     const pts = [];
     for (let x = x0; x <= x1; x += 3) {
       const t = guideY(x);
       const wob = Math.sin(x / 36 + k * 1.7) * (0.4 + k * 0.16);
       pts.push([x, t + depth - (t - mean) * flat + wob]);
     }
-    visibleRuns(pts, (p) => nearCave(p, 6), 38).forEach((run) => out.push(path(spline(thin(run, 5)))));
+    visibleRuns(pts, (p) => nearCave(p, 8), 50).forEach((run) => out.push(path(spline(thin(run, 5)))));
   }
 
   // The dark of the cave.
-  out.push(wash(`${caveD}Q${P(lipU[0] + 4, lipL[1] - 3)} ${P(...lipU)}Z`, DEEP));
+  out.push(wash(`${caveD}Q${P(lipU[0] + 4, lipL[1] - 3)} ${P(...lipU)}Z`, DEEP, true));
   out.push(path(caveD));
   out.push(path(spline(thin(hill, 5))));
   out.push(path(spline(thin(groundR, 4))));
@@ -277,20 +276,20 @@ function caveSun() {
   out.push(path(`M${q[0]}C${q[1]} ${q[2]} ${q[3]}C${q[4]} ${q[5]} ${q[0]}Z`));
 
   // The sun.
-  const sun = [286, 82];
+  const sun = [280, 82];
   out.push(dot(...sun, 4.6));
   out.push(circle(...sun, 17));
   const hillY = yOn([...hill, ...groundR]);
   const n = 16;
   for (let i = 0; i < n; i++) {
     const a = (i / n) * TAU - Math.PI / 2;
-    const r0 = 28;
+    const r0 = 27;
     const long = i % 2 === 0;
-    const r1 = long ? 58 : 48;
+    const r1 = long ? 57 : 47;
     const p0 = [sun[0] + Math.cos(a) * r0, sun[1] + Math.sin(a) * r0];
     const p1 = [sun[0] + Math.cos(a) * r1, sun[1] + Math.sin(a) * r1];
     if (p1[1] > hillY(p1[0]) - 9) continue;
-    out.push(ray(p0, p1, long ? 1.5 : 1, 3.2));
+    out.push(ray(p0, p1, long ? 1.5 : 1, 2.2));
   }
   return svg(360, 320, SW, out.join(''));
 }
@@ -301,57 +300,39 @@ function caveSun() {
 function ladder() {
   const X = 130;
   const out = [];
-  const yTop = 116;
-  const yBot = 334;
+  const yTop = 114;
+  const yBot = 320;
   const halfAt = (y) => 22.5 + ((y - yTop) / (yBot - yTop)) * 21.5;
 
-  // Bands of cloud behind the ladder.
-  if (V === 'b') {
-    // flowing lines only: each band a lens of three waves
-    const bandOf = (y, spans) =>
-      spans.forEach(([x0, x1], i) => {
-        const pts = [];
-        const n = Math.round((x1 - x0) / 5);
-        for (let j = 0; j <= n; j++) {
-          const x = x0 + ((x1 - x0) * j) / n;
-          pts.push([x, y + i * 10.5 + Math.sin(x / 6.6 + y) * 3]);
-        }
-        out.push(path(spline(pts)));
-      });
-    bandOf(264, [[46, 196], [20, 238], [58, 214]]);
-    bandOf(196, [[70, 216], [38, 198], [84, 226]]);
-  } else {
-    // a crest of even scallops over one flowing line
-    const cloud = (x0, y, r, count, tail) => {
-      let d = '';
-      for (let i = 0; i < count; i++) {
-        const x = x0 + i * r * 2;
-        d += `${i ? '' : `M${P(x, y)}`}C${P(x + r * 0.04, y - r * 1.36)} ${P(x + r * 1.96, y - r * 1.36)} ${P(x + r * 2, y)}`;
-      }
-      out.push(path(d));
-      const [a, b2] = tail;
-      const pts = [];
-      const n = Math.round((b2 - a) / 5);
-      for (let j = 0; j <= n; j++) {
-        const x = a + ((b2 - a) * j) / n;
-        pts.push([x, y + 9.5 + Math.sin((x - a) / 6.4) * 2.6]);
-      }
-      out.push(path(spline(pts)));
-    };
-    cloud(30, 272, 11.5, 4, [18, 124]);
-    cloud(142, 266, 11.5, 4, [134, 244]);
-    cloud(54, 192, 10, 3, [44, 126]);
-    cloud(148, 186, 10, 3, [132, 220]);
-  }
+  // Bands of cloud behind the ladder: two rows of scales (the scales of the aegis and of the
+  // lyre's shell) over one flowing line.
+  const scale = (x, y, r) => `M${P(x - r, y)}C${P(x - r, y - r * 1.34)} ${P(x + r, y - r * 1.34)} ${P(x + r, y)}`;
+  const cloudBand = (y, r, count) => {
+    const cx = X;
+    let d = '';
+    for (let i = 0; i < count - 1; i++) d += scale(cx + (i - (count - 2) / 2) * r * 2, y - r * 0.98, r);
+    for (let i = 0; i < count; i++) d += scale(cx + (i - (count - 1) / 2) * r * 2, y, r);
+    out.push(path(d));
+    const half = count * r + 12;
+    const pts = [];
+    const n = Math.round((half * 2) / 5);
+    for (let j = 0; j <= n; j++) {
+      const x = cx - half + (half * 2 * j) / n;
+      pts.push([x, y + 8.5 + Math.sin((x - cx) / (r * 0.64)) * 2.4]);
+    }
+    out.push(path(spline(pts)));
+  };
+  cloudBand(264, 10.5, 9);
+  cloudBand(188, 9.5, 7);
 
   // Ground.
-  out.push(path(spline(wavy([40, 338], [220, 338], { waves: 3, amp: 2.4, phase: 1, per: 8 }))));
-  out.push(path(spline(wavy([70, 349], [190, 349], { waves: 2, amp: 2, phase: 3, per: 8 }))));
+  out.push(path(spline(wavy([40, yBot + 4], [220, yBot + 4], { waves: 3, amp: 2.4, phase: 1, per: 8 }))));
+  out.push(path(spline(wavy([70, yBot + 15], [190, yBot + 15], { waves: 2, amp: 2, phase: 3, per: 8 }))));
 
   // The ladder hides what is behind it.
   const quad = [[X - halfAt(yTop) - 4, yTop - 2], [X + halfAt(yTop) + 4, yTop - 2], [X + halfAt(yBot) + 4.5, yBot + 2], [X - halfAt(yBot) - 4.5, yBot + 2]];
   out.push(wash(`${poly(quad)}Z`, PAPER));
-  const rungs = [306, 268, 233.5, 202.5, 175, 151];
+  const rungs = [293.5, 257.5, 225, 196, 170, 147.5];
   rungs.forEach((y, i) => {
     const h = halfAt(y);
     const t = 5.6 - i * 0.28;
@@ -371,7 +352,7 @@ function ladder() {
   });
 
   // The star.
-  const sc = [X, 56];
+  const sc = [X, 59];
   const star = [];
   for (let i = 0; i < 16; i++) {
     const a = (i / 16) * TAU - Math.PI / 2;
@@ -391,52 +372,17 @@ function torch() {
   const out = [];
   const yTop = 166;
   const yBot = 340;
-  const halfAt = (y) => 15.5 - ((y - yTop) / (yBot - yTop)) * 7;
+  const halfAt = (y) => 18.5 - ((y - yTop) / (yBot - yTop)) * 8;
 
-  // Flame: tongues one inside the other, swaying on one spine.
-  const spine = sample([[X, yTop + 2], [X - 3, 145], [X - 6, 122], [X - 4, 98], [X + 3, 76], [X + 8, 56], [X + 6, 38], [X, 21]], 12);
-  const prof = sample([[0, 0.36], [0.13, 0.76], [0.3, 1], [0.48, 0.88], [0.66, 0.58], [0.84, 0.27], [1, 0]], 12);
-  const f = (t) => {
-    for (let i = 1; i < prof.length; i++) {
-      if (t <= prof[i][0]) {
-        const a = prof[i - 1];
-        const b2 = prof[i];
-        return a[1] + ((b2[1] - a[1]) * (t - a[0])) / (b2[0] - a[0] || 1);
-      }
-    }
-    return 0;
-  };
-  const W = 39;
-  let outline = [];
-  [[1, 1, 0], [0.63, 0.79, -4], [0.29, 0.54, 3.5]].forEach(([sc, T, lean], k) => {
-    const L = [];
-    const R = [];
-    const n = 40;
-    for (let i = 0; i <= n; i++) {
-      const u = i / n;
-      const q = along(spine, u * T);
-      const w = W * sc * f(u);
-      const sway = lean * u * u;
-      L.push([q.x + Math.sin(q.ang) * w + sway, q.y - Math.cos(q.ang) * w]);
-      R.push([q.x - Math.sin(q.ang) * w + sway, q.y + Math.cos(q.ang) * w]);
-    }
-    if (k === 0) outline = [...L, ...R.slice().reverse()];
-    out.push(path(`${spline(thin(L, 4))}${spline(thin(R.reverse(), 4), { cont: true })}`));
+  // Flame: one tongue drawn by hand, and two more inside it, each smaller and leaning its own way.
+  const H = 148;
+  const left = [[-16, 0], [-30, -12], [-44, -31], [-51.5, -53], [-51, -74], [-43, -94], [-30, -111], [-16, -126], [-5, -138], [0, -H]];
+  const right = [[0, -H], [11, -135], [23, -118], [31, -99], [35.5, -79], [38.5, -60], [42.5, -44], [43, -29], [35, -13], [16, 0]];
+  const base = [X, yTop + 2];
+  [[1, 1, 0], [0.63, 0.77, -5], [0.3, 0.5, 4.5]].forEach(([sx, sy, lean]) => {
+    const place = ([dx, dy]) => [base[0] + dx * sx + lean * (dy / H) ** 2, base[1] + dy * sy];
+    out.push(path(`${spline(left.map(place))}${spline(right.map(place), { cont: true })}`));
   });
-  if (V === 'r') {
-    // the light it gives: short rays standing off the flame
-    const c = [X, 112];
-    const count = 11;
-    for (let i = 0; i < count; i++) {
-      const a = (-198 + (i * 216) / (count - 1)) * (Math.PI / 180);
-      const dir = [Math.cos(a), Math.sin(a)];
-      let r = 20;
-      while (r < 140 && (inside([c[0] + dir[0] * r, c[1] + dir[1] * r], outline) || distTo([c[0] + dir[0] * r, c[1] + dir[1] * r], outline, true) < 13)) r += 1;
-      const long = i % 2 === 0;
-      const r1 = r + (long ? 30 : 20);
-      out.push(ray([c[0] + dir[0] * r, c[1] + dir[1] * r], [c[0] + dir[0] * r1, c[1] + dir[1] * r1], long ? 1.5 : 1, 3.2));
-    }
-  }
 
   // Shaft: a bundle of rods narrowing to the foot.
   out.push(
@@ -449,8 +395,8 @@ function torch() {
   [-0.34, 0.34].forEach((k) => out.push(line([X + k * halfAt(yTop), yTop], [X + k * halfAt(316), 316])));
   // Bindings.
   ties.forEach((y, i) => {
-    const h = halfAt(y) + 3.4;
-    const t = i === 0 ? 8 : 6.6;
+    const h = halfAt(y) + 3.6;
+    const t = i === 0 ? 8.4 : 6.8;
     out.push(`<rect x="${n1(X - h)}" y="${n1(y - t / 2)}" width="${n1(h * 2)}" height="${n1(t)}" rx="${n1(t / 2)}" fill="${PAPER}"/>`);
   });
   return svg(220, 360, SW, out.join(''));
@@ -460,7 +406,7 @@ const all = { tetractys, monad, 'bow-lyre': bowLyre, 'cave-sun': caveSun, ladder
 mkdirSync(outDir, { recursive: true });
 for (const [name, draw] of Object.entries(all)) {
   if (only && !only.split(',').includes(name)) continue;
-  const file = resolve(outDir, `${name}${V ? `-${V}` : ''}.svg`);
+  const file = resolve(outDir, `${name}.svg`);
   writeFileSync(file, draw());
   console.log(file);
 }

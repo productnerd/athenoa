@@ -36,7 +36,9 @@ const layers: Record<Scene, { far: string; mid: string; near: string; image: str
   olympus: {
     far: 'footer-olympus-far',
     mid: 'footer-olympus-mid',
-    near: 'footer-olympus-near',
+    // The first Olympus foreground read as bonsai. Until its pines are redrawn, the page uses the
+    // pine forest the client preferred. Switch back to 'footer-olympus-near' when the new drawing lands.
+    near: 'footer-pines',
     image: 'footer-olympus',
   },
   aegean: { far: 'footer-aegean-far', mid: 'footer-aegean-mid', near: 'footer-aegean-near', image: 'footer-aegean' },
@@ -51,7 +53,7 @@ const custom = Object.entries(images).find(([file]) =>
 )?.[1].default;
 ---
 
-<footer class="footer">
+<footer class:list={['footer', `footer--${scene}`]}>
   <div class="wrap footer__grid" data-reveal-group>
     <div class="footer__brand">
       <Image src={logo} alt="" width={96} height={94} class="footer__logo" />
@@ -230,17 +232,23 @@ const custom = Object.entries(images).find(([file]) =>
     height: auto;
   }
 
+  /* The copyright line has its own band of ink under the drawing, so nothing in the picture
+     can crowd it. Its colour continues the ground of the scene above. */
   .footer__legal {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0.9rem;
+    position: relative;
     z-index: 3;
+    margin-top: -1px;
+    padding: 0.85rem var(--gutter) 1.15rem;
+    background-color: var(--footer-ground, var(--blue));
+    background-image: url('/textures/grain-light.webp');
+    background-size: 400px 400px;
     text-align: center;
     font-size: var(--step--1);
     letter-spacing: 0.08em;
     color: var(--creme-light);
-    mix-blend-mode: normal;
+  }
+  .footer--aegean {
+    --footer-ground: var(--blue-deep);
   }
 
   @media (max-width: 60rem) {

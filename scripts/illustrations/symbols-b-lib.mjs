@@ -1,9 +1,8 @@
 // Drawing helpers for the symbols-b set (spring-cypress, tripod, butterfly, orphic-egg, cicada, wheat).
 // Everything is monoline: fill none, stroke currentColor. PAPER is for a shape that has to hide the
-// lines behind it; LIGHT is the light-blue wash.
+// lines behind it.
 
 export const PAPER = 'var(--paper, #f2e9d3)';
-export const LIGHT = 'var(--blue-light, #b3c0f3)';
 export const deg = Math.PI / 180;
 
 export const n1 = (v) => String(Math.round(v * 10) / 10);

@@ -39,7 +39,7 @@ const lead = cut === 'lead';
 >
   {
     lead && (
-      <div class="panel__clip">
+      <div class="panel__clip card__clip">
         <Illustration name="sun-rays" class="card__rays" draw data-depth="0.22" />
       </div>
     )
@@ -191,6 +191,11 @@ const lead = cut === 'lead';
       grid-area: title;
       padding-top: var(--space-l);
     }
+    /* Greek is set in the fallback face, which runs wider than the title face. Beside the picture it goes
+       a step smaller, so the long compound in the title stays whole instead of breaking at its hyphen. */
+    .card--lead .card__title:lang(el) {
+      font-size: calc(clamp(2.5rem, 1.8rem + 3.4vw, 4.9rem) * 0.8);
+    }
     .card--lead .card__summary {
       grid-area: summary;
     }
@@ -206,6 +211,10 @@ const lead = cut === 'lead';
       --rays: 50rem;
       left: 29%;
       top: 24%;
+    }
+    /* The rays fade out above the season and the fee at the foot of the panel */
+    .card__clip {
+      mask-image: linear-gradient(to bottom, #000 calc(100% - 16rem), transparent calc(100% - 10.5rem));
     }
   }
 
@@ -252,9 +261,9 @@ const lead = cut === 'lead';
   .card__pebble {
     position: absolute;
     z-index: -1;
-    left: -4%;
-    top: -3%;
-    width: 40%;
+    left: -5%;
+    top: 0;
+    width: 38%;
     aspect-ratio: 1;
     border-radius: var(--r-pebble-1);
     background-color: var(--blue-deep);
@@ -262,10 +271,10 @@ const lead = cut === 'lead';
     background-size: 400px 400px;
     filter: url(#rough-sm);
   }
-  /* The note lies across the straight right edge of the picture */
+  /* The note lies on the pebble and the shoulder of the arch, clear of the lettering in the picture */
   .card--paper .card__badge {
-    right: -0.6rem;
-    top: 44%;
+    left: -0.6rem;
+    top: 8%;
   }
   .card--paper .card__text {
     width: min(100% - 1.5rem, 26rem);

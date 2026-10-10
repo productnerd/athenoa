@@ -39,7 +39,7 @@ for (const lang of langs) {
       }
       await page.waitForTimeout(1500);
     } else {
-      await page.addStyleTag({ content: '[data-header] { display: none !important; }' });
+      await page.addStyleTag({ content: '[data-header], [data-music] { display: none !important; }' });
       await page.evaluate(async () => {
         await document.fonts.ready;
         document.querySelectorAll('img').forEach((img) => (img.loading = 'eager'));
@@ -60,11 +60,22 @@ for (const lang of langs) {
             wide.push(`${String(el.className.baseVal ?? el.className).split(' ')[0]} ${Math.round(r.left)}..${Math.round(r.right)}`);
           }
         });
-        return { overflow: document.documentElement.scrollWidth - vw, wide: wide.slice(0, 12) };
+        const list = document.querySelector('[role="tablist"]');
+        const english = document.documentElement.lang === 'el'
+          ? Array.from(document.querySelectorAll('main [alt], main [aria-label]'))
+              .map((el) => el.getAttribute('alt') ?? el.getAttribute('aria-label'))
+              .filter((text) => text && !/[\u0370-\u03ff]/.test(text))
+          : [];
+        return {
+          overflow: document.documentElement.scrollWidth - vw,
+          wide: wide.slice(0, 12),
+          tablist: list ? `${Math.round(list.getBoundingClientRect().height)}px tall, ${getComputedStyle(list).position}` : null,
+          english,
+        };
       });
       console.log(lang, width, JSON.stringify(report));
     }
-    for (const name of sections) {
+    for (const name of sections.filter((name) => name !== 'none')) {
       const target = page.locator(`.${name}`).first();
       await target.scrollIntoViewIfNeeded();
       await page.waitForTimeout(250);

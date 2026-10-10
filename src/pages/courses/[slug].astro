@@ -8,6 +8,7 @@ import CoursePrice from '../../components/courses/CoursePrice.astro';
 import RegistrationInfo from '../../components/courses/RegistrationInfo.astro';
 import EnrollFlow from '../../components/courses/EnrollFlow.astro';
 import { courseImage } from '../../components/courses/media';
+import { trail } from '../../components/courses/trail';
 import { content } from '../../data';
 import { courses as allCourses, type Course } from '../../data/courses';
 import { breadcrumbSchema, courseSchema } from '../../data/schema';
@@ -26,11 +27,7 @@ const { courses, coursePageHref, coursesPage, registrationTab, site } = content(
 // The route hands over the English course; the page shows the one with the same slug in its own language.
 const course = courses.find((item) => item.slug === Astro.props.course.slug) ?? Astro.props.course;
 const t = { en: { trail: 'Breadcrumb' }, el: { trail: 'Διαδρομή πλοήγησης' } }[locale];
-const [home] = site.nav;
-const crumbs = [
-  { name: home.label, path: home.href },
-  { name: coursesPage.title, path: site.routes.courses },
-];
+const crumbs = trail(locale);
 const canEnrol = course.status === 'open' && course.price;
 ---
 
@@ -73,7 +70,7 @@ const canEnrol = course.status === 'open' && course.price;
               <div class="reg__body">
                 <div class="stack" data-reveal style="--i:1; --stack: var(--space-m)">
                   <RegistrationInfo course={course} />
-                  <CoursePrice price={course.price!} />
+                  <CoursePrice class="reg__price box on-blue-deep" price={course.price!} />
                 </div>
                 <EnrollFlow course={course} id="enroll" class="reg__enroll" />
               </div>
@@ -134,6 +131,13 @@ const canEnrol = course.status === 'open' && course.price;
   .reg__body {
     display: grid;
     gap: var(--space-m);
+  }
+  /* The fee on a darker blue slip, as in the popup. On a narrow phone the amount is set a little
+     smaller so "€200 & ΦΠΑ (24%)" stays on one line. */
+  .reg__price {
+    --price-size: min(var(--step-2), 6.9vw);
+    width: fit-content;
+    padding: 1rem clamp(1rem, 0.6rem + 1.8vw, 1.6rem) 1.2rem;
   }
   .reg__enroll {
     margin-top: 0.25rem;
