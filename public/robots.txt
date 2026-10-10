@@ -1,0 +1,35 @@
+# ATHENOA, the modern Platonic Academy of Dr. Athena Despoina Potari
+# https://www.athenoa.com
+#
+# Everyone is welcome here: search engines, AI crawlers and AI agents acting for a reader.
+# Only /lab/ (design scratch pages) is off limits.
+#
+# For AI agents: https://www.athenoa.com/llms.txt lists the pages with Markdown copies of each,
+# and https://www.athenoa.com/llms-full.txt has the whole site in one file.
+
+User-agent: *
+Allow: /
+Disallow: /lab/
+
+# Search engines
+User-agent: Googlebot
+User-agent: Bingbot
+Allow: /
+Disallow: /lab/
+
+# AI search, AI assistants browsing for a reader, and AI training crawlers
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: GPTBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+Allow: /
+Disallow: /lab/
+
+Sitemap: https://www.athenoa.com/sitemap-index.xml

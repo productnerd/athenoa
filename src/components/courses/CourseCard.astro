@@ -1,0 +1,248 @@
+---
+// One course on the courses page. Three cuts, so the row is never three identical cards:
+//   lead  a large blue cut-out, the artwork breaking out of its top edge
+//   tall  a tall arch cut from the darker blue, the picture set into it like a window
+//   low   a wide, low arch with a light blue label laid over its corner
+// The action is a real link to the course page; CourseDialog upgrades it to open the popup.
+import Media from '../Media.astro';
+import Illustration from '../Illustration.astro';
+import CoursePrice from './CoursePrice.astro';
+import PaperNote from './PaperNote.astro';
+import { content } from '../../data';
+import type { Course } from '../../data/courses';
+import { getLocale } from '../../lib/locale';
+import { courseImage } from './media';
+import { keepHyphens } from './text';
+
+interface Props {
+  course: Course;
+  cut: 'lead' | 'tall' | 'low';
+}
+const { course, cut } = Astro.props;
+const { coursesPage, coursePageHref } = content(getLocale(Astro.url));
+const { ui } = coursesPage;
+const image = courseImage(course.image);
+const href = coursePageHref(course.slug);
+const titleId = `card-title-${course.slug}`;
+const actionId = `card-action-${course.slug}`;
+const lead = cut === 'lead';
+---
+
+<article
+  class:list={[
+    'card',
+    `card--${cut}`,
+    lead && 'panel panel--big on-blue',
+    cut === 'tall' && 'panel panel--arch on-blue-deep',
+  ]}
+  id={course.slug}
+>
+  {
+    lead && (
+      <div class="panel__clip">
+        <Illustration name="sun-rays" class="card__rays" draw data-depth="0.22" />
+      </div>
+    )
+  }
+
+  <div class="card__figure">
+    <Media
+      class="card__media"
+      src={image}
+      alt={course.imageAlt}
+      shape="arch"
+      ratio={cut === 'tall' ? '4 / 5' : `${image.width} / ${image.height}`}
+      sizes={lead ? '(min-width: 62rem) 52vw, 92vw' : '(min-width: 62rem) 36vw, 84vw'}
+      priority={lead}
+      innerDepth={cut === 'tall' ? 0.1 : undefined}
+      data-depth={lead ? '-0.05' : cut === 'low' ? '-0.04' : undefined}
+    />
+    {/* The picture is a second way in for a pointer; keyboard and screen readers use the one named link below. */}
+    <a class="card__cover" href={href} data-course-open={course.slug} tabindex="-1" aria-hidden="true"></a>
+    {
+      course.status === 'placeholder' && (
+        <PaperNote class="card__badge" data-reveal="grow" style="--delay:500ms">
+          {ui.placeholderBadge}
+        </PaperNote>
+      )
+    }
+  </div>
+
+  <div class:list={['card__text', cut === 'low' && 'box on-blue-light']} data-reveal-group>
+    <h2 class:list={['card__title', lead ? 't-2' : 't-3']} id={titleId} set:html={keepHyphens(course.title)} />
+    {course.summary && <p class="card__summary">{course.summary}</p>}
+    {
+      (course.schedule || course.price) && (
+        <div class="card__facts">
+          {course.schedule && <p class="card__schedule hand hand--m">{course.schedule}</p>}
+          {course.price && <CoursePrice price={course.price} />}
+        </div>
+      )
+    }
+    <p class="card__go">
+      <a
+        class="btn"
+        href={href}
+        id={actionId}
+        aria-labelledby={`${actionId} ${titleId}`}
+        data-course-open={course.slug}
+      >
+        {ui.viewCourse}
+      </a>
+    </p>
+  </div>
+</article>
+
+<style>
+  .card {
+    position: relative;
+  }
+  .card__figure {
+    position: relative;
+  }
+  /* --arch is the outline of the picture; the link laid over it follows the same curve */
+  .card {
+    --arch: var(--r-arch);
+  }
+  .card__media {
+    --media-r: var(--arch);
+  }
+  .card__cover {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: var(--arch);
+  }
+  .card :global(.media__clip img) {
+    transition: scale var(--dur-3) var(--ease-out);
+  }
+  .card__figure:hover :global(.media__clip img) {
+    scale: 1.035;
+  }
+  .card__text > :global(* + *) {
+    margin-top: var(--space-s);
+  }
+  .card__go {
+    padding-top: 0.35rem;
+  }
+
+  /* ---------- lead ---------- */
+  /* A lunette: the banner is wide and lettered, so its arch is low and the full artwork shows */
+  .card--lead {
+    --arch: 50% 50% 1.8rem 2.2rem / 60% 60% 1.7rem 2rem;
+    --rise: clamp(2.75rem, 1.5rem + 5vw, 5.5rem);
+    display: flow-root;
+    margin-top: var(--rise);
+    padding-top: 0;
+    padding-bottom: var(--space-l);
+  }
+  .card--lead .card__figure {
+    margin: calc(var(--rise) * -1) -0.35rem var(--space-m);
+  }
+  /* Rays behind the picture, cut to the panel. Centred with margins: parallax owns `translate` here. */
+  .card__rays {
+    --rays: 100%;
+    position: absolute;
+    left: 50%;
+    top: 1.25rem;
+    width: var(--rays);
+    margin: calc(var(--rays) / -2) 0 0 calc(var(--rays) / -2);
+    opacity: 0.32;
+  }
+  .card__summary {
+    max-width: 44ch;
+  }
+  .card__facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 1.75rem;
+  }
+  .card__schedule {
+    rotate: -2.5deg;
+  }
+
+  @media (min-width: 62rem) {
+    /* Picture and fee down the left, title, summary and action down the right */
+    .card--lead {
+      display: grid;
+      grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
+      grid-template-areas:
+        'figure title'
+        'figure summary'
+        'facts go';
+      grid-template-rows: auto 1fr auto;
+      column-gap: clamp(2rem, 4vw, 4.5rem);
+      align-items: start;
+    }
+    .card--lead .card__text {
+      display: contents;
+    }
+    .card--lead .card__figure {
+      grid-area: figure;
+      margin: calc(var(--rise) * -1) 0 var(--space-m) calc(clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem) * -1 - 1rem);
+    }
+    .card--lead .card__title {
+      grid-area: title;
+      padding-top: var(--space-l);
+    }
+    .card--lead .card__summary {
+      grid-area: summary;
+    }
+    .card--lead .card__facts {
+      grid-area: facts;
+      align-self: end;
+    }
+    .card--lead .card__go {
+      grid-area: go;
+      align-self: end;
+    }
+    .card__rays {
+      --rays: 50rem;
+      left: 29%;
+      top: 24%;
+    }
+  }
+
+  /* ---------- tall ---------- */
+  .card--tall {
+    --pad: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
+    padding: var(--pad) var(--pad) clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
+  }
+  .card--tall .card__figure {
+    margin-bottom: var(--space-m);
+  }
+  .card--tall .card__text {
+    padding-inline: clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem);
+  }
+  .card--tall .card__badge {
+    --tilt: -6deg;
+    left: clamp(-1.4rem, -0.4rem - 1.2vw, -0.8rem);
+    bottom: 10%;
+  }
+
+  /* ---------- low ---------- */
+  .card--low {
+    --arch: 50% 50% 1.6rem 2rem / 58% 58% 1.5rem 1.8rem;
+  }
+  .card--low .card__badge {
+    --tilt: 5deg;
+    right: 0.25rem;
+    top: 15%;
+  }
+  .card--low .card__text {
+    width: min(100% - 1.5rem, 26rem);
+    padding-inline: clamp(1.4rem, 1rem + 1.6vw, 2.2rem);
+    margin: -2.25rem 0 0 auto;
+    z-index: 3;
+    --box-r: var(--r-soft-2);
+  }
+  @media (min-width: 40rem) {
+    .card--low .card__badge {
+      right: -0.6rem;
+    }
+    .card--low .card__text {
+      margin: -5.5rem 0 0 -1.75rem;
+    }
+  }
+</style>

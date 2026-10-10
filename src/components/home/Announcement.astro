@@ -1,0 +1,300 @@
+---
+// Home: Athena writes to her students. A letter on a sheet of paper, a blue slip for the
+// newsletter laid over its corner, then three course pictures hung at different heights.
+import Media from '../Media.astro';
+import Illustration from '../Illustration.astro';
+import republic from '../../assets/media/course-platos-republic.jpg';
+import aurelius from '../../assets/media/course-marcus-aurelius.jpg';
+import plato from '../../assets/media/plato-statue.jpg';
+import { home } from '../../data/home';
+
+const { greeting, text, newsletter, courses } = home.announcement;
+
+// How each picture is cropped and hung. Keyed by the image name used in the data.
+const hang = {
+  'course-platos-republic': {
+    src: republic,
+    alt: 'The Parthenon lit up under a starry night sky',
+    ratio: '4 / 5',
+    focus: '52% 50%',
+    depth: '0.05',
+  },
+  'course-marcus-aurelius': {
+    src: aurelius,
+    alt: 'A temple front at night with a glowing tablet of Greek letters and a bronze statue of Marcus Aurelius raising his hand',
+    ratio: '6 / 5',
+    focus: '50% 50%',
+    depth: '-0.05',
+  },
+  'plato-statue': {
+    src: plato,
+    alt: 'Marble statue of Plato, seated, with a statue of Athena on a column behind',
+    ratio: '4 / 5',
+    focus: '80% 50%',
+    depth: '0.1',
+  },
+};
+---
+
+<section class="section announcement" aria-labelledby="announcement-title">
+  <div class="wrap">
+    <div class="announcement__top">
+      <div class="letter box box--offset" data-reveal>
+        <Illustration name="laurel" class="letter__seal" draw />
+        <h2 class="hand hand--l" id="announcement-title">{greeting}</h2>
+        <p class="letter__text t-3">{text}</p>
+      </div>
+
+      <div class="slip box box--blue on-blue" data-reveal data-depth="-0.06" style="--i:3">
+        <p class="slip__text">{newsletter.text}</p>
+        <p><a class="btn" href={newsletter.cta.href}>{newsletter.cta.label}</a></p>
+      </div>
+    </div>
+
+    <ul class="tiles" role="list">
+      {
+        courses.map((course, i) => {
+          const look = hang[course.image];
+          const Body = course.href ? 'a' : 'div';
+          return (
+            <li class:list={['tile', `tile--${i + 1}`]} data-depth={look.depth} style={`--i:${i}`}>
+              <Body class="tile__body" href={course.href}>
+                <Media
+                  class="tile__photo"
+                  src={look.src}
+                  alt={look.alt}
+                  shape="arch"
+                  ratio={look.ratio}
+                  focus={look.focus}
+                  widths={[360, 560, 800, 940]}
+                  sizes="(min-width: 56rem) 36vw, 88vw"
+                />
+                <h3 class="tile__title t-3" data-reveal>
+                  {course.title}
+                </h3>
+              </Body>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .announcement__top {
+    position: relative;
+    display: grid;
+    gap: 0;
+  }
+
+  /* ---------- The letter ---------- */
+  .letter {
+    --box-r: var(--r-soft-2);
+    rotate: -1.3deg;
+    padding: clamp(1.9rem, 1.2rem + 3.4vw, 4rem);
+    padding-bottom: clamp(2.6rem, 1.6rem + 4vw, 4.75rem);
+  }
+  .letter h2 {
+    max-width: 22ch;
+  }
+  .letter__text {
+    margin-top: var(--space-m);
+    max-width: 20ch;
+  }
+  /* A laurel postmark on the corner of the sheet */
+  .letter :global(.letter__seal) {
+    position: absolute;
+    top: -1.6rem;
+    right: -0.4rem;
+    width: clamp(4.75rem, 3.6rem + 5vw, 8.5rem);
+    rotate: 11deg;
+    color: color-mix(in srgb, var(--blue) 62%, transparent);
+    pointer-events: none;
+  }
+
+  /* ---------- The newsletter slip ---------- */
+  .slip {
+    --box-r: var(--r-soft);
+    z-index: 1;
+    justify-self: end;
+    width: min(94%, 23rem);
+    margin-top: -1.75rem;
+    rotate: 1.6deg;
+    padding: clamp(1.35rem, 1rem + 1.6vw, 2.25rem);
+  }
+  .slip .btn {
+    padding-inline: 1.25em;
+  }
+  .slip__text {
+    margin-bottom: var(--space-s);
+  }
+
+  /* ---------- The course pictures ---------- */
+  .tiles {
+    display: grid;
+    gap: calc(var(--space-l) + 2.75rem);
+    margin-top: calc(var(--space-xl) + 1.75rem);
+  }
+  .tile {
+    position: relative;
+  }
+  /* The cord each picture hangs from: a hairline up to a small nail */
+  .tile::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 100%;
+    width: 1.5px;
+    height: var(--cord, 2.5rem);
+    background: var(--line);
+  }
+  .tile::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + var(--cord, 2.5rem));
+    width: 0.5rem;
+    height: 0.45rem;
+    margin-left: calc(-0.25rem + 0.75px);
+    background: var(--ink-strong);
+    border-radius: var(--r-pebble-1);
+  }
+  .tile__body {
+    display: block;
+    text-decoration: none;
+  }
+  .tile__title {
+    --delay: 320ms;
+    margin-top: 1rem;
+    font-size: calc(var(--step-2) * 0.78);
+    max-width: 26ch;
+  }
+  a.tile__body .tile__title {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 0.05em;
+    text-underline-offset: 0.16em;
+    transition: text-decoration-color var(--dur-1);
+  }
+  a.tile__body:hover .tile__title,
+  a.tile__body:focus-visible .tile__title {
+    text-decoration-color: currentColor;
+  }
+  a.tile__body :global(.media__clip picture) {
+    display: block;
+    transition: scale var(--dur-3) var(--ease-out);
+  }
+  a.tile__body:hover :global(.media__clip picture) {
+    scale: 1.045;
+  }
+  a.tile__body:focus-visible {
+    outline-offset: 0.6rem;
+    border-radius: var(--r-soft);
+  }
+
+  /* Small screens: a zigzag down the page, each picture a different width */
+  .tile--1 {
+    --cord: 2.25rem;
+    width: 76%;
+  }
+  .tile--2 {
+    --cord: 1.5rem;
+    width: 92%;
+    margin-left: auto;
+  }
+  .tile--3 {
+    --cord: 2rem;
+    width: 68%;
+    margin-left: 7%;
+  }
+
+  /* Middle widths: two on the left, the wide one hung between them on the right */
+  @media (min-width: 40rem) and (max-width: 55.99rem) {
+    .tiles {
+      grid-template-columns: 5fr 6fr;
+      column-gap: 7%;
+      align-items: start;
+    }
+    .tile--1 {
+      grid-column: 1;
+      grid-row: 1;
+      width: auto;
+    }
+    .tile--2 {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: center;
+      width: auto;
+    }
+    .tile--3 {
+      grid-column: 1;
+      grid-row: 2;
+      width: 80%;
+      margin-left: 16%;
+    }
+  }
+
+  @media (min-width: 56rem) {
+    .announcement__top {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(1rem, 0.4rem + 1.7vw, 2rem);
+      align-items: end;
+    }
+    /* The sheet sits to the right; the slip is tucked under its lower left corner, in the margin */
+    .letter {
+      grid-column: 6 / span 7;
+      grid-row: 1;
+      padding-left: clamp(3rem, 1rem + 5vw, 5.5rem);
+    }
+    /* On a wide sheet the laurel moves to the foot of the letter, where a seal would go:
+       pressed over the corner, half on the sheet and half on the page */
+    .letter :global(.letter__seal) {
+      top: auto;
+      right: -1.5rem;
+      bottom: -2.5rem;
+      width: clamp(6.5rem, 3.5rem + 6vw, 9.75rem);
+      rotate: -9deg;
+    }
+    .slip {
+      grid-column: 2 / span 4;
+      grid-row: 1;
+      justify-self: stretch;
+      width: auto;
+      margin: 0 -3.5rem -3.25rem 0;
+      rotate: -2deg;
+    }
+    .letter h2 {
+      max-width: 25ch;
+    }
+    .letter__text {
+      max-width: 24ch;
+    }
+
+    .tiles {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(1rem, 0.4rem + 1.7vw, 2rem);
+      align-items: start;
+      row-gap: var(--space-l);
+      margin-top: calc(var(--space-xl) + 1rem);
+    }
+    .tile--1 {
+      --cord: 5.5rem;
+      grid-column: 1 / span 3;
+      width: auto;
+      margin: 5.5rem 0 0 1rem;
+    }
+    .tile--2 {
+      --cord: 3rem;
+      grid-column: 5 / span 5;
+      width: auto;
+      margin: 0;
+    }
+    .tile--3 {
+      --cord: 9rem;
+      grid-column: 10 / span 3;
+      width: auto;
+      margin: 9.5rem 0.5rem 0 0;
+    }
+  }
+</style>

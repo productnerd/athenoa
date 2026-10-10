@@ -1,0 +1,36 @@
+---
+// A handwritten paper note stuck over the edge of a picture: the season a course runs, or "Details to follow".
+// The caller positions it (it is absolutely placed) and may set --tilt.
+interface Props {
+  class?: string;
+  [key: string]: unknown;
+}
+const { class: className, ...rest } = Astro.props;
+---
+
+<p class:list={['note', 'hand', className]} {...rest}><slot /></p>
+
+<style>
+  .note {
+    position: absolute;
+    z-index: 3;
+    isolation: isolate;
+    padding: 0.55rem 1.1rem 0.65rem;
+    font-size: var(--step-0);
+    color: var(--blue);
+    white-space: nowrap;
+    pointer-events: none;
+    rotate: var(--tilt, -5deg);
+  }
+  .note::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: var(--r-pebble-2);
+    background-color: var(--creme-light);
+    background-image: url('/textures/grain-dark.webp');
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
+  }
+</style>

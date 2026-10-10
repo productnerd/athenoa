@@ -1,0 +1,412 @@
+---
+// Everything there is to say about one course, rendered once so the popup and the course page cannot drift apart.
+//   variant="dialog"  compact header, sections as an accordion (the registration notes are its last item)
+//   variant="page"    h1 header, sections written out under h2 headings
+// The fee and the enrol flow are placed by the caller (CoursePrice, EnrollFlow).
+import Media from '../Media.astro';
+import Illustration from '../Illustration.astro';
+import RegistrationInfo from './RegistrationInfo.astro';
+import PaperNote from './PaperNote.astro';
+import { content } from '../../data';
+import type { Course } from '../../data/courses';
+import { getLocale } from '../../lib/locale';
+import { courseImage } from './media';
+import { keepHyphens } from './text';
+
+interface Props {
+  course: Course;
+  variant: 'dialog' | 'page';
+  /** id for the title, so a dialog can be labelled by it */
+  titleId?: string;
+}
+const { course, variant, titleId } = Astro.props;
+const { coursesPage, registrationTab, site } = content(getLocale(Astro.url));
+const { ui } = coursesPage;
+const image = courseImage(course.image);
+const page = variant === 'page';
+const isOpen = course.status === 'open';
+const Title = page ? 'h1' : 'h2';
+const Label = page ? 'h2' : 'h3';
+
+// Page only: each section sits on a different ground so the long read has a rhythm.
+// The three blues all appear down the page: light blue here, darker blue here, Greek blue for registration.
+const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue-deep'], [], ['box', 'box--line']];
+---
+
+<div class:list={['body', `body--${variant}`]}>
+  <header class="body__head">
+    <div class="body__figure" style={`--ar:${(image.height / image.width).toFixed(3)}`}>
+      {page && <Illustration name="sun-rays" class="body__rays" draw data-depth="0.18" />}
+      <Media
+        class="body__media"
+        src={image}
+        alt={course.imageAlt}
+        shape="arch"
+        ratio={`${image.width} / ${image.height}`}
+        sizes={page ? '(min-width: 60rem) 56vw, 92vw' : '(min-width: 48rem) 26rem, 88vw'}
+        priority={page}
+        reveal={page ? 'unveil' : false}
+      />
+      {/* The season it runs, or a note that details are still to come, stuck to the picture by hand */}
+      {
+        (isOpen ? course.schedule : true) && (
+          <PaperNote class="body__note" data-reveal={page ? 'grow' : undefined} style="--delay:600ms">
+            {isOpen ? course.schedule : ui.placeholderBadge}
+          </PaperNote>
+        )
+      }
+    </div>
+
+    <Title
+      class:list={['body__title', page ? 't-1' : 't-2']}
+      id={titleId}
+      data-split={page ? '' : undefined}
+      set:html={keepHyphens(course.title)}
+    />
+    <p class="body__by" data-reveal={page ? '' : undefined}>{ui.taughtBy} {course.instructor}</p>
+
+    <div class="body__lede stack" data-reveal-group={page ? '' : undefined}>
+      {
+        isOpen ? (
+          course.summary && <p class="body__summary">{course.summary}</p>
+        ) : (
+          <>
+            <p>{ui.placeholderNote}</p>
+            <p>
+              <a class="btn" href={site.routes.contact}>
+                {ui.contactInstead}
+              </a>
+            </p>
+          </>
+        )
+      }
+    </div>
+  </header>
+
+  {
+    page && course.sections.length > 0 && (
+      <div class="body__sections">
+        {course.sections.map((section, i) => {
+          const ground = grounds[i % grounds.length];
+          return (
+            <section class:list={['sec', ...ground]} id={section.id} aria-labelledby={`${section.id}-title`}>
+              {ground.includes('panel') && (
+                <div class="panel__clip">
+                  <Illustration name="lyre" class="sec__lyre" draw data-depth="0.12" />
+                </div>
+              )}
+              <hgroup class="sec__head" data-reveal>
+                <Label class="t-2" id={`${section.id}-title`}>
+                  {section.label}
+                </Label>
+                <p class="hand hand--m">{section.sublabel}</p>
+              </hgroup>
+              <div class="prose" data-reveal style="--i:1" set:html={section.html} />
+            </section>
+          );
+        })}
+      </div>
+    )
+  }
+
+  {
+    !page && isOpen && (
+      <div class="acc">
+        {course.sections.map((section, i) => (
+          <details class="acc__item" name={`sections-${course.slug}`} open={i === 0}>
+            <summary>
+              <Label class="acc__label">{section.label}</Label>
+              <span class="acc__sub hand">{section.sublabel}</span>
+              <svg class="acc__mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+                <path d="M4 12.3c5-.9 11-.6 16-.4" />
+                <path class="acc__mark-v" d="M12.2 4c-.6 5-.5 11 0 16" />
+              </svg>
+            </summary>
+            <div class="acc__content prose" set:html={section.html} />
+          </details>
+        ))}
+        <details class="acc__item" name={`sections-${course.slug}`}>
+          <summary>
+            <Label class="acc__label">{registrationTab.label}</Label>
+            <span class="acc__sub hand">{registrationTab.sublabel}</span>
+            <svg class="acc__mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
+              <path d="M4 12.3c5-.9 11-.6 16-.4"></path>
+              <path class="acc__mark-v" d="M12.2 4c-.6 5-.5 11 0 16"></path>
+            </svg>
+          </summary>
+          <div class="acc__content">
+            <RegistrationInfo course={course} />
+          </div>
+        </details>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  /* ---------- Header, shared ---------- */
+  .body__head {
+    display: grid;
+    gap: var(--space-s);
+  }
+  .body__figure {
+    position: relative;
+  }
+  /* A low, wide arch: the course artwork carries lettering, so the curve stays clear of it */
+  .body__media {
+    --media-r: 50% 50% 1.6rem 1.9rem / 62% 62% 1.5rem 1.8rem;
+  }
+  .body__by {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  .body__lede {
+    max-width: var(--measure);
+  }
+  .body__note {
+    --tilt: -4deg;
+    left: 7%;
+    bottom: -1.35rem;
+  }
+
+  /* ---------- Popup ---------- */
+  .body--dialog .body__head {
+    gap: 0.6rem var(--space-l);
+  }
+  .body--dialog .body__figure {
+    max-width: 30rem;
+    margin-bottom: 1.5rem;
+  }
+  .body--dialog .body__title {
+    font-size: clamp(2rem, 1.5rem + 2.4vw, 3.4rem);
+    font-size: calc(clamp(2rem, 1.5rem + 2.4vw, 3.4rem) * var(--title-scale));
+  }
+  @media (min-width: 48rem) {
+    .body--dialog .body__head {
+      grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+      grid-template-rows: auto auto 1fr;
+      align-items: start;
+    }
+    .body--dialog .body__figure {
+      grid-row: 1 / -1;
+      margin: 0;
+    }
+    .body--dialog .body__title,
+    .body--dialog .body__by,
+    .body--dialog .body__lede {
+      grid-column: 2;
+    }
+  }
+
+  .acc {
+    display: grid;
+    gap: 0.55rem;
+    margin-top: var(--space-m);
+  }
+  .acc__item {
+    border: 1.5px solid var(--line);
+    border-radius: 1.5rem 1.9rem 1.6rem 2rem / 1.9rem 1.5rem 2rem 1.6rem;
+    transition:
+      background-color var(--dur-2),
+      border-color var(--dur-2);
+  }
+  .acc__item:nth-child(even) {
+    border-radius: 1.9rem 1.5rem 2rem 1.6rem / 1.5rem 2rem 1.6rem 1.9rem;
+  }
+  .acc__item[open] {
+    background-color: var(--creme-light);
+    border-color: transparent;
+  }
+  .acc__item summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0 1rem;
+    padding: 0.85rem 1.1rem 0.9rem 1.35rem;
+    list-style: none;
+    cursor: pointer;
+    border-radius: inherit;
+  }
+  .acc__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .acc__label {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    font-size: calc(var(--step-1) * (0.55 + 0.45 * var(--title-scale)));
+    line-height: 1.08;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+  .acc__sub {
+    grid-column: 1;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .acc__mark {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    color: var(--ink-strong);
+  }
+  .acc__mark path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    transform-origin: 12px 12px;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      opacity var(--dur-1);
+  }
+  .acc__item[open] .acc__mark-v {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+  .acc__item summary:hover .acc__label {
+    color: var(--blue-bright);
+  }
+  .acc__content {
+    padding: 0.2rem 1.35rem 1.5rem;
+  }
+  /* Where the browser can animate to height:auto, the panels ease open */
+  @supports (interpolate-size: allow-keywords) {
+    :global(html.motion) .acc__item {
+      interpolate-size: allow-keywords;
+    }
+    :global(html.motion) .acc__item::details-content {
+      block-size: 0;
+      overflow: clip;
+      transition:
+        block-size var(--dur-2) var(--ease-out),
+        content-visibility var(--dur-2) allow-discrete;
+    }
+    :global(html.motion) .acc__item[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  /* ---------- Page ---------- */
+  .body--page .body__head {
+    gap: var(--space-s) var(--space-l);
+  }
+  /* Read order on a small screen: title, teacher, picture, summary */
+  .body--page .body__title {
+    order: 1;
+  }
+  .body--page .body__by {
+    order: 2;
+    font-size: var(--step-1);
+  }
+  /* On a small screen the rays show as a halo above and below the picture, in space kept clear for them */
+  .body--page .body__figure {
+    order: 3;
+    margin-block: 5rem 5.4rem;
+  }
+  .body--page .body__lede {
+    order: 4;
+  }
+  /* Centred with margins: the parallax script owns `translate` on this layer.
+     Sized from the picture's proportions (--ar, height over width) so a squarer picture still shows a ring. */
+  .body__rays {
+    --rays: calc((0.62 + 0.75 * var(--ar)) * 100%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    width: var(--rays);
+    margin: calc(var(--rays) / -2) 0 0 calc(var(--rays) / -2);
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .body--page .body__summary {
+    font-size: var(--step-1);
+    line-height: 1.34;
+  }
+  @media (min-width: 60rem) {
+    /* The title runs wide; beneath it the teacher and summary sit beside the picture, about its middle */
+    .body--page .body__head {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: auto 1fr 1fr;
+    }
+    .body--page .body__title {
+      grid-column: 1 / span 10;
+      grid-row: 1;
+    }
+    .body--page .body__by {
+      grid-column: 1 / span 5;
+      grid-row: 2;
+      align-self: end;
+    }
+    .body--page .body__lede {
+      grid-column: 1 / span 5;
+      grid-row: 3;
+    }
+    .body--page .body__figure {
+      grid-column: 6 / -1;
+      grid-row: 2 / span 2;
+      justify-self: end;
+      width: min(100%, 34rem / var(--ar));
+      margin-block: var(--space-l) var(--space-m);
+    }
+    .body__rays {
+      --rays: min((0.76 + 0.75 * var(--ar)) * 100%, 52rem);
+      top: 56%;
+    }
+  }
+
+  .body__sections {
+    display: grid;
+    gap: var(--space-xl);
+    margin-top: var(--space-xl);
+  }
+  .sec {
+    display: grid;
+    gap: var(--space-m);
+    align-items: start;
+  }
+  .sec.box {
+    padding: clamp(1.6rem, 0.8rem + 4vw, 4.5rem);
+  }
+  .sec__head .hand {
+    margin-top: 0.6rem;
+    rotate: -2deg;
+    transform-origin: left center;
+  }
+  /* The lyre sits in ground kept clear for it, never behind the words */
+  .sec.panel {
+    padding-bottom: calc(var(--space-xl) + 7rem);
+  }
+  .sec__lyre {
+    position: absolute;
+    right: 8%;
+    bottom: -1.5rem;
+    width: 8.5rem;
+    opacity: 0.6;
+    rotate: 8deg;
+  }
+  @media (min-width: 60rem) {
+    .sec {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-l);
+    }
+    .sec__head {
+      position: sticky;
+      top: calc(var(--header-h) + 1.5rem);
+    }
+    .sec.panel {
+      padding-bottom: var(--space-xl);
+    }
+    .sec__lyre {
+      right: auto;
+      left: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
+      bottom: -2.5rem;
+      width: clamp(10rem, 17vw, 15rem);
+      rotate: -7deg;
+    }
+    /* Unboxed sections step in from the left, so the column of text does not run in one straight line */
+    .sec:not(.box, .panel) {
+      padding-inline: clamp(0rem, -3rem + 6vw, 4.5rem) 0;
+    }
+  }
+</style>

@@ -1,0 +1,13 @@
+---
+// Lab page: the not-found scene on its own, at /lab/404/ (add ?locale=el for the Greek words).
+// Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import NotFoundScene from '../../components/notfound/NotFoundScene.astro';
+import { notfound } from '../../data/notfound';
+
+const locale = Astro.url.searchParams.get('locale') === 'el' ? 'el' : 'en';
+---
+
+<Base title="Page not found | ATHENOA" description={notfound.en.line} noindex>
+  <NotFoundScene locale={locale} />
+</Base>

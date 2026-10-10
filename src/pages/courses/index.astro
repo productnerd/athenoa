@@ -1,0 +1,119 @@
+---
+// Courses: the open course leads on a blue cut-out, the others follow as smaller arches.
+// Each card links to its own page; with JavaScript the link opens the course popup instead.
+// The same file renders /courses/ and /el/courses/: the copy follows the address.
+import Base from '../../layouts/Base.astro';
+import Illustration from '../../components/Illustration.astro';
+import CourseCard from '../../components/courses/CourseCard.astro';
+import CourseDialog from '../../components/courses/CourseDialog.astro';
+import { content } from '../../data';
+import { breadcrumbSchema, courseSchema } from '../../data/schema';
+import { getLocale } from '../../lib/locale';
+
+const { courses, coursesPage, site } = content(getLocale(Astro.url));
+const [home] = site.nav;
+const lead = courses.find((course) => course.status === 'open') ?? courses[0];
+const others = courses.filter((course) => course !== lead);
+const cuts = ['tall', 'low'] as const;
+---
+
+<Base
+  title={`${coursesPage.title} | ${site.name}`}
+  description={coursesPage.description}
+  schema={[
+    breadcrumbSchema([
+      { name: home.label, path: home.href },
+      { name: coursesPage.title, path: site.routes.courses },
+    ]),
+    ...courses.map(courseSchema),
+  ]}
+>
+  <section class="courses section">
+    <div class="wrap">
+      <header class="courses__head">
+        <h1 class="t-hero" data-split>{coursesPage.title}</h1>
+        <p class="courses__line hand hand--l hand--tilt" data-reveal style="--delay:300ms">
+          {coursesPage.description}
+        </p>
+        <Illustration name="owl" class="courses__owl" draw data-depth="-0.1" />
+      </header>
+
+      <CourseCard course={lead} cut="lead" />
+
+      <div class="courses__others">
+        <Illustration name="olive-branch" class="courses__olive" draw data-depth="0.12" />
+        {others.map((course, i) => <CourseCard course={course} cut={cuts[i % cuts.length]} />)}
+      </div>
+    </div>
+  </section>
+
+  {courses.map((course) => <CourseDialog course={course} />)}
+</Base>
+
+<style>
+  .courses {
+    padding-block: calc(var(--space-l) + 0.5rem) var(--space-m);
+  }
+  .courses__head {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+    margin-bottom: var(--space-l);
+    padding-right: clamp(5rem, 22vw, 14rem);
+  }
+  .courses__line {
+    max-width: 30ch;
+  }
+  .courses__owl {
+    position: absolute;
+    right: clamp(0rem, 4vw, 5rem);
+    top: 0.5rem;
+    width: clamp(4.75rem, 15vw, 11.5rem);
+  }
+
+  .courses__others {
+    position: relative;
+    display: grid;
+    gap: var(--space-xl);
+    margin-top: var(--space-xl);
+  }
+  .courses__others > :global(.card--tall) {
+    width: min(86%, 24rem);
+  }
+  .courses__others > :global(.card--low) {
+    width: min(92%, 32rem);
+    justify-self: end;
+  }
+  .courses__olive {
+    position: absolute;
+    right: 0;
+    top: 3rem;
+    width: clamp(7rem, 30vw, 20rem);
+    rotate: -8deg;
+    opacity: 0.8;
+  }
+
+  @media (min-width: 62rem) {
+    .courses__head {
+      margin-bottom: var(--space-xl);
+    }
+    .courses__others {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--space-xl) var(--space-m);
+      align-items: start;
+    }
+    .courses__others > :global(.card--tall) {
+      grid-column: 2 / span 4;
+      width: auto;
+    }
+    .courses__others > :global(.card--low) {
+      grid-column: 7 / span 6;
+      width: auto;
+      margin-top: clamp(7rem, 14vw, 13rem);
+    }
+    .courses__olive {
+      right: 4%;
+      top: 1rem;
+    }
+  }
+</style>

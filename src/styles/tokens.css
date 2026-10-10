@@ -1,0 +1,159 @@
+/* ATHENOA design tokens.
+   The site is a two-ink print: Aegean blue ink on crème paper, or crème on blue. */
+
+:root {
+  /* Ink: three blues of one hue (232deg). All three are used as surfaces and as ink. */
+  --blue-light: #b3c0f3; /* light Aegean: washes, highlights, soft panels */
+  --blue: #0b1c8c; /* Greek blue: the main ink and the main panel colour */
+  --blue-deep: #071260; /* darker Greek blue: body text, night panels, foreground shapes */
+  --blue-bright: #2238c3; /* interaction tint only (hover, focus) */
+  --blue-wash: var(--blue-light);
+
+  /* Paper */
+  --creme: #f2e9d3;
+  --creme-light: #f9f3e3;
+  --creme-deep: #e3d6b6;
+  --sand: #cbbd9c;
+
+  /* Semantic. Sections flip these with .on-blue */
+  --paper: var(--creme);
+  --ink: var(--blue-deep);
+  --ink-strong: var(--blue);
+  --ink-soft: color-mix(in srgb, var(--blue-deep) 72%, var(--creme));
+  --line: color-mix(in srgb, var(--blue) 28%, transparent);
+  --grain: url('/textures/grain-dark.webp');
+  /* Colour of the organic highlight behind emphasised words (.hl), and of the words on it */
+  --highlight: var(--blue-light);
+  --highlight-ink: var(--blue);
+
+  /* Type families. Three sets are under test, switched with html[data-fonts]:
+       (default) EB Garamond throughout   |   'b' Tekst throughout   |   'c' PP Editorial New throughout
+     Only EB Garamond and the handwriting face (Mansalva) are shipped; the others load from the
+     visitor's own machine. Anything a face lacks (Greek, some punctuation) falls back to EB Garamond. */
+  --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-hand: 'Mansalva', 'Bradley Hand', 'Segoe Print', cursive;
+  --title-weight: 400;
+  --title-weight-xl: 400;
+  --title-tracking: -0.022em;
+  --title-leading: 0.96;
+  --title-scale: 0.86;
+  --body-scale: 1;
+
+  /* Type scale (fluid) */
+  --step--1: calc(clamp(0.94rem, 0.9rem + 0.2vw, 1.05rem) * var(--body-scale));
+  --step-0: calc(clamp(1.14rem, 1.06rem + 0.36vw, 1.36rem) * var(--body-scale));
+  --step-1: calc(clamp(1.35rem, 1.2rem + 0.7vw, 1.8rem) * var(--body-scale));
+  --step-2: calc(clamp(1.9rem, 1.5rem + 1.9vw, 3.1rem) * var(--title-scale));
+  --step-3: calc(clamp(2.5rem, 1.8rem + 3.4vw, 4.9rem) * var(--title-scale));
+  --step-4: calc(clamp(3.1rem, 1.9rem + 5.8vw, 7.6rem) * var(--title-scale));
+  --step-5: calc(clamp(3.4rem, 1.4rem + 9.6vw, 11.5rem) * var(--title-scale));
+
+  /* Space */
+  --space-2xs: 0.375rem;
+  --space-xs: 0.75rem;
+  --space-s: 1.125rem;
+  --space-m: 1.75rem;
+  --space-l: clamp(2.25rem, 1.6rem + 2.6vw, 4rem);
+  --space-xl: clamp(3.5rem, 2.2rem + 5.4vw, 7.5rem);
+  --space-2xl: clamp(5rem, 3rem + 9vw, 12rem);
+  --gutter: clamp(1.15rem, 0.6rem + 2.6vw, 3.25rem);
+  --measure: 62ch;
+  --wrap: 82rem;
+
+  /* Organic shapes. Nothing on the site is a hard rectangle. */
+  --r-arch: 999px 999px 2.2rem 2.6rem / 999px 999px 2rem 2.4rem;
+  --r-pebble-1: 58% 42% 47% 53% / 46% 55% 45% 54%;
+  --r-pebble-2: 41% 59% 55% 45% / 57% 44% 56% 43%;
+  --r-pebble-3: 63% 37% 42% 58% / 40% 61% 39% 60%;
+  --r-soft: 2.4rem 3rem 2.2rem 3.4rem / 3rem 2.3rem 3.3rem 2.4rem;
+  --r-soft-2: 3.2rem 2.2rem 3.4rem 2.4rem / 2.3rem 3.2rem 2.5rem 3.1rem;
+  --r-leaf: 4.5rem 1.4rem 4.5rem 1.4rem / 4.2rem 1.6rem 4.2rem 1.6rem;
+  --r-pill: 999px;
+  --r-min: 1.1rem;
+
+  /* Vignette laid over every photograph */
+  --vignette: radial-gradient(
+    ellipse at 50% 46%,
+    transparent 52%,
+    color-mix(in srgb, var(--blue-deep) 16%, transparent) 78%,
+    color-mix(in srgb, var(--blue-deep) 38%, transparent) 100%
+  );
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --dur-1: 0.35s;
+  --dur-2: 0.7s;
+  --dur-3: 1.2s;
+  --dur-4: 1.9s;
+
+  --header-h: clamp(4rem, 3.4rem + 2vw, 5.25rem);
+}
+
+/* Set B: Tekst throughout (Tekst D for titles, Tekst A for reading). Local trial cuts. */
+html[data-fonts='b'] {
+  --font-title: 'ATH Tekst D', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  --font-body: 'ATH Tekst', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  --title-weight: 400;
+  --title-weight-xl: 400;
+  --title-tracking: -0.028em;
+  --title-leading: 0.98;
+  --title-scale: 0.78;
+  --body-scale: 0.93;
+}
+
+/* Set C: PP Editorial New throughout. Local fonts. Latin only: Greek falls back to EB Garamond. */
+html[data-fonts='c'] {
+  --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  --font-body: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  --title-weight: 400;
+  --title-weight-xl: 200;
+  --title-tracking: -0.012em;
+  --title-leading: 0.95;
+  --title-scale: 1;
+  --body-scale: 1.02;
+}
+
+/* Coloured surfaces. Add one of these to a container (a .panel, a .box, a section) and the
+   semantic tokens flip for everything inside it. */
+
+/* Greek blue paper, crème ink */
+.on-blue {
+  --paper: var(--blue);
+  --ink: var(--creme);
+  --ink-strong: var(--creme-light);
+  --ink-soft: color-mix(in srgb, var(--creme) 80%, var(--blue));
+  --line: color-mix(in srgb, var(--creme) 34%, transparent);
+  --grain: url('/textures/grain-light.webp');
+  --highlight: var(--blue-light);
+  --highlight-ink: var(--blue-deep);
+  color: var(--ink);
+}
+
+/* Darker Greek blue paper, crème ink */
+.on-blue-deep {
+  --paper: var(--blue-deep);
+  --ink: var(--creme);
+  --ink-strong: var(--creme-light);
+  --ink-soft: color-mix(in srgb, var(--creme) 78%, var(--blue-deep));
+  --line: color-mix(in srgb, var(--blue-light) 40%, transparent);
+  --grain: url('/textures/grain-light.webp');
+  --highlight: var(--blue-light);
+  --highlight-ink: var(--blue-deep);
+  color: var(--ink);
+}
+
+/* Light blue paper, dark blue ink */
+.on-blue-light {
+  --paper: var(--blue-light);
+  --ink: var(--blue-deep);
+  --ink-strong: var(--blue);
+  --ink-soft: color-mix(in srgb, var(--blue-deep) 78%, var(--blue-light));
+  --line: color-mix(in srgb, var(--blue) 34%, transparent);
+  --grain: url('/textures/grain-dark.webp');
+  --highlight: var(--creme-light);
+  --highlight-ink: var(--blue);
+  color: var(--ink);
+}

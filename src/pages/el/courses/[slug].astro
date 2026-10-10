@@ -1,0 +1,7 @@
+---
+// Greek course pages: the same page, rendered under /el/.
+import Page from '../../courses/[slug].astro';
+export { getStaticPaths } from '../../courses/[slug].astro';
+---
+
+<Page {...Astro.props} />

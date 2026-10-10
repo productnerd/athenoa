@@ -1,0 +1,39 @@
+---
+// Lab page: home hero candidate B ("Label"). Not part of the published site.
+// The sections below the hero are filler from the home data, only there so scroll parallax can be seen.
+import Base from '../../layouts/Base.astro';
+import HeroB from '../../components/home/hero/HeroB.astro';
+import { home } from '../../data/home';
+---
+
+<Base title="Hero B | ATHENOA lab" description={home.meta.description} noindex>
+  <HeroB />
+
+  <section class="section wrap stack" style="--stack: var(--space-m)">
+    <h2 class="t-1" data-split>{home.membership.title}</h2>
+    <p class="lead" data-reveal>{home.membership.question}</p>
+    <div class="stack measure" style="--stack: var(--space-m)" data-reveal-group>
+      {
+        home.membership.points.map((point) => (
+          <div>
+            <h3 class="t-3">{point.title}</h3>
+            <p>{point.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="panel panel--big on-blue stack" style="--stack: var(--space-m)">
+      <h2 class="t-2" data-split>{home.transmission.title}</h2>
+      <p class="measure" data-reveal>{home.transmission.text}</p>
+    </div>
+  </section>
+
+  <section class="section wrap stack" style="--stack: var(--space-m)">
+    <h2 class="t-2" data-split>{home.benefits.title}</h2>
+    <p class="lead" data-reveal>{home.benefits.question}</p>
+    {home.benefits.items.map((item) => <p class="measure" data-reveal>{item.text}</p>)}
+  </section>
+</Base>

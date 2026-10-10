@@ -1,0 +1,408 @@
+---
+// Home: the full detail of the featured course as six tabs on a large paper cut-out.
+// Without JavaScript the tab list stays hidden and the six panels read one after another under their headings.
+import Illustration from '../Illustration.astro';
+import { home } from '../../data/home';
+import { courses, registrationTab } from '../../data/courses';
+
+const course = courses.find((item) => item.slug === home.series.courseSlug)!;
+const cta = home.series.cta;
+const tabs = [...course.sections, registrationTab];
+---
+
+<section class="ctabs section" id="course-details" aria-labelledby="course-details-title" data-tabs>
+  <div class="wrap">
+    <div class="ctabs__sheet panel panel--big">
+      <Illustration name="owl" class="ctabs__owl" draw data-depth="-0.06" />
+
+      <div class="ctabs__layout">
+        <h2 class="ctabs__title t-2" id="course-details-title" data-split>
+          {/* Each word is kept whole so "Non-Duality" never breaks at its hyphen. */}
+          {course.title.split(' ').map((word, i) => (
+            <>
+              {i > 0 && ' '}
+              <span class="ctabs__word">{word}</span>
+            </>
+          ))}
+        </h2>
+
+        <div class="ctabs__list" role="tablist" aria-labelledby="course-details-title" hidden>
+          {
+            tabs.map((tab, i) => (
+              <button
+                class="ctabs__tab"
+                type="button"
+                role="tab"
+                id={`course-tab-${tab.id}`}
+                aria-controls={`course-panel-${tab.id}`}
+                aria-selected={i === 0 ? 'true' : 'false'}
+                tabindex={i === 0 ? 0 : -1}
+              >
+                <span class="ctabs__label">{tab.label}</span>
+                <span class="ctabs__sub hand">{tab.sublabel}</span>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="ctabs__panels">
+          {
+            course.sections.map((section, i) => (
+              <div class:list={['ctabs__panel', i === 0 && 'is-active']} id={`course-panel-${section.id}`}>
+                <hgroup class="ctabs__heading">
+                  <h3 class="t-3">{section.label}</h3>
+                  <p class="hand hand--m">{section.sublabel}</p>
+                </hgroup>
+                <div class="prose" set:html={section.html} />
+              </div>
+            ))
+          }
+
+          <div class="ctabs__panel" id={`course-panel-${registrationTab.id}`}>
+            <hgroup class="ctabs__heading">
+              <h3 class="t-3">{registrationTab.label}</h3>
+              <p class="hand hand--m">{registrationTab.sublabel}</p>
+            </hgroup>
+            <div class="prose">
+              <p>{course.registrationNote}</p>
+            </div>
+            <div class="ctabs__fees">
+              {
+                course.price && (
+                  <p class="ctabs__price box box--blue on-blue">
+                    <span class="ctabs__price-label">{course.price.label}</span>
+                    <span class="ctabs__price-amount t-2">{course.price.display}</span>
+                  </p>
+                )
+              }
+              <div class="ctabs__includes prose">
+                <p>
+                  <strong>{course.includesLabel}</strong>
+                </p>
+                <ul>
+                  {course.includes?.map((item) => (
+                    <li>
+                      <em>{item}</em>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <p class="ctabs__cta">
+              <a class="btn" href={cta.href}>{cta.label}</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Switches to the tabbed layout before first paint, so the six stacked panels never flash. -->
+<script is:inline data-astro-rerun>
+  (function () {
+    var root = document.getElementById('course-details');
+    if (!root) return;
+    root.classList.add('is-tabbed');
+    root.querySelector('[role="tablist"]').hidden = false;
+  })();
+</script>
+
+<script>
+  function initTabs(root: HTMLElement) {
+    const list = root.querySelector<HTMLElement>('[role="tablist"]');
+    if (!list) return;
+    const tabs = Array.from(list.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const panels = tabs.map((tab) => document.getElementById(tab.getAttribute('aria-controls') ?? '') as HTMLElement);
+    const vertical = window.matchMedia('(min-width: 60rem)');
+    const setOrientation = () => list.setAttribute('aria-orientation', vertical.matches ? 'vertical' : 'horizontal');
+
+    root.classList.add('is-tabbed');
+    list.hidden = false;
+    setOrientation();
+    panels.forEach((panel, i) => {
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', tabs[i].id);
+      panel.tabIndex = 0;
+    });
+
+    const select = (index: number, viaKeyboard = false) => {
+      tabs.forEach((tab, i) => {
+        const on = i === index;
+        tab.setAttribute('aria-selected', String(on));
+        tab.tabIndex = on ? 0 : -1;
+        panels[i].classList.toggle('is-active', on);
+      });
+      const tab = tabs[index];
+      if (viaKeyboard) tab.focus();
+      // Narrow screens: keep the chosen pebble in the middle of the strip.
+      if (!vertical.matches) {
+        list.scrollTo({
+          left: tab.offsetLeft - (list.clientWidth - tab.offsetWidth) / 2,
+          behavior: document.documentElement.classList.contains('motion') ? 'smooth' : 'auto',
+        });
+      }
+      // The list is sticky on wide screens, so a new panel may begin above the visible area.
+      const header = document.querySelector<HTMLElement>('[data-header]')?.offsetHeight ?? 0;
+      const top = panels[index].getBoundingClientRect().top;
+      if (top < header) window.scrollBy({ top: top - header - 24 });
+    };
+
+    list.addEventListener('focusin', setOrientation);
+    list.addEventListener('click', (event) => {
+      const tab = (event.target as Element).closest<HTMLButtonElement>('[role="tab"]');
+      if (tab) select(tabs.indexOf(tab));
+    });
+    list.addEventListener('keydown', (event) => {
+      const current = tabs.indexOf(document.activeElement as HTMLButtonElement);
+      // Leave browser shortcuts such as Alt + Left (back) alone.
+      if (current < 0 || event.altKey || event.ctrlKey || event.metaKey) return;
+      const last = tabs.length - 1;
+      const target: Record<string, number> = {
+        ArrowDown: current === last ? 0 : current + 1,
+        ArrowRight: current === last ? 0 : current + 1,
+        ArrowUp: current === 0 ? last : current - 1,
+        ArrowLeft: current === 0 ? last : current - 1,
+        Home: 0,
+        End: last,
+      };
+      if (!(event.key in target)) return;
+      event.preventDefault();
+      select(target[event.key], true);
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-tabs]:not([data-tabs-ready])').forEach((root) => {
+      root.dataset.tabsReady = '';
+      initTabs(root);
+    });
+  });
+</script>
+
+<style>
+  .ctabs__sheet {
+    --paper: var(--creme-light);
+    --pad: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
+    padding-inline: var(--pad);
+  }
+  /* A second outline set slightly off, like a misregistered print plate */
+  .ctabs__sheet::after {
+    content: '';
+    position: absolute;
+    inset: -0.8rem 0.7rem 0.8rem -0.7rem;
+    z-index: -3;
+    border: 1.5px solid var(--line);
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  /* The owl perches on the top edge of the sheet */
+  .ctabs__owl {
+    position: absolute;
+    right: clamp(3.5rem, 14%, 13rem);
+    bottom: calc(100% - 1.1rem);
+    width: clamp(4.5rem, 3rem + 6vw, 8rem);
+    pointer-events: none;
+  }
+  .ctabs__title {
+    max-width: 17ch;
+    margin-bottom: var(--space-m);
+  }
+  .ctabs__word {
+    white-space: nowrap;
+  }
+
+  /* ---------- Reading order without JavaScript: six panels under their headings ---------- */
+  .ctabs__panel + .ctabs__panel {
+    margin-top: var(--space-l);
+    padding-top: var(--space-l);
+    border-top: 1.5px solid var(--line);
+  }
+  .ctabs__heading {
+    margin-bottom: var(--space-m);
+  }
+  .ctabs__heading .hand {
+    margin-top: 0.3rem;
+    rotate: -1.5deg;
+    transform-origin: left center;
+  }
+  .ctabs__panel:focus-visible {
+    outline-offset: 0.9rem;
+    border-radius: 1.4rem;
+  }
+
+  /* ---------- Tabbed ---------- */
+  .ctabs.is-tabbed .ctabs__panel {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .ctabs.is-tabbed .ctabs__panel:not(.is-active),
+  .ctabs.is-tabbed .ctabs__heading {
+    display: none;
+  }
+  @keyframes ctabs-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.9rem, 0);
+    }
+  }
+  :global(html.motion) .ctabs.is-tabbed .ctabs__panel.is-active {
+    animation: ctabs-in var(--dur-2) var(--ease-out) both;
+  }
+
+  /* Narrow screens: a strip of pebbles that scrolls sideways and runs off both edges of the screen */
+  .ctabs__list {
+    position: relative;
+    display: flex;
+    gap: 0.7rem;
+    margin: 0 calc((var(--pad) + var(--gutter)) * -1) var(--space-m);
+    padding: 0.8rem calc(var(--pad) + var(--gutter)) 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+  .ctabs__list[hidden] {
+    display: none;
+  }
+  .ctabs__tab {
+    --tab-r: 2.5rem 2rem 2.7rem 2.1rem / 2.1rem 2.7rem 2rem 2.5rem;
+    position: relative;
+    isolation: isolate;
+    flex: 0 0 auto;
+    display: grid;
+    align-content: center;
+    gap: 0.1rem;
+    width: min(15rem, 68vw);
+    min-height: 5.25rem;
+    padding: 0.8rem 1.5rem 0.95rem;
+    border: 0;
+    border-radius: var(--tab-r);
+    background: none;
+    color: var(--blue-deep);
+    text-align: left;
+    cursor: pointer;
+    scroll-snap-align: center;
+    transition:
+      color var(--dur-1),
+      translate var(--dur-2) var(--ease-out);
+  }
+  .ctabs__tab::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: var(--tab-r);
+    background: var(--tab-bg, var(--creme-deep));
+    filter: url(#rough-sm);
+    transition: background-color var(--dur-1);
+  }
+  .ctabs__tab:nth-child(3n + 2) {
+    --tab-r: 2rem 2.8rem 2.2rem 2.6rem / 2.7rem 2.1rem 2.6rem 2rem;
+  }
+  .ctabs__tab:nth-child(3n) {
+    --tab-r: 2.9rem 2.2rem 2.4rem 2.8rem / 2.3rem 2.6rem 2.2rem 2.7rem;
+  }
+  .ctabs__tab:hover {
+    --tab-bg: var(--blue-wash);
+  }
+  .ctabs__tab[aria-selected='true'] {
+    --tab-bg: var(--blue);
+    color: var(--creme-light);
+  }
+  .ctabs__tab:focus-visible {
+    border-radius: var(--tab-r);
+  }
+  .ctabs__label {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: calc(1.5rem * var(--title-scale));
+    line-height: 1.02;
+    letter-spacing: var(--title-tracking);
+    font-variant-numeric: lining-nums;
+  }
+  .ctabs__sub {
+    font-size: 1.02rem;
+    line-height: 1.15;
+    color: inherit;
+  }
+
+  /* ---------- Registration panel ---------- */
+  .ctabs__fees {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-m) var(--space-l);
+    max-width: var(--measure);
+    margin-top: var(--space-m);
+  }
+  .ctabs__price {
+    --box-r: var(--r-leaf);
+    display: grid;
+    gap: 0.35rem;
+    flex: 0 1 auto;
+    padding: 1.4rem clamp(1.4rem, 5vw, 2.1rem) 1.6rem;
+    rotate: -2deg;
+  }
+  .ctabs__price-label {
+    font-size: var(--step--1);
+  }
+  .ctabs__price-amount {
+    font-size: min(var(--step-3), 7.6vw);
+    white-space: nowrap;
+  }
+  .ctabs__includes {
+    flex: 1 1 18rem;
+  }
+  .ctabs__cta {
+    margin-top: var(--space-m);
+  }
+
+  @media (min-width: 60rem) {
+    .ctabs__title {
+      max-width: 24ch;
+      margin-bottom: var(--space-l);
+    }
+    /* The sheet moves in from the left and a loose column of pebbles straddles its edge */
+    .ctabs.is-tabbed .ctabs__sheet {
+      --hang: clamp(3.5rem, 7vw, 7rem);
+      margin-left: var(--hang);
+    }
+    .ctabs.is-tabbed .ctabs__layout {
+      display: grid;
+      grid-template-columns: calc(19.5rem - var(--hang) - var(--pad)) minmax(0, 1fr);
+      column-gap: clamp(2.75rem, 15.4vw - 6.5rem, 9rem);
+      align-items: start;
+    }
+    .ctabs.is-tabbed .ctabs__title,
+    .ctabs.is-tabbed .ctabs__panels {
+      grid-column: 2;
+    }
+    .ctabs.is-tabbed .ctabs__list {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      position: sticky;
+      top: calc(var(--header-h) + 1.25rem);
+      flex-direction: column;
+      gap: 0.6rem;
+      margin: 0.4rem 0 0 calc((var(--pad) + var(--hang)) * -1);
+      padding: 0;
+      overflow: visible;
+    }
+    .ctabs__tab {
+      width: auto;
+      padding-inline: 1.7rem 1.4rem;
+    }
+    .ctabs__tab:nth-child(odd) {
+      margin-left: 1.1rem;
+      margin-right: -0.4rem;
+    }
+    .ctabs__tab:nth-child(3n) {
+      margin-left: 0.4rem;
+      margin-right: 0.5rem;
+    }
+    .ctabs__tab[aria-selected='true'] {
+      translate: 1.3rem 0;
+    }
+  }
+</style>

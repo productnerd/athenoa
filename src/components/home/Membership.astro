@@ -1,0 +1,289 @@
+---
+// Home: the annual membership invitation, on crème paper.
+// Apollo stands in an arch niche lined with the aegis scales; the three promises step down
+// beside him as three different cut-outs; the frieze procession passes in front as a ribbon.
+import Media from '../Media.astro';
+import Illustration from '../Illustration.astro';
+import apollo from '../../assets/media/apollo-statue.jpg';
+import frieze from '../../assets/media/frieze-procession.jpg';
+import { home } from '../../data/home';
+
+const { title, question, points, cta } = home.membership;
+
+// One look per point, in the order of the copy: shape, ink, emblem and scroll depth all differ.
+const looks = [
+  { emblem: 'icon-spirit', box: 'box box--offset', depth: '0.03' },
+  { emblem: 'icon-community', box: 'box box--blue on-blue', depth: '-0.07' },
+  { emblem: 'icon-contribution', box: 'box box--deep', depth: '0.06' },
+];
+---
+
+<section class="section membership" aria-labelledby="membership-title">
+  <div class="wrap membership__grid">
+    <header class="membership__head">
+      <h2 class="t-2" id="membership-title" data-split>{title}</h2>
+      <p class="lead" data-reveal style="--delay:250ms">{question}</p>
+    </header>
+
+    <div class="niche">
+      <div class="niche__rays" data-depth="0.3">
+        <Illustration name="sun-rays" draw />
+      </div>
+      <!-- The statue's white ground is multiplied onto the scales, so it reads as paper. -->
+      <Media
+        class="niche__statue scales"
+        src={apollo}
+        alt="Gilded statue of Apollo holding a lyre, standing on top of an Ionic column"
+        shape="arch"
+        ratio="3 / 5"
+        focus="50% 12%"
+        widths={[360, 560, 768]}
+        sizes="(min-width: 62rem) 27vw, 70vw"
+      />
+    </div>
+
+    <ul class="points" role="list">
+      {
+        points.map((point, i) => (
+          <li
+            class:list={['point', `point--${i + 1}`, looks[i].box]}
+            data-reveal
+            data-depth={looks[i].depth}
+            style={`--i:${i + 1}`}
+          >
+            <Illustration name={looks[i].emblem} class="point__emblem" draw />
+            <div class="point__copy">
+              <h3 class="t-3">{point.title}</h3>
+              <p>{point.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+
+    <p class="membership__cta" data-reveal>
+      <a class="btn" href={cta.href} target="_blank" rel="noopener">
+        {cta.label}<span class="visually-hidden"> (opens in a new tab)</span>
+      </a>
+    </p>
+
+    <Media
+      class="membership__frieze"
+      src={frieze}
+      alt="Painted frieze of a procession of women in white robes carrying flowers and offerings"
+      shape="pill"
+      focus="62% 30%"
+      widths={[560, 800, 1096]}
+      sizes="(min-width: 62rem) 76vw, 120vw"
+      data-depth="0.06"
+    />
+  </div>
+</section>
+
+<style>
+  /* The ring of rays runs off the page edge; clip it there without cutting the parallax vertically */
+  .membership {
+    overflow-x: clip;
+  }
+  .membership__grid {
+    --col-gap: clamp(1rem, 0.4rem + 1.7vw, 2rem);
+    position: relative;
+    isolation: isolate;
+  }
+
+  .membership__head {
+    position: relative;
+    z-index: 2;
+  }
+  .membership__head .lead {
+    margin-top: var(--space-m);
+  }
+
+  /* ---------- The niche ---------- */
+  .niche {
+    position: relative;
+    width: min(68%, 19rem);
+    margin: clamp(5.5rem, 26vw, 8rem) 7% 0 auto;
+  }
+  /* A ring of light behind the arch, far away: it drifts slower than the page. */
+  .niche__rays {
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    top: 30%;
+    width: 196%;
+    margin: -98% 0 0 -98%;
+    pointer-events: none;
+  }
+  .niche__rays :global(.illo) {
+    color: color-mix(in srgb, var(--blue) 46%, transparent);
+  }
+  /* The scales ground sits on the figure and is handed down to the photo's frame, so the
+     multiplied photograph always has it to blend with, whichever of the two is being clipped. */
+  .niche :global(.niche__statue) {
+    z-index: 1;
+    border-radius: var(--r-arch);
+    background-color: var(--creme-deep);
+  }
+  .niche :global(.niche__statue .media__clip) {
+    background: inherit;
+  }
+  .niche :global(.niche__statue img) {
+    mix-blend-mode: multiply;
+  }
+  /* Hairline echo of the arch, like the border of a label */
+  .niche::after {
+    content: '';
+    position: absolute;
+    inset: -0.75rem;
+    z-index: 1;
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-arch);
+    pointer-events: none;
+  }
+
+  /* ---------- The three points ---------- */
+  .points {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-l) var(--col-gap);
+    margin-top: -3.25rem;
+  }
+  .point {
+    display: grid;
+    align-content: start;
+    gap: 0.85rem 1.4rem;
+  }
+  .point :global(.point__emblem) {
+    width: clamp(4rem, 3.4rem + 2vw, 5.25rem);
+  }
+  .point__copy > p {
+    margin-top: 0.5rem;
+    max-width: 44ch;
+  }
+
+  /* 1: a wide sheet with a misregistered outline, emblem beside the text */
+  .points .point--1 {
+    --box-r: var(--r-soft);
+    margin-right: 5%;
+  }
+  /* 2: a blue pebble. The shape overshoots its text so the curve never crowds a word. */
+  .points .point--2 {
+    --box-r: var(--r-pebble-2);
+    width: min(84%, 21rem);
+    margin-left: auto;
+    margin-right: 0.6rem;
+    margin-block: 1.4rem 1.2rem;
+    padding: 1.9rem 2rem 2.2rem 2.4rem;
+  }
+  .points .point--2::before {
+    inset: -1.9rem -1.3rem -2.1rem -1rem;
+  }
+  /* 3: a sand-coloured leaf, its emblem pinned to the corner, half on the paper */
+  .points .point--3 {
+    --box-r: var(--r-leaf);
+    width: min(90%, 24rem);
+    padding-inline: clamp(1.9rem, 1.4rem + 1.6vw, 2.5rem);
+  }
+  .point--3 :global(.point__emblem) {
+    position: absolute;
+    top: -2.1rem;
+    right: 1.1rem;
+    width: clamp(3.75rem, 3.2rem + 1.6vw, 4.75rem);
+    rotate: 9deg;
+  }
+  .point--3 .point__copy {
+    padding-right: 1rem;
+  }
+
+  .membership__cta {
+    margin-top: var(--space-l);
+  }
+
+  /* ---------- The frieze ribbon ---------- */
+  .membership__grid :global(.membership__frieze) {
+    width: 128%;
+    margin-top: var(--space-l);
+  }
+  .membership__grid :global(.membership__frieze .media__clip) {
+    aspect-ratio: 3.1 / 1;
+  }
+
+  @media (min-width: 36rem) {
+    .points .point--1 {
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: start;
+    }
+    .membership__grid :global(.membership__frieze) {
+      width: 112%;
+    }
+    .membership__grid :global(.membership__frieze .media__clip) {
+      aspect-ratio: 4 / 1;
+    }
+  }
+
+  @media (min-width: 62rem) {
+    .membership__grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--col-gap);
+      align-items: start;
+    }
+    .membership__head {
+      grid-column: 1 / span 8;
+      grid-row: 1;
+    }
+    .niche {
+      grid-column: 9 / span 4;
+      grid-row: 1 / span 4;
+      align-self: end;
+      width: auto;
+      margin: var(--space-xl) 0.75rem -1.75rem;
+    }
+    .niche__rays {
+      width: 230%;
+      margin: -115% 0 0 -115%;
+    }
+    .points {
+      grid-column: 1 / span 8;
+      grid-row: 2;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      row-gap: 0;
+      margin-top: var(--space-l);
+    }
+    .points .point--1 {
+      grid-column: 1 / span 6;
+      grid-row: 1;
+      margin-right: 0;
+    }
+    .points .point--2 {
+      grid-column: 5 / span 4;
+      grid-row: 2;
+      width: auto;
+      margin: 0.6rem 0.5rem 0 1.5rem;
+    }
+    .points .point--3 {
+      grid-column: 1 / span 4;
+      grid-row: 2;
+      width: auto;
+      margin: 7.5rem -1rem 0 1.25rem;
+    }
+    .membership__cta {
+      grid-column: 1 / span 6;
+      grid-row: 3;
+      margin-top: var(--space-l);
+      padding-left: 1.25rem;
+    }
+    /* The procession passes behind the niche: its far end is hidden by the arch */
+    .membership__grid :global(.membership__frieze) {
+      grid-column: 1 / span 10;
+      grid-row: 4;
+      width: auto;
+      margin-top: var(--space-l);
+    }
+    .membership__grid :global(.membership__frieze .media__clip) {
+      aspect-ratio: 4.6 / 1;
+    }
+  }
+</style>

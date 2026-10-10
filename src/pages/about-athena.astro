@@ -1,0 +1,26 @@
+---
+// About Athena (replaces the old "About Us"). The biography leads; the contact form closes the page.
+import Base from '../layouts/Base.astro';
+import AboutHero from '../components/about/AboutHero.astro';
+import AboutStory from '../components/about/AboutStory.astro';
+import AboutContact from '../components/about/AboutContact.astro';
+import { about } from '../data/about';
+import { site } from '../data/site';
+import { personSchema, breadcrumbSchema } from '../data/schema';
+
+// The breadcrumb takes its names from the navigation, so the two cannot drift apart.
+const trail = site.nav
+  .filter((item) => item.href === '/' || item.href === '/about-athena/')
+  .map((item) => ({ name: item.label, path: item.href }));
+---
+
+<Base
+  title={about.meta.title}
+  description={about.meta.description}
+  type="profile"
+  schema={[personSchema(), breadcrumbSchema(trail)]}
+>
+  <AboutHero />
+  <AboutStory />
+  <AboutContact />
+</Base>

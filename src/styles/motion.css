@@ -1,0 +1,193 @@
+/* Motion only switches on when src/scripts/motion.ts adds .motion to <html>:
+   JavaScript is running, the visitor has not asked for reduced motion, and ?nomotion is absent.
+   Without that class everything below is inert and all content is simply visible.
+
+   Three independent CSS properties are used so effects can stack on one element:
+     transform  -> reveal animations
+     translate  -> parallax (written by the script)
+     rotate     -> static tilt set by the design                                              */
+
+/* ---------- Reveal on scroll ---------- */
+html.motion [data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 1.75rem, 0);
+  transition:
+    opacity var(--dur-3) var(--ease-out),
+    transform var(--dur-3) var(--ease-out),
+    clip-path var(--dur-4) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 95ms + var(--delay, 0ms));
+}
+html.motion [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* grow: shapes and blobs swell into place */
+html.motion [data-reveal='grow'] {
+  transform: scale(0.82);
+}
+html.motion [data-reveal='grow'].is-in {
+  transform: none;
+}
+
+/* fade: no movement, for large backgrounds */
+html.motion [data-reveal='fade'] {
+  transform: none;
+}
+
+/* unveil: a sheet of paper lifts off the photograph from the bottom up while the picture settles.
+   The photo itself is never clipped or hidden: browsers skip lazy loading, and intersection
+   observers never fire, for an element that is clipped away entirely. */
+html.motion [data-reveal='unveil'] {
+  opacity: 1;
+  transform: none;
+}
+html.motion [data-reveal='unveil'] .media__clip::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  background-color: var(--paper);
+  background-image: var(--grain);
+  background-size: 400px 400px;
+  transform-origin: 50% 0;
+  transition: transform var(--dur-4) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 95ms + var(--delay, 0ms));
+}
+html.motion [data-reveal='unveil'].is-in .media__clip::before {
+  transform: scaleY(0);
+}
+html.motion [data-reveal='unveil'] .media__clip img {
+  transform: scale(1.14);
+  transition: transform calc(var(--dur-4) * 1.25) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 95ms + var(--delay, 0ms));
+}
+html.motion [data-reveal='unveil'].is-in .media__clip img {
+  transform: none;
+}
+
+/* ---------- Split headings: words rise out of a mask ---------- */
+[data-split] .w {
+  display: inline-block;
+  overflow: clip;
+  overflow-clip-margin: 0.12em;
+  vertical-align: bottom;
+  padding-block: 0.06em;
+  margin-block: -0.06em;
+}
+[data-split] .w__i {
+  display: inline-block;
+}
+html.motion [data-split] .w__i {
+  transform: translate3d(0, 105%, 0);
+  transition: transform var(--dur-3) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 55ms + var(--delay, 0ms));
+}
+html.motion [data-split].is-in .w__i {
+  transform: none;
+}
+
+/* The highlight behind emphasised words sweeps in after the heading has finished rising */
+html.motion [data-split] .hl__w {
+  transition: color var(--dur-2) var(--ease-out);
+  transition-delay: calc(var(--hl-delay, 1.5s) + var(--hl-i, 0) * 0.16s);
+  color: inherit;
+}
+html.motion [data-split].is-in .hl__w {
+  color: var(--highlight-ink);
+}
+html.motion [data-split] .hl__w::before {
+  transform: scaleX(0);
+  transition: transform 0.95s var(--ease-out);
+  transition-delay: calc(var(--hl-delay, 1.5s) + var(--hl-i, 0) * 0.16s);
+}
+html.motion [data-split].is-in .hl__w::before {
+  transform: none;
+}
+.hl__w:nth-child(2) {
+  --hl-i: 1;
+}
+.hl__w:nth-child(3) {
+  --hl-i: 2;
+}
+
+/* ---------- Line drawing for inline SVG illustrations ---------- */
+html.motion [data-draw] :is(path, line, polyline, polygon, circle, ellipse, rect):not([data-nodraw]) {
+  stroke-dasharray: 1 2;
+  stroke-dashoffset: 1.02;
+  transition: stroke-dashoffset var(--dur-4) var(--ease-in-out);
+  transition-delay: calc(min(var(--i, 0), 30) * 38ms + var(--delay, 0ms));
+}
+html.motion [data-draw].is-in :is(path, line, polyline, polygon, circle, ellipse, rect):not([data-nodraw]) {
+  stroke-dashoffset: 0;
+}
+html.motion [data-draw] [data-nodraw] {
+  opacity: 0;
+  transition: opacity var(--dur-3) var(--ease-out) 0.5s;
+}
+html.motion [data-draw].is-in [data-nodraw] {
+  opacity: 1;
+}
+
+/* ---------- Parallax ---------- */
+html.motion [data-depth],
+html.motion [data-pointer] {
+  will-change: translate;
+}
+
+/* ---------- Gentle idle drift for small floating ornaments ---------- */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -0.6rem, 0) rotate(1.6deg);
+  }
+}
+html.motion .drift {
+  animation: drift 9s var(--ease-in-out) infinite;
+  animation-delay: calc(var(--i, 0) * -1.7s);
+}
+
+/* ---------- Page transitions ---------- */
+@keyframes page-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -0.75rem, 0);
+  }
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 1rem, 0);
+  }
+}
+::view-transition-old(root) {
+  animation: page-out 0.32s var(--ease-in-out) both;
+}
+::view-transition-new(root) {
+  animation: page-in 0.6s var(--ease-out) 0.12s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Before the script has split a heading, keep it out of sight so it does not flash whole */
+html.motion [data-split]:not([data-split-done]) {
+  visibility: hidden;
+}

@@ -1,0 +1,23 @@
+---
+// Lab page: the second half of the home page (course series to benefits). Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import Series from '../../components/home/Series.astro';
+import CourseTabs from '../../components/home/CourseTabs.astro';
+import Transmission from '../../components/home/Transmission.astro';
+import Start from '../../components/home/Start.astro';
+import Benefits from '../../components/home/Benefits.astro';
+---
+
+<Base title="Home B | ATHENOA lab" description="Home page sections: series, course tabs, transmission, start, benefits" noindex>
+  <section class="section wrap">
+    <h1 class="t-3">Lab filler above</h1>
+  </section>
+  <Series />
+  <CourseTabs />
+  <Transmission />
+  <Start />
+  <Benefits />
+  <section class="section wrap">
+    <p class="small">Lab filler below</p>
+  </section>
+</Base>

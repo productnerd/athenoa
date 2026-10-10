@@ -1,0 +1,154 @@
+---
+// Home: "Living Transmission". A deep-blue night cut-out with a sea of waves along its foot;
+// the photograph sits on a paper pebble that overlaps the cut-out's edge.
+import Media from '../Media.astro';
+import Illustration from '../Illustration.astro';
+import night from '../../assets/media/night-acropolis.png';
+import { home } from '../../data/home';
+
+const { transmission } = home;
+---
+
+<section class="trans section" aria-labelledby="transmission-title">
+  <div class="wrap trans__grid">
+    <Illustration name="waves" class="trans__sea" data-depth="0.06" />
+    <div class="trans__photo">
+      <span class="trans__mat" aria-hidden="true" data-depth="0.1"></span>
+      <Media
+        src={night}
+        alt="A woman in a white blouse and a blue shawl sits in the dark, the floodlit Acropolis glowing behind her"
+        shape="pebble-2"
+        ratio="6 / 5"
+        focus="58% 50%"
+        widths={[360, 520, 690]}
+        sizes="(min-width: 60rem) 32rem, 80vw"
+        data-depth="-0.08"
+      />
+    </div>
+
+    <div class="trans__panel panel panel--big on-blue-deep">
+      <div class="panel__clip" aria-hidden="true">
+        <Illustration name="waves" class="trans__waves trans__waves--1" data-depth="0.06" />
+        <Illustration name="waves" class="trans__waves trans__waves--2" data-depth="0.14" />
+        <Illustration name="waves" class="trans__waves trans__waves--3" data-depth="0.22" />
+      </div>
+      <div class="trans__text">
+        <h2 class="t-2" id="transmission-title" data-split>{transmission.title}</h2>
+        <p class="trans__lead" data-reveal>{transmission.text}</p>
+        <p data-reveal style="--i:1">
+          <a class="btn" href={transmission.cta.href}>{transmission.cta.label}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trans__grid {
+    position: relative;
+    display: grid;
+    container-type: inline-size;
+  }
+  .trans__sea {
+    display: none;
+  }
+  /* The photograph is small (690px), so it never grows past 32rem. */
+  .trans__photo {
+    position: relative;
+    z-index: 2;
+    justify-self: end;
+    width: min(78%, 32rem);
+    margin: 0 clamp(1.5rem, 6%, 3.5rem) -5.5rem 0;
+  }
+  .trans__mat {
+    position: absolute;
+    inset: -6% -7% -5% -6%;
+    border-radius: var(--r-pebble-3);
+    background-color: var(--creme-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    rotate: -8deg;
+  }
+  .trans__panel {
+    padding-top: 7.5rem;
+    padding-bottom: calc(var(--space-xl) + 7rem);
+  }
+  .trans__text > * + * {
+    margin-top: var(--space-m);
+  }
+  .trans__text h2 {
+    max-width: 21ch;
+  }
+  .trans__lead {
+    max-width: 40ch;
+    font-size: var(--step-1);
+    line-height: 1.36;
+  }
+
+  /* Three bands of the same drawing, staggered and at different depths, make the sea. */
+  .trans__waves {
+    position: absolute;
+    left: -8%;
+    bottom: 1.4rem;
+    width: max(116%, 46rem);
+    color: var(--creme);
+  }
+  .trans__waves--2 {
+    left: auto;
+    right: -14%;
+    bottom: 3.6rem;
+    opacity: 0.6;
+  }
+  .trans__waves--3 {
+    left: -18%;
+    bottom: 5.6rem;
+    width: max(132%, 52rem);
+    opacity: 0.32;
+  }
+
+  @media (min-width: 60rem) {
+    .trans__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: center;
+    }
+    .trans__photo {
+      grid-column: 1 / span 5;
+      grid-row: 1;
+      justify-self: start;
+      width: min(100%, 32rem);
+      margin: -2rem 0 3rem 1.25rem;
+    }
+    .trans__panel {
+      grid-column: 3 / -1;
+      grid-row: 1;
+      padding-top: var(--space-xl);
+      padding-left: calc(30% + var(--space-l));
+      padding-bottom: calc(var(--space-xl) + 8rem);
+    }
+    /* Two-ink print: the front band of the sea runs on past the cut-out, blue on the paper and crème
+       on the blue. Both copies share one size, position and depth, so the lines meet at the cut edge
+       (the cut-out starts two columns in and its clip sits 5px inside it). */
+    .trans__sea,
+    .trans__waves--1 {
+      position: absolute;
+      left: 0;
+      bottom: 1.5rem;
+      width: 100cqw;
+    }
+    /* Only the stretch left of the cut-out is needed; the rest would peep out at its far corner. */
+    .trans__sea {
+      display: block;
+      clip-path: inset(-100% 60% -100% 0);
+    }
+    .trans__waves--1 {
+      left: calc(100cqw * -2 / 12 - 5px);
+      bottom: calc(1.5rem - 5px);
+    }
+    .trans__waves--2 {
+      bottom: 4.2rem;
+    }
+    .trans__waves--3 {
+      bottom: 6.8rem;
+    }
+  }
+</style>

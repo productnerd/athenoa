@@ -1,0 +1,91 @@
+---
+// Head tags for search engines, link previews and AI agents.
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { site } from '../data/site';
+import { home } from '../data/home';
+import { twins } from '../lib/markdown';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Link-preview image: an absolute or site-relative address, or an imported photo (cropped here to 1200 x 630) */
+  image?: string | ImageMetadata;
+  /** What the preview image shows. Pass it whenever `image` is set. */
+  imageAlt?: string;
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  /** One or more schema.org objects, emitted as JSON-LD */
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { title, description, image, imageAlt, type = 'website', noindex = false, schema } = Astro.props;
+const origin = Astro.site ?? site.url;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const canonical = new URL(path, origin).href;
+
+// The default preview is public/og-default.jpg, which is lettered with the home page title.
+let preview = { src: '/og-default.jpg', width: 1200 as number | undefined, height: 630 as number | undefined };
+let previewAlt: string | undefined = home.meta.title;
+if (typeof image === 'string') {
+  preview = { src: image, width: undefined, height: undefined };
+  previewAlt = imageAlt;
+} else if (image) {
+  // Previews are 1200 x 630. A smaller photo keeps that shape at its own size instead of being enlarged.
+  const scale = Math.min(1, image.width / 1200, image.height / 630);
+  const size = { width: Math.round(1200 * scale), height: Math.round(630 * scale) };
+  preview = { src: (await getImage({ src: image, ...size, fit: 'cover', format: 'jpg' })).src, ...size };
+  previewAlt = imageAlt;
+}
+const imageUrl = new URL(preview.src, origin).href;
+
+const twin = noindex ? undefined : twins[path];
+const graphs = schema ? (Array.isArray(schema) ? schema : [schema]) : [];
+
+// One title and one description per page: say so in the terminal when two pages share either.
+if (!noindex) {
+  const store = globalThis as unknown as { athSeoSeen?: Map<string, string> };
+  const seen = (store.athSeoSeen ??= new Map<string, string>());
+  for (const [kind, value] of Object.entries({ title, description })) {
+    const first = seen.get(`${kind}:${value}`);
+    if (first && first !== path) console.warn(`[seo] ${path} and ${first} have the same ${kind}: "${value}"`);
+    else seen.set(`${kind}:${value}`, path);
+  }
+}
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+{
+  noindex ? (
+    <meta name="robots" content="noindex, nofollow" />
+  ) : (
+    <>
+      <link rel="canonical" href={canonical} />
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    </>
+  )
+}
+{twin && <link rel="alternate" type="text/markdown" href={twin} title={title} />}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+{!noindex && <meta property="og:url" content={canonical} />}
+<meta property="og:image" content={imageUrl} />
+{preview.width && <meta property="og:image:width" content={String(preview.width)} />}
+{preview.height && <meta property="og:image:height" content={String(preview.height)} />}
+{previewAlt && <meta property="og:image:alt" content={previewAlt} />}
+<meta property="og:locale" content="en_US" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageUrl} />
+{previewAlt && <meta name="twitter:image:alt" content={previewAlt} />}
+
+{
+  graphs.map((graph) => (
+    <script type="application/ld+json" set:html={JSON.stringify(graph).replace(/</g, '\\u003c')} />
+  ))
+}

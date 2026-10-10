@@ -1,0 +1,146 @@
+---
+// One page per course: the same content as the popup, laid out to be read (and crawled) in full.
+// The same file renders /courses/<slug>/ and /el/courses/<slug>/: the copy follows the address.
+import Base from '../../layouts/Base.astro';
+import Illustration from '../../components/Illustration.astro';
+import CourseBody from '../../components/courses/CourseBody.astro';
+import CoursePrice from '../../components/courses/CoursePrice.astro';
+import RegistrationInfo from '../../components/courses/RegistrationInfo.astro';
+import EnrollFlow from '../../components/courses/EnrollFlow.astro';
+import { courseImage } from '../../components/courses/media';
+import { content } from '../../data';
+import { courses as allCourses, type Course } from '../../data/courses';
+import { breadcrumbSchema, courseSchema } from '../../data/schema';
+import { getLocale } from '../../lib/locale';
+
+// Slugs are the same in both languages.
+export function getStaticPaths() {
+  return allCourses.map((course) => ({ params: { slug: course.slug }, props: { course } }));
+}
+
+interface Props {
+  course: Course;
+}
+const { courses, coursePageHref, coursesPage, registrationTab, site } = content(getLocale(Astro.url));
+const course = courses.find((item) => item.slug === Astro.props.course.slug) ?? Astro.props.course;
+const [home] = site.nav;
+const crumbs = [
+  { name: home.label, path: home.href },
+  { name: coursesPage.title, path: site.routes.courses },
+];
+const canEnrol = course.status === 'open' && course.price;
+---
+
+<Base
+  title={`${course.title} | ${site.name}`}
+  description={course.summary ?? coursesPage.description}
+  image={courseImage(course.image).src}
+  schema={[
+    courseSchema(course),
+    breadcrumbSchema([...crumbs, { name: course.title, path: coursePageHref(course.slug) }]),
+  ]}
+>
+  <article class="course section">
+    <div class="wrap">
+      <nav class="course__crumbs" aria-label="Breadcrumb">
+        <ol>
+          {
+            crumbs.map((crumb) => (
+              <li>
+                <a href={crumb.path}>{crumb.name}</a>
+              </li>
+            ))
+          }
+        </ol>
+      </nav>
+
+      <CourseBody course={course} variant="page" />
+
+      {
+        canEnrol && (
+          <section class="reg panel panel--arch on-blue" id={registrationTab.id} aria-labelledby="registration-title">
+            <Illustration name="laurel" class="reg__laurel" draw />
+            <div class="reg__grid">
+              <hgroup class="reg__head" data-reveal>
+                <h2 class="t-2" id="registration-title">
+                  {registrationTab.label}
+                </h2>
+                <p class="hand hand--m">{registrationTab.sublabel}</p>
+              </hgroup>
+              <div class="reg__body">
+                <div class="stack" data-reveal style="--i:1; --stack: var(--space-m)">
+                  <RegistrationInfo course={course} />
+                  <CoursePrice price={course.price!} />
+                </div>
+                <EnrollFlow course={course} id="enroll" class="reg__enroll" />
+              </div>
+            </div>
+          </section>
+        )
+      }
+    </div>
+  </article>
+</Base>
+
+<style>
+  .course {
+    padding-top: var(--space-m);
+    /* The sun rays behind the picture run past the page edge */
+    overflow-x: clip;
+  }
+  .course__crumbs {
+    margin-bottom: var(--space-m);
+    font-size: var(--step--1);
+  }
+  .course__crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .course__crumbs li + li::before {
+    content: '~';
+    margin-right: 0.7rem;
+    color: var(--ink-soft);
+  }
+  .course__crumbs a {
+    display: inline-block;
+    padding-block: 0.5rem;
+  }
+
+  /* Registration: a blue arch, the laurel in its crown, the enrol flow inside */
+  .reg {
+    max-width: 66rem;
+    margin: var(--space-xl) auto 0;
+    padding-top: var(--space-l);
+  }
+  .reg__laurel {
+    width: clamp(6rem, 16vw, 9.5rem);
+    margin: 0 auto var(--space-l);
+  }
+  .reg__grid {
+    display: grid;
+    gap: var(--space-m);
+    align-items: start;
+  }
+  .reg__head .hand {
+    margin-top: 0.6rem;
+    rotate: -2deg;
+    transform-origin: left center;
+  }
+  .reg__body {
+    display: grid;
+    gap: var(--space-m);
+  }
+  .reg__enroll {
+    margin-top: 0.25rem;
+  }
+  @media (min-width: 60rem) {
+    .reg__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: var(--space-l);
+    }
+  }
+</style>

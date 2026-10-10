@@ -1,0 +1,73 @@
+---
+// The one way photographs enter the site. Guarantees: organic curved outline, light vignette,
+// responsive AVIF/WebP sources, intrinsic size (no layout shift) and alt text.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  shape?: 'soft' | 'soft-2' | 'arch' | 'pebble-1' | 'pebble-2' | 'pebble-3' | 'leaf' | 'pill' | 'circle';
+  /** CSS aspect-ratio for the frame, e.g. "4 / 5". Defaults to the photo's own ratio. */
+  ratio?: string;
+  /** CSS object-position, e.g. "50% 20%", to keep the subject in frame. */
+  focus?: string;
+  /** Rendered widths in px. Capped at the source width so nothing is upscaled. */
+  widths?: number[];
+  sizes?: string;
+  /** True for above-the-fold photos: eager load, high fetch priority. */
+  priority?: boolean;
+  /** Hairline echo of the outline around the photo. */
+  framed?: boolean;
+  /** Parallax of the photo inside its frame (0.05 to 0.2 reads well). */
+  innerDepth?: number;
+  /** Reveal style. "unveil" by default; false to opt out. */
+  reveal?: 'unveil' | 'grow' | 'fade' | '' | false;
+  caption?: string;
+  class?: string;
+  [key: string]: unknown;
+}
+
+const {
+  src,
+  alt,
+  shape = 'soft',
+  ratio,
+  focus,
+  widths = [360, 560, 800, 1100, 1500],
+  sizes = '(min-width: 60rem) 45vw, 92vw',
+  priority = false,
+  framed = false,
+  innerDepth,
+  reveal = 'unveil',
+  caption,
+  class: className,
+  ...rest
+} = Astro.props;
+
+const usable = widths.filter((w) => w <= src.width);
+if (!usable.includes(src.width) && (usable.length === 0 || src.width < Math.max(...widths))) usable.push(src.width);
+const style = [ratio && `--ratio:${ratio}`, focus && `--focus:${focus}`].filter(Boolean).join(';');
+---
+
+<figure
+  class:list={['media', `media--${shape}`, framed && 'media--framed', innerDepth && 'media--inner-depth', className]}
+  style={style || undefined}
+  data-reveal={reveal === false ? undefined : reveal}
+  {...rest}
+>
+  <div class="media__clip">
+    <Picture
+      src={src}
+      alt={alt}
+      formats={['avif', 'webp']}
+      widths={usable}
+      sizes={sizes}
+      loading={priority ? 'eager' : 'lazy'}
+      fetchpriority={priority ? 'high' : undefined}
+      decoding="async"
+      pictureAttributes={innerDepth ? { 'data-depth': String(innerDepth) } : {}}
+    />
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

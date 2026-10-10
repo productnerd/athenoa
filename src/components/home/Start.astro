@@ -1,0 +1,133 @@
+---
+// Home: "Let's Get Started". Raphael's fresco fills a very large arch, printed in blue ink like a cyanotype,
+// with Athena's two lines written across it by hand.
+import Media from '../Media.astro';
+import fresco from '../../assets/media/school-of-athens.jpg';
+import { home } from '../../data/home';
+
+const { start } = home;
+---
+
+<section class="start section" aria-labelledby="start-title">
+  <div class="wrap start__wrap">
+    <div class="start__arch panel on-blue">
+      <div class="panel__clip">
+        <div class="start__picture" data-reveal="unveil">
+          <Media
+            class="start__fresco"
+            src={fresco}
+            alt="Raphael’s fresco The School of Athens: the philosophers of antiquity gathered beneath a great vaulted hall"
+            shape="arch"
+            innerDepth={0.14}
+            reveal={false}
+            widths={[480, 800, 1200, 1600, 1920]}
+            sizes="(min-width: 82rem) 82rem, 94vw"
+          />
+          <span class="start__plate start__plate--light" aria-hidden="true"></span>
+          <span class="start__plate start__plate--deep" aria-hidden="true"></span>
+          <span class="start__pool" aria-hidden="true"></span>
+        </div>
+      </div>
+
+      <div class="start__text">
+        <h2 class="t-1" id="start-title" data-split>{start.title}</h2>
+        <div class="start__lines">
+          {
+            start.lines.map((line, i) => (
+              <p class="hand" data-reveal style={`--i:${i * 3 + 4}`}>
+                {line}
+              </p>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .start__wrap {
+    container-type: inline-size;
+  }
+  .start__arch {
+    --arch: min(50cqw, 34rem);
+    --panel-r: 50% 50% 3.2rem 3.8rem / var(--arch) var(--arch) 3rem 3.4rem;
+    display: flex;
+    align-items: flex-end;
+    min-height: clamp(38rem, 150cqw, 46rem);
+    padding: calc(var(--arch) * 0.72) clamp(1.4rem, 7cqw, 7rem) clamp(2.5rem, 7cqw, 5.5rem);
+  }
+
+  /* The fresco fills the arch; the arch outline comes from the panel, so the photo's own radius is dropped. */
+  .start__picture,
+  .start__fresco,
+  .start__plate,
+  .start__pool {
+    position: absolute;
+    inset: 0;
+  }
+  .start__fresco :global(.media__clip) {
+    height: 100%;
+    border-radius: 0;
+    background: var(--blue);
+  }
+  .start__fresco :global(img) {
+    filter: grayscale(1) contrast(1.12);
+  }
+
+  /* Blue ink wash, printed from two plates so the fresco becomes a two-tone picture:
+     nothing is lighter than the highlight plate, nothing darker than deep blue.
+     The highlight is the limit that keeps crème text above 4.5:1 anywhere on the fresco. */
+  .start__plate--light {
+    background-color: color-mix(in srgb, var(--blue-light) 30%, var(--blue));
+    mix-blend-mode: multiply;
+  }
+  .start__plate--deep {
+    background-color: var(--blue-deep);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    mix-blend-mode: lighten;
+  }
+  /* A plain pool of ink under the words, so the handwriting does not fight the figures. */
+  .start__pool {
+    background: radial-gradient(
+      ellipse 120% 52% at 40% 76%,
+      color-mix(in srgb, var(--blue) 90%, transparent) 0%,
+      color-mix(in srgb, var(--blue) 74%, transparent) 50%,
+      transparent 100%
+    );
+  }
+
+  .start__text {
+    position: relative;
+    max-width: min(100%, 46rem);
+  }
+  .start__lines {
+    margin-top: var(--space-m);
+    rotate: -2deg;
+    transform-origin: left center;
+  }
+  .start__lines .hand {
+    max-width: 27ch;
+    font-size: clamp(1.5rem, 1.1rem + 3.4cqw, 2.8rem);
+    line-height: 1.16;
+  }
+  .start__lines .hand + .hand {
+    margin-top: 0.45em;
+    margin-left: clamp(0.75rem, 6cqw, 4.5rem);
+  }
+
+  @media (min-width: 60rem) {
+    .start__arch {
+      min-height: min(62cqw, 54rem);
+    }
+    .start__pool {
+      background: radial-gradient(
+        ellipse 62% 56% at 26% 74%,
+        color-mix(in srgb, var(--blue) 90%, transparent) 0%,
+        color-mix(in srgb, var(--blue) 74%, transparent) 50%,
+        transparent 100%
+      );
+    }
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+// How to register and what the fee covers. Shared by the popup and the course page.
+import type { Course } from '../../data/courses';
+
+interface Props {
+  course: Course;
+}
+const { course } = Astro.props;
+---
+
+<div class="prose">
+  {course.registrationNote && <p>{course.registrationNote}</p>}
+  {
+    course.includes && (
+      <>
+        <p>
+          <strong>{course.includesLabel}</strong>
+        </p>
+        <ul>
+          {course.includes.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+</div>

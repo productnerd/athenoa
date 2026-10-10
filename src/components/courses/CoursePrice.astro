@@ -1,0 +1,38 @@
+---
+// The tuition line: label and amount exactly as written in the data.
+import type { Course } from '../../data/courses';
+
+interface Props {
+  price: NonNullable<Course['price']>;
+  class?: string;
+  [key: string]: unknown;
+}
+const { price, class: className, ...rest } = Astro.props;
+---
+
+<p class:list={['price', className]} {...rest}>
+  <span class="price__label">{price.label}</span>
+  <span class="price__amount">{price.display}</span>
+</p>
+
+<style>
+  .price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15em 0.6em;
+  }
+  .price__label {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .price__amount {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-2);
+    line-height: 1;
+    letter-spacing: var(--title-tracking);
+    font-variant-numeric: lining-nums;
+    color: var(--ink-strong);
+  }
+</style>

@@ -1,0 +1,25 @@
+---
+// Lab page: three home sections (membership, announcement, seminar) between filler blocks,
+// so reveals and parallax can be judged in scroll. Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import Membership from '../../components/home/Membership.astro';
+import Announcement from '../../components/home/Announcement.astro';
+import Seminar from '../../components/home/Seminar.astro';
+---
+
+<Base title="Home A | ATHENOA lab" description="Home sections: membership, announcement, seminar" noindex>
+  <div class="wrap filler" aria-hidden="true"></div>
+  <Membership />
+  <Announcement />
+  <Seminar />
+  <div class="wrap filler" aria-hidden="true"></div>
+</Base>
+
+<style>
+  .filler {
+    height: 55vh;
+    margin-block: var(--space-l);
+    border: 1.5px dashed var(--line);
+    border-radius: var(--r-soft);
+  }
+</style>

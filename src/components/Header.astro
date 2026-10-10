@@ -1,0 +1,333 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/media/logo.png';
+import { content } from '../data';
+import { languages } from '../data/ui';
+import { getLocale, pathIn, barePath } from '../lib/locale';
+
+const locale = getLocale(Astro.url);
+const { site, ui } = content(locale);
+const path = barePath(Astro.url.pathname);
+const home = pathIn(locale, '/');
+const isCurrent = (href: string) => {
+  const target = barePath(href);
+  return target === '/' ? path === '/' : path.startsWith(target);
+};
+---
+
+<header class="header" data-header>
+  <div class="header__bar">
+    <a class="header__brand" href={home} aria-label={ui.homeLink}>
+      <Image src={logo} alt="" width={56} height={55} loading="eager" class="header__logo" />
+      <span class="header__name">{site.name}</span>
+    </a>
+
+    <nav class="header__nav" aria-label={ui.mainNav}>
+      <ul class="header__links" id="site-menu">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="header__phone">
+          <a href={site.phone.href}>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path
+                d="M6.6 3.2c.5-.4 1.3-.3 1.7.2l2 2.8c.3.5.3 1.1-.1 1.5L8.9 9.1c.9 1.9 2.4 3.5 4.3 4.5l1.5-1.2c.4-.4 1.1-.4 1.5-.1l2.9 2c.5.4.6 1.1.2 1.6-1 1.4-2.6 2.2-4.3 1.8C9.7 18.4 5.4 14.2 4.2 8.9 3.9 7.3 4.8 5.8 6.6 3.2z"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linejoin="round"></path>
+            </svg>
+            <span>{site.phone.display}</span>
+          </a>
+        </li>
+        <li class="header__lang" role="group" aria-label={ui.language}>
+          {
+            languages.map((language) => (
+              <a
+                href={pathIn(language.locale, Astro.url.pathname)}
+                lang={language.locale}
+                hreflang={language.locale}
+                aria-current={language.locale === locale ? 'true' : undefined}
+                title={language.label}
+                data-astro-reload
+              >
+                <span aria-hidden="true">{language.short}</span>
+                <span class="visually-hidden">{language.label}</span>
+              </a>
+            ))
+          }
+        </li>
+      </ul>
+      <button class="header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
+        <span class="visually-hidden">{ui.menu}</span>
+        <svg viewBox="0 0 32 24" width="32" height="24" aria-hidden="true" focusable="false">
+          <path class="l1" d="M3 5c5-2 9 2 13 0s8-2 13 0"></path>
+          <path class="l2" d="M3 12c5-2 9 2 13 0s8-2 13 0"></path>
+          <path class="l3" d="M3 19c5-2 9 2 13 0s8-2 13 0"></path>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const header = document.querySelector<HTMLElement>('[data-header]');
+    const toggle = header?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    if (!header || !toggle) return;
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      document.documentElement.classList.toggle('menu-open', open);
+    };
+    toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
+    header.querySelectorAll('.header__links a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  });
+</script>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 0.6rem var(--gutter) 0;
+    pointer-events: none;
+  }
+  .header__bar {
+    pointer-events: auto;
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: min(100%, var(--wrap));
+    min-height: calc(var(--header-h) - 0.6rem);
+    margin-inline: auto;
+    padding: 0.35rem clamp(0.9rem, 0.5rem + 1.6vw, 1.75rem);
+    border-radius: 2.6rem 2rem 2.8rem 2.2rem / 2.2rem 2.8rem 2rem 2.6rem;
+    transition: padding var(--dur-2) var(--ease-out);
+  }
+  /* The paper pill behind the bar only appears once the page has scrolled */
+  .header__bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: color-mix(in srgb, var(--creme-light) 90%, transparent);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 16%, transparent);
+    backdrop-filter: blur(10px);
+    opacity: 0;
+    scale: 0.985 0.9;
+    transition:
+      opacity var(--dur-2) var(--ease-out),
+      scale var(--dur-2) var(--ease-out);
+  }
+  .header.is-scrolled .header__bar::before,
+  .header.is-open .header__bar::before {
+    opacity: 1;
+    scale: 1;
+  }
+
+  .header__brand {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    white-space: nowrap;
+    color: var(--blue);
+  }
+  .header__nav {
+    min-width: 0;
+  }
+  .header__logo {
+    width: clamp(2.5rem, 2.2rem + 1vw, 3.25rem);
+    height: auto;
+  }
+  .header__name {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: clamp(1.7rem, 1.4rem + 1vw, 2.3rem);
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+
+  .header__links {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.85rem, -0.6rem + 2.4vw, 2.4rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .header__links a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.1rem;
+    color: var(--blue-deep);
+    font-size: var(--step-0);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  /* Hand-drawn underline that draws in on hover and stays on the current page */
+  .header__links li:not(.header__phone, .header__lang) a::after {
+    content: '';
+    position: absolute;
+    left: -0.2rem;
+    right: -0.2rem;
+    bottom: 0.2rem;
+    height: 0.5rem;
+    background: no-repeat center / 100% 100%
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 10' preserveAspectRatio='none'%3E%3Cpath d='M2 6c18-5 30 3 48 0s34-5 68-1' fill='none' stroke='%230b1c8c' stroke-width='2.2' stroke-linecap='round'/%3E%3C/svg%3E");
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path var(--dur-2) var(--ease-out);
+  }
+  .header__links a:hover::after,
+  .header__links a[aria-current='page']::after {
+    clip-path: inset(0);
+  }
+  .header__links .header__phone a {
+    color: var(--blue);
+    font-size: var(--step--1);
+    font-variant-numeric: lining-nums;
+  }
+  /* Between the menu-button layout and a wide screen the number folds down to its icon */
+  @media (min-width: 64.01rem) and (max-width: 82rem) {
+    .header__phone span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+  /* Language switch: two small marks, the current one filled */
+  .header__lang {
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+  .header__links .header__lang a {
+    padding: 0.28rem 0.6rem 0.34rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    line-height: 1;
+    border-radius: 1rem 0.8rem 1.1rem 0.7rem / 0.8rem 1.1rem 0.7rem 1rem;
+    transition:
+      background-color var(--dur-1),
+      color var(--dur-1);
+  }
+  .header__links .header__lang a:hover {
+    background: var(--blue-light);
+  }
+  .header__links .header__lang a[aria-current='true'] {
+    background: var(--blue);
+    color: var(--creme-light);
+  }
+
+  .header__toggle {
+    display: none;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    border: 0;
+    background: none;
+    color: var(--blue);
+    cursor: pointer;
+  }
+  .header__toggle path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    transform-origin: 16px 12px;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      opacity var(--dur-1);
+  }
+  .header.is-open .header__toggle .l1 {
+    transform: translateY(7px) rotate(42deg);
+  }
+  .header.is-open .header__toggle .l2 {
+    opacity: 0;
+  }
+  .header.is-open .header__toggle .l3 {
+    transform: translateY(-7px) rotate(-42deg);
+  }
+
+  @media (max-width: 64rem) {
+    .header__toggle {
+      display: grid;
+    }
+    .header__links {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+      padding: 1.6rem 1.75rem 1.9rem;
+      background-color: var(--blue);
+      background-image: url('/textures/grain-light.webp');
+      background-size: 400px 400px;
+      border-radius: 2.2rem 2.8rem 2.4rem 3rem / 2.8rem 2.2rem 3rem 2.4rem;
+      opacity: 0;
+      visibility: hidden;
+      translate: 0 -0.75rem;
+      transition:
+        opacity var(--dur-2) var(--ease-out),
+        translate var(--dur-2) var(--ease-out),
+        visibility 0s linear var(--dur-2);
+    }
+    .header.is-open .header__links {
+      opacity: 1;
+      visibility: visible;
+      translate: 0 0;
+      transition-delay: 0s;
+    }
+    .header__links a,
+    .header__links .header__phone a {
+      color: var(--creme-light);
+    }
+    .header__links li:not(.header__phone, .header__lang) a {
+      font-family: var(--font-title);
+      font-weight: var(--title-weight);
+      font-size: var(--step-3);
+      line-height: 1.05;
+      padding-block: 0.25rem;
+    }
+    .header__links li:not(.header__phone, .header__lang) a::after {
+      display: none;
+    }
+    .header__phone {
+      margin-top: 1rem;
+    }
+    .header__lang {
+      margin-top: 0.6rem;
+    }
+    .header__links .header__lang a:hover {
+      background: var(--blue-deep);
+    }
+    .header__links .header__lang a[aria-current='true'] {
+      background: var(--creme-light);
+      color: var(--blue);
+    }
+  }
+</style>

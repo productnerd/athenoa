@@ -1,0 +1,107 @@
+/* Shipped fonts (open licences): EB Garamond for titles and reading, Mansalva for handwriting.
+   Both cover Greek; EB Garamond also covers polytonic Greek. */
+@import '@fontsource-variable/eb-garamond/wght.css';
+@import '@fontsource-variable/eb-garamond/wght-italic.css';
+@import '@fontsource/mansalva/latin-400.css';
+@import '@fontsource/mansalva/latin-ext-400.css';
+@import '@fontsource/mansalva/greek-400.css';
+
+/* Local-only fonts for the type test. They are referenced from the visitor's machine and never
+   copied into the project: the installed cuts are trial or separately licensed versions.
+   Anyone without them sees EB Garamond. */
+
+/* Set B: Tekst. The trial cut has Greek capitals and plain lowercase but no accented Greek
+   vowels, and no & € ( ) % or curly quotes; those glyphs fall back to EB Garamond. */
+@font-face {
+  font-family: 'ATH Tekst';
+  src: local('TekstARomanTRIAL'), local('Tekst A Roman TRIAL');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Tekst';
+  src: local('TekstAItalicTRIAL'), local('Tekst A Italic TRIAL');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Tekst';
+  src: local('TekstABoldTRIAL'), local('Tekst A Bold TRIAL');
+  font-weight: 600 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Tekst';
+  src: local('TekstABoldItalicTRIAL'), local('Tekst A Bold Italic TRIAL');
+  font-weight: 600 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Tekst D';
+  src: local('TekstDRomanTRIAL'), local('Tekst D Roman TRIAL');
+  font-weight: 100 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Tekst D';
+  src: local('TekstDItalicTRIAL'), local('Tekst D Italic TRIAL');
+  font-weight: 100 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Tekst D';
+  src: local('TekstDBoldTRIAL'), local('Tekst D Bold TRIAL');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Set C: PP Editorial New. Latin only (no Greek glyphs in this family). */
+@font-face {
+  font-family: 'ATH Editorial';
+  src: local('PPEditorialNew-Ultralight'), local('PP Editorial New Ultralight');
+  font-weight: 100 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Editorial';
+  src: local('PPEditorialNew-UltralightItalic'), local('PP Editorial New Ultralight Italic');
+  font-weight: 100 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Editorial';
+  src: local('PPEditorialNew-Regular'), local('PP Editorial New Regular');
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Editorial';
+  src: local('PPEditorialNew-Italic'), local('PP Editorial New Italic');
+  font-weight: 400 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Editorial';
+  src: local('PPEditorialNew-Ultrabold'), local('PP Editorial New Ultrabold');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Editorial';
+  src: local('PPEditorialNew-UltraboldItalic'), local('PP Editorial New Ultrabold Italic');
+  font-weight: 600 900;
+  font-style: italic;
+  font-display: swap;
+}

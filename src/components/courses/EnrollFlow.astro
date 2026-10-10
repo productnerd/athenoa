@@ -1,0 +1,375 @@
+---
+// Enrolment in two steps: your details, then payment. Used inside the course popup and on the course page.
+// Nothing is sent anywhere: the form never leaves the browser.
+//
+// Without JavaScript only the first button shows. It is a real link, to the Stripe Payment Link once
+// one is set and to the contact form until then.
+import { content } from '../../data';
+import type { Course } from '../../data/courses';
+import { getLocale } from '../../lib/locale';
+import { keepHyphens } from './text';
+
+interface Props {
+  course: Course;
+  /** Unique prefix for field and step ids */
+  id: string;
+  class?: string;
+  [key: string]: unknown;
+}
+const { course, id, class: className, ...rest } = Astro.props;
+const { coursesPage, site } = content(getLocale(Astro.url));
+const { ui } = coursesPage;
+const stripe = course.stripePaymentLink;
+---
+
+<div class:list={['enroll', className]} data-enroll data-step="idle" {...rest}>
+  <a class="btn enroll__start" href={stripe || site.routes.contact} data-enroll-start>{ui.enroll}</a>
+
+  <div class="enroll__flow">
+    <ol class="enroll__steps">
+      <li id={`${id}-step-1`} data-enroll-marker="details">
+        <span class="enroll__num">1</span>
+        <span class="enroll__step-label">{ui.stepDetails}</span>
+      </li>
+      <li id={`${id}-step-2`} data-enroll-marker="payment">
+        <span class="enroll__num">2</span>
+        <span class="enroll__step-label">{ui.stepPayment}</span>
+      </li>
+    </ol>
+
+    <div class="enroll__grid">
+      <div class="enroll__ticket">
+        <h3 class="enroll__ticket-title">{ui.orderSummary}</h3>
+        <p class="enroll__course" set:html={keepHyphens(course.title)} />
+        <div class="enroll__stub">
+          {course.schedule && <p class="hand hand--m">{course.schedule}</p>}
+          {course.price && <p class="enroll__amount">{course.price.display}</p>}
+        </div>
+      </div>
+
+      <form class="enroll__panel" data-enroll-panel="details" aria-labelledby={`${id}-step-1`}>
+        <div class="field">
+          <label for={`${id}-name`}>{ui.fullName}</label>
+          <input id={`${id}-name`} name="name" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for={`${id}-email`}>{ui.email}</label>
+          <input
+            id={`${id}-email`}
+            name="email"
+            type="email"
+            autocomplete="email"
+            autocapitalize="off"
+            spellcheck="false"
+            required
+          />
+        </div>
+        <div class="enroll__actions">
+          <button class="btn" type="submit">{ui.continueToPayment}</button>
+          <button class="btn btn--ghost" type="button" data-enroll-back>{ui.back}</button>
+        </div>
+      </form>
+
+      <div
+        class="enroll__panel"
+        data-enroll-panel="payment"
+        role="group"
+        aria-labelledby={`${id}-step-2`}
+        tabindex="-1"
+      >
+        <div class="enroll__actions">
+          {
+            /* STRIPE CONNECTS HERE.
+               Payment Link: paste the link into `stripePaymentLink` for this course in src/data/courses.ts.
+               The first branch below then renders, and the script adds ?prefilled_email=<email from step one>.
+               Checkout Session instead: replace the first branch with a button that POSTs the name, the email and
+               the course slug to your endpoint, create the session there, and redirect to session.url. */
+            stripe ? (
+              <a class="btn" href={stripe} data-enroll-pay data-stripe-link={stripe}>
+                {ui.payWithStripe}
+              </a>
+            ) : (
+              <button class="btn" type="button" data-enroll-pay>
+                {ui.payWithStripe}
+              </button>
+            )
+          }
+          <button class="btn btn--ghost" type="button" data-enroll-back>{ui.back}</button>
+        </div>
+        <div aria-live="polite">
+          <p class="enroll__notice on-blue-light" data-enroll-notice hidden>
+            {ui.paymentNotConnected}{' '}
+            <a href={site.routes.contact}>{ui.contactInstead}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  type Step = 'idle' | 'details' | 'payment';
+
+  function bind(root: HTMLElement) {
+    const start = root.querySelector<HTMLAnchorElement>('[data-enroll-start]')!;
+    const form = root.querySelector<HTMLFormElement>('form[data-enroll-panel]')!;
+    const payment = root.querySelector<HTMLElement>('[data-enroll-panel="payment"]')!;
+    const pay = root.querySelector<HTMLElement>('[data-enroll-pay]')!;
+    const notice = root.querySelector<HTMLElement>('[data-enroll-notice]')!;
+
+    const go = (step: Step) => {
+      root.dataset.step = step;
+      root.querySelectorAll<HTMLElement>('[data-enroll-marker]').forEach((marker) => {
+        if (marker.dataset.enrollMarker === step) marker.setAttribute('aria-current', 'step');
+        else marker.removeAttribute('aria-current');
+      });
+      notice.hidden = true;
+      // The popup listens for this to swap its view.
+      root.dispatchEvent(new CustomEvent<Step>('enroll:step', { bubbles: true, detail: step }));
+    };
+
+    start.addEventListener('click', (event) => {
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      go('details');
+      form.querySelector('input')?.focus();
+    });
+
+    // Fires only once the browser's own validation has passed.
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (pay instanceof HTMLAnchorElement) {
+        const url = new URL(pay.dataset.stripeLink!);
+        url.searchParams.set('prefilled_email', String(new FormData(form).get('email')));
+        pay.href = url.href;
+      }
+      go('payment');
+      payment.focus();
+    });
+
+    root.querySelectorAll('[data-enroll-back]').forEach((button) =>
+      button.addEventListener('click', () => {
+        if (root.dataset.step === 'payment') {
+          go('details');
+          form.querySelector('input')?.focus();
+        } else {
+          go('idle');
+          start.focus();
+        }
+      }),
+    );
+
+    // No payment link yet: say so and point to the contact form.
+    if (pay instanceof HTMLButtonElement) pay.addEventListener('click', () => (notice.hidden = false));
+
+    root.addEventListener('enroll:reset', () => go('idle'));
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-enroll]:not([data-enroll-ready])').forEach((root) => {
+      root.dataset.enrollReady = '';
+      bind(root);
+    });
+  });
+</script>
+
+<style>
+  .enroll[data-step='idle'] .enroll__flow,
+  .enroll:not([data-step='idle']) .enroll__start,
+  .enroll[data-step='details'] [data-enroll-panel='payment'],
+  .enroll[data-step='payment'] [data-enroll-panel='details'] {
+    display: none;
+  }
+
+  .enroll__flow {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  /* Where you are: two numbered pebbles joined by a drawn line */
+  .enroll__steps {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem clamp(0.75rem, 3vw, 1.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .enroll__steps li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--ink-soft);
+  }
+  .enroll__steps li + li::before {
+    content: '';
+    width: clamp(1.5rem, 8vw, 4.5rem);
+    height: 0.6rem;
+    margin-right: clamp(0.15rem, 2vw, 0.9rem);
+    background: var(--line);
+    mask: no-repeat center / 100% 100%
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 72 10' preserveAspectRatio='none'%3E%3Cpath d='M2 5c8-5 14 5 22 0s14 5 22 0 16 4 24 0' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+  .enroll__num {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: none;
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-pebble-1);
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1;
+    font-variant-numeric: lining-nums;
+    transition:
+      background-color var(--dur-1),
+      color var(--dur-1),
+      border-radius var(--dur-2) var(--ease-out);
+  }
+  .enroll__steps li:nth-child(2) .enroll__num {
+    border-radius: var(--r-pebble-2);
+  }
+  .enroll__steps li[aria-current='step'] {
+    color: var(--ink-strong);
+    font-weight: 620;
+  }
+  .enroll__steps li[aria-current='step'] .enroll__num {
+    background: var(--ink-strong);
+    border-color: transparent;
+    color: var(--paper);
+  }
+  /* In a narrow column only the current step keeps its words; the other shows its number alone
+     (its label stays available to screen readers). Long Greek labels then never wrap the row. */
+  @media (max-width: 30rem) {
+    .enroll__steps {
+      flex-wrap: nowrap;
+    }
+    .enroll__steps li:not([aria-current='step']) .enroll__step-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+  /* Step one, once done */
+  .enroll[data-step='payment'] [data-enroll-marker='details'] .enroll__num {
+    border-color: var(--ink-soft);
+    color: var(--ink);
+  }
+
+  .enroll__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: var(--space-m) var(--space-l);
+    align-items: start;
+  }
+
+  /* The summary is a paper ticket laid on the sheet, so it keeps paper colours wherever it sits */
+  .enroll__ticket {
+    --ink: var(--blue-deep);
+    --ink-strong: var(--blue);
+    --ink-soft: color-mix(in srgb, var(--blue-deep) 72%, var(--creme));
+    --line: color-mix(in srgb, var(--blue) 28%, transparent);
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    gap: 0.5rem;
+    max-width: 26rem;
+    padding: clamp(1.3rem, 1rem + 1.4vw, 2rem);
+    color: var(--ink);
+    border-radius: var(--r-soft-2);
+    rotate: -1.2deg;
+  }
+  .enroll__ticket::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: var(--creme-light);
+    background-image: url('/textures/grain-dark.webp');
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
+  }
+  .enroll__ticket-title {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .enroll__course {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1.08;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+  .enroll__stub {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.3rem 1.25rem;
+    margin-top: 0.5rem;
+    padding-top: 0.9rem;
+    border-top: 1.5px dashed var(--line);
+  }
+  .enroll__amount {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1;
+    font-variant-numeric: lining-nums;
+    color: var(--ink-strong);
+  }
+
+  .enroll__panel {
+    display: grid;
+    gap: var(--space-s);
+    max-width: 28rem;
+  }
+  .enroll__panel:focus {
+    outline: none;
+  }
+  .enroll__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.4rem;
+  }
+  /* The one light blue shape in the flow, so the message cannot be missed */
+  .enroll__notice {
+    padding: 1rem 1.3rem 1.1rem;
+    background: var(--paper);
+    border-radius: 1.5rem 1.9rem 1.4rem 2rem / 1.9rem 1.4rem 2rem 1.5rem;
+  }
+  .enroll__notice a {
+    font-weight: 620;
+    text-decoration-color: currentColor;
+    white-space: nowrap;
+  }
+
+  @keyframes enroll-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 0.9rem, 0);
+    }
+  }
+  :global(html.motion) .enroll__steps,
+  :global(html.motion) .enroll__ticket,
+  :global(html.motion) .enroll__panel,
+  :global(html.motion) .enroll__notice {
+    animation: enroll-in var(--dur-2) var(--ease-out) both;
+  }
+  :global(html.motion) .enroll__ticket {
+    animation-delay: 60ms;
+  }
+  :global(html.motion) .enroll__panel {
+    animation-delay: 120ms;
+  }
+</style>

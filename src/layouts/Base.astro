@@ -1,0 +1,76 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import Seo from '../components/Seo.astro';
+import SvgDefs from '../components/SvgDefs.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FontToggle from '../components/FontToggle.astro';
+import LabBar from '../components/LabBar.astro';
+import { content } from '../data';
+import { getLocale } from '../lib/locale';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article' | 'profile';
+  noindex?: boolean;
+  schema?: Record<string, unknown> | Record<string, unknown>[];
+  /** Adds a class to <body>, e.g. to let a page's hero sit under the header */
+  bodyClass?: string;
+}
+const { bodyClass, ...seo } = Astro.props;
+const locale = getLocale(Astro.url);
+const { ui } = content(locale);
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f2e9d3" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Site summary for AI agents" />
+    <Seo {...seo} />
+    <!-- Runs before first paint: decides whether motion is on and which type set is being previewed -->
+    <script is:inline>
+      (function () {
+        function apply() {
+          var root = document.documentElement;
+          var query = new URLSearchParams(location.search);
+          var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          root.classList.toggle('motion', !reduce && !query.has('nomotion'));
+          var fonts = query.get('fonts');
+          try {
+            fonts = fonts || localStorage.getItem('ath-fonts');
+          } catch (e) {}
+          if (fonts === 'b' || fonts === 'c') root.dataset.fonts = fonts;
+          else delete root.dataset.fonts;
+        }
+        apply();
+        document.addEventListener('astro:after-swap', apply);
+        // If the motion script never arrives, do not leave content hidden.
+        setTimeout(function () {
+          if (!window.__athMotion) document.documentElement.classList.remove('motion');
+        }, 5000);
+      })();
+    </script>
+    <ClientRouter />
+  </head>
+  <body class={bodyClass}>
+    <a class="skip-link" href="#main">{ui.skip}</a>
+    <SvgDefs />
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <FontToggle />
+    <LabBar />
+    <script>
+      import '../scripts/motion.ts';
+    </script>
+  </body>
+</html>

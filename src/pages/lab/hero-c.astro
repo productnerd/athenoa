@@ -1,0 +1,25 @@
+---
+// Lab page: home hero candidate C ("Landscape") above plain filler, so the scroll parallax can be judged.
+// Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import HeroC from '../../components/home/hero/HeroC.astro';
+---
+
+<Base title="Hero C | ATHENOA lab" description="Home hero candidate C: Landscape" noindex>
+  <HeroC />
+  <div class="wrap filler" aria-hidden="true"></div>
+  <div class="wrap filler filler--short" aria-hidden="true"></div>
+</Base>
+
+<style>
+  .filler {
+    height: 85vh;
+    margin-block: var(--space-l);
+    border: 1.5px dashed var(--line);
+    border-radius: var(--r-soft);
+  }
+  .filler--short {
+    height: 60vh;
+    border-radius: var(--r-soft-2);
+  }
+</style>

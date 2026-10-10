@@ -1,0 +1,161 @@
+---
+// Home: "Explore our new course series". The course banner hangs like a large print with rays behind it;
+// the title runs above it and the text sits low on the left.
+import Media from '../Media.astro';
+import Illustration from '../Illustration.astro';
+import banner from '../../assets/media/course-non-duality.jpg';
+import { home } from '../../data/home';
+import { courses } from '../../data/courses';
+
+const { series } = home;
+const course = courses.find((item) => item.slug === series.courseSlug)!;
+---
+
+<section class="series section" aria-labelledby="series-title">
+  <div class="wrap series__grid">
+    <h2 class="series__title t-2" id="series-title" data-split>{series.title}</h2>
+
+    <div class="series__art">
+      <Illustration name="sun-rays" class="series__rays" draw data-depth="0.22" />
+      <Media
+        class="series__banner"
+        src={banner}
+        alt={course.imageAlt}
+        shape="soft-2"
+        ratio="16 / 9"
+        innerDepth={0.06}
+        framed
+        widths={[480, 800, 1200, 1600, 1920]}
+        sizes="(min-width: 60rem) 62vw, 94vw"
+      />
+    </div>
+
+    <div class="series__body">
+      <p class="series__text" data-reveal>{series.text}</p>
+      <p data-reveal style="--i:1">
+        <a class="btn" href={series.cta.href}>{series.cta.label}</a>
+      </p>
+      <a class="series__more hand hand--m" href="#course-details" data-reveal style="--i:2">
+        <span>{series.more}</span>
+        <svg viewBox="0 0 40 52" width="40" height="52" aria-hidden="true" focusable="false">
+          <path d="M5 6c14-3 28 5 26 20-1 8-6 14-13 19"></path>
+          <path d="M15 33l3 12 12-3"></path>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .series {
+    overflow-x: clip;
+  }
+  .series__grid {
+    display: grid;
+    gap: var(--space-l) var(--space-m);
+  }
+  .series__title {
+    max-width: 14ch;
+  }
+  .series__art {
+    position: relative;
+  }
+  .series__banner {
+    position: relative;
+    rotate: -1deg;
+  }
+  /* The banner carries its own lettering close to the edges, so the parallax overscan is kept small. */
+  .series__banner :global(.media__clip picture) {
+    scale: 1.07;
+  }
+  .series__rays {
+    position: absolute;
+    right: -24%;
+    top: -34%;
+    width: min(74%, 34rem);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .series__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-m);
+  }
+  /* Takes the whole row so the button starts a new one; the padding holds the measure at 36ch. */
+  .series__text {
+    flex: 0 0 100%;
+    padding-right: max(0px, 100% - 36ch);
+  }
+  /* A note in the margin that points down to the course details */
+  .series__more {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding-block: 0.4rem;
+    rotate: -2deg;
+    text-decoration: none;
+  }
+  .series__more span {
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 0.07em;
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color var(--dur-1);
+  }
+  .series__more:hover span {
+    text-decoration-color: currentColor;
+  }
+  .series__more svg {
+    flex: none;
+    width: 1.7rem;
+    height: auto;
+    margin-top: 0.5em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: translate var(--dur-2) var(--ease-out);
+  }
+  .series__more:hover svg {
+    translate: 0 0.3rem;
+  }
+
+  @media (min-width: 60rem) {
+    .series__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      row-gap: var(--space-l);
+    }
+    .series__title {
+      grid-column: 1 / span 9;
+      max-width: none;
+    }
+    .series__art {
+      grid-column: 5 / -1;
+      grid-row: 2;
+      margin-right: calc(var(--gutter) * -0.4);
+    }
+    .series__body {
+      grid-column: 1 / span 4;
+      grid-row: 2;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: flex-start;
+      padding-right: var(--space-s);
+    }
+    .series__text {
+      flex: none;
+      max-width: 36ch;
+      padding-right: 0;
+    }
+    .series__more {
+      margin-top: auto;
+    }
+    .series__rays {
+      right: -16%;
+      top: -42%;
+      width: 34rem;
+    }
+  }
+</style>

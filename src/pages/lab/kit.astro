@@ -1,0 +1,63 @@
+---
+// Lab page: the shared kit on one screen. Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import Illustration from '../../components/Illustration.astro';
+import portrait from '../../assets/media/portrait-sea.jpg';
+import pines from '../../assets/media/gathering-pines-acropolis.jpg';
+---
+
+<Base title="Kit | ATHENOA lab" description="Shared design kit" noindex>
+  <section class="section wrap stack" style="--stack: var(--space-l)">
+    <h1 class="t-hero" data-split>STUDY AT THE MODERN PLATONIC ACADEMY</h1>
+    <h2 class="t-1">Benefits of Joining ATHENOA</h2>
+    <h2 class="t-2">Living Transmission of Ancient Thought</h2>
+    <h3 class="t-3">You will follow in the footsteps of Education followed by the Ancient Sages</h3>
+    <p class="lead">Would you like to study methodically on the Path of Greek Philosophy and Light?</p>
+    <p class="measure">
+      Body text. The Greek philosophical tradition did not originate from division; it did not begin with an
+      ontological rupture between being and mind, <strong>spirit and matter</strong>, <em>knower and known</em>,
+      <u>inner and outer</u>. €200 &amp; VAT (24%) ~ Εὖ Ζῆν.
+    </p>
+    <p class="hand hand--l hand--tilt">Dear Friends and Bright Fellow Travelers on the Path of the Greek Light,</p>
+    <p><a class="btn" href="#">Get started</a> <a class="btn btn--ghost" href="#">Learn more</a></p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;align-items:start">
+      <Media src={portrait} alt="Kit sample" shape="arch" ratio="3 / 4" framed innerDepth={0.12} />
+      <Media src={pines} alt="Kit sample" shape="pebble-1" ratio="1 / 1" />
+      <div class="box box--offset"><h3 class="t-3">The Living Spirit</h3><p>Box on paper with an offset outline.</p></div>
+    </div>
+  </section>
+  <section class="section wrap stack" style="--stack: var(--space-m)">
+    <h2 class="t-2">Three blues of one hue</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:2rem">
+      <div class="box on-blue-light stack"><h3 class="t-3">Light blue</h3><p>Washes, highlights and soft panels. Ink stays dark.</p><p><a class="btn" href="#">Get started</a></p></div>
+      <div class="box on-blue stack"><h3 class="t-3">Greek blue</h3><p>The main ink and the main panel colour.</p><p><a class="btn" href="#">Get started</a></p></div>
+      <div class="box on-blue-deep stack"><h3 class="t-3">Darker Greek blue</h3><p>Body text, night panels and foreground shapes.</p><p><a class="btn" href="#">Get started</a></p></div>
+    </div>
+    <p class="t-2">Study at the Modern <span class="hl"><span class="hl__w">Platonic</span> <span class="hl__w">Academy</span></span></p>
+  </section>
+
+  <section class="section wrap stack" lang="el" style="--stack: var(--space-m)">
+    <h2 class="t-2">Ελληνικά</h2>
+    <p class="t-1">ΣΠΟΥΔΑΣΤΕ ΣΤΗ ΣΥΓΧΡΟΝΗ ΠΛΑΤΩΝΙΚΗ ΑΚΑΔΗΜΙΑ</p>
+    <p class="t-3">Ορφικοί Ύμνοι - Η ουσία της Πνευματικής Τεχνολογίας των Ελλήνων</p>
+    <p class="lead">Θα θέλατε να σπουδάσετε μεθοδικά στο Μονοπάτι της Ελληνικής Φιλοσοφίας και του Φωτός;</p>
+    <p class="measure">
+      Η ελληνική φιλοσοφική παράδοση δεν γεννήθηκε από τον διχασμό· δεν ξεκίνησε με μια οντολογική ρήξη ανάμεσα στο είναι
+      και τον νου, <strong>το πνεύμα και την ύλη</strong>, <em>τον γνώστη και το γνωστό</em>, το μέσα και το έξω.
+      <span lang="grc">Εὖ Ζῆν</span> · <span lang="grc">Γνῶθι σαυτόν</span> · €200 &amp; ΦΠΑ (24%)
+    </p>
+    <p class="hand hand--l hand--tilt">Αγαπητοί Φίλοι και Φωτεινοί Συνοδοιπόροι στο Μονοπάτι του Ελληνικού Φωτός,</p>
+    <p><a class="btn" href="#">Ξεκινήστε</a> <a class="btn btn--ghost" href="#">Μάθετε περισσότερα</a></p>
+  </section>
+
+  <section class="wrap">
+    <div class="panel panel--big on-blue stack">
+      <h2 class="t-1">Let's Get Started</h2>
+      <p class="hand hand--l">I await you with joy and enthusiasm on a New Initiatic Journey</p>
+      <p class="measure">Body text on blue. Join us in restoring Philosophy to its rightful place.</p>
+      <p><a class="btn" href="#">Enroll in our courses</a> <a class="btn btn--ghost" href="#">Learn more</a></p>
+      <div style="width:12rem" data-depth="-0.2"><Illustration name="owl" draw /></div>
+    </div>
+  </section>
+</Base>

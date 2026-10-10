@@ -1,0 +1,23 @@
+{
+  "name": "athenoa",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "shot": "node scripts/shot.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource-variable/eb-garamond": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@fontsource/mansalva": "^5.3.0",
+    "astro": "^7.3.8",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "playwright-core": "^1.64.0"
+  }
+}

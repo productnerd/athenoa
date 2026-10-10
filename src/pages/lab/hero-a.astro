@@ -1,0 +1,48 @@
+---
+// Lab page: home hero candidate A ("Portal"), followed by plain filler so the scroll parallax
+// can be judged. Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import HeroA from '../../components/home/hero/HeroA.astro';
+import { home } from '../../data/home';
+---
+
+<Base title="Hero A | ATHENOA lab" description="Home hero candidate A: Portal" noindex>
+  <HeroA />
+
+  <section class="section wrap stack" style="--stack: var(--space-m)">
+    <h2 class="t-1" data-split>{home.membership.title}</h2>
+    <p class="lead" data-reveal>{home.membership.question}</p>
+  </section>
+
+  <section class="wrap">
+    <div class="filler" data-reveal-group>
+      {
+        home.membership.points.map((point) => (
+          <div class="box stack">
+            <h3 class="t-3">{point.title}</h3>
+            <p>{point.text}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section wrap stack" style="--stack: var(--space-m)">
+    <h2 class="t-2" data-split>{home.transmission.title}</h2>
+    <p class="measure" data-reveal>{home.transmission.text}</p>
+  </section>
+
+  <div class="wrap spacer" aria-hidden="true"></div>
+</Base>
+
+<style>
+  .filler {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-m);
+    align-items: start;
+  }
+  .spacer {
+    height: 40vh;
+  }
+</style>

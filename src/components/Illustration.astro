@@ -1,0 +1,30 @@
+---
+// Inlines a line-art SVG from src/assets/illustrations so it can take the page's ink colour
+// and be drawn stroke by stroke. To swap artwork, replace the .svg file; nothing else changes.
+interface Props {
+  name: string;
+  class?: string;
+  draw?: boolean;
+  label?: string;
+  [key: string]: unknown;
+}
+const { name, class: className, draw = false, label, ...rest } = Astro.props;
+const files = import.meta.glob<string>('../assets/illustrations/*.svg', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+const svg = files[`../assets/illustrations/${name}.svg`];
+if (!svg) throw new Error(`Illustration "${name}" not found in src/assets/illustrations`);
+---
+
+<span
+  class:list={['illo', `illo--${name}`, className]}
+  data-draw={draw ? '' : undefined}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+  {...rest}
+>
+  <Fragment set:html={svg} />
+</span>

@@ -1,0 +1,359 @@
+---
+// Home hero, candidate B: "Label".
+// An oversized printed label in two inks. A blue arch is cut into the crème paper; Athena is
+// drawn inside it in crème line, and the rays behind her head change ink where they cross
+// the edge of the arch. Every part is its own layer, so scroll and pointer give it depth.
+//
+// The line art comes from scripts/illustrations/hero-b-gen.mjs. The three stage drawings
+// (rays-out, rays-in, athena) share one 720 x 900 box; the percentages below place the
+// arches on that box and must match ARCH_OUT / ARCH_IN in the generator.
+import Illustration from '../../Illustration.astro';
+import { home } from '../../../data/home';
+
+const [first, second] = home.hero.titleLines;
+---
+
+<section class="hb" data-pointer-scene>
+  <div class="hb__label" aria-hidden="true">
+    <div class="hb__ground scales" data-depth="0.5" data-reveal="fade"></div>
+  </div>
+
+  <div class="hb__inner wrap">
+    <div class="hb__text">
+      <h1 class="hb__title t-hero" data-split style="--delay: 450ms">
+        <span class="hb__line hb__line--first">{first}</span>{' '}
+        <span class="hb__line hb__line--second">{second}</span>
+      </h1>
+    </div>
+
+    <div class="hb__stage">
+      <div class="hb__halo" data-reveal="fade">
+        <Illustration
+          name="hero-b-rays-out"
+          class="hb__sheet hb__rays"
+          data-depth="0.32"
+          data-pointer="-7"
+          data-reveal="grow"
+          style="--delay: 150ms"
+        />
+      </div>
+
+      <div class="hb__arch panel on-blue" data-reveal="fade" style="--delay: 80ms">
+        <div class="panel__clip">
+          <Illustration
+            name="hero-b-rays-in"
+            class="hb__sheet hb__rays hb__rays--in"
+            data-depth="0.32"
+            data-pointer="-7"
+            data-reveal="grow"
+            style="--delay: 150ms"
+          />
+          <Illustration
+            name="hero-b-athena"
+            class="hb__sheet hb__figure"
+            label="The goddess Athena, line drawing"
+            draw
+            data-depth="0.12"
+            data-pointer="5"
+            style="--delay: 250ms"
+          />
+        </div>
+      </div>
+
+      <Illustration
+        name="hero-b-owl"
+        class="hb__owl"
+        draw
+        data-depth="-0.12"
+        data-pointer="11"
+        data-reveal
+        style="--delay: 900ms"
+      />
+      <Illustration
+        name="hero-b-olive"
+        class="hb__olive"
+        data-depth="-0.3"
+        data-pointer="20"
+        data-reveal
+        style="--delay: 1050ms"
+      />
+      <Illustration
+        name="hero-b-sprig"
+        class="hb__sprig"
+        data-depth="-0.2"
+        data-pointer="15"
+        data-reveal
+        style="--delay: 1150ms"
+      />
+      {
+        [1, 2, 3, 4, 5].map((n) => (
+          <span
+            class={`hb__star hb__star--${n}`}
+            data-depth={n % 2 ? '-0.36' : '-0.24'}
+            data-pointer={n % 2 ? '28' : '18'}
+          >
+            <Illustration
+              name="hero-b-star"
+              class="drift"
+              data-reveal="grow"
+              style={`--i: ${n}; --delay: ${1150 + n * 70}ms`}
+            />
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .hb {
+    /* Stage: 4 by 5, as tall as the first screen allows */
+    --hb-sh: clamp(30rem, 100svh - var(--header-h) - 4.5rem, 49rem);
+    --hb-sw: calc(var(--hb-sh) * 0.8);
+    position: relative;
+    isolation: isolate;
+    /* near ornaments may run past the page edge, never widen the page */
+    overflow-x: clip;
+    display: grid;
+    align-items: center;
+    min-height: max(100svh, 40rem);
+    margin-top: calc(-1 * var(--header-h));
+    padding-block: calc(var(--header-h) + 1rem) 2.4rem;
+  }
+
+  /* The label itself: a hairline border with the scale ground printed inside it */
+  .hb__label {
+    position: absolute;
+    inset: 0.6rem 0.7rem 0.8rem;
+    z-index: -1;
+    overflow: hidden;
+    border-radius: 3.4rem 4.2rem 3.8rem 4.6rem / 4.2rem 3.4rem 4.6rem 3.6rem;
+  }
+  /* double rule, like the border of a printed label */
+  .hb__label::before,
+  .hb__label::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border: 1.5px solid var(--line);
+    border-radius: inherit;
+  }
+  .hb__label::before {
+    inset: 0.42rem;
+    border-width: 1px;
+  }
+  .hb__ground {
+    position: absolute;
+    inset: -16% 0;
+    background-size: 38px 38px;
+    opacity: 0.62;
+    /* the header sits on plain paper */
+    mask-image: linear-gradient(to bottom, transparent calc(16% + 3.5rem), #000 calc(16% + 11rem));
+  }
+
+  .hb__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--hb-sw);
+    align-items: center;
+    gap: clamp(1.5rem, 0.5rem + 3vw, 3.5rem);
+  }
+
+  /* ---------- Title ---------- */
+  .hb__text {
+    container-type: inline-size;
+  }
+  .hb__title {
+    /* Sized to its column so "STUDY AT THE" holds one line in every type set (about 6.6em wide);
+       --title-scale is left out on purpose, the column is the measure here. */
+    font-size: min(14.6cqw, 11.6svh, 6.3rem);
+  }
+  .hb__line {
+    display: block;
+  }
+  /* Greedy wrapping keeps "STUDY AT THE" together; the short second line stays balanced */
+  .hb__line--first {
+    text-wrap: wrap;
+  }
+  .hb__line--second {
+    margin-top: 0.42em;
+    max-width: 15em;
+    font-size: 0.44em;
+    line-height: calc(var(--title-leading) + 0.06);
+    letter-spacing: 0.01em;
+  }
+
+  /* ---------- Stage ---------- */
+  .hb__stage {
+    position: relative;
+    width: var(--hb-sw);
+    height: var(--hb-sh);
+  }
+  /* A sheet is a drawing on the full stage box, wherever its parent sits */
+  .hb__sheet {
+    position: absolute;
+    left: calc(var(--hb-x, 0) * -1 * var(--hb-sw) - var(--hb-inset, 0px));
+    top: calc(var(--hb-y, 0) * -1 * var(--hb-sh) - var(--hb-inset, 0px));
+    width: var(--hb-sw);
+    height: var(--hb-sh);
+  }
+  .hb__halo {
+    --hb-x: 0.01944;
+    --hb-y: 0.01556;
+    position: absolute;
+    left: 1.944%;
+    top: 1.556%;
+    width: 96.111%;
+    height: 96.889%;
+    overflow: hidden;
+    border-radius: 50% 50% 6.6% 6% / 39.68% 39.68% 5% 5.4%;
+  }
+  .hb__halo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid var(--ink-strong);
+    border-radius: inherit;
+  }
+  .hb__arch.panel {
+    --hb-x: 0.11667;
+    --hb-y: 0.09333;
+    --hb-inset: 5px;
+    --panel-r: 50% 50% 6.4% 7% / 37.5% 37.5% 5.2% 4.8%;
+    position: absolute;
+    left: 11.667%;
+    top: 9.333%;
+    width: 76.667%;
+    height: 81.778%;
+    padding: 0;
+  }
+  /* Inside the arch the blue is laid flat and the grain goes over everything, drawing included */
+  .hb__arch .panel__clip {
+    background: var(--blue);
+  }
+  .hb__arch .panel__clip::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--grain);
+    background-size: 400px 400px;
+  }
+  /* Rays inside the arch sit back behind the figure. On the svg, because the reveal owns the wrapper's opacity. */
+  .hb__rays--in svg {
+    opacity: 0.5;
+  }
+
+  .hb__owl,
+  .hb__olive,
+  .hb__sprig,
+  .hb__star {
+    position: absolute;
+  }
+  .hb__owl {
+    left: -5%;
+    bottom: 2.5%;
+    width: 29%;
+  }
+  .hb__olive {
+    right: -16%;
+    bottom: -6%;
+    width: 52%;
+  }
+  .hb__sprig {
+    left: -8%;
+    top: 13%;
+    width: 24%;
+    rotate: -8deg;
+  }
+  .hb__star {
+    width: 4.6%;
+  }
+  .hb__star--1 {
+    left: 5%;
+    top: 4%;
+  }
+  .hb__star--2 {
+    right: -1%;
+    top: 16%;
+    width: 3.2%;
+  }
+  .hb__star--3 {
+    left: -9%;
+    top: 46%;
+    width: 3.4%;
+  }
+  .hb__star--4 {
+    right: -5%;
+    top: 49%;
+    width: 5.4%;
+  }
+  .hb__star--5 {
+    left: -13%;
+    top: 71%;
+    width: 2.8%;
+  }
+
+  /* ---------- Load sequence ----------
+     ground, halo and arch settle; rays swell; the figure is drawn; the title rises;
+     owl, olive and stars arrive last. The drawing is retimed so the whole of it lands together. */
+  html.motion .hb [data-draw] :is(path, line, polyline, polygon, circle, ellipse, rect):not([data-nodraw]) {
+    transition-duration: 1.35s;
+    transition-delay: calc(min(var(--i, 0), 48) * 12ms + var(--delay, 0ms));
+  }
+  html.motion .hb [data-draw] [data-nodraw] {
+    transition-delay: calc(var(--delay, 0ms) + 0.75s);
+  }
+  html.motion .hb .hb__rays[data-reveal] {
+    transform: scale(0.9);
+  }
+  html.motion .hb .hb__rays[data-reveal].is-in {
+    transform: none;
+  }
+
+  /* ---------- Narrow screens: title first, the arch below it ---------- */
+  @media (max-width: 56rem) {
+    .hb {
+      --hb-sw: min(100vw - 2 * var(--gutter) - 1.2rem, 30rem);
+      --hb-sh: calc(var(--hb-sw) * 1.25);
+      min-height: 0;
+      padding-block: calc(var(--header-h) + 1.4rem) 2.2rem;
+    }
+    .hb__label {
+      inset: 0.35rem 0.35rem 0.5rem;
+      border-radius: 2.2rem 2.6rem 2.4rem 2.8rem / 2.6rem 2.2rem 2.8rem 2.4rem;
+    }
+    /* one rule is enough this close to the type */
+    .hb__label::before {
+      display: none;
+    }
+    .hb__inner {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+      gap: 1.6rem;
+    }
+    .hb__text {
+      width: 100%;
+    }
+    .hb__title {
+      font-size: min(14.6cqw, 6.3rem);
+    }
+    .hb .illo svg {
+      stroke-width: 3.6;
+    }
+    .hb .hb__rays svg {
+      stroke-width: 3;
+    }
+    .hb__olive {
+      right: -9%;
+    }
+    .hb__sprig {
+      left: -4%;
+    }
+    .hb__star--3 {
+      left: -3%;
+    }
+    .hb__star--4 {
+      right: -2%;
+    }
+  }
+</style>

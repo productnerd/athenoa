@@ -1,0 +1,254 @@
+---
+// Footer: contact details and social marks above a borderless nature scene, drawn straight onto the page.
+// Each page ends on a different scene:
+//   attica   Home (and anything not listed)   mountains of Attica with umbrella pines
+//   olympus  About Athena                     Mount Olympus with mountain pines
+//   aegean   Courses and course pages         the Aegean
+//
+// Every scene is three layered SVG files (far, mid, near) that move at different depths:
+//   attica   footer-mountains.svg, footer-hills.svg, footer-pines.svg
+//   olympus  footer-olympus-far.svg, footer-olympus-mid.svg, footer-olympus-near.svg
+//   aegean   footer-aegean-far.svg, footer-aegean-mid.svg, footer-aegean-near.svg
+// To swap artwork, replace those files. Or drop one transparent image named footer-landscape,
+// footer-olympus or footer-aegean (.png, .webp or .avif) in src/assets/illustrations and it
+// replaces the drawn layers of that scene. No code changes either way.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Illustration from './Illustration.astro';
+import SocialIcons from './SocialIcons.astro';
+import logo from '../assets/media/logo.png';
+import { content } from '../data';
+import { getLocale } from '../lib/locale';
+
+type Scene = 'attica' | 'olympus' | 'aegean';
+interface Props {
+  /** Overrides the scene chosen from the page address. */
+  scene?: Scene;
+}
+
+const { site, ui } = content(getLocale(Astro.url));
+const path = Astro.url.pathname.replace(/^\/el(?=\/)/, '');
+const byPage: Scene = path.startsWith('/about-athena') ? 'olympus' : path.startsWith('/courses') ? 'aegean' : 'attica';
+const scene = Astro.props.scene ?? byPage;
+
+const layers: Record<Scene, { far: string; mid: string; near: string; image: string }> = {
+  attica: { far: 'footer-mountains', mid: 'footer-hills', near: 'footer-pines', image: 'footer-landscape' },
+  olympus: {
+    far: 'footer-olympus-far',
+    mid: 'footer-olympus-mid',
+    near: 'footer-olympus-near',
+    image: 'footer-olympus',
+  },
+  aegean: { far: 'footer-aegean-far', mid: 'footer-aegean-mid', near: 'footer-aegean-near', image: 'footer-aegean' },
+};
+const art = layers[scene];
+
+const images = import.meta.glob<{ default: ImageMetadata }>('../assets/illustrations/footer-*.{png,webp,avif}', {
+  eager: true,
+});
+const custom = Object.entries(images).find(([file]) =>
+  new RegExp(`/${art.image}\\.(png|webp|avif)$`).test(file),
+)?.[1].default;
+---
+
+<footer class="footer">
+  <div class="wrap footer__grid" data-reveal-group>
+    <div class="footer__brand">
+      <Image src={logo} alt="" width={96} height={94} class="footer__logo" />
+      <p class="footer__name">{site.name}</p>
+    </div>
+
+    <nav class="footer__col" aria-label={ui.footerNav}>
+      <h2 class="footer__title">{site.footer.linksTitle}</h2>
+      <ul class="footer__list">
+        {
+          site.footer.links.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer__col">
+      <h2 class="footer__title">{site.footer.connectTitle}</h2>
+      <ul class="footer__list">
+        <li><a href={site.routes.contact}>{site.footer.contactFormLabel}</a></li>
+        {
+          site.emails.map((email) => (
+            <li>
+              <a href={`mailto:${email}`}>{email}</a>
+            </li>
+          ))
+        }
+        <li><a href={site.phone.href}>{site.phone.display}</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h2 class="footer__title">{site.footer.followTitle}</h2>
+      <SocialIcons />
+    </div>
+  </div>
+
+  <div class:list={['footer__scene', `footer__scene--${scene}`, !custom && 'footer__scene--drawn']} aria-hidden="true">
+    {
+      custom ? (
+        <div class="footer__layer footer__layer--custom" data-depth="0.12">
+          <Image src={custom} alt="" widths={[800, 1400, 2200]} sizes="100vw" />
+        </div>
+      ) : (
+        <>
+          <div class="footer__layer footer__layer--far" data-depth="0.26">
+            <Illustration name={art.far} draw />
+          </div>
+          <div class="footer__layer footer__layer--mid" data-depth="0.13">
+            <Illustration name={art.mid} draw />
+          </div>
+          <div class="footer__layer footer__layer--near" data-depth="-0.05">
+            <Illustration name={art.near} />
+          </div>
+        </>
+      )
+    }
+  </div>
+
+  <p class="footer__legal" lang="el">{site.copyright}</p>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    margin-top: var(--space-xl);
+    padding-top: var(--space-l);
+    overflow: clip;
+  }
+  .footer__grid {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: auto 0.8fr 1.2fr auto;
+    gap: var(--space-l) clamp(1.75rem, 0.5rem + 4vw, 5rem);
+    align-items: start;
+  }
+  .footer__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .footer__logo {
+    width: clamp(3.5rem, 3rem + 2vw, 5.5rem);
+    height: auto;
+  }
+  .footer__name {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-3);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    color: var(--blue);
+  }
+  .footer__title {
+    font-family: var(--font-hand);
+    font-size: var(--step-1);
+    line-height: 1.2;
+    color: var(--blue);
+    margin-bottom: 0.7rem;
+    rotate: -1.5deg;
+    transform-origin: left center;
+  }
+  .footer__list {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-variant-numeric: lining-nums;
+  }
+  .footer__list a {
+    text-decoration-color: transparent;
+    overflow-wrap: anywhere;
+  }
+  .footer__list a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* The landscape: no box, no border, drawn straight onto the page.
+     The scene is exactly as wide as the drawing (never narrower than 64rem, so small screens
+     see the middle of it) and its height follows that width, so the three layers keep their
+     places in the picture at every size. Offsets are fractions of the scene height. */
+  .footer__scene {
+    position: relative;
+    z-index: 1;
+    left: 50%;
+    width: max(100%, 64rem);
+    margin-left: calc(max(100%, 64rem) / -2);
+    aspect-ratio: 1600 / 525;
+    pointer-events: none;
+  }
+  .footer__layer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: var(--blue);
+  }
+  .footer__layer--far {
+    bottom: 16%;
+  }
+  .footer__layer--mid {
+    bottom: 2.7%;
+  }
+  .footer__layer--near {
+    bottom: -1px;
+  }
+  /* The drawn layers hide one another with flat paper-coloured fills. The page grain is laid
+     back over the whole picture (on a flat ground, so the sky is not grained twice), which
+     keeps land and sky the same sheet of paper. */
+  .footer__scene--drawn::before,
+  .footer__scene--drawn::after {
+    content: '';
+    position: absolute;
+    inset: -6rem 0 0;
+  }
+  .footer__scene--drawn::before {
+    z-index: -1;
+    background-color: var(--paper);
+  }
+  .footer__scene--drawn::after {
+    background-image: var(--grain);
+    background-size: 400px 400px;
+  }
+  .footer__layer--custom :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .footer__legal {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.9rem;
+    z-index: 3;
+    text-align: center;
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    color: var(--creme-light);
+    mix-blend-mode: normal;
+  }
+
+  @media (max-width: 60rem) {
+    .footer__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 34rem) {
+    .footer__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

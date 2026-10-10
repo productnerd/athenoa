@@ -1,0 +1,272 @@
+---
+// Home: "Benefits of Joining ATHENOA". Three paper boxes of different cut step down one side;
+// four photographs overlap in a loose collage on the other.
+import Media from '../Media.astro';
+import Illustration from '../Illustration.astro';
+import column from '../../assets/media/academy-column.jpg';
+import gathering from '../../assets/media/gathering-amphitheatre.jpg';
+import reading from '../../assets/media/reading-by-the-sea.jpg';
+import hilltop from '../../assets/media/hilltop-meditation.png';
+import { home } from '../../data/home';
+
+const { benefits } = home;
+const boxClass = ['box box--offset', 'box box--blue on-blue', 'box box--deep'];
+---
+
+<section class="benefits section" aria-labelledby="benefits-title">
+  <div class="wrap benefits__grid">
+    <header class="benefits__head">
+      <h2 class="t-1" id="benefits-title" data-split>{benefits.title}</h2>
+      <p class="lead" data-reveal>{benefits.question}</p>
+      <Illustration name="olive-branch" class="benefits__olive" draw />
+    </header>
+
+    <div class="benefits__collage">
+      <span class="benefits__blob" aria-hidden="true" data-depth="0.2"></span>
+      <Media
+        class="benefits__photo benefits__photo--column"
+        src={column}
+        alt="A woman in a blue dress stands before the Academy of Athens, under the tall column that carries the statue of Athena"
+        shape="arch"
+        focus="50% 60%"
+        widths={[240, 360, 560, 800]}
+        sizes="(min-width: 60rem) 24rem, 46vw"
+        data-depth="0.12"
+      />
+      <Media
+        class="benefits__photo benefits__photo--gathering"
+        src={gathering}
+        alt="A circle of women dressed in white embrace on a stone terrace beside a pool, high above the sea"
+        shape="pebble-1"
+        focus="50% 60%"
+        widths={[240, 360, 560, 800]}
+        sizes="(min-width: 60rem) 26rem, 46vw"
+        data-depth="-0.1"
+      />
+      <Media
+        class="benefits__photo benefits__photo--reading"
+        src={reading}
+        alt="A smiling woman reads a book in the sun, the sea and a bright sky behind her"
+        shape="pebble-3"
+        focus="42% 45%"
+        widths={[240, 360, 560, 869]}
+        sizes="(min-width: 60rem) 18rem, 46vw"
+        data-depth="-0.16"
+      />
+      <Media
+        class="benefits__photo benefits__photo--hilltop"
+        src={hilltop}
+        alt="A woman sits in meditation among ancient stones on a sunlit hilltop, hazy mountains beyond"
+        shape="pill"
+        focus="66% 70%"
+        widths={[360, 520, 690]}
+        sizes="(min-width: 60rem) 32rem, 46vw"
+        data-depth="0.06"
+      />
+    </div>
+
+    <ul class="benefits__items" role="list">
+      {
+        benefits.items.map((item, i) => (
+          <li class:list={['benefits__item', boxClass[i]]} data-reveal>
+            <h3 class="benefits__item-title">{item.title}</h3>
+            <p>{item.italic ? <em>{item.text}</em> : item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .benefits__grid {
+    display: grid;
+    gap: var(--space-l);
+  }
+  .benefits__head {
+    position: relative;
+  }
+  .benefits__head .lead {
+    margin-top: var(--space-m);
+    max-width: 30ch;
+  }
+  .benefits__olive {
+    width: clamp(8rem, 5rem + 14vw, 15rem);
+    margin-top: var(--space-m);
+    rotate: -6deg;
+  }
+
+  /* ---------- Collage. Narrow screens: two staggered columns. ---------- */
+  .benefits__collage {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+    align-items: start;
+    padding-bottom: 2.75rem;
+  }
+  /* The shared arch token flattens its lower corners on a narrow frame, so this arch sets its own. */
+  .benefits__photo--column {
+    --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
+    --ratio: 3 / 4.5;
+    grid-area: 1 / 1;
+  }
+  .benefits__photo--gathering {
+    --ratio: 4 / 4.6;
+    grid-area: 1 / 2;
+    margin-top: 2.75rem;
+  }
+  .benefits__photo--reading {
+    --ratio: 1 / 1.04;
+    grid-area: 2 / 1;
+    margin-left: 0.6rem;
+  }
+  .benefits__photo--hilltop {
+    --ratio: 1 / 1;
+    grid-area: 2 / 2;
+    margin: 2.75rem 0.5rem 0 -0.9rem;
+  }
+  .benefits__blob {
+    position: absolute;
+    left: 18%;
+    top: 30%;
+    z-index: -1;
+    width: 78%;
+    aspect-ratio: 1 / 0.9;
+    border-radius: var(--r-pebble-2);
+    background-color: var(--creme-deep);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+  }
+
+  /* ---------- Three boxes, each cut differently, stepping from side to side ---------- */
+  .benefits__items {
+    display: grid;
+    gap: var(--space-m);
+    margin: 0;
+  }
+  .benefits__item:nth-child(1) {
+    --box-r: var(--r-soft);
+    margin-right: 6%;
+  }
+  .benefits__item:nth-child(2) {
+    --box-r: var(--r-leaf);
+    margin-left: 7%;
+    padding-block: clamp(2rem, 1.2rem + 3vw, 3.25rem);
+  }
+  .benefits__item:nth-child(3) {
+    --box-r: 3.6rem 2.4rem 4.4rem 2.6rem / 2.6rem 3.8rem 2.8rem 4rem;
+    margin-right: 3%;
+  }
+  .benefits__item p {
+    max-width: var(--measure);
+  }
+  .benefits__item-title {
+    margin-bottom: 0.7em;
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: calc(var(--step-2) * 0.86);
+    line-height: calc(var(--title-leading) + 0.12);
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+
+  /* Between phone and desktop the two columns stop growing: two of the photographs are small files. */
+  @media (min-width: 40rem) {
+    .benefits__collage {
+      max-width: 36rem;
+    }
+    .benefits__photo--hilltop {
+      --ratio: 3 / 2;
+    }
+    .benefits__items {
+      max-width: 44rem;
+    }
+  }
+
+  @media (min-width: 60rem) {
+    .benefits__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--space-m);
+      row-gap: var(--space-l);
+    }
+    /* The olive sprig lies beside the question, under the title */
+    .benefits__head {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, max-content) auto;
+      justify-content: start;
+      align-items: end;
+      column-gap: var(--space-l);
+    }
+    .benefits__head h2 {
+      grid-column: 1 / -1;
+    }
+    .benefits__olive {
+      width: clamp(8rem, 12vw, 12rem);
+      margin: 0 0 0.4rem;
+    }
+    .benefits__items {
+      grid-column: 1 / span 7;
+      grid-row: 2;
+      gap: 0;
+      align-content: start;
+      max-width: none;
+    }
+    .benefits__item:nth-child(1) {
+      margin-right: 14%;
+    }
+    .benefits__item:nth-child(2) {
+      z-index: 2;
+      margin: -1.4rem -5% 0 17%;
+    }
+    .benefits__item:nth-child(3) {
+      margin: -1.1rem 9% 0 5%;
+    }
+
+    /* The collage climbs up beside the question. Its two clusters keep their overlaps and share out any slack. */
+    .benefits__collage {
+      grid-column: 8 / -1;
+      grid-row: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: none;
+      margin: -11rem calc(var(--gutter) * -0.35) 0 0;
+      padding: 0 0 var(--space-m);
+    }
+    .benefits__photo--column {
+      --ratio: 3 / 4.2;
+      align-self: flex-end;
+      width: 72%;
+    }
+    .benefits__photo--gathering {
+      --ratio: 4 / 3.3;
+      z-index: 2;
+      align-self: flex-start;
+      width: 82%;
+      margin: -26% 0 auto -9%;
+    }
+    .benefits__photo--hilltop {
+      --ratio: 690 / 300;
+      z-index: 1;
+      align-self: flex-end;
+      width: min(104%, 32rem);
+      margin: 12% -4% 0 0;
+    }
+    .benefits__photo--reading {
+      --ratio: 1 / 1;
+      z-index: 3;
+      order: 4;
+      align-self: flex-start;
+      width: 54%;
+      margin: -12% 0 0 6%;
+    }
+    .benefits__blob {
+      left: -20%;
+      top: 30%;
+      width: 100%;
+    }
+  }
+</style>
