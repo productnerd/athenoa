@@ -2,14 +2,15 @@
 // node scripts/illustrations/olympus-mid.mjs   -> src/assets/illustrations/footer-olympus-mid.svg
 //
 // Three pairs of ridges come in from left and right and lock into one another over the gorge.
-// Their forest is drawn as the canopy looks from across a valley: ranks of scallops along the
-// crest (pines), with fir spires standing out of them. A waterfall drops at the head of the
-// gorge and the stream runs down between the rock walls.
-import { rng, n, P, smooth, rock, curve, sheet } from './olympus-lib.mjs';
+// They are drawn as the Attic hills are (a crest and a few slope lines), and carry their forest
+// as ranks of small tiered pines standing on the crests, in loose companies with bare ground
+// between. At the head of the gorge the stream falls over a lip of rock and runs out between
+// the walls: long parallel lines on a light-blue wash.
+import { rng, n, P, lerp, smooth, rock, curve, sheet } from './olympus-lib.mjs';
 
-const r = rng(1700);
+const r = rng(1701);
 const S = sheet('0 0 1600 300', 2.2);
-
+const j = (a) => (r() - 0.5) * 2 * a;
 const asc = (pts) => (pts[0][0] > pts[pts.length - 1][0] ? pts.slice().reverse() : pts);
 
 /** A ridge: closed and filled so it hides what is behind. Returns its crest path for stroking. */
@@ -20,142 +21,162 @@ function ridge(crest, cliff, side) {
 }
 
 /**
- * Forest along a crest between x0 and x1: a serried rank of conifer spires on the skyline,
- * then ranks of canopy scallops stepping down the slope.
- * w: width of one crown. lower: stretches [from, to] of the second and third scallop rank.
+ * A small mountain pine seen across the valley: one outline of two or three stacked pads, each
+ * overhanging the one below, on a stub of trunk. Old ones stand on a longer trunk with a flat top.
  */
-function forest(ctrl, x0, x1, w, lower = []) {
-  const y = curve(asc(ctrl));
-  // uneven steps along the crest
-  const xs = [x0];
-  while (xs[xs.length - 1] < x1) xs.push(xs[xs.length - 1] + w * (0.78 + r() * 0.5));
-  // the spires, in clumps of uneven height
-  let spires = '';
-  let count = 0;
-  let tall = 1;
-  for (let i = 0; i < xs.length - 1; i++) {
-    if (i % 5 === 0) tall = 0.75 + r() * 0.6;
-    if (r() < 0.24) continue;
-    const x = (xs[i] + xs[i + 1]) / 2 + (r() - 0.5) * 2;
-    const fw = w * (0.4 + r() * 0.12);
-    const h = w * (1.5 + r() * 1.1) * tall;
-    const base = y(x) + w * 0.35;
-    spires += `M${n(x - fw)} ${n(base)}Q${n(x - fw * 0.9)} ${n(base - h * 0.5)} ${n(x + (r() - 0.5))} ${n(base - h)}Q${n(x + fw * 0.9)} ${n(base - h * 0.5)} ${n(x + fw)} ${n(base)}`;
-    if (++count % 8 === 0) {
-      S.paper(spires);
-      spires = '';
+function pine(x, y, h, old = false) {
+  const lean = j(h * 0.03);
+  const tiers = h < 19 ? 2 : 3;
+  const foot = old ? 0.4 : 0.15;
+  const wide = h * (old ? 0.33 : 0.27) * (0.92 + r() * 0.16);
+  const step = (1 - foot) / (tiers + 0.25);
+  const L = [];
+  for (let k = 0; k < tiers; k++) {
+    const a = wide * (1 - (old ? 0.3 : 0.25) * k);
+    L.push([a, foot + step * k]);
+  }
+  const X = (dx, up) => `${n(x + dx + lean * up)} ${n(y - h * up)}`;
+  // up the left side
+  let d = `M${X(-L[0][0], L[0][1])}`;
+  for (let k = 0; k < tiers; k++) {
+    const [a, b] = L[k];
+    if (k < tiers - 1) {
+      const [a2, b2] = L[k + 1];
+      d += `Q${X(-a * 0.96, b2)} ${X(-a2 * 0.4, b2 + step * 0.12)}L${X(-a2, b2)}`;
+    } else {
+      d += `C${X(-a * 1.05, 1.04)} ${X(a * 1.05, 1.04)} ${X(a, b)}`;
     }
   }
-  if (spires) S.paper(spires);
-  // the canopy under them: closed below so it hides the feet of the spires
-  const arc = (a, b, dy) => {
-    const rad = (b - a) * (0.54 + r() * 0.08);
-    return `A${n(rad)} ${n(rad)} 0 0 1 ${n(b)} ${n(y(b) + dy)}`;
-  };
-  const drop = w * 0.42;
-  let top = `M${n(xs[0])} ${n(y(xs[0]) + drop)}`;
-  for (let i = 1; i < xs.length; i++) top += arc(xs[i - 1], xs[i], drop);
-  const end = xs[xs.length - 1];
-  S.mask(`${top}L${n(end)} ${n(y(end) + w * 1.6)}L${n(xs[0])} ${n(y(xs[0]) + w * 1.6)}Z`);
-  S.line(top);
-  // lower ranks, each bump sitting under the join of two above
-  const mids = xs.slice(1).map((x, i) => (x + xs[i]) / 2);
-  lower.forEach((spans, k) => {
-    const grid = k % 2 === 0 ? mids : xs;
-    const dy = drop + (k + 1) * w * 0.56;
-    let d = '';
-    for (const [a, b] of spans) {
-      let on = false;
-      for (let i = 1; i < grid.length; i++) {
-        if (grid[i - 1] < a || grid[i] > b) {
-          on = false;
-          continue;
-        }
-        if (!on) d += `M${n(grid[i - 1])} ${n(y(grid[i - 1]) + dy)}`;
-        d += arc(grid[i - 1], grid[i], dy);
-        on = true;
-      }
-    }
-    if (d) S.line(d);
-  });
+  // and down the right
+  for (let k = tiers - 2; k >= 0; k--) {
+    const [a, b] = L[k];
+    const [a2, b2] = L[k + 1];
+    d += `L${X(a2 * 0.4, b2 + step * 0.12)}Q${X(a * 0.96, b2)} ${X(a, b)}`;
+  }
+  d += `Q${X(0, L[0][1] + step * 0.3)} ${X(-L[0][0], L[0][1])}Z`;
+  // trunk
+  d += `M${X(0, L[0][1] + step * 0.14)}L${n(x)} ${n(y)}`;
+  return d;
+}
+
+/**
+ * A company of pines along a crest from x0 to x1. h: height of a grown tree here.
+ * Neighbours overlap, so they are written to two paths in turn and the later hides the earlier.
+ */
+function company(ctrl, x0, x1, h, o = {}) {
+  const y = curve(asc(ctrl));
+  const a = [];
+  const b = [];
+  let x = x0 + h * 0.2;
+  let i = 0;
+  let swell = r() * 6.28;
+  while (x < x1 - h * 0.2) {
+    const u = (x - x0) / (x1 - x0);
+    // lower at both ends of the company, and rolling a little along it
+    const size = h * (0.72 + 0.28 * Math.sin(Math.PI * u) ** 0.5) * (0.84 + 0.2 * Math.sin(u * 9 + swell) + r() * 0.14);
+    const old = size > h * 0.92 && r() < 0.3;
+    (i % 2 ? b : a).push(pine(x, y(x) + 1.5 + (o.drop ?? 0), old ? size * 1.22 : size, old));
+    x += size * (0.4 + r() * 0.16) + (r() < 0.12 ? size * 0.4 : 0);
+    i++;
+  }
+  // two paths per company, or the later trees of one would not hide the earlier of the other
+  if (a.length) S.paper(a.join(''));
+  if (b.length) S.paper(b.join(''));
 }
 
 /** Slope lines under a crest, as on the Attic hills: a stretch of the crest, moved down. */
 function slope(ctrl, spans) {
   const y = curve(asc(ctrl));
+  let d = '';
   for (const [x0, x1, dy] of spans) {
     const pts = [];
-    for (let x = x0; x <= x1 + 0.1; x += (x1 - x0) / 5) pts.push([x, y(x) + dy + (r() - 0.5) * 2.5]);
-    S.line(smooth(pts));
+    for (let x = x0; x <= x1 + 0.1; x += (x1 - x0) / 5) pts.push([x, y(x) + dy + j(2.2)]);
+    d += smooth(pts);
   }
+  S.line(d);
 }
-/** The bare part of a crest, from x0 to x1. */
-function bare(ctrl, x0, x1) {
+/** A lone pine or two out on a slope. [x, dy below the crest, height] */
+function loners(ctrl, list) {
   const y = curve(asc(ctrl));
-  const pts = [];
-  for (let x = x0; x <= x1 + 0.1; x += (x1 - x0) / 4) pts.push([x, y(x)]);
-  S.line(smooth(pts));
-}
-/** Rock wall: short strokes falling beside a cliff edge. */
-function wall(marks) {
-  S.line(marks.map(([x, y, len]) => `M${n(x)} ${n(y)}q${n((r() - 0.5) * 3)} ${n(len / 2)} ${n((r() - 0.5) * 2)} ${n(len)}`).join(''));
+  S.paper(list.map(([x, dy, h]) => pine(x, y(x) + dy, h, h > 30)).join(''));
 }
 
 /* ---------- the far pair: they cross over the head of the gorge ---------- */
-const BL0 = [[-40, 66], [50, 56], [150, 38], [250, 48], [340, 30], [440, 48], [530, 74], [610, 82], [690, 100], [760, 118], [812, 134], [846, 150], [866, 176], [878, 230], [882, 302]];
-const BR0 = [[1640, 84], [1560, 70], [1470, 54], [1380, 66], [1290, 48], [1200, 60], [1110, 82], [1030, 94], [960, 110], [905, 126], [868, 140], [846, 158], [834, 190], [828, 250], [826, 302]];
-ridge(BL0, null, 'left');
-bare(BL0, 790, 882);
-forest(BL0.slice(0, 11), -40, 790, 10, [[[-40, 120], [170, 420], [470, 640], [690, 780]], [[-40, 60], [210, 330], [520, 600]]]);
-slope(BL0.slice(0, 11), [[90, 250, 36], [380, 520, 32], [600, 730, 28]]);
-ridge(BR0, null, 'right');
-bare(BR0, 826, 914);
-forest(BR0.slice(0, 11), 914, 1640, 10, [[[930, 1080], [1150, 1330], [1400, 1640]], [[1000, 1060], [1210, 1300], [1470, 1600]]]);
-slope(BR0.slice(0, 11), [[980, 1130, 28], [1250, 1420, 34], [1480, 1620, 36]]);
+const BL0 = [[-40, 62], [50, 50], [150, 34], [250, 44], [340, 28], [440, 44], [530, 68], [610, 80], [690, 100], [760, 120], [812, 138], [846, 154], [864, 180], [872, 232], [876, 302]];
+const BR0 = [[1640, 98], [1560, 84], [1470, 66], [1380, 78], [1290, 58], [1200, 68], [1110, 88], [1030, 100], [960, 116], [905, 132], [868, 146], [846, 162], [836, 192], [832, 250], [830, 302]];
+S.line(ridge(BL0, null, 'left'));
+company(BL0, -30, 96, 17);
+company(BL0, 140, 420, 18);
+company(BL0, 500, 640, 16);
+company(BL0, 700, 790, 15);
+slope(BL0, [[60, 230, 30], [390, 560, 28], [640, 760, 24]]);
+S.line(ridge(BR0, null, 'right'));
+company(BR0, 900, 1010, 15);
+company(BR0, 1070, 1260, 17);
+company(BR0, 1310, 1500, 18);
+company(BR0, 1560, 1640, 17);
+slope(BR0, [[960, 1120, 24], [1230, 1400, 30], [1480, 1630, 30]]);
 
-/* ---------- the waterfall: long parallel lines from the notch, and its pool ---------- */
-S.line(
-  [[841, 160, 224, -3], [845.5, 156, 230, -1.5], [850, 155, 232, 0], [854.5, 156, 230, 1.5], [859, 160, 225, 3]]
-    .map(([x, y0, y1, out]) => `M${n(x)} ${n(y0)}C${n(x)} ${n(y0 + 22)} ${n(x + out * 0.3)} ${n(y1 - 24)} ${n(x + out)} ${n(y1)}`)
-    .join('') + 'M832 236Q850 227 868 236M838 243Q850 237 862 243',
-);
+/* ---------- the waterfall: long parallel lines from the lip, a light-blue ribbon, rings where it lands ---------- */
+{
+  const lip = [[838, 160], [847, 156], [856, 157], [864, 161]];
+  const foot = [[829, 232], [843, 236], [858, 236], [873, 232]];
+  S.wash(`M${P(lip[0])}L${P(lip[3])}C${n(865)} 190 ${n(871)} 212 ${P(foot[3])}Q850 242 ${P(foot[0])}C${n(832)} 212 ${n(837)} 190 ${P(lip[0])}Z`);
+  S.line(
+    lip
+      .map((a, i) => {
+        const b = foot[i];
+        return `M${P(a)}C${n(a[0] + (i - 1.5) * 0.6)} ${n(a[1] + 26)} ${n(b[0] - (i - 1.5) * 2)} ${n(b[1] - 30)} ${P(b)}`;
+      })
+      .join(''),
+  );
+  S.line('M822 240Q850 228 880 240M814 249Q850 235 888 249');
+}
 
 /* ---------- the middle pair: their ends are the rock walls of the gorge ---------- */
-const L1 = [[-40, 116], [70, 106], [180, 114], [290, 98], [390, 112], [480, 128], [570, 140], [650, 150], [730, 160], [780, 166], [802, 172]];
-const R1 = [[1640, 126], [1540, 116], [1430, 124], [1320, 108], [1210, 122], [1110, 138], [1030, 150], [960, 160], [926, 166], [902, 170], [888, 176]];
-const L1cliff = [[808, 190], [801, 210], [810, 232], [804, 258], [809, 302]];
-const R1cliff = [[883, 194], [890, 214], [881, 238], [887, 262], [882, 302]];
-ridge(L1, L1cliff, 'left');
-S.wash(`M${[[802, 172], ...L1cliff, [782, 302], [786, 256], [779, 214], [787, 178]].map(P).join('L')}Z`);
-bare(L1, 752, 802);
-S.line(rock([[802, 172], ...L1cliff], r, 1.2));
-forest(L1, -40, 752, 13, [[[-40, 150], [230, 470], [540, 720]], [[40, 120], [300, 400], [590, 680]]]);
-slope(L1, [[150, 300, 42], [440, 600, 38]]);
-wall([[795, 186, 22], [788, 192, 14], [794, 220, 26], [786, 226, 12], [797, 262, 24]]);
+const L1 = [[-40, 122], [70, 110], [180, 118], [290, 100], [390, 112], [480, 128], [570, 138], [650, 146], [720, 152], [768, 158], [792, 166]];
+const R1 = [[1640, 140], [1540, 128], [1430, 136], [1320, 118], [1210, 128], [1110, 142], [1030, 152], [970, 158], [936, 162], [912, 166], [898, 172]];
+const L1cliff = [[800, 186], [793, 208], [802, 230], [796, 258], [801, 302]];
+const R1cliff = [[892, 190], [899, 212], [890, 236], [896, 262], [891, 302]];
+S.line(ridge(L1, L1cliff, 'left'));
+// the lit wall: a few falling strokes
+S.line('M786 180q-2 12 1 24M776 176q-1 9 0 16M790 216q2 14 -1 28M779 222q-1 8 1 14M786 262q1 12 -1 24');
+company(L1, -30, 150, 24);
+company(L1, 250, 470, 25);
+company(L1, 560, 742, 22);
+slope(L1, [[110, 300, 36], [430, 610, 32]]);
+loners(L1, [[196, 18, 20], [214, 22, 17], [520, 20, 19]]);
 ridge(R1, R1cliff, 'right');
-bare(R1, 888, 940);
-S.line(rock([[888, 176], ...R1cliff], r, 1.2));
-forest(R1, 940, 1640, 13, [[[950, 1130], [1200, 1400], [1470, 1640]], [[1010, 1090], [1250, 1350], [1520, 1600]]]);
-slope(R1, [[1040, 1180, 36], [1300, 1460, 42]]);
-wall([[896, 192, 20], [904, 196, 12], [898, 224, 24], [906, 230, 10], [895, 264, 20]]);
+// the wall in shadow
+S.wash(`M${[[898, 172], ...R1cliff, [930, 302], [926, 250], [932, 206], [924, 176]].map(P).join('L')}Z`);
+S.line(smooth(R1) + rock([[898, 172], ...R1cliff], r, 1.2, false));
+S.line('M906 188q2 12 -1 24M916 184q1 9 0 16M904 224q-2 14 1 28M915 230q1 8 -1 14M906 268q-1 12 1 22');
+company(R1, 950, 1100, 22);
+company(R1, 1190, 1400, 25);
+company(R1, 1480, 1640, 24);
+slope(R1, [[1010, 1180, 30], [1290, 1470, 36]]);
+loners(R1, [[1132, 18, 19], [1150, 22, 17], [1440, 16, 20]]);
 
 /* ---------- the stream on the floor of the gorge ---------- */
+S.wash('M836 246C830 262 842 276 836 302L872 302C874 280 862 264 866 246Z');
 S.line(
-  smooth([[842, 246], [837, 260], [845, 276], [839, 290], [841, 302]]) +
-    smooth([[851, 248], [848, 262], [857, 278], [852, 292], [855, 302]]) +
-    smooth([[860, 246], [859, 260], [868, 276], [865, 292], [869, 302]]),
+  smooth([[840, 250], [836, 264], [843, 280], [838, 302]]) +
+    smooth([[850, 252], [848, 266], [856, 282], [853, 302]]) +
+    smooth([[861, 250], [860, 264], [868, 280], [867, 302]]),
 );
 
 /* ---------- the near pair ---------- */
-const L2 = [[-40, 176], [80, 168], [200, 180], [320, 170], [430, 190], [530, 206], [620, 222], [690, 238], [734, 252]];
-const R2 = [[1640, 186], [1520, 176], [1400, 188], [1280, 178], [1170, 196], [1080, 214], [1000, 230], [960, 242], [946, 254]];
-ridge(L2, [[742, 272], [736, 302]], 'left');
-bare(L2, 684, 734);
-S.line(rock([[734, 252], [742, 272], [736, 302]], r, 1.2));
-forest(L2, -40, 684, 17, [[[-40, 180], [260, 480], [540, 660]], [[30, 130], [320, 420]]]);
-ridge(R2, [[940, 274], [944, 302]], 'right');
-bare(R2, 946, 1004);
-S.line(rock([[946, 254], [940, 274], [944, 302]], r, 1.2));
-forest(R2, 1004, 1640, 17, [[[1010, 1200], [1270, 1480], [1540, 1640]], [[1080, 1170], [1330, 1430]]]);
+const L2 = [[-40, 190], [80, 178], [200, 188], [320, 176], [430, 192], [530, 206], [620, 220], [690, 234], [730, 246]];
+const R2 = [[1640, 200], [1520, 188], [1400, 198], [1280, 186], [1170, 200], [1080, 216], [1010, 230], [972, 242], [958, 252]];
+S.line(ridge(L2, [[738, 268], [732, 302]], 'left') );
+company(L2, -30, 250, 32);
+company(L2, 360, 560, 30);
+company(L2, 610, 700, 24);
+slope(L2, [[60, 240, 30], [330, 500, 30]]);
+S.line(ridge(R2, [[952, 272], [956, 302]], 'right'));
+company(R2, 1000, 1110, 26);
+company(R2, 1180, 1420, 32);
+company(R2, 1500, 1640, 30);
+slope(R2, [[1100, 1260, 30], [1380, 1560, 30]]);
 
 S.write('footer-olympus-mid.svg');

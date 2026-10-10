@@ -31,6 +31,8 @@ const Label = page ? 'h2' : 'h3';
 // Page only: each section sits on a different ground so the long read has a rhythm.
 // The three blues all appear down the page: light blue here, darker blue here, Greek blue for registration.
 const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue-deep'], [], ['box', 'box--line']];
+// The monad (the One) closes the section that lists the teachings on the One and the Many.
+const symbolFor = 'structure';
 ---
 
 <div class:list={['body', `body--${variant}`]}>
@@ -89,12 +91,11 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
         {course.sections.map((section, i) => {
           const ground = grounds[i % grounds.length];
           return (
-            <section class:list={['sec', ...ground]} id={section.id} aria-labelledby={`${section.id}-title`}>
-              {ground.includes('panel') && (
-                <div class="panel__clip">
-                  <Illustration name="lyre" class="sec__lyre" draw data-depth="0.12" />
-                </div>
-              )}
+            <section
+              class:list={['sec', section.id === symbolFor && 'sec--mark', ...ground]}
+              id={section.id}
+              aria-labelledby={`${section.id}-title`}
+            >
               <hgroup class="sec__head" data-reveal>
                 <Label class="t-2" id={`${section.id}-title`}>
                   {section.label}
@@ -102,6 +103,7 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
                 <p class="hand hand--m">{section.sublabel}</p>
               </hgroup>
               <div class="prose" data-reveal style="--i:1" set:html={section.html} />
+              {section.id === symbolFor && <Illustration name="monad" class="sec__mark" draw />}
             </section>
           );
         })}
@@ -116,7 +118,7 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
           <details class="acc__item" name={`sections-${course.slug}`} open={i === 0}>
             <summary>
               <Label class="acc__label">{section.label}</Label>
-              <span class="acc__sub hand">{section.sublabel}</span>
+              <span class="acc__sub hand hand--m">{section.sublabel}</span>
               <svg class="acc__mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
                 <path d="M4 12.3c5-.9 11-.6 16-.4" />
                 <path class="acc__mark-v" d="M12.2 4c-.6 5-.5 11 0 16" />
@@ -128,7 +130,7 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
         <details class="acc__item" name={`sections-${course.slug}`}>
           <summary>
             <Label class="acc__label">{registrationTab.label}</Label>
-            <span class="acc__sub hand">{registrationTab.sublabel}</span>
+            <span class="acc__sub hand hand--m">{registrationTab.sublabel}</span>
             <svg class="acc__mark" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
               <path d="M4 12.3c5-.9 11-.6 16-.4"></path>
               <path class="acc__mark-v" d="M12.2 4c-.6 5-.5 11 0 16"></path>
@@ -164,9 +166,8 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
     max-width: var(--measure);
   }
   .body__note {
-    --tilt: -4deg;
     left: 7%;
-    bottom: -1.35rem;
+    bottom: -1.5rem;
   }
 
   /* ---------- Popup ---------- */
@@ -233,16 +234,15 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
   .acc__label {
     font-family: var(--font-title);
     font-weight: var(--title-weight);
-    font-size: var(--step-1);
-    font-size: calc(var(--step-1) * (0.55 + 0.45 * var(--title-scale)));
+    font-size: calc(var(--step-1) * 1.18 * (0.55 + 0.45 * var(--title-scale)));
     line-height: 1.08;
     letter-spacing: var(--title-tracking);
     color: var(--ink-strong);
   }
+  /* The voice face is light: it keeps its full size and the Greek blue here */
   .acc__sub {
     grid-column: 1;
-    font-size: var(--step--1);
-    color: var(--ink-soft);
+    margin-top: 0.1rem;
   }
   .acc__mark {
     grid-column: 2;
@@ -370,20 +370,13 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
   }
   .sec__head .hand {
     margin-top: 0.6rem;
-    rotate: -2deg;
-    transform-origin: left center;
   }
-  /* The lyre sits in ground kept clear for it, never behind the words */
-  .sec.panel {
-    padding-bottom: calc(var(--space-xl) + 7rem);
-  }
-  .sec__lyre {
-    position: absolute;
-    right: 8%;
-    bottom: -1.5rem;
-    width: 8.5rem;
-    opacity: 0.6;
-    rotate: 8deg;
+  /* The symbol closes its section, in the lighter blue: after the words on a small screen,
+     under the heading on a wide one. It has its own ground, never behind the words. */
+  .sec__mark {
+    justify-self: end;
+    width: clamp(6rem, 11vw, 9.5rem);
+    color: var(--blue-light);
   }
   @media (min-width: 60rem) {
     .sec {
@@ -394,15 +387,18 @@ const grounds = [[], ['box', 'box--offset', 'on-blue-light'], ['panel', 'on-blue
       position: sticky;
       top: calc(var(--header-h) + 1.5rem);
     }
-    .sec.panel {
-      padding-bottom: var(--space-xl);
+    .sec--mark {
+      grid-template-rows: auto 1fr;
     }
-    .sec__lyre {
-      right: auto;
-      left: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
-      bottom: -2.5rem;
-      width: clamp(10rem, 17vw, 15rem);
-      rotate: -7deg;
+    .sec--mark .prose {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
+    .sec__mark {
+      grid-column: 1;
+      grid-row: 2;
+      justify-self: start;
+      align-self: end;
     }
     /* Unboxed sections step in from the left, so the column of text does not run in one straight line */
     .sec:not(.box, .panel) {

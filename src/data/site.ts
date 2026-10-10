@@ -19,8 +19,8 @@ export const site = {
     { id: 'instagram', name: 'Instagram', url: 'https://www.instagram.com/athena_potari/' },
     { id: 'youtube', name: 'YouTube', url: 'https://www.youtube.com/@athenoa' },
   ],
+  // The logo links home, so the header menu does not repeat it.
   nav: [
-    { label: 'Home', href: '/' },
     { label: 'About Dr. Athena Potari', href: '/about-athena/' },
     { label: 'Courses', href: '/courses/' },
   ],

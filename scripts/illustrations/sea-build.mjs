@@ -326,7 +326,7 @@ function resample(ctrl, step = 14) {
   save('island', svg(560, 108, body));
 }
 
-// 4b. The near cape with its chapel. Greek blue wash, pale lines.
+// 4b. The near cape with the columns of a temple on its brow, as at Sounion. Greek blue wash, pale lines.
 {
   const r = rng(131);
   const base = 150;
@@ -349,22 +349,22 @@ function resample(ctrl, step = 14) {
   ]);
   let body = `<path d="${smooth(ridge)}V${base}Z" fill="${BLUE}" stroke="none" data-nodraw=""/>`;
   body += `<path d="${echoes(ridge, base, 5, r, { gap: 13, from: 0.2, to: 1 })}" stroke="${LIGHT}"/>`;
-  // two cypresses behind the chapel
+  // two cypresses behind the temple
   const cypress = (x, y, h, w) =>
     `<path data-nodraw="" d="M${n1(x - w * 0.2)} ${y}C${n1(x - w)} ${n1(y - h * 0.25)} ${n1(x - w * 0.6)} ${n1(y - h * 0.76)} ${x} ${n1(y - h)}C${n1(x + w * 0.6)} ${n1(y - h * 0.76)} ${n1(x + w)} ${n1(y - h * 0.25)} ${n1(x + w * 0.2)} ${y}Z" fill="${DEEP}" stroke="none"/>`;
-  body += cypress(186, 94, 34, 7) + cypress(198, 92, 25, 6);
-  // the chapel: a whitewashed cube, a blue dome on a low drum, a cross
-  const cx = 150;
-  const gy = 96.5; // ground
-  body +=
-    `<path d="M${cx - 21} ${gy}V${gy - 21}H${cx + 21}V${gy}Z" fill="${WHITE}"/>` +
-    `<path d="M${cx - 10} ${gy - 21}v-5h20v5" fill="${WHITE}"/>` +
-    `<path d="M${cx - 11} ${gy - 26}a11 11.5 0 0 1 22 0Z" fill="${BLUE}"/>` +
-    `<path d="M${cx} ${gy - 37.5}v-10M${cx - 3.6} ${gy - 44}h7.2"/>` +
-    `<path d="M${cx - 4.5} ${gy}v-9a4.5 4.5 0 0 1 9 0v9" fill="${BLUE}"/>` +
-    `<path d="M${cx + 12} ${gy - 13}v-3a2 2 0 0 1 4 0v3ZM${cx - 16} ${gy - 13}v-3a2 2 0 0 1 4 0v3Z" fill="${BLUE}" stroke="none"/>`;
-  // a low wall running down from the chapel towards the shore
-  body += `<path d="M${cx - 21} ${gy - 1}q-18 3 -34 12" stroke="${LIGHT}"/>`;
+  body += cypress(190, 93, 34, 7) + cypress(202, 90, 25, 6);
+  // the temple: what is left of a colonnade against the sky. Columns are single strokes, a little
+  // unevenly spaced; the architrave still lies on five of them, the sixth stands alone.
+  const gy = 95.5; // ground
+  const cols = [127, 135.2, 143.6, 151.6, 160];
+  const top = gy - 27;
+  let temple = `M${cols[0] - 6} ${gy}H${cols[4] + 16}M${cols[0] - 3.5} ${gy - 4}H${cols[4] + 13}`;
+  for (const x of cols) temple += `M${x} ${gy - 4}V${top + 4}`;
+  temple += `M${cols[4] + 9} ${gy - 4}V${top + 9}`;
+  body += `<path d="${temple}"/>`;
+  body += `<path d="M${cols[0] - 3} ${top + 4}V${top}H${cols[4] + 3}V${top + 4}Z" fill="${WHITE}"/>`;
+  // a path running down from the temple towards the shore
+  body += `<path d="M${cols[0] - 8} ${gy}q-17 3 -32 12" stroke="${LIGHT}"/>`;
   body += `<path d="M2 ${base}H560"/>`;
   save('cape', svg(560, 154, body));
 }
@@ -477,34 +477,38 @@ save(
   }),
 );
 
-/* ---------- 6. The boat: a small double-ended Greek hull under one square sail, bow to the right ----------
+/* ---------- 6. The boat: a small Greek hull of the old kind under one square sail, bow to the right ----------
+   The stern post stands tall and curls inboard, the stem rakes forward and carries an eye; the sail is
+   seen a little from the side and bellies towards the bow, so the boat reads as going to the right.
    It sails in front of the blue band, so the lines that stand against the water (the foot of the mast,
    the sheets, the shaft of the steering oar) are printed light. */
 {
   let body = '';
-  // mast, and lifts from the masthead to the yardarms
-  body += `<path d="M98 132V100" stroke="${LIGHT}"/><path d="M98 60V12M98 23L52 42M98 23L144 42"/>`;
-  // pennant, streaming ahead
-  body += `<path d="M98 12C106 9.5 112 15 121 11.5C115 17.5 106 16 98 20.5Z" fill="${BLUE}"/>`;
-  // hull: long and low, the stem raked forward, the stern post curling inboard
+  // the hull: outside of the stern post, keel, stem, then back along the gunwale
   const hull =
-    'M27 97C17 103 13 124 27 144C37 158 62 162 102 162C140 162 162 157 174 143C184 131 188 116 188 99' +
-    'C185 112 180 121 170 126.5C142 133 62 133 36 127C29 123 26 111 27 97Z';
-  body += `<path d="${hull}" fill="${LIGHT}"/>`;
-  // the whitewashed upper strake
-  body += `<path d="M36 127C62 133 142 133 170 126.5L177.6 137.6C152 145 60 145 22.5 136.5Z" fill="${WHITE}"/>`;
-  // an eye on the bow, as on the old ships
-  body += `<path d="M155 135.5C158.5 131.5 165 131 169 133.5C166 137.5 159.5 138.5 155 135.5Z"/><path d="M162.3 134.5h.1" stroke-width="3.2"/>`;
-  // sail: hung from the yard, bellied, the foot arching a little; fuller on the side towards the bow
-  body += `<path d="M55 42C70 38 126 38 141 42C150 64 153 88 150 111C122 106 80 107 52 114C46 90 47 64 55 42Z" fill="${WHITE}"/>`;
-  // seams
-  body += `<path d="M76.5 40C72 62 71 86 73.5 109.5M98.5 39C99.5 60 100.5 84 100.5 107.5M120.5 40C125.5 62 127.5 86 126.5 108.5"/>`;
+    'M34 83C22 83.5 14 104 21 128C27 148 54 160 102 160C146 160 170 152 181 134C186 125 190.5 113 192 99' +
+    'C187.5 112 181 122 171 127.5C142 134.5 66 134.5 41 128C33.5 124 27 105 34 83Z';
+  body += `<clipPath id="sea-boat-hull"><path d="${hull}"/></clipPath>`;
+  // mast (its foot shows light against the water), and lifts from the masthead to the yardarms
+  body += `<path d="M101 132V100" stroke="${LIGHT}"/><path d="M101 60V12M101 22.5L54 43.5M101 22.5L148 43.5"/>`;
+  // pennant, streaming ahead
+  body += `<path d="M101 12C109 9.5 115 15 124 11.5C118 17.5 109 16 101 20.5Z" fill="${BLUE}"/>`;
+  // sail: hung from the yard, its forward edge full of wind, the foot arching a little
+  body += `<path d="M56 43.5C74 40 128 40 146 43.5C157.5 62 162.5 88 157 110C128 104.5 88 105.5 60 113C54.5 92 53.5 64 56 43.5Z" fill="${WHITE}"/>`;
+  // seams, each a little fuller than the one behind it
+  body += `<path d="M78.5 41.5C76.5 62 77.5 86 81 108.5M101 40.5C103.5 60 106 84 105.5 106.5M123.5 41.5C131 62 135 86 132 107.5"/>`;
   // yard, a little longer than the head of the sail
-  body += `<path d="M47 43.5C68 38 128 38 149 43.5"/>`;
+  body += `<path d="M48 45C70 40 132 40 154 45"/>`;
   // sheets from the clews down to the gunwale
-  body += `<path d="M52 114L47 128.5M150 111L161 127.5" stroke="${LIGHT}"/>`;
+  body += `<path d="M60 113L51 131M157 110L165.5 130" stroke="${LIGHT}"/>`;
+  // hull: a light wash, and the whitewashed upper strake cut to its outline
+  body += `<path d="${hull}" fill="${LIGHT}" stroke="none"/>`;
+  body += `<path clip-path="url(#sea-boat-hull)" d="M4 118L41 128C66 134.5 142 134.5 171 127.5L198 121V132L177 138.5C146 145.5 62 145.5 35 138.5L4 129Z" fill="${WHITE}"/>`;
+  body += `<path d="${hull}"/>`;
+  // an eye on the bow, as on the old ships
+  body += `<path d="M152 136C155.5 132 162 131.5 166 134C163 138 156.5 139 152 136Z"/><path d="M159.3 135h.1" stroke-width="3.2"/>`;
   // steering oar over the stern quarter; the blade stays under water
-  body += `<path d="M36 119L15 161" stroke="${LIGHT}"/><path d="M18 151C12.5 156.5 9 164.5 9.5 173C16 168.5 20.5 161 22.5 153.5Z" fill="${WHITE}"/>`;
+  body += `<path d="M46 119L24 158" stroke="${LIGHT}"/><path d="M27 149C21.5 154.5 18 162.5 18.5 171C25 166.5 29.5 159 31.5 151.5Z" fill="${WHITE}"/>`;
   save('boat', svg(200, 178, body));
 }
 

@@ -33,7 +33,7 @@ const canEnrol = course.status === 'open' && course.price;
 
     {
       canEnrol && (
-        <div class="cd__foot on-blue" data-course-foot>
+        <div class="cd__foot on-blue-deep" data-course-foot>
           <CoursePrice class="cd__price" price={course.price!} />
           <EnrollFlow course={course} id={`enroll-${course.slug}`} />
           <Illustration name="torch" class="cd__mark" />
@@ -223,13 +223,11 @@ const canEnrol = course.status === 'open' && course.price;
     cursor: pointer;
     transition:
       background-color var(--dur-1),
-      color var(--dur-1),
-      rotate var(--dur-2) var(--ease-out);
+      color var(--dur-1);
   }
   .cd__close:hover {
     background: var(--blue);
     color: var(--creme-light);
-    rotate: -2deg;
   }
   .cd__close:focus-visible {
     border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
@@ -245,7 +243,7 @@ const canEnrol = course.status === 'open' && course.price;
     stroke-linecap: round;
   }
 
-  /* The foot: a blue cut-out along the bottom of the sheet holding the fee and the way in.
+  /* The foot: a darker blue cut-out along the bottom of the sheet holding the fee and the way in.
      During enrolment it grows to fill the sheet. */
   .cd__foot {
     position: relative;
@@ -266,7 +264,7 @@ const canEnrol = course.status === 'open' && course.price;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background-color: var(--blue);
+    background-color: var(--paper);
     background-image: var(--grain);
     background-size: 400px 400px;
     filter: url(#rough-sm);
@@ -289,14 +287,17 @@ const canEnrol = course.status === 'open' && course.price;
     overscroll-behavior: contain;
     border-radius: 1.9rem 2.5rem 2.1rem 2.7rem / 2.5rem 1.9rem 2.7rem 2.1rem;
   }
-  @media (min-width: 52rem) and (min-height: 40rem) {
+  /* The torch stands in the lower corner of the enrolment sheet, in line with the edge of the form,
+     drawn in the lighter blue. Only where the sheet is tall enough for it to clear the form. */
+  @media (min-width: 52rem) and (min-height: 46rem) {
     .cd[data-enrolling] .cd__mark {
       display: block;
       position: absolute;
-      right: clamp(1.5rem, 5vw, 4rem);
-      bottom: 1.5rem;
-      width: clamp(7rem, 12vw, 10rem);
-      opacity: 0.55;
+      right: clamp(1.1rem, 0.4rem + 3.6vw, 3.25rem);
+      bottom: 2rem;
+      width: clamp(6rem, 9vw, 8rem);
+      color: var(--blue-light);
+      opacity: 0.8;
       pointer-events: none;
     }
   }

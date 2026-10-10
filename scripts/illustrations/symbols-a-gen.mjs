@@ -101,34 +101,35 @@ function monad() {
 // ---------------------------------------------------------------------------------------------
 // Bow and lyre (Heraclitus B51, the back-turning harmony). The lyre opens upward, the bow turns
 // its back up beneath it, and the lyre stands on the grip where the arrow would lie: one set of
-// strings upright, the other taut across the foot.
+// strings upright, the other taut across the foot. The arms of the lyre and the limbs of the bow
+// are the same double curve.
 function bowLyre() {
   const X = 180;
   const out = [];
   const mirror = (pts) => pts.map(([x, y]) => [2 * X - x, y]);
 
   // Bow, strung: two swelling limbs, a set-back grip, tips turned back.
-  const stringY = 290;
-  const gripY = 247;
+  const stringY = 293;
+  const gripY = 253;
   const half = [
-    [X, gripY], [X + 16, gripY - 1.5], [X + 36, gripY - 11], [X + 58, gripY - 23], [X + 82, gripY - 27],
-    [X + 104, gripY - 19], [X + 121, gripY - 1], [X + 133, gripY + 21], [X + 141, gripY + 36],
-    [X + 148, gripY + 43], [X + 157, gripY + 41],
+    [X, gripY], [X + 18, gripY - 0.6], [X + 40, gripY - 8.5], [X + 62, gripY - 21.5], [X + 84, gripY - 28],
+    [X + 104, gripY - 21], [X + 119, gripY - 4], [X + 130, gripY + 17], [X + 138, gripY + 32],
+    [X + 145, gripY + 40], [X + 154, gripY + 38],
   ];
   const stave = [...mirror(half).reverse().slice(0, -1), ...half];
-  const bow = band(stave, (t) => 3.4 + 6 * Math.sin(Math.PI * t) ** 0.6, { per: 6, every: 3 });
+  const bow = band(stave, (t) => 3.4 + 6.2 * Math.sin(Math.PI * t) ** 0.6, { per: 6, every: 3 });
   out.push(path(bow.d, PAPER));
-  [-10.5, -3.5, 3.5, 10.5].forEach((dx) => out.push(line([X + dx, gripY - 4.2], [X + dx, gripY + 4.2])));
-  out.push(line([X - 143.5, stringY], [X + 143.5, stringY]));
+  [-10.5, -3.5, 3.5, 10.5].forEach((dx) => out.push(line([X + dx, gripY - 4.3], [X + dx, gripY + 4.3])));
+  out.push(line([X - 140.5, stringY], [X + 140.5, stringY]));
 
   // Lyre arms (horns), behind shell and crossbar.
-  const cy = 187; // shell centre
-  const barY = 70;
+  const cy = 197; // shell centre
+  const barY = 66;
   const armR = [
-    [X + 28, cy - 30], [X + 45, cy - 45], [X + 56, cy - 63], [X + 59, cy - 82], [X + 54, barY + 16],
-    [X + 49, barY], [X + 46, barY - 15], [X + 49, barY - 28], [X + 56, barY - 39], [X + 63, barY - 46],
+    [X + 30, cy - 24], [X + 52, cy - 43], [X + 69, cy - 64], [X + 77, cy - 88], [X + 74, cy - 110],
+    [X + 65, barY + 4], [X + 59, barY - 12], [X + 59, barY - 25], [X + 65, barY - 36], [X + 74, barY - 44],
   ];
-  const armW = (t) => (t < 0.72 ? 9.2 - 2.4 * t : Math.max(0, 7.5 * (1 - (t - 0.72) / 0.28)));
+  const armW = (t) => (t < 0.74 ? 10 - 2.6 * t : Math.max(0, 8.1 * (1 - (t - 0.74) / 0.26)));
   [armR, mirror(armR)].forEach((pts) => out.push(path(band(pts, armW, { per: 6, every: 3 }).d, PAPER)));
 
   // Shell.
@@ -138,16 +139,16 @@ function bowLyre() {
     const co = Math.cos(a);
     const si = Math.sin(a);
     const e = 2 / 2.5;
-    shell.push([X + Math.sign(co) * Math.abs(co) ** e * 52, cy + Math.sign(si) * Math.abs(si) ** e * 45]);
+    shell.push([X + Math.sign(co) * Math.abs(co) ** e * 55, cy + Math.sign(si) * Math.abs(si) ** e * 45]);
   }
   out.push(path(spline(thin(shell, 2), { closed: true }), PAPER));
   // Scutes of the tortoise shell inside an oval.
   const oc = [X, cy + 8];
-  const orx = 37;
-  const ory = 26.5;
+  const orx = 39;
+  const ory = 27;
   out.push(ellipse(oc[0], oc[1], orx, ory));
   const inOval = ([x, y], m = 0) => ((x - oc[0]) / (orx - m)) ** 2 + ((y - oc[1]) / (ory - m)) ** 2 < 1;
-  const sr = 8.4;
+  const sr = 9.2;
   for (let row = 0; row < 8; row++) {
     const y = oc[1] - ory - 2 + row * sr * 0.98;
     for (let col = -4; col <= 4; col++) {
@@ -157,20 +158,20 @@ function bowLyre() {
         const a = Math.PI - (i / 14) * Math.PI;
         pts.push([x + Math.cos(a) * sr, y + Math.sin(a) * sr]);
       }
-      visibleRuns(pts, (p) => !inOval(p, 0.4), 3.5).forEach((run) => out.push(path(spline(thin(run, 3)))));
+      visibleRuns(pts, (p) => !inOval(p, 0.4), 4).forEach((run) => out.push(path(spline(thin(run, 3)))));
     }
   }
 
   // Seven strings.
   const bridgeY = cy - 28;
-  for (let i = -3; i <= 3; i++) out.push(line([X + i * 10, barY + 4], [X + i * 6.2, bridgeY - 3]));
+  for (let i = -3; i <= 3; i++) out.push(line([X + i * 11.5, barY + 4], [X + i * 6.8, bridgeY - 3]));
   // Crossbar and bridge.
   const bar = (x0, x1, y, h) =>
     `<rect x="${n1(x0)}" y="${n1(y - h / 2)}" width="${n1(x1 - x0)}" height="${n1(h)}" rx="${n1(h / 2)}" fill="${PAPER}"/>`;
-  out.push(bar(X - 72, X + 72, barY, 7.2));
-  out.push(circle(X - 77, barY, 5.5, PAPER));
-  out.push(circle(X + 77, barY, 5.5, PAPER));
-  out.push(bar(X - 25, X + 25, bridgeY, 6.2));
+  out.push(bar(X - 88, X + 88, barY, 7.4));
+  out.push(circle(X - 93.5, barY, 5.6, PAPER));
+  out.push(circle(X + 93.5, barY, 5.6, PAPER));
+  out.push(bar(X - 28, X + 28, bridgeY, 6.4));
   return svg(360, 320, SW, out.join(''));
 }
 
@@ -259,11 +260,11 @@ function caveSun() {
       const wob = Math.sin(x / 36 + k * 1.7) * (0.4 + k * 0.16);
       pts.push([x, t + depth - (t - mean) * flat + wob]);
     }
-    visibleRuns(pts, (p) => nearCave(p, 6), 24).forEach((run) => out.push(path(spline(thin(run, 5)))));
+    visibleRuns(pts, (p) => nearCave(p, 6), 38).forEach((run) => out.push(path(spline(thin(run, 5)))));
   }
 
   // The dark of the cave.
-  out.push(wash(`${caveD}Z`, DEEP));
+  out.push(wash(`${caveD}Q${P(lipU[0] + 4, lipL[1] - 3)} ${P(...lipU)}Z`, DEEP));
   out.push(path(caveD));
   out.push(path(spline(thin(hill, 5))));
   out.push(path(spline(thin(groundR, 4))));
@@ -304,27 +305,44 @@ function ladder() {
   const yBot = 334;
   const halfAt = (y) => 22.5 + ((y - yTop) / (yBot - yTop)) * 21.5;
 
-  // Bands of cloud behind the ladder: a scalloped crest over flowing lines.
-  const cloud = (x0, x1, y, radii, tails) => {
-    const total = radii.reduce((a, r) => a + r * 2, 0);
-    const k = (x1 - x0) / total;
-    let x = x0;
-    let d = `M${P(x0, y)}`;
-    radii.forEach((r, i) => {
-      const w = r * 2 * k;
-      const h = r * k * (1.05 + (i % 2) * 0.12);
-      d += `C${P(x + w * 0.02, y - h * 1.3)} ${P(x + w * 0.98, y - h * 1.3)} ${P(x + w, y)}`;
-      x += w;
-    });
-    out.push(path(d));
-    tails.forEach(([a, b2, dy, ph]) => {
-      out.push(path(spline(wavy([a, y + dy], [b2, y + dy], { waves: (b2 - a) / 46, amp: 2.6, phase: ph, per: 8 }))));
-    });
-  };
-  cloud(22, 122, 268, [13, 17, 12, 9], [[14, 130, 9, 0], [34, 120, 19, 2]]);
-  cloud(140, 236, 262, [10, 14, 16, 11], [[130, 244, 9, 1], [146, 222, 19, 3]]);
-  cloud(52, 122, 186, [9, 12, 8], [[44, 128, 8, 2], [62, 118, 17, 0]]);
-  cloud(140, 214, 180, [8, 12, 10], [[134, 222, 8, 3], [148, 206, 17, 1]]);
+  // Bands of cloud behind the ladder.
+  if (V === 'b') {
+    // flowing lines only: each band a lens of three waves
+    const bandOf = (y, spans) =>
+      spans.forEach(([x0, x1], i) => {
+        const pts = [];
+        const n = Math.round((x1 - x0) / 5);
+        for (let j = 0; j <= n; j++) {
+          const x = x0 + ((x1 - x0) * j) / n;
+          pts.push([x, y + i * 10.5 + Math.sin(x / 6.6 + y) * 3]);
+        }
+        out.push(path(spline(pts)));
+      });
+    bandOf(264, [[46, 196], [20, 238], [58, 214]]);
+    bandOf(196, [[70, 216], [38, 198], [84, 226]]);
+  } else {
+    // a crest of even scallops over one flowing line
+    const cloud = (x0, y, r, count, tail) => {
+      let d = '';
+      for (let i = 0; i < count; i++) {
+        const x = x0 + i * r * 2;
+        d += `${i ? '' : `M${P(x, y)}`}C${P(x + r * 0.04, y - r * 1.36)} ${P(x + r * 1.96, y - r * 1.36)} ${P(x + r * 2, y)}`;
+      }
+      out.push(path(d));
+      const [a, b2] = tail;
+      const pts = [];
+      const n = Math.round((b2 - a) / 5);
+      for (let j = 0; j <= n; j++) {
+        const x = a + ((b2 - a) * j) / n;
+        pts.push([x, y + 9.5 + Math.sin((x - a) / 6.4) * 2.6]);
+      }
+      out.push(path(spline(pts)));
+    };
+    cloud(30, 272, 11.5, 4, [18, 124]);
+    cloud(142, 266, 11.5, 4, [134, 244]);
+    cloud(54, 192, 10, 3, [44, 126]);
+    cloud(148, 186, 10, 3, [132, 220]);
+  }
 
   // Ground.
   out.push(path(spline(wavy([40, 338], [220, 338], { waves: 3, amp: 2.4, phase: 1, per: 8 }))));
@@ -366,17 +384,18 @@ function ladder() {
 }
 
 // ---------------------------------------------------------------------------------------------
-// A torch of the mysteries: the long bound bundle of Eleusis, the flame in flowing lines.
+// A torch of the mysteries: the long bound bundle of Eleusis, held upright, the flame in flowing
+// lines that leave one source and close on one point.
 function torch() {
   const X = 110;
   const out = [];
-  const yTop = 158;
-  const yBot = 342;
-  const halfAt = (y) => 14.5 - ((y - yTop) / (yBot - yTop)) * 7.5;
+  const yTop = 166;
+  const yBot = 340;
+  const halfAt = (y) => 15.5 - ((y - yTop) / (yBot - yTop)) * 7;
 
   // Flame: tongues one inside the other, swaying on one spine.
-  const spine = sample([[X, yTop - 2], [X - 3, 138], [X - 5, 116], [X - 2, 94], [X + 5, 74], [X + 8, 56], [X + 4, 40], [X - 3, 28]], 12);
-  const prof = sample([[0, 0.4], [0.14, 0.8], [0.32, 1], [0.5, 0.86], [0.68, 0.56], [0.84, 0.27], [1, 0]], 12);
+  const spine = sample([[X, yTop + 2], [X - 3, 145], [X - 6, 122], [X - 4, 98], [X + 3, 76], [X + 8, 56], [X + 6, 38], [X, 21]], 12);
+  const prof = sample([[0, 0.36], [0.13, 0.76], [0.3, 1], [0.48, 0.88], [0.66, 0.58], [0.84, 0.27], [1, 0]], 12);
   const f = (t) => {
     for (let i = 1; i < prof.length; i++) {
       if (t <= prof[i][0]) {
@@ -387,8 +406,9 @@ function torch() {
     }
     return 0;
   };
-  const W = 34;
-  [[1, 1, 0], [0.74, 0.83, -3], [0.48, 0.64, 3], [0.22, 0.43, -2]].forEach(([sc, T, lean]) => {
+  const W = 39;
+  let outline = [];
+  [[1, 1, 0], [0.63, 0.79, -4], [0.29, 0.54, 3.5]].forEach(([sc, T, lean], k) => {
     const L = [];
     const R = [];
     const n = 40;
@@ -400,31 +420,37 @@ function torch() {
       L.push([q.x + Math.sin(q.ang) * w + sway, q.y - Math.cos(q.ang) * w]);
       R.push([q.x - Math.sin(q.ang) * w + sway, q.y + Math.cos(q.ang) * w]);
     }
+    if (k === 0) outline = [...L, ...R.slice().reverse()];
     out.push(path(`${spline(thin(L, 4))}${spline(thin(R.reverse(), 4), { cont: true })}`));
   });
   if (V === 'r') {
-    const c = [X, 100];
-    for (let i = 0; i < 9; i++) {
-      const a = (-168 + i * 19.5) * (Math.PI / 180);
-      const r0 = 50 + Math.abs(Math.sin(a)) * 28;
-      const r1 = r0 + (i % 2 ? 12 : 22);
-      out.push(path(spline(wavy([c[0] + Math.cos(a) * r0, c[1] + Math.sin(a) * r0], [c[0] + Math.cos(a) * r1, c[1] + Math.sin(a) * r1], { waves: 1, amp: 2, phase: i % 2 ? 0 : Math.PI, per: 10 }))));
+    // the light it gives: short rays standing off the flame
+    const c = [X, 112];
+    const count = 11;
+    for (let i = 0; i < count; i++) {
+      const a = (-198 + (i * 216) / (count - 1)) * (Math.PI / 180);
+      const dir = [Math.cos(a), Math.sin(a)];
+      let r = 20;
+      while (r < 140 && (inside([c[0] + dir[0] * r, c[1] + dir[1] * r], outline) || distTo([c[0] + dir[0] * r, c[1] + dir[1] * r], outline, true) < 13)) r += 1;
+      const long = i % 2 === 0;
+      const r1 = r + (long ? 30 : 20);
+      out.push(ray([c[0] + dir[0] * r, c[1] + dir[1] * r], [c[0] + dir[0] * r1, c[1] + dir[1] * r1], long ? 1.5 : 1, 3.2));
     }
   }
 
   // Shaft: a bundle of rods narrowing to the foot.
   out.push(
     path(
-      `M${P(X - halfAt(yTop), yTop)}L${P(X - halfAt(yBot), yBot - 4)}Q${P(X, yBot + 6)} ${P(X + halfAt(yBot), yBot - 4)}L${P(X + halfAt(yTop), yTop)}Z`,
+      `M${P(X - halfAt(yTop), yTop)}L${P(X - halfAt(yBot), yBot - 4)}Q${P(X, yBot + 7)} ${P(X + halfAt(yBot), yBot - 4)}L${P(X + halfAt(yTop), yTop)}Z`,
       PAPER,
     ),
   );
-  const ties = [yTop + 3, 198, 238, 277, 314];
-  [-0.34, 0.34].forEach((k) => out.push(line([X + k * halfAt(yTop), yTop], [X + k * halfAt(314), 314])));
+  const ties = [yTop + 3, 206, 244, 281, 316];
+  [-0.34, 0.34].forEach((k) => out.push(line([X + k * halfAt(yTop), yTop], [X + k * halfAt(316), 316])));
   // Bindings.
   ties.forEach((y, i) => {
-    const h = halfAt(y) + 3.2;
-    const t = i === 0 ? 7.6 : 6.4;
+    const h = halfAt(y) + 3.4;
+    const t = i === 0 ? 8 : 6.6;
     out.push(`<rect x="${n1(X - h)}" y="${n1(y - t / 2)}" width="${n1(h * 2)}" height="${n1(t)}" rx="${n1(t / 2)}" fill="${PAPER}"/>`);
   });
   return svg(220, 360, SW, out.join(''));

@@ -1,8 +1,8 @@
 ---
-// One course on the courses page. Three cuts, so the row is never three identical cards:
-//   lead  a large blue cut-out, the artwork breaking out of its top edge
-//   tall  a tall arch cut from the darker blue, the picture set into it like a window
-//   low   a wide, low arch with a light blue label laid over its corner
+// One course on the courses page. Three cuts, one for each ground the page uses:
+//   lead   a large Greek blue cut-out, the artwork breaking out of its top edge
+//   arch   an arch cut from light blue, the picture set into it like a window
+//   paper  the picture straight on the page with a darker blue pebble behind it, the words on a paper label over its corner
 // The action is a real link to the course page; CourseDialog upgrades it to open the popup.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
@@ -16,7 +16,7 @@ import { keepHyphens } from './text';
 
 interface Props {
   course: Course;
-  cut: 'lead' | 'tall' | 'low';
+  cut: 'lead' | 'arch' | 'paper';
 }
 const { course, cut } = Astro.props;
 const { coursesPage, coursePageHref } = content(getLocale(Astro.url));
@@ -33,7 +33,7 @@ const lead = cut === 'lead';
     'card',
     `card--${cut}`,
     lead && 'panel panel--big on-blue',
-    cut === 'tall' && 'panel panel--arch on-blue-deep',
+    cut === 'arch' && 'panel panel--arch on-blue-light',
   ]}
   id={course.slug}
 >
@@ -46,16 +46,17 @@ const lead = cut === 'lead';
   }
 
   <div class="card__figure">
+    {cut === 'paper' && <span class="card__pebble" data-reveal="grow" />}
     <Media
       class="card__media"
       src={image}
       alt={course.imageAlt}
       shape="arch"
-      ratio={cut === 'tall' ? '4 / 5' : `${image.width} / ${image.height}`}
-      sizes={lead ? '(min-width: 62rem) 52vw, 92vw' : '(min-width: 62rem) 36vw, 84vw'}
+      ratio={cut === 'arch' ? '10 / 9' : `${image.width} / ${image.height}`}
+      sizes={lead ? '(min-width: 62rem) 52vw, 92vw' : '(min-width: 62rem) 42vw, 92vw'}
       priority={lead}
-      innerDepth={cut === 'tall' ? 0.1 : undefined}
-      data-depth={lead ? '-0.05' : cut === 'low' ? '-0.04' : undefined}
+      innerDepth={cut === 'arch' ? 0.1 : undefined}
+      data-depth={lead ? '-0.05' : undefined}
     />
     {/* The picture is a second way in for a pointer; keyboard and screen readers use the one named link below. */}
     <a class="card__cover" href={href} data-course-open={course.slug} tabindex="-1" aria-hidden="true"></a>
@@ -68,7 +69,7 @@ const lead = cut === 'lead';
     }
   </div>
 
-  <div class:list={['card__text', cut === 'low' && 'box on-blue-light']} data-reveal-group>
+  <div class:list={['card__text', cut === 'paper' && 'box box--offset']} data-reveal-group>
     <h2 class:list={['card__title', lead ? 't-2' : 't-3']} id={titleId} set:html={keepHyphens(course.title)} />
     {course.summary && <p class="card__summary">{course.summary}</p>}
     {
@@ -99,6 +100,7 @@ const lead = cut === 'lead';
   }
   .card__figure {
     position: relative;
+    isolation: isolate;
   }
   /* --arch is the outline of the picture; the link laid over it follows the same curve */
   .card {
@@ -125,6 +127,10 @@ const lead = cut === 'lead';
   .card__go {
     padding-top: 0.35rem;
   }
+  /* A long label (Greek) may run to two lines in a narrow card */
+  .card__go .btn {
+    text-align: center;
+  }
 
   /* ---------- lead ---------- */
   /* A lunette: the banner is wide and lettered, so its arch is low and the full artwork shows */
@@ -139,7 +145,8 @@ const lead = cut === 'lead';
   .card--lead .card__figure {
     margin: calc(var(--rise) * -1) -0.35rem var(--space-m);
   }
-  /* Rays behind the picture, cut to the panel. Centred with margins: parallax owns `translate` here. */
+  /* Rays behind the picture in the lighter blue, cut to the panel.
+     Centred with margins: parallax owns `translate` here. */
   .card__rays {
     --rays: 100%;
     position: absolute;
@@ -147,7 +154,8 @@ const lead = cut === 'lead';
     top: 1.25rem;
     width: var(--rays);
     margin: calc(var(--rays) / -2) 0 0 calc(var(--rays) / -2);
-    opacity: 0.32;
+    color: var(--blue-light);
+    opacity: 0.5;
   }
   .card__summary {
     max-width: 44ch;
@@ -157,9 +165,6 @@ const lead = cut === 'lead';
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0.4rem 1.75rem;
-  }
-  .card__schedule {
-    rotate: -2.5deg;
   }
 
   @media (min-width: 62rem) {
@@ -204,33 +209,65 @@ const lead = cut === 'lead';
     }
   }
 
-  /* ---------- tall ---------- */
-  .card--tall {
+  /* ---------- arch ---------- */
+  .card--arch {
     --pad: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
     padding: var(--pad) var(--pad) clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
   }
-  .card--tall .card__figure {
+  .card--arch .card__figure {
     margin-bottom: var(--space-m);
   }
-  .card--tall .card__text {
+  .card--arch .card__text {
     padding-inline: clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem);
   }
-  .card--tall .card__badge {
-    --tilt: -6deg;
-    left: clamp(-1.4rem, -0.4rem - 1.2vw, -0.8rem);
-    bottom: 10%;
+  /* The note lies across the straight left edge of the window */
+  .card--arch .card__badge {
+    left: calc(var(--pad) * -1 - 0.6rem);
+    bottom: 9%;
+  }
+  @media (min-width: 62rem) {
+    /* Beside the paper card the arch takes the height of the row: the window grows, the words stay at the foot */
+    .card--arch,
+    .card--arch .card__figure,
+    .card--arch .card__media {
+      display: flex;
+      flex-direction: column;
+    }
+    .card--arch .card__figure,
+    .card--arch .card__media,
+    .card--arch :global(.media__clip) {
+      flex: 1 1 auto;
+    }
+    .card--arch :global(.media__clip picture) {
+      position: absolute;
+      inset: 0;
+    }
   }
 
-  /* ---------- low ---------- */
-  .card--low {
+  /* ---------- paper ---------- */
+  .card--paper {
     --arch: 50% 50% 1.6rem 2rem / 58% 58% 1.5rem 1.8rem;
   }
-  .card--low .card__badge {
-    --tilt: 5deg;
-    right: 0.25rem;
-    top: 15%;
+  /* A darker blue pebble behind the shoulder of the arch */
+  .card__pebble {
+    position: absolute;
+    z-index: -1;
+    left: -4%;
+    top: -3%;
+    width: 40%;
+    aspect-ratio: 1;
+    border-radius: var(--r-pebble-1);
+    background-color: var(--blue-deep);
+    background-image: url('/textures/grain-light.webp');
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
   }
-  .card--low .card__text {
+  /* The note lies across the straight right edge of the picture */
+  .card--paper .card__badge {
+    right: -0.6rem;
+    top: 44%;
+  }
+  .card--paper .card__text {
     width: min(100% - 1.5rem, 26rem);
     padding-inline: clamp(1.4rem, 1rem + 1.6vw, 2.2rem);
     margin: -2.25rem 0 0 auto;
@@ -238,10 +275,7 @@ const lead = cut === 'lead';
     --box-r: var(--r-soft-2);
   }
   @media (min-width: 40rem) {
-    .card--low .card__badge {
-      right: -0.6rem;
-    }
-    .card--low .card__text {
+    .card--paper .card__text {
       margin: -5.5rem 0 0 -1.75rem;
     }
   }

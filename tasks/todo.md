@@ -81,6 +81,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Unknown addresses show the site's own 404 in the preview (trailingSlash 'ignore')
 - [ ] Before launch: web licences for PP Editorial New and Tekst (currently loaded from Maria's machine; Greek falls back to EB Garamond)
 
+## Added by Maria on 2026-10-10 (fifth round)
+
+- [x] Very quiet background music (3.5 minute cut, 2.2 MB, fades at both ends, loops) with a mute button; starts on load where the browser allows, otherwise on the first click or key press; choice remembered
+- [ ] Before launch: confirm the licence for the music track (public/audio/ is kept out of git until then)
+- [x] Header menu: Home link removed (the logo goes home); current page highlighted, with or without a trailing slash
+- [x] Footer text smaller
+
 ## Open questions
 
 See the chat message of 2026-10-10.

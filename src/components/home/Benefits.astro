@@ -1,7 +1,8 @@
 ---
 // Home: "Benefits of Joining ATHENOA", on paper. Three benefits, each one a single piece: a photograph in
 // an organic window set into the edge of its box. The photo changes side from one to the next and the
-// boxes step through the three blues (light, Greek, darker). The fourth photo completes the first benefit.
+// boxes step through the three blues (light, Greek, darker). The fourth photo (ancient stones on a hilltop)
+// completes the third benefit, the footsteps of the Ancient Sages, where its pale light reads best.
 import type { ComponentProps } from 'astro/types';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
@@ -36,7 +37,7 @@ const t = {
 
 // One look per benefit, in the order of the copy: the experiential path and its community,
 // methodical training in the texts, the footsteps of the Ancient Sages and the Platonic Academy.
-// `surface` is the blue of the box, `mat` the blue of the cut-out behind the photograph.
+// `surface` is the blue of the box, `mat` the blue of the cut-out behind each photograph.
 type Photo = Pick<ComponentProps<typeof Media>, 'src' | 'alt' | 'shape' | 'ratio' | 'focus' | 'widths' | 'sizes'>;
 const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = [
   {
@@ -46,20 +47,10 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       src: gathering,
       alt: t.gatheringAlt,
       shape: 'pebble-1',
-      ratio: '5 / 4',
+      ratio: '7 / 6',
       focus: '50% 62%',
       widths: [360, 560, 800, 1100],
       sizes: '(min-width: 60rem) 34rem, 80vw',
-    },
-    // A small file (690px wide): it is never shown wider than about 23rem.
-    second: {
-      src: hilltop,
-      alt: t.hilltopAlt,
-      shape: 'pill',
-      ratio: '690 / 300',
-      focus: '70% 60%',
-      widths: [360, 520, 690],
-      sizes: '(min-width: 60rem) 23rem, 50vw',
     },
   },
   {
@@ -87,6 +78,16 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       widths: [360, 560, 800, 1100],
       sizes: '(min-width: 60rem) 26rem, 64vw',
     },
+    // A small file (690px wide): it is never shown wider than 23rem.
+    second: {
+      src: hilltop,
+      alt: t.hilltopAlt,
+      shape: 'pill',
+      ratio: '690 / 300',
+      focus: '70% 60%',
+      widths: [360, 520, 690],
+      sizes: '(min-width: 60rem) 23rem, 50vw',
+    },
   },
 ];
 ---
@@ -109,11 +110,15 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
                 <div class:list={['unit__frame', mat]}>
                   <Media class="unit__photo" {...photo} />
                 </div>
-                {second && <Media class="unit__photo unit__photo--second" {...second} data-depth="-0.04" />}
               </div>
-              <div class:list={['unit__box box', surface]} data-reveal>
+              <div class:list={['unit__box box', surface, second && 'unit__box--second']} data-reveal>
                 <h3 class="unit__title">{item.title}</h3>
                 <p>{item.italic ? <em>{item.text}</em> : item.text}</p>
+                {second && (
+                  <div class:list={['unit__frame unit__second', mat]} data-depth="-0.04">
+                    <Media class="unit__photo" {...second} />
+                  </div>
+                )}
               </div>
             </li>
           );
@@ -185,28 +190,40 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     inset: -5% -6% -3% 2%;
     border-radius: var(--r-pebble-1);
   }
-  .unit--3 .unit__frame::before {
+  .unit--3 .unit__photos .unit__frame::before {
     inset: -0.7rem;
     border-radius: 50% 50% 3rem 3.4rem / 31% 31% 2.8rem 3.2rem;
   }
   /* The shared arch token flattens its lower corners on a narrow frame, so this arch sets its own. */
-  .unit--3 .unit__photo {
+  .unit--3 .unit__photos .unit__photo {
     --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
   }
-  /* The second, smaller photograph of the first benefit rests on the lower edge of the first. */
-  .unit__photo--second {
+  /* The second, smaller photograph of the last benefit rests on the lower edge of its box,
+     half on the blue and half on the paper. It is a small file, so it never passes 23rem. */
+  .unit--3 {
+    --pill-w: clamp(11rem, 8rem + 14vw, 23rem);
+    --pill-out: calc(var(--pill-w) * 300 / 690 / 2);
+    margin-bottom: var(--pill-out);
+  }
+  .unit__second {
     position: absolute;
-    right: -22%;
-    bottom: -1.25rem;
-    width: 62%;
+    right: 7%;
+    bottom: calc(var(--pill-out) * -1);
+    width: var(--pill-w);
+  }
+  .unit__second::before {
+    inset: -0.5rem;
+    border-radius: var(--r-pill);
   }
 
   .unit__box {
     padding-top: calc(var(--lap) + var(--space-m));
   }
+  .unit__box--second {
+    padding-bottom: calc(var(--pill-out) + var(--space-m));
+  }
   .unit--1 .unit__box {
     --box-r: 3.4rem 4.6rem 3.8rem 5rem / 4.4rem 3.6rem 5rem 3.8rem;
-    padding-top: calc(var(--lap) + 1.25rem + var(--space-m));
   }
   .unit--2 .unit__box {
     --box-r: 5rem 3.2rem 4.6rem 3.6rem / 3.6rem 4.8rem 3.4rem 4.6rem;
@@ -244,7 +261,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       grid-template-columns: minmax(0, max-content) auto;
       justify-content: start;
       align-items: end;
-      column-gap: var(--space-l);
+      column-gap: var(--space-m);
     }
     .benefits__head h2 {
       grid-column: 1 / -1;
@@ -276,12 +293,13 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       width: auto;
       margin: 0;
     }
-    .unit__box,
-    .unit--1 .unit__box {
+    .unit__box {
+      --pad: clamp(2.25rem, 1rem + 3vw, 3.75rem);
       grid-column: 4 / span 8;
-      padding-block: clamp(2.25rem, 1rem + 3vw, 3.75rem);
-      padding-left: calc(25% + var(--space-l));
-      padding-right: clamp(2rem, 1rem + 2.6vw, 3.75rem);
+      padding: var(--pad) var(--pad) var(--pad) calc(25% + var(--space-l));
+    }
+    .unit__box--second {
+      padding-bottom: calc(var(--pill-out) + var(--space-m));
     }
     .unit--2 .unit__photos {
       grid-column: 8 / span 5;
@@ -290,19 +308,15 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     }
     .unit--2 .unit__box {
       grid-column: 2 / span 8;
-      padding-left: clamp(2rem, 1rem + 2.6vw, 3.75rem);
+      padding-left: var(--pad);
       padding-right: calc(25% + var(--space-l));
     }
-    .unit--3 .unit__photos {
-      margin-inline: 4% 16%;
+    /* Last benefit: the arch and the small photograph stand on one line, a little below the box. */
+    .unit--3 {
+      align-items: end;
     }
-    /* First benefit: the small photograph sits under the large one and reaches across onto the box. */
-    .unit__photo--second {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      width: 68%;
-      margin: -2.25rem 0 0 14%;
+    .unit--3 .unit__photos {
+      margin: 0 16% calc(var(--pill-out) * -1) 4%;
     }
   }
 </style>

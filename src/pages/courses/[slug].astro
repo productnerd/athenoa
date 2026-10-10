@@ -21,8 +21,11 @@ export function getStaticPaths() {
 interface Props {
   course: Course;
 }
-const { courses, coursePageHref, coursesPage, registrationTab, site } = content(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
+const { courses, coursePageHref, coursesPage, registrationTab, site } = content(locale);
+// The route hands over the English course; the page shows the one with the same slug in its own language.
 const course = courses.find((item) => item.slug === Astro.props.course.slug) ?? Astro.props.course;
+const t = { en: { trail: 'Breadcrumb' }, el: { trail: 'Διαδρομή πλοήγησης' } }[locale];
 const [home] = site.nav;
 const crumbs = [
   { name: home.label, path: home.href },
@@ -42,7 +45,7 @@ const canEnrol = course.status === 'open' && course.price;
 >
   <article class="course section">
     <div class="wrap">
-      <nav class="course__crumbs" aria-label="Breadcrumb">
+      <nav class="course__crumbs" aria-label={t.trail}>
         <ol>
           {
             crumbs.map((crumb) => (
@@ -127,8 +130,6 @@ const canEnrol = course.status === 'open' && course.price;
   }
   .reg__head .hand {
     margin-top: 0.6rem;
-    rotate: -2deg;
-    transform-origin: left center;
   }
   .reg__body {
     display: grid;

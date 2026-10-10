@@ -15,6 +15,7 @@ const [, , mode = 'scene', which = 'aegean', ground = 'creme'] = process.argv;
 const sets = {
   aegean: ['footer-aegean-far', 'footer-aegean-mid', 'footer-aegean-near'],
   attica: ['footer-mountains', 'footer-hills', 'footer-pines'],
+  olympus: ['footer-olympus-far', 'footer-olympus-mid', 'footer-olympus-near'],
 };
 const W = Number(process.env.W ?? 1600);
 
@@ -33,7 +34,11 @@ const css = `
 
 let html;
 let out;
-if (mode === 'layer') {
+if (mode === 'file') {
+  // node scripts/illustrations/aegean-render.mjs file path/to/any.svg out.png   (a study sheet, at W wide)
+  html = `<div class="ground creme" id="shot" style="padding:20px 0"><div class="alone">${readFileSync(which, 'utf8')}</div></div>`;
+  out = ground;
+} else if (mode === 'layer') {
   html = `<div class="ground ${ground}" id="shot" style="padding:40px 0"><div class="alone">${svg(`footer-aegean-${which}`)}</div></div>`;
   out = `shots/footer-aegean-layer-${which}.png`;
 } else {

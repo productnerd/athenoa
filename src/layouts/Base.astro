@@ -5,6 +5,7 @@ import Seo from '../components/Seo.astro';
 import SvgDefs from '../components/SvgDefs.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import BackgroundMusic from '../components/BackgroundMusic.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -61,6 +62,7 @@ const { ui } = content(locale);
       <slot />
     </main>
     {footer && <Footer />}
+    <BackgroundMusic />
     <script>
       import '../scripts/motion.ts';
     </script>

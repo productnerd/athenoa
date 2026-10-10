@@ -1,5 +1,6 @@
 ---
-// Courses: the open course leads on a blue cut-out, the others follow as smaller arches.
+// Courses: the open course leads on a Greek blue cut-out; the others follow side by side,
+// one on light blue and one on paper.
 // Each card links to its own page; with JavaScript the link opens the course popup instead.
 // The same file renders /courses/ and /el/courses/: the copy follows the address.
 import Base from '../../layouts/Base.astro';
@@ -14,7 +15,7 @@ const { courses, coursesPage, site } = content(getLocale(Astro.url));
 const [home] = site.nav;
 const lead = courses.find((course) => course.status === 'open') ?? courses[0];
 const others = courses.filter((course) => course !== lead);
-const cuts = ['tall', 'low'] as const;
+const cuts = ['arch', 'paper'] as const;
 ---
 
 <Base
@@ -32,16 +33,17 @@ const cuts = ['tall', 'low'] as const;
     <div class="wrap">
       <header class="courses__head">
         <h1 class="t-hero" data-split>{coursesPage.title}</h1>
-        <p class="courses__line hand hand--l hand--tilt" data-reveal style="--delay:300ms">
+        {/* The tetractys, the Pythagorean figure of the ten, on a light blue pebble */}
+        <Illustration name="tetractys" class="courses__mark" draw />
+        <p class="courses__line hand hand--l" data-reveal style="--delay:300ms">
           {coursesPage.description}
         </p>
-        <Illustration name="tetractys" class="courses__mark" draw data-depth="-0.1" />
       </header>
 
       <CourseCard course={lead} cut="lead" />
 
       <div class="courses__others">
-        <Illustration name="olive-branch" class="courses__olive" draw data-depth="0.12" />
+        <Illustration name="olive-branch" class="courses__olive" draw />
         {others.map((course, i) => <CourseCard course={course} cut={cuts[i % cuts.length]} />)}
       </div>
     </div>
@@ -54,66 +56,82 @@ const cuts = ['tall', 'low'] as const;
   .courses {
     padding-block: calc(var(--space-l) + 0.5rem) var(--space-m);
   }
+  /* Title and symbol side by side; the line in Athena's voice runs under them on a small screen */
   .courses__head {
-    position: relative;
     display: grid;
-    gap: var(--space-s);
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--space-s) var(--space-m);
     margin-bottom: var(--space-l);
-    padding-right: clamp(5rem, 22vw, 14rem);
   }
   .courses__line {
+    grid-column: 1 / -1;
     max-width: 30ch;
   }
   .courses__mark {
+    --mark: clamp(4.25rem, 12vw, 10rem);
+    position: relative;
+    isolation: isolate;
+    grid-column: 2;
+    grid-row: 1;
+    width: var(--mark);
+    /* Room for the pebble, whose edge then lines up with the cards below */
+    margin: calc(var(--mark) * 0.24);
+  }
+  .courses__mark::before {
+    content: '';
     position: absolute;
-    right: clamp(0rem, 4vw, 5rem);
-    top: 0.5rem;
-    width: clamp(4.75rem, 15vw, 11.5rem);
+    inset: -24%;
+    z-index: -1;
+    border-radius: var(--r-pebble-1);
+    background-color: var(--blue-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
   }
 
   .courses__others {
     position: relative;
     display: grid;
-    gap: var(--space-xl);
+    gap: var(--space-xl) var(--space-m);
     margin-top: var(--space-xl);
   }
-  .courses__others > :global(.card--tall) {
-    width: min(86%, 24rem);
+  .courses__others > :global(.card) {
+    width: min(100%, 30rem);
   }
-  .courses__others > :global(.card--low) {
-    width: min(92%, 32rem);
-    justify-self: end;
-  }
+  /* An olive sprig in the pause between the open course and the ones to come */
   .courses__olive {
     position: absolute;
     right: 0;
-    top: 3rem;
-    width: clamp(7rem, 30vw, 20rem);
-    rotate: -8deg;
-    opacity: 0.8;
+    bottom: calc(100% + var(--space-xl) / 2);
+    width: clamp(6.5rem, 15vw, 12rem);
+    margin-bottom: clamp(-2.4rem, -3vw, -1.3rem);
+    opacity: 0.85;
   }
 
   @media (min-width: 62rem) {
     .courses__head {
       margin-bottom: var(--space-xl);
     }
+    .courses__line {
+      grid-column: 1;
+    }
+    .courses__mark {
+      grid-row: 1 / span 2;
+    }
+    /* One even row: both cards start and end on the same lines */
     .courses__others {
       grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: var(--space-xl) var(--space-m);
-      align-items: start;
+      align-items: end;
     }
-    .courses__others > :global(.card--tall) {
-      grid-column: 2 / span 4;
+    .courses__others > :global(.card--arch) {
+      grid-column: 1 / span 5;
+      align-self: stretch;
       width: auto;
     }
-    .courses__others > :global(.card--low) {
+    .courses__others > :global(.card--paper) {
       grid-column: 7 / span 6;
       width: auto;
-      margin-top: clamp(7rem, 14vw, 13rem);
-    }
-    .courses__olive {
-      right: 4%;
-      top: 1rem;
     }
   }
 </style>

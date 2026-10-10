@@ -136,8 +136,8 @@ const { kicker, title, open, note } = home.seminar;
     position: absolute;
     z-index: 0;
     width: 9.5rem;
-    right: 4%;
-    top: calc(100% - 2.1rem);
+    right: 6%;
+    top: calc(100% - 1.15rem);
     pointer-events: none;
   }
 
@@ -145,15 +145,9 @@ const { kicker, title, open, note } = home.seminar;
   .seminar__note {
     position: relative;
     z-index: 2;
-    max-width: 22ch;
-    margin: calc(var(--space-m) + 1.25rem) 0 0 4%;
+    max-width: 30ch;
+    margin: calc(var(--space-m) + 1.5rem) 0 0 4%;
     line-height: 1.3;
-  }
-
-  @media (min-width: 30rem) {
-    .seminar__note {
-      max-width: 26ch;
-    }
   }
 
   @media (min-width: 56rem) {

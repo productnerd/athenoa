@@ -17,9 +17,24 @@ interface Props {
   [key: string]: unknown;
 }
 const { course, id, class: className, ...rest } = Astro.props;
-const { coursesPage, site } = content(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
+const { coursesPage, site } = content(locale);
 const { ui } = coursesPage;
 const stripe = course.stripePaymentLink;
+// What the form says when a field is empty or wrong, in the language of the page
+// (the browser's own messages follow the browser's language instead).
+const t = {
+  en: {
+    nameMissing: 'Please enter your full name.',
+    emailMissing: 'Please enter your email address.',
+    emailInvalid: 'Please enter a valid email address.',
+  },
+  el: {
+    nameMissing: 'Συμπληρώστε το ονοματεπώνυμό σας.',
+    emailMissing: 'Συμπληρώστε τη διεύθυνση email σας.',
+    emailInvalid: 'Συμπληρώστε μια έγκυρη διεύθυνση email.',
+  },
+}[locale];
 ---
 
 <div class:list={['enroll', className]} data-enroll data-step="idle" {...rest}>
@@ -50,7 +65,14 @@ const stripe = course.stripePaymentLink;
       <form class="enroll__panel" data-enroll-panel="details" aria-labelledby={`${id}-step-1`}>
         <div class="field">
           <label for={`${id}-name`}>{ui.fullName}</label>
-          <input id={`${id}-name`} name="name" type="text" autocomplete="name" required />
+          <input
+            id={`${id}-name`}
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+            data-missing={t.nameMissing}
+          />
         </div>
         <div class="field">
           <label for={`${id}-email`}>{ui.email}</label>
@@ -62,6 +84,8 @@ const stripe = course.stripePaymentLink;
             autocapitalize="off"
             spellcheck="false"
             required
+            data-missing={t.emailMissing}
+            data-mismatch={t.emailInvalid}
           />
         </div>
         <div class="enroll__actions">
@@ -135,7 +159,18 @@ const stripe = course.stripePaymentLink;
       form.querySelector('input')?.focus();
     });
 
-    // Fires only once the browser's own validation has passed.
+    // The browser holds back an empty or malformed field; the words it shows come from the page.
+    form.querySelectorAll('input').forEach((input) => {
+      const say = () => {
+        input.setCustomValidity('');
+        const { valueMissing, typeMismatch } = input.validity;
+        input.setCustomValidity((valueMissing ? input.dataset.missing : typeMismatch && input.dataset.mismatch) || '');
+      };
+      say();
+      input.addEventListener('input', say);
+    });
+
+    // Fires only once validation has passed.
     form.addEventListener('submit', (event) => {
       event.preventDefault();
       if (pay instanceof HTMLAnchorElement) {
@@ -283,7 +318,6 @@ const stripe = course.stripePaymentLink;
     padding: clamp(1.3rem, 1rem + 1.4vw, 2rem);
     color: var(--ink);
     border-radius: var(--r-soft-2);
-    rotate: -1.2deg;
   }
   .enroll__ticket::before {
     content: '';

@@ -1,0 +1,181 @@
+---
+// Very quiet background music with a mute button.
+// Browsers do not allow sound before the visitor has interacted with the page, so "autoplay" works like
+// this: playback is attempted on load, and if the browser refuses, it starts on the first click, tap or
+// key press. The visitor's choice (on or off) is remembered. The element persists across page changes,
+// so the music does not restart when moving between pages.
+import { getLocale } from '../lib/locale';
+
+const t = {
+  en: { group: 'Background music', turnOff: 'Turn the music off', turnOn: 'Turn the music on' },
+  el: { group: 'Μουσική υπόκρουση', turnOff: 'Απενεργοποίηση μουσικής', turnOn: 'Ενεργοποίηση μουσικής' },
+}[getLocale(Astro.url)];
+---
+
+<div class="music" data-music role="group" aria-label={t.group} transition:persist="background-music">
+  <audio src="/audio/ambient.mp3" loop preload="none" data-music-audio></audio>
+  <button
+    type="button"
+    class="music__button"
+    data-music-toggle
+    data-label-on={t.turnOff}
+    data-label-off={t.turnOn}
+    aria-pressed="false"
+    aria-label={t.turnOn}
+    title={t.turnOn}
+  >
+    <svg viewBox="0 0 28 28" width="28" height="28" aria-hidden="true" focusable="false">
+      <path class="music__speaker" d="M4.5 11.2h3.6l5.4-4.4v14.4l-5.4-4.4H4.5z"></path>
+      <path class="music__wave music__wave--1" d="M17.2 10.6c1.7 1.8 1.7 5 0 6.8"></path>
+      <path class="music__wave music__wave--2" d="M20.3 7.9c3.3 3.4 3.3 8.8 0 12.2"></path>
+      <path class="music__slash" d="M17.4 11.3l5.6 5.4M23 11.3l-5.6 5.4"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+  const KEY = 'ath-music';
+  const VOLUME = 0.14; // very low: it should sit under the page, not on top of it
+
+  function setup() {
+    const root = document.querySelector<HTMLElement>('[data-music]');
+    if (!root || root.dataset.ready) return;
+    root.dataset.ready = 'true';
+    const audio = root.querySelector<HTMLAudioElement>('[data-music-audio]')!;
+    const button = root.querySelector<HTMLButtonElement>('[data-music-toggle]')!;
+
+    let wanted = true;
+    try {
+      wanted = localStorage.getItem(KEY) !== 'off';
+    } catch {}
+
+    const render = () => {
+      const playing = !audio.paused;
+      const label = playing ? button.dataset.labelOn! : button.dataset.labelOff!;
+      button.setAttribute('aria-pressed', String(playing));
+      button.setAttribute('aria-label', label);
+      button.title = label;
+      root.classList.toggle('is-playing', playing);
+    };
+
+    let ramp = 0;
+    const start = () => {
+      audio.volume = 0;
+      audio
+        .play()
+        .then(() => {
+          // Ease the sound in over about two seconds
+          cancelAnimationFrame(ramp);
+          const began = performance.now();
+          const step = (now: number) => {
+            const progress = Math.min(1, (now - began) / 2200);
+            audio.volume = VOLUME * progress;
+            if (progress < 1) ramp = requestAnimationFrame(step);
+          };
+          ramp = requestAnimationFrame(step);
+        })
+        .catch(() => {
+          // The browser is waiting for the visitor to interact first.
+        });
+    };
+
+    const remember = (value: 'on' | 'off') => {
+      try {
+        localStorage.setItem(KEY, value);
+      } catch {}
+    };
+
+    button.addEventListener('click', () => {
+      if (audio.paused) {
+        wanted = true;
+        remember('on');
+        start();
+      } else {
+        wanted = false;
+        remember('off');
+        audio.pause();
+      }
+    });
+
+    // First interaction anywhere on the page starts the music, unless it was the mute button itself.
+    const onFirstGesture = (event: Event) => {
+      if (event.target instanceof Node && button.contains(event.target)) return;
+      if (wanted && audio.paused) start();
+    };
+    for (const type of ['pointerdown', 'keydown']) {
+      window.addEventListener(type, onFirstGesture, { once: true, passive: true, capture: true });
+    }
+
+    audio.addEventListener('play', render);
+    audio.addEventListener('pause', render);
+    if (wanted) start();
+    render();
+  }
+
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .music {
+    position: fixed;
+    left: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
+    bottom: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
+    z-index: 55;
+  }
+  .music__button {
+    display: grid;
+    place-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 26%, transparent);
+    border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
+    background-color: color-mix(in srgb, var(--creme-light) 92%, transparent);
+    color: var(--blue);
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition:
+      background-color var(--dur-1),
+      color var(--dur-1),
+      border-color var(--dur-1);
+  }
+  .music__button:hover {
+    background-color: var(--blue-light);
+    border-color: transparent;
+  }
+  .music__button svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+  .music__button path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: opacity var(--dur-1);
+  }
+  /* Silent: speaker with a cross. Playing: speaker with two waves. */
+  .music__wave {
+    opacity: 0;
+  }
+  .music.is-playing .music__wave {
+    opacity: 1;
+  }
+  .music.is-playing .music__slash {
+    opacity: 0;
+  }
+  @keyframes music-pulse {
+    50% {
+      opacity: 0.35;
+    }
+  }
+  :global(html.motion) .music.is-playing .music__wave--2 {
+    animation: music-pulse 2.8s var(--ease-in-out) infinite;
+  }
+  @media print {
+    .music {
+      display: none;
+    }
+  }
+</style>

@@ -9,9 +9,11 @@ const locale = getLocale(Astro.url);
 const { site, ui } = content(locale);
 const path = barePath(Astro.url.pathname);
 const home = pathIn(locale, '/');
+const trim = (value: string) => value.replace(/\/+$/, '') || '/';
 const isCurrent = (href: string) => {
-  const target = barePath(href);
-  return target === '/' ? path === '/' : path.startsWith(target);
+  const target = trim(barePath(href));
+  const here = trim(path);
+  return target === '/' ? here === '/' : here === target || here.startsWith(`${target}/`);
 };
 ---
 
@@ -197,9 +199,23 @@ const isCurrent = (href: string) => {
     clip-path: inset(0 100% 0 0);
     transition: clip-path var(--dur-2) var(--ease-out);
   }
-  .header__links a:hover::after,
-  .header__links a[aria-current='page']::after {
+  .header__links a:hover::after {
     clip-path: inset(0);
+  }
+  /* The page you are on sits on a light-blue brush mark */
+  .header__links li:not(.header__phone, .header__lang) a {
+    isolation: isolate;
+  }
+  .header__links li:not(.header__phone, .header__lang) a[aria-current='page']::before {
+    content: '';
+    position: absolute;
+    inset: 14% -0.7rem 10% -0.6rem;
+    z-index: -1;
+    background: var(--blue-light);
+    border-radius: 46% 54% 38% 62% / 62% 44% 56% 38%;
+  }
+  .header__links li:not(.header__phone, .header__lang) a[aria-current='page'] {
+    color: var(--blue);
   }
   .header__links .header__phone a {
     color: var(--blue);

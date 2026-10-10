@@ -49,7 +49,7 @@ const SW = 2.5;
 function wheat() {
   const rand = rng(4);
   const axis = [
-    [89, 354],
+    [89.6, 348],
     [92, 326],
     [96, 296],
     [100, 262],
@@ -131,7 +131,7 @@ function tripod() {
   const cx = 150;
   const rimTop = 147;
   const rimBottom = 155;
-  const pawY = 315;
+  const pawY = 313;
 
   // vapour: three threads rising out of the bowl between the handles
   const vapour =
@@ -141,23 +141,23 @@ function tripod() {
 
   // ring handles standing on the rim
   const ringY = rimTop - 17.4;
-  const rings = [97, cx, 203].map((x) => circle(x, ringY, 17, true) + circle(x, ringY, 10)).join('');
+  const rings = [100, cx, 200].map((x) => circle(x, ringY, 17, true) + circle(x, ringY, 10)).join('');
 
   // lebes: a deep round bowl, a band under the rim with a row of tongues hanging from it
   const bandY = 167;
-  const tongues = (x0, n) => `M${P(x0, bandY)}` + 'a5.2 6.6 0 0 0 10.4 0'.repeat(n);
+  const tongues = (x0, n) => `M${P(x0, bandY)}` + 'a4.7 6.2 0 0 0 9.4 0'.repeat(n);
   const bowl =
-    path(`M94 ${rimBottom}C94 203 118 234 ${cx} 234C182 234 206 203 206 ${rimBottom}Z`, true) +
-    path(`M95 ${bandY}H205`) +
-    path(tongues(100.6, 4) + tongues(157.8, 4));
-  const rim = `<rect x="78" y="${rimTop}" width="144" height="${n1(rimBottom - rimTop)}" rx="2.6" fill="var(--paper, #f2e9d3)"/>`;
+    path(`M97 ${rimBottom}C97 203 120 234 ${cx} 234C180 234 203 203 203 ${rimBottom}Z`, true) +
+    path(`M98 ${bandY}H202`) +
+    path(tongues(104.9, 4) + tongues(157.5, 4));
+  const rim = `<rect x="80" y="${rimTop}" width="140" height="${n1(rimBottom - rimTop)}" rx="2.6" fill="var(--paper, #f2e9d3)"/>`;
 
   // stays: an arched band between each pair of legs, running into them
   const arch = (x0, x1, y, rise) => {
     const m = (x0 + x1) / 2;
     return `M${P(x0, y)}C${P(x0, y - rise * 0.72)} ${P(m - (x1 - x0) * 0.27, y - rise)} ${P(m, y - rise)}S${P(x1, y - rise * 0.72)} ${P(x1, y)}`;
   };
-  const stays = path(arch(86, 148, 300, 46));
+  const stays = path(arch(92, 148, 300, 44));
 
   // a leg narrows a little towards the ankle and runs straight into a lion paw seen from the
   // front; `lean` pushes the paw a little to one side
@@ -174,19 +174,19 @@ function tripod() {
     const toes = `M${P(l + tw, yt)}q0.7 -4 -0.5 -7.4M${P(l + 2 * tw, yt)}q-0.7 -4 0.5 -7.4`;
     return path(d, true) + path(toes);
   };
-  const sideLeg = leg(94, 82, -1);
+  const sideLeg = leg(98, 88, -1);
   const midLeg = leg(cx, cx, 0);
 
   // laurel either side, leaning in towards the handles
   const sprig = () => {
     const rand = rng(5);
     const stemPts = [
-      [43, 350],
-      [29, 310],
-      [21, 264],
-      [22, 216],
-      [31, 174],
-      [44, 142],
+      [51, 347],
+      [38, 308],
+      [30, 263],
+      [31, 216],
+      [40, 174],
+      [53, 142],
     ];
     const dense = sample(stemPts, 14);
     const lens = lengths(dense);
@@ -358,10 +358,10 @@ function butterfly() {
 // serpent climbs it in four passes across the front, tail at the foot, head laid near the top.
 function orphicEgg() {
   const cx = 140;
-  const yc = 200;
-  const W = 93;
-  const aTop = 164;
-  const aBot = 112;
+  const yc = 199;
+  const W = 104;
+  const aTop = 184;
+  const aBot = 126;
   const R = (y) => {
     const t = y < yc ? (yc - y) / aTop : (y - yc) / aBot;
     return t >= 1 ? 0 : W * Math.sqrt(1 - t * t);
@@ -375,9 +375,9 @@ function orphicEgg() {
 
   // the climb: degrees round the egg against height
   const th0 = -62;
-  const th1 = 1086;
-  const y0 = 286;
-  const pitch = 61;
+  const th1 = 1077;
+  const y0 = 295;
+  const pitch = 68.5;
   const yAt = (th) => y0 - (pitch * (th - th0)) / 360;
   const squeeze = 0.8;
   const at = (th, k) => {
@@ -385,7 +385,7 @@ function orphicEgg() {
     const y = yAt(th);
     return [cx + (R(y) * Math.sin(a * squeeze * deg)) / Math.sin(90 * squeeze * deg), y];
   };
-  const thick = 12.2;
+  const thick = 13.4;
 
   let out = '';
   for (let k = 0; k < 4; k++) {
@@ -421,24 +421,25 @@ function orphicEgg() {
       const s = Math.sin(endAng);
       const loc = (u, v) => [last[0] + u * c - v * s, last[1] + u * s + v * c];
       const rn = half(1);
+      // the head from above: a broad spade behind the eyes, drawn in to a blunt snout
       const side = [
-        [7, rn + 1.6],
-        [16, 14.2],
-        [26, 13.4],
-        [35, 8.6],
-        [40.5, 3.4],
+        [7, rn + 1.4],
+        [17, 16.6],
+        [29, 16.4],
+        [40, 11],
+        [47.6, 4.4],
       ];
-      nose = [...side.map(([u, v]) => loc(u, -v)), loc(42, 0), ...side.reverse().map(([u, v]) => loc(u, v))];
-      const e1 = loc(23.5, -6.6);
-      const e2 = loc(23.5, 6.6);
-      const t0 = loc(42, 0);
-      const t1 = loc(50, 0.4);
-      const t2 = loc(56.5, -4.2);
-      const t3 = loc(56.8, 4.6);
+      nose = [...side.map(([u, v]) => loc(u, -v)), loc(49.6, 0), ...side.reverse().map(([u, v]) => loc(u, v))];
+      const e1 = loc(27.6, -8);
+      const e2 = loc(27.6, 8);
+      const t0 = loc(49.6, 0);
+      const t1 = loc(58.6, 0.4);
+      const t2 = loc(66, -4.8);
+      const t3 = loc(66.4, 5.2);
       face =
-        circle(e1[0], e1[1], 2.3) +
-        circle(e2[0], e2[1], 2.3) +
-        path(`M${P(...t0)}L${P(...t1)}M${P(...t2)}Q${P(...loc(52.4, -1.2))} ${P(...t1)}Q${P(...loc(52.6, 1.8))} ${P(...t3)}`);
+        circle(e1[0], e1[1], 2.4) +
+        circle(e2[0], e2[1], 2.4) +
+        path(`M${P(...t0)}L${P(...t1)}M${P(...t2)}Q${P(...loc(61.4, -1.4))} ${P(...t1)}Q${P(...loc(61.6, 2))} ${P(...t3)}`);
     } else {
       nose = cap(last, endAng, half(1), -90, 90);
     }
@@ -446,8 +447,8 @@ function orphicEgg() {
     const outline = spline([...up, ...nose, ...down.reverse(), ...tailEnd], { closed: true, k: 0.9 });
 
     // scales: columns of arches across the body, each opening towards the head
-    const du = 7.6;
-    const sw = 12.2;
+    const du = 8.3;
+    const sw = 13.4;
     let scales = '';
     const pt = (u, v) => {
       const q = along(mid, u / total, lens);
@@ -466,8 +467,8 @@ function orphicEgg() {
         const A = [a[0] + sh[0], a[1] + sh[1]];
         const B = [b[0] + sh[0], b[1] + sh[1]];
         const back = along(mid, Math.max(0, Math.min(u, total)) / total, lens).ang + Math.PI;
-        const kx = Math.cos(back) * 8.4;
-        const ky = Math.sin(back) * 8.4;
+        const kx = Math.cos(back) * 9.2;
+        const ky = Math.sin(back) * 9.2;
         scales += `M${P(...A)}C${P(A[0] + kx, A[1] + ky)} ${P(B[0] + kx, B[1] + ky)} ${P(...B)}`;
       }
     }
@@ -607,10 +608,9 @@ function cicada() {
         `M123.4 97.4C124 114 130.6 127.4 140.4 133.4M176.6 97.4C176 114 169.4 127.4 159.6 133.4`,
     );
   // the head, as wide as the thorax, the eyes bulging at its corners
-  const eyes =
-    ellipse(112, 63.4, 10.4, 12, 0, true) +
-    ellipse(188, 63.4, 10.4, 12, 0, true) +
-    path(`M107.4 56.6Q104.6 63 107.6 70.4M192.6 56.6Q195.4 63 192.4 70.4`);
+  // the eyes are the one solid thing in the set: dark beads, so they read as eyes and not as ears
+  const bead = (x) => `<ellipse cx="${x}" cy="63.4" rx="9.6" ry="11.4" fill="currentColor" data-nodraw=""/>`;
+  const eyes = bead(112.6) + bead(187.4);
   const head =
     path(`M118.6 73C117 64 117.6 56.4 120 52C130 50.4 135 48.6 138 46C143 42.2 157 42.2 162 46C165 48.6 170 50.4 180 52C182.4 56.4 183 64 181.4 73Z`, true);
   const ocelli = circle(143.6, 63.4, 1.5) + circle(156.4, 63.4, 1.5) + circle(150, 57.6, 1.5);
@@ -666,7 +666,7 @@ function springCypress() {
   const crag = path(
     spline(
       [
-        [155, 290],
+        [155, 284],
         [153, 266],
         [160, 244],
         [172, 229],
@@ -761,7 +761,8 @@ function springCypress() {
   };
   const stars = path(star(204, 60, 10.5) + star(252, 128, 7) + star(44, 100, 8) + star(178, 146, 5));
 
-  return svg(300, 360, SW, stars + ground + cypress + crag + creases + cleft + water + boulderL + boulderR + pool);
+  const all = stars + ground + cypress + crag + creases + cleft + water + boulderL + boulderR + pool;
+  return svg(300, 360, SW, group(all, { transform: 'translate(-4 0)' }));
 }
 
 /* ------------------------------------------------------------------ write */

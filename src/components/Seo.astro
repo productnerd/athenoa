@@ -58,6 +58,10 @@ const languages = noindex ? [] : locales.map((code) => ({ code, href: absolute(p
 const twin = noindex ? undefined : twins[path];
 const graphs = (Array.isArray(schema) ? schema : [schema]).filter((graph) => !!graph);
 
+// Structured data built without the page's language (organizationSchema() on a Greek page) gives itself away.
+const foreign = locales.find((code) => code !== locale && JSON.stringify(graphs).includes(`"inLanguage":"${code}"`));
+if (foreign) console.warn(`[seo] ${path} has structured data in "${foreign}": pass the page's locale to the builder`);
+
 // One title and one description per page: say so in the terminal when two pages share either.
 if (!noindex) {
   const store = globalThis as unknown as { athSeoSeen?: Map<string, string> };
