@@ -19,8 +19,10 @@ interface Props {
   schema?: Record<string, unknown> | Record<string, unknown>[];
   /** Adds a class to <body>, e.g. to let a page's hero sit under the header */
   bodyClass?: string;
+  /** False for pages that end on their own scene (the 404 page). */
+  footer?: boolean;
 }
-const { bodyClass, ...seo } = Astro.props;
+const { bodyClass, footer = true, ...seo } = Astro.props;
 const locale = getLocale(Astro.url);
 const { ui } = content(locale);
 ---
@@ -66,7 +68,7 @@ const { ui } = content(locale);
     <main id="main">
       <slot />
     </main>
-    <Footer />
+    {footer && <Footer />}
     <FontToggle />
     <LabBar />
     <script>

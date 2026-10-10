@@ -49,17 +49,17 @@ Status: building (go-ahead received 2026-10-10: fix typos, English buttons, thre
 - [ ] A different nature scene in each page's footer: Attica on Home, Olympus with mountain pines on About Athena, the Aegean on Courses
 - [x] Photos were invisible with motion on (the reveal clipped them away so they never loaded): reveal rewritten, all photos verified loading on Home
 
-## Added by Maria on 2026-10-10 (second round) — NOT STARTED, blocked by a full disk
+## Added by Maria on 2026-10-10 (second round)
 
 - [ ] Hero: recreate the original hero image (Athena on the temple, light in the doorway, night sky, pines) in the site's illustration style and use it as the hero
-- [ ] Hero subtitle in a different colour from the title
-- [ ] Social icons: straight row, no tilt or offset; tone down playfulness in general
+- [x] Hero subtitle in a different colour from the title
+- [x] Social icons: straight row, no tilt or offset; tone down playfulness in general
 - [ ] Greek everywhere: connect every component to `content(locale)` and translate hard-coded alt text and labels (About Athena is still English under /el/)
-- [ ] Remove the scale pattern behind the Apollo statue (Membership section)
-- [ ] Copy fix: "You will immerse" → "You will be immersed" (log in text-changes.md)
-- [ ] Handwriting font: replace Mansalva with something more calligraphic and less casual that covers Greek
-- [ ] About Athena: remove the lyre (already used on Home)
-- [ ] Remove every owl illustration (too "Duolingo") and replace with another symbol; delete owl.svg
+- [x] Remove the scale pattern behind the Apollo statue (Membership section)
+- [x] Copy fix: "You will immerse" → "You will be immersed" (log in text-changes.md)
+- [x] Handwriting font: replace Mansalva with something more calligraphic and less casual that covers Greek
+- [x] About Athena: remove the lyre (already used on Home)
+- [x] Remove every owl illustration (too "Duolingo") and replace with another symbol; owl.svg deleted (final symbol art still being drawn)
 - [ ] Benefits: pair each photo with a benefit instead of a separate collage above them
 
 State when work stopped: all background agents were stopped. Hero candidates A/B/C exist but were never judged. Olympus footer has far and mid layers (near layer is still the Attica stand-in). Aegean footer has three draft layers. The 404 scene has a draft component and sea-*.svg layers, unverified. None of the twelve symbols has been drawn. Screenshots in shots/ were deleted to free space.

@@ -4,7 +4,9 @@ A redesign of athenoa.academy for Dr. Athena Potari's modern Platonic Academy. S
 
 ## The idea
 
-A two-ink print from Greece: Aegean blue ink on crème paper, or crème on blue. Paper cut-outs with hand-cut edges, line illustrations in the manner of the Nymfi beer label (one even stroke weight, flowing parallel waves, fish scales, calm stylised faces), a little rough handwriting where Athena speaks in her own voice. Photographs sit in arches and pebbles like windows.
+A two-ink print from Greece: Aegean blue ink on crème paper, or crème on blue. Paper cut-outs with hand-cut edges, line illustrations in the manner of the Nymfi beer label (one even stroke weight, flowing parallel waves, fish scales, calm stylised faces), a calligraphic italic where Athena speaks in her own voice. Photographs sit in arches and pebbles like windows.
+
+Tone: organic and warm, but composed. The client's words: "we don't want to be TOO playful". Things sit straight (tilt of 1.5 degrees at most, and rarely), rows are even, nothing bounces or wobbles.
 
 Reference images supplied by the client: a deep ultramarine field with naive crème brush lettering; a cobalt rounded card on beige with a crème cut-out hand; the Nymfi label (crème paper, monoline mermaid, radiating wavy hair, scallop pattern ground).
 
@@ -16,10 +18,11 @@ Reference images supplied by the client: a deep ultramarine field with naive cr�
 - Every photograph goes through `<Media>`: curved outline plus a light vignette. Never a bare `<img>` for a photo.
 - Copy is fixed. Text comes only from `src/data/*.ts`. Do not write, reword, trim, re-case or duplicate copy. If a design needs a word that is not in the data (a label, an aria-label), keep it minimal and report it.
 - Type: three sets are under test, switched with `html[data-fonts]` (the Type control, bottom left, or `?fonts=a|b|c`). a = EB Garamond throughout (default, the only one shipped). b = Tekst throughout. c = PP Editorial New throughout (narrow, light at the largest sizes). Layouts must hold in all three, so never rely on a title fitting on one line. Titles use `.t-hero`, `.t-1`, `.t-2`, `.t-3`.
-- The site is bilingual, English and Greek. Greek words are often longer; leave room. Only EB Garamond and the handwriting face cover Greek fully.
+- The site is bilingual, English and Greek. Greek words are often longer; leave room. Only EB Garamond and the voice face cover Greek fully.
 - In the hero title the words PLATONIC ACADEMY sit on an organic highlight (`.hl`), which animates in last. The second line of the title ("& REMEMBER WHO YOU REALLY ARE") is a subtitle: smaller than the first, class `.t-sub`, still inside the h1.
-- Rough handwriting (`.hand`) only where a person is speaking or annotating: greetings, asides, Greek maxims, notes. Never for body copy, never for navigation.
-- Social icons are monochrome and free-floating: no circles, no chips.
+- The voice face (`.hand`, a fine calligraphic italic, not casual handwriting) only where a person is speaking or annotating: greetings, asides, Greek maxims, notes. Never for body copy, never for navigation. It is light, so use it at `.hand--m` size or larger and never below 1.2rem.
+- Social icons are monochrome, in a plain straight row: no circles, no chips, no tilt.
+- No owls anywhere (the client finds them too "Duolingo"). Use the symbol drawings instead.
 - Smooth load and scroll animation across the site, with parallax depth where it helps. Motion must be switchable off (see Motion).
 
 ## Avoid
@@ -38,12 +41,12 @@ All-caps eyebrow labels (unless the source text is already in capitals), numbere
 ## Kit (src/styles/global.css, src/components)
 
 - Layout: `.wrap`, `.wrap--narrow`, `.section`, `.stack` (`--stack` sets the gap), `.measure`, `.prose` (rich text with leaf bullets).
-- Type: `.t-hero`, `.t-1`, `.t-2`, `.t-3`, `.lead`, `.small`, `.hand` with `.hand--m`, `.hand--l`, `.hand--tilt`.
+- Type: `.t-hero`, `.t-1`, `.t-2`, `.t-3`, `.lead`, `.small`, `.hand` with `.hand--m`, `.hand--l` (the voice face), `.t-sub` (subtitle line inside a large title, in a lighter blue).
 - `.panel` (+ `.panel--big`, `.panel--arch`, combine with `on-blue`, `on-blue-deep` or `on-blue-light`): blue cut-out with rough edge. Colour lives on `::before`, so text is never distorted. Put parallax layers that must be cut to the outline inside a child `.panel__clip`.
 - `.box` (+ `.box--line`, `.box--offset`, `.box--deep` for darker paper; add a surface class for a blue one): smaller organic text container.
 - `.hl` with `.hl__w` per word: organic brush highlight behind emphasised words.
 - `.btn`, `.btn--ghost`. On blue they invert automatically.
-- `.scales`: fish-scale ground (the aegis of Athena). Use sparingly.
+- `.scales`: fish-scale ground (the aegis of Athena). Use very sparingly, and never behind the Apollo statue.
 - `.field`: form field wrapper (label + input/textarea).
 - `<Media src alt shape ratio focus widths sizes priority framed innerDepth reveal caption />`: shapes are soft, soft-2, arch, pebble-1/2/3, leaf, pill, circle. Import photos from `src/assets/media/`.
 - `<Illustration name draw label />`: inlines `src/assets/illustrations/<name>.svg`. `draw` makes the strokes draw themselves on reveal.
@@ -96,3 +99,33 @@ Render a standalone SVG with `magick -background '#f2e9d3' -density 144 file.svg
 - `src/data/` copy and facts (site, home, about, courses, schema).
 - `src/components/home/`, `about/`, `courses/` section components. `src/pages/` routes. `src/pages/lab/` scratch pages, excluded from the sitemap and removed before launch.
 - `src/assets/media/` photographs from the live site. `src/assets/illustrations/` line art.
+
+## Two languages
+
+English at the root, Greek under `/el/` (same pages, same components). Every component reads its copy for the current language, never from one language's file directly:
+
+```astro
+---
+import { content } from '../../data';
+import { getLocale } from '../../lib/locale';
+const locale = getLocale(Astro.url);
+const { home, site } = content(locale); // also: about, courses, coursesPage, registrationTab, courseHref, coursePageHref, ui
+---
+```
+
+- `content(locale)` returns the same shape in both languages; internal links in the Greek data already carry `/el`.
+- Words a component adds itself (alt text, aria-labels, control labels) live beside it as `const t = { en: {...}, el: {...} }[locale]`, in both languages. Nothing visible or announced may stay English on a Greek page.
+- Types still come from `src/data/courses` (`import type { Course } from ...`).
+- The Greek copy in `src/data/el/` is a draft translation; do not rewrite it, only report problems.
+- Greek runs longer than English and its capitals are wide: check every layout at `/el/...` too.
+
+## Where each blue goes
+
+So the three blues are all in play and no two neighbours match:
+- Home: hero is a night scene on darker Greek blue; Membership on paper with light-blue shapes; Announcement on paper; Seminar on Greek blue; Series on paper; course tabs on a light-blue sheet; Transmission on darker Greek blue; Start is Greek blue over the fresco; Benefits on paper with one light-blue, one Greek-blue and one darker-blue box.
+- About: opening on paper; the story's third block on darker Greek blue; the Academy block on light blue; Contact on Greek blue.
+- Courses: the open course leads on Greek blue; the other cards on light blue and paper; the price block inside the popup on darker Greek blue.
+
+## Symbols
+
+Besides athena, lyre, laurel, olive-branch, temple, sun-rays and waves there are twelve symbol drawings tied to what Athena teaches: tetractys, monad, bow-lyre, cave-sun, ladder, torch, spring-cypress, tripod, butterfly, orphic-egg, cicada, wheat. Use them as ornaments where their meaning fits the content beside them. The lyre belongs to the Home seminar section only.
