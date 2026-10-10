@@ -27,7 +27,7 @@ export const home = {
       },
       {
         title: 'Our Community',
-        text: 'You will immerse in the activities, seminars and wonderful Community of our School',
+        text: 'You will be immersed in the activities, seminars and wonderful Community of our School',
       },
       {
         title: 'Your Contribution',

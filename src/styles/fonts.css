@@ -1,10 +1,9 @@
-/* Shipped fonts (open licences): EB Garamond for titles and reading, Mansalva for handwriting.
-   Both cover Greek; EB Garamond also covers polytonic Greek. */
+/* Shipped fonts (open licences): EB Garamond for titles and reading, and the italic of
+   Noto Serif Display for the personal voice (a fine pointed-pen italic). Both cover Greek,
+   including polytonic. */
 @import '@fontsource-variable/eb-garamond/wght.css';
 @import '@fontsource-variable/eb-garamond/wght-italic.css';
-@import '@fontsource/mansalva/latin-400.css';
-@import '@fontsource/mansalva/latin-ext-400.css';
-@import '@fontsource/mansalva/greek-400.css';
+@import '@fontsource-variable/noto-serif-display/wght-italic.css';
 
 /* Local-only fonts for the type test. They are referenced from the visitor's machine and never
    copied into the project: the installed cuts are trial or separately licensed versions.

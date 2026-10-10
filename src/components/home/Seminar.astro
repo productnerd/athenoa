@@ -1,6 +1,6 @@
 ---
 // Home: the monthly seminar on the Orphic Hymns. A blue cut-out with a round end like an apse,
-// the lyre drawn inside it with light radiating behind; an owl looks over the top edge, an olive
+// the lyre drawn inside it with light radiating behind; a symbol sits on the top edge, an olive
 // branch slips out from underneath, and the date note is pencilled on the paper below.
 import Illustration from '../Illustration.astro';
 import { home } from '../../data/home';
@@ -11,8 +11,8 @@ const { kicker, title, open, note } = home.seminar;
 <section class="section seminar" aria-labelledby="seminar-title">
   <div class="wrap">
     <div class="seminar__stage">
-      <div class="seminar__owl" data-depth="-0.05">
-        <Illustration name="owl" draw />
+      <div class="seminar__mark" data-depth="-0.05">
+        <Illustration name="orphic-egg" draw />
       </div>
       <div class="seminar__branch" data-depth="-0.12">
         <Illustration name="olive-branch" draw />
@@ -89,14 +89,14 @@ const { kicker, title, open, note } = home.seminar;
   }
 
   /* ---------- Ornaments tucked behind the cut-out ---------- */
-  .seminar__owl,
+  .seminar__mark,
   .seminar__branch {
     position: absolute;
     z-index: 0;
     pointer-events: none;
   }
-  /* The owl looks over the shoulder of the arch */
-  .seminar__owl {
+  /* The symbol sits at the shoulder of the arch */
+  .seminar__mark {
     width: 4.25rem;
     right: 5%;
     bottom: calc(100% - 3.9rem);
@@ -160,7 +160,7 @@ const { kicker, title, open, note } = home.seminar;
       width: var(--rays-w);
       margin: calc(var(--rays-w) / -2) 0 0;
     }
-    .seminar__owl {
+    .seminar__mark {
       width: clamp(5.5rem, 3.5rem + 4vw, 7.75rem);
       right: auto;
       left: 10%;

@@ -1,6 +1,6 @@
 ---
 // Home: the annual membership invitation, on crème paper.
-// Apollo stands in an arch niche lined with the aegis scales; the three promises step down
+// Apollo stands in a plain arch niche; the three promises step down
 // beside him as three different cut-outs; the frieze procession passes in front as a ribbon.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
@@ -29,9 +29,9 @@ const looks = [
       <div class="niche__rays" data-depth="0.3">
         <Illustration name="sun-rays" draw />
       </div>
-      <!-- The statue's white ground is multiplied onto the scales, so it reads as paper. -->
+      <!-- The statue's white ground is multiplied onto plain paper, so it reads as paper. -->
       <Media
-        class="niche__statue scales"
+        class="niche__statue"
         src={apollo}
         alt="Gilded statue of Apollo holding a lyre, standing on top of an Ionic column"
         shape="arch"
@@ -118,7 +118,7 @@ const looks = [
   .niche__rays :global(.illo) {
     color: color-mix(in srgb, var(--blue) 46%, transparent);
   }
-  /* The scales ground sits on the figure and is handed down to the photo's frame, so the
+  /* The paper ground sits on the figure and is handed down to the photo's frame, so the
      multiplied photograph always has it to blend with, whichever of the two is being clipped. */
   .niche :global(.niche__statue) {
     z-index: 1;

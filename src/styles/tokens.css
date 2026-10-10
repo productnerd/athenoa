@@ -25,14 +25,17 @@
   /* Colour of the organic highlight behind emphasised words (.hl), and of the words on it */
   --highlight: var(--blue-light);
   --highlight-ink: var(--blue);
+  /* Subtitles under large titles: a lighter step of the same blue */
+  --sub-ink: color-mix(in srgb, var(--blue) 56%, var(--blue-light));
 
   /* Type families. Three sets are under test, switched with html[data-fonts]:
        (default) EB Garamond throughout   |   'b' Tekst throughout   |   'c' PP Editorial New throughout
-     Only EB Garamond and the handwriting face (Mansalva) are shipped; the others load from the
+     Only EB Garamond and the voice face (Noto Serif Display italic) are shipped; the others load from the
      visitor's own machine. Anything a face lacks (Greek, some punctuation) falls back to EB Garamond. */
   --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  --font-hand: 'Mansalva', 'Bradley Hand', 'Segoe Print', cursive;
+  /* The personal voice: greetings, asides, maxims. Calligraphic, not casual. */
+  --font-hand: 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
   --title-weight: 400;
   --title-weight-xl: 400;
   --title-tracking: -0.022em;
@@ -129,6 +132,7 @@ html[data-fonts='c'] {
   --grain: url('/textures/grain-light.webp');
   --highlight: var(--blue-light);
   --highlight-ink: var(--blue-deep);
+  --sub-ink: var(--blue-light);
   color: var(--ink);
 }
 
@@ -142,6 +146,7 @@ html[data-fonts='c'] {
   --grain: url('/textures/grain-light.webp');
   --highlight: var(--blue-light);
   --highlight-ink: var(--blue-deep);
+  --sub-ink: var(--blue-light);
   color: var(--ink);
 }
 
@@ -155,5 +160,6 @@ html[data-fonts='c'] {
   --grain: url('/textures/grain-dark.webp');
   --highlight: var(--creme-light);
   --highlight-ink: var(--blue);
+  --sub-ink: var(--blue);
   color: var(--ink);
 }

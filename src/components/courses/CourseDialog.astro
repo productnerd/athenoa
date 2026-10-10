@@ -36,7 +36,7 @@ const canEnrol = course.status === 'open' && course.price;
         <div class="cd__foot on-blue" data-course-foot>
           <CoursePrice class="cd__price" price={course.price!} />
           <EnrollFlow course={course} id={`enroll-${course.slug}`} />
-          <Illustration name="owl" class="cd__owl" />
+          <Illustration name="torch" class="cd__mark" />
         </div>
       )
     }
@@ -271,7 +271,7 @@ const canEnrol = course.status === 'open' && course.price;
     background-size: 400px 400px;
     filter: url(#rough-sm);
   }
-  .cd__owl {
+  .cd__mark {
     display: none;
   }
 
@@ -290,7 +290,7 @@ const canEnrol = course.status === 'open' && course.price;
     border-radius: 1.9rem 2.5rem 2.1rem 2.7rem / 2.5rem 1.9rem 2.7rem 2.1rem;
   }
   @media (min-width: 52rem) and (min-height: 40rem) {
-    .cd[data-enrolling] .cd__owl {
+    .cd[data-enrolling] .cd__mark {
       display: block;
       position: absolute;
       right: clamp(1.5rem, 5vw, 4rem);

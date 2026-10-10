@@ -35,7 +35,7 @@ const cuts = ['tall', 'low'] as const;
         <p class="courses__line hand hand--l hand--tilt" data-reveal style="--delay:300ms">
           {coursesPage.description}
         </p>
-        <Illustration name="owl" class="courses__owl" draw data-depth="-0.1" />
+        <Illustration name="tetractys" class="courses__mark" draw data-depth="-0.1" />
       </header>
 
       <CourseCard course={lead} cut="lead" />
@@ -64,7 +64,7 @@ const cuts = ['tall', 'low'] as const;
   .courses__line {
     max-width: 30ch;
   }
-  .courses__owl {
+  .courses__mark {
     position: absolute;
     right: clamp(0rem, 4vw, 5rem);
     top: 0.5rem;

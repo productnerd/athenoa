@@ -14,6 +14,7 @@ Source: athenoa.academy/en and /en/contactus, read on 2026-10-10. Everything els
 | About and course | "Eὖ Zῆν" typed with Latin E and Z | Εὖ Ζῆν in Greek letters |
 | Course, "Orientation" | “ΕF ZEN” typed with a Greek Ε | “EF ZEN” in Latin letters |
 | Contact form placeholder | Describe the topic your request | Describe the topic of your request |
+| Home, membership, Our Community | You will immerse in the activities | You will be immersed in the activities |
 | Course tab label | "AccessLive sessions & recorded lessons" (run together) | "Access" / "Live sessions & recorded lessons" |
 
 ## Greek or mistranslated interface labels put into English
