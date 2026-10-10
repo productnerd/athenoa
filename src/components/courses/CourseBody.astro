@@ -380,7 +380,10 @@ const symbolFor = 'structure';
   .sec__head {
     container-type: inline-size;
   }
-  /* A Greek heading may be one long word ("Προσανατολισμός"): it never outgrows its column */
+  /* A heading never outgrows its column: its longest word ("Orientation", "Προσανατολισμός") still fits */
+  .sec__title {
+    font-size: min(var(--step-3), 20cqi);
+  }
   .sec__title:lang(el) {
     font-size: min(var(--step-3), 14.5cqi);
   }

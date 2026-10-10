@@ -65,7 +65,14 @@ const { titleLines, highlight } = home.hero;
         titleLines.map((line, n) => {
           const at = line.indexOf(highlight);
           // The first line is the title; what follows is its subtitle, set smaller.
-          if (at < 0) return <span class:list={['pb__line', n > 0 && 't-sub']}>{line}</span>;
+          // (the space keeps the lines apart when the heading is read out as one sentence)
+          if (at < 0)
+            return (
+              <>
+                {n > 0 && ' '}
+                <span class:list={['pb__line', n > 0 && 't-sub']}>{line}</span>
+              </>
+            );
           return (
             <span class="pb__line">
               {line.slice(0, at)}
@@ -254,7 +261,12 @@ const { titleLines, highlight } = home.hero;
   /* Quicker, tighter line drawing than the site default, so the picture is whole in two seconds. */
   :global(html.motion) .pb__stage :global([data-draw] path) {
     transition-duration: 1.3s;
-    transition-delay: calc(min(var(--i, 0), 60) * 9ms + var(--delay, 0ms) + 100ms);
+    transition-delay: calc(min(var(--i, 0), 110) * 6ms + var(--delay, 0ms) + 100ms);
+  }
+  /* the rays behind her all reach outwards together */
+  :global(html.motion) .pb__layer--rays :global([data-draw] path) {
+    transition-duration: 1.5s;
+    transition-delay: calc(var(--delay, 0ms) + 250ms);
   }
   /* what is not drawn (the lettering, the pupils, the disc of light) follows the lines */
   :global(html.motion) .pb__stage :global([data-draw] [data-nodraw]) {
@@ -264,7 +276,7 @@ const { titleLines, highlight } = home.hero;
     transition-delay: calc(var(--delay, 0ms) + 100ms);
   }
   /* Until the script has prepared a path, its dashes are in plain units and would show as dots. */
-  :global(html.motion) .pb__stage :global([data-draw] path:not([pathLength])) {
+  :global(html.motion) .pb__stage :global([data-draw] path:not([pathLength], [data-nodraw])) {
     stroke-opacity: 0;
   }
   /* The doorway opens: the arch of light grows from the flame, then the rays reach out. */
@@ -314,7 +326,7 @@ const { titleLines, highlight } = home.hero;
   /* ---------- narrow or upright screens: the title in the sky above, the picture below ---------- */
   @media (max-width: 61.99rem), (max-aspect-ratio: 1/1) {
     .pb {
-      --scene-h: min(var(--panel-w) * 1.12, 62svh);
+      --scene-h: min(var(--panel-w) * 1.12, 58svh);
       --scene-x: 50%;
       --pb-col: calc(var(--panel-w) - 2 * var(--pb-pad));
       --pb-fs: min(calc(var(--pb-col) / var(--pb-fit)), 6.4svh);

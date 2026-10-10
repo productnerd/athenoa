@@ -62,7 +62,7 @@ const canEnrol = course.status === 'open' && course.price;
             <Illustration name="laurel" class="reg__laurel" draw />
             <div class="reg__grid">
               <hgroup class="reg__head" data-reveal>
-                <h2 class="t-2" id="registration-title">
+                <h2 class="reg__title t-2" id="registration-title">
                   {registrationTab.label}
                 </h2>
                 <p class="hand hand--m">{registrationTab.sublabel}</p>
@@ -124,6 +124,16 @@ const canEnrol = course.status === 'open' && course.price;
     display: grid;
     gap: var(--space-m);
     align-items: start;
+  }
+  /* The heading never outgrows its column: its longest word ("Registration") still fits */
+  .reg__head {
+    container-type: inline-size;
+  }
+  .reg__title {
+    font-size: min(var(--step-3), 20cqi);
+  }
+  .reg__title:lang(el) {
+    font-size: min(var(--step-3), 14.5cqi);
   }
   .reg__head .hand {
     margin-top: 0.6rem;

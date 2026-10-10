@@ -1,5 +1,7 @@
 ---
-// Not found. The page ends on its own sea, so the footer is switched off.
+// Not found. CLIENT DIRECTION, 11 October 2026 (replaces the first brief; do not restore the old parts):
+// the page stands alone, with no site header and no footer; no visible "Page not found" heading, no
+// courses link, no sun. One button, "Take me home", bottom right, with a line above and below it.
 // A static site serves this one page for every missing address: the scene carries the words of
 // both languages and shows the Greek ones on addresses that begin with /el/ (see NotFoundScene).
 import Base from '../layouts/Base.astro';
@@ -8,6 +10,12 @@ import { notfound } from '../data/notfound';
 import { site } from '../data/site';
 ---
 
-<Base title={`${notfound.en.heading} | ${site.name}`} description={notfound.en.line} noindex footer={false}>
+<Base
+  title={`${notfound.en.heading} | ${site.name}`}
+  description={notfound.en.wander}
+  noindex
+  footer={false}
+  header={false}
+>
   <NotFoundScene />
 </Base>

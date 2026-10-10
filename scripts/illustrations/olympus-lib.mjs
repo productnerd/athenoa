@@ -1,4 +1,4 @@
-// Shared helpers for the Olympus footer scene (see olympus-build.mjs).
+// Shared helpers for the Olympus footer scene (olympus-far.mjs, olympus-mid.mjs, olympus-near.mjs).
 import { writeFileSync } from 'node:fs';
 
 export const OUT = new URL('../../src/assets/illustrations/', import.meta.url);

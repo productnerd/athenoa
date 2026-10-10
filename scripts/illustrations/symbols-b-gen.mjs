@@ -1,36 +1,42 @@
 // Generates the six symbols of the symbols-b set: spring-cypress, tripod, butterfly, orphic-egg,
-// cicada and wheat. One stroke weight (2.5) for the whole family.
+// cicada and wheat. One stroke weight (2.5) for the whole family, about 20 units of air all round.
 //   node scripts/illustrations/symbols-b-gen.mjs                 writes into src/assets/illustrations
 //   node scripts/illustrations/symbols-b-gen.mjs --dir <dir>     writes somewhere else (for trying things out)
 //   node scripts/illustrations/symbols-b-gen.mjs --only wheat,tripod
+//
+// Two things the drawings are built around:
+// - Nothing is filled with paper to hide what is behind it (the one exception is the white cypress).
+//   Lines are cut where another shape covers them instead, so no flat patch shows on grained paper
+//   or before the strokes have drawn themselves.
+// - The order of the paths is the order they draw in: the subject first, left and right halves
+//   alternating, small things (vapour, stars, scales) last.
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  PAPER,
   P,
+  PAPER,
   SLIM,
   along,
   circle,
   deg,
   ellipse,
-  group,
+  ellipsePts,
   inside,
   leaf,
   lengths,
-  mirror,
+  mirrorD,
   n1,
   offset,
   path,
-  poly,
   resample,
-  ribbon,
   rng,
   sample,
   spline,
   svg,
   visibleRuns,
   wavy,
+  xAtY,
 } from './symbols-b-lib.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -42,744 +48,486 @@ const opt = (name, fallback) => {
 const outDir = resolve(opt('dir', resolve(here, '../../src/assets/illustrations')));
 const only = opt('only');
 const SW = 2.5;
-// one <path> per line, so that each is drawn in its own time when the drawing is revealed
-const each = (ds) => ds.map((d) => path(d)).join('');
 
-/* ----------------------------------------------------------------- wheat */
-// One bearded ear, the thing shown in silence at Eleusis. The grains overlap upward like scales,
-// each with its awn; the awns fan out as long near-parallel lines.
-function wheat() {
-  const rand = rng(4);
-  const axis = [
-    [89.6, 348],
-    [92, 326],
-    [96, 296],
-    [100, 262],
-    [100, 184],
-    [100, 106],
+const flip = (pts, cx) => pts.map(([x, y]) => [2 * cx - x, y]);
+// a path and its mirror image, one after the other
+const pair = (d, cx) => path(d) + path(mirrorD(d, cx));
+// the stretches of a line that are not covered, as path data
+const cut = (pts, hidden, { per = 12, keep = 3, min = 0 } = {}) =>
+  visibleRuns(sample(pts, per), hidden, keep)
+    .filter((run) => lengths(run).at(-1) > min)
+    .map((run) => spline(run))
+    .join('');
+const lerp = (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+
+/* ---------------------------------------------------------------- cicada */
+// The tettix of the Phaedrus and of Attica, seen from above with its wings folded back along the
+// body as on the gems and the gold hair-cicadas: a broad head with the eyes at its corners, the
+// shield of the thorax, the long glass forewings lying over a short ringed abdomen that shows
+// through them, the hindwings as a shorter lobe inside each.
+function cicada() {
+  const cx = 150;
+  const two = (d) => pair(d, cx);
+
+  /* head and thorax */
+  // the head is a short broad band; the eyes bulge from its corners, half hidden behind it
+  const headR = [
+    [150, 29.6],
+    [161.6, 32.4],
+    [169, 38.4],
+    [179.6, 41.4],
+    [185, 60],
+    [172, 61],
+    [150, 61.4],
   ];
-  const per = 16;
-  const dense = sample(axis, per);
-  const lens = lengths(dense);
-  const earFrom = lens[3 * per] / lens[lens.length - 1];
-  const GRAIN = [0.3, 1.04, 0.76, 0.9];
+  const headPts = [...headR, ...flip(headR, cx).reverse().slice(1, -1)];
+  const headPoly = [...sample(headR, 10), ...flip(sample(headR, 10), cx).reverse()];
+  const inHead = (q) => inside(q, headPoly);
+  const browR = headR.slice(0, 4);
+  const brow = spline([...flip(browR, cx).reverse(), ...browR.slice(1)]);
+  const cheek = `M${P(...headR[3])}L${P(...headR[4])}`;
+  const neck = spline([...flip(headR.slice(4), cx), ...headR.slice(4, 6).reverse()]);
+  const eyePts = ellipsePts(188.6, 49.4, 12.4, 12.8, 8, 64);
+  const eye = visibleRuns([...eyePts, eyePts[0]], inHead, 3)
+    .map((run) => spline(run))
+    .join('');
+  const glint = `M194 42.6Q198 49 195 56`;
+  const thoraxR = [
+    [185, 60],
+    [193.6, 67],
+    [197.8, 78],
+    [196.4, 89],
+    [190.6, 102],
+    [182, 117],
+    [171, 130],
+    [160, 137.4],
+    [150, 140],
+  ];
+  const thoraxDense = sample(thoraxR, 12);
+  const thoraxSide = spline(thoraxR);
+  const feeler = `M171.6 39.2Q174.4 31.6 181 25.4`;
+  const cw = xAtY(thoraxDense, 79.4) - cx - 0.4;
+  const collarY = (x) => 79.4 + 7 * (1 - ((x - cx) / cw) ** 2);
+  const collar = `M${P(cx - cw, 79.4)}Q${P(cx, 93.4)} ${P(cx + cw, 79.4)}`;
+  const markMid = `M142.4 ${n1(collarY(142.4))}C142.4 97 145.6 105 150 108C154.4 105 157.6 97 157.6 ${n1(collarY(157.6))}`;
+  const markSide = `M173.6 ${n1(collarY(173.6))}C173 100 167.6 112 158.6 118.6`;
+  const ocelli = circle(150, 42, 1.1) + circle(143.4, 48.6, 1.1) + circle(156.6, 48.6, 1.1);
 
-  const N = 14;
-  const awns = [];
-  const grains = [];
-  for (let i = 0; i < N; i++) {
-    const side = i % 2 ? 1 : -1;
-    const u = i / (N - 1);
-    const b = along(dense, earFrom + (1 - earFrom) * ((i + 0.1) / (N + 0.75)), lens);
-    const dir = b.ang + side * (27 - 5 * u) * deg;
-    const len = 35 - 8 * u;
-    const g = leaf(b.x, b.y, dir, len, 11.4 - 3 * u, side * 0.06, 0.6, GRAIN);
-    grains.push(path(g.outline, true));
-    // awn: leaves the tip in the direction of the grain, then straightens a little
-    const L = 118 - 42 * u + (rand() - 0.5) * 9;
-    const endDir = b.ang + side * (22 - 11 * u + (rand() - 0.5) * 1.6) * deg;
-    const c = [g.tip[0] + Math.cos(dir) * L * 0.4, g.tip[1] + Math.sin(dir) * L * 0.4];
-    const e = [g.tip[0] + Math.cos(endDir) * L, g.tip[1] + Math.sin(endDir) * L];
-    awns.push(`M${P(...g.tip)}Q${P(...c)} ${P(...e)}`);
-  }
-  // the grain that closes the ear, and its awn straight on
-  const top = along(dense, 1, lens);
-  const tg = leaf(top.x, top.y + 5, top.ang, 27, 7.6, 0, 0.6, GRAIN);
-  awns.push(`M${P(...tg.tip)}Q${P(tg.tip[0] + 1.6, tg.tip[1] - 34)} ${P(tg.tip[0] - 1, tg.tip[1] - 66)}`);
-  const ear = path(tg.outline, true) + grains.reverse().join('');
+  /* forewing: from the shoulder back past the end of the body, widest beyond the middle */
+  const outer = [
+    [196.4, 89],
+    [207.6, 111],
+    [219.6, 144],
+    [227.4, 184],
+    [229.6, 224],
+    [227, 261],
+    [219, 286],
+    [210.4, 297],
+    [200.6, 299.6],
+  ];
+  const inner = [
+    [152.4, 142.6],
+    [163.6, 178],
+    [175.6, 218],
+    [184, 255],
+    [188.6, 277],
+    [193.2, 292],
+    [200.6, 299.6],
+  ];
+  const foreD = spline([...outer, ...inner.slice(0, -1).reverse()]);
+  const O = resample(sample(outer, 10), 101);
+  const I = resample(sample(inner, 10), 101);
+  // a point of the wing: t from root to tip, s from the inner edge (0) to the fore edge (1)
+  const W = (t, s) => lerp(I[Math.round(t * 100)], O[Math.round(t * 100)], s);
+  const vein = (...ts) => spline(ts.map(([t, s]) => W(t, s)));
+  const node = [
+    [0.6, 1],
+    [0.63, 0.74],
+    [0.585, 0.47],
+    [0.645, 0.21],
+    [0.6, 0],
+  ];
+  const veins =
+    // the second line of the fore edge, running into it at the node
+    vein([0.05, 0.6], [0.2, 0.8], [0.4, 0.85], [0.53, 0.9], node[0]) +
+    // one long vein from the root, forking on its way to the cross line
+    vein([0.08, 0.5], [0.24, 0.6], [0.44, 0.7], node[1]) +
+    vein([0.3, 0.63], [0.45, 0.52], node[2]);
+  const crossLine = `M${node.map(([t, s]) => P(...W(t, s))).join('L')}`;
+  const tips =
+    vein(node[1], [0.76, 0.8], [0.88, 1]) + vein(node[2], [0.78, 0.5], [0.97, 0.62]) + vein(node[3], [0.76, 0.2], [0.89, 0]);
 
-  // two blades on the straw
-  const blade = (pts, width, ribTo = 0.62) => {
-    const { L, R, dense: mid } = ribbon(pts, (t) => width * Math.sin(Math.PI * t ** 0.5) ** 1.15, 6);
-    const rib = mid.slice(Math.round(mid.length * 0.12), Math.round(mid.length * ribTo));
-    return (
-      path(spline([...L, ...R.reverse().slice(1)], { closed: true }), true) +
-      path(spline(rib.filter((_, i) => i % 4 === 0 || i === rib.length - 1)))
-    );
-  };
-  const right = blade(
-    [
-      [94.4, 310],
-      [105, 286],
-      [124, 268],
-      [146, 262],
-      [164, 272],
-      [174, 291],
-    ],
-    10,
+  /* abdomen: short and broad, seen through the wings */
+  const bellyR = [
+    [178.4, 122],
+    [184.6, 142],
+    [183.6, 166],
+    [176.6, 190],
+    [165, 208],
+    [157, 216],
+    [150, 219],
+  ];
+  const bellyDense = sample(bellyR, 12);
+  const belly = spline([...bellyR, ...flip(bellyR, cx).reverse().slice(1)]);
+  const rings = [153, 168, 182.4, 195.6, 207].map((y, i) => {
+    const x = xAtY(bellyDense, y);
+    return path(`M${P(2 * cx - x, y)}Q${P(cx, y + (7.4 - i) * 2)} ${P(x, y)}`);
+  });
+
+  /* hindwing: the shorter lobe that shows between the forewing and the end of the body */
+  const hind = spline([
+    [xAtY(bellyDense, 204.6), 204.6],
+    [163.4, 226],
+    [164.6, 248],
+    [171.4, 264],
+    [179.6, 270.6],
+    [186.8, 268.6],
+  ]);
+
+  return svg(
+    300,
+    320,
+    SW,
+    path(brow) +
+      two(cheek) +
+      path(neck) +
+      two(eye) +
+      two(thoraxSide) +
+      two(foreD) +
+      path(belly) +
+      two(hind) +
+      path(collar) +
+      rings.join('') +
+      path(markMid) +
+      two(markSide) +
+      two(veins) +
+      two(crossLine) +
+      two(tips) +
+      two(glint) +
+      two(feeler) +
+      ocelli,
   );
-  const left = blade(
-    [
-      [91.4, 334],
-      [82, 312],
-      [66, 297],
-      [47, 291],
-      [30, 296],
-    ],
-    9,
-    0.6,
-  );
-
-  const straw = path(spline(axis.slice(0, 4)));
-  return svg(200, 360, SW, awns.map((d) => path(d)).join('') + straw + left + right + ear);
 }
 
 /* ---------------------------------------------------------------- tripod */
-// The tripod of Apollo at Delphi, flat and frontal as on the coins of Kroton: three stout legs on
-// lion paws, all seen full height with the deep lebes hung behind them, three ring handles
-// standing on the rim, arched stays between the legs. Laurel either side, the breath of the
-// oracle rising.
+// The tripod of Apollo at Delphi, flat and frontal as on the coins of Kroton. The round lebes is
+// whole and in front: the two outer legs come out from behind its flanks, the middle one from
+// under its base, each on a lion's paw (the outer two turned outward). Three ring handles stand on
+// the lip, a short sprig of laurel either side of the legs, the breath of the oracle rising.
 function tripod() {
   const cx = 150;
-  const rimTop = 147;
-  const rimBottom = 155;
-  const pawY = 313;
+  const two = (d) => pair(d, cx);
+  const lipTop = 118.6;
+  const lipBottom = 127.4;
+  const base = 340;
 
-  // vapour: three threads rising out of the bowl between the handles
+  // lebes: a deep round pot, a little wider below the lip than at it
+  const bowlR = [
+    [226, lipBottom],
+    [230.4, 139],
+    [231, 152],
+    [226, 171],
+    [212, 190],
+    [191, 203],
+    [167, 208.4],
+    [150, 209.4],
+  ];
+  const bowlDense = sample(bowlR, 14);
+  const bowl = spline([...bowlR, ...flip(bowlR, cx).reverse().slice(1)]);
+  const lip = `M72.4 ${lipTop}H227.6a4.4 4.4 0 0 1 0 ${n1(lipBottom - lipTop)}H72.4a4.4 4.4 0 0 1 0 -${n1(lipBottom - lipTop)}Z`;
+  // a second line inside the first, as on the shell of the lyre: the thickness of the bronze
+  const wall = offset(sample([...flip(bowlR, cx), ...[...bowlR].reverse().slice(1)], 8), 8.4);
+  const inner = spline(
+    visibleRuns(wall, ([, y]) => y < lipBottom + 0.01, 1)[0].filter((_, i, all) => i % 4 === 0 || i === all.length - 1),
+  );
+
+  // the bowl's height at x, for where the middle leg comes out from under it
+  const bowlY = (x) => {
+    const ax = cx + Math.abs(x - cx);
+    for (let i = bowlDense.length - 1; i > 0; i--) {
+      const a = bowlDense[i];
+      const b = bowlDense[i - 1];
+      if ((a[0] - ax) * (b[0] - ax) <= 0) return a[1] + ((b[1] - a[1]) * (ax - a[0])) / (b[0] - a[0] || 1);
+    }
+    return lipBottom;
+  };
+  const ankle = 318;
+  const pad = base - 4.2;
+  const toe = (w) => `a${n1(w / 2)} 4.2 0 0 0 ${n1(w)} 0`;
+  // right outer leg and its paw, turned outward: one line from the bowl down the inner edge,
+  // round the heel, along the toes and back up the outer edge
+  const xt = 219;
+  const xb = 227;
+  const edge = (side, y) => {
+    // x of the leg's inner (-1) or outer (1) edge at height y: the leg narrows towards the ankle
+    const t = (y - 170) / (ankle - 170);
+    return xt + (xb - xt) * t + side * (7.8 - 1.4 * t);
+  };
+  const meet = (side) => {
+    // walk up the edge until it disappears behind the bowl
+    let y = ankle;
+    while (y > lipBottom && (y > 210 || edge(side, y) > xAtY(bowlDense, y))) y -= 0.25;
+    return [edge(side, y), y];
+  };
+  const tw = 7.7;
+  const outerLeg =
+    `M${P(...meet(-1))}L${P(edge(-1, ankle), ankle)}` +
+    `C${P(xb - 6, ankle + 6)} ${P(xb - 10.6, ankle + 6.6)} ${P(xb - 10.8, ankle + 12)}L${P(xb - 10.8, pad)}` + // the heel
+    toe(tw).repeat(4) +
+    `L${P(xb - 10.8 + 4 * tw, ankle + 13)}C${P(xb + 19, ankle + 6.4)} ${P(xb + 8.6, ankle + 7)} ${P(edge(1, ankle), ankle)}` + // the instep
+    `L${P(...meet(1))}`;
+  const outerToes = [1, 2, 3].map((i) => `M${P(xb - 10.8 + i * tw, pad)}l${n1(-0.4 + i * 0.5)} -6`).join('');
+
+  // middle leg, its paw seen from the front
+  const mh = (y) => 7.6 - (1.4 * (y - 210)) / (ankle - 210);
+  const mw = 7.8;
+  const midLeg =
+    `M${P(cx - mh(210), bowlY(cx - mh(210)))}L${P(cx - mh(ankle), ankle)}` +
+    `C${P(cx - 6, ankle + 6.4)} ${P(cx - 15, ankle + 6)} ${P(cx - 2 * mw, ankle + 13)}L${P(cx - 2 * mw, pad)}` +
+    toe(mw).repeat(4) +
+    `L${P(cx + 2 * mw, ankle + 13)}C${P(cx + 15, ankle + 6)} ${P(cx + 6, ankle + 6.4)} ${P(cx + mh(ankle), ankle)}` +
+    `L${P(cx + mh(210), bowlY(cx + mh(210)))}`;
+  const midToes = [-1, 0, 1].map((i) => `M${P(cx + i * mw, pad)}l${n1(i * 0.5)} -6`).join('');
+
+  // the stay: a slim band from leg to leg
+  const stayY = 264;
+  const stay = [stayY, stayY + 6.6].map((y) => `M${P(cx + mh(y), y)}H${n1(edge(-1, y))}`).join('');
+
+  // ring handles: three hoops standing in the lip
+  const ringR = 14.6;
+  const sunk = 3.4;
+  const chord = Math.sqrt(ringR ** 2 - (ringR - sunk) ** 2);
+  const rings = [cx, cx - 48, cx + 48].map((x) => path(`M${P(x - chord, lipTop)}A${ringR} ${ringR} 0 1 1 ${P(x + chord, lipTop)}`));
+
+  // laurel: a short sprig either side of the legs
+  const rand = rng(7);
+  const stemPts = [
+    [259, 337],
+    [264, 306],
+    [266, 274],
+    [264, 244],
+    [258.4, 220],
+  ];
+  const stemDense = sample(stemPts, 14);
+  const stemLens = lengths(stemDense);
+  const leaves = [];
+  const nodes = [0.1, 0.3, 0.5, 0.69, 0.86];
+  nodes.forEach((f, i) => {
+    const size = 1 - 0.26 * (i / (nodes.length - 1)) ** 1.3;
+    for (const side of [1, -1]) {
+      const b = along(stemDense, f + side * 0.014, stemLens);
+      const spread = (40 + rand() * 6) * deg;
+      const lf = leaf(b.x, b.y, b.ang + side * spread, (22.6 + rand() * 2.4) * size, 5.4 * (0.8 + 0.2 * size), -side * 0.07, 0.7, SLIM);
+      leaves.push(lf.outline + lf.rib);
+    }
+  });
+  const end = along(stemDense, 1, stemLens);
+  const last = leaf(end.x, end.y, end.ang - 2 * deg, 19, 4.4, -0.04, 0.7, SLIM);
+  leaves.push(last.outline + last.rib);
+
+  // vapour: one thread of two lines rising above the handles
   const vapour =
-    path(spline(wavy([150, 103], [150, 14], 2.6, 5.8, 0, 12))) +
-    path(spline(wavy([124, 141], [120, 46], 2.7, 5.4, Math.PI, 12))) +
-    path(spline(wavy([176, 141], [180, 46], 2.7, 5.4, 0, 12)));
-
-  // ring handles standing on the rim
-  const ringY = rimTop - 17.4;
-  const rings = [100, cx, 200].map((x) => circle(x, ringY, 17, true) + circle(x, ringY, 10)).join('');
-
-  // lebes: a deep round bowl, a band under the rim with a row of tongues hanging from it
-  const bandY = 167;
-  const tongues = (x0, n) => `M${P(x0, bandY)}` + 'a4.7 6.2 0 0 0 9.4 0'.repeat(n);
-  const bowl =
-    path(`M97 ${rimBottom}C97 203 120 234 ${cx} 234C180 234 203 203 203 ${rimBottom}Z`, true) +
-    path(`M98 ${bandY}H202`) +
-    path(tongues(104.9, 4) + tongues(157.5, 4));
-  const rim = `<rect x="80" y="${rimTop}" width="140" height="${n1(rimBottom - rimTop)}" rx="2.6" fill="var(--paper, #f2e9d3)"/>`;
-
-  // stays: an arched band between each pair of legs, running into them
-  const arch = (x0, x1, y, rise) => {
-    const m = (x0 + x1) / 2;
-    return `M${P(x0, y)}C${P(x0, y - rise * 0.72)} ${P(m - (x1 - x0) * 0.27, y - rise)} ${P(m, y - rise)}S${P(x1, y - rise * 0.72)} ${P(x1, y)}`;
-  };
-  const stays = path(arch(92, 148, 300, 44));
-
-  // a leg narrows a little towards the ankle and runs straight into a lion paw seen from the
-  // front; `lean` pushes the paw a little to one side
-  const leg = (xt, xb, lean) => {
-    const y = pawY;
-    const c = xb + lean * 3;
-    const l = c - 14.4;
-    const r = c + 14.4;
-    const tw = (r - l) / 3;
-    const yt = y + 19;
-    let d = `M${P(xt - 7.6, rimBottom)}L${P(xb - 6, y)}C${P(xb - 6, y + 6)} ${P(l, y + 4)} ${P(l, y + 12.6)}L${P(l, yt)}`;
-    for (let i = 0; i < 3; i++) d += `a${n1(tw / 2)} 3.8 0 0 0 ${n1(tw)} 0`;
-    d += `L${P(r, y + 12.6)}C${P(r, y + 4)} ${P(xb + 6, y + 6)} ${P(xb + 6, y)}L${P(xt + 7.6, rimBottom)}`;
-    const toes = `M${P(l + tw, yt)}q0.7 -4 -0.5 -7.4M${P(l + 2 * tw, yt)}q-0.7 -4 0.5 -7.4`;
-    return path(d, true) + path(toes);
-  };
-  const sideLeg = leg(98, 88, -1);
-  const midLeg = leg(cx, cx, 0);
-
-  // laurel either side, leaning in towards the handles
-  const sprig = () => {
-    const rand = rng(5);
-    const stemPts = [
-      [51, 347],
-      [38, 308],
-      [30, 263],
-      [31, 216],
-      [40, 174],
-      [53, 142],
-    ];
-    const dense = sample(stemPts, 14);
-    const lens = lengths(dense);
-    let out = path(spline(stemPts));
-    const nodes = [0.13, 0.27, 0.41, 0.55, 0.68, 0.8, 0.91];
-    nodes.forEach((f, i) => {
-      const size = 1 - 0.32 * (i / (nodes.length - 1)) ** 1.4;
-      for (const side of [-1, 1]) {
-        const b = along(dense, f + side * 0.012, lens);
-        const spread = (38 + rand() * 9) * deg;
-        const lf = leaf(b.x, b.y, b.ang + side * spread, (25 + rand() * 4) * size, 5.8 * (0.75 + 0.25 * size), -side * 0.07, 0.72, SLIM);
-        out += path(lf.outline + lf.rib);
-      }
-    });
-    const end = along(dense, 1, lens);
-    const last = leaf(end.x, end.y, end.ang + 3 * deg, 20, 4.4, 0.04, 0.72, SLIM);
-    return out + path(last.outline + last.rib);
-  };
-  const laurel = sprig();
+    path(spline(wavy([144.6, 84], [144.6, 31], 1.7, 5.4, 0, 12))) + path(spline(wavy([155.8, 79], [155.8, 21.6], 1.84, 5.4, 0.45, 12)));
 
   return svg(
     300,
     360,
     SW,
-    vapour + laurel + mirror(laurel, cx) + stays + mirror(stays, cx) + bowl + rings + rim + sideLeg + mirror(sideLeg, cx) + midLeg,
+    path(lip) +
+      path(bowl) +
+      path(inner) +
+      two(outerLeg) +
+      path(midLeg) +
+      two(stay) +
+      rings.join('') +
+      two(outerToes) +
+      path(midToes) +
+      two(spline(stemPts)) +
+      leaves.map(two).join('') +
+      vapour,
   );
-}
-
-/* -------------------------------------------------------------- butterfly */
-// Psyche: soul and butterfly are one word. Seen from above, wings open, the two sides the same.
-// Scales along the margins, an eye on each wing, veins running from the root to the scales.
-function butterfly() {
-  const cx = 160;
-  // a round arch from a to b, standing `h` high on the side given by the sign of h
-  const scallop = (a, b, h) => {
-    const dx = b[0] - a[0];
-    const dy = b[1] - a[1];
-    const len = Math.hypot(dx, dy);
-    const k = (h * 4) / 3;
-    const nx = (dy / len) * k;
-    const ny = (-dx / len) * k;
-    const e = 0.08;
-    return `C${P(a[0] + dx * e + nx, a[1] + dy * e + ny)} ${P(b[0] - dx * e + nx, b[1] - dy * e + ny)} ${P(...b)}`;
-  };
-  const row = (pts, h) => `M${P(...pts[0])}` + pts.slice(1).map((p, i) => scallop(pts[i], p, h)).join('');
-  const eye = (x, y, r) => circle(x, y, r, true) + circle(x, y, r * 0.55) + circle(x, y, 1.1);
-  // a vein from a to b, bowed sideways by `bend`, broken where it would run under the eye
-  const vein = (a, b, bend, halo) => {
-    const d = Math.hypot(b[0] - a[0], b[1] - a[1]);
-    const m = [(a[0] + b[0]) / 2 - ((b[1] - a[1]) / d) * bend, (a[1] + b[1]) / 2 + ((b[0] - a[0]) / d) * bend];
-    const fine = sample([a, m, b], 24);
-    return visibleRuns(fine, (q) => Math.hypot(q[0] - halo[0], q[1] - halo[1]) < halo[2], 4)
-      .filter((run) => lengths(run).at(-1) > 9)
-      .map((run) => spline(run))
-      .join('');
-  };
-  // a point on the vein that closes the cell (a curve from a to b, pulled towards c)
-  const onCurve = (a, c, b, t) => [0, 1].map((i) => (1 - t) ** 2 * a[i] + 2 * t * (1 - t) * c[i] + t * t * b[i]);
-  // the inner row of scales: n arches on a line `inset` inside the edge, half a step out of line
-  // with the row on the edge, running out past both ends so the wing's outline cuts them off.
-  // `crests` are the tops of the arches, where the veins end.
-  const innerRow = (edge, n, inset, h) => {
-    const q = resample(offset(edge, -inset), 2 * n + 1);
-    const before = [2 * q[0][0] - q[1][0], 2 * q[0][1] - q[1][1]];
-    const after = [2 * q[2 * n][0] - q[2 * n - 1][0], 2 * q[2 * n][1] - q[2 * n - 1][1]];
-    const cusps = q.filter((_, i) => i % 2 === 1);
-    const crests = q.filter((_, i) => i % 2 === 0).map(([x, y, ang]) => [x - Math.sin(ang) * h, y + Math.cos(ang) * h]);
-    return { crests, d: row([before, ...cusps, after], -h) };
-  };
-
-  /* forewing: a smooth edge with two rows of scales standing on it */
-  const forePts = [
-    [166, 97],
-    [193, 65],
-    [238, 40],
-    [281, 28],
-    [301, 34],
-    [305, 63],
-    [297, 100],
-    [279, 133],
-    [247, 138],
-    [206, 127],
-    [166, 114],
-  ];
-  const foreD = spline(forePts, { closed: true });
-  const foreEdge = sample(forePts, 12, true).slice(4 * 12 - 2, 7 * 12 + 3);
-  const nF = 6;
-  const f1 = resample(foreEdge, nF + 1);
-  const f2 = innerRow(foreEdge, nF, 9.4, 8.6);
-  const fEye = [260, 80, 13.6];
-  const fHalo = [fEye[0], fEye[1], fEye[2] + 4.6];
-  const fRoot = [170, 106];
-  const fA = [213, 79];
-  const fB = [209, 107];
-  const fC = [215, 93];
-  const fCell = `M${P(...fRoot)}Q${P(190, 85)} ${P(...fA)}Q${P(...fC)} ${P(...fB)}Q${P(190, 109)} ${P(...fRoot)}`;
-  const fVeins = each([
-    vein(fA, f2.crests[1], -5, fHalo),
-    vein(onCurve(fA, fC, fB, 0.25), f2.crests[2], -2, fHalo),
-    vein(onCurve(fA, fC, fB, 0.5), f2.crests[3], 0, fHalo),
-    vein(onCurve(fA, fC, fB, 0.75), f2.crests[4], 2, fHalo),
-    vein(fB, f2.crests[5], 3, fHalo),
-    vein([196, 115], f2.crests[6], 3, fHalo),
-  ]);
-  const fore =
-    path(foreD, true) +
-    group(path(row(f1, -8.6) + f2.d), { 'clip-path': 'url(#butterfly-fore)' }) +
-    path(fCell) +
-    fVeins +
-    eye(...fEye);
-
-  /* hindwing: a scalloped edge, a second row of scales inside it */
-  const hindEdge = sample(
-    [
-      [270, 147],
-      [284, 176],
-      [277, 210],
-      [254, 238],
-      [222, 250],
-      [194, 242],
-      [176, 216],
-    ],
-    12,
-  );
-  const nH = 6;
-  const h1 = resample(hindEdge, nH + 1);
-  const h2 = innerRow(hindEdge, nH, 11.6, 9.8);
-  const hindD =
-    `M166 108C196 121 240 131 ${P(...h1[0])}` +
-    h1.slice(1).map((p, i) => scallop(h1[i], p, -6.2)).join('') +
-    `C170 196 167 160 166 126Z`;
-  const hEye = [231, 194, 13.6];
-  const hHalo = [hEye[0], hEye[1], hEye[2] + 4.6];
-  const hRoot = [170, 119];
-  const hA = [214, 150];
-  const hB = [196, 164];
-  const hC = [207, 160];
-  const hCell = `M${P(...hRoot)}Q${P(196, 128)} ${P(...hA)}Q${P(...hC)} ${P(...hB)}Q${P(178, 142)} ${P(...hRoot)}`;
-  const hVeins = each([
-    vein(hA, h2.crests[1], -4, hHalo),
-    vein(onCurve(hA, hC, hB, 0.3), h2.crests[2], -2, hHalo),
-    vein(onCurve(hA, hC, hB, 0.65), h2.crests[3], 0, hHalo),
-    vein(hB, h2.crests[4], 2, hHalo),
-    vein([178, 150], h2.crests[5], 3, hHalo),
-  ]);
-  const hind =
-    path(hindD, true) +
-    group(path(h2.d), { 'clip-path': 'url(#butterfly-hind)' }) +
-    path(hCell) +
-    hVeins +
-    eye(...hEye);
-
-  /* body */
-  const antenna = path(`M157.2 76C151 58 137 41 121 32`) + ellipse(117.4, 30, 4.6, 2.7, 28, true);
-  const abdomen =
-    path(`M152.6 120C151.4 150 154 184 157.4 202C158.2 206.4 161.8 206.4 162.6 202C166 184 168.6 150 167.4 120Z`, true) +
-    each(
-      [136, 150, 164, 177, 189].map((y, i) => {
-        const w = 7.2 - i * 0.95;
-        return `M${P(cx - w, y)}Q${P(cx, y + 3.4)} ${P(cx + w, y)}`;
-      }),
-    );
-  const body = abdomen + ellipse(cx, 104.5, 9.2, 17.5, 0, true) + circle(cx, 81.5, 7, true);
-
-  const clip =
-    `<clipPath id="butterfly-fore"><path d="${foreD}"/></clipPath>` +
-    `<clipPath id="butterfly-hind"><path d="${hindD}"/></clipPath>`;
-  const wings = hind + fore;
-  return svg(320, 280, SW, clip + wings + mirror(wings, cx) + antenna + mirror(antenna, cx) + body);
 }
 
 /* ------------------------------------------------------------- orphic egg */
-// The egg from which Phanes breaks, the serpent wound about it. The egg stands upright; the
-// serpent climbs it in four passes across the front, tail at the foot, head laid near the top.
+// The egg from which Phanes breaks, one serpent wound about it. The egg stands upright; the
+// serpent climbs it in four passes across the front, each a shallow arc that reaches the outline
+// and turns behind it: the edge on the outside of the turn sweeps past the outline and hooks the
+// way the body goes on (up at the right, down at the left). Tail at the foot, head laid near the top.
 function orphicEgg() {
   const cx = 140;
-  const yc = 199;
-  const W = 104;
-  const aTop = 184;
-  const aBot = 126;
+  const yc = 198;
+  const W = 106;
+  const aTop = 176;
+  const aBot = 120;
   const R = (y) => {
     const t = y < yc ? (yc - y) / aTop : (y - yc) / aBot;
     return t >= 1 ? 0 : W * Math.sqrt(1 - t * t);
   };
-  const eggPts = Array.from({ length: 48 }, (_, i) => {
-    const f = (i / 48) * Math.PI * 2;
+  const eggDense = Array.from({ length: 361 }, (_, i) => {
+    const f = (i / 360) * Math.PI * 2;
     const c = Math.cos(f);
     return [cx + W * Math.sin(f), yc - (c > 0 ? aTop : aBot) * c];
   });
-  const egg = path(spline(eggPts, { closed: true }), true);
-
-  // the climb: degrees round the egg against height
-  const th0 = -62;
-  const th1 = 1077;
-  const y0 = 295;
-  const pitch = 68.5;
-  const yAt = (th) => y0 - (pitch * (th - th0)) / 360;
-  const squeeze = 0.8;
-  const at = (th, k) => {
-    const a = th - 360 * k;
-    const y = yAt(th);
-    return [cx + (R(y) * Math.sin(a * squeeze * deg)) / Math.sin(90 * squeeze * deg), y];
+  const outsideEgg = ([x, y]) => Math.abs(x - cx) > R(y);
+  // a point of the outline at height y on one side, pushed out by `out`
+  const rim = (side, y, out = 0) => {
+    const dx = (R(y + 0.5) - R(y - 0.5)) * side;
+    const len = Math.hypot(dx, 1);
+    return [cx + side * R(y) + (side * out) / len, y - (dx * side * out) / len];
   };
-  const thick = 13.4;
 
-  let out = '';
-  for (let k = 0; k < 4; k++) {
-    const from = Math.max(th0, 360 * k - 90);
-    const to = Math.min(th1, 360 * k + 90);
-    const raw = [];
-    for (let th = from; th <= to + 0.001; th += (to - from) / 60) raw.push(at(th, k));
-    const mid = resample(raw, 70);
-    const lens = lengths(mid);
-    const total = lens[lens.length - 1];
+  const mids = [290, 226, 162, 98]; // height of each pass where it crosses the middle
+  const halves = [13.6, 15.4, 16.4, 16]; // half the thickness of the body on each pass
+  const rise = 16;
+  const sag = 7;
+  const squeeze = 0.8;
+  const bulge = 8.4;
+  const past = 12;
+  const step = 8.6;
+  const hiddenRim = [];
+  const serpent = [];
+  const scaleLines = [];
+
+  mids.forEach((yMid, k) => {
     const isTail = k === 0;
     const isHead = k === 3;
-    // half-width along the pass: the tail runs out to a point, the neck draws in before the head
+    const a0 = isTail ? -52 : -108;
+    const a1 = isHead ? 16 : 108;
+    const raw = [];
+    for (let a = a0; a <= a1 + 0.001; a += 1) {
+      const y = yMid - (rise * a) / 90 + sag * (Math.cos(Math.max(-90, Math.min(90, a)) * deg) - 1);
+      raw.push([cx + (R(y) * Math.sin(a * squeeze * deg)) / Math.sin(90 * squeeze * deg), y]);
+    }
+    const n = 160;
+    const mid = resample(raw, n + 1);
+    const lens = lengths(mid);
+    const total = lens[n];
+    // half-width along the pass: drawn in a little where it meets the outline, the tail running
+    // out to a point, the neck narrowing before the head
     const half = (t) => {
-      if (isTail) return thick * Math.min(1, 0.07 + 0.93 * (t / 0.62) ** 0.8);
-      if (isHead) return thick - 2.2 * Math.max(0, (t - 0.45) / 0.55) ** 1.2;
-      return thick;
+      const x = mid[Math.round(t * n)][0];
+      const edge = 1 - 0.14 * Math.min(1, Math.abs(x - cx) / R(mid[Math.round(t * n)][1])) ** 4;
+      if (isTail) return halves[k] * edge * Math.min(1, (t / 0.7) ** 0.75);
+      if (isHead) return halves[k] * edge - 2.4 * Math.max(0, (t - 0.6) / 0.4) ** 1.4;
+      return halves[k] * edge;
     };
-    const thin = (pts) => pts.filter((_, i) => i % 3 === 0 || i === pts.length - 1);
-    const up = thin(offset(mid, half));
-    const down = thin(offset(mid, (t) => -half(t)));
-    const cap = (p, ang, r, a0, a1) =>
-      Array.from({ length: 7 }, (_, i) => {
-        const a = ang + (a0 + ((a1 - a0) * (i + 1)) / 8) * deg;
-        return [p[0] + Math.cos(a) * r, p[1] + Math.sin(a) * r];
-      });
-    const first = mid[0];
-    const last = mid[mid.length - 1];
-    const endAng = last[2];
-    let nose = [];
-    let face = '';
-    if (isHead) {
-      const c = Math.cos(endAng);
-      const s = Math.sin(endAng);
-      const loc = (u, v) => [last[0] + u * c - v * s, last[1] + u * s + v * c];
-      const rn = half(1);
-      // the head from above: a broad spade behind the eyes, drawn in to a blunt snout
-      const side = [
-        [7, rn + 1.4],
-        [17, 16.6],
-        [29, 16.4],
-        [40, 11],
-        [47.6, 4.4],
-      ];
-      nose = [...side.map(([u, v]) => loc(u, -v)), loc(49.6, 0), ...side.reverse().map(([u, v]) => loc(u, v))];
-      const e1 = loc(27.6, -8);
-      const e2 = loc(27.6, 8);
-      const t0 = loc(49.6, 0);
-      const t1 = loc(58.6, 0.4);
-      const t2 = loc(66, -4.8);
-      const t3 = loc(66.4, 5.2);
-      face =
-        circle(e1[0], e1[1], 2.4) +
-        circle(e2[0], e2[1], 2.4) +
-        path(`M${P(...t0)}L${P(...t1)}M${P(...t2)}Q${P(...loc(61.4, -1.4))} ${P(...t1)}Q${P(...loc(61.6, 2))} ${P(...t3)}`);
-    } else {
-      nose = cap(last, endAng, half(1), -90, 90);
-    }
-    const tailEnd = isTail ? [] : cap(first, first[2], half(0), 90, 270);
-    const outline = spline([...up, ...nose, ...down.reverse(), ...tailEnd], { closed: true, k: 0.9 });
-
-    // scales: columns of arches across the body, each opening towards the head. The columns are
-    // joined outside the body into one line, so the scales draw along the serpent in turn.
-    const du = 8.3;
-    const sw = 13.4;
-    let scales = '';
-    const pt = (u, v) => {
+    // band coordinates: u along the body (in units of length), v from -1 (lower edge) to 1 (upper)
+    const B = (u, v) => {
       const q = along(mid, u / total, lens);
-      return [q.x + Math.sin(q.ang) * -v, q.y + Math.cos(q.ang) * v];
+      const w = half(u / total) * v;
+      return [q.x + Math.sin(q.ang) * w, q.y - Math.cos(q.ang) * w];
     };
-    const uEnd = isHead ? total + 4 : total + thick;
-    const tip = along(mid, 1, lens);
-    for (let j = 0, u = isTail ? 16 : -thick * 0.2; u < uEnd; j++, u += du) {
-      const shift = j % 2 ? sw / 2 : 0;
-      const uc = Math.max(0, Math.min(u, total));
-      const ext = Math.max(0, u - total);
-      const sx = Math.cos(tip.ang) * ext;
-      const sy = Math.sin(tip.ang) * ext;
-      const back = along(mid, uc / total, lens).ang + Math.PI;
-      const kx = Math.cos(back) * 9.2;
-      const ky = Math.sin(back) * 9.2;
-      const col = [];
-      for (let v = -sw * 2 + shift; v <= sw * 2 + 0.01; v += sw) {
-        const q = pt(uc, v);
-        col.push([q[0] + sx, q[1] + sy]);
-      }
-      if (j % 2) col.reverse();
-      scales += `${j ? 'L' : 'M'}${P(...col[0])}`;
-      for (let i = 1; i < col.length; i++) {
-        const A = col[i - 1];
-        const B = col[i];
-        scales += `C${P(A[0] + kx, A[1] + ky)} ${P(B[0] + kx, B[1] + ky)} ${P(...B)}`;
+    const edgeLine = (v) => Array.from({ length: n + 1 }, (_, i) => B((i / n) * total, v));
+    const inner = (line) => visibleRuns(line, outsideEgg, 1)[0];
+    const upper = inner(edgeLine(1));
+    const lower = inner(edgeLine(-1));
+    const thin = (pts, every = 6) => pts.filter((_, i) => i % every === 0 || i === pts.length - 1);
+    // the hook where the body turns behind the egg: from the point where an edge leaves the
+    // outline, out by `bulge` and back onto the outline beyond the other edge
+    const hook = (side, from, other) => {
+      const dir = side > 0 ? -1 : 1; // the body goes on upward at the right, downward at the left
+      const D = Math.abs(from[1] - other[1]) + past;
+      hiddenRim.push({ side, y0: Math.min(from[1], from[1] + dir * D), y1: Math.max(from[1], from[1] + dir * D) });
+      return [
+        [0.3, 0.86],
+        [0.58, 1],
+        [0.84, 0.52],
+        [1, 0],
+      ].map(([f, o]) => rim(side, from[1] + dir * f * D, bulge * o));
+    };
+    let upperPts = thin(upper);
+    let lowerPts = thin(lower);
+    if (!isHead) lowerPts = [...lowerPts, ...hook(1, lower.at(-1), upper.at(-1))];
+    if (!isTail) upperPts = [...hook(-1, upper[0], lower[0]).reverse(), ...upperPts];
+
+    let face = '';
+    if (isTail) {
+      // one line round the tip of the tail
+      serpent.push(path(spline([...upperPts.reverse(), ...lowerPts.slice(1)])));
+    } else if (isHead) {
+      // the head from above: long and flat, a little broader than the neck, blunt at the snout
+      const end = along(mid, 1, lens);
+      const c = Math.cos(end.ang);
+      const sn = Math.sin(end.ang);
+      const loc = (u, v) => [end.x + u * c - v * sn, end.y + u * sn + v * c];
+      const hn = half(1);
+      const side = [
+        [9, hn + 0.6],
+        [20, 15.6],
+        [32, 15.4],
+        [43, 10.6],
+        [50.6, 4.6],
+      ];
+      const head = [...side.map(([u, v]) => loc(u, -v)), loc(52.6, 0), ...side.reverse().map(([u, v]) => loc(u, v))];
+      serpent.push(path(spline([...upperPts, ...head, ...lowerPts.reverse()])));
+      const e1 = loc(29, -9.4);
+      const e2 = loc(29, 9.4);
+      const t0 = loc(52.6, 0);
+      const t1 = loc(61, 0.2);
+      face =
+        path(`M${P(...t0)}L${P(...t1)}M${P(...loc(67.6, -4.6))}Q${P(...loc(63.6, -1.4))} ${P(...t1)}Q${P(...loc(63.8, 1.8))} ${P(...loc(68, 4.6))}`) +
+        circle(e1[0], e1[1], 2.2) +
+        circle(e2[0], e2[1], 2.2);
+    } else {
+      serpent.push(path(spline(upperPts)), path(spline(lowerPts)));
+    }
+
+    // scales: at each station two arches across the body, every other station half a step out of
+    // line, each arch opening towards the head. They are strung on one line (it runs back along
+    // the lower edge between stations), so they draw along the serpent in turn.
+    const okAt = (u) => {
+      if (u < 0 || u > total) return false;
+      const far = [B(u, 1), B(u, -1), B(Math.max(0, u - step), 1), B(Math.max(0, u - step), -1)];
+      return far.every(([x, y]) => Math.abs(x - cx) < R(y) - 3.2);
+    };
+    const arch = (u, va, vb) => {
+      // from (u, va) to (u, vb), its crown one step back towards the tail
+      const A = B(u, va);
+      const Bq = B(u, vb);
+      const back = along(mid, u / total, lens).ang + Math.PI;
+      const kx = Math.cos(back) * step * 1.3;
+      const ky = Math.sin(back) * step * 1.3;
+      return `C${P(A[0] + kx, A[1] + ky)} ${P(Bq[0] + kx, Bq[1] + ky)} ${P(...Bq)}`;
+    };
+    const quarter = (u, va, vEdge, reverse) => {
+      // half an arch: from (u, va) back to the edge one step towards the tail
+      const A = B(u, va);
+      const E = B(u - step, vEdge);
+      const C = B(u - step, va);
+      return reverse ? `Q${P(...C)} ${P(...A)}` : `Q${P(...C)} ${P(...E)}`;
+    };
+    let u = isTail ? total * 0.34 : step * 1.5;
+    while (!okAt(u) && u < total) u += 1;
+    const uMax = isHead ? total - 3 : total;
+    let d = '';
+    for (let j = 0; u <= uMax && okAt(u); j++, u += step) {
+      const narrow = half(u / total) < 9.6; // near the tip of the tail: one arch across
+      if (j % 2 === 0) {
+        d += `${d ? 'L' : 'M'}${P(...B(u, -1))}`;
+        d += narrow ? arch(u, -1, 1) : arch(u, -1, 0) + arch(u, 0, 1);
+      } else if (narrow) {
+        d += `M${P(...B(u, -1))}` + arch(u, -1, 1);
+      } else {
+        // down from the upper edge, across the middle, back to the lower edge
+        d += quarter(u, 0.5, 1, true) + arch(u, 0.5, -0.5) + quarter(u, -0.5, -1, false);
+        // along the lower edge to the next station
+        for (let w = u - step + 2; w < u + step - 0.5; w += 2) d += `L${P(...B(w, -1))}`;
       }
     }
-    const id = `orphic-egg-coil-${k}`;
-    out +=
-      `<path id="${id}" d="${outline}" fill="${PAPER}"/>` +
-      `<clipPath id="${id}-clip"><use href="#${id}"/></clipPath>` +
-      group(path(scales), { 'clip-path': `url(#${id}-clip)` }) +
-      face;
-  }
-  return svg(280, 340, SW, egg + out);
-}
+    scaleLines.push(path(d) + face);
+  });
 
-/* ---------------------------------------------------------------- cicada */
-// The tettix of the Phaedrus and of Attica, seen from above: the head as broad as the body with
-// the eyes at its corners, the shield of the thorax, a ringed abdomen, and long glass wings whose
-// veins run out to a seam just inside the edge. The wings stand half open so both pairs show.
-function cicada() {
-  const cx = 150;
-  // wing-space to page-space for the right wing: u runs down the wing, v out towards its fore edge
-  const frame = (bx, by, tilt) => {
-    const ax = Math.sin(tilt * deg);
-    const ay = Math.cos(tilt * deg);
-    return (u, v) => [bx + u * ax + v * ay, by + u * ay - v * ax];
-  };
-  const outside = (shape) => (q) => !inside(q, shape);
-  const cut = (pts, shape, per = 12) =>
-    visibleRuns(sample(pts, per), outside(shape), 3)
-      .map((run) => spline(run))
-      .join('');
+  const egg = visibleRuns(
+    eggDense,
+    ([x, y]) => hiddenRim.some((h) => (x - cx) * h.side > 0 && y > h.y0 && y < h.y1),
+    6,
+  ).map((run) => path(spline(run)));
 
-  /* forewing: longer than the body, widest past the middle */
-  const L = 210;
-  const F = frame(184, 104, 27);
-  const f = (u, v) => F(u * L, v);
-  const foreLocal = [
-    [0, 0],
-    [0.1, 10],
-    [0.35, 20],
-    [0.6, 24],
-    [0.82, 21],
-    [0.95, 12],
-    [1, 0],
-    [0.96, -12],
-    [0.84, -24],
-    [0.64, -32],
-    [0.42, -31],
-    [0.2, -21],
-    [0.07, -9],
-  ].map(([u, v]) => f(u, v));
-  const foreD = spline(foreLocal, { closed: true });
-  const forePoly = sample(foreLocal, 12, true);
-  const seamAll = offset([...forePoly, forePoly[0]], -6.6);
-  // the cross veins: a zigzag from the node on the fore edge to the hind edge
-  const n0 = forePoly[3 * 12 - 1];
-  const n5 = forePoly[9 * 12];
-  const node = [n0, f(0.635, 12.5), f(0.585, 1), f(0.64, -10.5), f(0.6, -21.5), n5];
-  // the seam runs just inside the edge from one end of the zigzag round the tip to the other
-  const seam = seamAll.slice(3 * 12 + 2, 9 * 12 - 2).filter((_, i) => i % 3 === 0);
-  const fore =
-    path(foreD, true) +
-    path(spline([n0, ...seam, n5])) +
-    path(poly(node)) +
-    // the long veins from the root to the zigzag
-    path(spline([f(0.08, 3.4), f(0.34, 9.6), node[1]])) +
-    path(spline([f(0.08, -1.6), f(0.32, -4), node[2]])) +
-    path(spline([f(0.1, -7.4), f(0.26, -14), f(0.45, -14.6), node[3]])) +
-    path(spline([f(0.27, -14.2), f(0.43, -23.2), node[4]])) +
-    // the veins of the tip, from the zigzag out to the seam
-    path(
-      cut([node[1], f(0.82, 13.4), f(1.03, 14)], seamAll) +
-        cut([node[2], f(0.82, 3.6), f(1.06, 1.5)], seamAll) +
-        cut([node[3], f(0.81, -7.6), f(1.04, -9)], seamAll) +
-        cut([node[4], f(0.79, -18), f(0.99, -22)], seamAll),
-    );
-
-  /* hindwing: shorter, tucked under the forewing beside the abdomen */
-  const Lh = 124;
-  const H = frame(177, 134, 9);
-  const h = (u, v) => H(u * Lh, v);
-  const hindLocal = [
-    [0, 0],
-    [0.1, 10],
-    [0.4, 24],
-    [0.7, 28],
-    [0.92, 17],
-    [1, 0],
-    [0.93, -10],
-    [0.7, -16],
-    [0.4, -15],
-    [0.1, -7],
-  ].map(([u, v]) => h(u, v));
-  const hindPoly = sample(hindLocal, 12, true);
-  const hSeamAll = offset([...hindPoly, hindPoly[0]], -6.2);
-  const hind =
-    path(spline(hindLocal, { closed: true }), true) +
-    path(spline(hSeamAll.slice(2 * 12, 8 * 12 + 4).filter((_, i) => i % 3 === 0))) +
-    path(cut([h(0.08, 0), h(0.5, -1), h(1.05, -3)], hSeamAll) + cut([h(0.3, 1), h(0.6, 9), h(1.02, 13)], hSeamAll));
-
-  /* body */
-  const sideL = sample(
-    [
-      [119.6, 148],
-      [117.4, 167],
-      [120, 191],
-      [128.6, 216],
-      [139.6, 236],
-      [150, 248],
-    ],
-    14,
-  );
-  const xAt = (y) => {
-    let i = 1;
-    while (i < sideL.length - 1 && sideL[i][1] < y) i++;
-    const a = sideL[i - 1];
-    const b = sideL[i];
-    return a[0] + ((b[0] - a[0]) * (y - a[1])) / (b[1] - a[1] || 1);
-  };
-  const sideR = sideL.map(([x, y]) => [2 * cx - x, y]).reverse();
-  const abdomen =
-    path(spline([...sideL.filter((_, i) => i % 7 === 0), ...sideR.filter((_, i) => i % 7 === 0).slice(1)]), true) +
-    each(
-      [166, 181, 195.6, 209.4, 222, 233.4].map((y, i) => {
-        const x = xAt(y);
-        const sag = 7.6 - i * 0.8;
-        return `M${P(x, y)}Q${P(cx, y + sag * 2)} ${P(2 * cx - x, y)}`;
-      }),
-    );
-  // the big shield of the thorax with its three marks hanging from the front
-  const meso =
-    path(`M106 96.6C103 116 111 138 123 147.6Q150 155 177 147.6C189 138 197 116 194 96.6Z`, true) +
-    each([
-      `M141.6 97.4C141.8 110 145 119.6 150 123C155 119.6 158.2 110 158.4 97.4`,
-      `M123.4 97.4C124 114 130.6 127.4 140.4 133.4`,
-      `M176.6 97.4C176 114 169.4 127.4 159.6 133.4`,
-    ]);
-  // the head, as wide as the thorax, the eyes bulging at its corners
-  // the eyes are the one solid thing in the set: dark beads, so they read as eyes and not as ears
-  const bead = (x) => `<ellipse cx="${x}" cy="63.4" rx="9.6" ry="11.4" fill="currentColor" data-nodraw=""/>`;
-  const eyes = bead(112.6) + bead(187.4);
-  const head =
-    path(`M118.6 73C117 64 117.6 56.4 120 52C130 50.4 135 48.6 138 46C143 42.2 157 42.2 162 46C165 48.6 170 50.4 180 52C182.4 56.4 183 64 181.4 73Z`, true);
-  const ocelli = circle(143.6, 63.4, 1.5) + circle(156.4, 63.4, 1.5) + circle(150, 57.6, 1.5);
-  const feelers = path(`M130 50Q126.6 41 120.4 35.6M170 50Q173.4 41 179.6 35.6`);
-  const pro =
-    path(`M113 70.4C126 66.6 174 66.6 187 70.4L194.8 91C195.8 95 194.4 97.6 190.6 97.6L109.4 97.6C105.6 97.6 104.2 95 105.2 91Z`, true) +
-    path(`M108.4 88.4Q150 93.2 191.6 88.4`);
-
-  const wings = hind + fore;
-  return svg(
-    300,
-    320,
-    SW,
-    group(wings + mirror(wings, cx) + abdomen + meso + feelers + eyes + head + ocelli + pro, { transform: 'translate(0 -5)' }),
-  );
-}
-
-/* -------------------------------------------------------- spring, cypress */
-// From the gold tablets: by the house of Hades a spring, and standing beside it a white cypress.
-// The tree is left bare, it is white; the water of Memory comes out of the rock at its foot and
-// gathers in rings. A few stars for "child of Earth and starry Heaven".
-function springCypress() {
-  // the cypress: a tall spindle, widest low down, drawn by its outline only
-  const cypress =
-    path(
-      spline(
-        [
-          [111, 13],
-          [118, 42],
-          [126, 82],
-          [134, 126],
-          [139, 170],
-          [140, 208],
-          [135, 238],
-          [125, 256],
-          [111, 262],
-          [97, 256],
-          [87, 238],
-          [82, 208],
-          [82, 170],
-          [86, 126],
-          [93, 82],
-          [102, 42],
-        ],
-        { closed: true },
-      ),
-      true,
-    ) + path(`M105.4 261.4L104.6 283M116.6 261.4L117.6 283`);
-  const ground = path(`M22 285.4C48 281.6 78 283 102.4 282.6M119.8 282.6C130 281.8 139 282.4 147 284`);
-
-  // the rock: a crag behind with a cleft in it, two boulders in front, the water coming down
-  // between them
-  const crag = path(
-    spline(
-      [
-        [155, 284],
-        [153, 266],
-        [160, 244],
-        [172, 229],
-        [178, 210],
-        [193, 197],
-        [212, 194],
-        [226, 203],
-        [233, 219],
-        [249, 228],
-        [259, 247],
-        [264, 268],
-        [266, 290],
-      ],
-      { k: 0.72 },
-    ),
-    true,
-  );
-  const creases = each([`M178 210Q186 216 187 228`, `M233 219Q227 224 227 235`, `M249 228Q244 240 247 252`, `M166 250Q170 243 176 241`]);
-  const cleft = path(`M193 262C192 244 197 231 205 228C213 231 218 244 217 262`);
-  const boulderL = path(
-    spline(
-      [
-        [146, 291],
-        [146, 274],
-        [155, 262],
-        [171, 259],
-        [184, 266],
-        [190, 280],
-        [191, 291],
-      ],
-      { k: 0.8 },
-    ),
-    true,
-  );
-  const boulderR = path(
-    spline(
-      [
-        [219, 291],
-        [220, 277],
-        [228, 265],
-        [243, 262],
-        [256, 269],
-        [263, 281],
-        [265, 291],
-      ],
-      { k: 0.8 },
-    ),
-    true,
-  );
-  const water = each([
-    spline([
-      [198.6, 246],
-      [198.4, 264],
-      [195.4, 282],
-      [194, 300],
-    ]),
-    spline([
-      [205, 240],
-      [205.4, 262],
-      [204.4, 282],
-      [205, 303],
-    ]),
-    spline([
-      [211.4, 246],
-      [212, 264],
-      [213.6, 282],
-      [216, 300],
-    ]),
-  ]);
-
-  // the pool: rings round the place where the water lands
-  const px = 205;
-  const py = 320;
-  const arc = (rx, ry, a0, a1) => {
-    const p = (a) => [px + rx * Math.cos(a * deg), py + ry * Math.sin(a * deg)];
-    return `M${P(...p(a0))}A${n1(rx)} ${n1(ry)} 0 ${a1 - a0 > 180 ? 1 : 0} 1 ${P(...p(a1))}`;
-  };
-  const pool = each([
-    arc(18, 5.2, -200, 150),
-    arc(41, 11.4, 6, 170),
-    arc(41, 11.4, 200, 252),
-    arc(41, 11.4, 290, 342),
-    arc(65, 17.6, -6, 112),
-    arc(65, 17.6, 132, 196),
-    arc(88, 24, 24, 84),
-    arc(88, 24, 100, 166),
-  ]);
-
-  const star = (x, y, r) => {
-    const k = 0.13 * r;
-    return `M${P(x, y - r)}Q${P(x + k, y - k)} ${P(x + r, y)}Q${P(x + k, y + k)} ${P(x, y + r)}Q${P(x - k, y + k)} ${P(x - r, y)}Q${P(x - k, y - k)} ${P(x, y - r)}Z`;
-  };
-  const stars = each([star(204, 60, 10.5), star(252, 128, 7), star(44, 100, 8), star(178, 146, 5)]);
-
-  const all = stars + ground + cypress + crag + creases + cleft + water + boulderL + boulderR + pool;
-  return svg(300, 360, SW, group(all, { transform: 'translate(-4 0)' }));
+  return svg(280, 340, SW, egg.join('') + serpent.join('') + scaleLines.join(''));
 }
 
 /* ------------------------------------------------------------------ write */
-const drawings = { 'spring-cypress': springCypress, tripod, butterfly, 'orphic-egg': orphicEgg, cicada, wheat };
+const drawings = { cicada, tripod, 'orphic-egg': orphicEgg };
 mkdirSync(outDir, { recursive: true });
 for (const [name, draw] of Object.entries(drawings)) {
   if (only && !only.split(',').includes(name)) continue;

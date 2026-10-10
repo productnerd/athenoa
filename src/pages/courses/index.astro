@@ -56,15 +56,20 @@ const cuts = ['arch', 'paper'] as const;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: var(--space-s) var(--space-m);
+    gap: var(--space-s) clamp(0.75rem, 3vw, 1.75rem);
     margin-bottom: var(--space-l);
+  }
+  /* Greek is set in the fallback face, which runs wider than the title face: a step smaller,
+     so the title still fits beside the symbol on a phone */
+  .courses__head h1:lang(el) {
+    font-size: calc(clamp(3.4rem, 1.4rem + 9.6vw, 11.5rem) * 0.86);
   }
   .courses__line {
     grid-column: 1 / -1;
     max-width: 30ch;
   }
   .courses__mark {
-    --mark: clamp(4.25rem, 12vw, 10rem);
+    --mark: clamp(3.5rem, 1rem + 12vw, 10rem);
     position: relative;
     isolation: isolate;
     grid-column: 2;
@@ -92,7 +97,7 @@ const cuts = ['arch', 'paper'] as const;
     margin-top: var(--space-xl);
   }
   .courses__others > :global(.card) {
-    width: min(100%, 30rem);
+    width: min(100%, 34rem);
   }
   /* An olive sprig in the pause between the open course and the ones to come */
   .courses__olive {
@@ -104,6 +109,20 @@ const cuts = ['arch', 'paper'] as const;
     opacity: 0.85;
   }
 
+  /* One even row: both cards start and end on the same lines (each lets its picture take up the slack) */
+  @media (min-width: 48rem) {
+    .courses__others {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+    .courses__others > :global(.card--arch) {
+      grid-column: 1 / span 5;
+      width: auto;
+    }
+    .courses__others > :global(.card--paper) {
+      grid-column: 7 / span 6;
+      width: auto;
+    }
+  }
   @media (min-width: 62rem) {
     .courses__head {
       margin-bottom: var(--space-xl);
@@ -113,20 +132,6 @@ const cuts = ['arch', 'paper'] as const;
     }
     .courses__mark {
       grid-row: 1 / span 2;
-    }
-    /* One even row: both cards start and end on the same lines */
-    .courses__others {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      align-items: end;
-    }
-    .courses__others > :global(.card--arch) {
-      grid-column: 1 / span 5;
-      align-self: stretch;
-      width: auto;
-    }
-    .courses__others > :global(.card--paper) {
-      grid-column: 7 / span 6;
-      width: auto;
     }
   }
 </style>

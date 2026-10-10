@@ -21,10 +21,11 @@ const INK = 'currentColor';
 const TAU = Math.PI * 2;
 const deg = Math.PI / 180;
 
-// ---------- The measures shared by the pieces (and by NewsletterDialog.astro) ----------
-export const W = 640; // the frame, paper margins included
-export const AXIS = 53; // axis of the left column, from the left edge of the frame
-export const CELL = 64; // width of a column piece
+// ---------- The measures shared by the pieces ----------
+// NewsletterDialog.astro repeats three of them in its grid: W, CELL and AXIS - CELL / 2 (= 21).
+const W = 640; // the frame, paper margins included
+const AXIS = 53; // axis of the left column, from the left edge of the frame
+const CELL = 64; // width of a column piece
 const CX = CELL / 2; // the column axis inside its own piece
 const R_LOW = 21; // half the lower diameter of the shaft
 const R_TOP = 17.6; // half the upper diameter (0.84 of the lower)
@@ -49,19 +50,17 @@ const wash = (d, fill, o = {}) => `<path d="${d}" fill="${fill}" stroke="none"${
 const svg = (w, h, body, o = {}) =>
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n(w)} ${n(h)}" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"${attrs(o)}>${body.join('')}</svg>\n`;
 
-// Smooth path through points (Catmull-Rom converted to cubic Béziers).
-function spline(pts, { closed = false, move = true } = {}) {
-  const len = pts.length;
-  const g = (i) => (closed ? pts[((i % len) + len) % len] : pts[Math.max(0, Math.min(len - 1, i))]);
-  let d = `${move ? 'M' : 'L'}${P(...pts[0])}`;
-  const segs = closed ? len : len - 1;
-  for (let i = 0; i < segs; i++) {
+// Smooth open path through points (Catmull-Rom converted to cubic Béziers).
+function spline(pts) {
+  const g = (i) => pts[Math.max(0, Math.min(pts.length - 1, i))];
+  let d = `M${P(...pts[0])}`;
+  for (let i = 0; i < pts.length - 1; i++) {
     const [p0, p1, p2, p3] = [g(i - 1), g(i), g(i + 1), g(i + 2)];
     const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
     const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
     d += `C${P(...c1)} ${P(...c2)} ${P(...p2)}`;
   }
-  return d + (closed ? 'Z' : '');
+  return d;
 }
 
 // ---------- Capital ----------
@@ -354,6 +353,8 @@ const STEPS_H = STEP * 3 + 1;
 function steps() {
   const out = [];
   const edges = [22, 17, 12]; // each step comes out a little further than the one above
+  // The lowest step stands in the light blue, so the building has a ground to stand on
+  out.push(wash(`M${P(12, STEP * 2)}H${n(W - 12)}V${n(STEP * 3)}H12Z`, LIGHT));
   edges.forEach((x, i) => {
     const y = i * STEP;
     out.push(line(`M${P(x, y + STEP)}L${P(x, y)}L${P(W - x, y)}L${P(W - x, y + STEP)}`));

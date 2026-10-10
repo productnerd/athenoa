@@ -2,11 +2,14 @@
 // node scripts/illustrations/olympus-near.mjs   -> src/assets/illustrations/footer-olympus-near.svg
 //
 // Two species, as on the mountain. The black pine (Pinus nigra) of the forest belt: a tall straight
-// trunk, bare below, then tiers of level branches each carrying a flat pad of needles, and in old
-// trees a broad table of a crown. Higher up the Bosnian pine, the robolo (Pinus heldreichii): short,
-// thick and armoured in plates, limbs lifted like a candelabrum, the top often dead and bleached,
-// the whole tree leaning away from the wind with its roots clamped over the limestone.
-// Every tree is set out by hand below (tiers, lean, crown); the seeded jitter only loosens the line.
+// trunk in plated bark, bare below with the stubs of dead branches, and a deep crown of level
+// tiers, each a flat cloud of needles lapping over the one above; old trees carry a broad table.
+// Higher up the Bosnian pine, the robolo (Pinus heldreichii): short, thick and armoured, heavy
+// limbs lifting a wide dome, a bleached snag or a dead tip, the whole tree leaning away from the
+// wind with its roots clamped over the limestone.
+// The crowns are drawn as the umbrella pines of the Attic footer are (big lobes outside, rows of
+// small scallops inside) so the two forests are by one hand; what differs is the build of the tree.
+// Every tree is set out by hand below; the seeded jitter only loosens the line.
 import { rng, n, P, lerp, smooth, rock, sheet } from './olympus-lib.mjs';
 
 const r = rng(2917);
@@ -30,7 +33,7 @@ const ground = (x) => 303 + 3.2 * Math.sin(x / 131 + 0.6) + 1.8 * Math.sin(x / 4
 /* ---------- a pad of needles: a flat cloud, scalloped above, with a row of small scallops inside ---------- */
 // cx, cy: middle of the underside. tilt in degrees, positive lowers the right end.
 function pad(cx, cy, w, h, o = {}) {
-  const lobes = o.lobes ?? Math.max(3, Math.round(w / 21) + 2);
+  const lobes = o.lobes ?? Math.max(3, Math.round(w / 30) + 1);
   const tilt = o.tilt ?? 0;
   const skew = o.skew ?? 0; // moves the crest of the pad sideways, -1..1
   const T = (p) => rot(p, tilt, [cx, cy]);
@@ -150,35 +153,35 @@ const through = (pts) => (t) => {
 
 /**
  * A pine.
- * tiers: [t, side, reach, w, h, {rise, tilt, bare, inner}] from the lowest up; side -1 left, 1 right.
- *        inner: [w, h] a second, smaller pad nearer the trunk and a little higher.
- * limbs: [t, [[dx, dy], ...], thick, [w, h, opts] | null] heavy limbs, drawn through points given from where
- *        they leave the trunk. With no pad the limb is a dead snag.
- * top:   [w, h, {dx, tilt, skew}] the crowning pad, or null for a dead tip.
- * stubs: [t, side, len] snags on the bare trunk.
+ * decks:  [t, dx, w, h, opts] the tiers of the crown, lowest first: flat clouds centred near the
+ *         trunk at height t. They are drawn from the top down, so each laps over the one above.
+ * top:    [w, h, {dx, tilt, skew}] the crowning cloud, or null for a dead tip.
+ * clouds: [dx, dy, w, h, opts] clouds placed from the tip of the trunk, in drawing order (back first).
+ * limbs:  [t, [[dx, dy], ...], thick, dead] heavy limbs through points given from where they leave
+ *         the trunk; dead ones are bare snags.
+ * boughs: [t, side, reach, w, h, opts] a single low bough on a thin branch, carrying its own cloud.
+ * stubs:  [t, side, len] the stubs of dead branches on the bare trunk.
  */
 function pine(spec) {
-  const { H, W, tiers = [], limbs = [], top, stubs = [], barkTo = 0.5, barkFrom = 0.03, shoulders = [] } = spec;
+  const { H, W, decks = [], limbs = [], clouds = [], boughs = [], top, stubs = [], barkTo = 0.5, barkFrom = 0.03 } = spec;
   const c = spine(spec);
   const w = widthAt(spec);
-  const pads = [];
   let twigs = '';
   // limbs go on first, so the trunk overlaps where they leave it
-  for (const [t, rel, thick, crown] of limbs) {
+  for (const [t, rel, thick, dead] of limbs) {
     const p = c(t);
     const pts = rel.map(([dx, dy]) => [p[0] + dx, p[1] + dy]);
     const lc = through(pts);
-    const lw = (u) => lerp(thick, crown ? 3.6 : 2, u ** 0.8);
+    const lw = (u) => lerp(thick, dead ? 2 : 4.5, u ** 0.8);
     trunk(lc, lw, { steps: 8 });
     const tip = pts[pts.length - 1];
-    if (crown) {
-      bark(lc, lw, Math.hypot(tip[0] - p[0], tip[1] - p[1]) * 1.2, 0.3, 0.75, 13);
-      pads.push([tip[0] + (crown[2]?.dx ?? 0), tip[1] + crown[1] * 0.4, crown[0], crown[1], { tilt: j(3), ...(crown[2] ?? {}) }]);
-    } else {
+    if (dead) {
       // a bleached snag: one short fork near its end
       const q = lc(0.62);
       const side = Math.sign(tip[0] - p[0]) || 1;
       twigs += `M${P(q)}q${n(side * 3)} ${n(-7)} ${n(side * 1)} ${n(-13)}`;
+    } else {
+      bark(lc, lw, Math.hypot(tip[0] - p[0], tip[1] - p[1]) * 1.2, 0.25, 0.7, 13);
     }
   }
   trunk(c, w);
@@ -188,78 +191,65 @@ function pine(spec) {
     const from = [p[0] + side * (w(t) / 2 - 0.5), p[1]];
     twigs += `M${P(from)}Q${P([from[0] + side * len * 0.6, from[1] - len * 0.1])} ${P([from[0] + side * len, from[1] - len * (0.3 + r() * 0.2)])}`;
   }
-  const front = [];
-  for (const [t, side, reach, pw, ph, o = {}] of tiers) {
+  const low = [];
+  for (const [t, side, reach, pw, ph, o = {}] of boughs) {
     const p = c(t);
     const from = [p[0] + side * (w(t) / 2 - 0.6), p[1]];
     const rise = o.rise ?? reach * 0.12;
     const end = [from[0] + side * reach, from[1] - rise];
     // the branch leaves level, sags a little under its own weight and lifts at the tip
     twigs += `M${P(from)}Q${P([from[0] + side * reach * 0.55, from[1] + reach * 0.05 - rise * 0.2])} ${P(end)}`;
-    if (o.inner) {
-      const [iw, ih] = o.inner;
-      front.push([from[0] + side * (reach * 0.36 + iw * 0.08), from[1] - rise * 0.3 - ph * 0.5, iw, ih, { tilt: -side * (1 + r() * 3), rows: 1 }]);
-    }
-    front.push([end[0] - side * pw * (o.inset ?? 0.3), end[1] + ph * 0.12, pw, ph, { tilt: o.tilt ?? -side * (2 + r() * 4), skew: o.skew ?? side * 0.25, ...o }]);
-    if (o.bare) twigs += `M${P(end)}l${n(side * o.bare)} ${n(-o.bare * 0.5)}`;
+    low.push([end[0] - side * pw * 0.3, end[1] + ph * 0.14, pw, ph, { tilt: -side * (2 + r() * 4), skew: side * 0.25, ...o }]);
   }
   if (twigs) S.line(twigs);
-  for (const p of pads) pad(...p);
-  for (const p of front) pad(...p);
   const tip = c(1);
-  for (const [dx, dy, sw, sh, o = {}] of shoulders) pad(tip[0] + dx, tip[1] + dy, sw, sh, { tilt: j(3), ...o });
   if (top) {
     const [tw, th, o = {}] = top;
     pad(tip[0] + (o.dx ?? 0), tip[1] + th * 0.42, tw, th, { tilt: o.tilt ?? j(2), ...o });
-  } else {
+  } else if (spec.deadTip) {
     // a dead, bleached tip standing clear of the crown, with one bare twig
-    S.line(`M${P(c(0.93))}l${n(7 + r() * 3)} ${n(-9)}`);
+    S.line(`M${P(c(0.95))}l${n(7 + r() * 3)} ${n(-8)}`);
   }
+  for (const [t, dx, pw, ph, o = {}] of decks.slice().reverse()) {
+    const p = c(t);
+    pad(p[0] + dx, p[1] + ph * 0.3, pw, ph, { tilt: j(2.5), ...o });
+  }
+  for (const [dx, dy, cw, ch, o = {}] of clouds) pad(tip[0] + dx, tip[1] + dy, cw, ch, { tilt: j(2.5), ...o });
+  for (const p of low) pad(...p);
   return { c, w };
 }
 
 /**
- * Black pine, tiers set out by rule and loosened by the seeded jitter.
- * age: 'old' (bare below, crown widest high up, a broad table on top), 'grown' (ovoid), 'young' (a narrow cone).
- * The tiers stand closer than a pad is deep, so the crown reads as stacked plates and the trunk
- * only shows in the gaps.
+ * Black pine, its tiers set out by rule and loosened by the seeded jitter.
+ * age: 'old' (bare for half its height, the crown widening upward to a dome), 'table' (older
+ * still: a flat table on top), 'grown' (a full ovoid crown), 'young' (a blunt cone near the ground).
+ * widths: each tier as a fraction of the widest, lowest first.
  */
 function blackPine(x, H, age, o = {}) {
   const kind = {
-    old: { from: 0.56, to: 0.87, count: 5, wide: H * 0.37, f: (u) => 0.72 + 0.28 * Math.sin(Math.PI * (0.1 + 0.7 * u)), deep: 27, top: [H * 0.43, 34], W: H * 0.08 },
-    grown: { from: 0.38, to: 0.89, count: 6, wide: H * 0.38, f: (u) => (u === 0 ? 0.84 : 1 - 0.44 * u ** 1.3), deep: 25, top: [H * 0.25, 28], W: H * 0.074 },
-    young: { from: 0.22, to: 0.84, count: 5, wide: H * 0.52, f: (u) => 1 - 0.56 * u, deep: 19, top: [H * 0.21, 21], W: H * 0.082 },
+    old: { bare: 0.55, to: 0.89, widths: [0.58, 0.8, 0.96, 1, 0.84], wide: H * 0.5, deep: 30, cap: [0.56, 31], W: H * 0.076 },
+    table: { bare: 0.58, to: 0.87, widths: [0.46, 0.66, 0.86, 1], wide: H * 0.54, deep: 30, cap: [0.82, 30], W: H * 0.08 },
+    grown: { bare: 0.44, to: 0.89, widths: [0.8, 1, 0.97, 0.86, 0.7], wide: H * 0.47, deep: 29, cap: [0.46, 28], W: H * 0.072 },
+    young: { bare: 0.24, to: 0.84, widths: [1, 0.9, 0.76, 0.6], wide: H * 0.52, deep: 22, cap: [0.4, 22], W: H * 0.08 },
   }[age];
-  const count = o.count ?? kind.count;
-  const from = o.from ?? kind.from;
+  const widths = o.widths ?? kind.widths;
   const wide = o.wide ?? kind.wide;
   let side = o.first ?? (r() < 0.5 ? -1 : 1);
-  const tiers = [];
-  for (let i = 0; i < count; i++) {
-    const u = count > 1 ? i / (count - 1) : 0;
-    const t = from + (kind.to - from) * u + j(0.006);
-    const pw = wide * kind.f(u) * (0.93 + r() * 0.14);
-    const ph = Math.max(15, Math.min(kind.deep, pw * 0.3)) + j(1);
-    const reach = pw * (age === 'young' ? 0.58 : 0.64 + r() * 0.1);
-    const opts = {};
-    if (age === 'old' && i === 0) Object.assign(opts, { rise: -reach * 0.08 });
-    tiers.push([t, side, reach, pw, ph, opts]);
+  const decks = widths.map((f, i) => {
+    const t = kind.bare + ((kind.to - kind.bare) * i) / (widths.length - 1) + j(0.006);
+    const pw = wide * f * (0.95 + r() * 0.1);
+    const ph = Math.min(kind.deep, pw * 0.44) * (0.94 + r() * 0.12);
+    const dx = side * pw * (0.04 + r() * 0.06);
     side = -side;
-  }
-  // one low branch left over from when the tree was younger, and a couple of snags
-  const low = [];
-  const stubs = [];
-  if (age === 'old') {
-    low.push([from - 0.1 + j(0.015), side, 30 + r() * 8, 46, 17, { rise: -2, bare: 8 }]);
-    stubs.push([from - 0.2 + j(0.03), -side, 10 + r() * 4], [from - 0.3 + j(0.03), side, 8 + r() * 4]);
-  } else if (age === 'grown') {
-    stubs.push([from - 0.1 + j(0.02), side, 10 + r() * 4], [from - 0.18 + j(0.02), -side, 8 + r() * 4]);
-  }
+    return [t, dx, pw, ph, { rows: 1 }];
+  });
+  // the stubs of dead branches below the crown
+  const stubs = age === 'young' ? [] : [[kind.bare - 0.07 + j(0.02), side, 10 + r() * 4], [kind.bare - 0.17 + j(0.02), -side, 8 + r() * 4], [kind.bare - 0.3 + j(0.03), side, 7 + r() * 3]];
   return pine({
     x, y: G(x), H, W: o.W ?? kind.W, lean: o.lean ?? j(5), sway: o.sway ?? j(3), bend: o.bend ?? 0,
-    barkTo: age === 'young' ? 0.16 : from - 0.04,
-    tiers: [...low, ...tiers], stubs,
-    top: [o.top?.[0] ?? kind.top[0], o.top?.[1] ?? kind.top[1], { dx: j(3), ...(o.top?.[2] ?? {}) }],
+    barkTo: age === 'young' ? 0.18 : kind.bare - 0.03,
+    decks, stubs,
+    top: [wide * kind.cap[0], kind.cap[1], { dx: j(3), rows: 2 }],
     ...o.spec,
   });
 }
@@ -309,6 +299,12 @@ function juniper(x, wide, tall) {
   }
   let d = `M${P(pts[0])}`;
   for (let i = 0; i < count; i++) d += arc(pts[i], pts[i + 1], 0.6);
+  // juniper is prickly: a few short shoots stand out of the cushion
+  for (let i = 1; i < count; i += 2) {
+    const p = pts[i];
+    const out = ((p[0] - x) / wide) * 5;
+    d += `M${n(p[0])} ${n(p[1] - 1)}l${n(out + j(1))} ${n(-6 - r() * 2)}`;
+  }
   S.ink(`${d}Z`);
 }
 function grass(x) {
@@ -340,53 +336,65 @@ function robolo({ x, rockW, rockH, rockDx = 0, ...spec }) {
 }
 
 // ---- left of the gorge ----
-blackPine(470, 124, 'young', { first: -1 });
-blackPine(-2, 250, 'old', { first: 1, lean: 4 });
-blackPine(176, 214, 'grown', { first: -1, lean: -4 });
-blackPine(336, 274, 'old', { first: 1, lean: 5, sway: -3 });
-blackPine(590, 240, 'grown', { first: 1, lean: -5 });
+blackPine(236, 190, 'grown', { first: 1, lean: 3 });
+blackPine(456, 128, 'young', { first: -1 });
+blackPine(4, 252, 'old', { first: 1, lean: 4 });
+blackPine(134, 216, 'grown', { first: -1, lean: -4 });
+blackPine(330, 276, 'table', { first: 1, lean: 5, sway: -3 });
+blackPine(574, 240, 'old', { first: 1, lean: -5 });
 
 robolo({
   x: 704, rockW: 130, rockH: 40, rockDx: 12,
-  H: 150, W: 27, tip: 5, lean: 6, bend: 32, flare: 3,
+  H: 150, W: 27, tip: 6, lean: 6, bend: 30, flare: 3,
   barkTo: 0.5,
   limbs: [
-    [0.5, [[-4, 2], [-18, -4], [-32, -14]], 7, null],
-    [0.44, [[4, 3], [30, -2], [54, -14], [66, -34]], 13, [82, 30, { dx: 6 }]],
+    [0.34, [[-4, 2], [-18, -5], [-32, -16]], 7, true],
+    [0.5, [[-3, 3], [-18, -14], [-30, -34], [-34, -50]], 11, false],
+    [0.46, [[4, 3], [26, -8], [46, -28], [56, -56]], 12, false],
   ],
-  tiers: [[0.72, -1, 20, 58, 25, { rise: 8 }], [0.76, 1, 44, 70, 27, { rise: 8 }]],
-  top: [88, 32, { dx: 8, tilt: 5, skew: 0.4 }],
+  top: null,
+  clouds: [
+    [8, 10, 120, 46, { rows: 2 }],
+    [-44, 33, 80, 31],
+    [48, 31, 88, 33],
+  ],
 });
 
 // ---- right of the gorge ----
 robolo({
   x: 1016, rockW: 146, rockH: 46, rockDx: 10,
   H: 184, W: 30, tip: 3, lean: 3, bend: 20, flare: 3,
-  barkTo: 0.42,
+  barkTo: 0.4,
   limbs: [
-    [0.3, [[4, 2], [24, -6], [42, -20]], 8, null],
-    [0.42, [[-4, 3], [-22, -7], [-36, -24], [-40, -46]], 14, [80, 31, { dx: -8 }]],
-    [0.54, [[4, 3], [28, -6], [48, -22], [54, -40]], 12, [78, 30, { dx: 6 }]],
+    [0.3, [[4, 2], [24, -6], [42, -20]], 8, true],
+    [0.42, [[-4, 3], [-22, -10], [-36, -30], [-40, -52]], 13, false],
+    [0.5, [[4, 3], [26, -8], [44, -26], [50, -46]], 12, false],
   ],
-  tiers: [[0.7, -1, 16, 62, 26, { rise: 6 }], [0.76, 1, 14, 58, 25, { rise: 6 }]],
   top: null,
-});
-blackPine(1140, 132, 'young', { first: -1 });
-blackPine(1262, 270, 'old', { first: -1, lean: -4, sway: 3 });
-pine({
-  x: 1396, y: G(1396), H: 184, W: 16, lean: 6, bend: 48, tip: 3.6,
-  barkTo: 0.42,
-  stubs: [[0.3, -1, 10]],
-  tiers: [
-    [0.48, 1, 50, 66, 21, { rise: 2 }],
-    [0.58, -1, 22, 44, 18],
-    [0.66, 1, 60, 82, 23, { rise: 4 }],
-    [0.78, 1, 52, 76, 23, { rise: 5 }],
-    [0.84, -1, 20, 42, 18],
+  deadTip: true,
+  clouds: [
+    [-8, 58, 124, 46, { rows: 2 }],
+    [-56, 81, 84, 32],
+    [38, 75, 88, 33],
   ],
-  top: [88, 27, { dx: 16, tilt: 6, skew: 0.5 }],
 });
-blackPine(1592, 244, 'grown', { first: 1, lean: -3 });
+blackPine(1146, 132, 'young', { first: -1 });
+blackPine(1372, 204, 'grown', { first: -1, lean: 3 });
+blackPine(1264, 270, 'old', { first: -1, lean: -4, sway: 3 });
+// a black pine the wind has pushed over: the tiers trail to leeward
+pine({
+  x: 1466, y: G(1466), H: 186, W: 16, lean: 6, bend: 46, tip: 3.6,
+  barkTo: 0.48,
+  stubs: [[0.3, -1, 10], [0.42, -1, 8]],
+  decks: [
+    [0.56, 16, 70, 24, { tilt: 5, skew: 0.3, rows: 1 }],
+    [0.67, 20, 94, 27, { tilt: 5, skew: 0.3, rows: 1 }],
+    [0.78, 20, 100, 28, { tilt: 4, skew: 0.3, rows: 1 }],
+    [0.88, 16, 82, 27, { tilt: 4, skew: 0.3, rows: 1 }],
+  ],
+  top: [58, 26, { dx: 12, tilt: 5, skew: 0.5, rows: 1 }],
+});
+blackPine(1596, 246, 'table', { first: 1, lean: -3 });
 
 /* ---------- loose rocks ---------- */
 boulder(826, ground(826), 58, 22);

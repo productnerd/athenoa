@@ -1,5 +1,11 @@
 ---
 // Not found: a calm Aegean, the footer's sibling at sea.
+//
+// CLIENT DIRECTION, 11 October 2026 (replaces the first brief; do not restore the old parts):
+// the page has no site header; there is no visible "Page not found" heading, no second link and no
+// sun; the water runs to the very bottom of the page in the darker blue (no paper under it). The only
+// control is one button, bottom right, with a small line in the voice face above it and another below.
+//
 // A paper theatre on the crème page: clouds drift across the top, a Greek sentence on eudaimonia
 // stands in the sky, and below the horizon three bands of water slide past at their own pace while
 // one boat sails from the left edge to the right and starts again. The plain words (heading, one
@@ -41,25 +47,23 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
       <div class="nf__swell">
         <div class="nf__run"><Illustration name="sea-waves-near" /></div>
       </div>
-      <div class="nf__floor"><Illustration name="sea-floor" /></div>
     </div>
     {
       locales.map((locale) => {
         const t = notfound[locale];
         return (
           <div class="nf__words wrap" lang={locale} data-lang={locale}>
-            <div class="nf__say">
-              <h1 class="nf__title t-3">{t.heading}</h1>
-              <p class="nf__line">{t.line}</p>
-            </div>
-            <p class="nf__ways">
+            <h1 class="visually-hidden">{t.heading}</h1>
+            <div class="nf__way">
+              <p class="nf__aside hand">{t.wander}</p>
               <a class="btn" href={t.home.href}>
                 {t.home.label}
               </a>
-              <a class="btn btn--ghost" href={t.courses.href}>
-                {t.courses.label}
-              </a>
-            </p>
+              <p class="nf__aside hand">
+                {t.journey}
+                {t.journeySource && <span class="nf__cite">{t.journeySource}</span>}
+              </p>
+            </div>
           </div>
         );
       })
@@ -106,7 +110,6 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     </figure>
 
     <div class="nf__land" aria-hidden="true">
-      <div class="nf__sun" data-reveal="fade" style="--delay: 150ms"><Illustration name="sea-sun" draw /></div>
       <div class="nf__island" data-reveal="fade"><Illustration name="sea-island" draw /></div>
       <div class="nf__cape" data-reveal="fade" style="--delay: 100ms"><Illustration name="sea-cape" draw /></div>
     </div>
@@ -141,7 +144,7 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
        the whole page fits a laptop window; below --least of the width scale it stops shrinking
        and the page scrolls instead. */
     --vh: 100vh;
-    --fixed: 21rem;
+    --fixed: 25.5rem;
     --least: 0.5;
     --uw: calc(max(100vw, 64rem) / 1600);
     --u: clamp(calc(var(--uw) * var(--least)), calc((var(--vh) - var(--fixed)) / 638), var(--uw));
@@ -161,10 +164,9 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     grid-template-columns: minmax(0, 1fr);
     grid-template-rows: minmax(0, 1fr) var(--sea-h) auto;
     min-height: var(--vh);
-    /* Pulled up under the sticky header, which keeps its strip of crème sky. */
-    margin-top: calc(var(--header-h) * -1);
-    /* A little paper under the water's lower edge. */
-    padding-bottom: calc(var(--u) * 26 + 0.7rem);
+    /* The page has no header and the water runs to the bottom edge. */
+    margin-top: 0;
+    padding-bottom: 0;
     overflow: clip;
     background-color: var(--paper);
   }
@@ -186,6 +188,7 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   .nf [data-lang='el'] {
     --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
     --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-family: var(--font-body);
   }
 
   /* ---------- rows ---------- */
@@ -235,7 +238,6 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     justify-items: center;
     gap: 0.3rem;
     margin-top: clamp(0.8rem, 2.2svh, 1.5rem);
-    font-family: var(--font-body);
   }
   .nf__translation {
     max-width: 46ch;
@@ -246,23 +248,30 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     color: var(--ink-soft);
   }
 
+  /* One way back, bottom right: a line, the button, a line. */
   .nf__words {
     position: relative;
     z-index: 8;
     display: flex;
-    flex-wrap: wrap;
-    align-items: end;
-    justify-content: space-between;
-    gap: var(--space-s) var(--space-l);
+    justify-content: flex-end;
   }
-  .nf__line {
-    margin-top: 0.25rem;
-    color: var(--ink-soft);
+  .nf__way {
+    display: grid;
+    justify-items: end;
+    gap: 0.7rem;
+    max-width: min(100%, 30rem);
+    text-align: right;
   }
-  .nf__ways {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs) var(--space-s);
+  .nf__aside {
+    font-size: calc(var(--step-0) * 1.06);
+    line-height: 1.25;
+    color: var(--creme-light);
+  }
+  .nf__cite {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.78em;
+    color: var(--blue-light);
   }
 
   /* ---------- the picture ---------- */
@@ -346,12 +355,6 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   }
   /* The sun stands a little left of centre. The island ends just short of it on one side; the cape
      runs off the right edge and, on narrow screens, further off, so it keeps clear on the other. */
-  .nf__sun {
-    left: var(--sun);
-    bottom: calc(var(--u) * -64);
-    width: calc(var(--u) * 300);
-    margin-left: calc(var(--u) * -150);
-  }
   .nf__island {
     left: calc(var(--sun) - var(--u) * 670);
     bottom: calc(var(--u) * -4);
@@ -441,12 +444,6 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   }
   .nf__swell :global(.illo) {
     color: var(--blue-light);
-  }
-  .nf__floor {
-    position: absolute;
-    left: 0;
-    top: calc(100% - 1px);
-    width: calc(var(--tile) * 2);
   }
 
   /* Paper grain over the whole picture, still while the layers move underneath. */

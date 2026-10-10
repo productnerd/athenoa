@@ -76,15 +76,15 @@ const [lead, ...paragraphs] = about.intro;
   }
 
   /* The title is sized against its own column and the length of the name, so the name stays on one
-     line whatever the copy and whichever type set is chosen (0.45em is a generous average letter).
-     A still wider face simply breaks the name. */
+     line in either language and in the fallback face (0.46em is a generous average letter: the Greek
+     name in EB Garamond needs 0.43). A still wider face simply breaks the name. */
   .hero__head {
     position: relative;
     z-index: 2;
     container-type: inline-size;
   }
   .hero__title {
-    font-size: min(var(--step-5), calc(100cqi / (var(--name-chars) * 0.45)));
+    font-size: min(var(--step-5), calc(100cqi / (var(--name-chars) * 0.46)));
   }
   /* The opening words are set as the title's smaller first line, in the lighter blue of a subtitle */
   .hero__opening {

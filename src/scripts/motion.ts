@@ -229,11 +229,15 @@ async function init() {
   headerState();
 
   const root = document.documentElement;
+  // Drawings that animate themselves (the vibrating wave lines) hold still when motion is off.
+  const drawings = document.querySelectorAll<SVGSVGElement>('.illo svg');
   if (!motionAllowed()) {
     root.classList.remove('motion');
+    drawings.forEach((svg) => svg.pauseAnimations?.());
     return;
   }
   root.classList.add('motion');
+  drawings.forEach((svg) => svg.unpauseAnimations?.());
   splitHeadings();
   prepareDrawings();
   startParallax();

@@ -21,60 +21,54 @@ function ridge(crest, cliff, side) {
 }
 
 /**
- * A small black pine seen across the valley, drawn the way the near ones are: a straight trunk,
- * bare below, and pads of needles to left and right in turn with one on top. Old ones are taller,
- * bare for half their height, under a broad table. Returns [trunk, pads] as two path strings.
+ * A small black pine seen across the valley, built as the near ones are: a straight trunk, bare
+ * below, and a crown of level tiers, each lapping over the one above. Old ones are taller and
+ * bare for half their height. Returns its trunk and its tiers from the top down, so that a
+ * company can lay all the trunks first and then each level of tiers in turn.
  */
 function pine(x, y, h, old = false) {
   const lean = j(h * 0.04);
   const at = (t) => [x + lean * t, y - h * t];
-  let side = r() < 0.5 ? -1 : 1;
-  const bare = old ? 0.48 + r() * 0.05 : 0.26 + r() * 0.06;
-  const count = old ? 2 : h < 28 ? 2 : 3;
-  const crown = 0.82;
-  const step = (crown - bare) / count;
-  let d = '';
-  const dome = (cx, cy, w, hh) => {
-    d += `M${n(cx - w / 2)} ${n(cy)}C${n(cx - w / 2)} ${n(cy - hh * 1.33)} ${n(cx + w / 2)} ${n(cy - hh * 1.33)} ${n(cx + w / 2)} ${n(cy)}Q${n(cx)} ${n(cy - hh * 0.22)} ${n(cx - w / 2)} ${n(cy)}Z`;
-  };
-  for (let k = 0; k < count; k++) {
-    const w = h * (old ? 0.36 : 0.33 - 0.035 * k) * (0.92 + r() * 0.16);
-    const p = at(bare + step * k);
-    dome(p[0] + side * w * 0.24, p[1], w, Math.min(step * h * 0.98, w * 0.56));
-    side = -side;
+  const bare = old ? 0.5 + r() * 0.05 : 0.3 + r() * 0.06;
+  const count = h < 26 ? 2 : 3;
+  const wide = h * (old ? 0.5 : 0.44) * (0.92 + r() * 0.16);
+  const step = (1 - bare) / (count + 0.35);
+  const dome = (cx, cy, w, hh) =>
+    `M${n(cx - w / 2)} ${n(cy)}C${n(cx - w / 2)} ${n(cy - hh * 1.33)} ${n(cx + w / 2)} ${n(cy - hh * 1.33)} ${n(cx + w / 2)} ${n(cy)}Q${n(cx)} ${n(cy - hh * 0.2)} ${n(cx - w / 2)} ${n(cy)}Z`;
+  const tiers = [];
+  for (let k = count - 1; k >= 0; k--) {
+    // widest one tier up from the bottom, as the near crowns are
+    const f = old ? [0.72, 1, 0.86][k] : [0.9, 1, 0.7][k];
+    const p = at(bare + step * (k + 0.9));
+    tiers.push(dome(p[0] + j(wide * 0.05), p[1] + step * h * 0.9, wide * (count === 2 ? [1, 0.74][k] : f), step * h * 1.35));
   }
-  const top = at(crown);
-  dome(top[0], top[1], h * (old ? 0.46 : 0.26) * (0.92 + r() * 0.16), h * (1 - crown) * 1.04);
-  return [`M${P(at(0))}L${P(at(crown))}`, d];
+  return [`M${P(at(0))}L${P(at(bare + step))}`, tiers];
 }
 
 /**
  * A company of pines along a crest from x0 to x1. h: height of a grown tree here.
- * Trunks go down first as plain lines; the pads follow in two paths, written to in turn, so
- * that each tree hides its own trunk and the neighbour behind it.
+ * They stand shoulder to shoulder without crossing, so one path holds all the trunks and one
+ * more holds each level of tiers, the top ones first.
  */
 function company(ctrl, x0, x1, h, o = {}) {
   const y = curve(asc(ctrl));
   const trunks = [];
-  const a = [];
-  const b = [];
-  let x = x0 + h * 0.2;
-  let i = 0;
+  const levels = [[], [], []];
+  let x = x0 + h * 0.25;
   const swell = r() * 6.28;
-  while (x < x1 - h * 0.2) {
+  while (x < x1 - h * 0.25) {
     const u = (x - x0) / (x1 - x0);
     // lower at both ends of the company, and rolling a little along it
     const size = h * (0.8 + 0.2 * Math.sin(Math.PI * u) ** 0.5) * (0.9 + 0.12 * Math.sin(u * 9 + swell) + r() * 0.12);
     const old = size > h * 0.94 && r() < 0.22;
-    const [trunk, pads] = pine(x, y(x) + 1.5 + (o.drop ?? 0), old ? size * 1.26 : size, old);
+    const tall = old ? size * 1.26 : size;
+    const [trunk, tiers] = pine(x, y(x) + 1.5 + (o.drop ?? 0), tall, old);
     trunks.push(trunk);
-    (i % 2 ? b : a).push(pads);
-    x += size * (0.36 + r() * 0.12) + (r() < 0.14 ? size * 0.4 : 0);
-    i++;
+    tiers.forEach((d, k) => levels[k + (3 - tiers.length)].push(d));
+    x += tall * (old ? 0.5 : 0.46) * (1 + r() * 0.14) + (r() < 0.14 ? size * 0.36 : 0);
   }
   S.line(trunks.join(''));
-  if (a.length) S.paper(a.join(''));
-  if (b.length) S.paper(b.join(''));
+  for (const level of levels) if (level.length) S.paper(level.join(''));
 }
 
 /** Slope lines under a crest, as on the Attic hills: a stretch of the crest, moved down. */
@@ -93,7 +87,10 @@ function loners(ctrl, list) {
   const y = curve(asc(ctrl));
   const trees = list.map(([x, dy, h]) => pine(x, y(x) + dy, h));
   S.line(trees.map((t) => t[0]).join(''));
-  S.paper(trees.map((t) => t[1]).join(''));
+  for (let k = 0; k < 3; k++) {
+    const d = trees.map((t) => t[1][k + t[1].length - 3] ?? '').join('');
+    if (d) S.paper(d);
+  }
 }
 
 /* ---------- the far pair: they meet in a notch at the head of the gorge ---------- */

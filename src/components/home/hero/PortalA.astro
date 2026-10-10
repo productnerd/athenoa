@@ -28,35 +28,36 @@ const highlight = home.hero.highlight;
         </div>
 
         <div class="pa__frame">
-          <div class="pa__layer" data-depth="0.32" data-pointer="-7" data-reveal="fade" style="--delay: 500ms">
-            <Illustration name="portal-a-rays" draw style="--delay: 800ms" />
+          <div class="pa__layer" data-depth="0.32" data-pointer="-7" data-reveal="fade" style="--delay: 450ms">
+            <Illustration name="portal-a-rays" draw style="--delay: 700ms" />
           </div>
           <div class="pa__layer" data-depth="0.24" data-pointer="-4" data-reveal="fade" style="--delay: 200ms">
-            <Illustration name="portal-a-athena" draw style="--delay: 350ms" />
+            <Illustration name="portal-a-athena" draw style="--delay: 300ms" />
           </div>
-          <div class="pa__layer" data-depth="0.14" data-reveal="fade" style="--delay: 80ms">
+          <div class="pa__layer" data-depth="0.12" data-reveal="fade" style="--delay: 80ms">
             <Illustration name="portal-a-hill" />
             <Illustration name="portal-a-cella" />
-            <Illustration name="portal-a-light" class="pa__light" draw style="--delay: 1500ms" />
-            <Illustration name="portal-a-temple" draw style="--delay: 200ms" />
-            <Illustration name="portal-a-flame" class="pa__flame" data-reveal="fade" style="--delay: 1250ms" />
+            <Illustration name="portal-a-light" draw style="--delay: 1300ms" />
+            <Illustration name="portal-a-temple" draw style="--delay: 150ms" />
+            <Illustration name="portal-a-flame" data-reveal="fade" style="--delay: 950ms" />
           </div>
         </div>
 
-        <div class="pa__layer pa__trees pa__trees--l" data-depth="-0.2" data-pointer="9" data-reveal style="--delay: 550ms">
+        <div class="pa__layer pa__trees pa__trees--l" data-depth="-0.2" data-pointer="9" data-reveal style="--delay: 500ms">
           <Illustration name="portal-a-trees-left" />
         </div>
-        <div class="pa__layer pa__trees pa__trees--r" data-depth="-0.28" data-pointer="13" data-reveal style="--delay: 650ms">
+        <div class="pa__layer pa__trees pa__trees--r" data-depth="-0.28" data-pointer="13" data-reveal style="--delay: 600ms">
           <Illustration name="portal-a-trees-right" />
         </div>
         <div class="pa__frame">
-          <div class="pa__layer" data-depth="-0.05">
+          <div class="pa__layer" data-depth="-0.04">
             <Illustration name="portal-a-ground" />
           </div>
         </div>
       </div>
+      <div class="pa__grain"></div>
 
-      <h1 class="pa__title t-hero" data-split style="--delay: 1150ms; --hl-delay: 2.2s">
+      <h1 class="pa__title t-hero" data-split style="--delay: 1350ms; --hl-delay: 2.2s">
         {
           home.hero.titleLines.map((line, n) => {
             const at = line.indexOf(highlight);
@@ -97,6 +98,8 @@ const highlight = home.hero.highlight;
      .pa__inner, which is cut to the same outline a few pixels inside it. */
   .pa__panel {
     --panel-r: 50% 50% 3.4rem 3.8rem / min(57%, 50vw, 32rem) min(55%, 49vw, 31rem) 3rem 3.4rem;
+    /* the grain is laid over the whole picture instead (.pa__grain), so the flat washes carry it too */
+    --grain: none;
     padding: 5px;
   }
   .pa__inner {
@@ -110,10 +113,12 @@ const highlight = home.hero.highlight;
 
   /* ---------- the scene ---------- */
   .pa__scene {
+    pointer-events: none;
+    user-select: none;
     /* space kept above the tip of the spear */
     --gap: clamp(0.4rem, 1.2svh, 0.9rem);
-    /* height of the shared frame: all the room there is, but never wider than the cut-out */
-    --fh: min(100% - var(--gap), 104vw);
+    /* height of the shared frame: all the room there is, but the trees must keep clear of the temple */
+    --fh: min(100% - var(--gap), 58vw);
     position: relative;
     flex: 1 1 auto;
     min-height: 21rem;
@@ -160,6 +165,15 @@ const highlight = home.hero.highlight;
   }
 
   /* ---------- the title, on the near ground ---------- */
+  /* Paper grain over the washes and the ground, still while the layers move underneath. */
+  .pa__grain {
+    position: absolute;
+    inset: 0;
+    background-image: url('/textures/grain-light.webp');
+    background-size: 400px 400px;
+    pointer-events: none;
+  }
+
   /* Set like an inscription under the monument: one wide line where the face and the language allow
      it, two balanced lines where they do not. The scene above takes whatever height is left. */
   .pa__title {
@@ -183,7 +197,7 @@ const highlight = home.hero.highlight;
   /* On the night ground the highlighted words are only legible where the swash is, so here it
      covers the capitals whole, in the title face and in its fallback. */
   .pa__title :global(.hl__w::before) {
-    inset: -0.03em -0.19em 0.07em -0.17em;
+    inset: -0.03em -0.19em 0.07em -0.14em;
     border-radius: 0.5em 0.7em 0.45em 0.62em / 48% 56% 44% 52%;
   }
   .pa__title :global(.hl__w:nth-child(even)::before) {
@@ -195,8 +209,8 @@ const highlight = home.hero.highlight;
      The sky fades up, the temple and Athena draw themselves, the glow spreads behind her head, the
      trees rise, the doorway opens and its light fans out, then the title, and the highlight last. */
   :global(html.motion) .pa__scene :global([data-draw] :is(path, circle)) {
-    transition-duration: 1.35s;
-    transition-delay: calc(min(var(--i, 0), 22) * 30ms + var(--delay, 0ms));
+    transition-duration: 1.2s;
+    transition-delay: calc(min(var(--i, 0), 22) * 26ms + var(--delay, 0ms));
   }
   /* Until the script has prepared a path, its dashes are in plain units and would show as dots. */
   :global(html.motion) .pa__scene :global([data-draw] :is(path, circle):not([pathLength], [data-nodraw])) {
@@ -211,8 +225,13 @@ const highlight = home.hero.highlight;
     transform: scaleX(0.02);
     opacity: 0;
     transition:
-      transform 1.2s var(--ease-out) 1.4s,
-      opacity 0.4s linear 1.4s;
+      transform 1.05s var(--ease-out) 1.15s,
+      opacity 0.35s linear 1.15s;
+  }
+  /* The capitals of the title face reach the very top of their line: start the words far enough
+     below the mask that nothing shows before they rise. */
+  :global(html.motion) .pa__title:not(.is-in) :global(.w__i) {
+    transform: translate3d(0, 135%, 0);
   }
   :global(html.motion) .pa__scene :global(.is-in .pa-door) {
     transform: none;
@@ -235,20 +254,34 @@ const highlight = home.hero.highlight;
     animation: pa-breathe 4.6s var(--ease-in-out) infinite alternate;
   }
 
+  /* The drawings carry their stroke in their own units, so the line thins as the picture shrinks.
+     These steps keep it near one and a half pixels on short laptops, tall screens and phones. */
+  @media (min-width: 64rem) and (max-height: 47rem) {
+    .pa__scene :global(svg) {
+      stroke-width: 3.1;
+    }
+  }
+  @media (min-width: 64rem) and (min-height: 61rem) {
+    .pa__scene :global(svg) {
+      stroke-width: 2.2;
+    }
+  }
+
   /* ---------- narrow screens: the picture above at the width of the cut-out, the title below ---------- */
-  @media (max-width: 47.99rem) {
+  @media (max-width: 63.99rem) {
     .pa__inner {
       min-height: 0;
     }
     .pa__scene {
       --gap: clamp(2.5rem, 13vw, 4.5rem);
-      --fh: 104vw;
+      /* as wide as the cut-out, unless the first screen is too short for picture and title together */
+      --fh: max(17rem, min(104vw, 100svh - var(--header-h) - 19rem));
       flex: none;
       height: calc(var(--fh) + var(--gap));
       min-height: 0;
     }
     .pa__scene :global(svg) {
-      stroke-width: 3.2;
+      stroke-width: 2.3;
     }
     .pa__title,
     :global(html[lang='el']) .pa__title {
@@ -261,14 +294,22 @@ const highlight = home.hero.highlight;
     .pa__title :global(.t-sub) {
       font-size: 0.56em;
     }
-    /* the trees step outwards and keep to the corners, clear of the columns */
+    /* only the cypresses stay, half behind the edge of the cut-out, clear of the columns */
+    .pa__trees :global(.pa-pine) {
+      display: none;
+    }
     .pa__trees--l :global(.illo) {
-      left: -17%;
-      height: calc(var(--fh) * 0.56);
+      left: calc(var(--fh) * -0.094);
+      bottom: calc(var(--fh) * -0.2);
     }
     .pa__trees--r :global(.illo) {
-      right: -19%;
-      height: calc(var(--fh) * 0.66);
+      right: calc(var(--fh) * -0.108);
+      bottom: calc(var(--fh) * -0.44);
+    }
+  }
+  @media (max-width: 30rem) {
+    .pa__scene :global(svg) {
+      stroke-width: 3.2;
     }
   }
 </style>

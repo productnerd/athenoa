@@ -150,44 +150,6 @@ html.motion .drift {
   animation-delay: calc(var(--i, 0) * -1.7s);
 }
 
-/* ---------- Wave lines: a slow sideways flow and a faint breathing, like plucked strings ---------- */
-/* waves.svg repeats exactly at its half-way point and is shown at double width, so sliding it left
-   by half its width loops without a seam. Both animations run on the compositor. */
-.illo--waves {
-  overflow: hidden;
-}
-.illo--waves svg {
-  width: 200%;
-  max-width: none;
-}
-@keyframes waves-flow {
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
-}
-@keyframes waves-breathe {
-  50% {
-    scale: 1 1.09;
-  }
-}
-html.motion .illo--waves {
-  animation: waves-breathe 9s var(--ease-in-out) infinite;
-}
-html.motion .illo--waves svg {
-  animation: waves-flow var(--waves-speed, 70s) linear infinite;
-}
-/* Neighbouring bands move at different speeds, and every other one the opposite way */
-html.motion .illo--waves:nth-of-type(even),
-html.motion :nth-child(even) > .illo--waves {
-  animation-duration: 12s;
-  animation-delay: -4s;
-}
-html.motion .illo--waves:nth-of-type(even) svg,
-html.motion :nth-child(even) > .illo--waves svg {
-  animation-duration: calc(var(--waves-speed, 70s) * 1.5);
-  animation-direction: reverse;
-}
-
 /* ---------- Page transitions ---------- */
 @keyframes page-out {
   to {

@@ -20,8 +20,10 @@ interface Props {
   bodyClass?: string;
   /** False for pages that end on their own scene (the 404 page). */
   footer?: boolean;
+  /** False for pages that stand alone without the site header (the 404 page). */
+  header?: boolean;
 }
-const { bodyClass, footer = true, ...seo } = Astro.props;
+const { bodyClass, footer = true, header = true, ...seo } = Astro.props;
 const locale = getLocale(Astro.url);
 const { ui } = content(locale);
 ---
@@ -57,7 +59,7 @@ const { ui } = content(locale);
   <body class={bodyClass}>
     <a class="skip-link" href="#main">{ui.skip}</a>
     <SvgDefs />
-    <Header />
+    {header && <Header />}
     <main id="main">
       <slot />
     </main>

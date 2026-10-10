@@ -225,6 +225,57 @@ export const group = (body, o = {}) => `<g${attrs(o)}>${body}</g>`;
 // Mirror a fragment left to right about x = cx.
 export const mirror = (body, cx) => `<g transform="translate(${n1(2 * cx)} 0) scale(-1 1)">${body}</g>`;
 
+// Path data mirrored left to right about x = cx, so that the two halves of a symmetrical drawing
+// can be written as separate paths one after the other (they then draw in together).
+export function mirrorD(d, cx) {
+  const argc = { M: 2, L: 2, H: 1, V: 1, C: 6, S: 4, Q: 4, T: 2, A: 7, Z: 0 };
+  const tokens = d.match(/[a-zA-Z]|-?\d*\.?\d+(?:e-?\d+)?/g);
+  let out = '';
+  let i = 0;
+  while (i < tokens.length) {
+    const cmd = tokens[i++];
+    const up = cmd.toUpperCase();
+    const rel = cmd !== up;
+    const fx = (x) => (rel ? -x : 2 * cx - x);
+    out += cmd;
+    let first = true;
+    while (argc[up] && i < tokens.length && !/[a-zA-Z]/.test(tokens[i])) {
+      const a = tokens.slice(i, i + argc[up]).map(Number);
+      i += argc[up];
+      let vals;
+      if (up === 'V') vals = a;
+      else if (up === 'H') vals = [fx(a[0])];
+      else if (up === 'A') vals = [a[0], a[1], -a[2], a[3], 1 - a[4], fx(a[5]), a[6]];
+      else vals = a.map((v, k) => (k % 2 ? v : fx(v)));
+      out += (first ? '' : ' ') + vals.map(n1).join(' ');
+      first = false;
+    }
+  }
+  return out;
+}
+
+// Points of an ellipse, for testing what lies inside it.
+export function ellipsePts(cx, cy, rx, ry, rot = 0, n = 48) {
+  const c = Math.cos(rot * deg);
+  const s = Math.sin(rot * deg);
+  return Array.from({ length: n }, (_, i) => {
+    const a = (i / n) * Math.PI * 2;
+    const x = rx * Math.cos(a);
+    const y = ry * Math.sin(a);
+    return [cx + x * c - y * s, cy + x * s + y * c];
+  });
+}
+
+// Where a dense polyline first crosses a horizontal line: its x at height y.
+export function xAtY(dense, y) {
+  for (let i = 1; i < dense.length; i++) {
+    const a = dense[i - 1];
+    const b = dense[i];
+    if ((a[1] - y) * (b[1] - y) <= 0 && a[1] !== b[1]) return a[0] + ((b[0] - a[0]) * (y - a[1])) / (b[1] - a[1]);
+  }
+  return dense[dense.length - 1][0];
+}
+
 export function svg(w, h, strokeWidth, body) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" fill="none" stroke="currentColor" stroke-width="${strokeWidth}" stroke-linecap="round" stroke-linejoin="round">${body}</svg>\n`;
 }

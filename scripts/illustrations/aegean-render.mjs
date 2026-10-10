@@ -1,8 +1,11 @@
-// Render the Aegean footer layers in a real browser (ImageMagick cannot resolve currentColor or CSS variables).
-// node scripts/illustrations/aegean-render.mjs                  -> shots/footer-aegean-scene.png (three layers stacked as in Footer.astro)
-// node scripts/illustrations/aegean-render.mjs layer far        -> shots/footer-aegean-layer-far.png (one layer alone)
-// node scripts/illustrations/aegean-render.mjs scene attica     -> the Attica scene, for comparison
+// Render the Aegean footer layers in a real browser (ImageMagick here draws neither currentColor,
+// CSS variables nor the strokes inherited from the root of these files).
+// node scripts/illustrations/aegean-render.mjs                   -> shots/footer-aegean-scene.png (three layers stacked as in Footer.astro)
+// node scripts/illustrations/aegean-render.mjs layer far         -> shots/footer-aegean-layer-far.png (one layer alone)
+// node scripts/illustrations/aegean-render.mjs scene attica      -> the Attica scene, for comparison (also: olympus)
 // node scripts/illustrations/aegean-render.mjs scene aegean blue -> crème ink on blue
+// node scripts/illustrations/aegean-render.mjs file any.svg out.png -> any SVG file, e.g. the dolphin study from aegean-gen.mjs --study
+// W=3200 in front of any of these renders at that width (default 1600), to look closely.
 import { chromium } from 'playwright-core';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';

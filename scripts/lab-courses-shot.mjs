@@ -51,11 +51,13 @@ for (const [path, name] of jobs) {
       await new Promise((r) => setTimeout(r, 80));
     }
     window.scrollTo(0, 0);
-    // Pictures inside a closed popup never load, so do not wait for those (or for longer than 4s).
+    // Pictures inside a closed popup never load, so do not wait for those. The dev server can take a
+    // while to cut a size it has not served before, so give the others up to 20s.
     const pending = [...document.images].filter((img) => !img.complete && img.getClientRects().length);
+    for (const img of pending) img.loading = 'eager';
     await Promise.race([
       Promise.all(pending.map((img) => new Promise((r) => (img.onload = img.onerror = r)))),
-      new Promise((r) => setTimeout(r, 4000)),
+      new Promise((r) => setTimeout(r, 20000)),
     ]);
   });
   const scroll = Number(options.scroll ?? 0);

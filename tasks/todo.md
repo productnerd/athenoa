@@ -68,7 +68,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 
 - [ ] Newsletter sign-up as a popup inside an architectural frame of Greek columns, with blurred background; headline, description, one email field (being built; then include once in Base)
 - [x] Remove the "In progress" page selector from the preview
-- [ ] About page: crop the graduation photo to 1:1 with Athena in the centre (do after the About agent finishes with that file: ratio "1 / 1", focus about "78% 50%")
+- [x] About page: graduation photo cropped to portrait (3:4) with Athena centred, and shown larger
 - [x] Footer: social icons left-aligned under "Follow us" (check the About contact block too)
 - [x] /font-test page with every type option in English and Greek; kit page deleted
 - [x] Mobile menu: hover effect on the links, phone number removed
@@ -94,6 +94,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Header item renamed "About Dr. Athena" (Greek "Σχετικά με τη Δρ. Αθηνά"); phone removed from the header
 - [x] Current page marked with an organic highlighter stroke (two ragged passes), desktop and mobile menu
 - [ ] Olympus footer foreground: Maria finds the new trees bonsai-like and prefers the earlier pines. About currently reuses footer-pines.svg. After the art workflow finishes, redraw footer-olympus-near.svg as unmistakable pines in that preferred manner (straight trunks, full layered crowns, no gnarled or wind-twisted shapes), then point Footer.astro back at it.
+
+## Added by Maria on 2026-10-11 (seventh round)
+
+- [x] 404: no header, no visible "Page not found" block, no courses link, no sun, water runs to the bottom in dark blue; one button "Take me home" bottom right with "Not everybody who wanders is lost" above and "but let the journey be long and filled with adventures" below (Greek: Cavafy, Ithaka); "daimon" explained in the translation
+- [x] Wave lines vibrate in place (no sideways travel), weave through one another and stay inside the blue panel
+- [x] Footer: "Internal Links" column removed
+- [ ] Integrate workflow finished: read its shared-file requests (sitemap i18n, header overflow on Greek phones, etc.) and wire the final home page
 
 ## Open questions
 

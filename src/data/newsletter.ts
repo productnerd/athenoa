@@ -1,12 +1,13 @@
 // Words of the newsletter popup that are not part of Athena's copy: its headline and description
 // come from home.announcement.newsletter, everything else (labels, the button, the note shown
 // while sign-up is not connected to a mailing service) lives here, in both languages.
+// The field label and placeholder repeat those of the contact form (about.contact).
 import type { Locale } from '../lib/locale';
 
 export const newsletter = {
   en: {
-    label: 'Email address',
-    placeholder: 'name@example.com',
+    label: 'Email',
+    placeholder: 'example@mail.com',
     submit: 'Subscribe',
     close: 'Close',
     // Shown instead of the form after a valid address is entered, and to visitors without JavaScript.
@@ -14,8 +15,8 @@ export const newsletter = {
     pendingLink: 'Write to us through the contact form',
   },
   el: {
-    label: 'Διεύθυνση email',
-    placeholder: 'onoma@example.com',
+    label: 'Email',
+    placeholder: 'example@mail.com',
     submit: 'Εγγραφή',
     close: 'Κλείσιμο',
     pending: 'Η εγγραφή στο ενημερωτικό δελτίο δεν είναι ακόμη διαθέσιμη. Η διεύθυνσή σας δεν στάλθηκε πουθενά.',

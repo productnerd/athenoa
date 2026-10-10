@@ -513,7 +513,7 @@ save(
   body += `<path clip-path="url(#sea-boat-hull)" d="M4 118L41 128C66 134.5 142 134.5 171 127.5L198 121V132L177 138.5C146 145.5 62 145.5 35 138.5L4 129Z" fill="${WHITE}"/>`;
   body += `<path d="${hull}"/>`;
   // an eye on the bow, as on the old ships
-  body += `<path d="M152 136C155.5 132 162 131.5 166 134C163 138 156.5 139 152 136Z"/><path d="M159.3 135h.1" stroke-width="3.2"/>`;
+  body += `<path d="M152 136C155.5 132 162 131.5 166 134C163 138 156.5 139 152 136Z"/><circle cx="159.3" cy="135" r="1.7" fill="currentColor" stroke="none"/>`;
   // steering oar over the stern quarter; the blade stays under water
   body += `<path d="M46 119L24 158" stroke="${LIGHT}"/><path d="M27 149C21.5 154.5 18 162.5 18.5 171C25 166.5 29.5 159 31.5 151.5Z" fill="${WHITE}"/>`;
   save('boat', svg(200, 178, body));

@@ -75,8 +75,8 @@ const [roots, studies, back, academy] = about.story;
             src={photo(studies.image)}
             alt={t.graduation}
             shape="leaf"
-            ratio="4 / 3"
-            focus="55% 50%"
+            ratio="3 / 4"
+            focus="66% 50%"
             sizes="(min-width: 62rem) 46vw, 88vw"
           />
           <Illustration name="laurel" class="studies__laurel" draw />
@@ -196,6 +196,10 @@ const [roots, studies, back, academy] = about.story;
     position: relative;
   }
   /* A light Aegean pebble behind the photograph's far corner */
+  /* A portrait crop: tall, but never taller than the window it sticks in */
+  .studies__sticky :global(.media) {
+    max-width: min(100%, 64svh);
+  }
   .studies__pebble {
     position: absolute;
     right: -7%;
@@ -308,14 +312,13 @@ const [roots, studies, back, academy] = about.story;
       shape-outside: circle(50%) border-box;
       shape-margin: 1.5rem;
     }
-    /* In the margin under the portrait and flush with its left edge, level with the paragraph
-       on Mnemosyne */
+    /* In the margin under the portrait, level with the paragraph on Mnemosyne */
     .roots__spring {
       top: auto;
       right: auto;
-      left: -9.75rem;
-      width: 8rem;
-      margin-top: 1.3em;
+      left: -10.25rem;
+      width: 9.25rem;
+      margin-top: 1.1em;
     }
 
     .academy__photo {

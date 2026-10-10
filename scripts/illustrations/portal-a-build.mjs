@@ -215,7 +215,7 @@ function athena() {
     return pts;
   };
   for (const side of [-1, 1]) {
-    const outer = strand(3.25, side);
+    const outer = strand(3, side);
     o += P(`${smooth(outer)}L${side * 20} 338L${side * 20} 200L${side * 40} 182Z`, `fill="${ARMOUR}" stroke="none"`);
     o += P([0, 1, 2, 3].map((j) => smooth(strand(j, side))).join(''));
   }
@@ -402,12 +402,9 @@ function temple() {
       `fill="${NIGHT}"`,
     );
     // capital: abacus, cushion, two volutes
-    o += P(
-      `M${ax - 27.5} 627.5H${ax + 27.5}V651H${ax - 27.5}ZM${ax - 37.7} 638.2a10.2 10.2 0 1 0 20.4 0a10.2 10.2 0 1 0-20.4 0ZM${ax + 17.3} 638.2a10.2 10.2 0 1 0 20.4 0a10.2 10.2 0 1 0-20.4 0Z`,
-      `fill="${NIGHT}" stroke="none"`,
-    );
+    o += P(`M${ax - 27.5} 627.5H${ax + 27.5}V651H${ax - 27.5}Z`, `fill="${NIGHT}" stroke="none"`);
     o += P(`M${ax - 35} 622H${ax + 35}V627.6H${ax - 35}Z`, `fill="${NIGHT}"`);
-    o += P(spiral(ax - 27.5, 638.2, -1) + spiral(ax + 27.5, 638.2, 1));
+    o += P(spiral(ax - 27.5, 638.2, -1), `fill="${NIGHT}"`) + P(spiral(ax + 27.5, 638.2, 1), `fill="${NIGHT}"`);
     o += P(`M${ax - 17.6} 640.4Q${ax} 646.6 ${ax + 17.6} 640.4M${ax - 23} 651.2H${ax + 23}`);
   }
 
@@ -560,16 +557,16 @@ function pine(r, x, yb, h, W, bend = 0) {
 function trees() {
   const rl = rng(41);
   let left = '';
-  left += pine(rl, 276, 760, 560, 330, 22);
+  left += `<g class="pa-pine">${pine(rl, 276, 760, 560, 330, 22)}</g>`;
   left += cypress(rl, 96, 760, 480, 34, 5);
   left += cypress(rl, 32, 760, 330, 26, -3);
   save('trees-left', svg('0 0 480 760', left));
 
   const rr = rng(58);
   let right = '';
-  right += pine(rr, 196, 900, 520, 300, -26);
+  right += `<g class="pa-pine">${pine(rr, 196, 900, 520, 300, -26)}</g>`;
   right += cypress(rr, 400, 900, 800, 50, -7);
-  right += cypress(rr, 306, 900, 590, 40, 5);
+  right += `<g class="pa-pine">${cypress(rr, 306, 900, 590, 40, 5)}</g>`;
   right += cypress(rr, 482, 900, 480, 32, 3);
   save('trees-right', svg('0 0 520 900', right));
 }

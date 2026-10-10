@@ -26,7 +26,7 @@ interface Props {
   scene?: Scene;
 }
 
-const { site, ui } = content(getLocale(Astro.url));
+const { site } = content(getLocale(Astro.url));
 const path = Astro.url.pathname.replace(/^\/el(?=\/)/, '');
 const byPage: Scene = path.startsWith('/about-athena') ? 'olympus' : path.startsWith('/courses') ? 'aegean' : 'attica';
 const scene = Astro.props.scene ?? byPage;
@@ -59,19 +59,6 @@ const custom = Object.entries(images).find(([file]) =>
       <Image src={logo} alt="" width={96} height={94} class="footer__logo" />
       <p class="footer__name">{site.name}</p>
     </div>
-
-    <nav class="footer__col" aria-label={ui.footerNav}>
-      <h2 class="footer__title">{site.footer.linksTitle}</h2>
-      <ul class="footer__list">
-        {
-          site.footer.links.map((link) => (
-            <li>
-              <a href={link.href}>{link.label}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
 
     <div class="footer__col">
       <h2 class="footer__title">{site.footer.connectTitle}</h2>
@@ -130,7 +117,7 @@ const custom = Object.entries(images).find(([file]) =>
     position: relative;
     z-index: 2;
     display: grid;
-    grid-template-columns: auto 0.8fr 1.2fr auto;
+    grid-template-columns: auto 1fr auto;
     gap: var(--space-l) clamp(1.75rem, 0.5rem + 4vw, 5rem);
     align-items: start;
   }

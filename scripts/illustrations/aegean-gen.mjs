@@ -19,6 +19,7 @@ const outDir = resolve(dirname(fileURLToPath(import.meta.url)), '../../src/asset
 const PAPER = 'var(--paper, #f2e9d3)';
 const LIGHT = 'var(--blue-light, #b3c0f3)';
 const DEEP = 'var(--blue-deep, #071260)';
+const GROUND = DEEP; // the foot of the scene; must match --footer-ground for .footer--aegean in Footer.astro
 const TAU = Math.PI * 2;
 const SUN_X = 940; // the sun and its path on the water share one x in the far and mid layers
 
@@ -619,9 +620,9 @@ function mid() {
 
 // ====================================================================================
 // NEAR: the sea in the foreground.  The first wave line runs at y 232 (scene y 397).
-// Bands of water come nearer and larger: paper, light blue, a narrow trough of the darkest blue,
-// then the ink band that carries the copyright line. Dolphins leap in the middle, sea-worn rocks
-// stand in the water at the right.
+// Bands of water come nearer, larger and darker: paper, light blue, Greek blue, then the darkest
+// blue of deep water at the foot. Dolphins leap in the middle, sea-worn rocks stand in the water
+// at the right.
 // ====================================================================================
 // A dolphin built along an arc: tail at u 0, beak at u 1; `top` and `bot` are the half-widths of the body.
 function dolphin(pl, { L = 100, bend = 1.1 } = {}) {
@@ -698,13 +699,12 @@ function near() {
     [4.4, 250, 1.7],
     [2, 610, 0.3],
   ]);
-  // the dark trough behind the nearest swell, then the swell itself: the ink band
   const w3 = swell(281, [
     [4.6, 330, 3.4],
     [2.2, 790, 1.2],
   ]);
-  const w4 = swell(297.5, [
-    [4.2, 410, 0.6],
+  const w4 = swell(317, [
+    [4.6, 430, 0.6],
     [2.2, 960, 2.6],
   ]);
 
@@ -786,21 +786,23 @@ function near() {
     ),
   );
 
-  // --- deep water: a narrow trough of the darkest blue, then the ink band that carries the
-  // copyright line, with a few light lines riding near its top
-  out.push(path(band(w3), `fill="${DEEP}" stroke="none"`));
-  out.push(path(band(w4), 'fill="currentColor"'));
+  // --- third band: Greek blue (the ink itself), with light lines riding on it
+  out.push(path(band(w3), 'fill="currentColor"'));
   out.push(
     path(
-      broken((x) => w4(x) + 9.5 + Math.sin(x / 150) * 1.2, -40, 1640, rnd, {
-        len: [150, 380],
-        gap: [80, 190],
-        step: 46,
-        min: 60,
-        lead: -80,
-        ok: (x) => x < 610 || x > 990, // the copyright line is set over the middle of the band
-      }),
+      broken((x) => w3(x) * 0.64 + w4(x) * 0.36 + 0.4, -40, 1640, rnd, { len: [150, 380], gap: [60, 150], step: 46, min: 60, lead: -80 }) +
+        broken((x) => w3(x) * 0.3 + w4(x) * 0.7 + 0.4, -40, 1640, rnd, { len: [120, 300], gap: [130, 300], step: 46, min: 60, lead: -200 }),
       `stroke="${LIGHT}"`,
+    ),
+  );
+
+  // --- deep water: the darkest blue, down to the foot of the drawing. Footer.astro continues
+  // this colour in the band that carries the copyright line (--footer-ground on .footer--aegean),
+  // so the two must stay the same blue.
+  out.push(path(band(w4, 56), `fill="${GROUND}" stroke="none"`));
+  out.push(
+    path(
+      broken((x) => w4(x) + 16 + Math.sin(x / 170) * 1.6, -40, 1640, rnd, { len: [170, 420], gap: [90, 220], step: 50, min: 70, lead: -140 }),
     ),
   );
 

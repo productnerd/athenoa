@@ -191,16 +191,17 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
 <style>
   .nl {
-    width: min(100% - 0.5rem, 39rem);
+    width: min(100% - 0.5rem, 41rem);
     max-width: none;
     max-height: calc(100dvh - 0.5rem);
     margin: auto;
-    padding: 0.25rem;
+    padding: 0.25rem 0.25rem 0.6rem;
     border: 0;
     background: none;
     color: var(--ink);
     overflow: hidden auto;
     overscroll-behavior: contain;
+    --nl-edge: 0.25rem; /* how far the paper reaches beyond the drawing at the sides and below */
   }
   /* The page behind: blurred, under a thin wash of the darker blue */
   .nl::backdrop {
@@ -254,7 +255,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
   }
   .nl__close:focus-visible {
     border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
-    outline-color: var(--creme-light);
+    outline-color: var(--blue-deep);
     outline-offset: 3px;
   }
   .nl__close path {
@@ -280,10 +281,12 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
   /* ---------- The portico ---------- */
   .nl__frame {
     container-type: inline-size;
-    margin-top: 1.25rem;
+    margin: 1.25rem var(--nl-edge) 0;
     /* Clicks beside the gable fall through to the dialog, like clicks on the backdrop */
     pointer-events: none;
   }
+  /* The measures below are those of scripts/illustrations/portico-gen.mjs: the frame is 640 units
+     wide, a column piece 64, and it stands 21 units in from the edge. */
   .nl__grid {
     --u: calc(100cqw / 640); /* one unit of the drawing */
     --nl-line: 1.3px; /* its line weight */
@@ -300,12 +303,12 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
      after it has been cut. */
   .nl__paper {
     position: absolute;
-    inset: 0;
+    inset: 0 calc(-1 * var(--nl-edge)) calc(-1 * var(--nl-edge));
     z-index: -1;
-    filter: url(#rough);
+    filter: url(#rough-sm); /* the finer cut: on a narrow screen the margin round the drawing is small */
   }
   .nl__paper::before {
-    --eave: calc(75.2 * var(--u));
+    --eave: calc(75.2 * var(--u)); /* the gable runs parallel to the roof, clear of the acroteria */
     content: '';
     position: absolute;
     inset: 0;
@@ -315,12 +318,12 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     clip-path: polygon(
       50% 0,
       100% var(--eave),
-      100% calc(100% - 1.1rem),
-      calc(100% - 0.3rem) calc(100% - 0.3rem),
-      calc(100% - 1.1rem) 100%,
-      1.1rem 100%,
-      0.3rem calc(100% - 0.3rem),
-      0 calc(100% - 1.1rem),
+      100% calc(100% - 0.9rem),
+      calc(100% - 0.25rem) calc(100% - 0.25rem),
+      calc(100% - 0.9rem) 100%,
+      0.9rem 100%,
+      0.25rem calc(100% - 0.25rem),
+      0 calc(100% - 0.9rem),
       0 var(--eave)
     );
     pointer-events: auto;
@@ -364,7 +367,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     align-self: center;
     display: grid;
     gap: 0.85rem;
-    padding: 1.1rem 0.5rem 1.2rem;
+    padding: 1.1rem 0.25rem 1.2rem;
     text-align: center;
     pointer-events: auto;
   }
@@ -400,7 +403,11 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
   @media (min-width: 34rem) {
     .nl {
-      padding: 0.5rem;
+      --nl-edge: 0.6rem;
+      padding: 0.5rem 0.5rem 1.1rem;
+    }
+    .nl__paper {
+      filter: url(#rough);
     }
     .nl__frame {
       margin-top: 0.5rem;
@@ -425,14 +432,26 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
   }
 
   /* ---------- Without JavaScript ---------- */
-  /* A link to #newsletter still reveals the popup, as a block fixed over the page. */
+  /* A link to #newsletter still reveals the popup: the dialog becomes a block fixed over the whole
+     page, carrying the wash and the blur itself, with the portico in its middle. */
   .nl:target:not([data-ready]) {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    justify-content: safe center;
     position: fixed;
     inset: 0;
     z-index: 60;
-    height: fit-content;
-    box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--blue-deep) 42%, transparent);
+    width: auto;
+    height: auto;
+    max-height: none;
+    background: color-mix(in srgb, var(--blue-deep) 42%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .nl:target:not([data-ready]) > * {
+    flex: none;
+    width: min(100% - 2 * var(--nl-edge), 39.5rem);
+    margin-inline: auto;
   }
 
   /* ---------- Open and close ---------- */

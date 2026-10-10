@@ -46,7 +46,6 @@ const rad = (deg) => (deg * Math.PI) / 180;
 const polar = ([cx, cy], r, deg) => [cx + r * Math.cos(rad(deg)), cy + r * Math.sin(rad(deg))];
 const lerp = (a, b, t) => a + (b - a) * t;
 const CX = 500;
-const mirror = (pts) => pts.map(([x, y]) => [2 * CX - x, y]);
 
 /** Smooth curve through points (Catmull-Rom as cubic Béziers). Returns the commands after "M". */
 function curve(pts, closed = false) {
@@ -76,6 +75,13 @@ const stone = (d) => path(d, ` fill="${STONE}"`);
 const night = (d) => path(d, ` fill="${NIGHT}"`);
 /** A shape that only hides or tints what is behind it: no outline. */
 const wash = (d, colour, attrs = '') => path(d, ` fill="${colour}" stroke="none"${attrs}`);
+/** One element per stroke ("M..."), so every line draws itself instead of all appearing at once. */
+const strokes = (d) =>
+  d
+    .split('M')
+    .filter(Boolean)
+    .map((part) => path(`M${part}`))
+    .join('');
 /** Texture that fades in instead of being drawn stroke by stroke. */
 const quiet = (d, attrs = '') => path(d, ` data-nodraw=""${attrs}`);
 
@@ -152,7 +158,7 @@ function temple() {
       const y1 = T.base - 6 + jit(1.5);
       flutes += `M${pt([ax + f * rAt(y0), y0])}L${pt([ax + f * rAt(y1), y1])}`;
     }
-    out.push(path(flutes));
+    out.push(strokes(flutes));
     // base: two tori
     out.push(stone(`M${num(ax - 23)} ${T.base}h46a3.5 3.5 0 0 1 0 7h-46a3.5 3.5 0 0 1 0 -7Z`));
     out.push(stone(`M${num(ax - 26)} ${T.base + 7}h52a3.5 3.5 0 0 1 0 7h-52a3.5 3.5 0 0 1 0 -7Z`));
@@ -187,7 +193,7 @@ function temple() {
     out.push(stone(rect(tx - 12, T.frieze, tx + 12, T.taenia)));
     grooves += `M${num(tx - 4)} ${T.frieze + 6}L${num(tx - 4)} ${T.taenia}M${num(tx + 4)} ${T.frieze + 6}L${num(tx + 4)} ${T.taenia}`;
   }
-  out.push(path(grooves));
+  out.push(quiet(grooves));
   // end blocks of the frieze
   out.push(stone(rect(ENT.l, T.frieze, 138, T.taenia)));
   out.push(stone(rect(862, T.frieze, ENT.r, T.taenia)));
@@ -331,7 +337,7 @@ function athena() {
       ),
     );
     // bracelet
-    out.push(path('M713.6 256L732.4 256M713.2 262L733 262'));
+    out.push(strokes('M713.6 256L732.4 256M713.2 262L733 262'));
   }
 
   // --- hair: parallel waves from under the helmet to behind the shoulders ---
@@ -387,7 +393,7 @@ function athena() {
       const from = i % 2 ? R_IN : 98 + jit(3);
       hairs += `M${pt(polar(HEAD, from, a))}L${pt(polar(HEAD, R_OUT - 2, a + jit(0.2)))}`;
     }
-    out.push(path(hairs));
+    out.push(strokes(hairs));
     out.push(
       stone(`M${pt(polar(HEAD, 73, A0 - 3))}${arc(73, A1 + 3, 1)}L${pt(polar(HEAD, R_IN, A1 + 3))}${arc(R_IN, A0 - 3, 0)}Z`),
     );
@@ -452,7 +458,7 @@ function athena() {
         const chord = Math.hypot(p1[0] - p0[0], p1[1] - p0[1]);
         d += `M${pt(p0)}A${num(chord / 2)} ${num(DEPTH + 1)} ${num(a + da / 2 + 90)} 0 0 ${pt(p1)}`;
       }
-      rows.push(path(d));
+      rows.push(quiet(d));
     }
     const hem = (r) => `M${pt(polar(A, r, -30))}A${r} ${r} 0 1 1 ${pt(polar(A, r, 210))}`;
     out.push(`<g clip-path="url(#pb-torso)">${rows.join('')}${path(hem(126))}${path(hem(133))}${path(hem(38))}${path(hem(46))}</g>`);
@@ -476,12 +482,12 @@ function athena() {
       const tip = polar(M, 14, a);
       petals += `M${pt(polar(M, 4.6, a - 30))}Q${pt(polar(M, 11, a - 22))} ${pt(tip)}Q${pt(polar(M, 11, a + 22))} ${pt(polar(M, 4.6, a + 30))}`;
     }
-    out.push(path(petals));
+    out.push(quiet(petals));
   }
 
   // --- neck ---
   out.push(wash('M476 256L474 300Q500 324 526 300L524 256Z', STONE));
-  out.push(path('M477.5 263Q479 284 474.5 298M522.5 263Q521 284 525.5 298'));
+  out.push(strokes('M477.5 263Q479 284 474.5 298M522.5 263Q521 284 525.5 298'));
 
   // --- face ---
   const jaw = [
@@ -514,7 +520,7 @@ function athena() {
 
   // --- the hand on the spear ---
   out.push(stone('M712 246Q708 232 713 222Q718 215 726 217Q735 219 735 230L733 246Z'));
-  out.push(path('M714 226Q724 223 734 227M713 233Q724 230 735 234M713 240Q724 237 734 241'));
+  out.push(strokes('M714 226Q724 223 734 227M713 233Q724 230 735 234M713 240Q724 237 734 241'));
 
   // --- her right arm, the orb and the Nike ---
   {
@@ -522,7 +528,7 @@ function athena() {
     const OY = 390;
     // forearm coming out from behind the roof
     out.push(stone(poly([[x + 20, 398], [394, 420], [384, 452], [x + 15, 416]], true)));
-    out.push(path(`M${x + 30} 402L${x + 26} 419M${x + 36} 404L${x + 32} 421`));
+    out.push(strokes(`M${x + 30} 402L${x + 26} 419M${x + 36} 404L${x + 32} 421`));
     // cupped hand
     out.push(
       stone(
@@ -537,10 +543,10 @@ function athena() {
       const X = (dx) => num(x + s * dx);
       out.push(
         stone(
-          `M${X(9)} 300C${X(26)} 297 ${X(46)} 280 ${X(53)} 244Q${X(58)} 268 ${X(47)} 281Q${X(51)} 296 ${X(37)} 303Q${X(38)} 316 ${X(24)} 319Q${X(20)} 326 ${X(8)} 325Z`,
+          `M${X(9)} 300C${X(20)} 287 ${X(37)} 268 ${X(50)} 242Q${X(58)} 262 ${X(50)} 276Q${X(56)} 290 ${X(43)} 299Q${X(46)} 312 ${X(31)} 317Q${X(28)} 326 ${X(8)} 326Z`,
         ),
       );
-      out.push(path(`M${X(13)} 305Q${X(32)} 300 ${X(47)} 281M${X(12)} 312Q${X(26)} 311 ${X(37)} 303`));
+      out.push(strokes(`M${X(14)} 304Q${X(34)} 296 ${X(50)} 276M${X(13)} 311Q${X(30)} 310 ${X(43)} 299M${X(12)} 318Q${X(22)} 319.5 ${X(31)} 317`));
     }
     // robe
     out.push(
@@ -549,7 +555,7 @@ function athena() {
       ),
     );
     out.push(path(`M${x - 7.5} 318Q${x} 321.5 ${x + 7.5} 318`));
-    out.push(path(`M${x - 4} 326Q${x - 7} 350 ${x - 10} 376M${x} 327L${x} 378M${x + 4} 326Q${x + 7} 350 ${x + 10} 376`));
+    out.push(strokes(`M${x - 4} 326Q${x - 7} 350 ${x - 10} 376M${x} 327L${x} 378M${x + 4} 326Q${x + 7} 350 ${x + 10} 376`));
     // head, with her hair bound up
     out.push(stone(circle([x, 283], 9)));
     out.push(path(`M${x - 8.4} 280Q${x} 272 ${x + 8.4} 280`));
@@ -608,7 +614,7 @@ function rays() {
     for (let n = first + 2; n <= last; n++) d += `T${pt(node(n))}`;
   }
   const disc = wash(circle(HEAD, 151), LIGHT, ' data-nodraw=""');
-  save('rays', svg(1000, 1000, disc + path(d)));
+  save('rays', svg(1000, 1000, disc + strokes(d)));
 }
 
 // =====================================================================================
@@ -777,7 +783,7 @@ function pine(x, base, h, w, rand, lean = 0) {
   const out = [];
   const crownY = base - h * 0.7; // where the boughs part
   const top = [x + lean, crownY];
-  const trunkW = Math.max(7, w * 0.05);
+  const trunkW = Math.max(9, w * 0.068);
   // crown caps: [dx, dy, rx] as shares of w and of the crown height
   const ch = h * 0.36;
   const caps = [

@@ -6,8 +6,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  DEEP, PAPER, TAU, P, arc, band, circle, distTo, dot, ellipse, inside, line, n1, path, poly, sample,
-  spline, svg, thin, visibleRuns, wash, wavy,
+  DEEP, PAPER, TAU, P, band, circle, dot, inside, line, n1, path, sample, spline, svg, thin, visibleRuns, wash,
 } from './symbols-a-lib.mjs';
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -36,366 +35,384 @@ function ray(a, b, waves, amp) {
   return path(spline(pts));
 }
 
+// The sun of the set: the point within the circle, and sixteen wavy rays, long and short in turn.
+// `hide` drops a ray whose end it covers.
+function sun([cx, cy], { ring = 17, point = 4.6, r0 = 27, long = 57, short = 47, amp = 2.2, hide } = {}) {
+  const out = [dot(cx, cy, point), circle(cx, cy, ring)];
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * TAU - Math.PI / 2;
+    const isLong = i % 2 === 0;
+    const r1 = isLong ? long : short;
+    const p1 = [cx + Math.cos(a) * r1, cy + Math.sin(a) * r1];
+    if (hide && hide(p1)) continue;
+    out.push(ray([cx + Math.cos(a) * r0, cy + Math.sin(a) * r0], p1, isLong ? 1.5 : 1, amp));
+  }
+  return out.join('');
+}
+
+// Points along a circular arc from p to q that bulges by `sag` to the left of the direction p→q
+// (on screen: above, when going left to right with a negative sag... see callers).
+function bump(p, q, sag, n = 10) {
+  const dx = q[0] - p[0];
+  const dy = q[1] - p[1];
+  const c = Math.hypot(dx, dy);
+  const m = [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+  const nx = dy / c;
+  const ny = -dx / c;
+  // quadratic through p, the apex and q
+  const apex = [m[0] + nx * sag, m[1] + ny * sag];
+  const ctrl = [2 * apex[0] - m[0], 2 * apex[1] - m[1]];
+  const pts = [];
+  for (let i = 0; i <= n; i++) {
+    const t = i / n;
+    pts.push([
+      (1 - t) ** 2 * p[0] + 2 * t * (1 - t) * ctrl[0] + t * t * q[0],
+      (1 - t) ** 2 * p[1] + 2 * t * (1 - t) * ctrl[1] + t * t * q[1],
+    ]);
+  }
+  return pts;
+}
+
+// Points of a curve given at equal steps of its own length.
+function byLength(dense, n) {
+  const acc = [0];
+  for (let i = 1; i < dense.length; i++) acc.push(acc[i - 1] + Math.hypot(dense[i][0] - dense[i - 1][0], dense[i][1] - dense[i - 1][1]));
+  const total = acc[acc.length - 1];
+  const out = [];
+  let j = 1;
+  for (let i = 0; i <= n; i++) {
+    const s = (i / n) * total;
+    while (j < dense.length - 1 && acc[j] < s) j++;
+    const t = (s - acc[j - 1]) / (acc[j] - acc[j - 1] || 1);
+    out.push([dense[j - 1][0] + (dense[j][0] - dense[j - 1][0]) * t, dense[j - 1][1] + (dense[j][1] - dense[j - 1][1]) * t]);
+  }
+  return out;
+}
+
 // ---------------------------------------------------------------------------------------------
-// Tetractys: ten points in rows of one, two, three and four, an exact equilateral lattice.
-// Each point is itself a small monad (the point within the circle).
+// Tetractys: ten points in rows of one, two, three and four, an exact equilateral lattice and
+// nothing else. Each point is itself a small monad (the point within the circle).
 function tetractys() {
   const cx = 160;
-  const d = 60;
+  const d = 78;
   const step = (d * Math.sqrt(3)) / 2;
-  const top = 37;
-  const at = (r, i) => [cx + (i - r / 2) * d, top + r * step];
+  const top = (320 - 3 * step) / 2;
   const out = [];
   for (let r = 0; r < 4; r++) {
     for (let i = 0; i <= r; i++) {
-      out.push(circle(...at(r, i), 13.6));
-      out.push(dot(...at(r, i), 5.3));
+      const p = [cx + (i - r / 2) * d, top + r * step];
+      out.push(circle(...p, 17));
+      out.push(dot(...p, 7.8));
     }
-  }
-  // "The fount and root of ever-flowing nature": the rows return below as water, four crests
-  // under the four points, then three, two, one.
-  const base = top + 3 * step;
-  const amp = 4.2;
-  for (let k = 0; k < 4; k++) {
-    const m = 4 - k;
-    const y = base + 43 + k * 17.5;
-    const x0 = cx - m * (d / 2);
-    const pts = [];
-    const n = m * 8;
-    // a crest under each point of the row it mirrors; the ends run out in a quarter wave
-    for (let i = -2; i <= n + 2; i++) {
-      const x = x0 + (i * d) / 8;
-      pts.push([x, y + Math.cos(((x - x0) / d) * TAU) * amp]);
-    }
-    out.push(path(spline(pts)));
   }
   return svg(320, 320, SW, out.join(''));
 }
 
 // ---------------------------------------------------------------------------------------------
-// Monad: the point within the circle, and round it the well-rounded sphere, "equally balanced in
-// every direction from the centre", going out from the One to the Many.
+// Monad: the point within the circle, the well-rounded sphere "equally balanced in every
+// direction from the centre"; from it the light goes out, and at the rim stand the Many.
 function monad() {
   const c = 160;
   const out = [];
-  out.push(dot(c, c, 5.8));
-  out.push(circle(c, c, 25));
-  out.push(circle(c, c, 52));
-  // The One and the Many: each circle further out is broken three times finer than the last,
-  // until the outermost is a ring of points.
-  [[79, 6, 15.5], [104, 18, 12]].forEach(([r, parts, gapLen], k) => {
-    const gap = gapLen / r;
-    for (let i = 0; i < parts; i++) {
-      const a0 = (i / parts) * TAU - Math.PI / 2 + gap / 2 + (k ? 0 : Math.PI / parts);
-      out.push(path(arc(c, c, r, a0, a0 + TAU / parts - gap)));
-    }
-  });
-  for (let i = 0; i < 54; i++) {
-    const a = (i / 54) * TAU - Math.PI / 2;
-    out.push(dot(c + Math.cos(a) * 128, c + Math.sin(a) * 128, 1.7));
+  const v = process.env.MONAD ?? 'a';
+  out.push(dot(c, c, 8.2));
+  out.push(circle(c, c, 40));
+  if (v === 'b') out.push(circle(c, c, 52));
+  const n = 24;
+  for (let i = 0; i < n; i++) {
+    const a = (i / n) * TAU - Math.PI / 2;
+    const isLong = i % 2 === 0;
+    const r0 = v === 'b' ? 67 : 58;
+    const r1 = isLong ? 114 : 99;
+    out.push(ray([c + Math.cos(a) * r0, c + Math.sin(a) * r0], [c + Math.cos(a) * r1, c + Math.sin(a) * r1], 1, isLong ? 2.7 : 2.2));
+  }
+  // The Many: a beaded rim, two points to a ray. Tiny stroked circles, so that where the page
+  // draws the strokes in they arrive last, after the rays have reached them.
+  for (let i = 0; i < 48; i++) {
+    const a = ((i + 0.5) / 48) * TAU - Math.PI / 2;
+    out.push(circle(c + Math.cos(a) * 132, c + Math.sin(a) * 132, 1));
   }
   return svg(320, 320, SW, out.join(''));
 }
 
 // ---------------------------------------------------------------------------------------------
-// Bow and lyre (Heraclitus B51, the back-turning harmony). The lyre opens upward, the bow turns
-// its back up beneath it, and the lyre stands on the grip where the arrow would lie: one set of
-// strings upright, the other taut across the foot. The arms of the lyre and the limbs of the bow
-// are the same double curve.
+// Bow and lyre (Heraclitus B51, the back-turning harmony). They stand side by side as equals:
+// the strung bow upright with its string taut in open air, the lyre beside it with its seven
+// strings parallel to that one. The limb of the bow and the arm of the lyre are the same double
+// curve, and they turn their backs to each other.
 function bowLyre() {
-  const X = 180;
   const out = [];
-  const mirror = (pts) => pts.map(([x, y]) => [2 * X - x, y]);
+  const top = 27;
+  const bottom = 293;
+  const mid = (top + bottom) / 2;
 
-  // Bow, strung: two swelling limbs, a set-back grip, tips turned back.
-  const stringY = 293;
-  const gripY = 253;
-  const half = [
-    [X, gripY], [X + 18, gripY - 0.6], [X + 40, gripY - 8.5], [X + 62, gripY - 21.5], [X + 84, gripY - 28],
-    [X + 104, gripY - 21], [X + 119, gripY - 4], [X + 130, gripY + 17], [X + 138, gripY + 32],
-    [X + 145, gripY + 40], [X + 154, gripY + 38],
+  // --- Bow -------------------------------------------------------------------------------
+  const sx = 43; // the string
+  const reach = (bottom - top) / 2; // from the grip to the end of a tip
+  // One limb from the grip outward: [distance from the string, distance from the grip].
+  const limb = [
+    [45, 0], [45.5, 9], [48.5, 22], [55, 38], [62.5, 55], [66.5, 72], [64, 89], [54.5, 103], [39, 113],
+    [22, 119.5], [8, 123], [1.5, 126], [0, 129.5], [3.5, 133],
+  ].map(([o, v]) => [o, (v / 133) * reach]);
+  const nockAt = limb[limb.length - 3];
+  const stave = [
+    ...limb.slice(1).reverse().map(([o, v]) => [sx + o, mid - v]),
+    ...limb.map(([o, v]) => [sx + o, mid + v]),
   ];
-  const stave = [...mirror(half).reverse().slice(0, -1), ...half];
-  const bow = band(stave, (t) => 3.4 + 6.2 * Math.sin(Math.PI * t) ** 0.6, { per: 6, every: 3 });
+  const dense = sample(stave, 8);
+  // thick in the hand, fine at the tips
+  const bow = band(dense, (t) => 3.8 + 7.4 * Math.sin(Math.PI * t) ** 0.55, { per: 1, every: 4 });
   out.push(path(bow.d, PAPER));
-  [-10.5, -3.5, 3.5, 10.5].forEach((dx) => out.push(line([X + dx, gripY - 4.3], [X + dx, gripY + 4.3])));
-  out.push(line([X - 140.5, stringY], [X + 140.5, stringY]));
+  // the binding of the grip
+  const edgeAt = (edge, y) => edge.reduce((best, p) => (Math.abs(p[1] - y) < Math.abs(best[1] - y) ? p : best));
+  [-12, -4, 4, 12].forEach((dy) => out.push(line(edgeAt(bow.L, mid + dy), edgeAt(bow.R, mid + dy))));
+  // the string, looped over each nock
+  const nock = [sx + nockAt[0], nockAt[1]];
+  out.push(line([sx + 0.4, mid - nock[1] + 4], [sx + 0.4, mid + nock[1] - 4]));
+  out.push(circle(nock[0] - 0.6, mid - nock[1] + 0.5, 3.7, PAPER));
+  out.push(circle(nock[0] - 0.6, mid + nock[1] - 0.5, 3.7, PAPER));
 
-  // Lyre arms (horns), behind shell and crossbar.
-  const cy = 197; // shell centre
-  const barY = 66;
-  const armR = [
-    [X + 30, cy - 24], [X + 52, cy - 43], [X + 69, cy - 64], [X + 77, cy - 88], [X + 74, cy - 110],
-    [X + 65, barY + 4], [X + 59, barY - 12], [X + 59, barY - 25], [X + 65, barY - 36], [X + 74, barY - 44],
+  // --- Lyre ------------------------------------------------------------------------------
+  const X = 229;
+  const mirror = (pts) => pts.map(([x, y]) => [2 * X - x, y]);
+  const barY = 68;
+  const shellTop = 207;
+  const shellH = bottom - shellTop;
+  const cy = shellTop + shellH / 2;
+
+  // Arms (horns), behind shell and crossbar: out from the shell, in to the bar, and a tip turned back.
+  const armL = [
+    [X - 26, cy + 4], [X - 40, cy - 22], [X - 56, cy - 48], [X - 71, cy - 76], [X - 80, cy - 104],
+    [X - 80, cy - 130], [X - 73, cy - 152], [X - 65, barY + 8], [X - 60, barY - 8], [X - 60.5, barY - 22],
+    [X - 66, barY - 33], [X - 75, top + 1],
   ];
-  const armW = (t) => (t < 0.74 ? 10 - 2.6 * t : Math.max(0, 8.1 * (1 - (t - 0.74) / 0.26)));
-  [armR, mirror(armR)].forEach((pts) => out.push(path(band(pts, armW, { per: 6, every: 3 }).d, PAPER)));
+  const armW = (t) => (t < 0.8 ? 10.5 - 3.6 * t : Math.max(0, 7.6 * (1 - (t - 0.8) / 0.2) ** 0.8));
+  [armL, mirror(armL)].forEach((pts) => out.push(path(band(sample(pts, 8), armW, { per: 1, every: 4 }).d, PAPER)));
 
-  // Shell.
+  // Shell: a plain rounded box.
   const shell = [];
   for (let i = 0; i < 48; i++) {
     const a = (i / 48) * TAU;
     const co = Math.cos(a);
     const si = Math.sin(a);
-    const e = 2 / 2.5;
-    shell.push([X + Math.sign(co) * Math.abs(co) ** e * 55, cy + Math.sign(si) * Math.abs(si) ** e * 45]);
+    const e = 2 / 2.6;
+    shell.push([X + Math.sign(co) * Math.abs(co) ** e * 55, cy + Math.sign(si) * Math.abs(si) ** e * (shellH / 2)]);
   }
   out.push(path(spline(thin(shell, 2), { closed: true }), PAPER));
-  // Scutes of the tortoise shell inside an oval.
-  const oc = [X, cy + 8];
-  const orx = 39;
-  const ory = 27;
-  out.push(ellipse(oc[0], oc[1], orx, ory));
-  const inOval = ([x, y], m = 0) => ((x - oc[0]) / (orx - m)) ** 2 + ((y - oc[1]) / (ory - m)) ** 2 < 1;
-  const sr = 9.2;
-  for (let row = 0; row < 8; row++) {
-    const y = oc[1] - ory - 2 + row * sr * 0.98;
-    for (let col = -4; col <= 4; col++) {
-      const x = X + col * sr * 2 + (row % 2 ? sr : 0);
-      const pts = [];
-      for (let i = 0; i <= 14; i++) {
-        const a = Math.PI - (i / 14) * Math.PI;
-        pts.push([x + Math.cos(a) * sr, y + Math.sin(a) * sr]);
-      }
-      visibleRuns(pts, (p) => !inOval(p, 0.4), 4).forEach((run) => out.push(path(spline(thin(run, 3)))));
-    }
-  }
 
-  // Seven strings.
-  const bridgeY = cy - 28;
-  for (let i = -3; i <= 3; i++) out.push(line([X + i * 11.5, barY + 4], [X + i * 6.8, bridgeY - 3]));
+  // Seven strings, well apart.
+  const bridgeY = shellTop + 27;
+  for (let i = -3; i <= 3; i++) out.push(line([X + i * 12, barY + 4], [X + i * 10.4, bridgeY - 3]));
   // Crossbar and bridge.
   const bar = (x0, x1, y, h) =>
     `<rect x="${n1(x0)}" y="${n1(y - h / 2)}" width="${n1(x1 - x0)}" height="${n1(h)}" rx="${n1(h / 2)}" fill="${PAPER}"/>`;
-  out.push(bar(X - 88, X + 88, barY, 7.4));
-  out.push(circle(X - 93.5, barY, 5.6, PAPER));
-  out.push(circle(X + 93.5, barY, 5.6, PAPER));
-  out.push(bar(X - 28, X + 28, bridgeY, 6.4));
+  out.push(bar(X - 86, X + 86, barY, 7.6));
+  out.push(circle(X - 91.5, barY, 5.6, PAPER));
+  out.push(circle(X + 91.5, barY, 5.6, PAPER));
+  out.push(bar(X - 39, X + 39, bridgeY, 6.6));
+
+  // The scutes of the tortoise: three, two, one, hanging below the bridge.
+  const r = 12.6;
+  const scale = (x, y) => `M${P(x - r, y)}C${P(x - r, y + r * 1.36)} ${P(x + r, y + r * 1.36)} ${P(x + r, y)}`;
+  let scutes = '';
+  [[-2, 0, 2], [-1, 1], [0]].forEach((row, k) => row.forEach((c) => (scutes += scale(X + c * r, bridgeY + 10.5 + k * r * 1.02))));
+  out.push(path(scutes));
   return svg(360, 320, SW, out.join(''));
 }
 
 // ---------------------------------------------------------------------------------------------
-// Plato's cave in section: the dark chamber under strata of rock with its small fire, the steep
-// way up cut in steps, and the sun beyond the mouth. The sun is drawn as the point within the
-// circle.
+// Plato's cave seen from outside: a hill in rings of rock that close in on the dark mouth, the
+// rough way that issues from it and climbs over the shoulder of the hill, and the sun beyond.
 function caveSun() {
   const out = [];
-  const lipU = [236, 151];
-  const lipL = [257, 173];
+  const base = 263;
+  const N = 60;
 
-  // Ground line: the hill over the cave, then the mouth, then the open ground under the sun.
-  const hillPts = [[26, 170], [52, 147], [86, 116], [122, 98], [158, 99], [192, 112], [217, 131], lipU];
-  const hill = sample(hillPts, 10);
-  const groundR = sample([lipL, [280, 174], [306, 171], [330, 169]], 8);
-
-  // The cave: the roof runs down the passage and opens into the chamber, then the back wall and
-  // floor, then the stair back up to the mouth.
-  const floorY = 269;
-  const footX = 149;
-  // Roof: scallops of rock, cusps hanging down, three over the chamber and three down the passage.
-  const cusps = [lipU, [212, 169], [187, 191], [160, 211], [127, 205], [94, 207], [64, 221]];
-  const bulge = [8, 9, 10, 15, 15, 13];
-  const roof = [cusps[0]];
-  let roofD = `M${P(...cusps[0])}`;
-  for (let i = 0; i < cusps.length - 1; i++) {
-    const p = cusps[i];
-    const q = cusps[i + 1];
-    const len = Math.hypot(q[0] - p[0], q[1] - p[1]);
-    const c = [(p[0] + q[0]) / 2 - ((q[1] - p[1]) / len) * bulge[i] * 2, (p[1] + q[1]) / 2 + ((q[0] - p[0]) / len) * bulge[i] * 2];
-    roofD += `Q${P(...c)} ${P(...q)}`;
-    for (let j = 1; j <= 8; j++) {
-      const t = j / 8;
-      roof.push([
-        (1 - t) ** 2 * p[0] + 2 * t * (1 - t) * c[0] + t * t * q[0],
-        (1 - t) ** 2 * p[1] + 2 * t * (1 - t) * c[1] + t * t * q[1],
-      ]);
-    }
-  }
-  const last = cusps[cusps.length - 1];
-  const backPts = [last, [53, 238], [51, 255], [60, 267], [81, floorY + 2.5], [113, floorY + 3], [footX, floorY]];
-  const back = sample(backPts, 6);
-  const stair = [[footX, floorY]];
-  for (let i = 0; i < 8; i++) {
-    const [x, y] = stair[stair.length - 1];
-    stair.push([x, y - 12], [x + 13.5, y - 12]);
-  }
-  const caveD = `${roofD}${spline(backPts).replace(/^M[^C]*/, '')}${poly(stair).replace('M', 'L')}`;
-  const cave = [...roof, ...back.slice(1), ...stair.slice(1)];
-  const denseCave = [];
-  cave.forEach((p, i) => {
-    const q = cave[(i + 1) % cave.length];
-    const n = Math.max(1, Math.round(Math.hypot(q[0] - p[0], q[1] - p[1]) / 3));
-    for (let j = 0; j < n; j++) denseCave.push([p[0] + ((q[0] - p[0]) * j) / n, p[1] + ((q[1] - p[1]) * j) / n]);
-  });
-  const nearCave = (p, m) => inside(p, denseCave) || distTo(p, denseCave, true) < m;
-
-  // Strata: the ground line repeated downward, flattening as it goes, cut where the cave is.
-  const guide = sample([...hillPts.slice(0, -1), [240, 152], [262, 168], [284, 173], [308, 171], [330, 169]], 10);
-  const yOn = (lineP) => (x) => {
-    for (let i = 1; i < lineP.length; i++) {
-      if (x <= lineP[i][0]) {
-        const a = lineP[i - 1];
-        const b2 = lineP[i];
-        const t = (x - a[0]) / (b2[0] - a[0] || 1);
-        return a[1] + (b2[1] - a[1]) * Math.max(0, Math.min(1, t));
-      }
-    }
-    return lineP[lineP.length - 1][1];
+  // The mouth: an arch.
+  const mx = 136;
+  const mw = 27;
+  const mh = 66;
+  const archAt = (t, inset = 0) => {
+    const a = Math.PI * t;
+    return [mx - Math.cos(a) * Math.abs(Math.cos(a)) ** -0.22 * (mw - inset), base - Math.sin(a) ** 0.86 * (mh - inset)];
   };
-  const guideY = yOn(guide);
-  const mean = 160;
-  let depth = 0;
-  const K = 9;
-  for (let k = 1; k <= K; k++) {
-    depth += 13.7 + k * 0.3;
-    const flat = Math.min(0.9, k * 0.1);
-    // the block of earth rounds off toward the bottom
-    const round = Math.max(0, k - 4) ** 1.9 * 3.2;
-    const x0 = 27 + round + (k % 2 ? 0 : 7);
-    const x1 = 329 - round - (k % 3 === 1 ? 8 : 0);
-    const pts = [];
-    for (let x = x0; x <= x1; x += 3) {
-      const t = guideY(x);
-      const wob = Math.sin(x / 36 + k * 1.7) * (0.4 + k * 0.16);
-      pts.push([x, t + depth - (t - mean) * flat + wob]);
-    }
-    visibleRuns(pts, (p) => nearCave(p, 8), 50).forEach((run) => out.push(path(spline(thin(run, 5)))));
-  }
+  const mouth = [];
+  for (let i = 0; i <= N; i++) mouth.push(archAt(i / N));
 
-  // The dark of the cave.
-  out.push(wash(`${caveD}Q${P(lipU[0] + 4, lipL[1] - 3)} ${P(...lipU)}Z`, DEEP, true));
-  out.push(path(caveD));
-  out.push(path(spline(thin(hill, 5))));
-  out.push(path(spline(thin(groundR, 4))));
-  // The fire inside: the lesser light.
-  const f = [101, floorY + 2.5];
-  const fl = (pts) => pts.map(([x, y]) => P(f[0] + x, f[1] + y));
-  const o = fl([[0, -1.5], [-11, -2], [-12, -14], [-5, -22], [-2, -25.5], [0, -30], [0.5, -34], [8, -27], [12.5, -17], [11, -9], [10, -4], [6, -1.5]]);
-  out.push(path(`M${o[0]}C${o[1]} ${o[2]} ${o[3]}C${o[4]} ${o[5]} ${o[6]}C${o[7]} ${o[8]} ${o[9]}C${o[10]} ${o[11]} ${o[0]}Z`, PAPER));
-  const q = fl([[0.5, -6], [-4.5, -7], [-4, -13], [1, -17.5], [4.5, -13], [5, -7]]);
-  out.push(path(`M${q[0]}C${q[1]} ${q[2]} ${q[3]}C${q[4]} ${q[5]} ${q[0]}Z`));
+  // The hill, from its left foot over the crest to its right foot.
+  const crest = [124, 101];
+  const left = sample([[27, base], [30, 222], [46, 176], [79, 132], crest], 12);
+  const right = sample([crest, [169, 105], [207, 125], [238, 150], [264, 171], [291, 198], [316, 231], [333, base]], 12);
+  const hill = [...byLength(left, N / 2), ...byLength(right, N / 2).slice(1)];
+
+  // The way out: it leaves the threshold, comes forward and round, and winds up the flank of the
+  // hill to its shoulder, narrowing as it goes.
+  const wayPts = [
+    [mx, base], [mx + 2, base + 10], [mx + 11, base + 21], [mx + 30, base + 28], [mx + 55, base + 27.5], [mx + 77, base + 19],
+    [mx + 93, base + 4], [mx + 102.5, base - 14], [mx + 105, base - 32], [mx + 101, base - 49], [mx + 100, base - 64],
+    [mx + 106.5, base - 77], [mx + 118, base - 87],
+  ];
+  const way = band(wayPts, (t) => (t < 0.22 ? 14 + (t / 0.22) * 5 : 19 - ((t - 0.22) / 0.78) ** 0.8 * 14), { per: 8, every: 4 });
+  const covered = (p) => inside(p, way.outline) || (inside(p, mouth) && p[1] < base);
+
+  // Rings of rock between mouth and hill, each a little nearer the hill's own shape.
+  const K = 6;
+  for (let k = 1; k <= K; k++) {
+    const pts = mouth.map((m, i) => {
+      const t = i / N;
+      const u = (k / K) ** 0.94 + (k < K ? 0.012 * Math.sin(t * 9 + k * 2.1) : 0);
+      return [m[0] + (hill[i][0] - m[0]) * u, m[1] + (hill[i][1] - m[1]) * u];
+    });
+    visibleRuns(pts, covered, 10).forEach((run) => out.push(path(spline(thin(run, 4)))));
+  }
+  // The plain the hill stands on.
+  const plain = [];
+  for (let x = 20; x <= 340; x += 4) plain.push([x, base]);
+  visibleRuns(plain, covered, 6).forEach((run) => out.push(path(spline(thin(run, 4)))));
+
+  // The dark: the same arch again and again, close together, down to a single line.
+  if (process.env.CAVE !== 'hatch') out.push(wash(`${spline(thin(mouth, 4))}Z`, DEEP, true));
+  if (process.env.CAVE !== 'wash') {
+    const gap = 4.7;
+    let dark = '';
+    for (let j = 1; j * gap < mw - 2; j++) {
+      const pts = [];
+      for (let i = 0; i <= N; i++) pts.push(archAt(i / N, j * gap));
+      dark += spline(thin(pts, 4));
+    }
+    dark += `M${P(mx, base)}L${P(mx, base - mh + mw + 2)}`;
+    out.push(path(dark));
+  }
+  out.push(path(spline(thin(mouth, 4))));
+  out.push(path(spline(thin(way.L, 4))));
+  out.push(path(spline(thin(way.R, 4))));
 
   // The sun.
-  const sun = [280, 82];
-  out.push(dot(...sun, 4.6));
-  out.push(circle(...sun, 17));
-  const hillY = yOn([...hill, ...groundR]);
-  const n = 16;
-  for (let i = 0; i < n; i++) {
-    const a = (i / n) * TAU - Math.PI / 2;
-    const r0 = 27;
-    const long = i % 2 === 0;
-    const r1 = long ? 57 : 47;
-    const p0 = [sun[0] + Math.cos(a) * r0, sun[1] + Math.sin(a) * r0];
-    const p1 = [sun[0] + Math.cos(a) * r1, sun[1] + Math.sin(a) * r1];
-    if (p1[1] > hillY(p1[0]) - 9) continue;
-    out.push(ray(p0, p1, long ? 1.5 : 1, 2.2));
-  }
+  out.push(sun([279, 84]));
   return svg(360, 320, SW, out.join(''));
 }
 
 // ---------------------------------------------------------------------------------------------
 // The ascent of the Symposium: six rungs (one body, all bodies, souls, practices, learnings, the
-// one learning of Beauty) and, beyond the last, the star.
+// one learning of Beauty) and, beyond the last, the sun of the set.
 function ladder() {
   const X = 130;
   const out = [];
-  const yTop = 114;
-  const yBot = 320;
-  const halfAt = (y) => 22.5 + ((y - yTop) / (yBot - yTop)) * 21.5;
+  const yTop = 144;
+  const yBot = 322;
+  const halfAt = (y) => 22 + ((y - yTop) / (yBot - yTop)) * 19;
+  const railAt = (y) => 5.4 + ((y - yTop) / (yBot - yTop)) * 1.8;
+  const groundAt = (x) => yBot + 2.5 - Math.cos(((x - X) / 62) * TAU) * 2.2;
+  // what the ladder covers, with a little air round it
+  const behind = ([x, y]) => y > yTop - 12 && Math.abs(x - X) < halfAt(Math.min(yBot, Math.max(yTop, y))) + railAt(y) / 2 + 6.5;
 
-  // Bands of cloud behind the ladder: two rows of scales (the scales of the aegis and of the
-  // lyre's shell) over one flowing line.
-  const scale = (x, y, r) => `M${P(x - r, y)}C${P(x - r, y - r * 1.34)} ${P(x + r, y - r * 1.34)} ${P(x + r, y)}`;
-  const cloudBand = (y, r, count) => {
-    const cx = X;
+  // Bands of cloud that the ladder climbs through: scallops above, a shallower swell below.
+  const cloud = (cx, cy, W, tops, bots) => {
+    const arch = (f, h) => cy - h * (1 - f * f);
     let d = '';
-    for (let i = 0; i < count - 1; i++) d += scale(cx + (i - (count - 2) / 2) * r * 2, y - r * 0.98, r);
-    for (let i = 0; i < count; i++) d += scale(cx + (i - (count - 1) / 2) * r * 2, y, r);
-    out.push(path(d));
-    const half = count * r + 12;
-    const pts = [];
-    const n = Math.round((half * 2) / 5);
-    for (let j = 0; j <= n; j++) {
-      const x = cx - half + (half * 2 * j) / n;
-      pts.push([x, y + 8.5 + Math.sin((x - cx) / (r * 0.64)) * 2.4]);
+    const add = (pts) => visibleRuns(pts, behind, 5).forEach((run) => (d += spline(thin(run, 3))));
+    for (let i = 0; i < tops.length - 1; i++) {
+      const p = [cx + tops[i] * W, arch(tops[i], 5)];
+      const q = [cx + tops[i + 1] * W, arch(tops[i + 1], 5)];
+      add(bump(p, q, Math.hypot(q[0] - p[0], q[1] - p[1]) * 0.44));
     }
-    out.push(path(spline(pts)));
+    for (let i = 0; i < bots.length - 1; i++) {
+      const p = [cx + bots[i] * W, arch(bots[i], -5)];
+      const q = [cx + bots[i + 1] * W, arch(bots[i + 1], -5)];
+      add(bump(p, q, Math.hypot(q[0] - p[0], q[1] - p[1]) * 0.2));
+    }
+    out.push(path(d));
   };
-  cloudBand(264, 10.5, 9);
-  cloudBand(188, 9.5, 7);
+  cloud(X, 271, 97, [-1, -0.6, -0.1, 0.42, 0.74, 1], [1, 0.52, -0.02, -0.5, -1]);
+  cloud(X, 206, 78, [-1, -0.7, -0.16, 0.3, 0.7, 1], [1, 0.46, -0.06, -0.54, -1]);
 
-  // Ground.
-  out.push(path(spline(wavy([40, yBot + 4], [220, yBot + 4], { waves: 3, amp: 2.4, phase: 1, per: 8 }))));
-  out.push(path(spline(wavy([70, yBot + 15], [190, yBot + 15], { waves: 2, amp: 2, phase: 3, per: 8 }))));
+  // Ground: both feet stand on it alike.
+  const ground = (x0, x1, dy) => {
+    const pts = [];
+    for (let x = x0; x <= x1 + 0.1; x += (x1 - x0) / 36) pts.push([x, groundAt(x) + dy]);
+    return path(spline(thin(pts, 2)));
+  };
+  out.push(ground(X - 92, X + 92, 0));
+  out.push(ground(X - 54, X + 54, 10.5));
 
-  // The ladder hides what is behind it.
-  const quad = [[X - halfAt(yTop) - 4, yTop - 2], [X + halfAt(yTop) + 4, yTop - 2], [X + halfAt(yBot) + 4.5, yBot + 2], [X - halfAt(yBot) - 4.5, yBot + 2]];
-  out.push(wash(`${poly(quad)}Z`, PAPER));
-  const rungs = [293.5, 257.5, 225, 196, 170, 147.5];
-  rungs.forEach((y, i) => {
-    const h = halfAt(y);
-    const t = 5.6 - i * 0.28;
-    out.push(`<rect x="${n1(X - h)}" y="${n1(y - t / 2)}" width="${n1(h * 2)}" height="${n1(t)}" fill="${PAPER}"/>`);
+  // Rungs: single lines. Rails: double, rounded at the top and planted on the ground line.
+  const gaps = [26, 33.5, 30, 27, 24, 21.5];
+  let y = yBot;
+  gaps.forEach((g) => {
+    y -= g;
+    const h = halfAt(y) - railAt(y) / 2;
+    out.push(line([X - h, y], [X + h, y]));
   });
   [-1, 1].forEach((sd) => {
-    const w0 = 3.1;
-    const w1 = 4;
-    const top = X + sd * halfAt(yTop);
-    const bot = X + sd * halfAt(yBot);
+    const w0 = railAt(yTop) / 2;
+    const w1 = railAt(yBot) / 2;
+    const topX = X + sd * halfAt(yTop);
+    const botX = X + sd * halfAt(yBot);
+    const a = [botX - w1, groundAt(botX - w1)];
+    const b = [botX + w1, groundAt(botX + w1)];
     out.push(
       path(
-        `M${P(top - w0, yTop + 2)}Q${P(top - w0, yTop - w0)} ${P(top, yTop - w0)}Q${P(top + w0, yTop - w0)} ${P(top + w0, yTop + 2)}L${P(bot + w1, yBot)}L${P(bot - w1, yBot)}Z`,
-        PAPER,
+        `M${P(...a)}L${P(topX - w0, yTop + 2)}Q${P(topX - w0, yTop - w0 - 1)} ${P(topX, yTop - w0 - 1)}Q${P(topX + w0, yTop - w0 - 1)} ${P(topX + w0, yTop + 2)}L${P(...b)}`,
       ),
     );
   });
 
-  // The star.
-  const sc = [X, 59];
-  const star = [];
-  for (let i = 0; i < 16; i++) {
-    const a = (i / 16) * TAU - Math.PI / 2;
-    const r = i % 2 ? 7.6 : i % 4 === 0 ? 37 : 19;
-    star.push([sc[0] + Math.cos(a) * r, sc[1] + Math.sin(a) * r]);
-  }
-  out.push(path(`${poly(star)}Z`));
-  [[-58, -22], [52, -30], [70, 14], [-44, 30]].forEach(([dx, dy]) => out.push(dot(sc[0] + dx, sc[1] + dy, 1.5)));
+  // Beauty itself.
+  out.push(sun([X, 79], { ring: 16, point: 4.6, r0: 25.5, long: 54, short: 44.5 }));
   return svg(260, 360, SW, out.join(''));
 }
 
 // ---------------------------------------------------------------------------------------------
-// A torch of the mysteries: the long bound bundle of Eleusis, held upright, the flame in flowing
-// lines that leave one source and close on one point.
+// A torch of the mysteries: the long bound bundle of Eleusis, upright, and a flame combed into
+// flowing lines that leave the head together and gather to one point.
 function torch() {
   const X = 110;
   const out = [];
-  const yTop = 166;
-  const yBot = 340;
-  const halfAt = (y) => 18.5 - ((y - yTop) / (yBot - yTop)) * 8;
+  const yTop = 142;
+  const yBot = 338;
+  const halfAt = (y) => 15.5 - ((y - yTop) / (yBot - yTop)) * 8.3;
 
-  // Flame: one tongue drawn by hand, and two more inside it, each smaller and leaning its own way.
-  const H = 148;
-  const left = [[-16, 0], [-30, -12], [-44, -31], [-51.5, -53], [-51, -74], [-43, -94], [-30, -111], [-16, -126], [-5, -138], [0, -H]];
-  const right = [[0, -H], [11, -135], [23, -118], [31, -99], [35.5, -79], [38.5, -60], [42.5, -44], [43, -29], [35, -13], [16, 0]];
-  const base = [X, yTop + 2];
-  [[1, 1, 0], [0.63, 0.77, -5], [0.3, 0.5, 4.5]].forEach(([sx, sy, lean]) => {
-    const place = ([dx, dy]) => [base[0] + dx * sx + lean * (dy / H) ** 2, base[1] + dy * sy];
-    out.push(path(`${spline(left.map(place))}${spline(right.map(place), { cont: true })}`));
-  });
+  // Flame. s runs from the head (0) to the tip (1); every line in it keeps its share of the width
+  // and sways with the rest.
+  const H = 118;
+  const cPts = sample([[0, 0], [2, 12], [3, 25], [0.5, 40], [-5, 56], [-7, 70], [-4.5, 82], [1.5, 92], [9, 100]], 10);
+  const centre = (s) => {
+    const v = s * 100;
+    for (let i = 1; i < cPts.length; i++) {
+      if (cPts[i][1] >= v) {
+        const t = (v - cPts[i - 1][1]) / (cPts[i][1] - cPts[i - 1][1] || 1);
+        return cPts[i - 1][0] + (cPts[i][0] - cPts[i - 1][0]) * t;
+      }
+    }
+    return cPts[cPts.length - 1][0];
+  };
+  const wide = (s) => 14 * (1 - s) ** 2 + 168 * s * (1 - s) ** 1.6;
+  const strand = (u, s0, s1) => {
+    const pts = [];
+    const n = Math.round((s1 - s0) * 34);
+    for (let i = 0; i <= n; i++) {
+      const s = s0 + (i / n) * (s1 - s0);
+      pts.push([X + centre(s) + u * wide(s), yTop + 1 - s * H]);
+    }
+    return pts;
+  };
+  const l = strand(-1, 0, 1);
+  const r = strand(1, 0, 1);
+  out.push(path(`${spline(thin(l, 3))}${spline(thin(r.reverse(), 3), { cont: true })}`));
+  [[-0.6, 0.07, 0.8], [-0.2, 0.12, 0.66], [0.2, 0.05, 0.73], [0.6, 0.1, 0.6]].forEach(([u, s0, s1]) => out.push(path(spline(thin(strand(u, s0, s1), 3)))));
 
   // Shaft: a bundle of rods narrowing to the foot.
   out.push(
     path(
-      `M${P(X - halfAt(yTop), yTop)}L${P(X - halfAt(yBot), yBot - 4)}Q${P(X, yBot + 7)} ${P(X + halfAt(yBot), yBot - 4)}L${P(X + halfAt(yTop), yTop)}Z`,
+      `M${P(X - halfAt(yTop), yTop)}L${P(X - halfAt(yBot), yBot - 4)}Q${P(X, yBot + 6)} ${P(X + halfAt(yBot), yBot - 4)}L${P(X + halfAt(yTop), yTop)}Z`,
       PAPER,
     ),
   );
-  const ties = [yTop + 3, 206, 244, 281, 316];
-  [-0.34, 0.34].forEach((k) => out.push(line([X + k * halfAt(yTop), yTop], [X + k * halfAt(316), 316])));
+  const ties = [yTop + 3, 186, 228, 268, 305];
+  [-0.32, 0.32].forEach((k) => out.push(line([X + k * halfAt(yTop), yTop], [X + k * halfAt(305), 305])));
   // Bindings.
   ties.forEach((y, i) => {
-    const h = halfAt(y) + 3.6;
+    const h = halfAt(y) + (i === 0 ? 4.4 : 3.4);
     const t = i === 0 ? 8.4 : 6.8;
     out.push(`<rect x="${n1(X - h)}" y="${n1(y - t / 2)}" width="${n1(h * 2)}" height="${n1(t)}" rx="${n1(t / 2)}" fill="${PAPER}"/>`);
   });
