@@ -327,7 +327,7 @@ function flame() {
   out.push(path('M476 857Q500 863 524 857'));
   out.push(path('M465 848L535 848'));
   save('flame', svg(1000, 1000, out.join('')));
-  // The fire itself: three small drawings (the tall tongue, a lick beside it, the bright heart), each
+  // The fire itself: two small drawings (the tall dark tongue and its bright heart), each
   // in a tight frame of its own (x 466 to 534, y 740 to 852 of the scene). The page lays them over
   // the bowl and moves only their transforms, so the flame flickers without anything being redrawn
   // (inside the temple drawing its breathing had the whole picture redrawn on every frame).
@@ -342,7 +342,6 @@ function flame() {
     'currentColor',
   );
   fire('fire-2', 'M501 843C489 833 489 817 498 802C507 813 513 831 501 843Z', LIGHT);
-  fire('fire-3', 'M489 846C477 838 476 823 484 810C485 820 493 825 496 836C497 841 494 845 489 846Z', 'currentColor');
 }
 
 // =====================================================================================

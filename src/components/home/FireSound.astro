@@ -1,0 +1,115 @@
+---
+// A soft fire for the brazier in the hero drawing. It burns while the hero is in view and dies away as
+// the page scrolls past it; on a page without a hero it never plays. It has no button of its own: it
+// follows the background music, so it is heard only while the music is playing. Muting the music mutes
+// the fire, and before the visitor's first click, tap or key press (browsers allow no sound until then)
+// both are silent.
+---
+
+<audio src="/audio/fire.mp3" loop preload="none" data-fire-audio></audio>
+
+<script>
+  const VOLUME = 0.25; // loudest, with the page at its top: under the music, a few steps from the flame
+  const REACH = 0.85; // share of the hero's height over which the fire dies away
+  const FADE_IN = 1500; // ms: every start eases in, it never arrives at full level
+  const KEY = 'ath-music'; // the visitor's choice for the music, which the fire follows
+
+  const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+
+  let cleanup: Array<() => void> = [];
+  let gestured = false; // a first click, tap or key press has happened (it holds across page changes)
+
+  function stop() {
+    cleanup.forEach((fn) => fn());
+    cleanup = [];
+  }
+
+  function setup() {
+    stop();
+    const audio = document.querySelector<HTMLAudioElement>('[data-fire-audio]');
+    const hero = document.querySelector<HTMLElement>('.hero');
+    if (!audio) return;
+    if (!hero) {
+      if (!audio.paused) audio.pause();
+      return;
+    }
+    const music = document.querySelector<HTMLAudioElement>('[data-music-audio]');
+
+    let frame = 0;
+    let began = 0; // when the current fade in started
+
+    const allowed = () => {
+      if (music) return !music.paused;
+      // No music on this page: go by the stored choice and the first gesture instead
+      try {
+        return gestured && localStorage.getItem(KEY) !== 'off';
+      } catch {
+        return gestured;
+      }
+    };
+
+    // 1 with the page at its top, 0 once most of the hero has scrolled away
+    const level = () => {
+      const height = hero.offsetHeight;
+      if (!height) return 0;
+      const left = clamp(1 - window.scrollY / (height * REACH), 0, 1);
+      // Squared: loudness is heard on a curve, so a straight line would seem to hold and then drop
+      return left * left;
+    };
+
+    const apply = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      const target = allowed() ? VOLUME * level() : 0;
+      if (target <= 0) {
+        if (!audio.paused) audio.pause();
+        return;
+      }
+      if (audio.paused) {
+        began = performance.now();
+        audio.volume = 0;
+        // No file, or the browser still wants a gesture: stay silent, the next change tries again.
+        audio.play().catch(() => {});
+      }
+      const fade = clamp((performance.now() - began) / FADE_IN, 0, 1);
+      audio.volume = clamp(target * fade, 0, 1); // never outside 0..1: the browser throws on that
+      if (fade < 1 && !audio.paused) frame = requestAnimationFrame(apply);
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(apply);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    cleanup.push(() => window.removeEventListener('scroll', onScroll));
+
+    if (music) {
+      for (const type of ['play', 'pause']) {
+        music.addEventListener(type, apply);
+        cleanup.push(() => music.removeEventListener(type, apply));
+      }
+    }
+
+    // The music starts on the first click, tap or key press, in a listener that runs before this one.
+    // Answering the same gesture lets the fire start inside it, which some browsers insist on.
+    const onGesture = () => {
+      gestured = true;
+      apply();
+    };
+    for (const type of ['pointerdown', 'keydown']) {
+      window.addEventListener(type, onGesture, { passive: true });
+      cleanup.push(() => window.removeEventListener(type, onGesture));
+    }
+
+    cleanup.push(() => {
+      cancelAnimationFrame(frame);
+      if (!audio.paused) audio.pause();
+    });
+
+    apply();
+  }
+
+  document.addEventListener('astro:page-load', setup);
+  document.addEventListener('astro:before-swap', stop);
+  // The script can first arrive with a page change, after that page's astro:page-load has already fired.
+  setup();
+</script>

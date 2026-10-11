@@ -154,7 +154,6 @@ const build = (locale: Locale) => {
       `## ${inline(membership.title)}`,
       inline(membership.question),
       ...membership.points.flatMap((point) => [`### ${inline(point.title)}`, inline(point.text)]),
-      link(membership.cta.label, membership.cta.href),
 
       // The announcement has no title of its own on the page: a rule sets it apart instead.
       '---',

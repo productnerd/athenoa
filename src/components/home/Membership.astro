@@ -11,19 +11,17 @@ import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { home } = content(locale);
-const { title, question, points, cta } = home.membership;
+const { title, question, points } = home.membership;
 
 // Words this component adds itself.
 const t = {
   en: {
     apolloAlt: 'Gilded statue of Apollo holding a lyre, standing on top of an Ionic column',
     friezeAlt: 'Painted frieze of a procession of women in white robes carrying flowers and offerings',
-    newTab: '(opens in a new tab)',
   },
   el: {
     apolloAlt: 'Επίχρυσο άγαλμα του Απόλλωνα με λύρα, στημένο πάνω σε ιωνικό κίονα',
     friezeAlt: 'Ζωγραφιστή ζωφόρος με πομπή γυναικών σε λευκούς χιτώνες, που κρατούν άνθη και προσφορές',
-    newTab: '(ανοίγει σε νέα καρτέλα)',
   },
 }[mainLocale(locale)];
 
@@ -80,11 +78,7 @@ const looks = [
       }
     </ul>
 
-    <p class="membership__cta" data-reveal>
-      <a class="btn" href={cta.href} target="_blank" rel="noopener">
-        {cta.label}<span class="visually-hidden"> {t.newTab}</span>
-      </a>
-    </p>
+    {/* The "Discover all the features" button was removed at the client's wish (11 October 2026) */}
 
     <Media
       class="membership__frieze"
@@ -219,10 +213,6 @@ const looks = [
     padding-right: 1rem;
   }
 
-  .membership__cta {
-    margin-top: var(--space-l);
-  }
-
   /* ---------- The frieze ribbon ---------- */
   .membership__grid :global(.membership__frieze) {
     width: 128%;
@@ -300,23 +290,17 @@ const looks = [
       gap: 1.25rem;
       margin-top: calc(var(--space-l) + 1rem);
     }
-    /* The statue stands at the foot of the section, beside the button and the frieze */
+    /* The statue stands at the foot of the section; the frieze passes behind it */
     .niche {
       grid-column: 10 / span 3;
       grid-row: 3 / span 2;
       align-self: end;
       width: auto;
-      margin: var(--space-m) 0.75rem -1.75rem;
+      margin: var(--space-l) 0.75rem -1.75rem;
     }
     .niche__rays {
       width: 230%;
       margin: -115% 0 0 -115%;
-    }
-    .membership__cta {
-      grid-column: 1 / span 6;
-      grid-row: 3;
-      margin-top: calc(var(--space-l) + 1rem);
-      padding-left: 1.25rem;
     }
     /* The procession passes behind the niche: its far end is hidden by the arch */
     .membership__grid :global(.membership__frieze) {

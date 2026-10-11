@@ -220,6 +220,8 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Contact form: "How did you find us?" is a list (YouTube, Instagram, Facebook, Search engine, AI agent, Word of mouth, Academic work, Other with a field to say where); the same list serves the enrolment request
 - [x] Hero: flame rebuilt as three small layers that flicker (it was the real cause of the machine running hot: its breathing had the whole temple layer redrawn every frame; then the fade mask over the animated stage); rays of uneven length with a long soft fade; three drawn clouds drifting, soft outline-less clouds as day-sky texture, a pair of birds about once a minute; everything pauses when the hero is off screen
 - [x] Music 20% quieter
+- [x] Day-sky clouds redrawn as loose streak formations (the cloud shapes read as childish); flame is two layers only (dark tongue, bright heart); "Discover all the features" button removed; seminar note keeps one asterisk, at the start
+- [ ] MACHINE: her Mac was out of memory during this round (swap 7.1 of 8 GB used, load over 200). Use the browser pane's background tab for checks instead of extra headless browsers; one check at a time.
 - [ ] HELPER RUNNING: soft fire sound in the hero that fades as you scroll past (synthesised; a real recording needs her permission to download)
 - [ ] ASKED: logos on the About page. Real logos of Oxford, LSE, Harvard etc. need her files or permission to download, and those institutions restrict use of their marks; offered plain name marks in the site's type instead.
 

@@ -42,6 +42,11 @@ The enrol popup needs labels the live site never had (for example "View course",
 - Its button reads "Back to Ithaka" (Greek: «Πίσω στην Ιθάκη»); first "Take me home", then "Take me to Ithaka". The credit to Cavafy under the Greek note is no longer shown. The note under it is unchanged: "but let the journey be long and filled with adventures" in English, Cavafy's own line in Greek.
 - Home, "Let's Get Started": Athena's two lines are shown as one block of text. The words are unchanged.
 
+## Home page (11 October 2026, at Maria's request)
+
+- Seminar note: the asterisk at the end is gone, one stays at the start: "*The seminar start date will be announced soon". The same in Greek and Ancient Greek.
+- The "Discover all the features" button under the three membership points is removed (the wording stays in the data, unused).
+
 ## About page (11 October 2026, at Maria's request)
 
 - The translation after ΓΝΩΘΙ ΣΑΥΤΟΝ lost its brackets: “Know Thyself”. instead of (“Know Thyself”). The same in Greek and Ancient Greek.

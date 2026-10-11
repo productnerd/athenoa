@@ -96,10 +96,9 @@ const rowsOf = (text: string) => {
         <Illustration name="portal-b-temple" draw />
         <Illustration name="portal-b-flame" />
       </div>
-      {/* The fire: three small drawings over the bowl, so it can flicker without redrawing the temple */}
+      {/* The fire: two small drawings over the bowl (the dark tongue and its bright heart), so it can flicker without redrawing the temple */}
       <div class="hero__layer hero__layer--fire" data-depth="0.12" data-reveal="fade">
         <Illustration name="portal-b-fire-1" class="hero__fire hero__fire--1" />
-        <Illustration name="portal-b-fire-3" class="hero__fire hero__fire--3" />
         <Illustration name="portal-b-fire-2" class="hero__fire hero__fire--2" />
       </div>
       <div class="hero__layer hero__layer--trees-l hero__trees" data-depth="-0.2" data-pointer="8" data-reveal="fade">
@@ -488,8 +487,9 @@ const rowsOf = (text: string) => {
     animation-delay: -105s;
   }
 
-  /* The texture of the day sky (client direction): soft shapes of cloud with no outline, a shade
-     lighter than the sky, crossing the whole of it very slowly. Only by day; at night the stars and
+  /* The texture of the day sky (client direction): loose formations of cloud, long streaks with no
+     outline (not cloud shapes, which read as childish), a shade lighter than the sky, crossing the
+     whole of it very slowly. Only by day; at night the stars and
      the Milky Way are the texture. Only their transforms move. */
   .hero__layer--haze {
     visibility: hidden;
@@ -501,19 +501,19 @@ const rowsOf = (text: string) => {
     left: 0;
     top: var(--top);
     width: var(--w);
-    aspect-ratio: 400 / 110;
+    aspect-ratio: 600 / 120;
     color: color-mix(in srgb, var(--creme-light) var(--mix, 44%), var(--blue-light));
     /* where it stands when nothing moves */
     transform: translate3d(var(--at), 0, 0);
   }
   .hero__layer--haze :global(.hero__haze--1) {
-    --w: clamp(14rem, 34vw, 34rem);
+    --w: clamp(18rem, 46vw, 46rem);
     --top: 9%;
     --at: 52vw;
     --t: 230s;
   }
   .hero__layer--haze :global(.hero__haze--2) {
-    --w: clamp(9rem, 20vw, 20rem);
+    --w: clamp(13rem, 30vw, 30rem);
     --top: 30%;
     --at: 8vw;
     --t: 300s;
@@ -521,21 +521,21 @@ const rowsOf = (text: string) => {
     scale: -1 1;
   }
   .hero__layer--haze :global(.hero__haze--3) {
-    --w: clamp(12rem, 27vw, 27rem);
+    --w: clamp(16rem, 38vw, 38rem);
     --top: 47%;
     --at: 66vw;
     --t: 260s;
     --mix: 38%;
   }
   .hero__layer--haze :global(.hero__haze--4) {
-    --w: clamp(8rem, 16vw, 16rem);
+    --w: clamp(11rem, 24vw, 24rem);
     --top: 17%;
     --at: 30vw;
     --t: 340s;
     --mix: 30%;
   }
   .hero__layer--haze :global(.hero__haze--5) {
-    --w: clamp(11rem, 24vw, 24rem);
+    --w: clamp(15rem, 34vw, 34rem);
     --top: 62%;
     --at: -6vw;
     --t: 280s;
@@ -751,8 +751,8 @@ const rowsOf = (text: string) => {
     will-change: opacity;
   }
 
-  /* The fire. Three small drawings laid over the bowl (frame: x 466 to 534, y 740 to 852 of the
-     scene): the tall tongue, a lick beside it and the bright heart. Each flickers in its own time
+  /* The fire. Two small drawings laid over the bowl (frame: x 466 to 534, y 740 to 852 of the
+     scene): the tall dark tongue and its bright heart, and nothing else (client direction). Each flickers in its own time
      and only its transform moves, so the flame costs nothing to animate. (Inside the temple drawing
      its breathing had the whole picture redrawn on every frame, which kept the machine busy.) */
   .hero__layer--fire {
@@ -798,21 +798,6 @@ const rowsOf = (text: string) => {
       transform: scale(0.92, 1.1) skewX(2deg);
     }
   }
-  @keyframes hero-flame-3 {
-    0%,
-    100% {
-      transform: scale(1, 1) rotate(0deg);
-      opacity: 0.9;
-    }
-    31% {
-      transform: scale(0.8, 1.28) rotate(-7deg);
-      opacity: 1;
-    }
-    63% {
-      transform: scale(1.12, 0.66) rotate(5deg);
-      opacity: 0.45;
-    }
-  }
   :global(html.motion) .hero__layer--fire :global(.illo) {
     will-change: transform;
   }
@@ -821,9 +806,6 @@ const rowsOf = (text: string) => {
   }
   :global(html.motion) .hero__layer--fire :global(.hero__fire--2) {
     animation: hero-flame-2 1.7s ease-in-out infinite;
-  }
-  :global(html.motion) .hero__layer--fire :global(.hero__fire--3) {
-    animation: hero-flame-3 1.25s ease-in-out infinite;
   }
 
   /* ---------- phones and upright screens: the title in the sky above, the picture below ----------

@@ -61,7 +61,7 @@ export const home = {
     title: 'Ὀρφικοὶ ὕμνοι - Ἡ οὐσία τῆς τῶν Ἑλλήνων περὶ ψυχὴν τέχνης',
     open: 'Πᾶσιν ἀνέῳκται + τοῖς νέοις μαθηταῖς',
     // Sentence case, as in the English file (it is set in handwriting, which is never used in capitals).
-    note: '*Ἡ τῆς διατριβῆς ἀρχὴ οὐκ εἰς μακρὰν ἀγγελθήσεται*',
+    note: '*Ἡ τῆς διατριβῆς ἀρχὴ οὐκ εἰς μακρὰν ἀγγελθήσεται',
   },
 
   series: {

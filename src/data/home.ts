@@ -60,7 +60,7 @@ export const home = {
     title: 'Orphic Hymns - The essence of the Spiritual Technology of the Greeks',
     open: 'Open to everyone + new students',
     // Capitals on the live site. Set in handwriting here, which is never used in capitals.
-    note: '*The seminar start date will be announced soon*',
+    note: '*The seminar start date will be announced soon',
   },
 
   series: {
