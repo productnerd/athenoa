@@ -1,54 +1,95 @@
 ---
-// A quiet row of the institutions named in the story's second block, like stamps in a margin.
+// The institutions named in Athena's story, in three quiet lines like stamps in a margin: where she
+// studied, her honours and research, where she has taught and belongs.
 // Each file is only ever a CSS mask over a block of the page's ink (never inlined), so every mark is
 // one colour and follows day and night by itself. The marks are the institutions' trademarks, shown
 // pending Athena's approval: see src/assets/logos/README.md.
+import athensCollege from '../../assets/logos/athens-college.png';
 import lse from '../../assets/logos/lse.svg';
 import oxford from '../../assets/logos/oxford.svg';
 import academy from '../../assets/logos/academy-of-athens.png';
 import harvard from '../../assets/logos/harvard.svg';
+import chs from '../../assets/logos/center-for-hellenic-studies.png';
+import athens from '../../assets/logos/athens.png';
+import patras from '../../assets/logos/patras.png';
+import toulouse from '../../assets/logos/toulouse-capitole.png';
+import defence from '../../assets/logos/national-defence-college.png';
 import galileo from '../../assets/logos/galileo-commission.png';
+import smn from '../../assets/logos/scientific-and-medical-network.png';
 import { getLocale, mainLocale } from '../../lib/locale';
 
 const t = {
   en: {
+    athensCollege: 'Athens College',
     lse: 'London School of Economics and Political Science (LSE)',
     oxford: 'University of Oxford',
     academy: 'Academy of Athens',
     harvard: 'Harvard University',
+    chs: 'Center for Hellenic Studies, Harvard University',
+    athens: 'National and Kapodistrian University of Athens',
+    patras: 'University of Patras',
+    toulouse: 'Université Toulouse Capitole',
+    defence: 'Hellenic National Defence College',
     galileo: 'Galileo Commission',
+    smn: 'Scientific and Medical Network',
   },
   el: {
+    athensCollege: 'Κολλέγιο Αθηνών',
     lse: 'London School of Economics and Political Science (LSE)',
     oxford: 'Πανεπιστήμιο της Οξφόρδης',
     academy: 'Ακαδημία Αθηνών',
     harvard: 'Πανεπιστήμιο Harvard',
+    chs: 'Κέντρο Ελληνικών Σπουδών του Πανεπιστημίου Harvard',
+    athens: 'Εθνικό και Καποδιστριακό Πανεπιστήμιο Αθηνών',
+    patras: 'Πανεπιστήμιο Πατρών',
+    toulouse: 'Université Toulouse Capitole',
+    defence: 'Σχολή Εθνικής Άμυνας',
     galileo: 'Galileo Commission',
+    smn: 'Scientific and Medical Network',
   },
 }[mainLocale(getLocale(Astro.url))];
 
-// In the order the text names them. `h` is the height in rem: the shapes differ (a square, a tall
-// crest, long wordmarks), so each gets the height at which it weighs the same as its neighbours.
-const logos = [
-  { name: t.lse, file: lse, h: 2.1 },
-  { name: t.oxford, file: oxford, h: 3 },
-  { name: t.academy, file: academy, h: 2.4 },
-  { name: t.harvard, file: harvard, h: 1.9 },
-  { name: t.galileo, file: galileo, h: 2.5 },
+// Three lines of four, in the order of the story. `h` is the height in rem: the shapes differ (a
+// square, a tall emblem, long wordmarks), so each gets the height at which it weighs the same as its
+// neighbours. The widest line is about 25rem, so the three lines hold at every width from 32rem up.
+const lines = [
+  [
+    { name: t.athensCollege, file: athensCollege, h: 2.5 },
+    { name: t.lse, file: lse, h: 2.1 },
+    { name: t.oxford, file: oxford, h: 3 },
+    { name: t.academy, file: academy, h: 2.4 },
+  ],
+  [
+    { name: t.harvard, file: harvard, h: 1.9 },
+    { name: t.chs, file: chs, h: 3 },
+    { name: t.athens, file: athens, h: 3 },
+    { name: t.patras, file: patras, h: 2.4 },
+  ],
+  [
+    { name: t.toulouse, file: toulouse, h: 2.3 },
+    { name: t.defence, file: defence, h: 2.8 },
+    { name: t.galileo, file: galileo, h: 2.5 },
+    { name: t.smn, file: smn, h: 1.9 },
+  ],
 ];
 ---
 
 <ul class="logos" role="list">
   {
-    logos.map(({ name, file, h }) => (
-      <li>
-        <span
-          class="logos__mark"
-          role="img"
-          aria-label={name}
-          style={`--h:${h}rem;--ratio:${file.width} / ${file.height};--mark:url('${file.src}')`}
-        />
-      </li>
+    lines.map((line, i) => (
+      <>
+        {i > 0 && <li class="logos__break" aria-hidden="true" />}
+        {line.map(({ name, file, h }) => (
+          <li>
+            <span
+              class="logos__mark"
+              role="img"
+              aria-label={name}
+              style={`--h:${h}rem;--ratio:${file.width} / ${file.height};--mark:url('${file.src}')`}
+            />
+          </li>
+        ))}
+      </>
     ))
   }
 </ul>
@@ -72,5 +113,23 @@ const logos = [
     background-color: currentColor;
     -webkit-mask: var(--mark) center / contain no-repeat;
     mask: var(--mark) center / contain no-repeat;
+  }
+  /* On a phone the marks wrap as they fall; from here up the three lines are kept */
+  .logos__break {
+    display: none;
+  }
+  @media (min-width: 32rem) {
+    /* The gap falls on both sides of each break, so it is half the phone's */
+    /* Each line runs the full width of the text column: the first mark on its left edge, the last
+       on its right, the space shared out between them (client direction, 11 October 2026). */
+    .logos {
+      row-gap: calc(var(--space-s) * 0.6);
+      justify-content: space-between;
+    }
+    .logos__break {
+      display: block;
+      flex-basis: 100%;
+      height: 0;
+    }
   }
 </style>

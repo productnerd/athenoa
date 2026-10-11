@@ -87,8 +87,8 @@ const [roots, studies, back, academy] = about.story;
           studies.paragraphs.map((text, i) => (
             <>
               <p set:html={text} />
-              {/* The marks of the institutions named so far stand under the paragraph that names the last of them */}
-              {i === 2 && <Logos />}
+              {/* The marks of the institutions named so far stand where the academic part of the story ends */}
+              {i === 3 && <Logos />}
             </>
           ))
         }
