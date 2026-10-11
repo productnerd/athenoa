@@ -811,7 +811,8 @@ const rowsOf = (text: string) => {
       /* from the foot of the screen to the tips of the rays over the roof */
       --hero-roof: calc(var(--scene-b) + var(--scene-h) * 0.69);
       --hero-fs: min(
-        calc((var(--panel-w) - 2 * var(--hero-pad)) / var(--hero-fitw)),
+        /* never wider than three quarters of the window (client direction) */
+        calc(var(--panel-w) * 0.75 / var(--hero-fitw)),
         calc((var(--hero-open) - var(--hero-top) - var(--hero-roof) - var(--hero-gap)) / 1.9),
         10rem
       );
