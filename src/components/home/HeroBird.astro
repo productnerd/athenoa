@@ -1,6 +1,6 @@
 ---
 // A very small bird that comes to sit on the letter I of the highlighted word in the hero title,
-// sings, and flies off again: every fifteen seconds while the hero is on screen
+// sings, and flies off again: every twenty-five seconds while the hero is on screen, by day only
 // (client direction, 11 October 2026).
 //
 // Mounted inside .hero__panel, which is the box it is placed in. The script finds the letter in the
@@ -17,7 +17,7 @@ import Illustration from '../Illustration.astro';
 </span>
 
 <script>
-  const PERIOD = 15000; // one visit every fifteen seconds
+  const PERIOD = 25000; // one visit every twenty-five seconds
   const VOLUME = 0.45;
   let stop: (() => void) | undefined;
 
@@ -81,7 +81,8 @@ import Illustration from '../Illustration.astro';
         }, ms),
       );
     const visit = () => {
-      if (document.hidden || !place()) return;
+      // by day only: at night the falling star has the sky to itself
+      if (document.hidden || document.documentElement.dataset.theme === 'dark' || !place()) return;
       timers.forEach(clearTimeout);
       timers = [];
       at(0, 'in');

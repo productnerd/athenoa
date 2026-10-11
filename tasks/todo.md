@@ -222,7 +222,12 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Music 20% quieter
 - [x] Day-sky clouds redrawn as loose streak formations (the cloud shapes read as childish); flame is two layers only (dark tongue, bright heart); "Discover all the features" button removed; seminar note keeps one asterisk, at the start
 - [ ] MACHINE: her Mac was out of memory during this round (swap 7.1 of 8 GB used, load over 200). Use the browser pane's background tab for checks instead of extra headless browsers; one check at a time.
-- [ ] HELPER RUNNING: soft fire sound in the hero that fades as you scroll past (synthesised; a real recording needs her permission to download)
+- [x] Soft fire sound in the hero (synthesised, 12 s loop): plays while the music is on, fades as the hero scrolls away, stops past it. Not heard by anyone yet; on iPhones the volume cannot be faded (the browser ignores it).
+- [x] A small bird visits the I of PLATONIC every 25 seconds by day, with a chirp (synthesised); at night a falling star every 25 seconds instead
+- [x] Two more streak clouds, lower; clouds a fifth faster
+- [x] Olympus footer: stream and waterfall removed, hills continue across (five small trees added on the new stretch of ridge)
+- [x] Lolotte on trial for the Greek handwriting (local font, 285% size; needs a licence if kept)
+- [ ] HELPER RUNNING: institution logos on the About page (monochrome, with a list of sources for Athena to approve)
 - [ ] ASKED: logos on the About page. Real logos of Oxford, LSE, Harvard etc. need her files or permission to download, and those institutions restrict use of their marks; offered plain name marks in the site's type instead.
 
 ## Open questions
