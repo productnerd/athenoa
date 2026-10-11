@@ -16,6 +16,8 @@ const base = process.env.SHOT_BASE ?? 'http://localhost:4321';
 const url = new URL(path, base);
 // Motion is off by default so reveal-on-scroll content is visible in full-page shots.
 if (!flag('motion')) url.searchParams.set('nomotion', '1');
+// The site follows the sun: pin the day view unless the address asks for a theme.
+if (!url.searchParams.has('theme')) url.searchParams.set('theme', 'light');
 
 const browser = await chromium.launch({ channel: 'chrome' });
 const page = await browser.newPage({

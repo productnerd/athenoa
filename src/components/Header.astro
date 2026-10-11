@@ -149,8 +149,10 @@ const isCurrent = (href: string) => {
       const apply = (night: boolean) => {
         if (night) root.dataset.theme = 'dark';
         else delete root.dataset.theme;
+        // The choice is kept with the sun's state, and holds until the sun next rises or sets
+        // (see the script in Base.astro, which otherwise follows the sun).
         try {
-          localStorage.setItem('ath-theme', night ? 'dark' : 'light');
+          localStorage.setItem('ath-theme', `${night ? 'dark' : 'light'}@${root.dataset.sun ?? 'up'}`);
         } catch {}
         render();
       };
@@ -167,6 +169,8 @@ const isCurrent = (href: string) => {
         }
       });
       render();
+      // The page can change by itself at sunrise and sunset: keep the button's label true
+      new MutationObserver(render).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
     }
   });
 </script>

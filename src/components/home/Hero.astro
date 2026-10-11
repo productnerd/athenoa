@@ -575,6 +575,8 @@ const rowsOf = (text: string) => {
       /* here the title wraps as a paragraph: the ems its longest line needs */
       --hero-fit: 6.9;
       --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 6svh);
+      /* air between the header and the title */
+      --hero-top: clamp(1.1rem, 3svh, 2.2rem);
       --hero-fade: clamp(4rem, 12svh, 7rem);
     }
     .hero--el,
@@ -586,7 +588,7 @@ const rowsOf = (text: string) => {
       min-height: 0;
       /* room for the picture (rays, frame and ground band are 1.185 frames tall) and a breath
          between the subtitle and the rays */
-      padding: calc(var(--header-h) + clamp(0.6rem, 2svh, 1.6rem)) var(--hero-pad) calc(var(--scene-h) * 1.245);
+      padding: calc(var(--header-h) + var(--hero-top)) var(--hero-pad) calc(var(--scene-h) * 1.245);
     }
     /* Without Athena the picture is only the temple (the lower six tenths of its frame). The title
        runs the full width above it, as large as the width allows (client direction); only a very
@@ -594,6 +596,20 @@ const rowsOf = (text: string) => {
        the screen narrows to a phone, where it is nearly as wide as the screen. */
     .hero--bare {
       --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 16svh, 10rem);
+      /* The temple is as tall as the screen allows (client direction): from the foot of the
+         first screen its roof reaches up to just under the subtitle, with a little air between
+         (--hero-gap), unless the width of the screen stops it first. --hero-block is the title
+         (four lines) with its subtitle, whose size has a floor; the roof's point is 0.7 of the
+         frame above the foot of the picture. */
+      --hero-gap: clamp(0.6rem, 1.6svh, 1.25rem);
+      --hero-block: calc(var(--hero-fs) * 3.8 + max(var(--hero-fs) * 0.81, 2.63rem));
+      --scene-h: min(
+        var(--panel-w) * 1.06,
+        max(
+          47.5svh,
+          calc((100svh - var(--header-h) - var(--hero-top) - var(--hero-block) - var(--hero-gap)) / 0.715)
+        )
+      );
       --scene-x: clamp(
         50%,
         calc(50% + (100vw - 26rem) * 0.6),
@@ -601,7 +617,7 @@ const rowsOf = (text: string) => {
       );
     }
     .hero--bare .hero__panel {
-      padding-bottom: calc(var(--scene-h) * 0.8);
+      padding-bottom: calc(var(--scene-h) * 0.715 + var(--hero-gap));
     }
     .hero--bare .hero__title .t-sub {
       margin-top: 0.45em;
@@ -661,13 +677,18 @@ const rowsOf = (text: string) => {
       --hero-fit: 9.4;
       --hero-rows: 3;
       --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 10rem);
-      /* the title and its subtitle */
-      --hero-block: calc(var(--hero-fs) * (var(--hero-rows) * 0.95 + 1.15));
+      /* air between the header and the title */
+      --hero-top: clamp(1.25rem, 3.5svh, 2.75rem);
+      /* the title and its subtitle (whose size has a floor) */
+      --hero-block: calc(var(--hero-fs) * var(--hero-rows) * 0.95 + max(var(--hero-fs) * 0.85, 2.63rem));
       --scene-b: calc(var(--u) * 34);
+      /* the temple takes all the height that is left: its roof comes up to just under the
+         subtitle (the roof's point is 0.64 of the frame above the foot of the screen here) */
+      --hero-gap: clamp(0.75rem, 2.2svh, 1.5rem);
       --scene-h: clamp(
         12rem,
-        calc((var(--hero-open) - var(--hero-block) - 1.5rem) / 0.74),
-        min(var(--hero-open) * 0.8, var(--panel-w) * 0.62)
+        calc((var(--hero-open) - var(--hero-top) - var(--hero-block) - var(--hero-gap)) / 0.655),
+        var(--panel-w) * 0.92
       );
       --scene-x: clamp(
         50%,
@@ -683,8 +704,7 @@ const rowsOf = (text: string) => {
     .hero--bare .hero__panel {
       justify-content: flex-start;
       min-height: var(--panel-h);
-      /* from the foot of the screen to the tips of the rays over the roof is 0.7 of the frame */
-      padding: calc(var(--header-h) + 0.5rem) var(--hero-pad) calc(var(--scene-h) * 0.74);
+      padding: calc(var(--header-h) + var(--hero-top)) var(--hero-pad) calc(var(--scene-h) * 0.655 + var(--hero-gap));
     }
     .hero--bare .hero__title {
       width: calc(var(--hero-fit) * 1em);

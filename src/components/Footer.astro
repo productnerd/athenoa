@@ -148,6 +148,10 @@ const custom = Object.entries(images).find(([file]) =>
     color: var(--blue);
     margin-bottom: 0.05rem;
   }
+  /* The Greek hand is a wider, heavier face: a fifth smaller, so the two headings sit as they do in English */
+  :global(html[lang='el']) .footer__title {
+    font-size: calc(var(--step-1) * 1);
+  }
   .footer__list {
     display: grid;
     gap: 0.3rem;
