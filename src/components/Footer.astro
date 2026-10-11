@@ -225,10 +225,10 @@ const custom = Object.entries(images).find(([file]) =>
     position: relative;
     z-index: 3;
     margin-top: -1px;
-    padding: 0.85rem var(--gutter) 1.15rem;
+    /* A deep band: twice the height it first had */
+    padding: 2.5rem var(--gutter) 2.9rem;
+    /* Flat ink, the same as the ground of the drawing above, so the two read as one band */
     background-color: var(--footer-ground, var(--blue));
-    background-image: url('/textures/grain-light.webp');
-    background-size: 400px 400px;
     text-align: center;
     font-size: var(--step--1);
     letter-spacing: 0.08em;
