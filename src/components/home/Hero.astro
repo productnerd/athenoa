@@ -23,7 +23,8 @@ const locale = getLocale(Astro.url);
 const { home } = content(locale);
 const highlight = home.hero.highlight;
 // CLIENT DIRECTION, 11 October 2026: Athena (with her spear and the Nike) is hidden for now and may
-// come back later. Set this to true to show her again; nothing else needs to change.
+// come back later, and so are the disc and rays behind her head, which read as a sun over the roof
+// without her. Set this to true to show them all again; nothing else needs to change.
 const showAthena = false;
 // Beside the picture the title is a tall stack. Words per row, for the words before the highlight
 // (each highlighted word takes a row of its own).
@@ -41,7 +42,7 @@ const rowsOf = (text: string) => {
 };
 ---
 
-<section class:list={['hero', `hero--${locale}`]} data-pointer-scene>
+<section class:list={['hero', `hero--${locale}`, !showAthena && 'hero--bare']} data-pointer-scene>
   <div class="hero__panel theme-day">
     <div class="hero__stage" aria-hidden="true">
       <div class="hero__layer hero__layer--sky" data-depth="0.5" data-pointer="-6" data-reveal="fade">
@@ -54,14 +55,16 @@ const rowsOf = (text: string) => {
         <Illustration name="sea-cloud-2" />
         <Illustration name="sea-cloud-3" />
       </div>
-      <div class="hero__layer hero__layer--glow hero__scene" data-depth="0.3" data-reveal="fade">
-        <Illustration name="portal-b-rays" draw />
-      </div>
       {
         showAthena && (
-          <div class="hero__layer hero__layer--athena hero__scene" data-depth="0.22" data-reveal="fade">
-            <Illustration name="portal-b-athena" draw />
-          </div>
+          <>
+            <div class="hero__layer hero__layer--glow hero__scene" data-depth="0.3" data-reveal="fade">
+              <Illustration name="portal-b-rays" draw />
+            </div>
+            <div class="hero__layer hero__layer--athena hero__scene" data-depth="0.22" data-reveal="fade">
+              <Illustration name="portal-b-athena" draw />
+            </div>
+          </>
         )
       }
       <div class="hero__layer hero__layer--temple hero__scene" data-depth="0.12" data-reveal="fade">
@@ -545,6 +548,11 @@ const rowsOf = (text: string) => {
       /* room for the picture (rays, frame and ground band are 1.185 frames tall) and a breath
          between the subtitle and the rays */
       padding: calc(var(--header-h) + clamp(0.6rem, 2svh, 1.6rem)) var(--hero-pad) calc(var(--scene-h) * 1.245);
+    }
+    /* Without Athena the picture is only the temple (the lower six tenths of its frame): the title
+       stands closer above it. */
+    .hero--bare .hero__panel {
+      padding-bottom: calc(var(--scene-h) * 0.8);
     }
     /* The block is as wide as its longest line needs and no wider, so the lines always break the
        same way: the highlighted words one above the other. */
