@@ -237,6 +237,10 @@ const lead = cut === 'lead';
   .card--arch .card__badge {
     left: calc(var(--pad) * -1 - 0.6rem);
     bottom: 9%;
+    /* A long label (Greek) wraps inside the card instead of running past its right edge */
+    max-width: calc(100% + var(--pad) + 0.6rem);
+    white-space: normal;
+    line-height: 1.1;
   }
 
   /* ---------- paper ---------- */
