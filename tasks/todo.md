@@ -227,7 +227,8 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Two more streak clouds, lower; clouds a fifth faster
 - [x] Olympus footer: stream and waterfall removed, hills continue across (five small trees added on the new stretch of ridge)
 - [x] Lolotte on trial for the Greek handwriting (local font, 285% size; needs a licence if kept)
-- [ ] HELPER RUNNING: institution logos on the About page (monochrome, with a list of sources for Athena to approve)
+- [x] Institution marks on the About page: LSE, Oxford, Academy of Athens, Harvard, Galileo Commission, monochrome in one quiet row under the paragraph on teaching. Sources and licence notes in src/assets/logos/README.md.
+- [ ] BEFORE LAUNCH: Athena to approve the use of each mark (they are trademarks; Oxford's file is a Commons user upload; Harvard's Center for Hellenic Studies has its own mark, which may be the better choice)
 - [ ] ASKED: logos on the About page. Real logos of Oxford, LSE, Harvard etc. need her files or permission to download, and those institutions restrict use of their marks; offered plain name marks in the site's type instead.
 
 ## Open questions

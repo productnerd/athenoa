@@ -1,0 +1,76 @@
+---
+// A quiet row of the institutions named in the story's second block, like stamps in a margin.
+// Each file is only ever a CSS mask over a block of the page's ink (never inlined), so every mark is
+// one colour and follows day and night by itself. The marks are the institutions' trademarks, shown
+// pending Athena's approval: see src/assets/logos/README.md.
+import lse from '../../assets/logos/lse.svg';
+import oxford from '../../assets/logos/oxford.svg';
+import academy from '../../assets/logos/academy-of-athens.png';
+import harvard from '../../assets/logos/harvard.svg';
+import galileo from '../../assets/logos/galileo-commission.png';
+import { getLocale, mainLocale } from '../../lib/locale';
+
+const t = {
+  en: {
+    lse: 'London School of Economics and Political Science (LSE)',
+    oxford: 'University of Oxford',
+    academy: 'Academy of Athens',
+    harvard: 'Harvard University',
+    galileo: 'Galileo Commission',
+  },
+  el: {
+    lse: 'London School of Economics and Political Science (LSE)',
+    oxford: 'Πανεπιστήμιο της Οξφόρδης',
+    academy: 'Ακαδημία Αθηνών',
+    harvard: 'Πανεπιστήμιο Harvard',
+    galileo: 'Galileo Commission',
+  },
+}[mainLocale(getLocale(Astro.url))];
+
+// In the order the text names them. `h` is the height in rem: the shapes differ (a square, a tall
+// crest, long wordmarks), so each gets the height at which it weighs the same as its neighbours.
+const logos = [
+  { name: t.lse, file: lse, h: 2.1 },
+  { name: t.oxford, file: oxford, h: 3 },
+  { name: t.academy, file: academy, h: 2.4 },
+  { name: t.harvard, file: harvard, h: 1.9 },
+  { name: t.galileo, file: galileo, h: 2.5 },
+];
+---
+
+<ul class="logos" role="list">
+  {
+    logos.map(({ name, file, h }) => (
+      <li>
+        <span
+          class="logos__mark"
+          role="img"
+          aria-label={name}
+          style={`--h:${h}rem;--ratio:${file.width} / ${file.height};--mark:url('${file.src}')`}
+        />
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) 1.5rem;
+    margin: var(--space-m) 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink-soft);
+    opacity: 0.7;
+  }
+  .logos__mark {
+    display: block;
+    height: var(--h);
+    aspect-ratio: var(--ratio);
+    background-color: currentColor;
+    -webkit-mask: var(--mark) center / contain no-repeat;
+    mask: var(--mark) center / contain no-repeat;
+  }
+</style>
