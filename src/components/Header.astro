@@ -69,26 +69,6 @@ const isCurrent = (href: string) => {
             </ul>
           </details>
         </li>
-        <li class="header__theme">
-          <button
-            type="button"
-            class="header__moon"
-            data-theme-toggle
-            data-label-night={ui.toNight}
-            data-label-day={ui.toDay}
-            aria-pressed="false"
-            aria-label={ui.toNight}
-            title={ui.toNight}
-          >
-            <svg viewBox="0 0 28 28" width="24" height="24" aria-hidden="true" focusable="false">
-              <path class="moon" d="M19.8 16.9A8.3 8.3 0 0 1 11 6.2a8.3 8.3 0 1 0 8.8 10.7z"></path>
-              <g class="sun">
-                <circle cx="14" cy="14" r="4.6"></circle>
-                <path d="M14 3.5v3M14 21.5v3M3.5 14h3M21.5 14h3M6.6 6.6l2.1 2.1M19.3 19.3l2.1 2.1M6.6 21.4l2.1-2.1M19.3 8.7l2.1-2.1"></path>
-              </g>
-            </svg>
-          </button>
-        </li>
       </ul>
       <button class="header__toggle" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-toggle>
         <span class="visually-hidden">{ui.menu}</span>
@@ -132,52 +112,6 @@ const isCurrent = (href: string) => {
       });
     }
 
-    // Day and night. An owl calls when night falls; a cicada rasps three times to greet the day.
-    // The sounds stay silent if the visitor has muted the site's music.
-    const moon = header.querySelector<HTMLButtonElement>('[data-theme-toggle]');
-    if (moon) {
-      const root = document.documentElement;
-      const isNight = () => root.dataset.theme === 'dark';
-      const render = () => {
-        const label = isNight() ? moon.dataset.labelDay! : moon.dataset.labelNight!;
-        moon.setAttribute('aria-pressed', String(isNight()));
-        moon.setAttribute('aria-label', label);
-        moon.title = label;
-      };
-      const play = (file: string) => {
-        try {
-          if (localStorage.getItem('ath-music') === 'off') return;
-        } catch {}
-        const sound = new Audio(file);
-        sound.volume = 0.4;
-        sound.play().catch(() => {});
-      };
-      const apply = (night: boolean) => {
-        if (night) root.dataset.theme = 'dark';
-        else delete root.dataset.theme;
-        // The choice is kept with the sun's state, and holds until the sun next rises or sets
-        // (see the script in Base.astro, which otherwise follows the sun).
-        try {
-          localStorage.setItem('ath-theme', `${night ? 'dark' : 'light'}@${root.dataset.sun ?? 'up'}`);
-        } catch {}
-        render();
-      };
-      moon.addEventListener('click', () => {
-        const night = !isNight();
-        play(night ? '/audio/owl.mp3' : '/audio/daylight.mp3');
-        const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!still && 'startViewTransition' in document) {
-          (document as Document & { startViewTransition: (run: () => void) => unknown }).startViewTransition(() =>
-            apply(night),
-          );
-        } else {
-          apply(night);
-        }
-      });
-      render();
-      // The page can change by itself at sunrise and sunset: keep the button's label true
-      new MutationObserver(render).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
-    }
   });
 </script>
 
@@ -289,7 +223,7 @@ const isCurrent = (href: string) => {
   /* A light-blue brush mark sweeps in under a link when the pointer rests on it, and stays under
      the page you are on. (Direct children only: the language list is a list
      inside one of these items, and its links must not take the menu links' size and marks.) */
-  .header__links > li:not(.header__lang, .header__theme) > a {
+  .header__links > li:not(.header__lang) > a {
     isolation: isolate;
     /* in capitals (client direction): smaller and letterspaced, so they sit as quietly as before */
     font-size: calc(var(--step-0) * 0.8);
@@ -297,7 +231,7 @@ const isCurrent = (href: string) => {
     text-transform: uppercase;
     transition: color var(--dur-1) var(--hover-delay);
   }
-  .header__links > li:not(.header__lang, .header__theme) > a::before {
+  .header__links > li:not(.header__lang) > a::before {
     content: '';
     position: absolute;
     inset: 2% -0.95rem -4% -0.85rem;
@@ -308,13 +242,13 @@ const isCurrent = (href: string) => {
     transform-origin: 0 50%;
     transition: transform var(--dur-2) var(--ease-out) var(--hover-delay);
   }
-  .header__links > li:not(.header__lang, .header__theme) > a:hover::before,
-  .header__links > li:not(.header__lang, .header__theme) > a:focus-visible::before,
-  .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page']::before {
+  .header__links > li:not(.header__lang) > a:hover::before,
+  .header__links > li:not(.header__lang) > a:focus-visible::before,
+  .header__links > li:not(.header__lang) > a[aria-current='page']::before {
     transform: none;
   }
-  .header__links > li:not(.header__lang, .header__theme) > a:hover,
-  .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page'] {
+  .header__links > li:not(.header__lang) > a:hover,
+  .header__links > li:not(.header__lang) > a[aria-current='page'] {
     color: var(--blue);
   }
   /* The name and the little statue lean in together */
@@ -330,46 +264,6 @@ const isCurrent = (href: string) => {
   .header__brand:hover .header__name {
     letter-spacing: 0.085em;
   }
-  /* Day and night switch: a moon by day, a sun by night */
-  .header__moon {
-    display: grid;
-    place-items: center;
-    width: 2.4rem;
-    height: 2.4rem;
-    padding: 0;
-    border: 0;
-    border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
-    background: none;
-    color: var(--ink-strong);
-    cursor: pointer;
-    transition:
-      background-color var(--dur-1) var(--hover-delay),
-      rotate var(--dur-2) var(--ease-out) var(--hover-delay);
-  }
-  .header__moon:hover {
-    background-color: var(--blue-light);
-    rotate: -12deg;
-  }
-  .header__moon svg {
-    width: 1.45rem;
-    height: 1.45rem;
-  }
-  .header__moon :is(path, circle) {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.7;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .header__moon .sun {
-    display: none;
-  }
-  :global(html[data-theme='dark']) .header__moon .sun {
-    display: inline;
-  }
-  :global(html[data-theme='dark']) .header__moon .moon {
-    display: none;
-  }
   /* On Home the header lies over the picture's sky until the page scrolls. By day that sky is
      light blue, so the light-blue marks turn to paper there. */
   :global(html:not([data-theme='dark']) body.has-hero) .header:not(.is-scrolled, .is-open) {
@@ -377,9 +271,6 @@ const isCurrent = (href: string) => {
   }
   :global(html:not([data-theme='dark']) body.has-hero) .header:not(.is-scrolled, .is-open) .lang summary::before {
     background: var(--creme-light);
-  }
-  :global(html:not([data-theme='dark']) body.has-hero) .header:not(.is-scrolled, .is-open) .header__moon:hover {
-    background-color: var(--creme-light);
   }
   /* By night the highlighter stroke is the darker blue, so light words stay readable on it */
   :global(html[data-theme='dark']) .header {
@@ -561,7 +452,7 @@ const isCurrent = (href: string) => {
     .header__links a {
       color: var(--creme-light);
     }
-    .header__links > li:not(.header__lang, .header__theme) > a {
+    .header__links > li:not(.header__lang) > a {
       white-space: normal;
       text-wrap: balance;
       font-family: var(--font-title);
@@ -574,18 +465,8 @@ const isCurrent = (href: string) => {
     .header__lang {
       margin-top: 1.1rem;
     }
-    .header__theme {
-      margin-top: 0.5rem;
-      margin-left: -0.5rem;
-    }
-    .header__moon {
-      color: var(--creme-light);
-    }
-    .header__moon:hover {
-      background-color: var(--blue-deep);
-    }
     /* Each link slides in a little and a light-blue brush mark sweeps in behind it */
-    .header__links > li:not(.header__lang, .header__theme) > a {
+    .header__links > li:not(.header__lang) > a {
       isolation: isolate;
       padding-inline: 0.35rem 0.6rem;
       margin-left: -0.35rem;
@@ -593,19 +474,19 @@ const isCurrent = (href: string) => {
         translate var(--dur-2) var(--ease-out) var(--hover-delay),
         color var(--dur-1) var(--hover-delay);
     }
-    .header__links > li:not(.header__lang, .header__theme) > a::before {
+    .header__links > li:not(.header__lang) > a::before {
       inset: 4% -0.9rem -2% -0.6rem;
       rotate: -0.8deg;
     }
-    .header__links > li:not(.header__lang, .header__theme) > a:hover,
-    .header__links > li:not(.header__lang, .header__theme) > a:focus-visible,
-    .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page'] {
+    .header__links > li:not(.header__lang) > a:hover,
+    .header__links > li:not(.header__lang) > a:focus-visible,
+    .header__links > li:not(.header__lang) > a[aria-current='page'] {
       color: var(--blue-deep);
       translate: 0.4rem 0;
     }
-    .header__links > li:not(.header__lang, .header__theme) > a:hover::before,
-    .header__links > li:not(.header__lang, .header__theme) > a:focus-visible::before,
-    .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page']::before {
+    .header__links > li:not(.header__lang) > a:hover::before,
+    .header__links > li:not(.header__lang) > a:focus-visible::before,
+    .header__links > li:not(.header__lang) > a[aria-current='page']::before {
       transform: none;
     }
     .lang summary {

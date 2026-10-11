@@ -1,5 +1,6 @@
 ---
-// Very quiet background music with a mute button.
+// The two small controls in the lower left corner: very quiet background music with a mute button,
+// and the day and night switch beside it.
 // Browsers do not allow sound before the visitor has interacted with the page, so "autoplay" works like
 // this: playback is attempted on load, and if the browser refuses, it starts on the first click, tap or
 // key press. The visitor's choice (on or off) is remembered. The element persists across page changes,
@@ -7,12 +8,14 @@
 // document (an address typed by hand, such as a page that does not exist, or the language switch), the
 // place in the piece is remembered and the music picks up from there, easing in, instead of starting
 // again. A link that forces such a reload fades the music out first, so it never cuts.
+import { content } from '../data';
 import { getLocale, mainLocale } from '../lib/locale';
 
 const t = {
   en: { group: 'Background music', turnOff: 'Turn the music off', turnOn: 'Turn the music on' },
   el: { group: 'Μουσική υπόκρουση', turnOff: 'Απενεργοποίηση μουσικής', turnOn: 'Ενεργοποίηση μουσικής' },
 }[mainLocale(getLocale(Astro.url))];
+const { ui } = content(getLocale(Astro.url));
 ---
 
 <div class="music" data-music role="group" aria-label={t.group} transition:persist="background-music">
@@ -32,6 +35,25 @@ const t = {
       <path class="music__wave music__wave--1" d="M17.2 10.6c1.7 1.8 1.7 5 0 6.8"></path>
       <path class="music__wave music__wave--2" d="M20.3 7.9c3.3 3.4 3.3 8.8 0 12.2"></path>
       <path class="music__slash" d="M17.4 11.3l5.6 5.4M23 11.3l-5.6 5.4"></path>
+    </svg>
+  </button>
+  {/* Day and night, beside the sound button (client direction, 11 October 2026; it used to sit in the header) */}
+  <button
+    type="button"
+    class="music__button music__theme"
+    data-theme-toggle
+    data-label-night={ui.toNight}
+    data-label-day={ui.toDay}
+    aria-pressed="false"
+    aria-label={ui.toNight}
+    title={ui.toNight}
+  >
+    <svg viewBox="0 0 28 28" width="24" height="24" aria-hidden="true" focusable="false">
+      <path class="moon" d="M19.8 16.9A8.3 8.3 0 0 1 11 6.2a8.3 8.3 0 1 0 8.8 10.7z"></path>
+      <g class="sun">
+        <circle cx="14" cy="14" r="4.6"></circle>
+        <path d="M14 3.5v3M14 21.5v3M3.5 14h3M21.5 14h3M6.6 6.6l2.1 2.1M19.3 19.3l2.1 2.1M6.6 21.4l2.1-2.1M19.3 8.7l2.1-2.1"></path>
+      </g>
     </svg>
   </button>
 </div>
@@ -144,6 +166,53 @@ const t = {
     audio.addEventListener('pause', render);
     if (wanted) start();
     render();
+
+    // Day and night. An owl calls when night falls; a soft wave greets the day.
+    // The sounds stay silent if the visitor has muted the site's music.
+    const moon = root.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+    if (moon) {
+      const page = document.documentElement;
+      const isNight = () => page.dataset.theme === 'dark';
+      const label = () => {
+        const text = isNight() ? moon.dataset.labelDay! : moon.dataset.labelNight!;
+        moon.setAttribute('aria-pressed', String(isNight()));
+        moon.setAttribute('aria-label', text);
+        moon.title = text;
+      };
+      const play = (file: string) => {
+        try {
+          if (localStorage.getItem(KEY) === 'off') return;
+        } catch {}
+        const sound = new Audio(file);
+        sound.volume = 0.4;
+        sound.play().catch(() => {});
+      };
+      const apply = (night: boolean) => {
+        if (night) page.dataset.theme = 'dark';
+        else delete page.dataset.theme;
+        // The choice is kept with the sun's state, and holds until the sun next rises or sets
+        // (see the script in Base.astro, which otherwise follows the sun).
+        try {
+          localStorage.setItem('ath-theme', `${night ? 'dark' : 'light'}@${page.dataset.sun ?? 'up'}`);
+        } catch {}
+        label();
+      };
+      moon.addEventListener('click', () => {
+        const night = !isNight();
+        play(night ? '/audio/owl.mp3' : '/audio/daylight.mp3');
+        const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!still && 'startViewTransition' in document) {
+          (document as Document & { startViewTransition: (run: () => void) => unknown }).startViewTransition(() =>
+            apply(night),
+          );
+        } else {
+          apply(night);
+        }
+      });
+      label();
+      // The page can change by itself at sunrise and sunset: keep the button's label true
+      new MutationObserver(label).observe(page, { attributes: true, attributeFilter: ['data-theme'] });
+    }
   }
 
   document.addEventListener('astro:page-load', setup);
@@ -151,6 +220,8 @@ const t = {
 
 <style>
   .music {
+    display: flex;
+    gap: 0.45rem;
     position: fixed;
     left: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
     /* Level with the copyright line when the page is scrolled to its end */
@@ -182,13 +253,23 @@ const t = {
     width: 1.45rem;
     height: 1.45rem;
   }
-  .music__button path {
+  .music__button :is(path, circle) {
     fill: none;
     stroke: currentColor;
     stroke-width: 1.7;
     stroke-linecap: round;
     stroke-linejoin: round;
     transition: opacity var(--dur-1);
+  }
+  /* A moon by day, a sun by night */
+  .music__theme .sun {
+    display: none;
+  }
+  :global(html[data-theme='dark']) .music__theme .sun {
+    display: inline;
+  }
+  :global(html[data-theme='dark']) .music__theme .moon {
+    display: none;
   }
   /* Silent: speaker with a cross. Playing: speaker with two waves. */
   .music__wave {

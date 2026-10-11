@@ -231,6 +231,15 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [ ] BEFORE LAUNCH: Athena to approve the use of each mark (they are trademarks; Oxford's file is a Commons user upload; Harvard's Center for Hellenic Studies has its own mark, which may be the better choice)
 - [ ] ASKED: logos on the About page. Real logos of Oxford, LSE, Harvard etc. need her files or permission to download, and those institutions restrict use of their marks; offered plain name marks in the site's type instead.
 
+## Added by Maria on 2026-10-11 (seventeenth round)
+
+- [x] Handwriting is written in sentence case everywhere, in every language (src/lib/hand.ts; names keep their capital)
+- [x] Drawn clouds removed from the hero (only the loose streaks stay); cypress-and-spring drawing removed from About
+- [x] Day/night button moved out of the header: it floats beside the mute button in the lower left corner
+- [x] Greek footer headings: more room before their lists
+- [x] PUBLISHED as a preview on GitHub Pages (repo made public at her choice, 11 October 2026). The preview build is adapted to the /athenoa path and marked noindex by scripts/pages-preview.mjs; the source stays built for the root of its own domain.
+- [ ] What Athena will NOT see on the preview: Victor Narrow, Tekst and Lolotte (trial fonts on Maria's Mac, not shipped: she sees EB Garamond instead), the background music (file kept out of the repo until its licence is confirmed) and with it the fire sound, which follows the music
+
 ## Open questions
 
 See the chat message of 2026-10-10.

@@ -152,6 +152,8 @@ const custom = Object.entries(images).find(([file]) =>
   /* The Greek hand is a wider, heavier face: a fifth smaller, so the two headings sit as they do in English */
   :global(html[lang='el']) .footer__title {
     font-size: calc(var(--step-1) * 1);
+    /* the Greek hand has long tails: more room before the list under it */
+    margin-bottom: 0.6rem;
   }
   .footer__list {
     display: grid;
