@@ -102,9 +102,9 @@ export const about = {
       {
         name: 'source',
         label: 'Πῶς ἡμᾶς ηὕρετε;',
-        type: 'text',
+        type: 'select',
         required: false,
-        placeholder: 'Ζήτησις / YouTube / FB / ...',
+        placeholder: '',
         autocomplete: 'off',
       },
       {

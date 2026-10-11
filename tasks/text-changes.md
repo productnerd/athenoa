@@ -47,6 +47,21 @@ The enrol popup needs labels the live site never had (for example "View course",
 - The translation after ΓΝΩΘΙ ΣΑΥΤΟΝ lost its brackets: “Know Thyself”. instead of (“Know Thyself”). The same in Greek and Ancient Greek.
 - Menu items are shown in capitals (by the stylesheet; the words themselves are unchanged).
 
+## Enrolment request and "where did you hear about us" (11 October 2026, new)
+
+"Enroll" now opens a request form instead of a payment step. New wording, in `coursesPage.ui` of the three course data files:
+
+| | English | Greek | Ancient Greek (draft) |
+|---|---|---|---|
+| Question | Why are you interested? | Γιατί σας ενδιαφέρει; | Διὰ τί τούτου ἐπιθυμεῖτε; |
+| Question | Where did you hear about us? | Πού μάθατε για εμάς; | Πόθεν περὶ ἡμῶν ἠκούσατε; |
+| Button | Send request | Αποστολή αιτήματος | Πέμψατε τὴν αἴτησιν |
+| After sending, until it is connected | Requests are not connected yet. Nothing has been sent. | Τα αιτήματα δεν είναι ακόμη διαθέσιμα. Δεν στάλθηκε τίποτα. | Αἱ αἰτήσεις οὔπω συνημμέναι εἰσίν. Οὐδὲν πέπεμπται. |
+
+The form also asks for an email address (not in the request: added because a request cannot be answered without one). The wording of the payment steps ("Your details", "Payment", "Continue to payment", "Pay with Stripe", "Card payment is not connected yet…") is gone.
+
+The answers offered for "Where did you hear about us?" (and for "How did you find us?" in the contact form, which was a free text field on the live site) are in `src/data/sources.ts`: YouTube, Instagram, Facebook, Search engine, AI agent, Word of mouth, Academic work, Other (with a field to say where). Greek: Μηχανή αναζήτησης, Βοηθός τεχνητής νοημοσύνης, Από γνωστούς, Ακαδημαϊκό έργο, Άλλο.
+
 ## Waitlist wording (11 October 2026, new; the live site has no waitlist)
 
 For courses that are not open yet. All of it is in `coursesPage.ui` (`joinWaitlist`, `waitlist`) in `src/data/courses.ts`, `src/data/el/courses.ts` and `src/data/grc/courses.ts`.

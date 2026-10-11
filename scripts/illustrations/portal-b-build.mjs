@@ -272,9 +272,11 @@ function light() {
   // and run on a little way past the building into the open, where they fade away instead of
   // ending (client direction, 11 October 2026).
   // Each ray carries its own gradient along its length: whole as far as the stone, then thinning
-  // to nothing over the last stretch. (Plain vector paint: a blurred mask did the same but had to
-  // be redrawn on every frame of the flame's breathing.)
-  const OUT = 62;
+  // away. The rays end at different lengths, some hardly past the building and some well beyond
+  // it, and each fades over its whole outer stretch, quickly at first and then very slowly, so
+  // nothing reads as an edge (client direction, 11 October 2026).
+  // (Plain vector paint: a blurred mask did the same but had to be redrawn while anything moved.)
+  const rand = rng(52);
   let defs = '';
   let rays = '';
   let n = 0;
@@ -284,13 +286,16 @@ function light() {
     for (const side of [-1, 1]) {
       const deg = side < 0 ? 180 + a : 360 - a;
       const wall = reach(deg);
-      const far = wall + OUT;
+      // how far past the building this ray runs: the wide ones tend to go further
+      const beyond = (k % 2 ? 46 : 78) + rand() * 96;
+      const far = wall + beyond;
       const [x0, y0] = polar(FLAME, 40, deg);
       const [x1, y1] = polar(FLAME, far, deg);
       const id = `pb-ray-${n++}`;
-      const stop = (at, opacity) =>
-        `<stop offset="${num(at)}" stop-color="var(--pb-light, #b3c0f3)" stop-opacity="${opacity}"/>`;
-      defs += `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${num(x0)}" y1="${num(y0)}" x2="${num(x1)}" y2="${num(y1)}">${stop(0, 1)}${stop((wall - 40 - 6) / (far - 40), 1)}${stop(1, 0)}</linearGradient>`;
+      const at = (d) => (wall - 40 + d * beyond) / (far - 40);
+      const stop = (offset, opacity) =>
+        `<stop offset="${num(offset)}" stop-color="var(--pb-light, #b3c0f3)" stop-opacity="${opacity}"/>`;
+      defs += `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${num(x0)}" y1="${num(y0)}" x2="${num(x1)}" y2="${num(y1)}">${stop(0, 1)}${stop(at(-0.08), 1)}${stop(at(0.14), 0.62)}${stop(at(0.34), 0.34)}${stop(at(0.58), 0.15)}${stop(at(0.8), 0.05)}${stop(1, 0)}</linearGradient>`;
       rays += `<path d="M${pt([x0, y0])}L${pt(polar(FLAME, far, deg - w / 2))}L${pt(polar(FLAME, far, deg + w / 2))}Z" fill="url(#${id})" stroke="none"/>`;
     }
   }
@@ -321,14 +326,23 @@ function flame() {
   out.push(night('M470 848Q474 871 500 871Q526 871 530 848Z'));
   out.push(path('M476 857Q500 863 524 857'));
   out.push(path('M465 848L535 848'));
-  // flame
-  out.push(
-    `<g class="pb-fire">${wash(
-      'M500 848C478 837 474 811 487 790C495 778 499 767 496 748C514 765 529 791 525 817C522 835 513 846 500 848Z',
-      'currentColor',
-    )}${wash('M501 843C489 833 489 817 498 802C507 813 513 831 501 843Z', LIGHT)}</g>`,
-  );
   save('flame', svg(1000, 1000, out.join('')));
+  // The fire itself: three small drawings (the tall tongue, a lick beside it, the bright heart), each
+  // in a tight frame of its own (x 466 to 534, y 740 to 852 of the scene). The page lays them over
+  // the bowl and moves only their transforms, so the flame flickers without anything being redrawn
+  // (inside the temple drawing its breathing had the whole picture redrawn on every frame).
+  const fire = (name, d, colour) =>
+    writeFileSync(
+      join(OUT, `portal-b-${name}.svg`),
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="466 740 68 112" fill="none">${wash(d, colour)}</svg>\n`,
+    );
+  fire(
+    'fire-1',
+    'M500 848C478 837 474 811 487 790C495 778 499 767 496 748C514 765 529 791 525 817C522 835 513 846 500 848Z',
+    'currentColor',
+  );
+  fire('fire-2', 'M501 843C489 833 489 817 498 802C507 813 513 831 501 843Z', LIGHT);
+  fire('fire-3', 'M489 846C477 838 476 823 484 810C485 820 493 825 496 836C497 841 494 845 489 846Z', 'currentColor');
 }
 
 // =====================================================================================

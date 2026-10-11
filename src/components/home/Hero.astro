@@ -64,9 +64,19 @@ const rowsOf = (text: string) => {
       <div class="hero__layer hero__layer--milky" data-depth="0.42" data-pointer="-4" data-reveal="fade">
         <Illustration name="portal-b-milkyway" />
       </div>
+      {/* The day sky: soft shapes of cloud with no outline drift across it, slower than the drawn clouds */}
+      <div class="hero__layer hero__layer--haze" data-depth="0.46" data-reveal="fade">
+        {[0, 1, 2, 3, 4].map((n) => <Illustration name="hero-cloud-soft" class={`hero__haze hero__haze--${n + 1}`} />)}
+      </div>
       <div class="hero__layer hero__layer--clouds" data-depth="0.4" data-pointer="-5" data-reveal="fade">
+        <Illustration name="sea-cloud-1" />
         <Illustration name="sea-cloud-2" />
         <Illustration name="sea-cloud-3" />
+      </div>
+      {/* Now and then two birds cross the sky */}
+      <div class="hero__layer hero__layer--birds" data-depth="0.3">
+        <Illustration name="hero-bird" class="hero__bird hero__bird--1" />
+        <Illustration name="hero-bird" class="hero__bird hero__bird--2" />
       </div>
       {
         showAthena && (
@@ -86,6 +96,12 @@ const rowsOf = (text: string) => {
         <Illustration name="portal-b-temple" draw />
         <Illustration name="portal-b-flame" />
       </div>
+      {/* The fire: three small drawings over the bowl, so it can flicker without redrawing the temple */}
+      <div class="hero__layer hero__layer--fire" data-depth="0.12" data-reveal="fade">
+        <Illustration name="portal-b-fire-1" class="hero__fire hero__fire--1" />
+        <Illustration name="portal-b-fire-3" class="hero__fire hero__fire--3" />
+        <Illustration name="portal-b-fire-2" class="hero__fire hero__fire--2" />
+      </div>
       <div class="hero__layer hero__layer--trees-l hero__trees" data-depth="-0.2" data-pointer="8" data-reveal="fade">
         <Illustration name="portal-b-trees-left" />
       </div>
@@ -97,6 +113,7 @@ const rowsOf = (text: string) => {
       </div>
       <div class="hero__grain"></div>
     </div>
+    <div class="hero__fade" aria-hidden="true"></div>
 
     <h1 class="hero__title t-hero" data-split>
       {
@@ -135,6 +152,16 @@ const rowsOf = (text: string) => {
     </h1>
   </div>
 </section>
+
+<script>
+  // The clouds, the birds, the stars and the fire only move while the hero is on screen.
+  document.addEventListener('astro:page-load', () => {
+    const hero = document.querySelector<HTMLElement>('.hero');
+    if (!hero || hero.dataset.watched) return;
+    hero.dataset.watched = 'true';
+    new IntersectionObserver(([entry]) => hero.classList.toggle('is-away', !entry.isIntersecting)).observe(hero);
+  });
+</script>
 
 <style>
   .hero {
@@ -265,23 +292,39 @@ const rowsOf = (text: string) => {
   }
 
   /* ---------- stage ---------- */
-  /* The sheet the picture is printed on: the whole first screen and the stretch below it, where
-     it thins out into the page. */
+  /* The sheet the picture is printed on: the first screen. Below it the sky thins out into the page
+     on a strip of its own (.hero__fade). The strip is still, and it alone carries the mask: a mask
+     over the whole stage had every frame of the clouds, the stars and the fire pass through it,
+     which kept the machine busy. Under the ground line the picture is plain sky colour in both
+     themes, so the strip only needs that colour. */
   .hero__stage {
     position: absolute;
     /* (it starts above the top of the page: the header can stand a few pixels taller than
        --header-h, and the page's paper showed there as a pale line) */
-    inset: -2rem 0 calc(var(--hero-fade) * -1);
+    inset: -2rem 0 0;
     z-index: -1;
     overflow: hidden;
     background-color: var(--hero-sky);
     pointer-events: none;
-    mask-image: linear-gradient(to bottom, #000 calc(100% - var(--hero-fade)), transparent);
   }
-  /* The layers are laid out on the first screen; the fade lies under them. */
+  .hero__fade {
+    position: absolute;
+    inset: 100% 0 auto;
+    z-index: -1;
+    height: var(--hero-fade);
+    background-color: var(--hero-sky);
+    background-image: var(--hero-grain);
+    background-size: 400px 400px;
+    pointer-events: none;
+    mask-image: linear-gradient(to bottom, #000, transparent);
+  }
   .hero__layer {
     position: absolute;
-    inset: 2rem 0 var(--hero-fade);
+    inset: 2rem 0 0;
+  }
+  /* Nothing in the picture moves while it is out of sight (class set by the script below) */
+  .hero.is-away :global(*) {
+    animation-play-state: paused !important;
   }
   /* Each drawing's wrapper is the positioned box; the SVG fills it and may draw outside its frame. */
   .hero__layer :global(.illo) {
@@ -294,14 +337,14 @@ const rowsOf = (text: string) => {
     max-width: none;
     overflow: visible;
   }
+  /* The stars begin just under the header, which lies over the top of the sky, so none sits behind a
+     word. (They are placed there rather than masked: a mask has to be redone on every frame while
+     they pulse.) */
   .hero__layer--sky :global(.illo),
   .hero__layer--milky :global(.illo) {
-    inset: -5% -2%;
-  }
-  /* The header lies over the top of the sky: the stars thin out under it, so none sits behind a word */
-  .hero__layer--sky,
-  .hero__layer--milky {
-    mask-image: linear-gradient(to bottom, transparent calc(var(--header-h) * 0.85), #000 calc(var(--header-h) * 1.5));
+    inset: calc(var(--header-h) * 0.9 + 2rem) -2% -5%;
+    /* the drawing fills its box by overflowing it: cut it off at the box, under the header */
+    overflow: hidden;
   }
   .hero__scene :global(.illo) {
     left: var(--scene-x);
@@ -399,7 +442,14 @@ const rowsOf = (text: string) => {
     width: calc(var(--u) * var(--w));
     aspect-ratio: var(--ar);
   }
-  /* Two clouds, both on the picture's side, clear of the title */
+  /* Three drawn clouds on the picture's side. With motion on they drift slowly to the right: each
+     comes in over the middle of the sky, crosses the right half and leaves past the edge. */
+  .hero__layer--clouds :global(.illo--sea-cloud-1) {
+    --w: 260;
+    --ar: 330 / 112;
+    right: 9%;
+    top: 24%;
+  }
   .hero__layer--clouds :global(.illo--sea-cloud-2) {
     --w: 230;
     --ar: 236 / 84;
@@ -411,6 +461,155 @@ const rowsOf = (text: string) => {
     --ar: 420 / 100;
     right: -4%;
     top: 46%;
+  }
+  @keyframes hero-drift {
+    0% {
+      transform: translate3d(-50vw, 0, 0);
+      opacity: 0;
+    }
+    9% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate3d(34vw, 0, 0);
+      opacity: 1;
+    }
+  }
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo) {
+    animation: hero-drift 210s linear -150s infinite;
+    will-change: transform;
+  }
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo--sea-cloud-1) {
+    animation-duration: 260s;
+    animation-delay: -60s;
+  }
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo--sea-cloud-3) {
+    animation-duration: 180s;
+    animation-delay: -105s;
+  }
+
+  /* The texture of the day sky (client direction): soft shapes of cloud with no outline, a shade
+     lighter than the sky, crossing the whole of it very slowly. Only by day; at night the stars and
+     the Milky Way are the texture. Only their transforms move. */
+  .hero__layer--haze {
+    visibility: hidden;
+  }
+  :global(html:not([data-theme='dark'])) .hero__layer--haze {
+    visibility: visible;
+  }
+  .hero__layer--haze :global(.illo) {
+    left: 0;
+    top: var(--top);
+    width: var(--w);
+    aspect-ratio: 400 / 110;
+    color: color-mix(in srgb, var(--creme-light) var(--mix, 44%), var(--blue-light));
+    /* where it stands when nothing moves */
+    transform: translate3d(var(--at), 0, 0);
+  }
+  .hero__layer--haze :global(.hero__haze--1) {
+    --w: clamp(14rem, 34vw, 34rem);
+    --top: 9%;
+    --at: 52vw;
+    --t: 230s;
+  }
+  .hero__layer--haze :global(.hero__haze--2) {
+    --w: clamp(9rem, 20vw, 20rem);
+    --top: 30%;
+    --at: 8vw;
+    --t: 300s;
+    --mix: 34%;
+    scale: -1 1;
+  }
+  .hero__layer--haze :global(.hero__haze--3) {
+    --w: clamp(12rem, 27vw, 27rem);
+    --top: 47%;
+    --at: 66vw;
+    --t: 260s;
+    --mix: 38%;
+  }
+  .hero__layer--haze :global(.hero__haze--4) {
+    --w: clamp(8rem, 16vw, 16rem);
+    --top: 17%;
+    --at: 30vw;
+    --t: 340s;
+    --mix: 30%;
+  }
+  .hero__layer--haze :global(.hero__haze--5) {
+    --w: clamp(11rem, 24vw, 24rem);
+    --top: 62%;
+    --at: -6vw;
+    --t: 280s;
+    --mix: 32%;
+    scale: -1 1;
+  }
+  @keyframes hero-haze {
+    from {
+      transform: translate3d(-105%, 0, 0);
+    }
+    to {
+      transform: translate3d(100vw, 0, 0);
+    }
+  }
+  /* (each starts part of the way across, about where it stands in the still picture) */
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.illo) {
+    animation: hero-haze var(--t) linear calc(var(--t) * -0.45) infinite;
+    will-change: transform;
+  }
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--2),
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--5) {
+    animation-delay: calc(var(--t) * -0.12);
+  }
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--3) {
+    animation-delay: calc(var(--t) * -0.7);
+  }
+
+  /* Two birds, now and then: a pair crosses from left to right, rising a little, about once a
+     minute. Only by day and only with motion on. The flight moves the wrapper and the wing beat
+     squeezes the little drawing, so neither is redrawn. */
+  .hero__layer--birds {
+    display: none;
+  }
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--birds {
+    display: block;
+  }
+  .hero__layer--birds :global(.illo) {
+    left: 0;
+    top: 21%;
+    width: clamp(1.1rem, 0.8rem + 1vw, 1.9rem);
+    aspect-ratio: 48 / 22;
+    animation: hero-bird 64s linear 9s infinite backwards;
+    will-change: transform;
+  }
+  .hero__layer--birds :global(.hero__bird--2) {
+    top: 25.5%;
+    width: clamp(0.9rem, 0.7rem + 0.8vw, 1.5rem);
+    animation-delay: 10.7s;
+  }
+  .hero__layer--birds :global(svg) {
+    transform-origin: 50% 68%;
+    animation: hero-wing 0.46s ease-in-out infinite alternate;
+  }
+  .hero__layer--birds :global(.hero__bird--2 svg) {
+    animation-duration: 0.4s;
+  }
+  @keyframes hero-bird {
+    0% {
+      transform: translate3d(-6vw, 3vh, 0);
+    }
+    38% {
+      transform: translate3d(106vw, -9vh, 0);
+    }
+    100% {
+      transform: translate3d(106vw, -9vh, 0);
+    }
+  }
+  @keyframes hero-wing {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: scaleY(0.32);
+    }
   }
   .hero__stage :global(.illo--portal-b-cella) {
     --pb-night: var(--blue);
@@ -552,27 +751,79 @@ const rowsOf = (text: string) => {
     will-change: opacity;
   }
 
-  /* The flame breathes, very slowly. */
-  @keyframes hero-breathe {
-    from {
-      transform: scale(1, 1);
+  /* The fire. Three small drawings laid over the bowl (frame: x 466 to 534, y 740 to 852 of the
+     scene): the tall tongue, a lick beside it and the bright heart. Each flickers in its own time
+     and only its transform moves, so the flame costs nothing to animate. (Inside the temple drawing
+     its breathing had the whole picture redrawn on every frame, which kept the machine busy.) */
+  .hero__layer--fire {
+    --delay: 1050ms;
+  }
+  .hero__layer--fire :global(.illo) {
+    left: calc(var(--scene-x) - var(--scene-h) / 2 + var(--u) * 466);
+    bottom: calc(var(--scene-b) + var(--u) * 148);
+    width: calc(var(--u) * 68);
+    height: calc(var(--u) * 112);
+    transform-origin: 50% 96%;
+  }
+  @keyframes hero-flame-1 {
+    0%,
+    100% {
+      transform: scale(1, 1) skewX(0deg);
+    }
+    17% {
+      transform: scale(0.95, 1.07) skewX(-2.5deg);
+    }
+    36% {
+      transform: scale(1.04, 0.95) skewX(1.5deg);
+    }
+    58% {
+      transform: scale(0.93, 1.11) skewX(3.5deg);
+    }
+    79% {
+      transform: scale(1.02, 0.98) skewX(-1.5deg);
+    }
+  }
+  @keyframes hero-flame-2 {
+    0%,
+    100% {
+      transform: scale(1, 1) skewX(0deg);
+    }
+    24% {
+      transform: scale(0.86, 1.16) skewX(4deg);
+    }
+    52% {
+      transform: scale(1.08, 0.88) skewX(-3deg);
+    }
+    76% {
+      transform: scale(0.92, 1.1) skewX(2deg);
+    }
+  }
+  @keyframes hero-flame-3 {
+    0%,
+    100% {
+      transform: scale(1, 1) rotate(0deg);
+      opacity: 0.9;
+    }
+    31% {
+      transform: scale(0.8, 1.28) rotate(-7deg);
       opacity: 1;
     }
-    to {
-      transform: scale(0.95, 1.06);
-      opacity: 0.88;
+    63% {
+      transform: scale(1.12, 0.66) rotate(5deg);
+      opacity: 0.45;
     }
   }
-  .hero__stage :global(.pb-fire) {
-    transform-box: fill-box;
-    transform-origin: 50% 100%;
-  }
-  /* the flame is on a layer of its own, so its breathing redraws nothing but itself */
-  :global(html.motion) .hero__stage :global(.illo--portal-b-flame) {
+  :global(html.motion) .hero__layer--fire :global(.illo) {
     will-change: transform;
   }
-  :global(html.motion) .hero__stage :global(.pb-fire) {
-    animation: hero-breathe 5.2s var(--ease-in-out) infinite alternate;
+  :global(html.motion) .hero__layer--fire :global(.hero__fire--1) {
+    animation: hero-flame-1 2.7s ease-in-out infinite;
+  }
+  :global(html.motion) .hero__layer--fire :global(.hero__fire--2) {
+    animation: hero-flame-2 1.7s ease-in-out infinite;
+  }
+  :global(html.motion) .hero__layer--fire :global(.hero__fire--3) {
+    animation: hero-flame-3 1.25s ease-in-out infinite;
   }
 
   /* ---------- phones and upright screens: the title in the sky above, the picture below ----------
@@ -672,9 +923,10 @@ const rowsOf = (text: string) => {
       left: calc(var(--scene-x) + var(--u) * 333);
       right: auto;
     }
-    /* no room for clouds beside the title here */
-    .hero__layer--clouds {
-      display: none;
+    /* no room for drawn clouds or birds beside the title here (the soft ones stay) */
+    .hero__layer--clouds,
+    .hero__layer--birds {
+      display: none !important;
     }
   }
 
@@ -740,9 +992,10 @@ const rowsOf = (text: string) => {
       left: calc(var(--scene-x) + var(--u) * 333);
       right: auto;
     }
-    /* the title has the whole sky: no room for clouds */
-    .hero--bare .hero__layer--clouds {
-      display: none;
+    /* the title has the whole sky: no room for drawn clouds or birds */
+    .hero--bare .hero__layer--clouds,
+    .hero--bare .hero__layer--birds {
+      display: none !important;
     }
   }
 </style>

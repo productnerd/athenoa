@@ -1,6 +1,6 @@
 ---
-// Courses: the open course leads on a Greek blue cut-out; the others follow side by side,
-// one on light blue and one on paper.
+// Courses: every course on the same arch card, two to a row, each on its own colour of paper
+// (CourseCard.astro). The course that is open comes first.
 // Each card links to its own page; with JavaScript the link opens the course popup instead.
 // The same file renders /courses/ and /el/courses/: the copy follows the address.
 import Base from '../../layouts/Base.astro';
@@ -16,7 +16,6 @@ const locale = getLocale(Astro.url);
 const { courses, coursesPage, site } = content(locale);
 const lead = courses.find((course) => course.status === 'open') ?? courses[0];
 const others = courses.filter((course) => course !== lead);
-const cuts = ['arch', 'paper'] as const;
 ---
 
 <Base
@@ -35,11 +34,8 @@ const cuts = ['arch', 'paper'] as const;
         </p>
       </header>
 
-      <CourseCard course={lead} cut="lead" />
-
-      <div class="courses__others">
-        <Illustration name="olive-branch" class="courses__olive" draw />
-        {others.map((course, i) => <CourseCard course={course} cut={cuts[i % cuts.length]} />)}
+      <div class="courses__list">
+        {[lead, ...others].map((course, i) => <CourseCard course={course} priority={i < 2} />)}
       </div>
     </div>
   </section>
@@ -90,33 +86,22 @@ const cuts = ['arch', 'paper'] as const;
     filter: url(#rough-sm);
   }
 
-  .courses__others {
-    position: relative;
+  .courses__list {
     display: grid;
-    gap: var(--space-xl) var(--space-m);
-    margin-top: var(--space-xl);
+    gap: var(--space-l) var(--space-m);
   }
-  .courses__others > :global(.card) {
+  .courses__list > :global(.card) {
     width: min(100%, 34rem);
-  }
-  /* An olive sprig in the pause between the open course and the ones to come */
-  .courses__olive {
-    position: absolute;
-    right: 0;
-    bottom: calc(100% + var(--space-xl) / 2);
-    width: clamp(6.5rem, 15vw, 12rem);
-    margin-bottom: clamp(-2.4rem, -3vw, -1.3rem);
-    opacity: 0.85;
   }
 
   /* One even row: two equal columns, so the cards are the same width and their pictures the same size.
      The cards start and end on the same lines (each lets its words take up the slack). */
   @media (min-width: 48rem) {
-    .courses__others {
+    .courses__list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
       column-gap: var(--space-l);
     }
-    .courses__others > :global(.card) {
+    .courses__list > :global(.card) {
       width: auto;
     }
   }

@@ -207,16 +207,15 @@ export const coursesPage = {
     placeholderNote:
       'Τὰ καθ’ ἕκαστα τοῦ μαθήματος ὅσον οὔπω ἥξει. Καταλίπετε τὸ ὄνομα, καὶ ἐπιστελοῦμεν ὑμῖν ἐπειδὰν ἡ ἐγγραφὴ ἀνοιχθῇ.',
     placeholderBadge: 'Τὰ καθ’ ἕκαστα ἐν τάχει',
-    stepDetails: 'Τὰ περὶ ὑμῶν',
-    stepPayment: 'Καταβολή',
     fullName: 'Ὄνομα καὶ ἐπωνυμία',
     // ἐπιστολή is the word for email throughout; the Latin word is added here so that nobody types a name.
     email: 'Ἐπιστολή (email)',
-    continueToPayment: 'Πρόιτε ἐπὶ τὴν καταβολήν',
     back: 'Πάλιν',
-    payWithStripe: 'Καταβάλετε διὰ τοῦ Stripe',
-    paymentNotConnected:
-      'Ἡ διὰ πινακίου τραπεζιτικοῦ καταβολὴ οὔπω συνῆπται. Γράψατε ἡμῖν, καὶ δι’ ἐπιστολῆς τὴν ὑμετέραν ἐγγραφὴν τελειώσομεν.',
+    // The request to enrol (see the English file)
+    whyInterested: 'Διὰ τί τούτου ἐπιθυμεῖτε;',
+    heardFrom: 'Πόθεν περὶ ἡμῶν ἠκούσατε;',
+    sendRequest: 'Πέμψατε τὴν αἴτησιν',
+    requestPending: 'Αἱ αἰτήσεις οὔπω συνημμέναι εἰσίν. Οὐδὲν πέπεμπται.',
     contactInstead: 'Ἐπιστείλατε ἡμῖν',
     // A verb, read together with the instructor's name in the nominative: "Διδάσκει Ἀθηνᾶ Δέσποινα Ποτάρη".
     taughtBy: 'Διδάσκει',

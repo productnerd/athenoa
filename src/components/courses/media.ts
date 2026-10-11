@@ -20,3 +20,21 @@ const focus: Record<string, string> = {
 };
 
 export const courseFocus = (name: string): string | undefined => focus[name];
+
+// A picture that is a lettered banner, much wider than the card's frame. The card shows it whole
+// instead of cropping through its words.
+const banners = new Set(['course-non-duality']);
+export const courseBanner = (name: string): boolean => banners.has(name);
+
+// A symbol for each course, shown under the summary of the enrolment request (EnrollFlow.astro).
+// These are drawings from the symbol set that are used nowhere else on the site:
+//   the Orphic egg, the One before it divides, for the course on non-duality;
+//   the cave and the sun for the Republic; the ladder of ascent for Marcus Aurelius and the virtues;
+//   the cicada of the Phaedrus, servant of the Muses, for the Cratylus. Others take the butterfly (psyche).
+const symbols: Record<string, string> = {
+  'the-hidden-non-duality-of-ancient-greek-philosophy': 'orphic-egg',
+  'platos-republic': 'cave-sun',
+  'marcus-aurelius-the-self': 'ladder',
+  'plato-cratylus-platonic-virtues': 'cicada',
+};
+export const courseSymbol = (slug: string): string => symbols[slug] ?? 'butterfly';

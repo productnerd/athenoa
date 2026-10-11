@@ -1,28 +1,23 @@
-// How much work the home page costs the browser while it just sits there: node scripts/perf.mjs
-// Prints main-thread seconds used over a 4-second rest, per case. The still page is the floor.
+// What a page costs the browser while it just sits there: node scripts/perf.mjs [path ...]
+// For each address it prints, over a 5-second rest: seconds of main-thread work, and the CPU seconds
+// used by all of the browser's processes together (page, compositor and graphics), which is where
+// the cost of repainting shows. Compare with the still page (?nomotion=1), which is the floor.
 import { chromium } from 'playwright-core';
-const cases = [
-  ['top of page, as it is', 0, ''],
-  ['top, wave drawings paused', 0, 'document.querySelectorAll("svg").forEach((s) => s.querySelector("animate") && s.pauseAnimations())'],
-  ['top, waves paused and flame still', 0, 'document.querySelectorAll("svg").forEach((s) => s.querySelector("animate") && s.pauseAnimations()); document.querySelectorAll(".pb-fire").forEach((e) => (e.style.animation = "none"))'],
-  ['at the waves, as it is', 'waves', ''],
-  ['at the waves, paused', 'waves', 'document.querySelectorAll("svg").forEach((s) => s.querySelector("animate") && s.pauseAnimations())'],
-];
+const cases = process.argv.slice(2).length ? process.argv.slice(2) : ['/?theme=light&nomotion=1', '/?theme=light', '/?theme=dark'];
 const b = await chromium.launch({ channel: 'chrome' });
-const p = await b.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 2 });
-const cdp = await p.context().newCDPSession(p);
-await cdp.send('Performance.enable');
-const read = async () => Object.fromEntries((await cdp.send('Performance.getMetrics')).metrics.map((m) => [m.name, m.value]));
-for (const [label, where, tweak] of cases) {
-  await p.goto('http://localhost:4321/?theme=light', { waitUntil: 'load' });
-  await p.waitForTimeout(4500);
-  if (where === 'waves') await p.evaluate(() => [...document.querySelectorAll('svg')].find((s) => s.querySelector('animate'))?.scrollIntoView({ block: 'center' }));
-  if (tweak) await p.evaluate(tweak);
-  await p.waitForTimeout(2500);
-  const a = await read();
-  await p.waitForTimeout(4000);
-  const z = await read();
-  const d = (k) => (z[k] - a[k]).toFixed(2);
-  console.log(label.padEnd(36), 'tasks', d('TaskDuration'), 's   style', d('RecalcStyleDuration'), '  layout', d('LayoutDuration'));
+const sys = await b.newBrowserCDPSession();
+const cpu = async () => (await sys.send('SystemInfo.getProcessInfo')).processInfo.reduce((sum, p) => sum + p.cpuTime, 0);
+for (const path of cases) {
+  const p = await b.newPage({ viewport: { width: 1280, height: 800 }, deviceScaleFactor: 2 });
+  const cdp = await p.context().newCDPSession(p);
+  await cdp.send('Performance.enable');
+  await p.goto('http://localhost:4321' + path, { waitUntil: 'load' });
+  await p.waitForTimeout(6000); // let the load sequence finish
+  const tasks = async () => (await cdp.send('Performance.getMetrics')).metrics.find((m) => m.name === 'TaskDuration').value;
+  const [t0, c0] = [await tasks(), await cpu()];
+  await p.waitForTimeout(5000);
+  const [t1, c1] = [await tasks(), await cpu()];
+  console.log(path.padEnd(30), 'main thread', (t1 - t0).toFixed(2), 's   all processes', (c1 - c0).toFixed(2), 's');
+  await p.close();
 }
 await b.close();

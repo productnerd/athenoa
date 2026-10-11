@@ -214,7 +214,14 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] About: drawing of Athena above the dark panel hidden; brackets removed from “Know Thyself”
 - [x] Header menu: items in capitals, more room between them so two brush marks never touch
 - [x] 404: button "Back to Ithaka"; Cavafy credit not shown; the asterisk note wobbles word by word like a scribble
-- [ ] IN PROGRESS: Enroll opens a request form (name, why interested, where did you hear about us, "Send request"); all course cards one arch card with a colour per course; contact form "How did you find us?" as a dropdown with an "Other" field
+- [x] Enroll opens a request form (name, email, why interested, where did you hear about us, "Send request"); not connected. The card's Enroll goes straight to it; "View course" beside it opens the details. The Stripe step is gone (the `stripePaymentLink` field in the course data is no longer read: decide later how payment follows an accepted request).
+- [x] Request form: the symbol stands under "Your enrolment", one per course (Orphic egg, cave and sun, ladder, cicada); the torch under the buttons is gone
+- [x] Courses page: every course on the same arch card, each on its own paper (Greek blue, light blue, darker paper, darker blue); the colour follows the course to the Home page. The lead card, the paper-label card and the olive sprig are gone. The non-duality banner is shown whole inside its arch.
+- [x] Contact form: "How did you find us?" is a list (YouTube, Instagram, Facebook, Search engine, AI agent, Word of mouth, Academic work, Other with a field to say where); the same list serves the enrolment request
+- [x] Hero: flame rebuilt as three small layers that flicker (it was the real cause of the machine running hot: its breathing had the whole temple layer redrawn every frame; then the fade mask over the animated stage); rays of uneven length with a long soft fade; three drawn clouds drifting, soft outline-less clouds as day-sky texture, a pair of birds about once a minute; everything pauses when the hero is off screen
+- [x] Music 20% quieter
+- [ ] HELPER RUNNING: soft fire sound in the hero that fades as you scroll past (synthesised; a real recording needs her permission to download)
+- [ ] ASKED: logos on the About page. Real logos of Oxford, LSE, Harvard etc. need her files or permission to download, and those institutions restrict use of their marks; offered plain name marks in the site's type instead.
 
 ## Open questions
 

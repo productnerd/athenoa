@@ -240,10 +240,6 @@ const build = (locale: Locale) => {
             course.includesLabel && inline(course.includesLabel),
             course.includes && list(course.includes.map(inline)),
             webLink(coursesPage.ui.enroll, coursePageHref(course.slug)),
-            // Until a Stripe link is set in courses.ts, enrolment is completed by email.
-            course.stripePaymentLink
-              ? webLink(coursesPage.ui.payWithStripe, course.stripePaymentLink)
-              : inline(coursesPage.ui.paymentNotConnected),
           ]
         : []),
 

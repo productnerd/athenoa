@@ -177,15 +177,14 @@ export const coursesPage = {
     placeholderNote:
       'Οι λεπτομέρειες του κύκλου μαθημάτων θα ανακοινωθούν σύντομα. Αφήστε μας το όνομά σας και θα σας γράψουμε μόλις ανοίξουν οι εγγραφές.',
     placeholderBadge: 'Λεπτομέρειες σύντομα',
-    stepDetails: 'Τα στοιχεία σας',
-    stepPayment: 'Πληρωμή',
     fullName: 'Ονοματεπώνυμο',
     email: 'Email',
-    continueToPayment: 'Συνέχεια στην πληρωμή',
     back: 'Πίσω',
-    payWithStripe: 'Πληρωμή με Stripe',
-    paymentNotConnected:
-      'Η πληρωμή με κάρτα δεν έχει συνδεθεί ακόμη. Γράψτε μας και θα ολοκληρώσουμε την εγγραφή σας μέσω email.',
+    // The request to enrol (see the English file)
+    whyInterested: 'Γιατί σας ενδιαφέρει;',
+    heardFrom: 'Πού μάθατε για εμάς;',
+    sendRequest: 'Αποστολή αιτήματος',
+    requestPending: 'Τα αιτήματα δεν είναι ακόμη διαθέσιμα. Δεν στάλθηκε τίποτα.',
     contactInstead: 'Επικοινωνήστε μαζί μας',
     // Read together with the instructor's name: "Με τη Δρ. Αθηνά Δέσποινα Ποτάρη".
     taughtBy: 'Με τη',

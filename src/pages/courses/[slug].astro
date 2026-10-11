@@ -28,7 +28,7 @@ const { courses, coursePageHref, coursesPage, registrationTab, site } = content(
 const course = courses.find((item) => item.slug === Astro.props.course.slug) ?? Astro.props.course;
 const t = { en: { trail: 'Breadcrumb' }, el: { trail: 'Διαδρομή πλοήγησης' } }[mainLocale(locale)];
 const crumbs = trail(locale);
-const canEnrol = course.status === 'open' && course.price;
+const canEnrol = course.available && course.price;
 ---
 
 <Base

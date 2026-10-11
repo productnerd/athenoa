@@ -1,0 +1,53 @@
+---
+// The controls for "Where did you hear about us?": a list of answers and, when "Other" is chosen, a
+// small field to say where. The caller provides the wrapper (.field) and the label.
+// No script: the extra field is shown by the stylesheet while "Other" is the chosen answer.
+import { sources } from '../data/sources';
+import { getLocale } from '../lib/locale';
+
+interface Props {
+  id: string;
+  name?: string;
+  /** The question, used by the contact form when it writes the message out */
+  label: string;
+  required?: boolean;
+}
+const { id, name = 'source', label, required = false } = Astro.props;
+const t = sources[getLocale(Astro.url)];
+---
+
+<div class="source">
+  <select id={id} name={name} required={required} data-label={label}>
+    <option value="">{t.choose}</option>
+    {t.options.map((option) => <option value={option}>{option}</option>)}
+    <option value={t.other} data-other>{t.other}</option>
+  </select>
+  <input
+    class="source__other"
+    type="text"
+    name={`${name}-other`}
+    aria-label={t.otherLabel}
+    placeholder={t.otherPlaceholder}
+    autocomplete="off"
+    data-label={t.otherLabel}
+  />
+</div>
+
+<style>
+  .source {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .source__other {
+    display: none;
+  }
+  .source:has(option[data-other]:checked) .source__other {
+    display: block;
+  }
+  /* A browser that cannot tell which answer is chosen shows the extra field all the time */
+  @supports not selector(:has(*)) {
+    .source__other {
+      display: block;
+    }
+  }
+</style>

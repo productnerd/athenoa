@@ -229,14 +229,16 @@ export const coursesPage = {
     enroll: 'Get started',
     placeholderNote: 'Course details are on their way. Leave your name and we will write to you when enrolment opens.',
     placeholderBadge: 'Details to follow',
-    stepDetails: 'Your details',
-    stepPayment: 'Payment',
     fullName: 'Full name',
     email: 'Email',
-    continueToPayment: 'Continue to payment',
     back: 'Back',
-    payWithStripe: 'Pay with Stripe',
-    paymentNotConnected: 'Card payment is not connected yet. Write to us and we will complete your enrolment by email.',
+    // The request to enrol (EnrollFlow.astro): asked for by the client on 11 October 2026. It also uses
+    // fullName, email, back and contactInstead.
+    whyInterested: 'Why are you interested?',
+    heardFrom: 'Where did you hear about us?',
+    sendRequest: 'Send request',
+    // Shown in place of the form after it is filled in: requests are not connected yet.
+    requestPending: 'Requests are not connected yet. Nothing has been sent.',
     contactInstead: 'Contact us',
     taughtBy: 'With',
     orderSummary: 'Your enrolment',

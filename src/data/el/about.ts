@@ -99,9 +99,9 @@ export const about = {
       {
         name: 'source',
         label: 'Πώς μας βρήκατε;',
-        type: 'text',
+        type: 'select',
         required: false,
-        placeholder: 'Αναζήτηση / YouTube / FB / ...',
+        placeholder: '',
         autocomplete: 'off',
       },
       {

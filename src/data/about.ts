@@ -91,9 +91,10 @@ export const about = {
       {
         name: 'source',
         label: 'How did you find us?',
-        type: 'text',
+        // A list of answers with "Other" (src/data/sources.ts); it was a free text field on the live site.
+        type: 'select',
         required: false,
-        placeholder: 'Search / YouTube / FB / ...',
+        placeholder: '',
         autocomplete: 'off',
       },
       {

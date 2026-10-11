@@ -2,6 +2,7 @@
 // Contact section that closes the page: a Greek blue cut-out with the form on it and the direct
 // contact details beside it.
 import Illustration from '../Illustration.astro';
+import SourceField from '../SourceField.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
@@ -52,7 +53,14 @@ const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</
                       </span>
                     )}
                   </label>
-                  {field.type === 'textarea' ? (
+                  {field.type === 'select' ? (
+                    <SourceField
+                      id={`contact-${field.name}`}
+                      name={field.name}
+                      label={field.label}
+                      required={field.required}
+                    />
+                  ) : field.type === 'textarea' ? (
                     <textarea
                       id={`contact-${field.name}`}
                       name={field.name}
@@ -96,7 +104,10 @@ const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</
 
     form.addEventListener('submit', (event) => {
       event.preventDefault();
-      const fields = Array.from(form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea'));
+      // (a field that is not on show, the "where?" of an answer other than "Other", is left out)
+      const fields = Array.from(
+        form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('input, textarea, select'),
+      ).filter((field) => field.offsetParent !== null);
       const value = (name: string) => fields.find((field) => field.name === name)?.value.trim() ?? '';
 
       // FORM SERVICE: connect it here. Replace everything below in this handler with a request to the

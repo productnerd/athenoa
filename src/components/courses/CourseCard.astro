@@ -1,36 +1,48 @@
 ---
-// One course, drawn the same way wherever a course appears (the courses page and the home page).
-// Three cuts, one for each ground:
-//   lead   a large Greek blue cut-out, the artwork breaking out of its top edge
-//   arch   an arch cut from light blue, the picture set into it like a window
-//   paper  the picture straight on the page with a darker blue pebble behind it, the words on a paper label over its corner
-// The action is a real link to the course page; CourseDialog upgrades it to open the popup.
-// A course that cannot be enrolled in yet also gets "Join waitlist": the filled button stands where
-// "Enroll" would, and "View course" stays beside it as the quiet link (WaitlistDialog opens the popup).
+// One course, drawn the same way wherever a course appears (the courses page and the home page):
+// an arch cut from coloured paper, the picture set into it like a window, then the title, the same
+// four facts and the actions.
+//
+// CLIENT DIRECTION, 11 October 2026: every course uses this one card, and what tells the courses
+// apart is the colour of the paper. A course keeps its colour wherever it appears (its place in the
+// course list decides it), so the colour works like a small brand of its own.
+//
+// The actions are real links to the course page; CourseDialog upgrades them to open the popup, and
+// "Enroll" opens it at the request form. A course that cannot be enrolled in yet has "Join waitlist"
+// in that place (WaitlistDialog opens that popup).
 import Media from '../Media.astro';
-import Illustration from '../Illustration.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
-import { courseFocus, courseImage } from './media';
+import { courseBanner, courseFocus, courseImage } from './media';
 import { keepHyphens } from './text';
 
 interface Props {
   course: Course;
-  cut: 'lead' | 'arch' | 'paper';
   /** Heading level of the title: 2 on the courses page, 3 where the card sits under a section heading. */
   level?: 2 | 3;
+  /** Load the picture at once (a card at the top of a page) */
+  priority?: boolean;
 }
-const { course, cut, level = 2 } = Astro.props;
+const { course, level = 2, priority = false } = Astro.props;
 const Title = level === 3 ? 'h3' : 'h2';
-const { coursesPage, coursePageHref, site } = content(getLocale(Astro.url));
+const { courses, coursesPage, coursePageHref, site } = content(getLocale(Astro.url));
 const { ui } = coursesPage;
 const image = courseImage(course.image);
 const href = coursePageHref(course.slug);
 const titleId = `card-title-${course.slug}`;
 const actionId = `card-action-${course.slug}`;
-const waitId = `card-waitlist-${course.slug}`;
-const lead = cut === 'lead';
+const mainId = `card-main-${course.slug}`;
+// The papers, in the order of the course list and then round again: Greek blue, light blue,
+// darker paper, darker blue. The surface class turns the inks to suit.
+const tones = [
+  { name: 'blue', surface: 'on-blue' },
+  { name: 'light', surface: 'on-blue-light' },
+  { name: 'paper', surface: '' },
+  { name: 'deep', surface: 'on-blue-deep' },
+];
+const place = courses.findIndex((item) => item.slug === course.slug);
+const tone = tones[Math.max(0, place) % tones.length];
 // The same four facts on every card, in the same order, so cards can be compared at a glance.
 const facts = [
   { label: ui.facts.dates, value: course.schedule },
@@ -48,41 +60,31 @@ const splitFee = (display: string) => {
 <article
   class:list={[
     'card',
-    `card--${cut}`,
-    lead && 'panel panel--big on-blue',
-    cut === 'arch' && 'panel panel--arch on-blue-light',
+    `card--${tone.name}`,
+    courseBanner(course.image) && 'card--banner',
+    'panel panel--arch',
+    tone.surface,
   ]}
   id={course.slug}
 >
-  {
-    lead && (
-      <div class="panel__clip card__clip">
-        <Illustration name="sun-rays" class="card__rays" draw data-depth="0.22" />
-      </div>
-    )
-  }
-
   <div class="card__figure">
-    {/* The pebble swells in once the picture in front of it has faded up, so it never shows through */}
-    {cut === 'paper' && <span class="card__pebble" data-reveal="grow" style="--delay:450ms" />}
     <Media
       class="card__media"
       src={image}
       alt={course.imageAlt}
       shape="arch"
-      ratio={lead ? '16 / 9' : '10 / 9'}
+      ratio="10 / 9"
       focus={courseFocus(course.image)}
-      sizes={lead ? '(min-width: 62rem) 52vw, 92vw' : '(min-width: 48rem) 46vw, 92vw'}
-      priority={lead}
-      data-depth={lead ? '-0.05' : undefined}
+      sizes="(min-width: 48rem) 46vw, 92vw"
+      priority={priority}
     />
-    {/* The picture is a second way in for a pointer; keyboard and screen readers use the one named link below. */}
+    {/* The picture is a second way in for a pointer; keyboard and screen readers use the named links below. */}
     <a class="card__cover" href={href} data-course-open={course.slug} tabindex="-1" aria-hidden="true"></a>
   </div>
 
-  <div class:list={['card__text', cut === 'paper' && 'box box--offset']} data-reveal-group>
+  <div class="card__text" data-reveal-group>
     <div class="card__head">
-      <Title class:list={['card__title', lead ? 't-2' : 't-3']} id={titleId} set:html={keepHyphens(course.title)} />
+      <Title class="card__title t-3" id={titleId} set:html={keepHyphens(course.title)} />
       {course.subtitle && <p class="card__subtitle" set:html={keepHyphens(course.subtitle)} />}
     </div>
     {course.summary && <p class="card__summary">{course.summary}</p>}
@@ -105,12 +107,24 @@ const splitFee = (display: string) => {
     </dl>
     <p class="card__go">
       {
-        !course.available && (
+        course.available ? (
+          <a
+            class="btn"
+            href={href}
+            id={mainId}
+            aria-labelledby={`${mainId} ${titleId}`}
+            aria-haspopup="dialog"
+            data-course-open={course.slug}
+            data-course-enroll
+          >
+            {ui.enrollNow}
+          </a>
+        ) : (
           <a
             class="btn"
             href={site.routes.contact}
-            id={waitId}
-            aria-labelledby={`${waitId} ${titleId}`}
+            id={mainId}
+            aria-labelledby={`${mainId} ${titleId}`}
             aria-haspopup="dialog"
             data-waitlist-open
             data-waitlist-course={course.title}
@@ -120,33 +134,36 @@ const splitFee = (display: string) => {
         )
       }
       <a
-        class:list={['btn', !course.available && 'btn--quiet']}
+        class="btn btn--quiet"
         href={href}
         id={actionId}
         aria-labelledby={`${actionId} ${titleId}`}
         data-course-open={course.slug}
       >
-        {course.available ? ui.enrollNow : ui.viewCourse}
+        {ui.viewCourse}
       </a>
     </p>
   </div>
 </article>
 
 <style>
-  .card {
-    position: relative;
-  }
-  .card__figure {
-    position: relative;
-    isolation: isolate;
-  }
   /* --arch is the outline of the picture; the link laid over it follows the same curve.
-     --pad is the margin around the picture and --foot the space under the action. Both are shared by the
-     arch and the paper cut, so their pictures come out the same size and their last lines level. */
+     --pad is the margin of coloured paper around the picture and --foot the space under the actions. */
   .card {
     --arch: var(--r-arch);
     --pad: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
     --foot: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
+    position: relative;
+    padding: var(--pad) var(--pad) var(--foot);
+  }
+  /* The third paper is paper itself, a shade darker than the page it lies on */
+  .card--paper {
+    --paper: var(--creme-deep);
+  }
+  .card__figure {
+    position: relative;
+    isolation: isolate;
+    margin-bottom: var(--space-m);
   }
   .card__media {
     --media-r: var(--arch);
@@ -163,10 +180,23 @@ const splitFee = (display: string) => {
   .card__figure:hover :global(.media__clip img) {
     scale: 1.035;
   }
+  /* A lettered banner, wider than the frame: it is shown whole at the foot of the arch and its night
+     sky is carried on above it, instead of being cropped through its words. */
+  .card--banner :global(.media__clip) {
+    background-color: #1a2334;
+  }
+  .card--banner :global(.media__clip img) {
+    object-fit: contain;
+    object-position: 50% 100%;
+    mask-image: linear-gradient(to bottom, transparent 37%, #000 49%);
+  }
+  .card__text {
+    padding-inline: clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem);
+  }
   .card__text > :global(* + *) {
     margin-top: var(--space-s);
   }
-  /* One action, or two for a course with a waitlist: side by side where there is room, else stacked */
+  /* Two actions: side by side where there is room, else stacked */
   .card__go {
     display: flex;
     flex-wrap: wrap;
@@ -177,32 +207,6 @@ const splitFee = (display: string) => {
   /* A long label (Greek) may run to two lines in a narrow card */
   .card__go .btn {
     text-align: center;
-  }
-
-  /* ---------- lead ---------- */
-  /* A lunette: the banner is wide and lettered, so its arch is low and the full artwork shows */
-  .card--lead {
-    --arch: 50% 50% 1.8rem 2.2rem / 60% 60% 1.7rem 2rem;
-    --rise: clamp(2.75rem, 1.5rem + 5vw, 5.5rem);
-    display: flow-root;
-    margin-top: var(--rise);
-    padding-top: 0;
-    padding-bottom: var(--space-l);
-  }
-  .card--lead .card__figure {
-    margin: calc(var(--rise) * -1) -0.35rem var(--space-m);
-  }
-  /* Rays behind the picture in the lighter blue, cut to the panel.
-     Centred with margins: parallax owns `translate` here. */
-  .card__rays {
-    --rays: 100%;
-    position: absolute;
-    left: 50%;
-    top: 1.25rem;
-    width: var(--rays);
-    margin: calc(var(--rays) / -2) 0 0 calc(var(--rays) / -2);
-    color: var(--blue-light);
-    opacity: 0.5;
   }
   .card__head {
     display: grid;
@@ -257,120 +261,20 @@ const splitFee = (display: string) => {
     color: var(--ink-soft);
   }
 
-  @media (min-width: 62rem) {
-    /* Picture, facts and action down the left; title down the right, the summary beside the facts */
-    .card--lead {
-      display: grid;
-      grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
-      grid-template-areas:
-        'figure title'
-        'facts summary'
-        'go summary';
-      grid-template-rows: auto auto 1fr;
-      column-gap: clamp(2rem, 4vw, 4.5rem);
-      align-items: start;
-    }
-    .card--lead .card__text {
-      display: contents;
-    }
-    .card--lead .card__figure {
-      grid-area: figure;
-      margin: calc(var(--rise) * -1) 0 var(--space-m) calc(clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem) * -1 - 1rem);
-    }
-    .card--lead .card__head {
-      grid-area: title;
-      padding-top: var(--space-l);
-    }
-    .card--lead .card__subtitle {
-      font-size: var(--step-2);
-      color: var(--sub-ink);
-    }
-    /* Greek is set in the fallback face, which runs wider than the title face. Beside the picture it goes
-       a step smaller, so the long compound in the title stays whole instead of breaking at its hyphen. */
-    .card--lead .card__title:lang(el) {
-      font-size: calc(clamp(2.5rem, 1.8rem + 3.4vw, 4.9rem) * 0.8);
-    }
-    .card--lead .card__summary {
-      grid-area: summary;
-    }
-    .card--lead .card__facts {
-      grid-area: facts;
-    }
-    /* Under the facts, starting on the same left edge */
-    .card--lead .card__go {
-      grid-area: go;
-      margin-top: var(--space-m);
-    }
-    .card__rays {
-      --rays: 50rem;
-      left: 29%;
-      top: 24%;
-    }
-    /* The rays fade out above the season and the fee, which stand over the action at the foot of the panel */
-    .card__clip {
-      mask-image: linear-gradient(to bottom, #000 calc(100% - 21.5rem), transparent calc(100% - 16rem));
-    }
-  }
-
-  /* ---------- arch ---------- */
-  .card--arch {
-    padding: var(--pad) var(--pad) var(--foot);
-  }
-  .card--arch .card__figure {
-    margin-bottom: var(--space-m);
-  }
-  .card--arch .card__text {
-    padding-inline: clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem);
-  }
-
-  /* ---------- paper ---------- */
-  /* The picture stands where it would inside an arch cut-out, so the two cuts line up side by side */
-  .card--paper .card__figure {
-    margin: var(--pad) var(--pad) 0;
-  }
-  /* A darker blue pebble behind the shoulder of the arch */
-  .card__pebble {
-    position: absolute;
-    z-index: -1;
-    /* It reaches into the page gutter, never past the edge of the screen */
-    left: max(-5%, -1.4rem);
-    top: 0;
-    width: 38%;
-    aspect-ratio: 1;
-    border-radius: var(--r-pebble-1);
-    background-color: var(--blue-deep);
-    background-image: url('/textures/grain-light.webp');
-    background-size: 400px 400px;
-    filter: url(#rough-sm);
-  }
-  .card--paper .card__text {
-    width: min(100% - 1.5rem, 26rem);
-    padding-inline: clamp(1.4rem, 1rem + 1.6vw, 2.2rem);
-    padding-bottom: var(--foot);
-    margin: -2.25rem 0 0 auto;
-    z-index: 3;
-    --box-r: var(--r-soft-2);
-  }
-
   /* Side by side, the cards share the height of their row. The picture keeps its frame, the same in every
-     card; the words take up the difference, so the facts and the action stand at the foot of each card. */
+     card; the words take up the difference, so the facts and the actions stand at the foot of each card. */
   @media (min-width: 48rem) {
-    :is(.card--arch, .card--paper),
-    :is(.card--arch, .card--paper) .card__text {
+    .card,
+    .card__text {
       display: flex;
       flex-direction: column;
     }
-    :is(.card--arch, .card--paper) .card__text {
+    .card__text {
       flex: 1 0 auto;
     }
     /* The slack goes under the last lines before the facts: the summary, or the title when there is none */
-    :is(.card--arch, .card--paper) .card__text > :nth-last-child(3) {
+    .card__text > :nth-last-child(3) {
       flex-grow: 1;
-    }
-    /* With a card beside it there is room for the label to hang out over the left edge of the picture.
-       It laps over the foot of the picture by the same share at every width. */
-    .card--paper .card__text {
-      margin: clamp(-5.5rem, -6vw, -2.25rem) 0 0 -1.25rem;
     }
   }
 </style>

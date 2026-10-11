@@ -625,7 +625,8 @@ b {
   font-weight: 560;
 }
 .field input,
-.field textarea {
+.field textarea,
+.field select {
   width: 100%;
   padding: 0.8em 1.1em;
   background: var(--creme-light);
@@ -645,10 +646,28 @@ b {
 .field textarea::placeholder {
   color: color-mix(in srgb, var(--blue-deep) 48%, transparent);
 }
+/* A list of answers: the browser's own arrow gives way to a small drawn one */
+.field select {
+  appearance: none;
+  padding-right: 2.6em;
+  font: inherit;
+  line-height: 1.3;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1.2 1.6 6 6.3l4.8-4.7' fill='none' stroke='%230b1c8c' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.1em center;
+  background-size: 0.8em;
+}
+/* until an answer is chosen the list reads like a placeholder */
+.field select:has(option[value='']:checked) {
+  color: color-mix(in srgb, var(--blue-deep) 48%, transparent);
+}
 .field input:hover,
 .field textarea:hover,
+.field select:hover,
 .field input:focus,
-.field textarea:focus {
+.field textarea:focus,
+.field select:focus {
   border-color: var(--blue);
   background: #fffaf0;
 }

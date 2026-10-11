@@ -1,7 +1,6 @@
 ---
 // The course popup: a native <dialog>, one per course, rendered in the page so its content is in the HTML.
 // A card link with data-course-open="<slug>" opens it; so does arriving at /courses/#<slug>.
-import Illustration from '../Illustration.astro';
 import CourseBody from './CourseBody.astro';
 import CoursePrice from './CoursePrice.astro';
 import EnrollFlow from './EnrollFlow.astro';
@@ -15,7 +14,8 @@ interface Props {
 const { course } = Astro.props;
 const { ui } = content(getLocale(Astro.url)).coursesPage;
 const titleId = `course-title-${course.slug}`;
-const canEnrol = course.status === 'open' && course.price;
+// The same test as the card's "Enroll" button
+const canEnrol = course.available;
 ---
 
 <dialog class:list={['cd', canEnrol && 'cd--full']} data-course-dialog={course.slug} aria-labelledby={titleId}>
@@ -35,9 +35,8 @@ const canEnrol = course.status === 'open' && course.price;
     {
       canEnrol && (
         <div class="cd__foot on-blue-deep" data-course-foot>
-          <CoursePrice class="cd__price" price={course.price!} />
+          {course.price && <CoursePrice class="cd__price" price={course.price} />}
           <EnrollFlow course={course} id={`enroll-${course.slug}`} />
-          <Illustration name="torch" class="cd__mark" />
         </div>
       )
     }
@@ -132,6 +131,10 @@ const canEnrol = course.status === 'open' && course.price;
         if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
         event.preventDefault();
         open(dialog);
+        // "Enroll" on a card goes straight to the request form
+        if (link.hasAttribute('data-course-enroll')) {
+          dialog.querySelector<HTMLElement>('[data-enroll-start]')?.click();
+        }
       });
     });
 
@@ -271,10 +274,6 @@ const canEnrol = course.status === 'open' && course.price;
     background-size: 400px 400px;
     filter: url(#rough-sm);
   }
-  .cd__mark {
-    display: none;
-  }
-
   .cd[data-enrolling] .cd__scroll,
   .cd[data-enrolling] .cd__price {
     display: none;
@@ -289,21 +288,6 @@ const canEnrol = course.status === 'open' && course.price;
     overscroll-behavior: contain;
     border-radius: 1.9rem 2.5rem 2.1rem 2.7rem / 2.5rem 1.9rem 2.7rem 2.1rem;
   }
-  /* The torch stands in the lower corner of the enrolment sheet, in line with the edge of the form,
-     drawn in the lighter blue. Only where the sheet is tall enough for it to clear the form. */
-  @media (min-width: 52rem) and (min-height: 46rem) {
-    .cd[data-enrolling] .cd__mark {
-      display: block;
-      position: absolute;
-      right: clamp(1.1rem, 0.4rem + 3.6vw, 3.25rem);
-      bottom: 2rem;
-      width: clamp(6.5rem, 10vw, 9rem);
-      color: var(--blue-light);
-      opacity: 0.8;
-      pointer-events: none;
-    }
-  }
-
   /* ---------- Open and close ---------- */
   .cd[open] {
     display: block;
