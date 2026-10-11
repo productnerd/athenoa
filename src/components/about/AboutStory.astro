@@ -5,8 +5,7 @@
 //              Mnemosyne stands in the margin beside the paragraph that names her
 //   2 studies  the longest block; its photograph keeps the reader company (sticky on desktop)
 //   3 return   a darker blue cut-out; the arch portrait stands out of its top edge, Athena rises behind it
-//   4 academy  a light blue sheet laid over the corner of the last photograph, the Delphic tripod above
-//              it, then the maxim and the call
+//   4 academy  a light blue sheet laid over the corner of the last photograph, then the maxim
 import type { ImageMetadata } from 'astro';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
@@ -116,7 +115,6 @@ const [roots, studies, back, academy] = about.story;
           {academy.paragraphs.map((text) => <p set:html={text} />)}
         </div>
       </div>
-      <Illustration name="tripod" class="academy__tripod" draw />
       <div class="academy__photo" data-depth="0.1">
         <Media
           src={photo(academy.image)}
@@ -270,10 +268,6 @@ const [roots, studies, back, academy] = about.story;
     white-space: normal;
     color: var(--ink-strong);
   }
-  /* The tripod of Delphi stands in the open corner above the photograph, on wide screens only */
-  .academy__tripod {
-    display: none;
-  }
   /* The olive branch lies above the button at every width, whatever the length of the label */
   .academy__olive {
     width: 8.5rem;
@@ -372,17 +366,6 @@ const [roots, studies, back, academy] = about.story;
       grid-column: 5 / -1;
       grid-row: 2;
       margin: -23rem calc(var(--gutter) * -0.5) 0 0;
-    }
-    /* Row 1 is as tall as the sheet and the photograph climbs 23rem into it: the tripod stands just
-       above the photograph's top edge. */
-    .academy__tripod {
-      display: block;
-      grid-column: 8 / span 3;
-      grid-row: 1;
-      align-self: end;
-      justify-self: center;
-      width: clamp(9rem, 13vw, 12.5rem);
-      margin-bottom: 24.75rem;
     }
     .academy__olive {
       width: 14rem;

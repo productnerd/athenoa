@@ -1,12 +1,12 @@
 ---
 // Contact section that closes the page: a Greek blue cut-out with the form on it and the direct
 // contact details beside it.
-import SocialIcons from '../SocialIcons.astro';
+import Illustration from '../Illustration.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
 // Every word here comes from the data; the component adds none of its own.
-const { about, site } = content(getLocale(Astro.url));
+const { about } = content(getLocale(Astro.url));
 const { contact } = about;
 // A short title stays on one line; a longer one (the Greek) is sized so that its longest word fits the column.
 const fit =
@@ -27,35 +27,7 @@ const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</
           <h2 id="contact-title" class="t-1 contact__title" data-split style={`--fit:${fit}`}>{contact.title}</h2>
           <p class="lead" data-reveal>{contact.intro}</p>
 
-          <ul class="contact__direct" data-reveal style="--i:1">
-            {
-              site.emails.map((email) => (
-                <li>
-                  <a href={`mailto:${email}`}>
-                    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
-                      <path d="M3.6 6.6c2.8-.5 13.9-.6 16.8 0 .5 3 .5 8-.1 10.9-2.9.5-13.8.5-16.6 0-.6-2.9-.6-7.9-.1-10.9z" />
-                      <path d="M4 7.2c2.6 2.3 5.3 4.6 8 6.4 2.7-1.8 5.4-4.1 8-6.4" />
-                    </svg>
-                    <span>{email}</span>
-                  </a>
-                </li>
-              ))
-            }
-            <li>
-              <a href={site.phone.href}>
-                <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
-                  <path
-                    d="M6.6 3.2c.5-.4 1.3-.3 1.7.2l2 2.8c.3.5.3 1.1-.1 1.5L8.9 9.1c.9 1.9 2.4 3.5 4.3 4.5l1.5-1.2c.4-.4 1.1-.4 1.5-.1l2.9 2c.5.4.6 1.1.2 1.6-1 1.4-2.6 2.2-4.3 1.8C9.7 18.4 5.4 14.2 4.2 8.9 3.9 7.3 4.8 5.8 6.6 3.2z"
-                  ></path>
-                </svg>
-                <span>{site.phone.display}</span>
-              </a>
-            </li>
-          </ul>
-
-          <div class="contact__social" data-reveal style="--i:2">
-            <SocialIcons />
-          </div>
+          <Illustration name="tripod" class="contact__tripod" draw />
         </div>
 
         <!-- Not connected to a mail service yet: without JavaScript the browser hands the fields to the
@@ -150,6 +122,12 @@ const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</
     position: relative;
   }
   /* A darker blue pebble carrying the scale pattern, cut off by the panel's corner */
+  /* The tripod of Delphi stands under the invitation, in the lighter blue */
+  .contact__tripod {
+    width: clamp(8rem, 6rem + 9vw, 13rem);
+    margin-top: var(--space-l);
+    color: var(--blue-light);
+  }
   .contact__scales {
     position: absolute;
     left: -7rem;
@@ -176,41 +154,7 @@ const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</
   .contact__title {
     font-size: min(var(--step-4), calc(100cqi / (var(--fit) * 0.45)));
   }
-  .contact__direct {
-    display: grid;
-    margin-top: var(--space-2xs);
-    font-variant-numeric: lining-nums;
-  }
-  .contact__direct a {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-    /* A comfortable target for a thumb */
-    min-height: 2.75rem;
-    text-decoration-color: transparent;
-    overflow-wrap: anywhere;
-  }
-  .contact__direct a:hover {
-    text-decoration-color: currentColor;
-  }
-  .contact__direct svg {
-    flex: none;
-  }
-  .contact__direct path {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .contact__social {
-    margin-top: var(--space-xs);
-  }
   /* The shared icons brighten to a blue on hover, which disappears on a blue ground */
-  .contact__social :global(.social a:hover),
-  .contact__social :global(.social a:focus-visible) {
-    color: var(--blue-light);
-  }
 
   /* The short fields pair up only when the form itself is wide enough to hold their placeholders */
   .contact__form {
