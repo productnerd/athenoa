@@ -166,6 +166,11 @@ html:is([lang='el'], [lang='grc']) {
   --body-scale: 1;
 }
 
+/* Greek pages try NF-Lolotte for the voice face (see fonts.css) */
+html[lang='el'] {
+  --font-hand: 'ATH Lolotte', 'ATH Hand', 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+}
+
 /* Ancient Greek carries breathings and accents the handwriting faces do not have: its voice lines are
    set in the italic of the reading face, so no word is pieced together from two hands. */
 html[lang='grc'] {

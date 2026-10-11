@@ -44,6 +44,28 @@
   unicode-range: U+0370-03FF, U+1F00-1FFF;
 }
 
+/* On trial for the Greek handwriting (client, 11 October 2026): NF-Lolotte, from this computer (not
+   shipped; it needs a web licence before launch). It is a fine script with a very small x-height, so
+   it is set at 285% of its nominal size to stand level with the English hand. It has modern Greek
+   and Latin but no polytonic. Where it is not installed the Greek hand stays Bradley Hand ('ATH Hand').
+   Declared for both styles so the browser never slants it artificially. */
+@font-face {
+  font-family: 'ATH Lolotte';
+  src: local('NF-Lolotte-Regular'), local('NF-Lolotte Regular'), local('NF-Lolotte');
+  font-style: normal;
+  font-weight: 100 900;
+  size-adjust: 285%;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Lolotte';
+  src: local('NF-Lolotte-Regular'), local('NF-Lolotte Regular'), local('NF-Lolotte');
+  font-style: italic;
+  font-weight: 100 900;
+  size-adjust: 285%;
+  font-display: swap;
+}
+
 /* Local-only fonts for the type test. They are referenced from the visitor's machine and never
    copied into the project: the installed cuts are trial or separately licensed versions.
    Anyone without them sees EB Garamond. */

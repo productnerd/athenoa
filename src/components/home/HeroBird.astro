@@ -1,0 +1,194 @@
+---
+// A very small bird that comes to sit on the letter I of the highlighted word in the hero title,
+// sings, and flies off again: every fifteen seconds while the hero is on screen
+// (client direction, 11 October 2026).
+//
+// Mounted inside .hero__panel, which is the box it is placed in. The script finds the letter in the
+// title, measures where its top is, and walks the bird through its states (away, in, sit, sing, out)
+// with timers; the stylesheet does the movement. Only transforms and opacity change, on two small
+// layers (the bird and its wing), so it costs nothing to animate.
+// It only runs with motion on. The chirp follows the site's sound switch (the music button).
+import Illustration from '../Illustration.astro';
+---
+
+<span class="perch" data-perch data-state="away" aria-hidden="true">
+  <Illustration name="hero-sparrow" class="perch__body" />
+  <Illustration name="hero-sparrow-wing" class="perch__wing" />
+</span>
+
+<script>
+  const PERIOD = 15000; // one visit every fifteen seconds
+  const VOLUME = 0.45;
+  let stop: (() => void) | undefined;
+
+  function setup() {
+    stop?.();
+    stop = undefined;
+    const bird = document.querySelector<HTMLElement>('[data-perch]');
+    const panel = bird?.parentElement;
+    const hero = bird?.closest<HTMLElement>('.hero');
+    const word = hero?.querySelector<HTMLElement>('.hero__title .hl__w');
+    if (!bird || !panel || !hero || !word) return;
+    if (!document.documentElement.classList.contains('motion')) return;
+
+    // Where the top of the letter I is: the letter's box from a text range, and the height of the
+    // capital within that box from the font's own measures.
+    const place = () => {
+      const walker = document.createTreeWalker(word, NodeFilter.SHOW_TEXT);
+      let node: Node | null;
+      while ((node = walker.nextNode())) {
+        const at = (node.textContent ?? '').search(/[IΙ]/); // Latin I or Greek iota
+        if (at < 0) continue;
+        const range = document.createRange();
+        range.setStart(node, at);
+        range.setEnd(node, at + 1);
+        const letter = range.getBoundingClientRect();
+        if (!letter.width) return false;
+        const style = getComputedStyle(word);
+        const ctx = document.createElement('canvas').getContext('2d');
+        let capTop = letter.top + letter.height * 0.2;
+        if (ctx) {
+          ctx.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+          const m = ctx.measureText('I');
+          if (m.fontBoundingBoxAscent) capTop = letter.top + (m.fontBoundingBoxAscent - m.actualBoundingBoxAscent);
+        }
+        const box = panel.getBoundingClientRect();
+        const size = Math.max(18, parseFloat(style.fontSize) * 0.3);
+        bird.style.width = `${size.toFixed(1)}px`;
+        // its feet (at 48% of its width, the foot of its box) stand on the middle of the letter's top
+        bird.style.left = `${(letter.left + letter.width / 2 - box.left - size * 0.48).toFixed(1)}px`;
+        bird.style.top = `${(capTop - box.top - size * (36 / 42) * 0.97).toFixed(1)}px`;
+        return true;
+      }
+      return false;
+    };
+
+    const chirp = () => {
+      try {
+        if (localStorage.getItem('ath-music') === 'off') return;
+      } catch {}
+      const sound = new Audio('/audio/chirp.mp3');
+      sound.volume = VOLUME;
+      sound.play().catch(() => {});
+    };
+
+    let timers: number[] = [];
+    const at = (ms: number, state: string, then?: () => void) =>
+      timers.push(
+        window.setTimeout(() => {
+          bird.dataset.state = state;
+          then?.();
+        }, ms),
+      );
+    const visit = () => {
+      if (document.hidden || !place()) return;
+      timers.forEach(clearTimeout);
+      timers = [];
+      at(0, 'in');
+      at(1500, 'sit');
+      at(2300, 'sing', chirp);
+      at(4000, 'sit');
+      at(6400, 'out');
+      at(8200, 'away');
+    };
+
+    let loop = 0;
+    let first = 0;
+    const run = (on: boolean) => {
+      clearInterval(loop);
+      clearTimeout(first);
+      loop = 0;
+      if (!on) return;
+      // the first visit waits for the title to have risen
+      first = window.setTimeout(visit, 5000);
+      loop = window.setInterval(visit, PERIOD);
+    };
+    const watch = new IntersectionObserver(([entry]) => run(entry.isIntersecting), { threshold: 0.5 });
+    watch.observe(hero);
+
+    stop = () => {
+      watch.disconnect();
+      run(false);
+      timers.forEach(clearTimeout);
+      bird.dataset.state = 'away';
+    };
+  }
+
+  document.addEventListener('astro:page-load', setup);
+  document.addEventListener('astro:before-swap', () => stop?.());
+</script>
+
+<style>
+  .perch {
+    --bird-fill: var(--highlight);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 1.5rem;
+    aspect-ratio: 42 / 36;
+    color: var(--highlight-ink);
+    pointer-events: none;
+    will-change: transform, opacity;
+  }
+  .perch :global(.illo) {
+    position: absolute;
+    inset: 0;
+  }
+  .perch :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .perch :global(.perch__wing) {
+    transform-origin: 55% 47%;
+  }
+
+  /* away: out of sight up to the right, waiting */
+  .perch[data-state='away'] {
+    opacity: 0;
+    transform: translate3d(34vw, -30vh, 0);
+  }
+  /* in: it comes down to the letter, wings beating */
+  .perch[data-state='in'] {
+    opacity: 1;
+    transform: none;
+    transition:
+      transform 1.5s cubic-bezier(0.22, 0.7, 0.3, 1),
+      opacity 0.35s linear;
+  }
+  .perch[data-state='sit'],
+  .perch[data-state='sing'] {
+    opacity: 1;
+    transform: none;
+  }
+  /* sing: two small bobs while it calls */
+  .perch[data-state='sing'] {
+    animation: perch-bob 0.42s ease-in-out 3;
+  }
+  /* out: off to the upper left */
+  .perch[data-state='out'] {
+    opacity: 0;
+    transform: translate3d(-30vw, -34vh, 0);
+    transition:
+      transform 1.8s cubic-bezier(0.5, 0, 0.8, 0.5),
+      opacity 0.5s linear 1.2s;
+  }
+  .perch:is([data-state='in'], [data-state='out']) :global(.perch__wing) {
+    animation: perch-flap 0.13s ease-in-out infinite alternate;
+  }
+  @keyframes perch-bob {
+    50% {
+      transform: translate3d(0, -0.12em, 0) rotate(-6deg);
+    }
+  }
+  @keyframes perch-flap {
+    from {
+      transform: translate3d(0, 0, 0) scaleY(1);
+    }
+    to {
+      transform: translate3d(0, -22%, 0) scaleY(-1.5);
+    }
+  }
+</style>

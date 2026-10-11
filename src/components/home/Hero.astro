@@ -16,6 +16,7 @@
 // line) and --scene-b (how far it stands above the foot of the first screen). --u is one drawing
 // unit, so the trees and the near ground keep the same stroke weight as the rest.
 import Illustration from '../Illustration.astro';
+import HeroBird from './HeroBird.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
@@ -66,13 +67,14 @@ const rowsOf = (text: string) => {
       </div>
       {/* The day sky: soft shapes of cloud with no outline drift across it, slower than the drawn clouds */}
       <div class="hero__layer hero__layer--haze" data-depth="0.46" data-reveal="fade">
-        {[0, 1, 2, 3, 4].map((n) => <Illustration name="hero-cloud-soft" class={`hero__haze hero__haze--${n + 1}`} />)}
+        {[0, 1, 2, 3, 4, 5, 6].map((n) => <Illustration name="hero-cloud-soft" class={`hero__haze hero__haze--${n + 1}`} />)}
       </div>
       <div class="hero__layer hero__layer--clouds" data-depth="0.4" data-pointer="-5" data-reveal="fade">
         <Illustration name="sea-cloud-1" />
         <Illustration name="sea-cloud-2" />
         <Illustration name="sea-cloud-3" />
       </div>
+      <div class="hero__layer"><span class="hero__meteor"></span></div>
       {/* Now and then two birds cross the sky */}
       <div class="hero__layer hero__layer--birds" data-depth="0.3">
         <Illustration name="hero-bird" class="hero__bird hero__bird--1" />
@@ -113,6 +115,7 @@ const rowsOf = (text: string) => {
       <div class="hero__grain"></div>
     </div>
     <div class="hero__fade" aria-hidden="true"></div>
+    <HeroBird />
 
     <h1 class="hero__title t-hero" data-split>
       {
@@ -475,16 +478,16 @@ const rowsOf = (text: string) => {
     }
   }
   :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo) {
-    animation: hero-drift 210s linear -150s infinite;
+    animation: hero-drift 165s linear -118s infinite;
     will-change: transform;
   }
   :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo--sea-cloud-1) {
-    animation-duration: 260s;
-    animation-delay: -60s;
+    animation-duration: 205s;
+    animation-delay: -47s;
   }
   :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo--sea-cloud-3) {
-    animation-duration: 180s;
-    animation-delay: -105s;
+    animation-duration: 140s;
+    animation-delay: -82s;
   }
 
   /* The texture of the day sky (client direction): loose formations of cloud, long streaks with no
@@ -510,13 +513,13 @@ const rowsOf = (text: string) => {
     --w: clamp(18rem, 46vw, 46rem);
     --top: 9%;
     --at: 52vw;
-    --t: 230s;
+    --t: 180s;
   }
   .hero__layer--haze :global(.hero__haze--2) {
     --w: clamp(13rem, 30vw, 30rem);
     --top: 30%;
     --at: 8vw;
-    --t: 300s;
+    --t: 235s;
     --mix: 34%;
     scale: -1 1;
   }
@@ -524,22 +527,38 @@ const rowsOf = (text: string) => {
     --w: clamp(16rem, 38vw, 38rem);
     --top: 47%;
     --at: 66vw;
-    --t: 260s;
+    --t: 205s;
     --mix: 38%;
   }
   .hero__layer--haze :global(.hero__haze--4) {
     --w: clamp(11rem, 24vw, 24rem);
     --top: 17%;
     --at: 30vw;
-    --t: 340s;
+    --t: 265s;
     --mix: 30%;
   }
   .hero__layer--haze :global(.hero__haze--5) {
     --w: clamp(15rem, 34vw, 34rem);
     --top: 62%;
     --at: -6vw;
-    --t: 280s;
+    --t: 220s;
     --mix: 32%;
+    scale: -1 1;
+  }
+  /* two more, lower: between the last row of the title and the roof */
+  .hero__layer--haze :global(.hero__haze--6) {
+    --w: clamp(14rem, 32vw, 32rem);
+    --top: 39%;
+    --at: 38vw;
+    --t: 205s;
+    --mix: 40%;
+  }
+  .hero__layer--haze :global(.hero__haze--7) {
+    --w: clamp(12rem, 26vw, 26rem);
+    --top: 54%;
+    --at: 20vw;
+    --t: 235s;
+    --mix: 34%;
     scale: -1 1;
   }
   @keyframes hero-haze {
@@ -559,8 +578,51 @@ const rowsOf = (text: string) => {
   :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--5) {
     animation-delay: calc(var(--t) * -0.12);
   }
-  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--3) {
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--3),
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--7) {
     animation-delay: calc(var(--t) * -0.7);
+  }
+  :global(html.motion:not([data-theme='dark'])) .hero__layer--haze :global(.hero__haze--6) {
+    animation-delay: calc(var(--t) * -0.28);
+  }
+
+  /* A falling star, at night, once every twenty-five seconds: a short streak that crosses a piece of
+     the sky above the temple and is gone. One small element; only its transform and opacity move. */
+  .hero__meteor {
+    display: none;
+    position: absolute;
+    left: 66%;
+    top: 15%;
+    width: clamp(4rem, 9vmin, 7rem);
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(to left, transparent, color-mix(in srgb, var(--creme) 55%, transparent) 55%, var(--creme-light));
+    opacity: 0;
+  }
+  :global(html.motion[data-theme='dark']) .hero__meteor {
+    display: block;
+    animation: hero-meteor 25s linear 7s infinite;
+    will-change: transform, opacity;
+  }
+  @keyframes hero-meteor {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0, 0) rotate(-19.5deg);
+    }
+    0.5% {
+      opacity: 1;
+    }
+    2.9% {
+      opacity: 1;
+    }
+    3.8% {
+      opacity: 0;
+      transform: translate3d(-36vmin, 12.7vmin, 0) rotate(-19.5deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(-36vmin, 12.7vmin, 0) rotate(-19.5deg);
+    }
   }
 
   /* Two birds, now and then: a pair crosses from left to right, rising a little, about once a
