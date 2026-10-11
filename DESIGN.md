@@ -86,7 +86,6 @@ The dev server is already running at http://localhost:4321 (do not start another
 ```
 node scripts/shot.mjs /courses/ shots/page.png                # full page, desktop 1440, motion off
 node scripts/shot.mjs /courses/ shots/page-m.png --mobile     # 390 wide
-node scripts/shot.mjs /courses/ shots/page-b.png --fonts b    # type set b (Tekst); c is PP Editorial New
 node scripts/shot.mjs / shots/top.png --viewport --motion     # first screen only, motion on, after the load sequence
 node scripts/shot.mjs / shots/mid.png --scroll 1400 --motion  # viewport after scrolling
 ```

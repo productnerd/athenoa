@@ -12,7 +12,8 @@ import { getLocale } from '../lib/locale';
 interface Props {
   title: string;
   description: string;
-  image?: string;
+  image?: string | import('astro').ImageMetadata;
+  imageAlt?: string;
   type?: 'website' | 'article' | 'profile';
   noindex?: boolean;
   schema?: Record<string, unknown> | Record<string, unknown>[];
@@ -35,7 +36,6 @@ const { ui } = content(locale);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f2e9d3" />
     <link rel="icon" href="/favicon.png" type="image/png" />
-    <link rel="alternate" type="text/plain" href="/llms.txt" title="Site summary for AI agents" />
     <Seo {...seo} />
     <!-- Runs before first paint: decides whether motion is on -->
     <script is:inline>

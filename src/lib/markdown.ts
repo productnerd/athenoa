@@ -268,7 +268,7 @@ const build = (locale: Locale) => {
   const llms = () => {
     const entry = (label: string, path: string, note?: string) =>
       `- [${inline(label)}](${absolute(path)})${note ? `: ${inline(note)}` : ''}`;
-    const homeLabel = site.nav.find((item) => item.href === homePath)!.label;
+    const homeLabel = site.home.label;
     const homeNote = [home.membership, home.seminar, home.series, home.transmission, home.benefits]
       .map((section) => section.title)
       .join(' · ');

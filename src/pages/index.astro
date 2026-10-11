@@ -14,7 +14,7 @@ const sections = order.map((name) => found[`../components/home/${name}.astro`]?.
 const highlight = home.hero.highlight;
 ---
 
-<Base title={home.meta.title} description={home.meta.description} schema={[organizationSchema(), websiteSchema()]}>
+<Base title={home.meta.title} description={home.meta.description} schema={[organizationSchema(getLocale(Astro.url)), websiteSchema(getLocale(Astro.url))]}>
   <section class="section wrap provisional-hero">
     <h1 class="t-hero" data-split>
       {

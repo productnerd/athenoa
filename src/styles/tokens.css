@@ -87,6 +87,20 @@
   --header-h: clamp(4rem, 3.4rem + 2vw, 5.25rem);
 }
 
+/* Greek pages. PP Editorial New has no Greek and the Tekst trial lacks accented Greek, so Greek text
+   would be pieced together from two typefaces. Until fonts with Greek are licensed, Greek pages are set
+   in EB Garamond throughout, at EB Garamond's own title scale. */
+html[lang='el'] {
+  --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --title-weight: 400;
+  --title-weight-xl: 400;
+  --title-tracking: -0.022em;
+  --title-leading: 0.96;
+  --title-scale: 0.86;
+  --body-scale: 1;
+}
+
 /* Alternates, used only by the /font-test page (a data-fonts attribute on a wrapper). */
 [data-fonts='main'] {
   --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;

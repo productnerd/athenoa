@@ -33,7 +33,7 @@ const canEnrol = course.status === 'open' && course.price;
 
 <Base
   title={`${course.title} | ${site.name}`}
-  description={course.summary ?? coursesPage.description}
+  description={course.summary ?? `${course.title}. ${coursesPage.ui.placeholderNote}`}
   image={courseImage(course.image).src}
   schema={[
     courseSchema(course),

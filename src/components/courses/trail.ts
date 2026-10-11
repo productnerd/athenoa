@@ -6,7 +6,7 @@ export function trail(locale: Locale) {
   const { site, coursesPage } = content(locale);
   const homePath = pathIn(locale, '/');
   // The header menu no longer lists Home (the logo links there); the footer still names it.
-  const home = site.footer.links.find((link) => link.href === homePath)?.label ?? site.name;
+  const home = site.home.label;
   return [
     { name: home, path: homePath },
     { name: coursesPage.title, path: site.routes.courses },

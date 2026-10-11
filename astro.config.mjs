@@ -6,7 +6,13 @@ export default defineConfig({
   // 'ignore' so the preview serves pages, and the 404 page, with or without a trailing slash.
   // Canonical URLs still carry the slash (see Seo.astro).
   trailingSlash: 'ignore',
-  integrations: [sitemap({ filter: (page) => !page.includes('/lab/') && !page.includes('/font-test/') })],
+  integrations: [
+    sitemap({
+      // Working pages stay out of the sitemap
+      filter: (page) => !['/lab/', '/el/lab/', '/font-test/'].some((part) => new URL(page).pathname.startsWith(part)),
+      i18n: { defaultLocale: 'en', locales: { en: 'en', el: 'el' } },
+    }),
+  ],
   devToolbar: { enabled: false },
   server: { port: 4321 },
 });

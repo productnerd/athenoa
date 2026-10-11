@@ -20,7 +20,8 @@ export const site = {
     { id: 'instagram', name: 'Instagram', url: 'https://www.instagram.com/athena_potari/' },
     { id: 'youtube', name: 'YouTube', url: 'https://www.youtube.com/@athenoa' },
   ],
-  // The logo links home, so the header menu does not repeat it.
+  // Home, by name. The logo links here, so the header menu does not repeat it.
+  home: { label: 'Αρχική', href: '/el/' },
   nav: [
     { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/el/about-athena/' },
     { label: 'Μαθήματα', href: '/el/courses/' },

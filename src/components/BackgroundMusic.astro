@@ -68,7 +68,7 @@ const t = {
           cancelAnimationFrame(ramp);
           const began = performance.now();
           const step = (now: number) => {
-            const progress = Math.min(1, (now - began) / 2200);
+            const progress = Math.min(1, Math.max(0, (now - began) / 2200));
             audio.volume = VOLUME * progress;
             if (progress < 1) ramp = requestAnimationFrame(step);
           };
