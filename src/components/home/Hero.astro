@@ -22,6 +22,9 @@ import { getLocale } from '../../lib/locale';
 const locale = getLocale(Astro.url);
 const { home } = content(locale);
 const highlight = home.hero.highlight;
+// CLIENT DIRECTION, 11 October 2026: Athena (with her spear and the Nike) is hidden for now and may
+// come back later. Set this to true to show her again; nothing else needs to change.
+const showAthena = false;
 // Beside the picture the title is a tall stack. Words per row, for the words before the highlight
 // (each highlighted word takes a row of its own).
 const stack = { en: [1, 2, 1], el: [1, 2], grc: [1, 3] }[locale];
@@ -54,9 +57,13 @@ const rowsOf = (text: string) => {
       <div class="hero__layer hero__layer--glow hero__scene" data-depth="0.3" data-reveal="fade">
         <Illustration name="portal-b-rays" draw />
       </div>
-      <div class="hero__layer hero__layer--athena hero__scene" data-depth="0.22" data-reveal="fade">
-        <Illustration name="portal-b-athena" draw />
-      </div>
+      {
+        showAthena && (
+          <div class="hero__layer hero__layer--athena hero__scene" data-depth="0.22" data-reveal="fade">
+            <Illustration name="portal-b-athena" draw />
+          </div>
+        )
+      }
       <div class="hero__layer hero__layer--temple hero__scene" data-depth="0.12" data-reveal="fade">
         <Illustration name="portal-b-hill" draw />
         <Illustration name="portal-b-cella" />

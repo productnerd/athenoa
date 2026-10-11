@@ -173,6 +173,8 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] 404: "Not everybody who wanders is lost" in the sky in the reading face (both languages), button "Take me to Ithaka", note under it half size, slanted, with an asterisk, close to the button
 - [x] Music keeps its place when a whole new page loads (typed address, 404, language switch) and fades out before a reload it can foresee. A typed address is a new page for the browser: it cannot fade out there, it resumes with a fade-in.
 - [x] Owl call quicker again (2.1 s); day wave 2.5 s with a steeper fade
+- [x] Athena hidden in the hero for now (showAthena in Hero.astro brings her back); the disc and rays behind her stay as sun and moon
+- [x] Ancient Greek wired in under /grc/ and offered in the language list (draft, noindex, no structured data, out of the sitemap)
 - [ ] HELPER RUNNING: course card photos all one size; card summary smaller and quieter; photographs fade in instead of the paper curtain; hilltop photo (first asked "almost the full width", then "too pixelated, half the width"); torch left of the Benefits title, question close under the title
 - [ ] HELPER RUNNING: footer scenes at night show a moon and stars instead of a sun; the sun slides down and the moon and stars animate in when switching
 - [ ] After the helpers: add --hover-delay to the hovers in CourseCard.astro and Footer.astro; run the responsive check; commit
