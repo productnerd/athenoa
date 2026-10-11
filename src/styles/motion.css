@@ -191,7 +191,7 @@ html.motion body::before {
   pointer-events: none;
   background-image: url('/textures/grain-dark.webp');
   background-size: 400px 400px;
-  opacity: 0.45;
+  opacity: 0.22;
   animation: paper-grain 1s steps(1, end) infinite;
   will-change: transform;
 }
