@@ -280,12 +280,13 @@ const isCurrent = (href: string) => {
     white-space: nowrap;
   }
   /* A light-blue brush mark sweeps in under a link when the pointer rests on it, and stays under
-     the page you are on. */
-  .header__links li:not(.header__lang, .header__theme) a {
+     the page you are on. (Direct children only: the language list is a list
+     inside one of these items, and its links must not take the menu links' size and marks.) */
+  .header__links > li:not(.header__lang, .header__theme) > a {
     isolation: isolate;
     transition: color var(--dur-1) var(--hover-delay);
   }
-  .header__links li:not(.header__lang, .header__theme) a::before {
+  .header__links > li:not(.header__lang, .header__theme) > a::before {
     content: '';
     position: absolute;
     inset: 2% -0.95rem -4% -0.85rem;
@@ -296,13 +297,13 @@ const isCurrent = (href: string) => {
     transform-origin: 0 50%;
     transition: transform var(--dur-2) var(--ease-out) var(--hover-delay);
   }
-  .header__links li:not(.header__lang, .header__theme) a:hover::before,
-  .header__links li:not(.header__lang, .header__theme) a:focus-visible::before,
-  .header__links li:not(.header__lang, .header__theme) a[aria-current='page']::before {
+  .header__links > li:not(.header__lang, .header__theme) > a:hover::before,
+  .header__links > li:not(.header__lang, .header__theme) > a:focus-visible::before,
+  .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page']::before {
     transform: none;
   }
-  .header__links li:not(.header__lang, .header__theme) a:hover,
-  .header__links li:not(.header__lang, .header__theme) a[aria-current='page'] {
+  .header__links > li:not(.header__lang, .header__theme) > a:hover,
+  .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page'] {
     color: var(--blue);
   }
   /* The name and the little statue lean in together */
@@ -549,7 +550,7 @@ const isCurrent = (href: string) => {
     .header__links a {
       color: var(--creme-light);
     }
-    .header__links li:not(.header__lang, .header__theme) a {
+    .header__links > li:not(.header__lang, .header__theme) > a {
       white-space: normal;
       text-wrap: balance;
       font-family: var(--font-title);
@@ -572,7 +573,7 @@ const isCurrent = (href: string) => {
       background-color: var(--blue-deep);
     }
     /* Each link slides in a little and a light-blue brush mark sweeps in behind it */
-    .header__links li:not(.header__lang, .header__theme) a {
+    .header__links > li:not(.header__lang, .header__theme) > a {
       isolation: isolate;
       padding-inline: 0.35rem 0.6rem;
       margin-left: -0.35rem;
@@ -580,19 +581,19 @@ const isCurrent = (href: string) => {
         translate var(--dur-2) var(--ease-out) var(--hover-delay),
         color var(--dur-1) var(--hover-delay);
     }
-    .header__links li:not(.header__lang, .header__theme) a::before {
+    .header__links > li:not(.header__lang, .header__theme) > a::before {
       inset: 4% -0.9rem -2% -0.6rem;
       rotate: -0.8deg;
     }
-    .header__links li:not(.header__lang, .header__theme) a:hover,
-    .header__links li:not(.header__lang, .header__theme) a:focus-visible,
-    .header__links li:not(.header__lang, .header__theme) a[aria-current='page'] {
+    .header__links > li:not(.header__lang, .header__theme) > a:hover,
+    .header__links > li:not(.header__lang, .header__theme) > a:focus-visible,
+    .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page'] {
       color: var(--blue-deep);
       translate: 0.4rem 0;
     }
-    .header__links li:not(.header__lang, .header__theme) a:hover::before,
-    .header__links li:not(.header__lang, .header__theme) a:focus-visible::before,
-    .header__links li:not(.header__lang, .header__theme) a[aria-current='page']::before {
+    .header__links > li:not(.header__lang, .header__theme) > a:hover::before,
+    .header__links > li:not(.header__lang, .header__theme) > a:focus-visible::before,
+    .header__links > li:not(.header__lang, .header__theme) > a[aria-current='page']::before {
       transform: none;
     }
     .lang summary {
@@ -608,6 +609,7 @@ const isCurrent = (href: string) => {
     }
     .header__links .lang__list a {
       color: var(--blue-deep);
+      font-size: var(--step-0);
     }
   }
 </style>

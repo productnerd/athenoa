@@ -8,6 +8,7 @@ import Footer from '../components/Footer.astro';
 import BackgroundMusic from '../components/BackgroundMusic.astro';
 import NewsletterDialog from '../components/NewsletterDialog.astro';
 import WaitlistDialog from '../components/WaitlistDialog.astro';
+import TypeToggle from '../components/TypeToggle.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -102,6 +103,13 @@ const { ui } = content(locale);
           var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           root.classList.toggle('motion', !reduce && !query.has('nomotion'));
           theme();
+          // Temporary type check (TypeToggle.astro): which title face to show
+          var type = query.get('type');
+          try {
+            type = type || localStorage.getItem('ath-type');
+          } catch (e) {}
+          if (type === 'victor' || type === 'victor-narrow') root.dataset.type = type;
+          else delete root.dataset.type;
         }
         apply();
         document.addEventListener('astro:after-swap', apply);
@@ -130,6 +138,7 @@ const { ui } = content(locale);
     <BackgroundMusic />
     <NewsletterDialog />
     <WaitlistDialog />
+    <TypeToggle />
     <script>
       import '../scripts/motion.ts';
     </script>

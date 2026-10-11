@@ -1,0 +1,126 @@
+---
+// TEMPORARY review tool (client request, 11 October 2026): a small switch at the foot of the page to
+// compare title faces: PP Editorial New (the site's), Victor Serif and Victor Narrow. The Victor
+// fonts are trial files installed on the designer's Mac and have no Greek, so the switch is only
+// offered on English pages. The choice is kept in this browser (localStorage 'ath-type') and set
+// on <html data-type> before first paint by the script in Base.astro. Remove before launch,
+// together with the faces at the end of fonts.css and the two rules in tokens.css.
+import { getLocale } from '../lib/locale';
+const show = getLocale(Astro.url) === 'en';
+const faces = [
+  { value: '', label: 'Editorial New' },
+  { value: 'victor', label: 'Victor Serif' },
+  { value: 'victor-narrow', label: 'Victor Narrow' },
+];
+---
+
+{
+  show && (
+    <div class="tt" role="group" aria-label="Title typeface (review tool)" data-type-toggle>
+      <span class="tt__label">Titles</span>
+      {faces.map((face) => (
+        <button type="button" class="tt__option" data-type-set={face.value} aria-pressed="false">
+          {face.label}
+        </button>
+      ))}
+    </div>
+  )
+}
+
+<script>
+  const KEY = 'ath-type';
+  function setup() {
+    const root = document.documentElement;
+    const group = document.querySelector<HTMLElement>('[data-type-toggle]');
+    if (!group) return;
+    const options = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-type-set]'));
+    const render = () => {
+      const now = root.dataset.type ?? '';
+      options.forEach((option) => option.setAttribute('aria-pressed', String(option.dataset.typeSet === now)));
+    };
+    if (!group.dataset.ready) {
+      group.dataset.ready = 'true';
+      options.forEach((option) =>
+        option.addEventListener('click', () => {
+          const value = option.dataset.typeSet ?? '';
+          if (value) root.dataset.type = value;
+          else delete root.dataset.type;
+          try {
+            if (value) localStorage.setItem(KEY, value);
+            else localStorage.removeItem(KEY);
+          } catch {}
+          render();
+          // sizes that depend on the face's width are measured again
+          window.dispatchEvent(new Event('resize'));
+        }),
+      );
+    }
+    render();
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .tt {
+    position: fixed;
+    left: 50%;
+    bottom: 0.4rem;
+    z-index: 54;
+    translate: -50% 0;
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.2rem 0.3rem 0.2rem 0.75rem;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 26%, transparent);
+    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+    background-color: color-mix(in srgb, var(--creme-light) 94%, transparent);
+    backdrop-filter: blur(8px);
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .tt__label {
+    margin-right: 0.3rem;
+    color: var(--ink-soft);
+  }
+  .tt__option {
+    padding: 0.45rem 0.7rem 0.5rem;
+    border: 0;
+    border-radius: 1.1rem 0.9rem 1.2rem 0.95rem / 0.95rem 1.2rem 0.9rem 1.1rem;
+    background: none;
+    color: var(--blue);
+    font: inherit;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--hover-delay),
+      color var(--dur-1) var(--hover-delay);
+  }
+  .tt__option:hover {
+    background-color: var(--blue-light);
+  }
+  .tt__option[aria-pressed='true'] {
+    background-color: var(--blue);
+    color: var(--creme-light);
+  }
+  @media (max-width: 30rem) {
+    .tt__label {
+      display: none;
+    }
+    /* clear of the music button in the lower left corner */
+    .tt {
+      left: auto;
+      right: 0.4rem;
+      translate: none;
+      padding-left: 0.3rem;
+    }
+    .tt__option {
+      padding-inline: 0.5rem;
+    }
+  }
+  @media print {
+    .tt {
+      display: none;
+    }
+  }
+</style>

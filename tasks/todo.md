@@ -196,6 +196,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Greek desktop headline larger (about 17%) and every wide headline starts high under the header; English unchanged in effect (she confirmed English is right)
 - [ ] Night view is now what visitors see after sunset: it has had one pass only (footers end on a light band; Courses and course pages not reviewed section by section at night)
 
+## Added by Maria on 2026-10-11 (fifteenth round)
+
+- [x] Language list in the phone menu was taking the menu links' large type (a selector reached into the nested list): fixed, list now at text size
+- [x] Popups: close buttons are a cross only (course popup and newsletter; the waitlist already was)
+- [x] Wave drawings only animate while on screen (they were costing the browser work constantly, the cause of the machine running hot with the preview open)
+- [ ] TEMPORARY: title-face switch at the foot of English pages (Editorial New / Victor Serif / Victor Narrow). Victor fonts are local trial files without Greek. Remove TypeToggle.astro, the faces at the end of fonts.css and the two rules in tokens.css once a face is chosen; a chosen face needs a web licence.
+
 ## Open questions
 
 See the chat message of 2026-10-10.

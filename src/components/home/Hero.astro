@@ -157,11 +157,13 @@ const rowsOf = (text: string) => {
        height allows (--hero-rows rows at the title's leading, plus the subtitle). */
     --hero-col: calc(var(--panel-w) - var(--scene-m) - var(--scene-h) * 0.93 - var(--hero-pad));
     --hero-fit: 5.3;
+    /* the same, for the title face in use (--type-wide: its width beside PP Editorial New's) */
+    --hero-fitw: calc(var(--hero-fit) * var(--type-wide, 1));
     --hero-rows: 5;
     /* air between the header and the title: the title starts high, under the header */
     --hero-top: clamp(1.25rem, 5svh, 3.5rem);
     --hero-fs: min(
-      calc(var(--hero-col) / var(--hero-fit)),
+      calc(var(--hero-col) / var(--hero-fitw)),
       calc((var(--hero-open) - var(--hero-top)) * 0.9 / (var(--hero-rows) * 0.95 + 1)),
       10rem
     );
@@ -578,7 +580,7 @@ const rowsOf = (text: string) => {
       --hero-col: calc(var(--panel-w) - 2 * var(--hero-pad));
       /* here the title wraps as a paragraph: the ems its longest line needs */
       --hero-fit: 6.9;
-      --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 6svh);
+      --hero-fs: min(calc(var(--hero-col) / var(--hero-fitw)), 6svh);
       /* air between the header and the title */
       --hero-top: clamp(1.1rem, 3svh, 2.2rem);
       --hero-fade: clamp(4rem, 12svh, 7rem);
@@ -599,7 +601,7 @@ const rowsOf = (text: string) => {
        short screen holds it back. The temple stands at the lower right, and comes to the middle as
        the screen narrows to a phone, where it is nearly as wide as the screen. */
     .hero--bare {
-      --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 16svh, 10rem);
+      --hero-fs: min(calc(var(--hero-col) / var(--hero-fitw)), 16svh, 10rem);
       /* The temple is as tall as the screen allows (client direction): from the foot of the
          first screen its roof reaches up to just under the subtitle, with a little air between
          (--hero-gap), unless the width of the screen stops it first. --hero-block is the title
@@ -630,7 +632,7 @@ const rowsOf = (text: string) => {
     /* The block is as wide as its longest line needs and no wider, so the lines always break the
        same way: the highlighted words one above the other. */
     .hero__title {
-      width: calc(var(--hero-fit) * 1em);
+      width: calc(var(--hero-fitw) * 1em);
     }
     .hero__row {
       display: inline;
@@ -680,7 +682,7 @@ const rowsOf = (text: string) => {
       /* the ems the longest line needs, and the lines that gives */
       --hero-fit: 9.4;
       --hero-rows: 3;
-      --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 10rem);
+      --hero-fs: min(calc(var(--hero-col) / var(--hero-fitw)), 10rem);
       /* air between the header and the title */
       --hero-top: clamp(1.25rem, 3.5svh, 2.75rem);
       /* the title and its subtitle (whose size has a floor) */
@@ -711,7 +713,7 @@ const rowsOf = (text: string) => {
       padding: calc(var(--header-h) + var(--hero-top)) var(--hero-pad) calc(var(--scene-h) * 0.655 + var(--hero-gap));
     }
     .hero--bare .hero__title {
-      width: calc(var(--hero-fit) * 1em);
+      width: calc(var(--hero-fitw) * 1em);
     }
     .hero--bare .hero__row {
       display: inline;

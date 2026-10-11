@@ -264,7 +264,24 @@ async function init() {
     return;
   }
   root.classList.add('motion');
-  drawings.forEach((svg) => svg.unpauseAnimations?.());
+  // They cost the browser work on every frame while they run, seen or not (measured: about a
+  // tenth of the main thread with the waves far down the page), so each one runs only while it
+  // is on screen.
+  const living = Array.from(drawings).filter((svg) => svg.querySelector('animate, animateTransform'));
+  if (living.length) {
+    const watch = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        const svg = entry.target as SVGSVGElement;
+        if (entry.isIntersecting) svg.unpauseAnimations?.();
+        else svg.pauseAnimations?.();
+      }
+    });
+    living.forEach((svg) => {
+      svg.pauseAnimations?.();
+      watch.observe(svg);
+    });
+    cleanup.push(() => watch.disconnect());
+  }
   splitHeadings();
   prepareDrawings();
   startParallax();

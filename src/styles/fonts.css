@@ -143,3 +143,134 @@
   font-style: italic;
   font-display: swap;
 }
+
+/* ---------- Type check: Victor (Kometa), TRIAL fonts installed on the designer's Mac ----------
+   For the comparison switched at the foot of the page (TypeToggle.astro). Referenced by name only:
+   the files are not in the project, so on any other machine these fall back to EB Garamond. They have
+   no Greek. If one is chosen it needs a web licence, and this block and the toggle are replaced. */
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: local('Victor Serif Trial 10 Hairline'), local('VictorSerifTrial-10Hairline');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: local('Victor Serif Trial 20 Thin'), local('VictorSerifTrial-20Thin');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local('Victor Serif Trial 30 Light'), local('VictorSerifTrial-30Light');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Victor Serif Trial 40'), local('VictorSerifTrial-40Regular');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Victor Serif Trial 50 Medium'), local('VictorSerifTrial-50Medium');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Victor Serif Trial 60 Semibold'), local('VictorSerifTrial-60Semibold');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Victor Serif Trial 70 Bold'), local('VictorSerifTrial-70Bold');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: local('Victor Serif Trial 25 Thin It'), local('VictorSerifTrial-25ThinItalic');
+}
+@font-face {
+  font-family: 'ATH Victor';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Victor Serif Trial 45 Italic'), local('VictorSerifTrial-45RegularItalic');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: local('Victor Narrow Trial Hairline'), local('VictorNarrowTrial-Hairline');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: local('Victor Narrow Trial Thin'), local('VictorNarrowTrial-Thin');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: local('Victor Narrow Trial Light'), local('VictorNarrowTrial-Light');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Victor Narrow Trial'), local('VictorNarrowTrial-Regular');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: local('Victor Narrow Trial Medium'), local('VictorNarrowTrial-Medium');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: local('Victor Narrow Trial Semibold'), local('VictorNarrowTrial-Semibold');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: local('Victor Narrow Trial Bold'), local('VictorNarrowTrial-Bold');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: local('Victor Narrow Trial Thin Italic'), local('VictorNarrowTrial-ThinItalic');
+}
+@font-face {
+  font-family: 'ATH Victor Narrow';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Victor Narrow Trial Italic'), local('VictorNarrowTrial-RegularItalic');
+}

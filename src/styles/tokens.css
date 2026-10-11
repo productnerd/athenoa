@@ -172,6 +172,25 @@ html[lang='grc'] {
   --font-hand: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
 }
 
+/* Type check (temporary): the title face can be switched at the foot of the page to compare
+   Victor Serif and Victor Narrow with PP Editorial New (TypeToggle.astro sets data-type on <html>).
+   --type-wide says how much wider the capitals run than Editorial New's, for the hero's sizing.
+   Neither has Greek, so Greek pages are left as they are. */
+html[data-type='victor']:not([lang='el'], [lang='grc']) {
+  --font-title: 'ATH Victor', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --title-weight: 400;
+  --title-weight-xl: 200;
+  /* its capitals stand taller: a little more room between the lines */
+  --title-leading: 1;
+  --type-wide: 1.06;
+}
+html[data-type='victor-narrow']:not([lang='el'], [lang='grc']) {
+  --font-title: 'ATH Victor Narrow', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --title-weight: 400;
+  --title-weight-xl: 200;
+  --type-wide: 0.74;
+}
+
 /* Alternates, used only by the /font-test page (a data-fonts attribute on a wrapper). */
 [data-fonts='main'] {
   --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;

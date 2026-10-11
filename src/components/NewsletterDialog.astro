@@ -24,7 +24,8 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
 <dialog class="nl" id="newsletter" aria-labelledby="newsletter-title">
   <div class="nl__bar">
-    <button class="nl__close" type="button" data-newsletter-close>
+    <!-- A cross only (client direction, 11 October 2026); the word is kept for screen readers -->
+    <button class="nl__close" type="button" data-newsletter-close title={t.close}>
       <span>{t.close}</span>
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
         <path d="M5 5.4c4.6 4.2 9 8.800 14 13.400M19 5c-4.400 4.800-9.200 9-13.800 14"></path>
@@ -32,7 +33,12 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     </button>
     <!-- Without JavaScript the popup is shown by :target; this plain link leaves it again.
          The fragment matches nothing on purpose, so the page does not jump. -->
-    <a class="nl__close nl__close--plain" href="#closed">{t.close}</a>
+    <a class="nl__close nl__close--plain" href="#closed" title={t.close}>
+      <span>{t.close}</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M5 5.4c4.6 4.2 9 8.800 14 13.400M19 5c-4.400 4.800-9.200 9-13.800 14"></path>
+      </svg>
+    </a>
   </div>
 
   <div class="nl__frame">
@@ -278,7 +284,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     stroke-width: 1.9;
     stroke-linecap: round;
   }
-  /* On a narrow screen the corner only has room for the cross */
+  /* The word is for screen readers; only the cross shows */
   .nl__close span {
     position: absolute;
     width: 1px;
@@ -286,10 +292,6 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     overflow: hidden;
     clip-path: inset(50%);
     white-space: nowrap;
-  }
-  .nl__close--plain {
-    width: auto;
-    padding-inline: 1rem;
   }
 
   /* ---------- The portico ---------- */
@@ -461,16 +463,6 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     }
     .nl__frame {
       margin-top: 0.5rem;
-    }
-    .nl__close {
-      width: auto;
-      padding: 0 1rem 0.05rem 1.15rem;
-    }
-    .nl__close span {
-      position: static;
-      width: auto;
-      height: auto;
-      clip-path: none;
     }
     .nl__ledge,
     .nl__wall {

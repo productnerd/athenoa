@@ -20,8 +20,9 @@ const canEnrol = course.status === 'open' && course.price;
 
 <dialog class:list={['cd', canEnrol && 'cd--full']} data-course-dialog={course.slug} aria-labelledby={titleId}>
   <div class="cd__sheet">
-    <button class="cd__close" type="button" data-course-close>
-      <span>{ui.close}</span>
+    <!-- A cross only (client direction, 11 October 2026); the word is kept for screen readers -->
+    <button class="cd__close" type="button" data-course-close title={ui.close}>
+      <span class="visually-hidden">{ui.close}</span>
       <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
         <path d="M5 5.4c4.6 4.2 9 8.800 14 13.400M19 5c-4.400 4.800-9.200 9-13.800 14"></path>
       </svg>
@@ -211,9 +212,10 @@ const canEnrol = course.status === 'open' && course.price;
     z-index: 3;
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    min-height: 2.75rem;
-    padding: 0.4rem 1rem 0.45rem 1.15rem;
+    justify-content: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
     border: 1.5px solid color-mix(in srgb, var(--blue) 28%, transparent);
     border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
     background: var(--creme-light);

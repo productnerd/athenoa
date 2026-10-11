@@ -43,3 +43,13 @@
 - Rule: on this machine, do anything that is one component or a handful of edits myself, in the main thread, and show it at once. Keep helpers for work that is truly large and separate (a full translation, a new illustration set), give them a narrow brief, and say up front how long they may take. If one has not reported within about fifteen minutes on a small task, stop it and finish the job directly.
 - Also: an effect that animates over a blur or a drop-shadow is redrawn every frame. A glow under pulsing stars and a blurred mask under a breathing flame pushed the machine's load past 150 while the preview was open. Animate opacity or transform on a layer of its own, and draw glows and fades as gradients.
 
+## 2026-10-11: Measure what the page costs at rest; do not guess
+
+- What happened: the machine ran hot again with the preview open. I had blamed the star glow; the real cost was the wave drawings (SMIL path animation), which made the browser work on every frame even when far off screen. `document.getAnimations()` in the preview and `node scripts/perf.mjs` (main-thread seconds used over a four-second rest) showed it in two minutes.
+- Rule: after adding anything that loops, run `node scripts/perf.mjs` and compare with the still page. Anything that animates inside an SVG (SMIL, or CSS on an inner element) is main-thread work: run it only while it is on screen.
+
+## 2026-10-11: A descendant selector reaches into nested lists
+
+- What happened: `.header__links li:not(...) a` was meant for the menu links but also matched the links of the language list nested inside one of those items, so the list took the menu's large title type on phones.
+- Rule: when a list can contain another list, style its items with child combinators (`> li > a`).
+
