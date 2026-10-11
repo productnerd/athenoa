@@ -150,6 +150,52 @@ html.motion .drift {
   animation-delay: calc(var(--i, 0) * -1.7s);
 }
 
+/* ---------- Living paper: a barely visible grain that shifts behind the page ---------- */
+/* One oversized sheet of the paper grain sits behind all content and jumps to a new position about
+   eight times a second, like film grain. Only the bare page shows it; cut-outs and photographs lie on
+   top. It moves by transform alone, so it costs almost nothing, and it is off without motion. */
+@keyframes paper-grain {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  12.5% {
+    transform: translate3d(-3.1%, 2.3%, 0);
+  }
+  25% {
+    transform: translate3d(2.2%, -3.4%, 0);
+  }
+  37.5% {
+    transform: translate3d(-1.4%, -1.9%, 0);
+  }
+  50% {
+    transform: translate3d(3.3%, 1.2%, 0);
+  }
+  62.5% {
+    transform: translate3d(-2.6%, 3.1%, 0);
+  }
+  75% {
+    transform: translate3d(1.1%, 2.7%, 0);
+  }
+  87.5% {
+    transform: translate3d(-3.5%, -0.8%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+html.motion body::before {
+  content: '';
+  position: fixed;
+  inset: -12%;
+  z-index: -1;
+  pointer-events: none;
+  background-image: url('/textures/grain-dark.webp');
+  background-size: 400px 400px;
+  opacity: 0.45;
+  animation: paper-grain 1s steps(1, end) infinite;
+  will-change: transform;
+}
+
 /* ---------- Page transitions ---------- */
 @keyframes page-out {
   to {
