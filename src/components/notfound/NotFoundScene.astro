@@ -35,7 +35,7 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
 
 <section class="nf">
   <script is:inline data-astro-rerun define:vars={{ headings }}>
-    if (/^\/(el|grc)(\/|$)/.test(location.pathname)) {
+    if (/(^|\/)(el|grc)(\/|$)/.test(location.pathname)) {
       document.documentElement.setAttribute('data-nf-lang', 'el');
       document.title = document.title.replace(headings.en, headings.el);
     }

@@ -1,6 +1,7 @@
 ---
 // One page per course: the same content as the popup, laid out to be read (and crawled) in full.
 // The same file renders /courses/<slug>/, /el/courses/<slug>/ and /grc/courses/<slug>/: the copy follows the address.
+import { handCase } from '../../lib/hand';
 import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
 import CourseBody from '../../components/courses/CourseBody.astro';
@@ -65,7 +66,7 @@ const canEnrol = course.available && course.price;
                 <h2 class="reg__title t-2" id="registration-title">
                   {registrationTab.label}
                 </h2>
-                <p class="hand hand--m">{registrationTab.sublabel}</p>
+                <p class="hand hand--m">{handCase(registrationTab.sublabel)}</p>
               </hgroup>
               <div class="reg__body">
                 <div class="stack" data-reveal style="--i:1; --stack: var(--space-m)">

@@ -8,6 +8,7 @@
 // Nothing is sent anywhere yet: the form never leaves the browser (see REQUESTS CONNECT HERE).
 //
 // Without JavaScript only the first button shows. It is a real link, to the contact form.
+import { handCase } from '../../lib/hand';
 import Illustration from '../Illustration.astro';
 import SourceField from '../SourceField.astro';
 import { content } from '../../data';
@@ -53,7 +54,7 @@ const t = {
           <h3 class="enroll__ticket-title" id={`${id}-title`}>{ui.orderSummary}</h3>
           <p class="enroll__course" set:html={keepHyphens(course.title)} />
           <div class="enroll__stub">
-            {course.schedule && <p class="hand hand--m">{course.schedule}</p>}
+            {course.schedule && <p class="hand hand--m">{handCase(course.schedule)}</p>}
             {course.price && <p class="enroll__amount">{course.price.display}</p>}
           </div>
         </div>

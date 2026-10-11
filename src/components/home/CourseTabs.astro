@@ -2,6 +2,7 @@
 // Home: the full detail of the featured course as six tabs on a large light-blue sheet.
 // Without JavaScript the tab list stays hidden and the six panels read one after another under their headings.
 // Every word here comes from the data (tab labels included); the script adds none.
+import { handCase } from '../../lib/hand';
 import Illustration from '../Illustration.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
@@ -41,7 +42,7 @@ const tabs = [...course.sections, registrationTab];
                 tabindex={i === 0 ? 0 : -1}
               >
                 <span class="ctabs__label">{tab.label}</span>
-                <span class="ctabs__sub hand">{tab.sublabel}</span>
+                <span class="ctabs__sub hand">{handCase(tab.sublabel)}</span>
               </button>
             ))
           }
@@ -53,7 +54,7 @@ const tabs = [...course.sections, registrationTab];
               <div class:list={['ctabs__panel', i === 0 && 'is-active']} id={`course-panel-${section.id}`}>
                 <hgroup class="ctabs__heading">
                   <h3 class="t-3">{section.label}</h3>
-                  <p class="hand hand--m">{section.sublabel}</p>
+                  <p class="hand hand--m">{handCase(section.sublabel)}</p>
                 </hgroup>
                 <div class="prose" set:html={section.html} />
               </div>
@@ -63,7 +64,7 @@ const tabs = [...course.sections, registrationTab];
           <div class="ctabs__panel" id={`course-panel-${registrationTab.id}`}>
             <hgroup class="ctabs__heading">
               <h3 class="t-3">{registrationTab.label}</h3>
-              <p class="hand hand--m">{registrationTab.sublabel}</p>
+              <p class="hand hand--m">{handCase(registrationTab.sublabel)}</p>
             </hgroup>
             <div class="prose">
               <p>{course.registrationNote}</p>

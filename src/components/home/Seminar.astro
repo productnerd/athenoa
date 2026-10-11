@@ -3,6 +3,7 @@
 // Inside it the lyre stands before a dark disc with light radiating around it; the Orphic egg sits
 // on a light-blue pebble laid over the top edge, an olive branch slips out from underneath, and the
 // date note is written on the paper below. All three blues meet here.
+import { handCase } from '../../lib/hand';
 import Illustration from '../Illustration.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
@@ -36,7 +37,7 @@ const { kicker, title, open, note } = home.seminar;
 
     </div>
 
-    <p class="seminar__note hand hand--m" data-reveal>{note}</p>
+    <p class="seminar__note hand hand--m" data-reveal>{handCase(note)}</p>
   </div>
 </section>
 

@@ -3,6 +3,7 @@
 //   variant="dialog"  compact header, sections as an accordion (the registration notes are its last item)
 //   variant="page"    h1 header, sections written out under h2 headings
 // The fee and the enrol flow are placed by the caller (CoursePrice, EnrollFlow).
+import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import RegistrationInfo from './RegistrationInfo.astro';
@@ -60,7 +61,7 @@ const symbolFor = 'structure';
         isOpen ? (
           course.schedule && (
             <PaperNote class="body__note" data-reveal={page ? 'grow' : undefined} style="--delay:600ms">
-              {course.schedule}
+              {handCase(course.schedule)}
             </PaperNote>
           )
         ) : (
@@ -130,7 +131,7 @@ const symbolFor = 'structure';
                 <Label class="sec__title t-2" id={`${section.id}-title`}>
                   {section.label}
                 </Label>
-                <p class="hand hand--m">{section.sublabel}</p>
+                <p class="hand hand--m">{handCase(section.sublabel)}</p>
               </hgroup>
               <div class="prose" data-reveal style="--i:1" set:html={section.html} />
               {section.id === symbolFor && <Illustration name="monad" class="sec__mark" draw />}

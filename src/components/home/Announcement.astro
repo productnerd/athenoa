@@ -2,6 +2,7 @@
 // Home: Athena writes to her students. A letter on a sheet of paper, a dark-blue slip for the
 // newsletter laid over its corner, then the announced courses as course cards (the same cards as
 // on the courses page, so a course looks like a course wherever it appears).
+import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import CourseCard from '../courses/CourseCard.astro';
@@ -21,8 +22,8 @@ const announced = home.announcement.courses
   <div class="wrap">
     <div class="announcement__top">
       <div class="letter box box--offset" data-reveal>
-        <h2 class="hand hand--l" id="announcement-title">{greeting}</h2>
-        <p class="letter__text hand hand--l">{text}</p>
+        <h2 class="hand hand--l" id="announcement-title">{handCase(greeting)}</h2>
+        <p class="letter__text hand hand--l">{handCase(text)}</p>
       </div>
 
       <div class="slip box on-blue-deep" data-reveal data-depth="-0.04" style="--i:3">

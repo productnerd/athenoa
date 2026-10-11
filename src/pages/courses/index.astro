@@ -3,6 +3,7 @@
 // (CourseCard.astro). The course that is open comes first.
 // Each card links to its own page; with JavaScript the link opens the course popup instead.
 // The same file renders /courses/ and /el/courses/: the copy follows the address.
+import { handCase } from '../../lib/hand';
 import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
 import CourseCard from '../../components/courses/CourseCard.astro';
@@ -30,7 +31,7 @@ const others = courses.filter((course) => course !== lead);
         {/* The tetractys, the Pythagorean figure of the ten, on a light blue pebble */}
         <Illustration name="tetractys" class="courses__mark" draw />
         <p class="courses__line hand hand--l" data-reveal style="--delay:300ms">
-          {coursesPage.description}
+          {handCase(coursesPage.description)}
         </p>
       </header>
 

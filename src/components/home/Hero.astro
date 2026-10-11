@@ -70,11 +70,7 @@ const rowsOf = (text: string) => {
       <div class="hero__layer hero__layer--haze" data-depth="0.46" data-reveal="fade">
         {[0, 1, 2, 3, 4, 5, 6].map((n) => <Illustration name="hero-cloud-soft" class={`hero__haze hero__haze--${n + 1}`} />)}
       </div>
-      <div class="hero__layer hero__layer--clouds" data-depth="0.4" data-pointer="-5" data-reveal="fade">
-        <Illustration name="sea-cloud-1" />
-        <Illustration name="sea-cloud-2" />
-        <Illustration name="sea-cloud-3" />
-      </div>
+      {/* The drawn clouds are gone (client direction, 11 October 2026): only the loose streaks remain */}
       <div class="hero__layer"><span class="hero__meteor"></span></div>
       {/* Now and then two birds cross the sky */}
       <div class="hero__layer hero__layer--birds" data-depth="0.3">
@@ -392,8 +388,8 @@ const rowsOf = (text: string) => {
   }
 
   /* ---------- day and night ---------- */
-  /* By day the stars are out of sight and two clouds stand in the sky; the inside of the temple is
-     in shade. By night the clouds go.
+  /* By day the stars are out of sight and loose streaks of cloud cross the sky; the inside of the
+     temple is in shade. By night the streaks go.
      When the switch is pressed the page cross-fades (about 0.7s); over that, with motion on, the
      clouds drift off and the stars come out a moment after the sky has turned, the Milky Way
      last. Going back to day the stars go quickly and the clouds drift back in. */
@@ -406,11 +402,6 @@ const rowsOf = (text: string) => {
   :global(html[data-theme='dark']) .hero__layer--milky :global(.illo) {
     visibility: visible;
     opacity: 1;
-  }
-  :global(html[data-theme='dark']) .hero__layer--clouds :global(.illo) {
-    visibility: hidden;
-    opacity: 0;
-    translate: 4rem -0.75rem;
   }
   :global(html.motion) .hero__layer--sky :global(.illo),
   :global(html.motion) .hero__layer--milky :global(.illo) {
@@ -428,70 +419,6 @@ const rowsOf = (text: string) => {
       opacity 2s var(--ease-soft) 1s,
       visibility 0s;
   }
-  :global(html.motion) .hero__layer--clouds :global(.illo) {
-    transition:
-      opacity 1.2s var(--ease-soft) 0.5s,
-      translate 1.5s var(--ease-out) 0.4s,
-      visibility 0s;
-  }
-  :global(html.motion[data-theme='dark']) .hero__layer--clouds :global(.illo) {
-    transition:
-      opacity 0.7s var(--ease-soft),
-      translate 0.9s var(--ease-in-out),
-      visibility 0s linear 0.9s;
-  }
-  .hero__layer--clouds :global(.illo) {
-    --blue-light: var(--creme-light);
-    --paper: var(--creme-light);
-    width: calc(var(--u) * var(--w));
-    aspect-ratio: var(--ar);
-  }
-  /* Three drawn clouds on the picture's side. With motion on they drift slowly to the right: each
-     comes in over the middle of the sky, crosses the right half and leaves past the edge. */
-  .hero__layer--clouds :global(.illo--sea-cloud-1) {
-    --w: 260;
-    --ar: 330 / 112;
-    right: 9%;
-    top: 24%;
-  }
-  .hero__layer--clouds :global(.illo--sea-cloud-2) {
-    --w: 230;
-    --ar: 236 / 84;
-    right: 1.5%;
-    top: calc(var(--header-h) + 5%);
-  }
-  .hero__layer--clouds :global(.illo--sea-cloud-3) {
-    --w: 300;
-    --ar: 420 / 100;
-    right: -4%;
-    top: 46%;
-  }
-  @keyframes hero-drift {
-    0% {
-      transform: translate3d(-50vw, 0, 0);
-      opacity: 0;
-    }
-    9% {
-      opacity: 1;
-    }
-    100% {
-      transform: translate3d(34vw, 0, 0);
-      opacity: 1;
-    }
-  }
-  :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo) {
-    animation: hero-drift 165s linear -118s infinite;
-    will-change: transform;
-  }
-  :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo--sea-cloud-1) {
-    animation-duration: 205s;
-    animation-delay: -47s;
-  }
-  :global(html.motion:not([data-theme='dark'])) .hero__layer--clouds :global(.illo--sea-cloud-3) {
-    animation-duration: 140s;
-    animation-delay: -82s;
-  }
-
   /* The texture of the day sky (client direction): loose formations of cloud, long streaks with no
      outline (not cloud shapes, which read as childish), a shade lighter than the sky, crossing the
      whole of it very slowly. Only by day; at night the stars and
@@ -969,8 +896,7 @@ const rowsOf = (text: string) => {
       left: calc(var(--scene-x) + var(--u) * 333);
       right: auto;
     }
-    /* no room for drawn clouds or birds beside the title here (the soft ones stay) */
-    .hero__layer--clouds,
+    /* no room for the birds beside the title here */
     .hero__layer--birds {
       display: none !important;
     }
@@ -1038,8 +964,7 @@ const rowsOf = (text: string) => {
       left: calc(var(--scene-x) + var(--u) * 333);
       right: auto;
     }
-    /* the title has the whole sky: no room for drawn clouds or birds */
-    .hero--bare .hero__layer--clouds,
+    /* the title has the whole sky: no room for the birds */
     .hero--bare .hero__layer--birds {
       display: none !important;
     }
