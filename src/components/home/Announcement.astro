@@ -1,40 +1,20 @@
 ---
 // Home: Athena writes to her students. A letter on a sheet of paper, a dark-blue slip for the
-// newsletter laid over its corner, then three course pictures hung from one rail.
+// newsletter laid over its corner, then the announced courses as course cards (the same cards as
+// on the courses page, so a course looks like a course wherever it appears).
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
-import republic from '../../assets/media/course-platos-republic.jpg';
-import aurelius from '../../assets/media/course-marcus-aurelius.jpg';
-import plato from '../../assets/media/plato-statue.jpg';
+import CourseCard from '../courses/CourseCard.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
-const { home } = content(locale);
-const { greeting, text, newsletter, courses } = home.announcement;
-
-// Words this component adds itself: what each picture shows. Keyed by the image name used in the data.
-const t = {
-  en: {
-    'course-platos-republic': 'The Parthenon lit up under a starry night sky',
-    'course-marcus-aurelius':
-      'A temple front at night with a glowing tablet of Greek letters and a bronze statue of Marcus Aurelius raising his hand',
-    'plato-statue': 'Marble statue of Plato, seated, with a statue of Athena on a column behind',
-  },
-  el: {
-    'course-platos-republic': 'Ο Παρθενώνας φωτισμένος κάτω από έναν έναστρο νυχτερινό ουρανό',
-    'course-marcus-aurelius':
-      'Πρόσοψη ναού τη νύχτα, με μια φωτεινή πλάκα με ελληνικά γράμματα και ένα χάλκινο άγαλμα του Μάρκου Αυρηλίου με υψωμένο το χέρι',
-    'plato-statue': 'Μαρμάρινο άγαλμα του Πλάτωνα, καθιστού, με ένα άγαλμα της Αθηνάς πάνω σε κίονα στο βάθος',
-  },
-}[locale];
-
-// How each picture is cropped.
-const hang = {
-  'course-platos-republic': { src: republic, ratio: '4 / 5', focus: '52% 50%' },
-  'course-marcus-aurelius': { src: aurelius, ratio: '6 / 5', focus: '50% 50%' },
-  'plato-statue': { src: plato, ratio: '4 / 5', focus: '80% 50%' },
-};
+const { home, courses } = content(locale);
+const { greeting, text, newsletter } = home.announcement;
+// The announced courses, as their full course entries, so they are drawn as course cards.
+const announced = home.announcement.courses
+  .map((item) => courses.find((course) => course.slug === item.slug))
+  .filter((course) => course !== undefined);
 ---
 
 <section class="section announcement" aria-labelledby="announcement-title">
@@ -52,31 +32,13 @@ const hang = {
       </div>
     </div>
 
-    <ul class="tiles" role="list" data-depth="0.04">
+    <ul class="courses-row" role="list" data-reveal-group>
       {
-        courses.map((course, i) => {
-          const look = hang[course.image];
-          const Body = course.href ? 'a' : 'div';
-          return (
-            <li class:list={['tile', `tile--${i + 1}`]} style={`--i:${i}`}>
-              <Body class="tile__body" href={course.href}>
-                <Media
-                  class="tile__photo"
-                  src={look.src}
-                  alt={t[course.image]}
-                  shape="arch"
-                  ratio={look.ratio}
-                  focus={look.focus}
-                  widths={[360, 560, 800, 940]}
-                  sizes="(min-width: 56rem) 36vw, 88vw"
-                />
-                <h3 class="tile__title t-3" data-reveal>
-                  {course.title}
-                </h3>
-              </Body>
-            </li>
-          );
-        })
+        announced.map((course) => (
+          <li>
+            <CourseCard course={course} cut="arch" level={3} />
+          </li>
+        ))
       }
     </ul>
   </div>
@@ -130,104 +92,17 @@ const hang = {
     margin-bottom: var(--space-s);
   }
 
-  /* ---------- The course pictures ---------- */
-  .tiles {
-    --rail: 2.25rem;
-    position: relative;
+  /* ---------- The announced courses ---------- */
+  .courses-row {
     display: grid;
-    gap: calc(var(--space-l) + var(--rail));
-    margin-top: calc(var(--space-xl) + var(--rail));
+    gap: var(--space-xl) var(--space-l);
+    margin: var(--space-xl) 0 0;
+    padding: 0;
+    list-style: none;
   }
-  .tile {
-    --drop: 0rem;
-    position: relative;
-    margin-top: var(--drop);
-  }
-  /* The cord each picture hangs from: a hairline up to a small nail */
-  .tile::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 100%;
-    width: 1.5px;
-    height: calc(var(--rail) + var(--drop));
-    background: var(--line);
-  }
-  .tile::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + var(--rail) + var(--drop));
-    width: 0.5rem;
-    height: 0.45rem;
-    margin: 0 0 -0.2rem calc(-0.25rem + 0.75px);
-    background: var(--ink-strong);
-    border-radius: var(--r-pebble-1);
-  }
-  .tile__body {
-    display: block;
-    text-decoration: none;
-  }
-  .tile__title {
-    --delay: 320ms;
-    margin-top: 1.15rem;
-    font-size: calc(var(--step-2) * 0.78);
-    max-width: 26ch;
-  }
-  a.tile__body .tile__title {
-    text-decoration: underline;
-    text-decoration-color: var(--line);
-    text-decoration-thickness: 0.05em;
-    text-underline-offset: 0.16em;
-    transition: text-decoration-color var(--dur-1);
-  }
-  a.tile__body:hover .tile__title,
-  a.tile__body:focus-visible .tile__title {
-    text-decoration-color: currentColor;
-  }
-  a.tile__body :global(.media__clip picture) {
-    display: block;
-    transition: scale var(--dur-3) var(--ease-out);
-  }
-  a.tile__body:hover :global(.media__clip picture) {
-    scale: 1.045;
-  }
-  a.tile__body:focus-visible {
-    outline-offset: 0.6rem;
-    border-radius: var(--r-soft);
-  }
-
-  /* Small screens: one column. Left, full width, right. */
-  .tile--1,
-  .tile--3 {
-    width: 76%;
-  }
-  .tile--3 {
-    margin-left: auto;
-  }
-
-  /* Middle widths: two on the left, the wide one beside them on the right */
-  @media (min-width: 40rem) and (max-width: 55.99rem) {
-    .tiles {
-      grid-template-columns: 5fr 6fr;
-      column-gap: 7%;
-      align-items: start;
-    }
-    .tile--1 {
-      grid-column: 1;
-      grid-row: 1;
-      width: auto;
-    }
-    .tile--2 {
-      grid-column: 2;
-      grid-row: 1 / span 2;
-      align-self: center;
-    }
-    .tile--3 {
-      grid-column: 1;
-      grid-row: 2;
-      width: auto;
-      margin-left: 0;
+  @media (min-width: 44rem) {
+    .courses-row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 
@@ -267,31 +142,13 @@ const hang = {
       max-width: 24ch;
     }
 
-    /* Three pictures on one rail, evenly spaced, at slightly different heights */
-    .tiles {
-      --rail: 3rem;
-      grid-template-columns: 3fr 5fr 3fr;
-      column-gap: clamp(2.5rem, 7%, 6rem);
-      align-items: start;
-      row-gap: var(--space-l);
-      margin-top: calc(var(--space-xl) + var(--rail) + 1rem);
+    /* One even row: the three cards share a height */
+    .courses-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: stretch;
     }
-    .tiles::before {
-      content: '';
-      position: absolute;
-      inset: calc(var(--rail) * -1) 0 auto;
-      height: 1.5px;
-      background: var(--line);
-      border-radius: 2px;
-    }
-    .tile--1 {
-      --drop: 2.25rem;
-      width: auto;
-    }
-    .tile--3 {
-      --drop: 3.75rem;
-      width: auto;
-      margin-left: 0;
+    .courses-row > li {
+      display: grid;
     }
   }
 </style>

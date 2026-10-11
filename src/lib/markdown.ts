@@ -160,7 +160,12 @@ const build = (locale: Locale) => {
       '---',
       inline(announcement.greeting),
       inline(announcement.text),
-      list(announcement.courses.map((item) => (item.href ? link(item.title, item.href) : inline(item.title)))),
+      list(
+        announcement.courses
+          .map((item) => courses.find((course) => course.slug === item.slug))
+          .filter((course) => course !== undefined)
+          .map((course) => link(course.title, coursePageHref(course.slug))),
+      ),
       inline(announcement.newsletter.text),
       link(announcement.newsletter.cta.label, announcement.newsletter.cta.href),
 

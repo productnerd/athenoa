@@ -1,4 +1,5 @@
-// Course catalogue. Three sample courses for the redesign.
+// Course catalogue. Four courses for the redesign: one with full copy, three named on the live
+// home page with titles only.
 //
 // "The Hidden Non-Duality of Ancient Greek Philosophy" carries the full copy from the live home page.
 // The other two exist on the live site as titles only, so they are marked status: 'placeholder'
@@ -148,6 +149,16 @@ export const courses: Course[] = [
     image: 'course-marcus-aurelius',
     imageAlt:
       'Course artwork: a bronze figure of Marcus Aurelius before a lit temple at night, lettered in Greek ΜΥΗΣΗ ΣΤΟΝ ΚΟΣΜΟ ΤΩΝ ΑΡΕΤΩΝ ΣΕ ΘΕΩΡΙΑ & ΠΡΑΞΗ',
+    instructor: 'Dr. Athena Despoina Potari',
+    sections: [],
+    stripePaymentLink: '',
+  },
+  {
+    slug: 'plato-cratylus-platonic-virtues',
+    title: 'Plato, Cratylus - Platonic Virtues - Introduction to Greek Theology',
+    status: 'placeholder',
+    image: 'plato-statue',
+    imageAlt: 'Marble statue of Plato, seated, with a statue of Athena on a column behind',
     instructor: 'Dr. Athena Despoina Potari',
     sections: [],
     stripePaymentLink: '',

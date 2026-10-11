@@ -1,5 +1,6 @@
 ---
-// One course on the courses page. Three cuts, one for each ground the page uses:
+// One course, drawn the same way wherever a course appears (the courses page and the home page).
+// Three cuts, one for each ground:
 //   lead   a large Greek blue cut-out, the artwork breaking out of its top edge
 //   arch   an arch cut from light blue, the picture set into it like a window
 //   paper  the picture straight on the page with a darker blue pebble behind it, the words on a paper label over its corner
@@ -17,8 +18,11 @@ import { keepHyphens } from './text';
 interface Props {
   course: Course;
   cut: 'lead' | 'arch' | 'paper';
+  /** Heading level of the title: 2 on the courses page, 3 where the card sits under a section heading. */
+  level?: 2 | 3;
 }
-const { course, cut } = Astro.props;
+const { course, cut, level = 2 } = Astro.props;
+const Title = level === 3 ? 'h3' : 'h2';
 const { coursesPage, coursePageHref } = content(getLocale(Astro.url));
 const { ui } = coursesPage;
 const image = courseImage(course.image);
@@ -70,7 +74,7 @@ const lead = cut === 'lead';
   </div>
 
   <div class:list={['card__text', cut === 'paper' && 'box box--offset']} data-reveal-group>
-    <h2 class:list={['card__title', lead ? 't-2' : 't-3']} id={titleId} set:html={keepHyphens(course.title)} />
+    <Title class:list={['card__title', lead ? 't-2' : 't-3']} id={titleId} set:html={keepHyphens(course.title)} />
     {course.summary && <p class="card__summary">{course.summary}</p>}
     {
       (course.schedule || course.price) && (

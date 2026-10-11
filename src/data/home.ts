@@ -44,19 +44,11 @@ export const home = {
       text: 'Be the first to know about our news, articles and upcoming activities',
       cta: { label: 'Subscribe to our Newsletter', href: '#newsletter' },
     },
-    // The three course titles shown as image tiles. The first two have sample course pages.
+    // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
     courses: [
-      { title: "Plato's Republic", image: 'course-platos-republic', href: courseHref('platos-republic') },
-      {
-        title: 'Marcus Aurelius - The Self',
-        image: 'course-marcus-aurelius',
-        href: courseHref('marcus-aurelius-the-self'),
-      },
-      {
-        title: 'Plato, Cratylus - Platonic Virtues - Introduction to Greek Theology',
-        image: 'plato-statue',
-        href: undefined,
-      },
+      { slug: 'platos-republic' },
+      { slug: 'marcus-aurelius-the-self' },
+      { slug: 'plato-cratylus-platonic-virtues' },
     ],
   },
 

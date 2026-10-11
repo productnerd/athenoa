@@ -119,6 +119,16 @@ export const courses: Course[] = [
     sections: [],
     stripePaymentLink: '',
   },
+  {
+    slug: 'plato-cratylus-platonic-virtues',
+    title: 'Πλάτωνος Κρατύλος - Πλατωνικές Αρετές - Εισαγωγή στην Ελληνική Θεολογία',
+    status: 'placeholder',
+    image: 'plato-statue',
+    imageAlt: 'Μαρμάρινο άγαλμα του Πλάτωνα, καθιστού, με ένα άγαλμα της Αθηνάς πάνω σε κίονα στο βάθος',
+    instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
+    sections: [],
+    stripePaymentLink: '',
+  },
 ];
 
 export const registrationTab = {

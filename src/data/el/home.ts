@@ -45,19 +45,11 @@ export const home = {
       text: 'Ενημερωθείτε πρώτοι για τα νέα, τα άρθρα και τις προσεχείς δραστηριότητές μας',
       cta: { label: 'Εγγραφείτε στο Ενημερωτικό μας Δελτίο', href: '#newsletter' },
     },
-    // The three course titles shown as image tiles. The first two have sample course pages.
+    // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
     courses: [
-      { title: 'Πλάτωνος Πολιτεία', image: 'course-platos-republic', href: courseHref('platos-republic') },
-      {
-        title: 'Μάρκος Αυρήλιος - Ο Εαυτός',
-        image: 'course-marcus-aurelius',
-        href: courseHref('marcus-aurelius-the-self'),
-      },
-      {
-        title: 'Πλάτωνος Κρατύλος - Πλατωνικές Αρετές - Εισαγωγή στην Ελληνική Θεολογία',
-        image: 'plato-statue',
-        href: undefined,
-      },
+      { slug: 'platos-republic' },
+      { slug: 'marcus-aurelius-the-self' },
+      { slug: 'plato-cratylus-platonic-virtues' },
     ],
   },
 

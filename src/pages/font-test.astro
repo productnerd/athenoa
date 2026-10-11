@@ -60,6 +60,60 @@ const voices = [
   },
 ];
 
+// A wider set of handwriting to choose from. Most come from Google Fonts and are loaded for this page
+// only; a few are fonts already installed on this computer. Very few handwriting fonts cover Greek.
+const hands = [
+  { group: 'Natural pen handwriting', fonts: [
+    { name: 'Homemade Apple', greek: false },
+    { name: 'Nothing You Could Do', greek: false },
+    { name: 'La Belle Aurore', greek: false },
+    { name: 'Cedarville Cursive', greek: false },
+    { name: 'Zeyada', greek: false, scale: 1.25 },
+    { name: 'Dawning of a New Day', greek: false, scale: 1.15 },
+    { name: 'Over the Rainbow', greek: false },
+  ] },
+  { group: 'Elegant script', fonts: [
+    { name: 'Pinyon Script', greek: false, scale: 1.15 },
+    { name: 'Italianno', greek: false, scale: 1.4 },
+    { name: 'Petit Formal Script', greek: false, scale: 0.9 },
+    { name: 'Mrs Saint Delafield', greek: false, scale: 1.4 },
+    { name: 'Monsieur La Doulaise', greek: false, scale: 1.3 },
+    { name: 'Tangerine', greek: false, scale: 1.5 },
+    { name: 'Allura', greek: false, scale: 1.2 },
+    { name: 'Parisienne', greek: false, scale: 1.1 },
+  ] },
+  { group: 'Loose and modern', fonts: [
+    { name: 'Caveat', greek: false, scale: 1.25 },
+    { name: 'Reenie Beanie', greek: false, scale: 1.35 },
+    { name: 'Shadows Into Light', greek: false },
+    { name: 'Covered By Your Grace', greek: false, scale: 1.15 },
+  ] },
+  { group: 'Handwriting that covers Greek', fonts: [
+    { name: 'Mynerve', greek: true },
+    { name: 'Playpen Sans', greek: true, scale: 0.9 },
+    { name: 'Bradley Hand', greek: true, local: true },
+    { name: 'Noteworthy', greek: true, local: true, scale: 0.95 },
+    { name: 'SignPainter', greek: true, local: true, scale: 1.2 },
+    { name: 'Trattatello', greek: true, local: true },
+    { name: 'Snell Roundhand', greek: true, local: true, scale: 1.15 },
+    { name: 'Savoye LET', greek: true, local: true, scale: 1.45 },
+  ] },
+  { group: 'Already installed on this computer (English only)', fonts: [
+    { name: 'Alex Brush', greek: false, local: true, scale: 1.2 },
+    { name: 'Fonseca Script', greek: false, local: true },
+    { name: 'Heliuk Script', greek: false, local: true },
+    { name: 'Lovelace Script Trial', greek: false, local: true },
+    { name: 'Gunsan Script', greek: false, local: true },
+    { name: 'Kaushan Script', greek: false, local: true },
+  ] },
+];
+const webFamilies = hands
+  .flatMap((group) => group.fonts)
+  .filter((font) => !font.local)
+  .map((font) => `family=${font.name.replace(/ /g, '+')}`)
+  .join('&');
+const webFontsUrl = `https://fonts.googleapis.com/css2?${webFamilies}&display=swap`;
+
 const sample = {
   en: {
     lang: 'en',
@@ -92,7 +146,7 @@ const sample = {
   <section class="section wrap intro">
     <h1 class="t-1">Type test</h1>
     <p class="lead">
-      The type in use and its alternatives for titles and reading, then six options for the handwritten voice, each in English and Greek.
+      The type in use and its alternatives for titles and reading, then the handwritten voice: six first options and a wider gallery of thirty more.
     </p>
   </section>
 
@@ -169,6 +223,46 @@ const sample = {
       }
     </div>
   </section>
+  <section class="wrap set">
+    <link rel="stylesheet" href={webFontsUrl} />
+    <header class="set__head">
+      <h2 class="t-2">More handwriting</h2>
+      <p class="set__note">
+        A wider set to react to. Where a font has no Greek, only the English line is shown: on the Greek pages a
+        second, Greek-capable hand would stand in for it. "On this computer" means the font is installed here and
+        would need a web licence before launch.
+      </p>
+    </header>
+    {
+      hands.map((group) => (
+        <div class="hands">
+          <h3 class="hands__group">{group.group}</h3>
+          <ul class="hands__list" role="list">
+            {group.fonts.map((font) => (
+              <li class="hand-card">
+                <p class="set__lang">
+                  {font.name}
+                  {font.local ? ' · on this computer' : ''}
+                  {font.greek ? ' · covers Greek' : ' · no Greek'}
+                </p>
+                <p class="hand-card__line" style={`font-family:'${font.name}',cursive;--k:${font.scale ?? 1}`}>
+                  {sample.en.voice}
+                </p>
+                <p class="hand-card__small" style={`font-family:'${font.name}',cursive;--k:${font.scale ?? 1}`}>
+                  & remember who you really are
+                </p>
+                {font.greek && (
+                  <p class="hand-card__line" lang="el" style={`font-family:'${font.name}',cursive;--k:${font.scale ?? 1}`}>
+                    {sample.el.voice}
+                  </p>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </section>
 </Base>
 
 <style>
@@ -226,6 +320,44 @@ const sample = {
     font-size: var(--step-1);
     line-height: 1.25;
     color: var(--blue);
+  }
+  .hands + .hands {
+    margin-top: var(--space-l);
+  }
+  .hands__group {
+    font-family: system-ui, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: var(--space-s);
+  }
+  .hands__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 27rem), 1fr));
+    gap: var(--space-m) var(--space-l);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .hand-card {
+    padding-top: 0.9rem;
+    border-top: 1.5px solid var(--line);
+  }
+  .hand-card__line {
+    margin-top: 0.35rem;
+    font-size: calc(1.9rem * var(--k, 1));
+    line-height: 1.25;
+    color: var(--blue);
+  }
+  .hand-card__small {
+    margin-top: 0.2rem;
+    font-size: calc(1.35rem * var(--k, 1));
+    line-height: 1.3;
+    color: var(--sub-ink);
+  }
+  .hand-card__line > *,
+  .hand-card__small > * {
+    font-size: inherit;
   }
   @media (max-width: 56rem) {
     .set__cols {
