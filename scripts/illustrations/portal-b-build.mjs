@@ -168,12 +168,11 @@ function temple() {
     const vr = 12;
     const left = spiral([ax - 26, vy], vr, -90, 1.7, -1, 1.6);
     const right = spiral([ax + 26, vy], vr, -90, 1.7, 1, 1.6);
-    out.push(
-      wash(
-        `${circle([ax - 26, vy], vr)}${circle([ax + 26, vy], vr)}${rect(ax - 26, T.capital, ax + 26, T.shaft + 1)}`,
-        STONE,
-      ),
-    );
+    // (three separate washes: drawn as one path, the discs and the block wind opposite ways and
+    // cancel where they overlap, which left a dark half disc inside every volute)
+    out.push(wash(circle([ax - 26, vy], vr), STONE));
+    out.push(wash(circle([ax + 26, vy], vr), STONE));
+    out.push(wash(rect(ax - 26, T.capital, ax + 26, T.shaft + 1), STONE));
     out.push(path(`${spline([...left].reverse())}L${pt(right[0])}${curve(right)}`));
     // echinus between the volutes, and the necking
     out.push(path(`M${num(ax - 13.5)} ${num(vy + 1)}Q${num(ax)} ${num(vy + 9)} ${num(ax + 13.5)} ${num(vy + 1)}`));

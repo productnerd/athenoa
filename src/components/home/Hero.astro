@@ -176,11 +176,11 @@ const rowsOf = (text: string) => {
      to hold the two highlighted words, which stand beside the roof; the second row is longer,
      but it stands high in the open sky above the temple, so it may run past the column. */
   .hero--el {
-    --hero-fit: 6.65;
+    --hero-fit: 6.85;
     --hero-rows: 4;
   }
   .hero--grc {
-    --hero-fit: 7.3;
+    --hero-fit: 7.5;
     --hero-rows: 4;
   }
 
@@ -231,8 +231,10 @@ const rowsOf = (text: string) => {
     font-size: var(--hero-fs);
     text-wrap: wrap;
   }
+  /* The highlighted words are set heavier than the rest of the title (client direction) */
   .hero__title .hl__w {
     isolation: auto;
+    font-weight: 500;
   }
   .hero__line,
   .hero__row {

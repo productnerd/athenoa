@@ -205,6 +205,9 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [ ] BEFORE LAUNCH: Victor Narrow needs a web licence and has no Greek (Greek pages stay in EB Garamond)
 - [x] Hero highlight lies behind all the title's words
 - [x] About title: "About" sits close above the name
+- [x] Temple columns: the dark half discs inside the capitals' scrolls are gone (the discs and the block were one path and cancelled where they overlapped)
+- [x] PLATONIC ACADEMY set heavier (Medium) than the rest of the hero title
+- [x] Footer: "Connect with us" sits on the right beside "Follow us"; the name keeps the left
 
 ## Open questions
 
