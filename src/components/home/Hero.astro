@@ -68,7 +68,6 @@ const rowsOf = (text: string) => {
         )
       }
       <div class="hero__layer hero__layer--temple hero__scene" data-depth="0.12" data-reveal="fade">
-        <Illustration name="portal-b-hill" draw />
         <Illustration name="portal-b-cella" />
         <Illustration name="portal-b-light" />
         <Illustration name="portal-b-temple" draw />
@@ -188,7 +187,7 @@ const rowsOf = (text: string) => {
     flex-direction: column;
     justify-content: center;
     min-height: var(--panel-h);
-    padding: calc(var(--header-h) + 0.5rem) var(--hero-pad) calc(var(--scene-b) + var(--u) * 30);
+    padding: calc(var(--header-h) + 0.5rem) var(--hero-pad) calc(var(--scene-b) + var(--u) * 62);
   }
   /* Night: the darker blue ground, stone in Greek blue, light in light blue, crème line. */
   :global(html[data-theme='dark']) .hero__panel {
@@ -288,19 +287,21 @@ const rowsOf = (text: string) => {
     display: none;
   }
   .hero__layer--trees-l :global(.illo) {
-    bottom: calc(var(--scene-b) - var(--u) * 20);
+    bottom: calc(var(--scene-b) + var(--u) * 6);
     width: calc(var(--u) * 620);
     height: calc(var(--u) * 360);
   }
   .hero__layer--trees-r :global(.illo) {
     right: calc(var(--u) * -44);
-    bottom: calc(var(--scene-b) - var(--u) * 20);
+    bottom: calc(var(--scene-b) + var(--u) * 6);
     width: calc(var(--u) * 320);
     height: calc(var(--u) * 430);
   }
+  /* One ground line from edge to edge (client direction): it runs at the foot of the temple's
+     lowest step, 54 units above the bottom of the frame (the line is 94 units up in its own box). */
   .hero__layer--ground :global(.illo) {
     left: 50%;
-    bottom: calc(var(--scene-b) - var(--u) * 66);
+    bottom: calc(var(--scene-b) - var(--u) * 40);
     width: calc(var(--u) * 3200);
     height: calc(var(--u) * 140);
     translate: -50% 0;
@@ -316,7 +317,7 @@ const rowsOf = (text: string) => {
 
   /* ---------- day and night ---------- */
   /* By day the stars are out of sight and two clouds stand in the sky; the inside of the temple is
-     in shade, the hill is bare earth. By night the clouds go.
+     in shade. By night the clouds go.
      When the switch is pressed the page cross-fades (about 0.7s); over that, with motion on, the
      clouds drift off and the stars come out a moment after the sky has turned, the Milky Way
      last. Going back to day the stars go quickly and the clouds drift back in. */
@@ -395,14 +396,8 @@ const rowsOf = (text: string) => {
   :global(html[data-theme='dark']) .hero__stage :global(.pb-beams) {
     --pb-light: var(--blue-light);
   }
-  .hero__stage :global(.illo--portal-b-hill) {
-    --pb-stone: var(--creme);
-  }
   :global(html[data-theme='dark']) .hero__stage :global(.illo--portal-b-cella) {
     --pb-night: var(--blue-deep);
-  }
-  :global(html[data-theme='dark']) .hero__stage :global(.illo--portal-b-hill) {
-    --pb-stone: var(--blue);
   }
 
   /* The drawings carry their stroke in their own units, so the line thins as the picture shrinks.

@@ -270,19 +270,38 @@ const reach = (deg) => {
 function light() {
   const out = [];
   // Fine rays fanning out from the flame. They show between the columns, pass behind the stone,
-  // and run on a little way past the building into the open (client direction, 11 October 2026):
-  // the wide rays further than the fine ones.
+  // and run on a little way past the building into the open, where they fade away instead of
+  // ending (client direction, 11 October 2026).
   let rays = '';
   for (let k = 0; k < 13; k++) {
     const a = 3.5 + k * 4.9 + (k % 3) * 0.5;
     const w = k % 2 ? 0.8 : 1.5;
     for (const side of [-1, 1]) {
       const deg = side < 0 ? 180 + a : 360 - a;
-      const far = reach(deg) + (k % 2 ? 34 : 58);
+      const far = reach(deg) + 66;
       rays += `M${pt(polar(FLAME, 40, deg))}L${pt(polar(FLAME, far, deg - w / 2))}L${pt(polar(FLAME, far, deg + w / 2))}Z`;
     }
   }
-  out.push(`<g class="pb-beams">${wash(rays, LIGHT)}</g>`);
+  // The fade: a mask in the shape of the building, a little larger and with a soft edge, so each
+  // ray is whole where it leaves the stone and gone some fifty units further out. The mask sits on
+  // an outer group, so it keeps still while the rays grow out of the doorway.
+  const m = 14;
+  const soft = [
+    [ENT.l - m, 1000],
+    [ENT.l - m, T.frieze],
+    [PED.l - m, T.cornice - m / 2],
+    [CX, T.apex - m],
+    [PED.r + m, T.cornice - m / 2],
+    [ENT.r + m, T.frieze],
+    [ENT.r + m, 1000],
+  ];
+  out.push(
+    `<filter id="pb-soft" filterUnits="userSpaceOnUse" x="0" y="250" width="1000" height="750"><feGaussianBlur stdDeviation="19"/></filter>`,
+  );
+  out.push(
+    `<mask id="pb-fade" maskUnits="userSpaceOnUse" x="0" y="250" width="1000" height="750"><path d="${poly(soft, true)}" fill="#fff" stroke="none" filter="url(#pb-soft)"/></mask>`,
+  );
+  out.push(`<g mask="url(#pb-fade)"><g class="pb-beams">${wash(rays, LIGHT)}</g></g>`);
   // the doorway itself: an arch of light between the two middle columns
   out.push(wash(`M444 ${T.stylobate + 10}L444 718A56 56 0 0 1 556 718L556 ${T.stylobate + 10}Z`, LIGHT, ' class="pb-door"'));
   save('light', svg(1000, 1000, out.join('')));
@@ -916,24 +935,18 @@ function trees() {
 }
 
 function ground() {
+  // CLIENT DIRECTION, 11 October 2026: one line, end to end, and nothing else (no furrows, no
+  // contour lines). It is nearly level, with only the waver of a line drawn by hand, because the
+  // temple stands on it: the page places it at the height of the lowest step (y 946 in the scene).
   const W = 3200;
   const rand = rng(17);
   const top = [];
-  for (let x = -40; x <= W + 40; x += 160) top.push([x, 46 + Math.sin(x / 310) * 9 + (rand() - 0.5) * 6]);
+  for (let x = -40; x <= W + 40; x += 160) top.push([x, 46 + Math.sin(x / 420) * 2.2 + (rand() - 0.5) * 1.6]);
   const out = [];
   // The wash below the line has no outline and runs far down: the picture fades into the page
-  // below the first screen, so nothing may end there with an edge (the foot of the hill behind
-  // it must stay covered all the way). Only the ground line itself is drawn.
+  // below the first screen, so nothing may end there with an edge. Only the ground line is drawn.
   out.push(`<path d="M${pt(top[0])}${curve(top)}L${W + 40} 2000L-40 2000Z" fill="var(--pb-night, #071260)" stroke="none"/>`);
   out.push(path(`M${pt(top[0])}${curve(top)}`));
-  // a second line under the first, broken, like a furrow
-  let furrow = '';
-  for (let x = 60; x < W; x += 380 + rand() * 120) {
-    const len = 150 + rand() * 120;
-    const y = 70 + Math.sin(x / 310) * 7 + rand() * 8;
-    furrow += `M${num(x)} ${num(y)}Q${num(x + len / 2)} ${num(y - 7)} ${num(x + len)} ${num(y + 1)}`;
-  }
-  out.push(path(furrow));
   save('ground', svg(W, 140, out.join('')));
 }
 
