@@ -333,8 +333,10 @@ const custom = Object.entries(images).find(([file]) =>
   }
 
   @media (max-width: 60rem) {
+    /* the name sits close above the two headings */
     .footer__grid {
       grid-template-columns: 1fr 1fr;
+      row-gap: var(--space-s);
     }
     .footer__brand {
       grid-column: 1 / -1;
@@ -343,6 +345,7 @@ const custom = Object.entries(images).find(([file]) =>
   @media (max-width: 34rem) {
     .footer__grid {
       grid-template-columns: 1fr;
+      row-gap: var(--space-m);
     }
   }
 </style>
