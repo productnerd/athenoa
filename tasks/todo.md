@@ -238,7 +238,9 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Day/night button moved out of the header: it floats beside the mute button in the lower left corner
 - [x] Greek footer headings: more room before their lists
 - [x] PUBLISHED as a preview on GitHub Pages (repo made public at her choice, 11 October 2026). The preview build is adapted to the /athenoa path and marked noindex by scripts/pages-preview.mjs; the source stays built for the root of its own domain.
-- [ ] What Athena will NOT see on the preview: Victor Narrow, Tekst and Lolotte (trial fonts on Maria's Mac, not shipped: she sees EB Garamond instead), the background music (file kept out of the repo until its licence is confirmed) and with it the fire sound, which follows the music
+- [x] Visitors without Victor Narrow see a free narrow stand-in for titles (Noto Serif Display, extra condensed, shipped), not Garamond. Victor Narrow itself cannot be published: it is a trial font.
+- [x] Footer on tablets and phones: the name sits closer above the two headings
+- [ ] What Athena will NOT see on the preview: Victor Narrow (she sees the stand-in), Tekst and Lolotte (trial fonts on Maria's Mac, not shipped: EB Garamond and Bradley Hand instead), the background music (file kept out of the repo until its licence is confirmed) and with it the fire sound, which follows the music
 
 ## Open questions
 

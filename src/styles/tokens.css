@@ -177,6 +177,20 @@ html[lang='grc'] {
   --font-hand: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
 }
 
+/* Titles for visitors without Victor Narrow (everyone but the designer, until it is licensed): the
+   free narrow stand-in declared in fonts.css. Light at the largest sizes, a step heavier below, as
+   with Victor Narrow. English pages only; Greek pages keep EB Garamond. */
+html:not([data-type]):not([lang='el'], [lang='grc']) {
+  --font-title: 'ATH Narrow', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --title-weight-hero: 300;
+  --title-weight-xl: 300;
+  --title-weight: 400;
+  --title-weight-s: 500;
+  --title-tracking: 0;
+  /* its capitals run about 0.85 of PP Editorial New's; a little is added so lines break where they should */
+  --type-wide: 0.9;
+}
+
 /* Titles in Victor Narrow, where the font is installed (the script in Base.astro sets data-type; see
    the note in fonts.css). The weights are played against size, as the client asked: the hero a notch
    above thin, and each smaller title a notch heavier again, because a narrow face thins out as it
