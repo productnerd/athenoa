@@ -102,42 +102,6 @@ const { ui } = content(locale);
           var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           root.classList.toggle('motion', !reduce && !query.has('nomotion'));
           theme();
-          face();
-        }
-        // Titles are set in Victor Narrow where that font is installed (for now a trial copy on
-        // the designer's Mac; see fonts.css). Where it is not, the page keeps its other title face
-        // and that face's measures. The answer is remembered, so only the very first page a
-        // browser opens can show the other face for a moment.
-        function face() {
-          var root = document.documentElement;
-          var set = function (found) {
-            if (found) root.dataset.type = 'victor-narrow';
-            else delete root.dataset.type;
-          };
-          try {
-            set(localStorage.getItem('ath-victor') === '1');
-          } catch (e) {}
-          if (!document.fonts || !document.fonts.load) return;
-          var settle = function (found) {
-            try {
-              if (found) localStorage.setItem('ath-victor', '1');
-              else localStorage.removeItem('ath-victor');
-            } catch (e) {}
-            set(found);
-          };
-          // (asked once the page's styles are in: before that the face is not declared yet)
-          var ask = function () {
-            document.fonts.load("300 1em 'ATH Victor Narrow'").then(
-              function (faces) {
-                settle(faces.length > 0);
-              },
-              function () {
-                settle(false);
-              },
-            );
-          };
-          if (document.readyState === 'complete') ask();
-          else window.addEventListener('load', ask, { once: true });
         }
         apply();
         document.addEventListener('astro:after-swap', apply);

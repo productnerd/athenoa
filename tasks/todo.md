@@ -202,7 +202,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Popups: close buttons are a cross only (course popup and newsletter; the waitlist already was)
 - [x] Wave drawings only animate while on screen (they were costing the browser work constantly, the cause of the machine running hot with the preview open)
 - [x] Title face: she chose Victor Narrow. Toggle and Victor Serif removed. Weights by size: hero and largest titles Light, .t-2 Regular, .t-3 Medium. Applied only where the font is installed (detected in Base.astro), otherwise Editorial New as before.
-- [ ] BEFORE LAUNCH: Victor Narrow needs a web licence and has no Greek (Greek pages stay in EB Garamond)
+- [ ] BEFORE LAUNCH: PP Editorial New needs a web licence and has no Greek (Greek pages stay in EB Garamond)
 - [x] Hero highlight lies behind all the title's words
 - [x] About title: "About" sits close above the name
 - [x] Temple columns: the dark half discs inside the capitals' scrolls are gone (the discs and the block were one path and cancelled where they overlapped)
@@ -238,9 +238,9 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Day/night button moved out of the header: it floats beside the mute button in the lower left corner
 - [x] Greek footer headings: more room before their lists
 - [x] PUBLISHED as a preview on GitHub Pages (repo made public at her choice, 11 October 2026). The preview build is adapted to the /athenoa path and marked noindex by scripts/pages-preview.mjs; the source stays built for the root of its own domain.
-- [x] Visitors without Victor Narrow see a free narrow stand-in for titles (Noto Serif Display, extra condensed, shipped), not Garamond. Victor Narrow itself cannot be published: it is a trial font.
+- [x] Title face is PP Editorial New again (Victor Narrow dropped at her word, 11 October 2026). Visitors without Editorial New see a free stand-in for English titles (Noto Serif Display at 75% width, shipped), not Garamond.
 - [x] Footer on tablets and phones: the name sits closer above the two headings
-- [ ] What Athena will NOT see on the preview: Victor Narrow (she sees the stand-in), Tekst and Lolotte (trial fonts on Maria's Mac, not shipped: EB Garamond and Bradley Hand instead), the background music (file kept out of the repo until its licence is confirmed) and with it the fire sound, which follows the music
+- [ ] What Athena will NOT see on the preview: PP Editorial New (she sees the stand-in), Tekst and Lolotte (trial fonts on Maria's Mac, not shipped: EB Garamond and Bradley Hand instead), the background music (file kept out of the repo until its licence is confirmed) and with it the fire sound, which follows the music
 
 ## Open questions
 

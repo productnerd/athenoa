@@ -184,7 +184,7 @@ const rowsOf = (text: string) => {
        height allows (--hero-rows rows at the title's leading, plus the subtitle). */
     --hero-col: calc(var(--panel-w) - var(--scene-m) - var(--scene-h) * 0.93 - var(--hero-pad));
     --hero-fit: 5.3;
-    /* the same, for the title face in use (--type-wide: its width beside PP Editorial New's) */
+    /* the same, scaled for a title face of another width (--type-wide; 1 for PP Editorial New) */
     --hero-fitw: calc(var(--hero-fit) * var(--type-wide, 1));
     --hero-rows: 5;
     /* air between the header and the title: the title starts high, under the header */

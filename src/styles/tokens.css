@@ -33,7 +33,7 @@
      for now (the installed cuts are trial or separately licensed and may not be shipped); anyone
      without them, and any glyph they lack (Greek in Editorial New, accented Greek and some
      punctuation in the Tekst trial), falls back to EB Garamond, which is shipped. */
-  --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
+  --font-title: 'ATH Editorial', 'ATH Display', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   --font-body: 'ATH Tekst', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   /* The personal voice: greetings, asides, maxims. Handwritten: La Belle Aurore for English and
      Bradley Hand for Greek (see fonts.css), with a calligraphic italic behind them. */
@@ -175,35 +175,6 @@ html[lang='el'] {
    set in the italic of the reading face, so no word is pieced together from two hands. */
 html[lang='grc'] {
   --font-hand: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
-}
-
-/* Titles for visitors without Victor Narrow (everyone but the designer, until it is licensed): the
-   free narrow stand-in declared in fonts.css. Light at the largest sizes, a step heavier below, as
-   with Victor Narrow. English pages only; Greek pages keep EB Garamond. */
-html:not([data-type]):not([lang='el'], [lang='grc']) {
-  --font-title: 'ATH Narrow', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  --title-weight-hero: 300;
-  --title-weight-xl: 300;
-  --title-weight: 400;
-  --title-weight-s: 500;
-  --title-tracking: 0;
-  /* its capitals run about 0.85 of PP Editorial New's; a little is added so lines break where they should */
-  --type-wide: 0.9;
-}
-
-/* Titles in Victor Narrow, where the font is installed (the script in Base.astro sets data-type; see
-   the note in fonts.css). The weights are played against size, as the client asked: the hero a notch
-   above thin, and each smaller title a notch heavier again, because a narrow face thins out as it
-   shrinks. --type-wide says how wide its capitals run beside PP Editorial New's, for the hero's
-   sizing. It has no Greek, so Greek pages are left as they are. */
-html[data-type='victor-narrow']:not([lang='el'], [lang='grc']) {
-  --font-title: 'ATH Victor Narrow', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  --title-weight-hero: 300;
-  --title-weight-xl: 300;
-  --title-weight: 400;
-  --title-weight-s: 500;
-  --title-tracking: -0.006em;
-  --type-wide: 0.75;
 }
 
 /* Alternates, used only by the /font-test page (a data-fonts attribute on a wrapper). */
