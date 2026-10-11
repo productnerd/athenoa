@@ -18,7 +18,7 @@
 
 ## 2026-10-11: This Mac has no disk headroom; keep parallel work small
 
-- What happened: the disk (926 GB, about 880 GB of it Maria's own files) hit zero twice while I ran 13 to 20 agents at once, each with a headless browser. A pending macOS update and its snapshots take whatever space is freed, and swap from heavy runs lands on the same disk.
+- What happened: the disk hit zero twice while I ran 13 to 20 agents at once, each with a headless browser. A pending macOS update and its snapshots take whatever space is freed, and swap from heavy runs lands on the same disk.
 - Rule: on this machine run at most two or three agents at a time, delete screenshots and temporary renders as soon as they have been looked at, and check `df` before starting anything heavy. Stop and say so if free space drops under about 5 GB. Commit to git before long runs.
 - Also: when stopping for a usage limit, offer to schedule a restart. I cannot wake myself; nothing resumes unless a message or a background task arrives.
 
@@ -36,4 +36,10 @@
 
 - What happened: asked to make the dove's papyrus "more long and unfolded", I drew it long sideways; Maria meant long downwards, hanging under the bird, and narrower than the bird.
 - Rule: when a request about a shape leaves the direction open, say in one line which reading I am taking before drawing, or draw the more natural one for the object (a scroll hangs).
+
+## 2026-10-11: Small interface changes are done directly, not handed to a helper
+
+- What happened: I gave a waitlist popup, a restyled note and a moved button to a background helper. It ran for about two and a half hours on a loaded machine while Maria waited ("its been 2.5 hours for a popup?"). The footer skies helper took over four hours. Done directly, each was minutes of work.
+- Rule: on this machine, do anything that is one component or a handful of edits myself, in the main thread, and show it at once. Keep helpers for work that is truly large and separate (a full translation, a new illustration set), give them a narrow brief, and say up front how long they may take. If one has not reported within about fifteen minutes on a small task, stop it and finish the job directly.
+- Also: an effect that animates over a blur or a drop-shadow is redrawn every frame. A glow under pulsing stars and a blurred mask under a breathing flame pushed the machine's load past 150 while the preview was open. Animate opacity or transform on a layer of its own, and draw glows and fades as gradients.
 

@@ -187,6 +187,14 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Waitlist and note spot-checked after the helper was stopped: 1280 day (English), 390 night (Greek), the single course page, three languages, sideways-scroll check on all pages. Not checked: 768 wide, keyboard-only use beyond Escape and focus return.
 - [x] Hero on nearly square and upright windows: title in fewer, full-width lines above the temple; temple at the lower right, moving to the middle on narrow phones (she confirmed the temple belongs bottom right). Pale line above the hero on phones removed (the header there is taller than --header-h).
 
+## Added by Maria on 2026-10-11 (fourteenth round)
+
+- [x] Stacked hero layouts: temple as tall as the space allows, its roof just under the subtitle (about 20px of air); more space between header and headline
+- [x] Day or night by the sun (no location asked: reckoned from the time zone, Athens exactly for Greece); a manual switch holds until the next sunrise or sunset
+- [x] Greek footer headings a fifth smaller
+- [x] Pushed to a new GitHub repo (private; Pages not enabled)
+- [ ] Night view is now what visitors see after sunset: it has had one pass only (footers end on a light band; Courses and course pages not reviewed section by section at night)
+
 ## Open questions
 
 See the chat message of 2026-10-10.
