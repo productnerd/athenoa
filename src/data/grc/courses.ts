@@ -221,5 +221,15 @@ export const coursesPage = {
     // A verb, read together with the instructor's name in the nominative: "Διδάσκει Ἀθηνᾶ Δέσποινα Ποτάρη".
     taughtBy: 'Διδάσκει',
     orderSummary: 'Ἡ ὑμετέρα ἐγγραφή',
+    // The waitlist (see the English file). ἀπογράφεσθαι, to have one's name put down on a list, keeps
+    // it apart from ἐγγράφεσθαι, which is enrolment; the list is "the list of those who wait".
+    joinWaitlist: 'Ἀπογράψασθε',
+    waitlist: {
+      title: 'Ὁ τῶν περιμενόντων κατάλογος',
+      // Followed by the title of the course
+      forCourse: 'Εἰς τὸ μάθημα',
+      submit: 'Ἀπογράψατέ με',
+      pending: 'Ὁ κατάλογος οὔπω συνῆπται. Οὐδὲν τῶν ὑμετέρων οὐδαμοῖ πέπεμπται.',
+    },
   },
 } as const;

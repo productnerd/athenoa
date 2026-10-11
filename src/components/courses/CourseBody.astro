@@ -25,6 +25,8 @@ const { ui } = coursesPage;
 const image = courseImage(course.image);
 const page = variant === 'page';
 const isOpen = course.status === 'open';
+// A course that cannot be enrolled in yet takes names for its waitlist instead (the same test as the card).
+const waitlist = !course.available;
 const Title = page ? 'h1' : 'h2';
 const Label = page ? 'h2' : 'h3';
 
@@ -37,7 +39,10 @@ const symbolFor = 'structure';
 
 <div class:list={['body', `body--${variant}`]}>
   <header class="body__head">
-    <div class="body__figure" style={`--ar:${(image.height / image.width).toFixed(3)}`}>
+    <div
+      class:list={['body__figure', !isOpen && 'body__figure--jot']}
+      style={`--ar:${(image.height / image.width).toFixed(3)}`}
+    >
       {page && <Illustration name="sun-rays" class="body__rays" draw data-depth="0.18" />}
       <Media
         class="body__media"
@@ -49,12 +54,22 @@ const symbolFor = 'structure';
         priority={page}
         reveal={page ? 'unveil' : false}
       />
-      {/* The season it runs, or a note that details are still to come, stuck to the picture by hand */}
+      {/* The season it runs, on a paper label stuck to the picture. While the details are still to come:
+          a note in Athena's hand instead, jotted at an angle on the page under the picture. */}
       {
-        (isOpen ? course.schedule : true) && (
-          <PaperNote class="body__note" data-reveal={page ? 'grow' : undefined} style="--delay:600ms">
-            {isOpen ? course.schedule : ui.placeholderBadge}
-          </PaperNote>
+        isOpen ? (
+          course.schedule && (
+            <PaperNote class="body__note" data-reveal={page ? 'grow' : undefined} style="--delay:600ms">
+              {course.schedule}
+            </PaperNote>
+          )
+        ) : (
+          <p class="body__jot hand" data-reveal={page ? 'fade' : undefined} style="--delay:600ms">
+            {ui.placeholderBadge}
+            <svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <path d="M3 5.5C40 3 96 2.4 197 4.6C150 5.6 96 7.4 58 10.4" />
+            </svg>
+          </p>
         )
       }
     </div>
@@ -72,14 +87,29 @@ const symbolFor = 'structure';
         isOpen ? (
           course.summary && <p class="body__summary">{course.summary}</p>
         ) : (
-          <>
-            <p>{ui.placeholderNote}</p>
-            <p>
-              <a class="btn" href={site.routes.contact}>
+          <p>{ui.placeholderNote}</p>
+        )
+      }
+      {
+        (waitlist || !isOpen) && (
+          <p class="body__actions">
+            {waitlist && (
+              <a
+                class="btn"
+                href={site.routes.contact}
+                aria-haspopup="dialog"
+                data-waitlist-open
+                data-waitlist-course={course.title}
+              >
+                {ui.joinWaitlist}
+              </a>
+            )}
+            {!isOpen && (
+              <a class:list={['btn', waitlist && 'btn--quiet']} href={site.routes.contact}>
                 {ui.contactInstead}
               </a>
-            </p>
-          </>
+            )}
+          </p>
         )
       }
     </div>
@@ -169,6 +199,42 @@ const symbolFor = 'structure';
     left: 7%;
     bottom: -1.5rem;
   }
+  /* "Details to follow", as Athena might jot it on the page: under the picture, at an angle, with a
+     quick stroke of the pen beneath. It hangs in space the figure keeps free for it (--jot-room). */
+  .body__figure--jot {
+    --jot-room: 4.1rem;
+  }
+  .body__jot {
+    position: absolute;
+    top: calc(100% + 1.05rem);
+    left: 5%;
+    max-width: 100%;
+    font-size: max(1.3rem, var(--step-1));
+    rotate: -4deg;
+    transform-origin: 0 50%;
+  }
+  .body__jot svg {
+    display: block;
+    width: 106%;
+    height: 0.5em;
+    margin: -0.12em 0 0 -3%;
+    overflow: visible;
+  }
+  .body__jot path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  /* The waitlist beside the contact link, or either alone */
+  .body__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 1.5rem;
+  }
 
   /* ---------- Popup ---------- */
   .body--dialog .body__head {
@@ -177,6 +243,9 @@ const symbolFor = 'structure';
   .body--dialog .body__figure {
     max-width: 30rem;
     margin-bottom: 1.5rem;
+  }
+  .body--dialog .body__figure--jot {
+    margin-bottom: var(--jot-room);
   }
   .body--dialog .body__title {
     font-size: clamp(2rem, 1.5rem + 2.4vw, 3.4rem);
@@ -191,6 +260,9 @@ const symbolFor = 'structure';
     .body--dialog .body__figure {
       grid-row: 1 / -1;
       margin: 0;
+    }
+    .body--dialog .body__figure--jot {
+      margin-bottom: var(--jot-room);
     }
     .body--dialog .body__title,
     .body--dialog .body__by,
@@ -329,6 +401,21 @@ const symbolFor = 'structure';
     opacity: 0.45;
     pointer-events: none;
   }
+  /* On the page the sun's rays run under the picture, where the note is written. They part around it:
+     the note lies on a patch of clean paper with a soft edge, which the picture stays in front of. */
+  .body--page .body__jot::before {
+    content: '';
+    position: absolute;
+    inset: -0.9rem -2.2rem -1.1rem -1.7rem;
+    z-index: -1;
+    background-color: var(--paper);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    mask-image: radial-gradient(closest-side, #000 64%, transparent);
+  }
+  .body--page .body__figure--jot .body__media {
+    z-index: 1;
+  }
   .body--page .body__summary {
     font-size: var(--step-1);
     line-height: 1.34;
@@ -358,6 +445,9 @@ const symbolFor = 'structure';
       justify-self: end;
       width: min(100%, 34rem / var(--ar));
       margin-block: var(--space-l) var(--space-m);
+    }
+    .body--page .body__figure--jot {
+      margin-bottom: var(--jot-room);
     }
     .body__rays {
       --rays: min((0.76 + 0.75 * var(--ar)) * 100%, 52rem);

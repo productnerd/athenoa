@@ -190,5 +190,13 @@ export const coursesPage = {
     // Read together with the instructor's name: "Με τη Δρ. Αθηνά Δέσποινα Ποτάρη".
     taughtBy: 'Με τη',
     orderSummary: 'Η εγγραφή σας',
+    // The waitlist (see the English file). forCourse is followed by the title of the course.
+    joinWaitlist: 'Λίστα αναμονής',
+    waitlist: {
+      title: 'Εγγραφείτε στη λίστα αναμονής',
+      forCourse: 'Για τον κύκλο μαθημάτων',
+      submit: 'Προσθέστε με στη λίστα',
+      pending: 'Η λίστα αναμονής δεν είναι ακόμη διαθέσιμη. Η διεύθυνσή σας δεν στάλθηκε πουθενά.',
+    },
   },
 } as const;

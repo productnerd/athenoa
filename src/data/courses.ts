@@ -240,5 +240,17 @@ export const coursesPage = {
     contactInstead: 'Contact us',
     taughtBy: 'With',
     orderSummary: 'Your enrolment',
+    // The waitlist, for a course that cannot be enrolled in yet (available: false). The button stands
+    // where "Enroll" would; the rest are the words of the small popup it opens (WaitlistDialog.astro).
+    // The popup also uses email, close and contactInstead from above.
+    joinWaitlist: 'Join waitlist',
+    waitlist: {
+      title: 'Join the waitlist',
+      // Followed by the title of the course
+      forCourse: 'For the course',
+      submit: 'Add me to the list',
+      // Shown in place of the form after a valid address is entered: the waitlist is not connected yet.
+      pending: 'The waitlist is not connected yet. Your address has not been sent anywhere.',
+    },
   },
 } as const;

@@ -1,0 +1,341 @@
+---
+// The waitlist popup: one native <dialog id="waitlist"> for the whole site, placed once at body
+// level (in Base.astro, beside the newsletter popup) and reused by every "Join waitlist" button.
+// Any element with data-waitlist-open opens it; the title of the course it is for is read from that
+// element's data-waitlist-course. Without JavaScript those buttons are plain links to the contact form.
+//
+// It works like the newsletter popup (NewsletterDialog.astro) and looks nothing like it: one sheet
+// of paper, an ear of wheat (what is sown now ripens in its season), a heading, the course, one field.
+//
+// The waitlist is NOT connected to anything yet. Look for "WAITLIST SERVICE" below.
+import Illustration from './Illustration.astro';
+import { content } from '../data';
+import { getLocale } from '../lib/locale';
+
+const { coursesPage, site } = content(getLocale(Astro.url));
+const { ui } = coursesPage;
+const t = ui.waitlist;
+---
+
+<dialog class="wl" id="waitlist" aria-labelledby="waitlist-title" aria-describedby="waitlist-for">
+  <div class="wl__sheet box">
+    <button class="wl__close" type="button" data-waitlist-close>
+      <span class="visually-hidden">{ui.close}</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M5 5.4c4.6 4.2 9 8.800 14 13.400M19 5c-4.400 4.800-9.200 9-13.800 14"></path>
+      </svg>
+    </button>
+
+    <div class="wl__head">
+      <Illustration name="wheat" class="wl__mark" />
+      <h2 class="wl__title t-3" id="waitlist-title">{t.title}</h2>
+      <p class="wl__for" id="waitlist-for">
+        {t.forCourse}{' '}
+        <span class="wl__course" data-waitlist-for></span>
+      </p>
+    </div>
+
+    <div class="wl__action">
+      <!-- WAITLIST SERVICE, part 1 of 2. When a mailing service or an endpoint of our own is
+           connected, this form gets its address as action (method="post") and the input gets the
+           field name the service expects (name="email"). Until then the input has no name, so even
+           a native submission would carry nothing. -->
+      <form class="wl__form" data-waitlist-form>
+        <div class="field">
+          <label for="waitlist-email">{ui.email}</label>
+          <input id="waitlist-email" type="email" required autocomplete="email" inputmode="email" />
+        </div>
+        <button class="btn" type="submit">{t.submit}</button>
+      </form>
+
+      <!-- Shown in place of the form after a valid address is entered: the waitlist is not
+           connected yet, and the popup says so. -->
+      <div class="wl__note" tabindex="-1" data-waitlist-note>
+        <p>{t.pending}</p>
+        <p><a href={site.routes.contact} data-waitlist-contact>{ui.contactInstead}</a></p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const motionOn = () => document.documentElement.classList.contains('motion');
+  const find = () => document.querySelector<HTMLDialogElement>('dialog#waitlist[data-ready]');
+  // What was pressed to open the popup: focus goes back there when it closes.
+  let opener: HTMLElement | null = null;
+
+  function open(dialog: HTMLDialogElement, from: HTMLElement) {
+    if (dialog.open) return;
+    opener = from;
+    dialog.classList.remove('is-closing');
+    // Which course the waitlist is for: the button that opened the popup carries its title.
+    dialog.querySelector('[data-waitlist-for]')!.textContent = from.dataset.waitlistCourse ?? '';
+    // With a mouse and keyboard the field is ready to type in. On a touch screen that would raise
+    // the keyboard over the popup at once, so focus stays on the first control instead.
+    dialog.querySelector('input')!.autofocus = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    dialog.showModal();
+  }
+
+  // Plays the closing transition, then closes for real.
+  function close(dialog: HTMLDialogElement) {
+    if (!dialog.open || dialog.classList.contains('is-closing')) return;
+    if (!motionOn()) return dialog.close();
+    const finish = () => {
+      clearTimeout(timer);
+      dialog.removeEventListener('transitionend', onEnd);
+      dialog.close();
+    };
+    const onEnd = (event: TransitionEvent) => {
+      if (event.target === dialog && event.propertyName === 'opacity') finish();
+    };
+    const timer = setTimeout(finish, 500);
+    dialog.addEventListener('transitionend', onEnd);
+    dialog.classList.add('is-closing');
+  }
+
+  function bind(dialog: HTMLDialogElement) {
+    const form = dialog.querySelector<HTMLFormElement>('[data-waitlist-form]')!;
+    const note = dialog.querySelector<HTMLElement>('[data-waitlist-note]')!;
+
+    dialog.querySelector('[data-waitlist-close]')!.addEventListener('click', () => close(dialog));
+
+    // Escape
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close(dialog);
+    });
+
+    // A click on the backdrop lands on the dialog element itself. The press must start there too,
+    // so dragging a text selection out of the field does not close the popup.
+    let pressedBackdrop = false;
+    dialog.addEventListener('pointerdown', (event) => (pressedBackdrop = event.target === dialog));
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog && pressedBackdrop) close(dialog);
+    });
+
+    // The browser only fires "submit" once the address has passed its own validation
+    // (required, type="email"); an empty or malformed one gets the native message instead.
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // WAITLIST SERVICE, part 2 of 2. Nothing is sent or kept anywhere yet. To connect the
+      // waitlist, replace the two lines below with
+      //   await fetch(form.action, { method: 'POST', body: new FormData(form) })
+      // sending the course along with the address (its title is in opener.dataset.waitlistCourse;
+      // give the buttons a data attribute with the slug if the service wants a fixed key), and
+      // show a confirmation or an error instead of the "not connected yet" note
+      // (coursesPage.ui.waitlist.pending in the three src/data courses files, which can then go).
+      dialog.setAttribute('data-sent', '');
+      note.focus();
+    });
+
+    // Leave the popup before going to the contact form.
+    dialog.querySelector('[data-waitlist-contact]')!.addEventListener('click', () => dialog.close());
+
+    dialog.addEventListener('close', () => {
+      dialog.classList.remove('is-closing');
+      dialog.removeAttribute('data-sent');
+      form.reset();
+      // Safari does not hand focus back to a clicked link by itself.
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
+      opener = null;
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const dialog = document.querySelector<HTMLDialogElement>('dialog#waitlist');
+    if (!dialog || dialog.hasAttribute('data-ready') || typeof dialog.showModal !== 'function') return;
+    dialog.setAttribute('data-ready', '');
+    bind(dialog);
+  });
+
+  // One listener for every waitlist button on every page, added once however often this module is
+  // run. Capture phase: it answers before the page router treats the link as navigation.
+  const bound = document.documentElement as HTMLElement & { athWaitlist?: boolean };
+  if (!bound.athWaitlist) {
+    bound.athWaitlist = true;
+    document.addEventListener(
+      'click',
+      (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const from = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-waitlist-open]') : null;
+        const dialog = from && find();
+        if (!dialog) return;
+        event.preventDefault();
+        open(dialog, from);
+      },
+      true,
+    );
+  }
+</script>
+
+<style>
+  .wl {
+    width: min(100% - 1rem, 27rem);
+    max-width: none;
+    max-height: calc(100dvh - 1rem);
+    margin: auto;
+    /* Room for the rough edge of the sheet, which the scrolling box would otherwise cut */
+    padding: 0.5rem;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+  }
+  /* The page behind: blurred, under a thin wash of the darker blue (as behind the newsletter popup) */
+  .wl::backdrop {
+    background: color-mix(in srgb, var(--blue-deep, #071260) 36%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  /* The page behind stays put while the popup is open */
+  :global(html:has(dialog.wl[open])) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  /* One sheet of paper with a hand-cut edge (.box) */
+  .wl__sheet {
+    --box-r: 2.5rem 3.3rem 2.3rem 3rem / 3.1rem 2.4rem 3.3rem 2.5rem;
+    display: grid;
+    gap: 1.4rem;
+    /* The words begin below the close control, so no heading can run under it */
+    padding: 3.6rem clamp(1.35rem, 0.9rem + 2.4vw, 2.1rem) clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+  }
+
+  .wl__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.85rem;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1.5px solid var(--line);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    background: none;
+    color: var(--ink-strong);
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--hover-delay),
+      color var(--dur-1) var(--hover-delay);
+  }
+  .wl__close:hover {
+    background: var(--ink-strong);
+    color: var(--creme-light);
+  }
+  .wl__close:focus-visible {
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    outline-offset: 3px;
+  }
+  .wl__close path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+  }
+
+  /* The ear of wheat stands beside the words, as tall as they are */
+  .wl__head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: clamp(0.8rem, 0.4rem + 1.8vw, 1.2rem);
+    row-gap: 0.55rem;
+    align-items: start;
+  }
+  .wl__mark {
+    grid-row: 1 / span 2;
+    align-self: end;
+    width: clamp(3.1rem, 2.4rem + 3vw, 3.9rem);
+  }
+  /* Drawn small here, so its line is thickened to the weight the drawings have elsewhere */
+  .wl__mark :global(svg) {
+    stroke-width: 4.2;
+  }
+  .wl__title {
+    font-size: calc(clamp(1.75rem, 1.5rem + 1.1vw, 2.2rem) * var(--title-scale));
+    text-wrap: balance;
+  }
+  .wl__for {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .wl__course {
+    display: block;
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1.1;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+
+  /* Form and note share one cell, so the sheet keeps its height when one replaces the other */
+  .wl__action {
+    display: grid;
+  }
+  .wl__form,
+  .wl__note {
+    grid-area: 1 / 1;
+  }
+  .wl__form {
+    display: grid;
+    justify-items: start;
+    gap: 0.9rem;
+  }
+  .wl__form .field {
+    width: 100%;
+  }
+  /* Night: the kit's field turns a fixed light colour when hovered or focused (global.css), which
+     would leave the crème address unreadable as it is typed. Here it stays night paper, a shade lifted. */
+  :global(html[data-theme='dark']) .wl__form .field input:is(:hover, :focus) {
+    background: color-mix(in srgb, var(--blue) 12%, var(--creme-light));
+  }
+  .wl__note {
+    align-self: center;
+    display: grid;
+    gap: 0.5rem;
+    outline: none;
+  }
+  .wl__note a {
+    color: var(--ink-strong);
+    font-weight: 560;
+  }
+  /* The form until an address has been entered, then the note */
+  .wl:not([data-sent]) .wl__note,
+  .wl[data-sent] .wl__form {
+    visibility: hidden;
+  }
+
+  /* ---------- Open and close ---------- */
+  :global(html.motion) .wl[open] {
+    transition:
+      opacity var(--dur-1) var(--ease-soft),
+      transform var(--dur-2) var(--ease-out);
+    will-change: transform, opacity;
+  }
+  :global(html.motion) .wl[open]::backdrop {
+    transition: opacity var(--dur-2) var(--ease-soft);
+  }
+  @starting-style {
+    :global(html.motion) .wl[open] {
+      opacity: 0;
+      transform: translate3d(0, 1.5rem, 0) scale(0.965);
+    }
+    :global(html.motion) .wl[open]::backdrop {
+      opacity: 0;
+    }
+  }
+  :global(html.motion) .wl.is-closing {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0) scale(0.98);
+    transition-duration: 0.26s;
+    transition-timing-function: var(--ease-in-out);
+  }
+  :global(html.motion) .wl.is-closing::backdrop {
+    opacity: 0;
+    transition-duration: 0.26s;
+  }
+</style>

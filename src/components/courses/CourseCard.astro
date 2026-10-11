@@ -5,6 +5,8 @@
 //   arch   an arch cut from light blue, the picture set into it like a window
 //   paper  the picture straight on the page with a darker blue pebble behind it, the words on a paper label over its corner
 // The action is a real link to the course page; CourseDialog upgrades it to open the popup.
+// A course that cannot be enrolled in yet also gets "Join waitlist": the filled button stands where
+// "Enroll" would, and "View course" stays beside it as the quiet link (WaitlistDialog opens the popup).
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import { content } from '../../data';
@@ -21,12 +23,13 @@ interface Props {
 }
 const { course, cut, level = 2 } = Astro.props;
 const Title = level === 3 ? 'h3' : 'h2';
-const { coursesPage, coursePageHref } = content(getLocale(Astro.url));
+const { coursesPage, coursePageHref, site } = content(getLocale(Astro.url));
 const { ui } = coursesPage;
 const image = courseImage(course.image);
 const href = coursePageHref(course.slug);
 const titleId = `card-title-${course.slug}`;
 const actionId = `card-action-${course.slug}`;
+const waitId = `card-waitlist-${course.slug}`;
 const lead = cut === 'lead';
 // The same four facts on every card, in the same order, so cards can be compared at a glance.
 const facts = [
@@ -101,6 +104,21 @@ const splitFee = (display: string) => {
       }
     </dl>
     <p class="card__go">
+      {
+        !course.available && (
+          <a
+            class="btn"
+            href={site.routes.contact}
+            id={waitId}
+            aria-labelledby={`${waitId} ${titleId}`}
+            aria-haspopup="dialog"
+            data-waitlist-open
+            data-waitlist-course={course.title}
+          >
+            {ui.joinWaitlist}
+          </a>
+        )
+      }
       <a
         class:list={['btn', !course.available && 'btn--quiet']}
         href={href}
@@ -148,7 +166,12 @@ const splitFee = (display: string) => {
   .card__text > :global(* + *) {
     margin-top: var(--space-s);
   }
+  /* One action, or two for a course with a waitlist: side by side where there is room, else stacked */
   .card__go {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem 1.5rem;
     padding-top: 0.35rem;
   }
   /* A long label (Greek) may run to two lines in a narrow card */
@@ -235,15 +258,15 @@ const splitFee = (display: string) => {
   }
 
   @media (min-width: 62rem) {
-    /* Picture and fee down the left, title, summary and action down the right */
+    /* Picture, facts and action down the left; title down the right, the summary beside the facts */
     .card--lead {
       display: grid;
       grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
       grid-template-areas:
         'figure title'
-        'figure summary'
-        'facts go';
-      grid-template-rows: auto 1fr auto;
+        'facts summary'
+        'go summary';
+      grid-template-rows: auto auto 1fr;
       column-gap: clamp(2rem, 4vw, 4.5rem);
       align-items: start;
     }
@@ -272,20 +295,20 @@ const splitFee = (display: string) => {
     }
     .card--lead .card__facts {
       grid-area: facts;
-      align-self: end;
     }
+    /* Under the facts, starting on the same left edge */
     .card--lead .card__go {
       grid-area: go;
-      align-self: end;
+      margin-top: var(--space-m);
     }
     .card__rays {
       --rays: 50rem;
       left: 29%;
       top: 24%;
     }
-    /* The rays fade out above the season and the fee at the foot of the panel */
+    /* The rays fade out above the season and the fee, which stand over the action at the foot of the panel */
     .card__clip {
-      mask-image: linear-gradient(to bottom, #000 calc(100% - 16rem), transparent calc(100% - 10.5rem));
+      mask-image: linear-gradient(to bottom, #000 calc(100% - 21.5rem), transparent calc(100% - 16rem));
     }
   }
 
