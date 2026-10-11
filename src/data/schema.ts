@@ -13,7 +13,9 @@ import type { ImageMetadata } from 'astro';
 import { content } from './index';
 import type { Course } from './courses';
 import { plain } from '../lib/markdown';
-import { locales, pathIn, type Locale } from '../lib/locale';
+// Inside this file Locale means English or Greek: Ancient Greek pages carry no structured data of
+// their own, and a call made from one is answered in Greek.
+import { locales, mainLocale, pathIn, type MainLocale as Locale, type Locale as AnyLocale } from '../lib/locale';
 
 type Json = Record<string, unknown>;
 
@@ -201,7 +203,8 @@ const webPage = (locale: Locale, type: string, url: string, name: string): Json 
   isPartOf: websiteRef(locale),
 });
 
-export const organizationSchema = (locale: Locale = 'en'): Json => {
+export const organizationSchema = (asked: AnyLocale = 'en'): Json => {
+  const locale = mainLocale(asked);
   const { site } = content(locale);
   const known = facts[locale];
   return {
@@ -223,7 +226,8 @@ export const organizationSchema = (locale: Locale = 'en'): Json => {
   };
 };
 
-export const websiteSchema = (locale: Locale = 'en'): Json => {
+export const websiteSchema = (asked: AnyLocale = 'en'): Json => {
+  const locale = mainLocale(asked);
   const { site } = content(locale);
   return {
     '@context': 'https://schema.org',
@@ -235,7 +239,8 @@ export const websiteSchema = (locale: Locale = 'en'): Json => {
 };
 
 /** The About page as Google's profile page: the page, and Athena as the person it is about. */
-export const personSchema = (locale: Locale = 'en'): Json => {
+export const personSchema = (asked: AnyLocale = 'en'): Json => {
+  const locale = mainLocale(asked);
   const { about } = content(locale);
   const known = facts[locale];
   const { honorific, name } = founder(locale);

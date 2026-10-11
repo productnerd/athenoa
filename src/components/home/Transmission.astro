@@ -6,7 +6,7 @@ import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import night from '../../assets/media/night-acropolis.png';
 import { content } from '../../data';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { transmission } = content(locale).home;
@@ -18,7 +18,7 @@ const t = {
     photoAlt:
       'Μια γυναίκα με λευκή μπλούζα και μπλε εσάρπα κάθεται στο σκοτάδι, με τη φωταγωγημένη Ακρόπολη να λάμπει πίσω της',
   },
-}[locale];
+}[mainLocale(locale)];
 ---
 
 <section class="trans section" aria-labelledby="transmission-title">

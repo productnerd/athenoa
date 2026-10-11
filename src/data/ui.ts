@@ -24,8 +24,22 @@ export const ui = {
     toDay: 'Ημερήσια εμφάνιση',
     socialOn: (network: string) => `Η ATHENOA στο ${network}`,
   },
+  // Ancient Greek, a draft (see src/data/grc/)
+  grc: {
+    skip: 'Ἐπὶ τὸν λόγον',
+    menu: 'Πίναξ',
+    mainNav: 'Τὰ κεφάλαια',
+    footerNav: 'Τὰ ἔσχατα',
+    homeLink: 'ATHENOA, οἴκαδε',
+    language: 'Γλῶσσα',
+    toNight: 'Εἰς νύκτα',
+    toDay: 'Εἰς ἡμέραν',
+    socialOn: (network: string) => `ATHENOA ἐν τῷ ${network}`,
+  },
 } satisfies Record<Locale, Record<string, unknown>>;
 
+// The languages offered in the header. Ancient Greek is added at the end of src/data/ui.ts once its
+// pages render (GRC_READY), so a half-wired language is never one click away.
 export const languages: { locale: Locale; label: string; short: string }[] = [
   { locale: 'en', label: 'English', short: 'EN' },
   { locale: 'el', label: 'Ελληνικά', short: 'ΕΛ' },

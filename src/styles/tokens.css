@@ -155,7 +155,7 @@ html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
 /* Greek pages. PP Editorial New has no Greek and the Tekst trial lacks accented Greek, so Greek text
    would be pieced together from two typefaces. Until fonts with Greek are licensed, Greek pages are set
    in EB Garamond throughout, at EB Garamond's own title scale. */
-html[lang='el'] {
+html:is([lang='el'], [lang='grc']) {
   --font-title: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   --font-body: 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   --title-weight: 400;
@@ -164,6 +164,12 @@ html[lang='el'] {
   --title-leading: 0.96;
   --title-scale: 0.86;
   --body-scale: 1;
+}
+
+/* Ancient Greek carries breathings and accents the handwriting faces do not have: its voice lines are
+   set in the italic of the reading face, so no word is pieced together from two hands. */
+html[lang='grc'] {
+  --font-hand: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
 }
 
 /* Alternates, used only by the /font-test page (a data-fonts attribute on a wrapper). */

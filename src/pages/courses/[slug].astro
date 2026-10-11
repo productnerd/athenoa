@@ -1,6 +1,6 @@
 ---
 // One page per course: the same content as the popup, laid out to be read (and crawled) in full.
-// The same file renders /courses/<slug>/ and /el/courses/<slug>/: the copy follows the address.
+// The same file renders /courses/<slug>/, /el/courses/<slug>/ and /grc/courses/<slug>/: the copy follows the address.
 import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
 import CourseBody from '../../components/courses/CourseBody.astro';
@@ -12,7 +12,7 @@ import { trail } from '../../components/courses/trail';
 import { content } from '../../data';
 import { courses as allCourses, type Course } from '../../data/courses';
 import { breadcrumbSchema, courseSchema } from '../../data/schema';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 
 // Slugs are the same in both languages.
 export function getStaticPaths() {
@@ -26,7 +26,7 @@ const locale = getLocale(Astro.url);
 const { courses, coursePageHref, coursesPage, registrationTab, site } = content(locale);
 // The route hands over the English course; the page shows the one with the same slug in its own language.
 const course = courses.find((item) => item.slug === Astro.props.course.slug) ?? Astro.props.course;
-const t = { en: { trail: 'Breadcrumb' }, el: { trail: 'Διαδρομή πλοήγησης' } }[locale];
+const t = { en: { trail: 'Breadcrumb' }, el: { trail: 'Διαδρομή πλοήγησης' } }[mainLocale(locale)];
 const crumbs = trail(locale);
 const canEnrol = course.status === 'open' && course.price;
 ---

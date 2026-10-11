@@ -14,11 +14,11 @@
 import Illustration from './Illustration.astro';
 import { content } from '../data';
 import { newsletter } from '../data/newsletter';
-import { getLocale, pathIn } from '../lib/locale';
+import { getLocale, mainLocale, pathIn } from '../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { text, cta } = content(locale).home.announcement.newsletter;
-const t = newsletter[locale];
+const t = newsletter[mainLocale(locale)];
 const contactHref = pathIn(locale, '/about-athena/#contact');
 ---
 

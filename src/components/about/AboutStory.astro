@@ -10,7 +10,7 @@ import type { ImageMetadata } from 'astro';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import { content } from '../../data';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { about } = content(locale);
@@ -30,7 +30,7 @@ const t = {
     sea: 'Μια γυναίκα ντυμένη στα λευκά κάθεται με κλειστά μάτια και ενωμένα χέρια, ψηλά πάνω από τη γαλάζια θάλασσα',
     pines: 'Μια μικρή ομάδα κάθεται σε κύκλο κάτω από πεύκα, με την Ακρόπολη πάνω στον βράχο της πίσω τους',
   },
-}[locale];
+}[mainLocale(locale)];
 
 const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/media/*.jpg', { eager: true });
 const photo = (name: string) => files[`../../assets/media/${name}.jpg`].default;

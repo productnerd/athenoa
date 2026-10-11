@@ -4,7 +4,7 @@
 import Media from '../Media.astro';
 import fresco from '../../assets/media/school-of-athens.jpg';
 import { content } from '../../data';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { start } = content(locale).home;
@@ -17,7 +17,7 @@ const t = {
     frescoAlt:
       'Η τοιχογραφία του Ραφαήλ «Η Σχολή των Αθηνών»: οι φιλόσοφοι της αρχαιότητας συγκεντρωμένοι κάτω από μια μεγάλη θολωτή αίθουσα',
   },
-}[locale];
+}[mainLocale(locale)];
 ---
 
 <section class="start section" aria-labelledby="start-title">

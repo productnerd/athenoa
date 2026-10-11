@@ -6,7 +6,7 @@
 // one is set and to the contact form until then.
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 import { keepHyphens } from './text';
 
 interface Props {
@@ -34,7 +34,7 @@ const t = {
     emailMissing: 'Συμπληρώστε τη διεύθυνση email σας.',
     emailInvalid: 'Συμπληρώστε μια έγκυρη διεύθυνση email.',
   },
-}[locale];
+}[mainLocale(locale)];
 ---
 
 <div class:list={['enroll', className]} data-enroll data-step="idle" {...rest}>

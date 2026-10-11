@@ -5,14 +5,14 @@ import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import temple from '../../assets/media/temple-blue-dress.jpg';
 import { content } from '../../data';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { about, site } = content(locale);
 const t = {
   en: { photo: 'A woman in a long blue dress stands between the marble columns of an ancient temple' },
   el: { photo: 'Μια γυναίκα με μακρύ μπλε φόρεμα στέκεται ανάμεσα στους μαρμάρινους κίονες ενός αρχαίου ναού' },
-}[locale];
+}[mainLocale(locale)];
 
 // The title breaks where the name begins: a short opening line ("About"), then the name with its
 // title on a line of its own. The name starts at the honorific that also opens site.founder.

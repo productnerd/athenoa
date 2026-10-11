@@ -9,7 +9,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Working pages stay out of the sitemap
-      filter: (page) => !['/lab/', '/el/lab/', '/font-test/'].some((part) => new URL(page).pathname.startsWith(part)),
+      filter: (page) => !['/lab/', '/el/lab/', '/font-test/', '/grc/'].some((part) => new URL(page).pathname.startsWith(part)),
       i18n: { defaultLocale: 'en', locales: { en: 'en', el: 'el' } },
     }),
   ],

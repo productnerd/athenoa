@@ -7,7 +7,7 @@ import Illustration from '../Illustration.astro';
 import apollo from '../../assets/media/apollo-statue.jpg';
 import frieze from '../../assets/media/frieze-procession.jpg';
 import { content } from '../../data';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { home } = content(locale);
@@ -25,7 +25,7 @@ const t = {
     friezeAlt: 'Ζωγραφιστή ζωφόρος με πομπή γυναικών σε λευκούς χιτώνες, που κρατούν άνθη και προσφορές',
     newTab: '(ανοίγει σε νέα καρτέλα)',
   },
-}[locale];
+}[mainLocale(locale)];
 
 // One look per point, in the order of the copy: paper with a light-blue plate behind it,
 // a light-blue pebble, darker paper. Shape and emblem differ; the depths stay close together.

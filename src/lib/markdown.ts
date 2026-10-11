@@ -5,7 +5,7 @@
 import { content } from '../data';
 import { languages } from '../data/ui';
 import type { Course } from '../data/courses';
-import { locales, pathIn, type Locale } from './locale';
+import { locales, pathIn, type MainLocale as Locale } from './locale';
 
 // ---------- HTML fragments to Markdown ----------
 

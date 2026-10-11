@@ -7,12 +7,12 @@
 // document (an address typed by hand, such as a page that does not exist, or the language switch), the
 // place in the piece is remembered and the music picks up from there, easing in, instead of starting
 // again. A link that forces such a reload fades the music out first, so it never cuts.
-import { getLocale } from '../lib/locale';
+import { getLocale, mainLocale } from '../lib/locale';
 
 const t = {
   en: { group: 'Background music', turnOff: 'Turn the music off', turnOn: 'Turn the music on' },
   el: { group: 'Μουσική υπόκρουση', turnOff: 'Απενεργοποίηση μουσικής', turnOn: 'Ενεργοποίηση μουσικής' },
-}[getLocale(Astro.url)];
+}[mainLocale(getLocale(Astro.url))];
 ---
 
 <div class="music" data-music role="group" aria-label={t.group} transition:persist="background-music">

@@ -2,7 +2,7 @@
 // come from home.announcement.newsletter, everything else (labels, the button, the note shown
 // while sign-up is not connected to a mailing service) lives here, in both languages.
 // The field label and placeholder repeat those of the contact form (about.contact).
-import type { Locale } from '../lib/locale';
+import type { MainLocale as Locale } from '../lib/locale';
 
 export const newsletter = {
   en: {
