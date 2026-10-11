@@ -35,8 +35,10 @@
      punctuation in the Tekst trial), falls back to EB Garamond, which is shipped. */
   --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   --font-body: 'ATH Tekst', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  /* The personal voice: greetings, asides, maxims. Calligraphic, not casual. */
-  --font-hand: 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  /* The personal voice: greetings, asides, maxims. A fine handwritten script (NF-Lolotte), with a
+     calligraphic italic behind it. Its loops are tall, so lines of it sit closer than its size suggests. */
+  --hand-leading: 1.36;
+  --font-hand: 'ATH Hand', 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
   --title-weight: 400;
   --title-weight-xl: 200;
   --title-tracking: -0.012em;

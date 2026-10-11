@@ -15,6 +15,9 @@ export const home = {
     // The first line is the title; the second is its subtitle and is set smaller.
     // These words of the title sit on an organic highlight, which animates in last.
     highlight: 'PLATONIC ACADEMY',
+    // The subtitle as it is shown: the same words as the second title line, in lower case, because
+    // the handwritten face is unreadable in capitals.
+    subtitle: '& remember who you really are',
   },
 
   membership: {

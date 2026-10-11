@@ -130,8 +130,10 @@ const highlight = home.hero.highlight;
   }
 
   /* ---------- title ---------- */
+  /* The block is as wide as its longest line needs and no wider, whatever limits the size, so
+     the lines always break the same way: the highlighted words one above the other. */
   .hero__title {
-    width: var(--hero-col);
+    width: calc(var(--hero-fit) * 1em);
     max-width: 100%;
     font-size: var(--hero-fs);
     text-wrap: wrap;
@@ -339,19 +341,20 @@ const highlight = home.hero.highlight;
   /* ---------- narrow or upright screens: the title in the sky above, the picture below ---------- */
   @media (max-width: 61.99rem), (max-aspect-ratio: 1/1) {
     .hero {
-      --scene-h: min(var(--panel-w) * 1.08, 52svh);
+      --scene-h: min(var(--panel-w) * 1.06, 47.5svh);
       --scene-x: 50%;
       /* the picture stands higher, on a band of ground deep enough for the music button, which is
          fixed in the lower left corner of the screen */
       --scene-b: calc(var(--u) * 95);
       --hero-col: calc(var(--panel-w) - 2 * var(--hero-pad));
-      --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 6.4svh);
+      --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 6svh);
     }
     .hero__panel {
       justify-content: flex-start;
       min-height: 0;
-      /* room for the picture: rays, frame and ground band are 1.185 frames tall */
-      padding: clamp(1.5rem, 3.4svh, 2.6rem) var(--hero-pad) calc(var(--scene-h) * 1.22);
+      /* room for the picture (rays, frame and ground band are 1.185 frames tall) and a breath
+         between the subtitle and the rays */
+      padding: clamp(1.5rem, 3.4svh, 2.6rem) var(--hero-pad) calc(var(--scene-h) * 1.245);
     }
     .hero__layer :global(svg) {
       stroke-width: 3.5;

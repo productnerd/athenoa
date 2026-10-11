@@ -1,11 +1,13 @@
 // Opens the newsletter popup on its lab page with the installed Chrome, looks at it and tries it.
-//   node scripts/lab-newsletter-check.mjs                    every screenshot and every check
-//   node scripts/lab-newsletter-check.mjs --shots            only the screenshots
-//   node scripts/lab-newsletter-check.mjs --checks           only the behaviour checks
-//   node scripts/lab-newsletter-check.mjs --only mobile-el   one screenshot
+//   node scripts/lab-newsletter-check.mjs                    every check, and four screenshots
+//   node scripts/lab-newsletter-check.mjs --shots            only the views and their size checks
+//   node scripts/lab-newsletter-check.mjs --checks           only the behaviour checks, no screenshots
+//   node scripts/lab-newsletter-check.mjs --only mobile-el   one view
+//   ... --more         also keep the other views (Greek desktop, a low laptop, a 320px phone,
+//                      the browser's own message for a bad address, the page without JavaScript)
 //   ... --out <dir>    where the screenshots go (default shots/), as newsletter-<name>.jpg
 //   ... --close        the screenshots show the popup alone, at twice the size
-// Exits with 1 if a check fails.
+// The four kept by default: desktop, mobile, mobile-el, note. Exits with 1 if a check fails.
 import { chromium } from 'playwright-core';
 
 const args = process.argv.slice(2);
@@ -64,8 +66,9 @@ const openIt = async (page, selector = LINK) => {
   await page.waitForSelector('#newsletter[open]');
   await page.waitForTimeout(250);
 };
-// The whole window, or with --close the popup alone.
-const shoot = async (page, name) => {
+// The whole window, or with --close the popup alone. Views marked extra are only kept with --more.
+const shoot = async (page, name, extra = false) => {
+  if (flag('checks') || (extra && !flag('more') && opt('only') !== name)) return;
   const clip = flag('close')
     ? await page.evaluate(() => {
         const r = document.querySelector('#newsletter').getBoundingClientRect();
@@ -100,16 +103,16 @@ if (!flag('checks')) {
   const views = [
     { name: 'desktop', path: '/lab/newsletter/' },
     { name: 'mobile', path: '/lab/newsletter/', mobile: true },
-    { name: 'desktop-el', path: '/el/lab/newsletter/' },
+    { name: 'desktop-el', path: '/el/lab/newsletter/', extra: true },
     { name: 'mobile-el', path: '/el/lab/newsletter/', mobile: true },
-    { name: 'laptop', path: '/lab/newsletter/', viewport: { width: 1280, height: 720 } },
-    { name: 'small', path: '/el/lab/newsletter/', mobile: true, viewport: { width: 320, height: 640 } },
+    { name: 'laptop', path: '/lab/newsletter/', viewport: { width: 1280, height: 720 }, extra: true },
+    { name: 'small', path: '/el/lab/newsletter/', mobile: true, viewport: { width: 320, height: 640 }, extra: true },
   ].filter((view) => !opt('only') || view.name === opt('only'));
   for (const view of views) {
     await block(view, async (page, check) => {
       await openIt(page);
       const m = await measure(page);
-      await shoot(page, view.name);
+      await shoot(page, view.name, view.extra);
       check(
         `${view.name}: fits, field at least 16rem, nothing sideways`,
         !m.sideways && !m.scrolls && m.field >= 16 * m.rem,
@@ -176,7 +179,7 @@ if (!flag('shots') && !opt('only')) {
         return { valid: input.validity.valid, message: input.validationMessage, sent: dialog.hasAttribute('data-sent') };
       });
       check(`${tag}: an invalid address is stopped by the browser`, !invalid.valid && !invalid.sent, invalid.message);
-      if (!flag('checks')) await shoot(page, mobile ? 'invalid-mobile-el' : 'invalid');
+      await shoot(page, mobile ? 'invalid-mobile-el' : 'invalid', true);
       await page.fill('#newsletter-email', '');
       await page.click('#newsletter button[type=submit]');
       const empty = await page.evaluate(() => document.querySelector('#newsletter').hasAttribute('data-sent'));
@@ -208,7 +211,7 @@ if (!flag('shots') && !opt('only')) {
         !m.sideways && !m.scrolls && m.box.join() === before.join(),
         `popup ${m.box.join('x')}`,
       );
-      if (!flag('checks')) await shoot(page, mobile ? 'note-mobile-el' : 'note');
+      await shoot(page, mobile ? 'note-mobile-el' : 'note', mobile);
 
       // Escape closes, focus returns to the link
       await page.keyboard.press('Escape');
@@ -353,7 +356,7 @@ if (!flag('shots') && !opt('only')) {
       shown.dialog && shown.note && !shown.form && shown.link && shown.position === 'fixed',
       JSON.stringify(shown),
     );
-    if (!flag('checks')) await shoot(page, 'nojs');
+    await shoot(page, 'nojs', true);
     await page.click('#newsletter a.nl__close');
     await page.waitForTimeout(200);
     check(

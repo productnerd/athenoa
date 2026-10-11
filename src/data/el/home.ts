@@ -16,6 +16,9 @@ export const home = {
     // These words of the title sit on an organic highlight, which animates in last.
     // Must stay an exact substring of one title line: the page looks it up with indexOf.
     highlight: 'ΠΛΑΤΩΝΙΚΗ ΑΚΑΔΗΜΙΑ',
+    // The subtitle as it is shown: the same words as the second title line, in lower case, because
+    // the handwritten face is unreadable in capitals.
+    subtitle: '& θυμηθείτε ποιοι πραγματικά είστε',
   },
 
   membership: {

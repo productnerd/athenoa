@@ -21,7 +21,7 @@ const highlight = home.hero.highlight;
         home.hero.titleLines.map((line, n) => {
           const at = line.indexOf(highlight);
           // The first line is the title; what follows is its subtitle, set smaller.
-          if (at < 0) return <span class:list={['line', n > 0 && 't-sub']}>{line}</span>;
+          if (at < 0) return <span class:list={['line', n > 0 && 't-sub']}>{n > 0 ? home.hero.subtitle : line}</span>;
           return (
             <span class="line">
               {line.slice(0, at)}

@@ -146,8 +146,8 @@ function capital() {
   // Volutes: a paper disc hides what passes behind, then the whorl and its eye
   for (const side of [-1, 1]) {
     const x = CX + side * eyeX;
-    out.push(wash(spline(whorl(x, eyeY, r0, decay, side, 0, 1, 30)) + 'Z', PAPER));
-    out.push(line(spline(whorl(x, eyeY, r0, decay, side, 0, turns, 62))));
+    out.push(wash(spline(whorl(x, eyeY, r0, decay, side, 0, 1, 16)) + 'Z', PAPER));
+    out.push(line(spline(whorl(x, eyeY, r0, decay, side, 0, turns, 34))));
     out.push(`<circle cx="${n(x)}" cy="${n(eyeY)}" r="2.2" fill="${INK}" stroke="none"/>`);
   }
   // Lower edge of the canalis
@@ -337,7 +337,7 @@ function pediment() {
   for (const side of [-1, 1]) {
     const cx = mid + side * 16;
     const cy = apexY - 2;
-    const scroll = whorl(cx, cy, 5, 0.5, side, 0, 1.35, 28);
+    const scroll = whorl(cx, cy, 5, 0.5, side, 0, 1.35, 20);
     out.push(
       line(`M${P(mid + side * 4, apexY - 3.4)}Q${P(mid + side * 10, apexY - 7.6)} ${P(...scroll[0])}${spline(scroll).replace(/^M[^C]*/, '')}`),
     );

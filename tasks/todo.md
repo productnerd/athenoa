@@ -126,7 +126,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Night mode switch in the header (moon/sun), remembered; owl sound on switching to night, cicadas and a wave on switching back. Sounds are synthesised (public/audio/owl.mp3, daylight.mp3) and can be replaced with recordings.
 - [ ] Night mode second pass once the hero is in: keep the hero as a night scene (class theme-day on its panel), decide how footers end at night, check every section
 - [x] /font-test handwriting: one sentence per font in English and Greek; thirteen more Greek-capable hands added
-- [ ] Waiting for Maria's pick of handwriting font
+- [x] Handwriting: trying NF-Lolotte (local font, needs a web licence), set at 240% of nominal size with tight lines; hero subtitle shown in lower case because the script is unreadable in capitals (home.hero.subtitle). When the final Hero.astro lands, make it use home.hero.subtitle for its .t-sub line.
 
 ## Open questions
 

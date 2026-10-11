@@ -5,6 +5,28 @@
 @import '@fontsource-variable/eb-garamond/wght-italic.css';
 @import '@fontsource-variable/noto-serif-display/wght-italic.css';
 
+/* The handwritten voice under test: NF-Lolotte, loaded from this computer (not shipped; it needs a
+   web licence before launch). It is a fine monoline script with a very small x-height, so it is set
+   at 240% of its nominal size: twice, to bring it level with ordinary type, and a further 20% because
+   it is hard to read. Anyone without the font, and polytonic Greek, falls back to the italic above.
+   It is declared for both styles so the browser never slants it artificially. */
+@font-face {
+  font-family: 'ATH Hand';
+  src: local('NF-Lolotte-Regular'), local('NF-Lolotte Regular'), local('NF-Lolotte');
+  font-style: italic;
+  font-weight: 100 900;
+  size-adjust: 240%;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ATH Hand';
+  src: local('NF-Lolotte-Regular'), local('NF-Lolotte Regular'), local('NF-Lolotte');
+  font-style: normal;
+  font-weight: 100 900;
+  size-adjust: 240%;
+  font-display: swap;
+}
+
 /* Local-only fonts for the type test. They are referenced from the visitor's machine and never
    copied into the project: the installed cuts are trial or separately licensed versions.
    Anyone without them sees EB Garamond. */
