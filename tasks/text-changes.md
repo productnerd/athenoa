@@ -39,8 +39,13 @@ The enrol popup needs labels the live site never had (for example "View course",
 ## 404 page and joined lines (11 October 2026, at Maria's request)
 
 - The not-found page no longer shows the Democritus sentence on eudaimonia. In its place, in the reading face: "Not everybody who wanders is lost" (Greek: «Δεν είναι χαμένοι όλοι όσοι περιπλανιούνται»).
-- Its button reads "Take me to Ithaka" (Greek: «Πάρε με στην Ιθάκη»). The note under it is unchanged: "but let the journey be long and filled with adventures" in English, Cavafy's own line in Greek.
+- Its button reads "Back to Ithaka" (Greek: «Πίσω στην Ιθάκη»); first "Take me home", then "Take me to Ithaka". The credit to Cavafy under the Greek note is no longer shown. The note under it is unchanged: "but let the journey be long and filled with adventures" in English, Cavafy's own line in Greek.
 - Home, "Let's Get Started": Athena's two lines are shown as one block of text. The words are unchanged.
+
+## About page (11 October 2026, at Maria's request)
+
+- The translation after ΓΝΩΘΙ ΣΑΥΤΟΝ lost its brackets: “Know Thyself”. instead of (“Know Thyself”). The same in Greek and Ancient Greek.
+- Menu items are shown in capitals (by the stylesheet; the words themselves are unchanged).
 
 ## Waitlist wording (11 October 2026, new; the live site has no waitlist)
 

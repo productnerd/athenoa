@@ -30,7 +30,13 @@ const isCurrent = (href: string) => {
         {
           site.nav.map((item) => (
             <li>
-              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+              {/* Set in capitals by the stylesheet. Browsers drop the accents of Greek capitals only
+                  for text marked as modern Greek, so the Ancient Greek labels are marked that way here. */}
+              <a
+                href={item.href}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+                lang={locale === 'grc' ? 'el' : undefined}
+              >
                 {item.label}
               </a>
             </li>
@@ -263,7 +269,8 @@ const isCurrent = (href: string) => {
   .header__links {
     display: flex;
     align-items: center;
-    gap: clamp(0.85rem, -0.6rem + 2.4vw, 2.4rem);
+    /* wide enough that the brush marks of two neighbours (hovered and current) never touch */
+    gap: clamp(2.4rem, 1.4rem + 2vw, 3.4rem);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -284,6 +291,10 @@ const isCurrent = (href: string) => {
      inside one of these items, and its links must not take the menu links' size and marks.) */
   .header__links > li:not(.header__lang, .header__theme) > a {
     isolation: isolate;
+    /* in capitals (client direction): smaller and letterspaced, so they sit as quietly as before */
+    font-size: calc(var(--step-0) * 0.8);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     transition: color var(--dur-1) var(--hover-delay);
   }
   .header__links > li:not(.header__lang, .header__theme) > a::before {
@@ -555,8 +566,9 @@ const isCurrent = (href: string) => {
       text-wrap: balance;
       font-family: var(--font-title);
       font-weight: var(--title-weight);
-      font-size: var(--step-3);
-      line-height: 1.05;
+      font-size: var(--step-2);
+      letter-spacing: 0.05em;
+      line-height: 1.1;
       padding-block: 0.25rem;
     }
     .header__lang {

@@ -4,7 +4,7 @@
 
 // CLIENT DIRECTION, 11 October 2026 (latest; do not restore the older parts): no visible heading,
 // no "courses" link, no quotation on eudaimonia. One sentence stands in the sky ("Not everybody who
-// wanders is lost"), one button leads home ("Take me to Ithaka") and a small note sits under it,
+// wanders is lost"), one button leads home ("Back to Ithaka") and a small note sits under it,
 // marked with an asterisk. In Greek the note is Cavafy's own, from "Ithaka" (Ιθάκη, 1911), checked
 // against Greek Wikisource: «να εύχεσαι νάναι μακρύς ο δρόμος, / γεμάτος περιπέτειες, γεμάτος γνώσεις».
 export const notfound = {
@@ -12,16 +12,15 @@ export const notfound = {
     // Read by screen readers and used for the page title; not shown.
     heading: 'Page not found',
     wander: 'Not everybody who wanders is lost',
-    home: { label: 'Take me to Ithaka', href: '/' },
+    home: { label: 'Back to Ithaka', href: '/' },
     journey: 'but let the journey be long and filled with adventures',
-    journeySource: '',
   },
   el: {
     heading: 'Η σελίδα δεν βρέθηκε',
     wander: 'Δεν είναι χαμένοι όλοι όσοι περιπλανιούνται',
-    home: { label: 'Πάρε με στην Ιθάκη', href: '/el/' },
+    home: { label: 'Πίσω στην Ιθάκη', href: '/el/' },
     journey: 'να εύχεσαι νάναι μακρύς ο δρόμος, γεμάτος περιπέτειες',
-    journeySource: 'Κ. Π. Καβάφης, «Ιθάκη»',
+    // Cavafy, «Ιθάκη» (1911). The credit is not shown on the page (client direction).
   },
 } as const;
 

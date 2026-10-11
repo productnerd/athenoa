@@ -4,7 +4,7 @@
 // CLIENT DIRECTION, 11 October 2026 (replaces the first brief; do not restore the old parts):
 // the page has no site header; there is no visible "Page not found" heading, no second link and no
 // sun; the water runs to the very bottom of the page in the darker blue (no paper under it). The only
-// control is one button, bottom right ("Take me to Ithaka"), with a small slanted note under it, marked
+// control is one button, bottom right ("Back to Ithaka"), with a small slanted note under it, marked
 // with an asterisk like a note in a margin. There is no quotation on eudaimonia any more.
 //
 // A paper theatre on the crème page: clouds drift across the top, one sentence stands in the sky
@@ -28,6 +28,8 @@ import Illustration from '../Illustration.astro';
 import { notfound } from '../../data/notfound';
 
 const locales = ['en', 'el'] as const;
+// How far each word of the note strays from its line (in ems) and how much it leans: an uneven hand
+const jot = (i: number) => ({ y: (Math.sin(i * 1.9 + 0.6) * 0.17).toFixed(2), r: (Math.cos(i * 1.3) * 3.2).toFixed(1) });
 const headings = { en: notfound.en.heading, el: notfound.el.heading };
 ---
 
@@ -56,10 +58,17 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
               <a class="btn" href={t.home.href}>
                 {t.home.label}
               </a>
+              {/* Scribbled, not set: each word sits a little off the line and at its own slight angle.
+                  (No credit line under it: client direction, 11 October 2026.) */}
               <p class="nf__aside hand">
                 <span class="nf__star" aria-hidden="true">*</span>
-                {t.journey}
-                {t.journeySource && <span class="nf__cite">{t.journeySource}</span>}
+                {t.journey.split(' ').map((word, i) => (
+                  <>
+                    <span class="nf__word" style={`--y:${jot(i).y}em;--r:${jot(i).r}deg`}>
+                      {word}
+                    </span>{' '}
+                  </>
+                ))}
               </p>
             </div>
           </div>
@@ -248,10 +257,10 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     line-height: 0;
     vertical-align: -0.18em;
   }
-  .nf__cite {
-    display: block;
-    font-size: 0.88em;
-    color: var(--blue-light);
+  .nf__word {
+    display: inline-block;
+    translate: 0 var(--y, 0);
+    rotate: var(--r, 0deg);
   }
 
   /* ---------- the picture ---------- */

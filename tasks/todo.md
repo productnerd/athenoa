@@ -209,6 +209,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] PLATONIC ACADEMY set heavier (Medium) than the rest of the hero title
 - [x] Footer: "Connect with us" sits on the right beside "Follow us"; the name keeps the left
 
+## Added by Maria on 2026-10-11 (sixteenth round)
+
+- [x] About: drawing of Athena above the dark panel hidden; brackets removed from “Know Thyself”
+- [x] Header menu: items in capitals, more room between them so two brush marks never touch
+- [x] 404: button "Back to Ithaka"; Cavafy credit not shown; the asterisk note wobbles word by word like a scribble
+- [ ] IN PROGRESS: Enroll opens a request form (name, why interested, where did you hear about us, "Send request"); all course cards one arch card with a colour per course; contact form "How did you find us?" as a dropdown with an "Other" field
+
 ## Open questions
 
 See the chat message of 2026-10-10.
