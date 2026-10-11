@@ -9,6 +9,7 @@ const locale = getLocale(Astro.url);
 const { site, ui } = content(locale);
 const path = barePath(Astro.url.pathname);
 const home = pathIn(locale, '/');
+const current = languages.find((language) => language.locale === locale) ?? languages[0];
 const trim = (value: string) => value.replace(/\/+$/, '') || '/';
 const isCurrent = (href: string) => {
   const target = trim(barePath(href));
@@ -35,22 +36,32 @@ const isCurrent = (href: string) => {
             </li>
           ))
         }
-        <li class="header__lang" role="group" aria-label={ui.language}>
-          {
-            languages.map((language) => (
-              <a
-                href={pathIn(language.locale, Astro.url.pathname)}
-                lang={language.locale}
-                hreflang={language.locale}
-                aria-current={language.locale === locale ? 'true' : undefined}
-                title={language.label}
-                data-astro-reload
-              >
-                <span aria-hidden="true">{language.short}</span>
-                <span class="visually-hidden">{language.label}</span>
-              </a>
-            ))
-          }
+        <li class="header__lang">
+          <details class="lang" data-lang-menu>
+            <summary aria-label={`${ui.language}: ${current.label}`}>
+              <span aria-hidden="true">{current.short}</span>
+              <svg viewBox="0 0 12 8" width="10" height="7" aria-hidden="true" focusable="false">
+                <path d="M1.2 1.6 6 6.3l4.8-4.7"></path>
+              </svg>
+            </summary>
+            <ul class="lang__list" role="list">
+              {
+                languages.map((language) => (
+                  <li>
+                    <a
+                      href={pathIn(language.locale, Astro.url.pathname)}
+                      lang={language.locale}
+                      hreflang={language.locale}
+                      aria-current={language.locale === locale ? 'true' : undefined}
+                      data-astro-reload
+                    >
+                      {language.label}
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </details>
         </li>
         <li class="header__theme">
           <button
@@ -100,6 +111,20 @@ const isCurrent = (href: string) => {
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') setOpen(false);
     });
+
+    // Language list: closes on a click elsewhere and on Escape
+    const langMenu = header.querySelector<HTMLDetailsElement>('[data-lang-menu]');
+    if (langMenu) {
+      document.addEventListener('click', (event) => {
+        if (langMenu.open && event.target instanceof Node && !langMenu.contains(event.target)) langMenu.open = false;
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && langMenu.open) {
+          langMenu.open = false;
+          langMenu.querySelector('summary')?.focus();
+        }
+      });
+    }
 
     // Day and night. An owl calls when night falls; a cicada rasps three times to greet the day.
     // The sounds stay silent if the visitor has muted the site's music.
@@ -314,28 +339,115 @@ const isCurrent = (href: string) => {
     --marker: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cg fill='%231c2b96'%3E%3Cpath d='M4 22C2 12 14 7 30 6c22-2 48-3 68-1 12 1 20 6 19 14-1 9-13 14-29 15-24 2-50 3-68 1C9 34 5 30 4 22z'/%3E%3Cpath opacity='.6' d='M9 9C30 3 70 1 105 4c9 1 14 4 11 9C96 9 50 9 14 14c-6 0-9-3-5-5z'/%3E%3Cpath opacity='.6' d='M66 36c20-1 40-4 50-11 2 7-8 13-24 14-9 0-18-1-26-3z'/%3E%3Cpath opacity='.45' d='M1 25c1 6 6 10 14 11-7 2-14-2-14-11z'/%3E%3C/g%3E%3C/svg%3E");
   }
 
-  /* Language switch: two small marks, the current one filled */
+  /* Language: one small control showing the current language; pressing it opens the list.
+     Shapes are hand-cut like everything else: a pebble for the control, a rough-edged slip of paper
+     for the list, and the highlighter stroke for the language in use. */
   .header__lang {
-    display: flex;
-    align-items: center;
-    gap: 0.15rem;
+    position: relative;
   }
-  .header__links .header__lang a {
-    padding: 0.28rem 0.6rem 0.34rem;
+  .lang summary {
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.42rem 0.85rem 0.5rem 0.95rem;
     font-size: var(--step--1);
     letter-spacing: 0.04em;
     line-height: 1;
-    border-radius: 1rem 0.8rem 1.1rem 0.7rem / 0.8rem 1.1rem 0.7rem 1rem;
-    transition:
-      background-color var(--dur-1),
-      color var(--dur-1);
+    color: var(--ink);
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
   }
-  .header__links .header__lang a:hover {
+  .lang summary::-webkit-details-marker {
+    display: none;
+  }
+  .lang summary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
     background: var(--blue-light);
+    filter: url(#rough-sm);
+    transition:
+      scale var(--dur-2) var(--ease-out),
+      border-radius var(--dur-2) var(--ease-out);
   }
-  .header__links .header__lang a[aria-current='true'] {
-    background: var(--blue);
-    color: var(--creme-light);
+  .lang summary:hover::before,
+  .lang[open] summary::before {
+    scale: 1.06 1.1;
+    border-radius: 44% 56% 46% 54% / 56% 44% 56% 44%;
+  }
+  .lang summary path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .lang summary svg {
+    transition: rotate var(--dur-1) var(--ease-out);
+  }
+  .lang[open] summary svg {
+    rotate: 180deg;
+  }
+  .lang__list {
+    position: absolute;
+    right: -0.4rem;
+    top: calc(100% + 0.7rem);
+    z-index: 5;
+    isolation: isolate;
+    display: grid;
+    gap: 0.15rem;
+    min-width: 10rem;
+    margin: 0;
+    padding: 0.85rem 0.8rem 0.95rem;
+    list-style: none;
+    rotate: -1deg;
+  }
+  /* The slip of paper: an uneven outline with a rough edge */
+  .lang__list::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--creme-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border: 1.5px solid var(--line);
+    border-radius: 2.1rem 1.5rem 2.4rem 1.7rem / 1.6rem 2.3rem 1.5rem 2.2rem;
+    filter: url(#rough-sm);
+  }
+  .header__links .lang__list a {
+    position: relative;
+    isolation: isolate;
+    display: block;
+    padding: 0.5rem 0.9rem 0.55rem;
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+  /* Hover and the language in use are marked with the same highlighter stroke as the menu */
+  .header__links .lang__list a::before {
+    content: '';
+    position: absolute;
+    inset: 4% -0.1rem 0 -0.1rem;
+    z-index: -1;
+    background: var(--marker) center / 100% 100% no-repeat;
+    rotate: -1.2deg;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .header__links .lang__list a:hover::before,
+  .header__links .lang__list a:focus-visible::before,
+  .header__links .lang__list a[aria-current='true']::before {
+    transform: none;
+  }
+  .header__links .lang__list a[aria-current='true'] {
+    color: var(--ink-strong);
   }
 
   .header__toggle {
@@ -458,12 +570,19 @@ const isCurrent = (href: string) => {
     .header__links li:not(.header__lang, .header__theme) a[aria-current='page']::before {
       transform: none;
     }
-    .header__links .header__lang a:hover {
-      background: var(--blue-deep);
+    .lang summary {
+      color: var(--blue-deep);
     }
-    .header__links .header__lang a[aria-current='true'] {
-      background: var(--creme-light);
-      color: var(--blue);
+    /* In the menu the list opens in place, under its control */
+    .lang__list {
+      position: relative;
+      right: auto;
+      top: auto;
+      margin-top: 0.7rem;
+      width: max-content;
+    }
+    .header__links .lang__list a {
+      color: var(--blue-deep);
     }
   }
 </style>

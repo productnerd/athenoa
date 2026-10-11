@@ -77,7 +77,7 @@ const shoot = async (page, name, extra = false) => {
         return { x, y, width: Math.min(innerWidth - x, r.width + 20), height: Math.min(innerHeight - y, r.height + 20) };
       })
     : undefined;
-  await page.screenshot({ path: out(name), type: 'jpeg', quality: 80, clip });
+  await page.screenshot({ path: out(name), type: 'jpeg', quality: 72, clip });
 };
 // Sizes that must hold: nothing scrolls sideways, the field keeps its width, the popup fits.
 const measure = (page) =>

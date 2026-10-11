@@ -1,6 +1,6 @@
 // The portico that frames the newsletter popup, drawn as separate pieces so the frame can grow
-// with its content: only the shaft (and, on a narrow screen, the wall of the podium) stretches;
-// capital, base, pediment, ledge and steps keep their proportions.
+// with its content: only the shaft stretches (preserveAspectRatio="none"); capital, base, pediment,
+// ledge and steps keep their proportions.
 //   node scripts/illustrations/portico-gen.mjs        writes src/assets/illustrations/portico-*.svg
 //   node scripts/illustrations/portico-preview.mjs    puts them together to look at
 //
@@ -388,8 +388,8 @@ function steps() {
 
 // ---------- Podium (narrow screens) ----------
 // Where there is no room for the form between the columns, the columns stand on a podium and the
-// form is set into its face. The ledge is its cap, with the shadow it throws; the wall is the pair
-// of lines down its sides, and stretches.
+// form is set into its face. The ledge is its cap, with the shadow it throws; the two lines down
+// the sides of the podium are drawn by the component, WALL units in from each edge.
 const LEDGE_H = 13;
 function ledge() {
   const slab = 8.6;
@@ -406,16 +406,6 @@ function ledge() {
   );
   return svg(W, LEDGE_H, out);
 }
-const WALL_H = 100;
-function wall() {
-  return svg(
-    W,
-    WALL_H,
-    [line(`M${P(WALL, -0.6)}L${P(WALL, WALL_H + 0.6)}M${P(W - WALL, -0.6)}L${P(W - WALL, WALL_H + 0.6)}`, { 'stroke-linecap': 'butt' })],
-    { preserveAspectRatio: 'none' },
-  );
-}
-
 const pieces = {
   'portico-capital': capital(),
   'portico-shaft': shaft(),
@@ -423,7 +413,6 @@ const pieces = {
   'portico-pediment': pediment(),
   'portico-steps': steps(),
   'portico-ledge': ledge(),
-  'portico-wall': wall(),
 };
 for (const [name, markup] of Object.entries(pieces)) {
   writeFileSync(resolve(outDir, `${name}.svg`), markup);

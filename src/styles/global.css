@@ -162,8 +162,7 @@ li {
   max-width: var(--measure);
 }
 
-/* The personal voice (greetings, asides, Greek maxims): a fine handwritten script.
-   Its tall loops are allowed to reach into the lines above and below, as handwriting does. */
+/* The personal voice (greetings, asides, Greek maxims), in handwriting. */
 .hand {
   font-family: var(--font-hand);
   font-style: italic;

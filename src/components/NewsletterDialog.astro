@@ -56,7 +56,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
       <!-- The podium, on narrow screens only -->
       <Illustration name="portico-ledge" class="nl__ledge" />
-      <Illustration name="portico-wall" class="nl__wall" />
+      <div class="nl__wall"></div>
 
       <div class="nl__action">
         <!-- NEWSLETTER SERVICE, part 1 of 2. When a mailing service is connected, this form gets the
@@ -376,8 +376,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     flex: 1 1 0;
     min-height: calc(348 * var(--u));
   }
-  .nl__shaft :global(svg),
-  .nl__wall :global(svg) {
+  .nl__shaft :global(svg) {
     position: absolute;
     inset: 0;
     height: 100%;
@@ -385,9 +384,11 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
   .nl__ledge {
     grid-area: 3 / 1 / 4 / -1;
   }
+  /* The sides of the podium: two lines of the drawing's weight, 23 units in from each edge */
   .nl__wall {
     grid-area: 4 / 1 / 5 / -1;
-    position: relative;
+    margin-inline: calc(23 * var(--u) - var(--nl-line) / 2);
+    border-inline: var(--nl-line) solid var(--ink-strong);
   }
   .nl__steps {
     grid-area: 5 / 1 / 6 / -1;

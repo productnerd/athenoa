@@ -1,7 +1,8 @@
 ---
 // Home hero. The original hero picture of athenoa.academy (the temple at night, Athena rising
 // behind its pediment with her spear and a Nike, the flame in the doorway) redrawn as a two-ink
-// night print. One wide cut-out of darker Greek blue below the sticky header: the title stands in
+// night print. One wide cut-out of darker Greek blue below the sticky header (it stays a night
+// scene in both themes, hence theme-day on the panel): the title stands in
 // the open sky on the left, Athena and the temple take the right, stars and the Milky Way run
 // behind both, trees stand in the lower corners. On narrow or upright screens the title sits
 // above and the picture below.
@@ -21,7 +22,7 @@ const highlight = home.hero.highlight;
 ---
 
 <section class:list={['hero', `hero--${locale}`]} data-pointer-scene>
-  <div class="hero__panel panel panel--big on-blue-deep">
+  <div class="hero__panel panel panel--big on-blue-deep theme-day">
     <div class="panel__clip hero__stage" aria-hidden="true">
       <div class="hero__layer hero__layer--sky" data-depth="0.5" data-pointer="-6" data-reveal="fade">
         <Illustration name="portal-b-sky" />
@@ -58,13 +59,14 @@ const highlight = home.hero.highlight;
       {
         home.hero.titleLines.map((line, n) => {
           const at = line.indexOf(highlight);
-          // The first line is the title; what follows is its subtitle, set smaller.
+          // The first line is the title; what follows is its subtitle, set smaller and shown in
+          // lower case (home.hero.subtitle), because the handwritten face is unreadable in capitals.
           // (the space keeps the lines apart when the heading is read out as one sentence)
           if (at < 0)
             return (
               <>
                 {n > 0 && ' '}
-                <span class:list={['hero__line', n > 0 && 't-sub']}>{line}</span>
+                <span class:list={['hero__line', n > 0 && 't-sub']}>{n > 0 ? home.hero.subtitle : line}</span>
               </>
             );
           return (
@@ -151,13 +153,13 @@ const highlight = home.hero.highlight;
     inset: -0.06em -0.38em -0.05em -0.33em;
     border-radius: 27% 21% 29% 22% / 41% 46% 40% 45%;
   }
-  /* The subtitle in the voice face: light blue on the night ground, a touch firmer than on paper
-     so its hairlines hold, and never below the size the face needs. */
+  /* The subtitle in the handwritten voice face, light blue on the night ground. It keeps the
+     kit's proportion to its title (step-3 under step-5 is 0.48), so it follows whichever hand
+     the kit settles on, and never drops below the size a hand needs. Usually one line; where
+     the column is too narrow it breaks into two even ones. */
   .hero__title .t-sub {
-    margin-top: 0.56em;
-    font-size: max(0.46em, 1.3rem);
-    font-weight: 420;
-    line-height: 1.1;
+    margin-top: 0.6em;
+    font-size: max(0.48em, 1.3rem);
     text-wrap: balance;
   }
 

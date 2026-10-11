@@ -35,9 +35,9 @@
      punctuation in the Tekst trial), falls back to EB Garamond, which is shipped. */
   --font-title: 'ATH Editorial', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
   --font-body: 'ATH Tekst', 'EB Garamond Variable', 'EB Garamond', Garamond, 'Times New Roman', serif;
-  /* The personal voice: greetings, asides, maxims. A fine handwritten script (NF-Lolotte), with a
-     calligraphic italic behind it. Its loops are tall, so lines of it sit closer than its size suggests. */
-  --hand-leading: 1.36;
+  /* The personal voice: greetings, asides, maxims. Handwritten: La Belle Aurore for English and
+     Bradley Hand for Greek (see fonts.css), with a calligraphic italic behind them. */
+  --hand-leading: 1.3;
   --font-hand: 'ATH Hand', 'Noto Serif Display Variable', 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
   --title-weight: 400;
   --title-weight-xl: 200;
@@ -87,6 +87,10 @@
   --dur-4: 1.9s;
 
   --header-h: clamp(4rem, 3.4rem + 2vw, 5.25rem);
+  /* Height of the band of ink that ends every page: the ground of the footer drawing (60 of its 1600
+     units, and the drawing is never narrower than 64rem) plus a slim strip under it. The copyright
+     line and the music button are both centred on it. */
+  --footer-band: calc(max(3.75vw, 2.4rem) + 1rem);
 }
 
 /* Night. The two inks trade places: night-blue paper with crème and light-blue ink. Every pairing used

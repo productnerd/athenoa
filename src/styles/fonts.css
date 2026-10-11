@@ -5,26 +5,43 @@
 @import '@fontsource-variable/eb-garamond/wght-italic.css';
 @import '@fontsource-variable/noto-serif-display/wght-italic.css';
 
-/* The handwritten voice under test: NF-Lolotte, loaded from this computer (not shipped; it needs a
-   web licence before launch). It is a fine monoline script with a very small x-height, so it is set
-   at 240% of its nominal size: twice, to bring it level with ordinary type, and a further 20% because
-   it is hard to read. Anyone without the font, and polytonic Greek, falls back to the italic above.
-   It is declared for both styles so the browser never slants it artificially. */
+/* The handwritten voice. English is written in La Belle Aurore (open licence, shipped). It has no
+   Greek, so Greek letters are written in Bradley Hand, which is built into macOS and is not shipped:
+   visitors on other systems see the calligraphic italic above for Greek until a Greek hand is licensed.
+   Each is declared for both styles so the browser never slants or thickens it artificially. */
 @font-face {
   font-family: 'ATH Hand';
-  src: local('NF-Lolotte-Regular'), local('NF-Lolotte Regular'), local('NF-Lolotte');
-  font-style: italic;
+  src: url('../../node_modules/@fontsource/la-belle-aurore/files/la-belle-aurore-latin-400-normal.woff2') format('woff2');
+  font-style: normal;
   font-weight: 100 900;
-  size-adjust: 240%;
   font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215;
 }
 @font-face {
   font-family: 'ATH Hand';
-  src: local('NF-Lolotte-Regular'), local('NF-Lolotte Regular'), local('NF-Lolotte');
+  src: url('../../node_modules/@fontsource/la-belle-aurore/files/la-belle-aurore-latin-400-normal.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+2215;
+}
+@font-face {
+  font-family: 'ATH Hand';
+  src: local('BradleyHandITCTT-Bold'), local('Bradley Hand Bold'), local('Bradley Hand');
   font-style: normal;
   font-weight: 100 900;
-  size-adjust: 240%;
   font-display: swap;
+  unicode-range: U+0370-03FF, U+1F00-1FFF;
+}
+@font-face {
+  font-family: 'ATH Hand';
+  src: local('BradleyHandITCTT-Bold'), local('Bradley Hand Bold'), local('Bradley Hand');
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range: U+0370-03FF, U+1F00-1FFF;
 }
 
 /* Local-only fonts for the type test. They are referenced from the visitor's machine and never

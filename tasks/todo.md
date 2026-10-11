@@ -128,6 +128,16 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] /font-test handwriting: one sentence per font in English and Greek; thirteen more Greek-capable hands added
 - [x] Handwriting: trying NF-Lolotte (local font, needs a web licence), set at 240% of nominal size with tight lines; hero subtitle shown in lower case because the script is unreadable in capitals (home.hero.subtitle). When the final Hero.astro lands, make it use home.hero.subtitle for its .t-sub line.
 
+## Added by Maria on 2026-10-11 (tenth round)
+
+- [x] Handwriting: La Belle Aurore for English (shipped), Bradley Hand for Greek (macOS only); NF-Lolotte dropped
+- [x] Language switch is one control that opens a list, with hand-cut shapes
+- [x] Newsletter popup wired into the layout (opens from any link to #newsletter)
+- [x] Footer ink band about a third of its former height; copyright and mute button centred on it
+- [x] Animated grain a little stronger, and visible at night
+- [ ] Cicada sound: second synthesised attempt in place; Maria found the first too artificial. Real public-domain recordings exist on Wikimedia Commons ("Cicadas in Greece.ogg", 209 KB; "Cicada orni.ogg", 1.7 MB): download only with her permission.
+- [ ] Ancient Greek as a third language, for fun, LOW PRIORITY: translation being drafted into src/data/grc/; then add 'grc' to src/lib/locale.ts, src/data/index.ts, ui.ts, the header list and routes under src/pages/grc/. Components index their own word lists by locale ({en, el}[locale]): make those fall back to Greek for grc.
+
 ## Open questions
 
 See the chat message of 2026-10-10.

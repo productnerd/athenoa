@@ -49,16 +49,16 @@ const html = `<!doctype html><meta charset="utf-8"><style>
   .col--l{grid-column:2}.col--r{grid-column:4;scale:-1 1}
   .head{grid-area:2 / 3;position:relative;min-height:${headH * zoom}px}
   .form{position:relative;min-height:${formH * zoom}px;grid-area:${narrow ? '4 / 1 / 5 / -1' : '4 / 3'}}
-  .wall{grid-area:4 / 1 / 5 / -1;position:relative}
+  .wall{grid-area:4 / 1 / 5 / -1;margin-inline:calc(23 * var(--u) - ${(lineW * zoom) / 2}px);border-inline:${lineW * zoom}px solid}
   ${narrow ? '' : '.ledge,.wall{display:none}'}
   .shaft{position:relative;flex:1 1 0;min-height:calc(${narrow ? 348 : 338} * var(--u))}
-  .shaft svg,.wall svg{position:absolute;inset:0;height:100%}
+  .shaft svg{position:absolute;inset:0;height:100%}
   svg{display:block;width:100%;height:auto;overflow:visible;stroke-width:${lineW * zoom}px}
 </style>
 <div class="frame"><div class="grid"><div class="paper"></div>
   <div class="ped">${piece('pediment')}</div>
   <div class="col col--l">${column}</div><div class="head"></div><div class="col col--r">${column}</div>
-  <div class="ledge">${piece('ledge')}</div><div class="wall">${piece('wall')}</div><div class="form"></div>
+  <div class="ledge">${piece('ledge')}</div><div class="wall"></div><div class="form"></div>
   <div class="steps">${piece('steps')}</div>
 </div></div>`;
 

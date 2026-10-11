@@ -119,7 +119,8 @@ const t = {
   .music {
     position: fixed;
     left: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
-    bottom: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
+    /* Level with the copyright line when the page is scrolled to its end */
+    bottom: max(0.2rem, calc(var(--footer-band) / 2 - 1.5rem));
     z-index: 55;
   }
   .music__button {

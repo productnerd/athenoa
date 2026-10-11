@@ -219,18 +219,23 @@ const custom = Object.entries(images).find(([file]) =>
     height: auto;
   }
 
-  /* The copyright line has its own band of ink under the drawing, so nothing in the picture
-     can crowd it. Its colour continues the ground of the scene above. */
+  /* The page ends on a low band of ink: the ground of the drawing and a slim strip under it.
+     The copyright line is centred on that band. */
+  .footer {
+    padding-bottom: 1rem;
+    background: linear-gradient(to top, var(--footer-ground, var(--blue)) 1.05rem, transparent 1.05rem);
+  }
   .footer__legal {
-    position: relative;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc(var(--footer-band) / 2 - 0.62em);
     z-index: 3;
-    margin-top: -1px;
-    /* A deep band: twice the height it first had */
-    padding: 2.5rem var(--gutter) 2.9rem;
-    /* Flat ink, the same as the ground of the drawing above, so the two read as one band */
-    background-color: var(--footer-ground, var(--blue));
+    margin: 0;
+    padding: 0 var(--gutter);
     text-align: center;
     font-size: var(--step--1);
+    line-height: 1.24;
     letter-spacing: 0.08em;
     color: var(--creme-light);
   }
