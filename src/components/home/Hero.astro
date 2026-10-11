@@ -388,6 +388,13 @@ const rowsOf = (text: string) => {
   .hero__stage :global(.illo--portal-b-light) {
     --pb-light: var(--blue-light);
   }
+  /* The rays run on past the building: by day they are sunlit paper, so they show against the sky */
+  .hero__stage :global(.pb-beams) {
+    --pb-light: var(--creme-light);
+  }
+  :global(html[data-theme='dark']) .hero__stage :global(.pb-beams) {
+    --pb-light: var(--blue-light);
+  }
   .hero__stage :global(.illo--portal-b-hill) {
     --pb-stone: var(--creme);
   }

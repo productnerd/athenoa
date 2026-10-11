@@ -240,21 +240,49 @@ function cella() {
   save('cella', svg(1000, 1000, out.join('')));
 }
 
+// The building as the light meets it from inside: the outer columns, the entablature, the pediment.
+const OUTLINE = [
+  [ENT.l, T.stylobate],
+  [ENT.l, T.frieze],
+  [PED.l, T.cornice],
+  [CX, T.apex],
+  [PED.r, T.cornice],
+  [ENT.r, T.frieze],
+  [ENT.r, T.stylobate],
+];
+// How far it is from the flame to that outline in a given direction
+const reach = (deg) => {
+  const rad = (deg * Math.PI) / 180;
+  const [dx, dy] = [Math.cos(rad), Math.sin(rad)];
+  let best = Infinity;
+  for (let i = 0; i < OUTLINE.length - 1; i++) {
+    const [px, py] = OUTLINE[i];
+    const [ex, ey] = [OUTLINE[i + 1][0] - px, OUTLINE[i + 1][1] - py];
+    const det = ex * dy - ey * dx;
+    if (Math.abs(det) < 1e-9) continue;
+    const t = (ex * (py - FLAME[1]) - ey * (px - FLAME[0])) / det;
+    const u = (dx * (py - FLAME[1]) - dy * (px - FLAME[0])) / det;
+    if (t > 0 && u >= 0 && u <= 1) best = Math.min(best, t);
+  }
+  return best;
+};
+
 function light() {
   const out = [];
-  // fine rays fanning out from the flame, seen between the columns
+  // Fine rays fanning out from the flame. They show between the columns, pass behind the stone,
+  // and run on a little way past the building into the open (client direction, 11 October 2026):
+  // the wide rays further than the fine ones.
   let rays = '';
   for (let k = 0; k < 13; k++) {
     const a = 3.5 + k * 4.9 + (k % 3) * 0.5;
     const w = k % 2 ? 0.8 : 1.5;
     for (const side of [-1, 1]) {
       const deg = side < 0 ? 180 + a : 360 - a;
-      rays += `M${pt(polar(FLAME, 40, deg))}L${pt(polar(FLAME, 480, deg - w / 2))}L${pt(polar(FLAME, 480, deg + w / 2))}Z`;
+      const far = reach(deg) + (k % 2 ? 34 : 58);
+      rays += `M${pt(polar(FLAME, 40, deg))}L${pt(polar(FLAME, far, deg - w / 2))}L${pt(polar(FLAME, far, deg + w / 2))}Z`;
     }
   }
-  // (the clip runs on under the architrave and the top step, which cover it)
-  out.push(`<clipPath id="pb-cella"><path d="${rect(AX[0], T.taenia + 6, AX[5], T.stylobate + 10)}"/></clipPath>`);
-  out.push(`<g clip-path="url(#pb-cella)" class="pb-beams">${wash(rays, LIGHT)}</g>`);
+  out.push(`<g class="pb-beams">${wash(rays, LIGHT)}</g>`);
   // the doorway itself: an arch of light between the two middle columns
   out.push(wash(`M444 ${T.stylobate + 10}L444 718A56 56 0 0 1 556 718L556 ${T.stylobate + 10}Z`, LIGHT, ' class="pb-door"'));
   save('light', svg(1000, 1000, out.join('')));
