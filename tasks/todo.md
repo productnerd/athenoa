@@ -175,6 +175,8 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Owl call quicker again (2.1 s); day wave 2.5 s with a steeper fade
 - [x] Athena hidden in the hero for now, and the disc and rays behind her with her (showAthena in Hero.astro brings them back)
 - [x] Ancient Greek wired in under /grc/ and offered in the language list (draft, noindex, no structured data, out of the sitemap)
+- [x] Hero: the disc and rays above the temple hidden too; rays from the flame run a little past the building and fade out; one ground line end to end (dashes and hill lines removed)
+- [x] Membership: the three points side by side in one row across the page (from 52rem); the statue now stands beside the button and the frieze
 - [ ] HELPER RUNNING: course card photos all one size; card summary smaller and quieter; photographs fade in instead of the paper curtain; hilltop photo (first asked "almost the full width", then "too pixelated, half the width"); torch left of the Benefits title, question close under the title
 - [ ] HELPER RUNNING: footer scenes at night show a moon and stars instead of a sun; the sun slides down and the moon and stars animate in when switching
 - [ ] After the helpers: add --hover-delay to the hovers in CourseCard.astro and Footer.astro; run the responsive check; commit
