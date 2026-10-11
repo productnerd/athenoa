@@ -87,9 +87,12 @@ const [lead, ...paragraphs] = about.intro;
     font-size: min(var(--step-5), calc(100cqi / (var(--name-chars) * 0.46)));
   }
   /* The opening words are set as the title's smaller first line, in the lighter blue of a subtitle */
+  /* (close above the name: the hand's own line height would leave a gap) */
   .hero__opening {
-    margin: 0 0 0.1em;
+    margin: 0 0 -0.12em;
+    padding-bottom: 0;
     font-size: 0.58em;
+    line-height: 1.12;
   }
   .hero__name {
     display: block;

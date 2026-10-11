@@ -201,7 +201,10 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Language list in the phone menu was taking the menu links' large type (a selector reached into the nested list): fixed, list now at text size
 - [x] Popups: close buttons are a cross only (course popup and newsletter; the waitlist already was)
 - [x] Wave drawings only animate while on screen (they were costing the browser work constantly, the cause of the machine running hot with the preview open)
-- [ ] TEMPORARY: title-face switch at the foot of English pages (Editorial New / Victor Serif / Victor Narrow). Victor fonts are local trial files without Greek. Remove TypeToggle.astro, the faces at the end of fonts.css and the two rules in tokens.css once a face is chosen; a chosen face needs a web licence.
+- [x] Title face: she chose Victor Narrow. Toggle and Victor Serif removed. Weights by size: hero and largest titles Light, .t-2 Regular, .t-3 Medium. Applied only where the font is installed (detected in Base.astro), otherwise Editorial New as before.
+- [ ] BEFORE LAUNCH: Victor Narrow needs a web licence and has no Greek (Greek pages stay in EB Garamond)
+- [x] Hero highlight lies behind all the title's words
+- [x] About title: "About" sits close above the name
 
 ## Open questions
 

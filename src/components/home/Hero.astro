@@ -223,10 +223,16 @@ const rowsOf = (text: string) => {
   }
 
   /* ---------- title ---------- */
+  /* The title is one stacking context and its highlighted words are not, so the swashes lie behind
+     every word of the title, never over the end of the row above (client direction). */
   .hero__title {
+    isolation: isolate;
     max-width: 100%;
     font-size: var(--hero-fs);
     text-wrap: wrap;
+  }
+  .hero__title .hl__w {
+    isolation: auto;
   }
   .hero__line,
   .hero__row {

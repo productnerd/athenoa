@@ -122,7 +122,7 @@ li {
 }
 .t-hero {
   font-size: var(--step-5);
-  font-weight: var(--title-weight-xl);
+  font-weight: var(--title-weight-hero, var(--title-weight-xl));
 }
 .t-1 {
   font-size: var(--step-4);
@@ -134,6 +134,7 @@ li {
 }
 .t-3 {
   font-size: var(--step-2);
+  font-weight: var(--title-weight-s, var(--title-weight));
   line-height: calc(var(--title-leading) + 0.1);
   letter-spacing: -0.006em;
 }
