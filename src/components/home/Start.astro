@@ -1,6 +1,6 @@
 ---
 // Home: "Let's Get Started". Raphael's fresco fills a very large arch, printed in blue ink like a cyanotype,
-// with Athena's two lines set across it in the voice face.
+// with Athena's words set across it in the voice face.
 import Media from '../Media.astro';
 import fresco from '../../assets/media/school-of-athens.jpg';
 import { content } from '../../data';
@@ -43,14 +43,9 @@ const t = {
 
       <div class="start__text">
         <h2 class="t-1" id="start-title" data-split>{start.title}</h2>
+        <!-- Athena's two lines read as one sentence: one block (client direction, 11 October 2026) -->
         <div class="start__lines">
-          {
-            start.lines.map((line, i) => (
-              <p class="hand hand--l" data-reveal style={`--i:${i * 3 + 4}`}>
-                {line}
-              </p>
-            ))
-          }
+          <p class="hand hand--l" data-reveal style="--i:4">{start.lines.join(' ')}</p>
         </div>
       </div>
     </div>
@@ -133,9 +128,6 @@ const t = {
     font-weight: 380;
     line-height: 1.18;
     text-wrap: balance;
-  }
-  .start__lines .hand + .hand {
-    margin-top: 0.4em;
   }
 
   @media (min-width: 60rem) {

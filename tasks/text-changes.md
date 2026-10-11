@@ -36,6 +36,12 @@ Source: athenoa.academy/en and /en/contactus, read on 2026-10-10. Everything els
 
 The enrol popup needs labels the live site never had (for example "View course", "Your details", "Continue to payment", "Pay with Stripe"). They are all in one place for review: `coursesPage.ui` in `src/data/courses.ts`.
 
+## 404 page and joined lines (11 October 2026, at Maria's request)
+
+- The not-found page no longer shows the Democritus sentence on eudaimonia. In its place, in the reading face: "Not everybody who wanders is lost" (Greek: «Δεν είναι χαμένοι όλοι όσοι περιπλανιούνται»).
+- Its button reads "Take me to Ithaka" (Greek: «Πάρε με στην Ιθάκη»). The note under it is unchanged: "but let the journey be long and filled with adventures" in English, Cavafy's own line in Greek.
+- Home, "Let's Get Started": Athena's two lines are shown as one block of text. The words are unchanged.
+
 ## Left as written, for Athena to decide
 
 See the end of this file once the proofreading pass is in.

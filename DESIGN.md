@@ -13,17 +13,18 @@ Reference images supplied by the client: a deep ultramarine field with naive cr√
 ## Hard rules from the client
 
 - Palette is Greek blue and cr√®me only. Blue comes in three shades of one hue and all three must be used so the page is not monotonous: light blue (`--blue-light`), Greek blue (`--blue`) and darker Greek blue (`--blue-deep`). No other hues, no black, no grey shadows.
-- Lots of organic shapes. Every box has an organic outline, or at the very least a corner radius. No hard rectangles, including full-bleed bands: blue areas are `.panel` cut-outs inset from the page edge.
+- Lots of organic shapes. Every box has an organic outline, or at the very least a corner radius. No hard rectangles, including full-bleed bands: blue areas are `.panel` cut-outs inset from the page edge. The one exception, by the client's wish, is the Home hero: its picture is full bleed (it runs under the header to the edges of the window) and its foot fades into the page. Nothing in it may end with a visible edge or line.
 - Paper texture and roughness (grain on paper and on blue, rough-cut edges on shapes).
 - Every photograph goes through `<Media>`: curved outline plus a light vignette. Never a bare `<img>` for a photo.
 - Copy is fixed. Text comes only from `src/data/*.ts`. Do not write, reword, trim, re-case or duplicate copy. If a design needs a word that is not in the data (a label, an aria-label), keep it minimal and report it.
 - Type (decided): titles in PP Editorial New (narrow; ultralight at the two largest sizes, regular below), reading text in Tekst, and a calligraphic voice face. There is no type switch any more. Titles use `.t-hero`, `.t-1`, `.t-2`, `.t-3`. Editorial New has no Greek and the Tekst trial lacks accented Greek, so Greek pages fall back to EB Garamond: check both languages. Never rely on a title fitting on one line. The alternatives are kept on `/font-test/` only.
 - The site is bilingual, English and Greek. Greek words are often longer; leave room. Only EB Garamond and the voice face cover Greek fully.
 - In the hero title the words PLATONIC ACADEMY sit on an organic highlight (`.hl`), which animates in last. The second line of the title ("& REMEMBER WHO YOU REALLY ARE") is a subtitle: smaller than the first, class `.t-sub`, still inside the h1.
-- The voice face (`.hand`, a fine calligraphic italic, not casual handwriting) only where a person is speaking or annotating: greetings, asides, Greek maxims, notes. Never for body copy, never for navigation. It is light, so use it at `.hand--m` size or larger and never below 1.2rem. Never set it in capitals. Its tails are long: never put it inside a box that clips, and never tighten its line height below `--hand-leading`.
+- The hero title is as large as the space allows: beside the picture it is a tall stack of short rows (no trees on the left of the picture, so the title has the height). The hero picture follows the day/night switch: a marble temple under a light-blue sky with two clouds by day, the starry night scene by night.
+- The voice face (`.hand`, a fine calligraphic italic, not casual handwriting) only where a person is speaking or annotating: greetings, asides, Greek maxims, notes. Never for body copy, never for navigation. It is light, so use it at `.hand--m` size or larger and never below 1.2rem. Never set it in capitals. Its tails are long: never put it inside a box that clips, and never tighten its line height below `--hand-leading`. Two exceptions asked for by the client: Athena's announcement on Home is set smaller and closer (it is an announcement more than a letter), and the note under the 404 button is half size, slanted, with an asterisk, like a note in a margin.
 - Social icons are monochrome, in a plain straight row: no circles, no chips, no tilt.
 - No owls anywhere (the client finds them too "Duolingo"). Use the symbol drawings instead.
-- Smooth load and scroll animation across the site, with parallax depth where it helps. Motion must be switchable off (see Motion).
+- Smooth load and scroll animation across the site, with parallax depth where it helps. Motion must be switchable off (see Motion). Parallax is gentle and trails slightly; photographs simply fade in; every hover effect starts after a short delay (`--hover-delay`).
 
 ## Avoid
 
@@ -69,15 +70,16 @@ See the type options at `/font-test/`.
 
 Everything is attribute-driven and inert without JavaScript or with `prefers-reduced-motion`.
 
-- `data-reveal` (rise), `data-reveal="grow"`, `data-reveal="fade"`, `data-reveal="unveil"` (default on `<Media>`). Stagger with `style="--i:2"` or `--delay:200ms`.
+- `data-reveal` (rise), `data-reveal="grow"`, `data-reveal="fade"`. Photographs (`<Media>`) fade in: the client asked for a plain fade instead of the paper curtain. Stagger with `style="--i:2"` or `--delay:200ms`.
 - `data-reveal-group` on a parent reveals its children in turn.
 - `data-split` on a heading: words rise from a mask one after another.
 - `data-draw` on an element containing inline SVG (or `draw` on `<Illustration>`): strokes draw in.
-- `data-depth="0.3"`: scroll parallax. Positive is far (moves slower than the page), negative is near (moves faster). Typical: 0.1 to 0.4 for things behind, -0.05 to -0.3 for things in front.
+- `data-depth="0.3"`: scroll parallax. Positive is far (moves slower than the page), negative is near (moves faster). Typical: 0.1 to 0.4 for things behind, -0.05 to -0.3 for things in front. The client asked for it to be less sensitive and to answer with a tiny delay: the constants at the top of `motion.ts` (TRAVEL, POINTER, EASE, LAG) set that for the whole site; do not turn them back up.
 - `data-pointer="14"` inside a `[data-pointer-scene]`: follows the pointer by up to N px (negative moves against it). Use in the hero only.
 - `.drift`: slow idle float for small ornaments.
 - Reveals use `transform`, parallax writes `translate`, static tilt should use `rotate`. Keep to that split so effects stack.
 - Aim for one orchestrated moment per section, not everything moving at once.
+- Hover: every transition that answers the pointer carries `var(--hover-delay)` as its delay (links, buttons, menu marks, tabs, icons), so nothing flickers as the pointer passes. A press (`:active`) answers at once.
 
 ## Checking your work
 
@@ -121,7 +123,7 @@ const { home, site } = content(locale); // also: about, courses, coursesPage, re
 ## Where each blue goes
 
 So the three blues are all in play and no two neighbours match:
-- Home: hero is a night scene on darker Greek blue; Membership on paper with light-blue shapes; Announcement on paper; Seminar on Greek blue; Series on paper; course tabs on a light-blue sheet; Transmission on darker Greek blue; Start is Greek blue over the fresco; Benefits on paper with one light-blue, one Greek-blue and one darker-blue box.
+- Home: hero is full bleed, light blue by day (marble in the paper colour, Greek-blue line) and darker Greek blue by night; Membership on paper with light-blue shapes; Announcement on paper; Seminar on Greek blue; Series on paper; course tabs on a light-blue sheet; Transmission on darker Greek blue; Start is Greek blue over the fresco; Benefits on paper with one light-blue, one Greek-blue and one darker-blue box.
 - About: opening on paper; the story's third block on darker Greek blue; the Academy block on light blue; Contact on Greek blue.
 - Courses: the open course leads on Greek blue; the other cards on light blue and paper; the price block inside the popup on darker Greek blue.
 

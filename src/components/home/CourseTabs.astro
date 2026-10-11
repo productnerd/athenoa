@@ -287,8 +287,8 @@ const tabs = [...course.sections, registrationTab];
     cursor: pointer;
     scroll-snap-align: center;
     transition:
-      color var(--dur-1),
-      translate var(--dur-2) var(--ease-out);
+      color var(--dur-1) var(--hover-delay),
+      translate var(--dur-2) var(--ease-out) var(--hover-delay);
   }
   .ctabs__tab::before {
     content: '';
@@ -298,7 +298,7 @@ const tabs = [...course.sections, registrationTab];
     border-radius: var(--tab-r);
     background: var(--tab-bg, var(--creme-light));
     filter: url(#rough-sm);
-    transition: background-color var(--dur-1);
+    transition: background-color var(--dur-1) var(--hover-delay);
   }
   .ctabs__tab:nth-child(3n + 2) {
     --tab-r: 2rem 2.8rem 2.2rem 2.6rem / 2.7rem 2.1rem 2.6rem 2rem;
@@ -330,6 +330,7 @@ const tabs = [...course.sections, registrationTab];
     font-size: 1.22rem;
     line-height: 1.16;
     color: var(--blue);
+    transition: color var(--dur-1) var(--hover-delay);
   }
   .ctabs__tab:is(:hover, [aria-selected='true']) .ctabs__sub {
     color: inherit;

@@ -893,7 +893,11 @@ function ground() {
   const top = [];
   for (let x = -40; x <= W + 40; x += 160) top.push([x, 46 + Math.sin(x / 310) * 9 + (rand() - 0.5) * 6]);
   const out = [];
-  out.push(night(`M${pt(top[0])}${curve(top)}L${W + 40} 260L-40 260Z`));
+  // The wash below the line has no outline and runs far down: the picture fades into the page
+  // below the first screen, so nothing may end there with an edge (the foot of the hill behind
+  // it must stay covered all the way). Only the ground line itself is drawn.
+  out.push(`<path d="M${pt(top[0])}${curve(top)}L${W + 40} 2000L-40 2000Z" fill="var(--pb-night, #071260)" stroke="none"/>`);
+  out.push(path(`M${pt(top[0])}${curve(top)}`));
   // a second line under the first, broken, like a furrow
   let furrow = '';
   for (let x = 60; x < W; x += 380 + rand() * 120) {

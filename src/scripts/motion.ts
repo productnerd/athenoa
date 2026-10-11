@@ -24,8 +24,10 @@ type Layer = {
   near: boolean;
 };
 
-const TRAVEL = 240; // px moved per viewport of scroll at depth 1
-const EASE = 0.12;
+const TRAVEL = 130; // px moved per viewport of scroll at depth 1
+const POINTER = 0.55; // share of each layer's data-pointer distance that is actually used
+const EASE = 0.06; // how much of the remaining distance a layer covers each frame: low, so it trails a little
+const LAG = 70; // ms before layers start to answer the scroll or the pointer
 
 let layers: Layer[] = [];
 let frame = 0;
@@ -125,8 +127,8 @@ function setTargets() {
     const progress = Math.max(-1.4, Math.min(1.4, (layer.top + layer.height / 2 - mid) / vh));
     layer.near = Math.abs(progress) < 1.3;
     const pointer = layer.scene ? pointerByScene.get(layer.scene) : undefined;
-    layer.ty = -progress * layer.depth * travel + (pointer ? pointer.y * layer.pointer : 0);
-    layer.tx = pointer ? pointer.x * layer.pointer : 0;
+    layer.ty = -progress * layer.depth * travel + (pointer ? pointer.y * layer.pointer * POINTER : 0);
+    layer.tx = pointer ? pointer.x * layer.pointer * POINTER : 0;
   }
 }
 
@@ -145,9 +147,18 @@ function tick() {
   frame = moving ? requestAnimationFrame(tick) : 0;
 }
 
-function kick() {
-  setTargets();
-  if (!frame) frame = requestAnimationFrame(tick);
+let lag = 0;
+function kick(now = false) {
+  if (now) {
+    setTargets();
+    if (!frame) frame = requestAnimationFrame(tick);
+    return;
+  }
+  if (lag) return;
+  lag = window.setTimeout(() => {
+    lag = 0;
+    kick(true);
+  }, LAG);
 }
 
 function startParallax() {
@@ -209,6 +220,8 @@ function startParallax() {
     });
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
+    clearTimeout(lag);
+    lag = 0;
     layers = [];
   });
 }

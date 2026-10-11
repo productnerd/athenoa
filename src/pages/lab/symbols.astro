@@ -1,0 +1,41 @@
+---
+// Lab page: the library of symbol drawings on one sheet. Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import Illustration from '../../components/Illustration.astro';
+const names = ['tetractys', 'monad', 'bow-lyre', 'cave-sun', 'ladder', 'torch', 'spring-cypress', 'tripod', 'butterfly', 'orphic-egg', 'cicada', 'wheat', 'lyre', 'laurel', 'olive-branch', 'temple', 'athena', 'icon-spirit', 'icon-community', 'icon-contribution'];
+---
+
+<Base title="Symbols | ATHENOA lab" description="The library of symbol drawings" noindex footer={false}>
+  <section class="section wrap">
+    <h1 class="t-2">Symbols</h1>
+    <ul class="grid" role="list">
+      {names.map((name) => (
+        <li>
+          <Illustration name={name} />
+          <p class="small">{name}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: var(--space-m);
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .grid li {
+    display: grid;
+    gap: 0.4rem;
+    align-content: end;
+    justify-items: center;
+  }
+  .grid :global(.illo) {
+    width: 100%;
+    max-width: 8rem;
+  }
+</style>

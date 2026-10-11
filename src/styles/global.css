@@ -193,8 +193,8 @@ a {
   text-decoration-thickness: 0.07em;
   text-underline-offset: 0.2em;
   transition:
-    text-decoration-color var(--dur-1),
-    color var(--dur-1);
+    text-decoration-color var(--dur-1) var(--hover-delay),
+    color var(--dur-1) var(--hover-delay);
 }
 a:hover {
   text-decoration-color: currentColor;
@@ -385,7 +385,9 @@ b {
   text-decoration: none;
   cursor: pointer;
   border-radius: 2.2rem 1.7rem 2.3rem 1.8rem / 1.8rem 2.3rem 1.7rem 2.2rem;
-  transition: translate var(--dur-1) var(--ease-out);
+  transition:
+    translate var(--dur-1) var(--ease-out) var(--hover-delay),
+    color var(--dur-1) var(--hover-delay);
 }
 .btn::before {
   content: '';
@@ -396,9 +398,9 @@ b {
   background: var(--btn-bg, var(--blue));
   filter: url(#rough-sm);
   transition:
-    background-color var(--dur-1),
-    scale var(--dur-2) var(--ease-out),
-    border-radius var(--dur-2) var(--ease-out);
+    background-color var(--dur-1) var(--hover-delay),
+    scale var(--dur-2) var(--ease-out) var(--hover-delay),
+    border-radius var(--dur-2) var(--ease-out) var(--hover-delay);
 }
 .btn:hover {
   translate: 0 -2px;
@@ -410,6 +412,8 @@ b {
 }
 .btn:active {
   translate: 0 1px;
+  /* a press answers at once */
+  transition-delay: 0s;
 }
 :is(.on-blue, .on-blue-deep) .btn {
   --btn-bg: var(--creme-light);
@@ -628,8 +632,8 @@ b {
   border: 1.5px solid var(--line);
   border-radius: 1.5rem 1.1rem 1.6rem 1.2rem / 1.2rem 1.6rem 1.1rem 1.5rem;
   transition:
-    border-color var(--dur-1),
-    background-color var(--dur-1);
+    border-color var(--dur-1) var(--hover-delay),
+    background-color var(--dur-1) var(--hover-delay);
 }
 .field textarea {
   min-height: 9rem;

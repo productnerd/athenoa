@@ -1,53 +1,35 @@
 ---
-// PROVISIONAL home page: shows whichever home sections exist so far, so the build can be watched.
-// It is replaced by explicit imports once the hero is chosen and every section has landed.
-import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+// Home. One page, top to bottom: the night hero, then the sections of the live home page in their order
+// (the "new course series" intro was removed at the client's request; its course detail remains).
 import Base from '../layouts/Base.astro';
+import Hero from '../components/home/Hero.astro';
+import Membership from '../components/home/Membership.astro';
+import Announcement from '../components/home/Announcement.astro';
+import Seminar from '../components/home/Seminar.astro';
+import CourseTabs from '../components/home/CourseTabs.astro';
+import Transmission from '../components/home/Transmission.astro';
+import Start from '../components/home/Start.astro';
+import Benefits from '../components/home/Benefits.astro';
 import { content } from '../data';
-import { getLocale } from '../lib/locale';
 import { organizationSchema, websiteSchema } from '../data/schema';
+import { getLocale } from '../lib/locale';
 
-const { home } = content(getLocale(Astro.url));
-const found = import.meta.glob<{ default: AstroComponentFactory }>('../components/home/*.astro', { eager: true });
-const order = ['Membership', 'Announcement', 'Seminar', 'CourseTabs', 'Transmission', 'Start', 'Benefits'];
-const sections = order.map((name) => found[`../components/home/${name}.astro`]?.default).filter(Boolean);
-const highlight = home.hero.highlight;
+const locale = getLocale(Astro.url);
+const { home } = content(locale);
 ---
 
-<Base title={home.meta.title} description={home.meta.description} schema={[organizationSchema(getLocale(Astro.url)), websiteSchema(getLocale(Astro.url))]}>
-  <section class="section wrap provisional-hero">
-    <h1 class="t-hero" data-split>
-      {
-        home.hero.titleLines.map((line, n) => {
-          const at = line.indexOf(highlight);
-          // The first line is the title; what follows is its subtitle, set smaller.
-          if (at < 0) return <span class:list={['line', n > 0 && 't-sub']}>{n > 0 ? home.hero.subtitle : line}</span>;
-          return (
-            <span class="line">
-              {line.slice(0, at)}
-              <span class="hl">
-                {highlight.split(' ').map((word, n) => (
-                  <>
-                    {n > 0 && ' '}
-                    <span class="hl__w">{word}</span>
-                  </>
-                ))}
-              </span>
-              {line.slice(at + highlight.length)}
-            </span>
-          );
-        })
-      }
-    </h1>
-  </section>
-  {sections.map((Section) => <Section />)}
+<Base
+  title={home.meta.title}
+  description={home.meta.description}
+  schema={[organizationSchema(locale), websiteSchema(locale)]}
+  bodyClass="has-hero"
+>
+  <Hero />
+  <Membership />
+  <Announcement />
+  <Seminar />
+  <CourseTabs />
+  <Transmission />
+  <Start />
+  <Benefits />
 </Base>
-
-<style>
-  .provisional-hero {
-    padding-block: var(--space-xl) var(--space-l);
-  }
-  .line {
-    display: block;
-  }
-</style>

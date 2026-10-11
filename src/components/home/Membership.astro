@@ -32,7 +32,8 @@ const t = {
 const looks = [
   { emblem: 'icon-spirit', box: 'box box--offset', depth: '0.02' },
   { emblem: 'icon-community', box: 'box on-blue-light', depth: '-0.03' },
-  { emblem: 'icon-contribution', box: 'box box--deep', depth: '0.02' },
+  // The ear of wheat shown at Eleusis: what is given comes back as new life
+  { emblem: 'wheat', box: 'box box--deep', depth: '0.02' },
 ];
 ---
 
@@ -165,7 +166,8 @@ const looks = [
     position: relative;
     z-index: 1;
     display: grid;
-    gap: var(--space-l) var(--col-gap);
+    /* The three belong together: close enough that the shapes almost touch */
+    gap: 1.25rem var(--col-gap);
     margin-top: -3.25rem;
   }
   .point {
@@ -208,9 +210,10 @@ const looks = [
   }
   .point--3 :global(.point__emblem) {
     position: absolute;
-    top: -2.1rem;
-    right: 1.6rem;
-    width: clamp(3.75rem, 3.2rem + 1.6vw, 4.75rem);
+    /* The ear of wheat is tall: narrower than the square emblems, and set higher */
+    top: -3.6rem;
+    right: 1.8rem;
+    width: clamp(2.9rem, 2.5rem + 1vw, 3.5rem);
   }
   .point--3 .point__copy {
     padding-right: 1rem;
@@ -246,8 +249,9 @@ const looks = [
   @media (min-width: 44rem) {
     .points {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: center;
-      row-gap: calc(var(--space-m) + 2rem);
+      align-items: start;
+      /* the pebble's shape overshoots its box by about two rem: this leaves a narrow seam */
+      row-gap: 2.6rem;
     }
     .points .point--1 {
       grid-column: 1 / -1;
@@ -299,9 +303,11 @@ const looks = [
     .points .point--2::before {
       inset-inline: -1.75rem -1.5rem;
     }
+    /* The leaf tucks up under the end of the sheet; its ear of wheat stands in the corner beside it */
     .points .point--3 {
       grid-column: 5 / span 4;
       grid-row: 2;
+      margin-top: -1.5rem;
     }
     .membership__cta {
       grid-column: 1 / span 6;

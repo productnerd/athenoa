@@ -3,7 +3,10 @@
 // Browsers do not allow sound before the visitor has interacted with the page, so "autoplay" works like
 // this: playback is attempted on load, and if the browser refuses, it starts on the first click, tap or
 // key press. The visitor's choice (on or off) is remembered. The element persists across page changes,
-// so the music does not restart when moving between pages.
+// so the music does not restart when moving between pages. Where the browser has to load a whole new
+// document (an address typed by hand, such as a page that does not exist, or the language switch), the
+// place in the piece is remembered and the music picks up from there, easing in, instead of starting
+// again. A link that forces such a reload fades the music out first, so it never cuts.
 import { getLocale } from '../lib/locale';
 
 const t = {
@@ -35,6 +38,7 @@ const t = {
 
 <script>
   const KEY = 'ath-music';
+  const AT = 'ath-music-at'; // where in the piece the last page left off (this tab only)
   const VOLUME = 0.14; // very low: it should sit under the page, not on top of it
 
   function setup() {
@@ -57,6 +61,18 @@ const t = {
       button.title = label;
       root.classList.toggle('is-playing', playing);
     };
+
+    // Pick up where the last page left off
+    try {
+      const at = Number(sessionStorage.getItem(AT));
+      if (at > 0) audio.currentTime = at;
+    } catch {}
+    const keepPlace = () => {
+      try {
+        sessionStorage.setItem(AT, String(audio.currentTime));
+      } catch {}
+    };
+    window.addEventListener('pagehide', keepPlace);
 
     let ramp = 0;
     const start = () => {
@@ -106,6 +122,24 @@ const t = {
       window.addEventListener(type, onFirstGesture, { once: true, passive: true, capture: true });
     }
 
+    // A link that reloads the whole page (the language switch) would cut the music: fade it out first.
+    document.addEventListener('click', (event) => {
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[data-astro-reload]') : null;
+      if (!link || audio.paused || event.defaultPrevented) return;
+      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.target) return;
+      event.preventDefault();
+      cancelAnimationFrame(ramp);
+      const from = audio.volume;
+      const began = performance.now();
+      const step = (now: number) => {
+        const progress = Math.min(1, (now - began) / 260);
+        audio.volume = from * (1 - progress);
+        if (progress < 1) requestAnimationFrame(step);
+        else location.href = link.href;
+      };
+      requestAnimationFrame(step);
+    });
+
     audio.addEventListener('play', render);
     audio.addEventListener('pause', render);
     if (wanted) start();
@@ -136,9 +170,9 @@ const t = {
     cursor: pointer;
     backdrop-filter: blur(8px);
     transition:
-      background-color var(--dur-1),
-      color var(--dur-1),
-      border-color var(--dur-1);
+      background-color var(--dur-1) var(--hover-delay),
+      color var(--dur-1) var(--hover-delay),
+      border-color var(--dur-1) var(--hover-delay);
   }
   .music__button:hover {
     background-color: var(--blue-light);

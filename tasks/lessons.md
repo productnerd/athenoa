@@ -21,3 +21,19 @@
 - What happened: the disk (926 GB, about 880 GB of it Maria's own files) hit zero twice while I ran 13 to 20 agents at once, each with a headless browser. A pending macOS update and its snapshots take whatever space is freed, and swap from heavy runs lands on the same disk.
 - Rule: on this machine run at most two or three agents at a time, delete screenshots and temporary renders as soon as they have been looked at, and check `df` before starting anything heavy. Stop and say so if free space drops under about 5 GB. Commit to git before long runs.
 - Also: when stopping for a usage limit, offer to schedule a restart. I cannot wake myself; nothing resumes unless a message or a background task arrives.
+
+## 2026-10-11: When a clip or a frame is removed, look at what it was hiding
+
+- What happened: the hero went from a clipped cut-out to a full-bleed picture that fades out. Two hard lines appeared under it: the outlined lower edge of the ground wash, and the foot of the hill behind it, both of which the old clip had hidden. Maria saw them in the live preview before I did.
+- Rule: after removing a clip, mask or frame from a layered drawing, check every layer for parts that only looked right because they were cut off (closed outlines, washes that stop short, shapes behind other shapes), and look at the newly exposed area in the browser, with motion on, before moving on.
+
+## 2026-10-11: A hover rule that never wins is a missing hover effect
+
+- What happened: Maria asked for hover effects on the top menu. There was one already (an underline), but its selector was less specific than the rule that hid it, so it never showed.
+- Rule: check every hover and focus state by actually hovering in the browser (Playwright `hover`, then a screenshot), not by reading the CSS.
+
+## 2026-10-11: "Longer" needs a direction
+
+- What happened: asked to make the dove's papyrus "more long and unfolded", I drew it long sideways; Maria meant long downwards, hanging under the bird, and narrower than the bird.
+- Rule: when a request about a shape leaves the direction open, say in one line which reading I am taking before drawing, or draw the more natural one for the object (a scroll hangs).
+
