@@ -157,6 +157,26 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Torch moved from the Transmission panel to the Benefits heading, larger, replacing the olive sprig
 - [x] Hilltop photo in Benefits larger (up to 34rem)
 
+## Added by Maria on 2026-10-11 (thirteenth round)
+
+- [x] Home hero in place (portal-b drawing). Wheat as the emblem of "Your Contribution".
+- [x] Newsletter slip: a dove carrying a papyrus flies in from the left (first drawn with a wide roll; she wanted it long downwards and narrower than the bird: now a sheet hanging beneath it)
+- [x] Hero: no trees on the left beside the title; title a tall stack, about a third larger; picture full bleed, under the header, fading into the page with no line under it
+- [x] Hero follows the day/night switch (marble temple, light-blue sky and two clouds by day; the starry scene by night); clouds drift off and stars come out when switching
+- [x] Parallax calmer and with a little lag (TRAVEL, POINTER, EASE, LAG in motion.ts)
+- [x] Top menu: brush-mark hover on the links (the old underline never showed), small lean on the logo; every hover effect waits 90 ms (--hover-delay)
+- [x] ATHENOA name in the header a little smaller
+- [x] Laurel above the course cards removed
+- [x] Announcement letter set smaller and closer
+- [x] "Let's Get Started": the two lines shown as one block
+- [x] Membership: the three points sit close together
+- [x] 404: "Not everybody who wanders is lost" in the sky in the reading face (both languages), button "Take me to Ithaka", note under it half size, slanted, with an asterisk, close to the button
+- [x] Music keeps its place when a whole new page loads (typed address, 404, language switch) and fades out before a reload it can foresee. A typed address is a new page for the browser: it cannot fade out there, it resumes with a fade-in.
+- [x] Owl call quicker again (2.1 s); day wave 2.5 s with a steeper fade
+- [ ] HELPER RUNNING: course card photos all one size; card summary smaller and quieter; photographs fade in instead of the paper curtain; hilltop photo (first asked "almost the full width", then "too pixelated, half the width"); torch left of the Benefits title, question close under the title
+- [ ] HELPER RUNNING: footer scenes at night show a moon and stars instead of a sun; the sun slides down and the moon and stars animate in when switching
+- [ ] After the helpers: add --hover-delay to the hovers in CourseCard.astro and Footer.astro; run the responsive check; commit
+
 ## Open questions
 
 See the chat message of 2026-10-10.
