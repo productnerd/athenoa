@@ -21,7 +21,7 @@ interface Props {
   framed?: boolean;
   /** Parallax of the photo inside its frame (0.05 to 0.2 reads well). */
   innerDepth?: number;
-  /** Reveal style. "unveil" by default; false to opt out. */
+  /** Reveal style. "unveil" by default, a plain fade-in (see motion.css); false to opt out. */
   reveal?: 'unveil' | 'grow' | 'fade' | '' | false;
   caption?: string;
   class?: string;

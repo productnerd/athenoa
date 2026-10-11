@@ -151,6 +151,11 @@ const announced = home.announcement.courses
   @media (min-width: 44rem) {
     .courses-row {
       grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: stretch;
+    }
+    /* cards in a row share a height */
+    .courses-row > li {
+      display: grid;
     }
   }
 
@@ -184,10 +189,6 @@ const announced = home.announcement.courses
     /* One even row: the three cards share a height */
     .courses-row {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      align-items: stretch;
-    }
-    .courses-row > li {
-      display: grid;
     }
   }
 </style>

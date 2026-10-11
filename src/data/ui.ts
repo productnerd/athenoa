@@ -38,9 +38,9 @@ export const ui = {
   },
 } satisfies Record<Locale, Record<string, unknown>>;
 
-// The languages offered in the header. Ancient Greek is added at the end of src/data/ui.ts once its
-// pages render (GRC_READY), so a half-wired language is never one click away.
+// The languages offered in the header. Ancient Greek is a draft, there for the pleasure of it.
 export const languages: { locale: Locale; label: string; short: string }[] = [
   { locale: 'en', label: 'English', short: 'EN' },
   { locale: 'el', label: 'Ελληνικά', short: 'ΕΛ' },
+  { locale: 'grc', label: 'Ἀρχαία Ἑλληνική', short: 'ΑΡΧ' },
 ];

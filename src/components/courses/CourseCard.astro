@@ -10,7 +10,7 @@ import Illustration from '../Illustration.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
-import { courseImage } from './media';
+import { courseFocus, courseImage } from './media';
 import { keepHyphens } from './text';
 
 interface Props {
@@ -60,16 +60,17 @@ const splitFee = (display: string) => {
   }
 
   <div class="card__figure">
-    {cut === 'paper' && <span class="card__pebble" data-reveal="grow" />}
+    {/* The pebble swells in once the picture in front of it has faded up, so it never shows through */}
+    {cut === 'paper' && <span class="card__pebble" data-reveal="grow" style="--delay:450ms" />}
     <Media
       class="card__media"
       src={image}
       alt={course.imageAlt}
       shape="arch"
-      ratio={cut === 'arch' ? '10 / 9' : `${image.width} / ${image.height}`}
+      ratio={lead ? '16 / 9' : '10 / 9'}
+      focus={courseFocus(course.image)}
       sizes={lead ? '(min-width: 62rem) 52vw, 92vw' : '(min-width: 48rem) 46vw, 92vw'}
       priority={lead}
-      innerDepth={cut === 'arch' ? 0.1 : undefined}
       data-depth={lead ? '-0.05' : undefined}
     />
     {/* The picture is a second way in for a pointer; keyboard and screen readers use the one named link below. */}
@@ -121,9 +122,13 @@ const splitFee = (display: string) => {
     position: relative;
     isolation: isolate;
   }
-  /* --arch is the outline of the picture; the link laid over it follows the same curve */
+  /* --arch is the outline of the picture; the link laid over it follows the same curve.
+     --pad is the margin around the picture and --foot the space under the action. Both are shared by the
+     arch and the paper cut, so their pictures come out the same size and their last lines level. */
   .card {
     --arch: var(--r-arch);
+    --pad: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
+    --foot: clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
   }
   .card__media {
     --media-r: var(--arch);
@@ -135,7 +140,7 @@ const splitFee = (display: string) => {
     border-radius: var(--arch);
   }
   .card :global(.media__clip img) {
-    transition: scale var(--dur-3) var(--ease-out);
+    transition: scale var(--dur-3) var(--ease-out) var(--hover-delay);
   }
   .card__figure:hover :global(.media__clip img) {
     scale: 1.035;
@@ -188,6 +193,8 @@ const splitFee = (display: string) => {
   }
   .card__summary {
     max-width: 44ch;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
   }
   /* The facts: a small ruled table, the same on every card */
   .card__facts {
@@ -284,8 +291,7 @@ const splitFee = (display: string) => {
 
   /* ---------- arch ---------- */
   .card--arch {
-    --pad: clamp(0.7rem, 0.5rem + 0.8vw, 1rem);
-    padding: var(--pad) var(--pad) clamp(1.6rem, 1.2rem + 1.4vw, 2.4rem);
+    padding: var(--pad) var(--pad) var(--foot);
   }
   .card--arch .card__figure {
     margin-bottom: var(--space-m);
@@ -295,8 +301,9 @@ const splitFee = (display: string) => {
   }
 
   /* ---------- paper ---------- */
-  .card--paper {
-    --arch: 50% 50% 1.6rem 2rem / 58% 58% 1.5rem 1.8rem;
+  /* The picture stands where it would inside an arch cut-out, so the two cuts line up side by side */
+  .card--paper .card__figure {
+    margin: var(--pad) var(--pad) 0;
   }
   /* A darker blue pebble behind the shoulder of the arch */
   .card__pebble {
@@ -316,32 +323,31 @@ const splitFee = (display: string) => {
   .card--paper .card__text {
     width: min(100% - 1.5rem, 26rem);
     padding-inline: clamp(1.4rem, 1rem + 1.6vw, 2.2rem);
+    padding-bottom: var(--foot);
     margin: -2.25rem 0 0 auto;
     z-index: 3;
     --box-r: var(--r-soft-2);
   }
 
-  /* Side by side, the two cards share the height of their row: in each the picture grows to take up
-     the difference, and the words stay at the foot. */
+  /* Side by side, the cards share the height of their row. The picture keeps its frame, the same in every
+     card; the words take up the difference, so the facts and the action stand at the foot of each card. */
   @media (min-width: 48rem) {
     :is(.card--arch, .card--paper),
-    :is(.card--arch, .card--paper) .card__figure,
-    :is(.card--arch, .card--paper) .card__media {
+    :is(.card--arch, .card--paper) .card__text {
       display: flex;
       flex-direction: column;
     }
-    :is(.card--arch, .card--paper) .card__figure,
-    :is(.card--arch, .card--paper) .card__media,
-    :is(.card--arch, .card--paper) :global(.media__clip) {
-      flex: 1 1 auto;
+    :is(.card--arch, .card--paper) .card__text {
+      flex: 1 0 auto;
     }
-    :is(.card--arch, .card--paper) :global(.media__clip picture) {
-      position: absolute;
-      inset: 0;
+    /* The slack goes under the last lines before the facts: the summary, or the title when there is none */
+    :is(.card--arch, .card--paper) .card__text > :nth-last-child(3) {
+      flex-grow: 1;
     }
-    /* With a card beside it there is room for the label to hang out over the left edge of the picture */
+    /* With a card beside it there is room for the label to hang out over the left edge of the picture.
+       It laps over the foot of the picture by the same share at every width. */
     .card--paper .card__text {
-      margin: -5.5rem 0 0 -1.75rem;
+      margin: clamp(-5.5rem, -6vw, -2.25rem) 0 0 -1.25rem;
     }
   }
 </style>

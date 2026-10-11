@@ -11,7 +11,7 @@ import gathering from '../../assets/media/gathering-amphitheatre.jpg';
 import reading from '../../assets/media/reading-by-the-sea.jpg';
 import hilltop from '../../assets/media/hilltop-meditation.png';
 import { content } from '../../data';
-import { getLocale } from '../../lib/locale';
+import { getLocale, mainLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
 const { benefits } = content(locale).home;
@@ -33,7 +33,7 @@ const t = {
     columnAlt:
       'Μια γυναίκα με μπλε φόρεμα στέκεται μπροστά στην Ακαδημία Αθηνών, κάτω από τον ψηλό κίονα με το άγαλμα της Αθηνάς',
   },
-}[locale];
+}[mainLocale(locale)];
 
 // One look per benefit, in the order of the copy: the experiential path and its community,
 // methodical training in the texts, the footsteps of the Ancient Sages and the Platonic Academy.
@@ -78,7 +78,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       widths: [360, 560, 800, 1100],
       sizes: '(min-width: 60rem) 26rem, 64vw',
     },
-    // A small file (690px wide): it is never shown wider than 34rem.
+    // A small file (690px wide): it is never shown wider than 30rem. Wider than that it looks pixelated.
     second: {
       src: hilltop,
       alt: t.hilltopAlt,
@@ -86,7 +86,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       ratio: '690 / 300',
       focus: '70% 60%',
       widths: [360, 520, 690],
-      sizes: '(min-width: 60rem) 34rem, 70vw',
+      sizes: '(min-width: 68rem) 30rem, (min-width: 60rem) 44vw, (min-width: 40rem) 30rem, 78vw',
     },
   },
 ];
@@ -95,9 +95,9 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
 <section class="benefits section" aria-labelledby="benefits-title">
   <div class="wrap benefits__grid">
     <header class="benefits__head">
+      <Illustration name="torch" class="benefits__torch" draw />
       <h2 class="t-1" id="benefits-title" data-split>{benefits.title}</h2>
       <p class="lead" data-reveal>{benefits.question}</p>
-      <Illustration name="torch" class="benefits__torch" draw />
     </header>
 
     <ul class="benefits__units" role="list">
@@ -133,17 +133,23 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     display: grid;
     gap: var(--space-l);
   }
+  /* Torch, title and question are one heading group. On a phone the torch stands above the title,
+     left-aligned with it; the question follows close under the title. */
   .benefits__head {
     position: relative;
+    display: grid;
+    justify-items: start;
   }
   .benefits__head .lead {
-    margin-top: var(--space-m);
+    margin-top: var(--space-s);
     max-width: 30ch;
   }
-  /* The torch: a tall drawing, so it is sized by its height */
+  /* The drawing fills only the middle of its sheet. The side margins take up the empty strips, so the
+     torch itself starts on the same line as the title's first letter. */
   .benefits__torch {
-    width: clamp(5.5rem, 4rem + 5vw, 8.5rem);
-    margin-top: var(--space-m);
+    --torch: 4.75rem;
+    width: var(--torch);
+    margin: 0 0 var(--space-xs) calc(var(--torch) * -0.26);
   }
 
   /* ---------- A benefit: photograph and box as one piece ---------- */
@@ -200,9 +206,10 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
   }
   /* The second, smaller photograph of the last benefit rests on the lower edge of its box,
-     half on the blue and half on the paper. The file is 690px wide, so 34rem is as far as it goes. */
+     half on the blue and half on the paper. On a phone it takes most of the width of the box.
+     The file is 690px wide, so 30rem is as far as it goes. */
   .unit--3 {
-    --pill-w: clamp(15rem, 9rem + 24vw, 34rem);
+    --pill-w: min(30rem, 86vw - 2 * var(--gutter));
     --pill-out: calc(var(--pill-w) * 300 / 690 / 2);
     margin-bottom: var(--pill-out);
   }
@@ -250,29 +257,31 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     .benefits__units {
       max-width: 44rem;
     }
+    /* With room beside the title the torch stands to its left, as a pair: about as tall as two lines of
+       the title. It spans the question's row too, so it never pushes the question away from the title. */
+    .benefits__head {
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: var(--space-m);
+    }
+    .benefits__torch {
+      --torch: max(clamp(7rem, 9vw, 9.5rem), calc(var(--step-4) * 1.16));
+      grid-row: 1 / span 2;
+      align-self: start;
+      /* Lifted a little, so the flame starts level with the capitals of the first line */
+      margin-top: calc(var(--torch) * -0.1);
+      margin-right: calc(var(--torch) * -0.2);
+      margin-bottom: 0;
+    }
+    .benefits__head h2,
+    .benefits__head .lead {
+      grid-column: 2;
+    }
   }
 
   @media (min-width: 60rem) {
     .benefits__grid {
       row-gap: var(--space-xl);
     }
-    /* The torch stands beside the question, under the title */
-    .benefits__head {
-      display: grid;
-      grid-template-columns: minmax(0, max-content) auto;
-      justify-content: start;
-      align-items: end;
-      column-gap: var(--space-m);
-    }
-    .benefits__head h2 {
-      grid-column: 1 / -1;
-    }
-    .benefits__torch {
-      align-self: start;
-      width: clamp(7rem, 9vw, 9.5rem);
-      margin: var(--space-s) 0 0 var(--space-l);
-    }
-
     /* Photograph and box share one row, centred on each other, and overlap by two columns; the box keeps
        that much of its width clear for the photograph. Odd pieces carry the photograph on the left,
        the even one on the right. */
@@ -312,8 +321,10 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       padding-left: var(--pad);
       padding-right: calc(25% + var(--space-l));
     }
-    /* Last benefit: the arch and the small photograph stand on one line, a little below the box. */
+    /* Last benefit: the arch and the small photograph stand on one line, a little below the box.
+       The small photograph takes about half the page, and stops short of the arch beside it. */
     .unit--3 {
+      --pill-w: min(30rem, 44vw);
       align-items: end;
     }
     .unit--3 .unit__photos {

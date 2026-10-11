@@ -35,35 +35,14 @@ html.motion [data-reveal='fade'] {
   transform: none;
 }
 
-/* unveil: a sheet of paper lifts off the photograph from the bottom up while the picture settles.
-   The photo itself is never clipped or hidden: browsers skip lazy loading, and intersection
-   observers never fire, for an element that is clipped away entirely. */
+/* unveil: how every photograph arrives (the default on <Media>). A plain, calm fade: opacity only,
+   nothing slides, scales or is covered. The photo is never clipped away: browsers skip lazy loading,
+   and intersection observers never fire, for an element that is clipped away entirely. */
 html.motion [data-reveal='unveil'] {
-  opacity: 1;
   transform: none;
-}
-html.motion [data-reveal='unveil'] .media__clip::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  z-index: 2;
-  background-color: var(--paper);
-  background-image: var(--grain);
-  background-size: 400px 400px;
-  transform-origin: 50% 0;
-  transition: transform var(--dur-4) var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 95ms + var(--delay, 0ms));
-}
-html.motion [data-reveal='unveil'].is-in .media__clip::before {
-  transform: scaleY(0);
-}
-html.motion [data-reveal='unveil'] .media__clip img {
-  transform: scale(1.14);
-  transition: transform calc(var(--dur-4) * 1.25) var(--ease-out);
-  transition-delay: calc(var(--i, 0) * 95ms + var(--delay, 0ms));
-}
-html.motion [data-reveal='unveil'].is-in .media__clip img {
-  transform: none;
+  transition-property: opacity;
+  transition-duration: 0.9s;
+  transition-timing-function: var(--ease-soft);
 }
 
 /* ---------- Split headings: words rise out of a mask ---------- */

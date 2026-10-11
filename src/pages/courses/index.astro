@@ -109,17 +109,14 @@ const cuts = ['arch', 'paper'] as const;
     opacity: 0.85;
   }
 
-  /* One even row: both cards start and end on the same lines (each lets its picture take up the slack) */
+  /* One even row: two equal columns, so the cards are the same width and their pictures the same size.
+     The cards start and end on the same lines (each lets its words take up the slack). */
   @media (min-width: 48rem) {
     .courses__others {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-l);
     }
-    .courses__others > :global(.card--arch) {
-      grid-column: 1 / span 5;
-      width: auto;
-    }
-    .courses__others > :global(.card--paper) {
-      grid-column: 7 / span 6;
+    .courses__others > :global(.card) {
       width: auto;
     }
   }
