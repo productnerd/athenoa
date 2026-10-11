@@ -799,6 +799,39 @@ const rowsOf = (text: string) => {
     animation: hero-flame-2 1.7s ease-in-out infinite;
   }
 
+  /* ---------- wide screens, English: the title in two long lines across the sky ----------
+     (client direction, 11 October 2026: "the section for the headline text should be wider, there
+     is no reason for each word to have its own line"). "STUDY AT THE MODERN" over "PLATONIC
+     ACADEMY", as large as the height above the temple's roof allows: the lines may run out over
+     the open sky above the temple, and the subtitle sits under them on the left. --hero-fit is the
+     ems the first line needs, with room to spare for a wider fallback face, so that the second
+     highlighted word never joins the first line and a third line never appears. Greek keeps its
+     four shorter rows: its words are much longer. */
+  @media (min-width: 38rem) and (min-aspect-ratio: 5001/4000) {
+    .hero--en {
+      --hero-fit: 11.6;
+      --hero-gap: clamp(0.75rem, 2.2svh, 1.5rem);
+      /* from the foot of the screen to the tips of the rays over the roof */
+      --hero-roof: calc(var(--scene-b) + var(--scene-h) * 0.69);
+      --hero-fs: min(
+        calc((var(--panel-w) - 2 * var(--hero-pad)) / var(--hero-fitw)),
+        calc((var(--hero-open) - var(--hero-top) - var(--hero-roof) - var(--hero-gap)) / 1.9),
+        10rem
+      );
+    }
+    .hero--en .hero__title {
+      width: calc(var(--hero-fitw) * 1em);
+      max-width: none;
+    }
+    .hero--en .hero__row {
+      display: inline;
+    }
+    .hero--en .hero__title .hl__w {
+      display: inline-block;
+      width: auto;
+    }
+  }
+
   /* ---------- phones and upright screens: the title in the sky above, the picture below ----------
      Anything wider than it is tall, from about 600px up (a tablet on its side, a small window),
      keeps the title beside the picture, so the letters stay large (client direction). */
