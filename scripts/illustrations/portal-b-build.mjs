@@ -272,36 +272,31 @@ function light() {
   // Fine rays fanning out from the flame. They show between the columns, pass behind the stone,
   // and run on a little way past the building into the open, where they fade away instead of
   // ending (client direction, 11 October 2026).
+  // Each ray carries its own gradient along its length: whole as far as the stone, then thinning
+  // to nothing over the last stretch. (Plain vector paint: a blurred mask did the same but had to
+  // be redrawn on every frame of the flame's breathing.)
+  const OUT = 62;
+  let defs = '';
   let rays = '';
+  let n = 0;
   for (let k = 0; k < 13; k++) {
     const a = 3.5 + k * 4.9 + (k % 3) * 0.5;
     const w = k % 2 ? 0.8 : 1.5;
     for (const side of [-1, 1]) {
       const deg = side < 0 ? 180 + a : 360 - a;
-      const far = reach(deg) + 66;
-      rays += `M${pt(polar(FLAME, 40, deg))}L${pt(polar(FLAME, far, deg - w / 2))}L${pt(polar(FLAME, far, deg + w / 2))}Z`;
+      const wall = reach(deg);
+      const far = wall + OUT;
+      const [x0, y0] = polar(FLAME, 40, deg);
+      const [x1, y1] = polar(FLAME, far, deg);
+      const id = `pb-ray-${n++}`;
+      const stop = (at, opacity) =>
+        `<stop offset="${num(at)}" stop-color="var(--pb-light, #b3c0f3)" stop-opacity="${opacity}"/>`;
+      defs += `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${num(x0)}" y1="${num(y0)}" x2="${num(x1)}" y2="${num(y1)}">${stop(0, 1)}${stop((wall - 40 - 6) / (far - 40), 1)}${stop(1, 0)}</linearGradient>`;
+      rays += `<path d="M${pt([x0, y0])}L${pt(polar(FLAME, far, deg - w / 2))}L${pt(polar(FLAME, far, deg + w / 2))}Z" fill="url(#${id})" stroke="none"/>`;
     }
   }
-  // The fade: a mask in the shape of the building, a little larger and with a soft edge, so each
-  // ray is whole where it leaves the stone and gone some fifty units further out. The mask sits on
-  // an outer group, so it keeps still while the rays grow out of the doorway.
-  const m = 14;
-  const soft = [
-    [ENT.l - m, 1000],
-    [ENT.l - m, T.frieze],
-    [PED.l - m, T.cornice - m / 2],
-    [CX, T.apex - m],
-    [PED.r + m, T.cornice - m / 2],
-    [ENT.r + m, T.frieze],
-    [ENT.r + m, 1000],
-  ];
-  out.push(
-    `<filter id="pb-soft" filterUnits="userSpaceOnUse" x="0" y="250" width="1000" height="750"><feGaussianBlur stdDeviation="19"/></filter>`,
-  );
-  out.push(
-    `<mask id="pb-fade" maskUnits="userSpaceOnUse" x="0" y="250" width="1000" height="750"><path d="${poly(soft, true)}" fill="#fff" stroke="none" filter="url(#pb-soft)"/></mask>`,
-  );
-  out.push(`<g mask="url(#pb-fade)"><g class="pb-beams">${wash(rays, LIGHT)}</g></g>`);
+  out.push(`<defs>${defs}</defs>`);
+  out.push(`<g class="pb-beams">${rays}</g>`);
   // the doorway itself: an arch of light between the two middle columns
   out.push(wash(`M444 ${T.stylobate + 10}L444 718A56 56 0 0 1 556 718L556 ${T.stylobate + 10}Z`, LIGHT, ' class="pb-door"'));
   save('light', svg(1000, 1000, out.join('')));
@@ -709,19 +704,23 @@ function sky() {
   const far = ([x, y], [cx, cy], r) => Math.hypot(x - cx, y - cy) > r;
   const open = (p) =>
     clear(p) && far(p, [1150, 300], 280) && !(p[0] > 540 && p[0] < 1060 && p[1] > 380) && p[1] < 700;
-  let sparks = '';
-  for (const p of place(7, 150).filter(open)) sparks += spark(p, 15);
-  for (const p of place(16, 90).filter(open)) sparks += spark(p, 10.5);
-  for (const p of place(34, 60).filter(open)) sparks += spark(p, 6.5);
+  const sparks = [
+    ...place(7, 150).filter(open).map((p) => spark(p, 15)),
+    ...place(16, 90).filter(open).map((p) => spark(p, 10.5)),
+    ...place(34, 60).filter(open).map((p) => spark(p, 6.5)),
+  ];
   const big = place(46, 38).filter(clear);
   const mid = place(130, 26).filter(clear);
   const small = place(300, 17);
-  const body =
-    path(dots(small), ' stroke-width="2.1" opacity=".75"') +
-    path(dots(mid), ' stroke-width="3.1"') +
-    path(dots(big), ' stroke-width="4.3"') +
-    path(sparks, ' fill="currentColor" stroke="none"');
+  // The sparks and the largest dots are dealt into three sets: at night the page lets each set
+  // brighten and dim in its own time, very slightly. The small dots keep still.
+  const set = (k) =>
+    path(dots(big.filter((_, i) => i % 3 === k)), ' stroke-width="4.3"') +
+    path(sparks.filter((_, i) => i % 3 === k).join(''), ' fill="currentColor" stroke="none"');
+  const body = path(dots(small), ' stroke-width="2.1" opacity=".75"') + path(dots(mid), ' stroke-width="3.1"');
   save('sky', svg(SKY_W, SKY_H, body, COVER));
+  // portal-b-stars-1..3: each is a layer of its own on the page, so its fading costs no redrawing
+  for (let k = 0; k < 3; k++) save(`stars-${k + 1}`, svg(SKY_W, SKY_H, set(k), COVER));
 }
 
 function milkyway() {

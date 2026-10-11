@@ -233,6 +233,20 @@ function headerState() {
   update();
   window.addEventListener('scroll', update, { passive: true });
   cleanup.push(() => window.removeEventListener('scroll', update));
+
+  // The footer is a picture of its own: once it fills about a third of the window the header steps
+  // aside, so nothing lies across it.
+  const footer = document.querySelector('footer.footer');
+  if (footer) {
+    const io = new IntersectionObserver(([entry]) => header.classList.toggle('is-away', entry.isIntersecting), {
+      rootMargin: '0px 0px -34% 0px',
+    });
+    io.observe(footer);
+    cleanup.push(() => {
+      io.disconnect();
+      header.classList.remove('is-away');
+    });
+  }
 }
 
 async function init() {

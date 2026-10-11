@@ -48,6 +48,19 @@ const rowsOf = (text: string) => {
       <div class="hero__layer hero__layer--sky" data-depth="0.5" data-pointer="-6" data-reveal="fade">
         <Illustration name="portal-b-sky" />
       </div>
+      {
+        [1, 2, 3].map((n) => (
+          <div
+            class="hero__layer hero__layer--sky hero__layer--tw"
+            data-depth="0.5"
+            data-pointer="-6"
+            data-reveal="fade"
+            style={`--n:${n - 1}`}
+          >
+            <Illustration name={`portal-b-stars-${n}`} />
+          </div>
+        ))
+      }
       <div class="hero__layer hero__layer--milky" data-depth="0.42" data-pointer="-4" data-reveal="fade">
         <Illustration name="portal-b-milkyway" />
       </div>
@@ -389,11 +402,12 @@ const rowsOf = (text: string) => {
   .hero__stage :global(.illo--portal-b-light) {
     --pb-light: var(--blue-light);
   }
-  /* The rays run on past the building: by day they are sunlit paper, so they show against the sky */
-  .hero__stage :global(.pb-beams) {
+  /* The rays run on past the building: by day they are sunlit paper, so they show against the sky.
+     (Their colour is read by the gradient stops that fade each ray out.) */
+  .hero__stage :global(.illo--portal-b-light stop) {
     --pb-light: var(--creme-light);
   }
-  :global(html[data-theme='dark']) .hero__stage :global(.pb-beams) {
+  :global(html[data-theme='dark']) .hero__stage :global(.illo--portal-b-light stop) {
     --pb-light: var(--blue-light);
   }
   :global(html[data-theme='dark']) .hero__stage :global(.illo--portal-b-cella) {
@@ -507,7 +521,22 @@ const rowsOf = (text: string) => {
     opacity: 0;
   }
 
-  /* The flame breathes, very slowly. Nothing else loops. */
+  /* The larger stars brighten and dim a little at night, three sets out of step. Each set is a
+     layer of its own and only its opacity moves, so nothing is redrawn while they pulse. */
+  @keyframes hero-twinkle {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.4;
+    }
+  }
+  :global(html.motion[data-theme='dark']) .hero__layer--tw :global(svg) {
+    animation: hero-twinkle calc(3.4s + var(--n, 0) * 1.2s) var(--ease-in-out) calc(var(--n, 0) * -1.55s) infinite alternate;
+    will-change: opacity;
+  }
+
+  /* The flame breathes, very slowly. */
   @keyframes hero-breathe {
     from {
       transform: scale(1, 1);
@@ -522,12 +551,18 @@ const rowsOf = (text: string) => {
     transform-box: fill-box;
     transform-origin: 50% 100%;
   }
+  /* the flame is on a layer of its own, so its breathing redraws nothing but itself */
+  :global(html.motion) .hero__stage :global(.illo--portal-b-flame) {
+    will-change: transform;
+  }
   :global(html.motion) .hero__stage :global(.pb-fire) {
     animation: hero-breathe 5.2s var(--ease-in-out) infinite alternate;
   }
 
-  /* ---------- narrow or upright screens: the title in the sky above, the picture below ---------- */
-  @media (max-width: 61.99rem), (max-aspect-ratio: 1/1) {
+  /* ---------- phones and upright screens: the title in the sky above, the picture below ----------
+     Anything wider than it is tall, from about 600px up (a tablet on its side, a small window),
+     keeps the title beside the picture, so the letters stay large (client direction). */
+  @media (max-width: 37.99rem), (max-aspect-ratio: 1/1) {
     .hero {
       --scene-h: min(var(--panel-w) * 1.06, 47.5svh);
       --scene-x: 50%;

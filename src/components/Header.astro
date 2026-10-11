@@ -180,6 +180,18 @@ const isCurrent = (href: string) => {
     z-index: 50;
     padding: 0.6rem var(--gutter) 0;
     pointer-events: none;
+    transition:
+      translate var(--dur-2) var(--ease-out),
+      opacity var(--dur-1);
+  }
+  /* At the footer the header steps aside (class set in motion.ts). It comes back if the menu is
+     open or a key press lands on one of its links. */
+  .header.is-away:not(.is-open, :focus-within) {
+    translate: 0 -120%;
+    opacity: 0;
+  }
+  .header.is-away:not(.is-open, :focus-within) .header__bar {
+    pointer-events: none;
   }
   .header__bar {
     pointer-events: auto;
