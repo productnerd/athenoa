@@ -255,7 +255,9 @@ const rowsOf = (text: string) => {
      it thins out into the page. */
   .hero__stage {
     position: absolute;
-    inset: 0 0 calc(var(--hero-fade) * -1);
+    /* (it starts above the top of the page: the header can stand a few pixels taller than
+       --header-h, and the page's paper showed there as a pale line) */
+    inset: -2rem 0 calc(var(--hero-fade) * -1);
     z-index: -1;
     overflow: hidden;
     background-color: var(--hero-sky);
@@ -265,7 +267,7 @@ const rowsOf = (text: string) => {
   /* The layers are laid out on the first screen; the fade lies under them. */
   .hero__layer {
     position: absolute;
-    inset: 0 0 var(--hero-fade);
+    inset: 2rem 0 var(--hero-fade);
   }
   /* Each drawing's wrapper is the positioned box; the SVG fills it and may draw outside its frame. */
   .hero__layer :global(.illo) {
@@ -294,8 +296,8 @@ const rowsOf = (text: string) => {
     height: var(--scene-h);
     translate: -50% 0;
   }
-  /* The trees stand behind the near ground line, which hides their feet. Beside the title there
-     are none on the left (client direction): they only frame the picture on narrow screens. */
+  /* The trees stand behind the near ground line, which hides their feet. There are none on the
+     left any more (client direction): the title has that side. The drawing is kept for later. */
   .hero__layer--trees-l {
     display: none;
   }
@@ -586,10 +588,24 @@ const rowsOf = (text: string) => {
          between the subtitle and the rays */
       padding: calc(var(--header-h) + clamp(0.6rem, 2svh, 1.6rem)) var(--hero-pad) calc(var(--scene-h) * 1.245);
     }
-    /* Without Athena the picture is only the temple (the lower six tenths of its frame): the title
-       stands closer above it. */
+    /* Without Athena the picture is only the temple (the lower six tenths of its frame). The title
+       runs the full width above it, as large as the width allows (client direction); only a very
+       short screen holds it back. The temple stands at the lower right, and comes to the middle as
+       the screen narrows to a phone, where it is nearly as wide as the screen. */
+    .hero--bare {
+      --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 16svh, 10rem);
+      --scene-x: clamp(
+        50%,
+        calc(50% + (100vw - 26rem) * 0.6),
+        calc(100% - var(--scene-m) - var(--scene-h) / 2)
+      );
+    }
     .hero--bare .hero__panel {
       padding-bottom: calc(var(--scene-h) * 0.8);
+    }
+    .hero--bare .hero__title .t-sub {
+      margin-top: 0.45em;
+      font-size: max(0.4em, 1.3rem);
     }
     /* The block is as wide as its longest line needs and no wider, so the lines always break the
        same way: the highlighted words one above the other. */
@@ -621,20 +637,77 @@ const rowsOf = (text: string) => {
       left: -0.24em;
       right: -0.3em;
     }
-    /* The trees keep to the picture instead of the corners of the screen: on a phone only a
-       cypress shows at each end of the steps, on an upright tablet the groups stand beside them. */
-    .hero__layer--trees-l {
-      display: block;
-    }
-    .hero__layer--trees-l :global(.illo) {
-      left: calc(50% - var(--u) * 1018);
-    }
+    /* The cypresses keep to the temple's right-hand end instead of the corner of the screen */
     .hero__layer--trees-r :global(.illo) {
-      left: calc(50% + var(--u) * 333);
+      left: calc(var(--scene-x) + var(--u) * 333);
       right: auto;
     }
     /* no room for clouds beside the title here */
     .hero__layer--clouds {
+      display: none;
+    }
+  }
+
+  /* ---------- nearly square windows (a little upright or a little wide): fewer lines ----------
+     (client direction, 11 October 2026) There is height for neither the tall stack beside the
+     temple nor four lines above it. The title is a short paragraph the full width of the sky, as
+     large as that width allows, and the temple takes the height that is left, at the lower right
+     (towards the middle as the window narrows). Only while Athena is hidden: with her the picture
+     is too tall for this. */
+  @media (min-width: 30rem) and (min-aspect-ratio: 4/5) and (max-aspect-ratio: 5/4) {
+    .hero--bare {
+      --hero-col: calc(var(--panel-w) - 2 * var(--hero-pad));
+      /* the ems the longest line needs, and the lines that gives */
+      --hero-fit: 9.4;
+      --hero-rows: 3;
+      --hero-fs: min(calc(var(--hero-col) / var(--hero-fit)), 10rem);
+      /* the title and its subtitle */
+      --hero-block: calc(var(--hero-fs) * (var(--hero-rows) * 0.95 + 1.15));
+      --scene-b: calc(var(--u) * 34);
+      --scene-h: clamp(
+        12rem,
+        calc((var(--hero-open) - var(--hero-block) - 1.5rem) / 0.74),
+        min(var(--hero-open) * 0.8, var(--panel-w) * 0.62)
+      );
+      --scene-x: clamp(
+        50%,
+        calc(50% + (100vw - 26rem) * 0.6),
+        calc(100% - var(--scene-m) - var(--scene-h) / 2)
+      );
+    }
+    /* Greek, modern and ancient, also in three lines (the second holds two words) */
+    .hero--bare.hero--el,
+    .hero--bare.hero--grc {
+      --hero-fit: 12.1;
+    }
+    .hero--bare .hero__panel {
+      justify-content: flex-start;
+      min-height: var(--panel-h);
+      /* from the foot of the screen to the tips of the rays over the roof is 0.7 of the frame */
+      padding: calc(var(--header-h) + 0.5rem) var(--hero-pad) calc(var(--scene-h) * 0.74);
+    }
+    .hero--bare .hero__title {
+      width: calc(var(--hero-fit) * 1em);
+    }
+    .hero--bare .hero__row {
+      display: inline;
+    }
+    .hero--bare .hero__title .hl__w {
+      display: inline-block;
+      width: auto;
+    }
+    .hero--bare .hero__title .t-sub {
+      width: auto;
+      max-width: none;
+      margin-top: 0.45em;
+      font-size: max(0.42em, 1.3rem);
+    }
+    .hero--bare .hero__layer--trees-r :global(.illo) {
+      left: calc(var(--scene-x) + var(--u) * 333);
+      right: auto;
+    }
+    /* the title has the whole sky: no room for clouds */
+    .hero--bare .hero__layer--clouds {
       display: none;
     }
   }

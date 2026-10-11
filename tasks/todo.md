@@ -185,7 +185,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] "Join waitlist" button (cards, popup, course page) and a small paper popup with one email field, in three languages, not connected; "Details to follow" as a tilted handwritten note under the picture in the course popup; Enroll on the lead card moved to the left under the facts
 - [x] Hero stars glow (a halo drawn under each large star) and pulse
 - [x] Waitlist and note spot-checked after the helper was stopped: 1280 day (English), 390 night (Greek), the single course page, three languages, sideways-scroll check on all pages. Not checked: 768 wide, keyboard-only use beyond Escape and focus return.
-- [ ] Open: she wrote the temple "should always be left of the screen" on in-between sizes; done as on desktop (temple right, title left) and asked her to confirm
+- [x] Hero on nearly square and upright windows: title in fewer, full-width lines above the temple; temple at the lower right, moving to the middle on narrow phones (she confirmed the temple belongs bottom right). Pale line above the hero on phones removed (the header there is taller than --header-h).
 
 ## Open questions
 
