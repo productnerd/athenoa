@@ -182,23 +182,27 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     if (location.hash === '#newsletter') open(dialog, null);
   });
 
-  // One listener for every opener on every page. This module runs once, so it is never added twice.
+  // One listener for every opener on every page, added once however often this module is run.
   // Capture phase: it answers before the page router treats the link as navigation.
-  document.addEventListener(
-    'click',
-    (event) => {
-      if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      const from =
-        event.target instanceof Element
-          ? event.target.closest<HTMLElement>('a[href$="#newsletter"], [data-newsletter-open]')
-          : null;
-      const dialog = from && find();
-      if (!dialog) return;
-      event.preventDefault();
-      open(dialog, from);
-    },
-    true,
-  );
+  const bound = document.documentElement as HTMLElement & { athNewsletter?: boolean };
+  if (!bound.athNewsletter) {
+    bound.athNewsletter = true;
+    document.addEventListener(
+      'click',
+      (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const from =
+          event.target instanceof Element
+            ? event.target.closest<HTMLElement>('a[href$="#newsletter"], [data-newsletter-open]')
+            : null;
+        const dialog = from && find();
+        if (!dialog) return;
+        event.preventDefault();
+        open(dialog, from);
+      },
+      true,
+    );
+  }
 </script>
 
 <style>
