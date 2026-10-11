@@ -63,6 +63,31 @@ const voices = [
 // A wider set of handwriting to choose from. Most come from Google Fonts and are loaded for this page
 // only; a few are fonts already installed on this computer. Very few handwriting fonts cover Greek.
 const hands = [
+  { group: 'More handwriting and calligraphic hands that cover Greek', fonts: [
+    { name: 'Bimbo', greek: true, local: true, scale: 1.1 },
+    { name: 'Zen Kurenaido', greek: true },
+    { name: 'Bona Nova', greek: true, italic: true, spec: 'Bona+Nova:ital@1' },
+    { name: 'Arima', greek: true, scale: 0.95 },
+    { name: 'Arturo Trial', greek: true, local: true, scale: 0.9 },
+    { name: 'Lovelace Trial', greek: true, local: true, italic: true },
+    { name: 'Monterchi Trial', greek: true, local: true, italic: true },
+    { name: 'Luminari', greek: true, local: true, scale: 0.9 },
+    { name: 'NF-Lolotte', greek: true, local: true, scale: 2 },
+    { name: 'Brush Script MT', greek: true, local: true, scale: 1.2 },
+    { name: 'Marker Felt', greek: true, local: true, scale: 0.95 },
+    { name: 'Chalkboard SE', greek: true, local: true, scale: 0.9 },
+    { name: 'Comic Relief', greek: true, scale: 0.9 },
+  ] },
+  { group: 'Handwriting that covers Greek (the first eight)', fonts: [
+    { name: 'Mynerve', greek: true },
+    { name: 'Playpen Sans', greek: true, scale: 0.9 },
+    { name: 'Bradley Hand', greek: true, local: true },
+    { name: 'Noteworthy', greek: true, local: true, scale: 0.95 },
+    { name: 'SignPainter', greek: true, local: true, scale: 1.2 },
+    { name: 'Trattatello', greek: true, local: true },
+    { name: 'Snell Roundhand', greek: true, local: true, scale: 1.15 },
+    { name: 'Savoye LET', greek: true, local: true, scale: 1.45 },
+  ] },
   { group: 'Natural pen handwriting', fonts: [
     { name: 'Homemade Apple', greek: false },
     { name: 'Nothing You Could Do', greek: false },
@@ -88,16 +113,6 @@ const hands = [
     { name: 'Shadows Into Light', greek: false },
     { name: 'Covered By Your Grace', greek: false, scale: 1.15 },
   ] },
-  { group: 'Handwriting that covers Greek', fonts: [
-    { name: 'Mynerve', greek: true },
-    { name: 'Playpen Sans', greek: true, scale: 0.9 },
-    { name: 'Bradley Hand', greek: true, local: true },
-    { name: 'Noteworthy', greek: true, local: true, scale: 0.95 },
-    { name: 'SignPainter', greek: true, local: true, scale: 1.2 },
-    { name: 'Trattatello', greek: true, local: true },
-    { name: 'Snell Roundhand', greek: true, local: true, scale: 1.15 },
-    { name: 'Savoye LET', greek: true, local: true, scale: 1.45 },
-  ] },
   { group: 'Already installed on this computer (English only)', fonts: [
     { name: 'Alex Brush', greek: false, local: true, scale: 1.2 },
     { name: 'Fonseca Script', greek: false, local: true },
@@ -110,7 +125,7 @@ const hands = [
 const webFamilies = hands
   .flatMap((group) => group.fonts)
   .filter((font) => !font.local)
-  .map((font) => `family=${font.name.replace(/ /g, '+')}`)
+  .map((font) => `family=${font.spec ?? font.name.replace(/ /g, '+')}`)
   .join('&');
 const webFontsUrl = `https://fonts.googleapis.com/css2?${webFamilies}&display=swap`;
 
@@ -214,10 +229,6 @@ const sample = {
             </p>
             <p class="voice__line" style={voice.style}>{sample.en.voice}</p>
             <p class="voice__line" style={voice.style} lang="el">{sample.el.voice}</p>
-            <p class="voice__small" style={voice.style}>
-              I await you with joy and enthusiasm on a New Initiatic Journey ~ <span lang="grc">Εὖ Ζῆν</span> ~{' '}
-              <span lang="grc">Γνῶθι σαυτόν</span>
-            </p>
           </div>
         ))
       }
@@ -228,9 +239,9 @@ const sample = {
     <header class="set__head">
       <h2 class="t-2">More handwriting</h2>
       <p class="set__note">
-        A wider set to react to. Where a font has no Greek, only the English line is shown: on the Greek pages a
-        second, Greek-capable hand would stand in for it. "On this computer" means the font is installed here and
-        would need a web licence before launch.
+        One sentence in each, in English and in Greek. Very few handwriting fonts cover Greek: where one does not,
+        its Greek line is set in the italic that would stand in for it on the Greek pages. "On this computer" means
+        the font is installed here and would need a web licence before launch.
       </p>
     </header>
     {
@@ -243,19 +254,19 @@ const sample = {
                 <p class="set__lang">
                   {font.name}
                   {font.local ? ' · on this computer' : ''}
-                  {font.greek ? ' · covers Greek' : ' · no Greek'}
+                  {font.greek ? ' · covers Greek' : ' · no Greek: the Greek line shows the stand-in italic'}
                 </p>
-                <p class="hand-card__line" style={`font-family:'${font.name}',cursive;--k:${font.scale ?? 1}`}>
+                <p class="hand-card__line" style={`font-family:'${font.name}',cursive;--k:${font.scale ?? 1};${font.italic ? 'font-style:italic;' : ''}`}>
                   {sample.en.voice}
                 </p>
-                <p class="hand-card__small" style={`font-family:'${font.name}',cursive;--k:${font.scale ?? 1}`}>
-                  & remember who you really are
+                {/* Where the font has no Greek, the Greek line is set in the hand that would stand in for it */}
+                <p
+                  class="hand-card__line"
+                  lang="el"
+                  style={`font-family:'${font.name}','Noto Serif Display Variable',serif;--k:${font.scale ?? 1};${font.greek && !font.italic ? '' : 'font-style:italic;'}`}
+                >
+                  {sample.el.voice}
                 </p>
-                {font.greek && (
-                  <p class="hand-card__line" lang="el" style={`font-family:'${font.name}',cursive;--k:${font.scale ?? 1}`}>
-                    {sample.el.voice}
-                  </p>
-                )}
               </li>
             ))}
           </ul>

@@ -39,7 +39,7 @@ const html = `<!doctype html><meta charset="utf-8"><style>
   body{width:max-content;padding:${30 * zoom}px;background:#8a8fb5;--paper:#f2e9d3;--blue-light:#b3c0f3;--blue:#0b1c8c;--blue-deep:#071260;color:#0b1c8c}
   .frame{width:${w * zoom}px;container-type:inline-size;position:relative}
   .grid{--u:calc(100cqw / 620);position:relative;display:grid;
-    grid-template-columns:calc(18 * var(--u)) calc(76 * var(--u)) minmax(0,1fr) calc(76 * var(--u)) calc(18 * var(--u));
+    grid-template-columns:calc(15 * var(--u)) calc(82 * var(--u)) minmax(0,1fr) calc(82 * var(--u)) calc(15 * var(--u));
     padding:calc(8 * var(--u)) 0 calc(10 * var(--u))}
   .paper{position:absolute;inset:0;background:#f2e9d3;
     clip-path:polygon(50% 0,100% calc(80.8 * var(--u)),100% 100%,0 100%,0 calc(80.8 * var(--u)))}
@@ -51,7 +51,7 @@ const html = `<!doctype html><meta charset="utf-8"><style>
   .form{position:relative;min-height:${formH * zoom}px;grid-area:${narrow ? '4 / 1 / 5 / -1' : '4 / 3'}}
   .wall{grid-area:4 / 1 / 5 / -1;position:relative}
   ${narrow ? '' : '.ledge,.wall{display:none}'}
-  .shaft{position:relative;flex:1 1 0;min-height:calc(${narrow ? 350 : 340} * var(--u))}
+  .shaft{position:relative;flex:1 1 0;min-height:calc(${narrow ? 348 : 338} * var(--u))}
   .shaft svg,.wall svg{position:absolute;inset:0;height:100%}
   svg{display:block;width:100%;height:auto;overflow:visible;stroke-width:${lineW * zoom}px}
 </style>

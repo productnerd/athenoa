@@ -87,6 +87,63 @@
   --header-h: clamp(4rem, 3.4rem + 2vw, 5.25rem);
 }
 
+/* Night. The two inks trade places: night-blue paper with crème and light-blue ink. Every pairing used
+   on the site keeps its contrast, because surfaces and inks swap together: a Greek-blue panel with crème
+   words by day is a light-blue panel with night-blue words by night. Photographs are untouched. */
+html[data-theme='dark'] {
+  --blue-light: #1c2b96;
+  --blue: #b4c1f4;
+  --blue-deep: #f2e9d3;
+  --blue-bright: #dfe6ff;
+  --creme: #080d42;
+  --creme-light: #0f1859;
+  --creme-deep: #050932;
+  --sand: #27337e;
+  --grain: url('/textures/grain-light.webp');
+  --vignette: radial-gradient(
+    ellipse at 50% 46%,
+    transparent 52%,
+    rgb(3 6 36 / 0.2) 78%,
+    rgb(3 6 36 / 0.46) 100%
+  );
+  color-scheme: dark;
+}
+html[data-theme='dark'] :is(.on-blue, .on-blue-deep):not(.theme-day, .theme-day *) {
+  --grain: url('/textures/grain-dark.webp');
+}
+html[data-theme='dark'] .on-blue-light:not(.theme-day, .theme-day *) {
+  --grain: url('/textures/grain-light.webp');
+}
+
+/* .theme-day keeps one part of the page in its daytime colours whatever the theme (a night scene that is
+   already dark, a white-ground photograph that is blended into crème paper). */
+.theme-day {
+  --blue-light: #b3c0f3;
+  --blue: #0b1c8c;
+  --blue-deep: #071260;
+  --blue-bright: #2238c3;
+  --creme: #f2e9d3;
+  --creme-light: #f9f3e3;
+  --creme-deep: #e3d6b6;
+  --sand: #cbbd9c;
+  --paper: var(--creme);
+  --ink: var(--blue-deep);
+  --ink-strong: var(--blue);
+  --ink-soft: color-mix(in srgb, var(--blue-deep) 72%, var(--creme));
+  --line: color-mix(in srgb, var(--blue) 28%, transparent);
+  --grain: url('/textures/grain-dark.webp');
+  --highlight: var(--blue-light);
+  --highlight-ink: var(--blue);
+  --sub-ink: color-mix(in srgb, var(--blue) 56%, var(--blue-light));
+  --vignette: radial-gradient(
+    ellipse at 50% 46%,
+    transparent 52%,
+    color-mix(in srgb, var(--blue-deep) 16%, transparent) 78%,
+    color-mix(in srgb, var(--blue-deep) 38%, transparent) 100%
+  );
+  color: var(--ink);
+}
+
 /* Greek pages. PP Editorial New has no Greek and the Tekst trial lacks accented Greek, so Greek text
    would be pieced together from two typefaces. Until fonts with Greek are licensed, Greek pages are set
    in EB Garamond throughout, at EB Garamond's own title scale. */

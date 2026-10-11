@@ -37,7 +37,7 @@ const { ui } = content(locale);
     <meta name="theme-color" content="#f2e9d3" />
     <link rel="icon" href="/favicon.png" type="image/png" />
     <Seo {...seo} />
-    <!-- Runs before first paint: decides whether motion is on -->
+    <!-- Runs before first paint: decides whether motion is on and whether it is night -->
     <script is:inline>
       (function () {
         function apply() {
@@ -45,6 +45,12 @@ const { ui } = content(locale);
           var query = new URLSearchParams(location.search);
           var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
           root.classList.toggle('motion', !reduce && !query.has('nomotion'));
+          var theme = query.get('theme');
+          try {
+            theme = theme || localStorage.getItem('ath-theme');
+          } catch (e) {}
+          if (theme === 'dark') root.dataset.theme = 'dark';
+          else delete root.dataset.theme;
         }
         apply();
         document.addEventListener('astro:after-swap', apply);

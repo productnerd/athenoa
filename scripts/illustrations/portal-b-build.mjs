@@ -1,5 +1,6 @@
-// Generates the line art for the "Portal B" home hero (src/components/home/hero/PortalB.astro):
-// the original hero picture of athenoa.academy redrawn as a night print in the site's manner.
+// Generates the line art for the home hero (src/components/home/Hero.astro; first built as the
+// "Portal B" candidate, src/components/home/hero/PortalB.astro): the original hero picture of
+// athenoa.academy redrawn as a night print in the site's manner.
 // node scripts/illustrations/portal-b-build.mjs
 //
 // Layers, far to near. The scene layers share one frame (viewBox 0 0 1000 1000, temple axis at
@@ -251,10 +252,11 @@ function light() {
       rays += `M${pt(polar(FLAME, 40, deg))}L${pt(polar(FLAME, 480, deg - w / 2))}L${pt(polar(FLAME, 480, deg + w / 2))}Z`;
     }
   }
-  out.push(`<clipPath id="pb-cella"><path d="${rect(AX[0], T.abacus, AX[5], T.stylobate + 2)}"/></clipPath>`);
+  // (the clip runs on under the architrave and the top step, which cover it)
+  out.push(`<clipPath id="pb-cella"><path d="${rect(AX[0], T.taenia + 6, AX[5], T.stylobate + 10)}"/></clipPath>`);
   out.push(`<g clip-path="url(#pb-cella)" class="pb-beams">${wash(rays, LIGHT)}</g>`);
   // the doorway itself: an arch of light between the two middle columns
-  out.push(wash(`M444 ${T.stylobate + 4}L444 718A56 56 0 0 1 556 718L556 ${T.stylobate + 4}Z`, LIGHT, ' class="pb-door"'));
+  out.push(wash(`M444 ${T.stylobate + 10}L444 718A56 56 0 0 1 556 718L556 ${T.stylobate + 10}Z`, LIGHT, ' class="pb-door"'));
   save('light', svg(1000, 1000, out.join('')));
 }
 
@@ -564,20 +566,24 @@ function athena() {
   save('athena', svg(1000, 1000, out.join('')));
 }
 
-/** The features: brows, almond eyes, nose, mouth. Kept to very few lines: the face is small. */
+/** The features, in the manner of the site's own athena.svg and strictly symmetric: each brow
+ *  runs on down its side of the nose, a small cup closes the nose, almond eyes, a level mouth.
+ *  Kept to very few lines: the face is small. */
 function FACE(out) {
-  const mx = (x) => num(2 * CX - x);
-  // her right brow runs on down the side of the nose and turns under its tip
-  out.push(path('M466 207Q478 198 490 202.6C494 204.2 495.4 208 495.4 214L495.4 238Q495.6 246 502.6 246Q506.8 246 507.4 241.4'));
-  out.push(path(`M${mx(466)} 207Q${mx(478)} 198 ${mx(490)} 202.6`));
   for (const s of [-1, 1]) {
     const X = (x) => num(CX + s * (x - CX));
-    out.push(path(`M${X(467.5)} 217.8Q${X(479.5)} 207.6 ${X(491.5)} 217.8Q${X(479.5)} 225 ${X(467.5)} 217.8Z`));
-    out.push(wash(circle([CX + s * (479.5 - CX), 216.8], 3.4), 'currentColor'));
+    out.push(
+      path(
+        `M${X(464.5)} 209.4C${X(470.5)} 202 ${X(483.5)} 200 ${X(490.6)} 204.6C${X(494.2)} 207 ${X(495.2)} 211 ${X(495.2)} 216.4L${X(495.2)} 231.5`,
+      ),
+    );
+    out.push(path(`M${X(466.5)} 219Q${X(478)} 209.6 ${X(489.5)} 219Q${X(478)} 225.6 ${X(466.5)} 219Z`));
+    out.push(wash(circle([CX + s * (478 - CX), 218], 3.2), 'currentColor', ' data-nodraw=""'));
   }
+  out.push(path('M492.6 237C492.6 242 496 245.2 500 245.2C504 245.2 507.4 242 507.4 237'));
   // mouth, level and closed, and the shadow under the lip
-  out.push(path('M488 258Q494 260.2 500 258.8Q506 260.2 512 258'));
-  out.push(path('M494.5 264.6Q500 266.8 505.5 264.6'));
+  out.push(path('M490 255.2C493.8 256.8 497.4 255 500 256.2C502.6 255 506.2 256.8 510 255.2'));
+  out.push(path('M495.2 262Q500 264 504.8 262'));
 }
 
 // =====================================================================================
@@ -585,22 +591,23 @@ function FACE(out) {
 // =====================================================================================
 function rays() {
   const rand = rng(11);
-  const HALF = 30;
-  const AMP = 6;
+  const HALF = 24;
+  const AMP = 5.6;
   const R0 = 166;
-  const PRIMARY = 46;
-  // a crown: longest straight up, short at the shoulders, none below them
+  const PRIMARY = 36;
+  // a crown wider than it is tall, so it stays inside the picture: shortest straight up, longest
+  // level with her brow, short again at the shoulders, none below them
   const reach = (deg) => {
     const off = Math.abs(((deg - 270 + 540) % 360) - 180); // 0 = straight up
-    if (off <= 90) return lerp(332, 318, Math.pow(off / 90, 1.35));
-    return lerp(318, R0, Math.min(1, (off - 90) / 16));
+    if (off <= 90) return lerp(254, 312, Math.pow(off / 90, 1.5));
+    return lerp(312, R0, Math.min(1, (off - 90) / 16));
   };
   let d = '';
   for (let i = 0; i < PRIMARY * 2; i++) {
     const between = i % 2 === 1;
     const deg = (i / (PRIMARY * 2)) * 360 + (rand() - 0.5) * 0.6;
-    const first = between ? 3 + Math.floor(rand() * 2) : 0;
-    const end = reach(deg) * (between ? 0.86 : 1) + (rand() - 0.5) * 26;
+    const first = between ? 1 + Math.floor(rand() * 2) : 0;
+    const end = reach(deg) - (between ? 6 : 0) + (rand() - 0.5) * 16;
     const last = Math.round((end - R0) / HALF);
     if (last - first < 2) continue;
     const dir = [Math.cos(rad(deg)), Math.sin(rad(deg))];
@@ -644,16 +651,22 @@ function sky() {
     const k = r * 0.14;
     return `M${num(x)} ${num(y - r)}Q${num(x + k)} ${num(y - k)} ${num(x + r)} ${num(y)}Q${num(x + k)} ${num(y + k)} ${num(x)} ${num(y + r)}Q${num(x - k)} ${num(y + k)} ${num(x - r)} ${num(y)}Q${num(x - k)} ${num(y - k)} ${num(x)} ${num(y - r)}Z`;
   };
-  // The sparks keep out of the sky the title stands in (left on wide screens, top centre on
-  // narrow ones), so no star sits between its letters. Dots may: they read as texture.
+  // Sparks and the larger dots keep out of the sky the title stands in (left on wide screens, top
+  // centre on narrow ones): a dot between two words reads as punctuation, in Greek as an ano
+  // teleia. The smallest dots may stay: they read as texture.
   const clear = ([x, y]) =>
-    !(x > 90 && x < 700 && y > 190 && y < 670) && !(x > 540 && x < 1060 && y > 60 && y < 370);
+    !(x > 70 && x < 810 && y > 130 && y < 700) && !(x > 540 && x < 1060 && y > 50 && y < 380);
+  // Sparks also keep out of the crown of rays about Athena's head on wide screens, and out of
+  // the strip the whole picture stands in on narrow ones: a star there tangles with the rays, the
+  // spear, the Nike or the tips of the roof.
+  const far = ([x, y], [cx, cy], r) => Math.hypot(x - cx, y - cy) > r;
+  const open = (p) => clear(p) && far(p, [1150, 300], 280) && !(p[0] > 540 && p[0] < 1060 && p[1] > 380);
   let sparks = '';
-  for (const p of place(7, 150).filter(clear)) sparks += spark(p, 15);
-  for (const p of place(16, 90).filter(clear)) sparks += spark(p, 10.5);
-  for (const p of place(34, 60).filter(clear)) sparks += spark(p, 6.5);
-  const big = place(46, 38);
-  const mid = place(130, 26);
+  for (const p of place(7, 150).filter(open)) sparks += spark(p, 15);
+  for (const p of place(16, 90).filter(open)) sparks += spark(p, 10.5);
+  for (const p of place(34, 60).filter(open)) sparks += spark(p, 6.5);
+  const big = place(46, 38).filter(clear);
+  const mid = place(130, 26).filter(clear);
   const small = place(300, 17);
   const body =
     path(dots(small), ' stroke-width="2.1" opacity=".75"') +
@@ -745,7 +758,6 @@ function hill() {
   // contour lines flowing with the rise
   for (const [dy, x0, x1] of [
     [13, -640, 70],
-    [13, 930, 1640],
     [26, -420, 250],
     [26, 750, 1420],
     [39, -230, 1230],
@@ -848,15 +860,15 @@ function trees() {
     // lower left corner: low, so the title keeps its sky
     const rand = rng(3);
     const B = 330;
+    // (the corner itself stays open: the round music button of the site sits there)
     const body =
-      cypress(250, B + 2, 196, 38, rand) +
-      pine(140, B + 6, 262, 172, rand, 8) +
-      cypress(52, B + 8, 150, 34, rand) +
-      cypress(304, B + 10, 122, 28, rand) +
-      pine(420, B + 14, 142, 104, rand, -5) +
-      shrub(356, B + 16, 60, rand) +
-      shrub(506, B + 20, 76, rand) +
-      cypress(574, B + 20, 82, 22, rand);
+      cypress(286, B + 2, 168, 34, rand) +
+      pine(184, B + 6, 204, 150, rand, 6) +
+      cypress(336, B + 10, 112, 27, rand) +
+      pine(452, B + 14, 128, 98, rand, -5) +
+      shrub(388, B + 16, 56, rand) +
+      shrub(534, B + 20, 70, rand) +
+      cypress(596, B + 20, 78, 21, rand);
     save('trees-left', svg(620, 360, body));
   }
   {

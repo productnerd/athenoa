@@ -1,14 +1,21 @@
 // Opens the newsletter popup on its lab page with the installed Chrome, looks at it and tries it.
-//   node scripts/lab-newsletter-shots.mjs            every shot and every check
-//   node scripts/lab-newsletter-shots.mjs --shots    only the screenshots
-//   node scripts/lab-newsletter-shots.mjs --checks   only the behaviour checks
-// Screenshots go to shots/newsletter-<name>.png. Exits with 1 if a check fails.
+//   node scripts/lab-newsletter-check.mjs                    every screenshot and every check
+//   node scripts/lab-newsletter-check.mjs --shots            only the screenshots
+//   node scripts/lab-newsletter-check.mjs --checks           only the behaviour checks
+//   node scripts/lab-newsletter-check.mjs --only mobile-el   one screenshot
+//   ... --out <dir>    where the screenshots go (default shots/), as newsletter-<name>.jpg
+//   ... --close        the screenshots show the popup alone, at twice the size
+// Exits with 1 if a check fails.
 import { chromium } from 'playwright-core';
 
 const args = process.argv.slice(2);
-const only = args.includes('--shots') ? 'shots' : args.includes('--checks') ? 'checks' : 'all';
+const flag = (name) => args.includes(`--${name}`);
+const opt = (name, fallback) => {
+  const i = args.indexOf(`--${name}`);
+  return i >= 0 ? args[i + 1] : fallback;
+};
 const base = process.env.SHOT_BASE ?? 'http://localhost:4321';
-const out = (name) => `shots/newsletter-${name}.png`;
+const out = (name) => `${opt('out', 'shots')}/newsletter-${name}.jpg`;
 const LINK = 'a[data-lab-link]';
 const BUTTON = 'button[data-newsletter-open]';
 
@@ -22,8 +29,8 @@ async function block(options, run) {
     const checks = [];
     const check = (name, ok, detail = '') => checks.push([name, Boolean(ok), detail]);
     const context = await browser.newContext({
-      viewport: options.mobile ? { width: 390, height: 844 } : { width: 1440, height: 900 },
-      deviceScaleFactor: options.mobile ? 2 : 1,
+      viewport: options.viewport ?? (options.mobile ? { width: 390, height: 844 } : { width: 1440, height: 900 }),
+      deviceScaleFactor: flag('close') ? 2 : 1,
       isMobile: Boolean(options.mobile),
       hasTouch: Boolean(options.mobile),
       javaScriptEnabled: options.js !== false,
@@ -35,8 +42,6 @@ async function block(options, run) {
       await page.goto(`${base}${path}${options.motion ? '' : '?nomotion=1'}${options.hash ?? ''}`, {
         waitUntil: 'networkidle',
       });
-      // The type sets under test (a, b, c) are switched with data-fonts; without it, the site's own set.
-      if (options.fonts) await page.evaluate((set) => (document.documentElement.dataset.fonts = set), options.fonts);
       if (options.js !== false) await page.evaluate(() => document.fonts.ready);
       await run(page, check);
     } catch (error) {
@@ -59,49 +64,63 @@ const openIt = async (page, selector = LINK) => {
   await page.waitForSelector('#newsletter[open]');
   await page.waitForTimeout(250);
 };
+// The whole window, or with --close the popup alone.
+const shoot = async (page, name) => {
+  const clip = flag('close')
+    ? await page.evaluate(() => {
+        const r = document.querySelector('#newsletter').getBoundingClientRect();
+        const x = Math.max(0, r.x - 10);
+        const y = Math.max(0, r.y - 10);
+        return { x, y, width: Math.min(innerWidth - x, r.width + 20), height: Math.min(innerHeight - y, r.height + 20) };
+      })
+    : undefined;
+  await page.screenshot({ path: out(name), type: 'jpeg', quality: 80, clip });
+};
 // Sizes that must hold: nothing scrolls sideways, the field keeps its width, the popup fits.
 const measure = (page) =>
   page.evaluate(() => {
     const dialog = document.querySelector('#newsletter');
     const box = dialog.getBoundingClientRect();
+    const column = dialog.querySelector('.nl__column').getBoundingClientRect();
+    const shaft = dialog.querySelector('.nl__shaft').getBoundingClientRect();
     return {
       field: Math.round(dialog.querySelector('input').getBoundingClientRect().width),
       rem: parseFloat(getComputedStyle(document.documentElement).fontSize),
       sideways: document.documentElement.scrollWidth > innerWidth || dialog.scrollWidth > dialog.clientWidth,
       scrolls: dialog.scrollHeight > dialog.clientHeight + 1,
       box: [Math.round(box.width), Math.round(box.height)],
+      // Height of a column in lower diameters (the shaft is 50 of the piece's 82 units wide)
+      slender: Math.round((column.height / ((shaft.width * 50) / 82)) * 10) / 10,
       title: dialog.querySelector('h2').textContent,
     };
   });
 
 // ---------- Screenshots ----------
-if (only !== 'checks') {
+if (!flag('checks')) {
   const views = [
     { name: 'desktop', path: '/lab/newsletter/' },
     { name: 'mobile', path: '/lab/newsletter/', mobile: true },
     { name: 'desktop-el', path: '/el/lab/newsletter/' },
     { name: 'mobile-el', path: '/el/lab/newsletter/', mobile: true },
-    ...['a', 'b', 'c'].flatMap((fonts) => [
-      { name: `fonts-${fonts}`, path: '/lab/newsletter/', fonts },
-      { name: `fonts-${fonts}-mobile-el`, path: '/el/lab/newsletter/', fonts, mobile: true },
-    ]),
-  ];
+    { name: 'laptop', path: '/lab/newsletter/', viewport: { width: 1280, height: 720 } },
+    { name: 'small', path: '/el/lab/newsletter/', mobile: true, viewport: { width: 320, height: 640 } },
+  ].filter((view) => !opt('only') || view.name === opt('only'));
   for (const view of views) {
     await block(view, async (page, check) => {
       await openIt(page);
       const m = await measure(page);
-      await page.screenshot({ path: out(view.name) });
+      await shoot(page, view.name);
       check(
         `${view.name}: fits, field at least 16rem, nothing sideways`,
         !m.sideways && !m.scrolls && m.field >= 16 * m.rem,
-        `popup ${m.box.join('x')}, field ${m.field}px, "${m.title}"`,
+        `popup ${m.box.join('x')}, field ${m.field}px, columns ${m.slender} diameters, "${m.title}"`,
       );
     });
   }
 }
 
 // ---------- Behaviour ----------
-if (only !== 'shots') {
+if (!flag('shots') && !opt('only')) {
   for (const mobile of [false, true]) {
     const tag = mobile ? 'mobile' : 'desktop';
     const path = mobile ? '/el/lab/newsletter/' : '/lab/newsletter/';
@@ -122,6 +141,7 @@ if (only !== 'shots') {
       check(
         `${tag}: focus moved into the popup`,
         await page.evaluate(() => document.querySelector('#newsletter').contains(document.activeElement)),
+        await page.evaluate(() => document.activeElement.tagName.toLowerCase()),
       );
       check(
         `${tag}: labelled by its headline`,
@@ -137,6 +157,14 @@ if (only !== 'shots') {
           return /blur\(/.test(style.backdropFilter || style.webkitBackdropFilter || '');
         }),
       );
+      check(
+        `${tag}: it lies over the music button`,
+        await page.evaluate(() => {
+          const r = document.querySelector('[data-music-toggle]').getBoundingClientRect();
+          const top = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
+          return document.querySelector('#newsletter').contains(top);
+        }),
+      );
 
       // An address the browser rejects: no note, the native message instead
       await page.fill('#newsletter-email', 'not-an-address');
@@ -148,21 +176,24 @@ if (only !== 'shots') {
         return { valid: input.validity.valid, message: input.validationMessage, sent: dialog.hasAttribute('data-sent') };
       });
       check(`${tag}: an invalid address is stopped by the browser`, !invalid.valid && !invalid.sent, invalid.message);
+      if (!flag('checks')) await shoot(page, mobile ? 'invalid-mobile-el' : 'invalid');
       await page.fill('#newsletter-email', '');
       await page.click('#newsletter button[type=submit]');
       const empty = await page.evaluate(() => document.querySelector('#newsletter').hasAttribute('data-sent'));
       check(`${tag}: so is an empty field`, !empty);
 
       // A valid one: the honest note in place of the form
+      const before = (await measure(page)).box;
       await page.fill('#newsletter-email', 'reader@example.com');
       await page.click('#newsletter button[type=submit]');
       await page.waitForTimeout(200);
       const note = await page.evaluate(() => {
         const dialog = document.querySelector('#newsletter');
         const noteEl = dialog.querySelector('[data-newsletter-note]');
+        const shown = (el) => getComputedStyle(el).visibility === 'visible' && el.getClientRects().length > 0;
         return {
-          note: noteEl.offsetParent !== null,
-          form: dialog.querySelector('form').offsetParent !== null,
+          note: shown(noteEl),
+          form: shown(dialog.querySelector('form')),
           focused: document.activeElement === noteEl,
           href: noteEl.querySelector('a').getAttribute('href'),
           text: noteEl.textContent.trim().replace(/\s+/g, ' '),
@@ -172,8 +203,12 @@ if (only !== 'shots') {
       check(`${tag}: the note links to the contact form`, /\/about-athena\/#contact$/.test(note.href), note.href);
       check(`${tag}: nothing was sent`, sent.length === 0, sent.join(', '));
       const m = await measure(page);
-      check(`${tag}: the note fits`, !m.sideways && !m.scrolls, `popup ${m.box.join('x')}`);
-      await page.screenshot({ path: out(mobile ? 'note-mobile-el' : 'note') });
+      check(
+        `${tag}: the note fits and the frame keeps its size`,
+        !m.sideways && !m.scrolls && m.box.join() === before.join(),
+        `popup ${m.box.join('x')}`,
+      );
+      if (!flag('checks')) await shoot(page, mobile ? 'note-mobile-el' : 'note');
 
       // Escape closes, focus returns to the link
       await page.keyboard.press('Escape');
@@ -188,7 +223,8 @@ if (only !== 'shots') {
       await openIt(page, BUTTON);
       const fresh = await page.evaluate(() => {
         const dialog = document.querySelector('#newsletter');
-        return dialog.querySelector('form').offsetParent !== null && dialog.querySelector('input').value === '';
+        const form = dialog.querySelector('form');
+        return getComputedStyle(form).visibility === 'visible' && dialog.querySelector('input').value === '';
       });
       check(`${tag}: data-newsletter-open opens it, with the form back and empty`, fresh);
 
@@ -221,6 +257,22 @@ if (only !== 'shots') {
       check(`${tag}: the close control closes it`, !(await isOpen(page)));
     });
   }
+
+  // A low window: the popup scrolls inside itself and the close control stays in reach
+  await block({ name: 'low window', viewport: { width: 844, height: 390 } }, async (page, check) => {
+    await openIt(page);
+    await page.evaluate(() => document.querySelector('#newsletter').scrollTo(0, 9999));
+    const state = await page.evaluate(() => {
+      const dialog = document.querySelector('#newsletter');
+      const r = dialog.querySelector('[data-newsletter-close]').getBoundingClientRect();
+      return {
+        scrolled: dialog.scrollTop > 0,
+        inView: r.top >= 0 && r.bottom <= innerHeight,
+        sideways: document.documentElement.scrollWidth > innerWidth || dialog.scrollWidth > dialog.clientWidth,
+      };
+    });
+    check('low window: it scrolls inside itself, the close control stays in view', state.scrolled && state.inView && !state.sideways);
+  });
 
   // With motion on: opens, and closes after its transition
   await block({ name: 'motion', motion: true }, async (page, check) => {
@@ -301,7 +353,7 @@ if (only !== 'shots') {
       shown.dialog && shown.note && !shown.form && shown.link && shown.position === 'fixed',
       JSON.stringify(shown),
     );
-    await page.screenshot({ path: out('nojs') });
+    if (!flag('checks')) await shoot(page, 'nojs');
     await page.click('#newsletter a.nl__close');
     await page.waitForTimeout(200);
     check(

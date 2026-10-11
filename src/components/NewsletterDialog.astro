@@ -3,9 +3,12 @@
 // body level (not inside an on-blue surface). Any link whose href ends in "#newsletter" and any
 // element with data-newsletter-open opens it.
 //
-// The form stands inside a Greek portico drawn in five pieces (portico-*.svg, built by
-// scripts/illustrations/portico-gen.mjs). One unit of that drawing is 1/640 of the frame's width,
+// The popup is a small Greek portico, drawn in pieces (portico-*.svg, built by
+// scripts/illustrations/portico-gen.mjs). One unit of that drawing is 1/620 of the frame's width,
 // so the pieces always meet; only the shafts stretch with the content.
+//   Wide screens: the headline and the form stand in the opening between the two columns.
+//   Narrow screens: no form fits between columns of a believable thickness, so the columns frame
+//   the headline and stand on a podium, and the form is set into the face of the podium.
 //
 // Sign-up is NOT connected to a mailing service yet. Look for "NEWSLETTER SERVICE" below.
 import Illustration from './Illustration.astro';
@@ -46,10 +49,16 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
         ))
       }
 
-      <div class="nl__body">
+      <div class="nl__head">
         <h2 class="nl__title t-3" id="newsletter-title">{cta.label}</h2>
         <p class="nl__text">{text}</p>
+      </div>
 
+      <!-- The podium, on narrow screens only -->
+      <Illustration name="portico-ledge" class="nl__ledge" />
+      <Illustration name="portico-wall" class="nl__wall" />
+
+      <div class="nl__action">
         <!-- NEWSLETTER SERVICE, part 1 of 2. When a mailing service is connected, this form gets the
              service's endpoint as action (method="post") and the input gets the field name the
              service expects (name="email"; Mailchimp calls it EMAIL). Until then the input has no
@@ -71,7 +80,7 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
         <!-- Shown in place of the form after a valid address is entered (and, with no JavaScript,
              from the start): sign-up is not connected yet, and the popup says so. -->
-        <div class="nl__note" role="status" tabindex="-1" data-newsletter-note>
+        <div class="nl__note" tabindex="-1" data-newsletter-note>
           <p>{t.pending}</p>
           <p><a href={contactHref} data-newsletter-contact>{t.pendingLink}</a></p>
         </div>
@@ -92,6 +101,9 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     if (dialog.open) return;
     opener = from;
     dialog.classList.remove('is-closing');
+    // With a mouse and keyboard the field is ready to type in. On a touch screen that would raise
+    // the keyboard over the popup at once, so focus stays on the first control instead.
+    dialog.querySelector('input')!.autofocus = matchMedia('(hover: hover) and (pointer: fine)').matches;
     dialog.showModal();
   }
 
@@ -191,7 +203,8 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
 
 <style>
   .nl {
-    width: min(100% - 0.5rem, 41rem);
+    --nl-edge: 0.375rem; /* how far the paper reaches beyond the drawing at the sides and below */
+    width: min(100% - 0.5rem, 26rem);
     max-width: none;
     max-height: calc(100dvh - 0.5rem);
     margin: auto;
@@ -201,13 +214,12 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     color: var(--ink);
     overflow: hidden auto;
     overscroll-behavior: contain;
-    --nl-edge: 0.25rem; /* how far the paper reaches beyond the drawing at the sides and below */
   }
   /* The page behind: blurred, under a thin wash of the darker blue */
   .nl::backdrop {
-    background: color-mix(in srgb, var(--blue-deep, #071260) 42%, transparent);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--blue-deep, #071260) 36%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
   }
   /* The page behind stays put while the popup is open */
   :global(html:has(dialog.nl[open])) {
@@ -245,17 +257,15 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     cursor: pointer;
     transition:
       background-color var(--dur-1),
-      color var(--dur-1),
-      rotate var(--dur-2) var(--ease-out);
+      color var(--dur-1);
   }
   .nl__close:hover {
     background: var(--blue);
     color: var(--creme-light);
-    rotate: -2deg;
   }
   .nl__close:focus-visible {
     border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
-    outline-color: var(--blue-deep);
+    outline-color: var(--creme-light);
     outline-offset: 3px;
   }
   .nl__close path {
@@ -285,18 +295,19 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     /* Clicks beside the gable fall through to the dialog, like clicks on the backdrop */
     pointer-events: none;
   }
-  /* The measures below are those of scripts/illustrations/portico-gen.mjs: the frame is 640 units
-     wide, a column piece 64, and it stands 21 units in from the edge. */
+  /* The measures below are those of scripts/illustrations/portico-gen.mjs: the frame is 620 units
+     wide, a column piece 82, and it stands 15 units in from the edge.
+     Rows: pediment and entablature, headline, ledge of the podium, form, steps. */
   .nl__grid {
-    --u: calc(100cqw / 640); /* one unit of the drawing */
-    --nl-line: 1.3px; /* its line weight */
+    --u: calc(100cqw / 620); /* one unit of the drawing */
+    --nl-line: 1.35px; /* its line weight */
     position: relative;
     isolation: isolate;
     display: grid;
     grid-template-columns:
-      calc(21 * var(--u)) calc(64 * var(--u)) minmax(0, 1fr)
-      calc(64 * var(--u)) calc(21 * var(--u));
-    padding: calc(8 * var(--u)) 0 calc(12 * var(--u));
+      calc(15 * var(--u)) calc(82 * var(--u)) minmax(0, 1fr)
+      calc(82 * var(--u)) calc(15 * var(--u));
+    padding: calc(8 * var(--u)) 0 calc(10 * var(--u));
   }
   /* The sheet: crème paper cut to the outline of a temple front, with the rough edge of the other
      cut-outs. The clip sits on ::before and the filter on its parent, so the edge is displaced
@@ -308,7 +319,9 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     filter: url(#rough-sm); /* the finer cut: on a narrow screen the margin round the drawing is small */
   }
   .nl__paper::before {
-    --eave: calc(75.2 * var(--u)); /* the gable runs parallel to the roof, clear of the acroteria */
+    /* The gable runs parallel to the roof (a pitch of 0.235), clear of the acroteria. Every corner
+       is taken off with a short second cut, so none of them is sharp. */
+    --eave: calc(72.8 * var(--u) + 0.235 * var(--nl-edge));
     content: '';
     position: absolute;
     inset: 0;
@@ -316,15 +329,22 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     background-image: var(--grain);
     background-size: 400px 400px;
     clip-path: polygon(
-      50% 0,
-      100% var(--eave),
+      calc(50% - 0.35rem) 0.04rem,
+      calc(50% + 0.35rem) 0.04rem,
+      calc(50% + 1rem) 0.235rem,
+      calc(100% - 0.8rem) calc(var(--eave) - 0.19rem),
+      calc(100% - 0.15rem) calc(var(--eave) + 0.1rem),
+      100% calc(var(--eave) + 0.7rem),
       100% calc(100% - 0.9rem),
       calc(100% - 0.25rem) calc(100% - 0.25rem),
       calc(100% - 0.9rem) 100%,
       0.9rem 100%,
       0.25rem calc(100% - 0.25rem),
       0 calc(100% - 0.9rem),
-      0 var(--eave)
+      0 calc(var(--eave) + 0.7rem),
+      0.15rem calc(var(--eave) + 0.1rem),
+      0.8rem calc(var(--eave) - 0.19rem),
+      calc(50% - 1rem) 0.235rem
     );
     pointer-events: auto;
   }
@@ -333,9 +353,6 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
   }
   .nl__pediment {
     grid-area: 1 / 1 / 2 / -1;
-  }
-  .nl__steps {
-    grid-area: 3 / 1 / 4 / -1;
   }
   .nl__column {
     grid-row: 2;
@@ -348,42 +365,67 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     grid-column: 4;
     scale: -1 1;
   }
-  /* The only piece that stretches. It never falls below a believable height. */
+  /* The piece that stretches. It never falls below a believable height: with capital and base,
+     a column of about eight and a half lower diameters. */
   .nl__shaft {
     position: relative;
     flex: 1 1 0;
-    min-height: calc(190 * var(--u));
+    min-height: calc(348 * var(--u));
   }
-  .nl__shaft :global(svg) {
+  .nl__shaft :global(svg),
+  .nl__wall :global(svg) {
     position: absolute;
     inset: 0;
     height: 100%;
   }
+  .nl__ledge {
+    grid-area: 3 / 1 / 4 / -1;
+  }
+  .nl__wall {
+    grid-area: 4 / 1 / 5 / -1;
+    position: relative;
+  }
+  .nl__steps {
+    grid-area: 5 / 1 / 6 / -1;
+  }
 
-  /* ---------- Between the columns ---------- */
-  .nl__body {
-    grid-row: 2;
-    grid-column: 3;
+  /* ---------- Words and form ---------- */
+  .nl__head {
+    grid-area: 2 / 3;
     align-self: center;
     display: grid;
-    gap: 0.85rem;
-    padding: 1.1rem 0.25rem 1.2rem;
+    gap: 0.7rem;
+    padding: 0.9rem 0.3rem 1rem;
     text-align: center;
     pointer-events: auto;
   }
   .nl__title {
-    font-size: calc(var(--step-2) * 0.9);
+    font-size: calc(var(--step-2) * 0.86);
+  }
+  .nl__text {
+    line-height: 1.42;
+  }
+  /* Form and note share one cell, so the frame keeps its height when one replaces the other */
+  .nl__action {
+    grid-area: 4 / 1 / 5 / -1;
+    display: grid;
+    /* Inside the wall of the podium (23 units in), with less air on the smallest screens */
+    padding: 1.05rem calc(23 * var(--u) + clamp(0.45rem, 9cqw - 1.2rem, 1rem)) 1.35rem;
+    pointer-events: auto;
+  }
+  .nl__form,
+  .nl__note {
+    grid-area: 1 / 1;
   }
   .nl__form {
     display: grid;
-    gap: 0.9rem;
-    margin-top: 0.3rem;
-    text-align: left;
+    gap: 0.85rem;
   }
   .nl__note {
+    align-self: center;
     display: grid;
     gap: 0.5rem;
-    margin-top: 0.3rem;
+    text-align: center;
     outline: none;
   }
   .nl__note a {
@@ -392,18 +434,21 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
   }
   /* The form until an address has been entered, then the note. Without JavaScript: the note only. */
   .nl[data-ready]:not([data-sent]) .nl__note,
-  .nl:not([data-ready]) .nl__form,
   .nl[data-sent] .nl__form {
-    display: none;
+    visibility: hidden;
   }
+  .nl:not([data-ready]) .nl__form,
   .nl[data-ready] .nl__close--plain,
   .nl:not([data-ready]) button.nl__close {
     display: none;
   }
 
-  @media (min-width: 34rem) {
+  /* ---------- Wide screens: the form stands between the columns ---------- */
+  @media (min-width: 36rem) {
     .nl {
       --nl-edge: 0.6rem;
+      /* Narrower where the window is low, so the whole portico stays in view when it can */
+      width: min(100% - 0.5rem, 43rem, max(34rem, 214dvh - 58rem));
       padding: 0.5rem 0.5rem 1.1rem;
     }
     .nl__paper {
@@ -411,9 +456,6 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     }
     .nl__frame {
       margin-top: 0.5rem;
-    }
-    .nl__grid {
-      --nl-line: 1.6px;
     }
     .nl__close {
       width: auto;
@@ -425,15 +467,43 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
       height: auto;
       clip-path: none;
     }
-    .nl__body {
-      gap: 1rem;
-      padding: 1.5rem clamp(1rem, 5cqw, 2.25rem) 1.75rem;
+    .nl__ledge,
+    .nl__wall {
+      display: none;
+    }
+    /* The row of the ledge is shut, so the spare height of the columns goes above the headline and
+       below the form, not between them */
+    .nl__grid {
+      --nl-line: 1.7px;
+      grid-template-rows: auto auto 0 auto auto;
+    }
+    .nl__column {
+      grid-row: 2 / 5;
+    }
+    .nl__shaft {
+      min-height: calc(338 * var(--u));
+    }
+    .nl__head {
+      align-self: end;
+      gap: 0.9rem;
+      padding: 1.6rem clamp(0.75rem, 4cqw, 1.9rem) 0;
+    }
+    .nl__title {
+      font-size: calc(var(--step-2) * 0.9);
+    }
+    .nl__action {
+      grid-area: 4 / 3;
+      align-self: start;
+      padding: 1.3rem clamp(0.75rem, 4cqw, 1.9rem) 1.9rem;
+    }
+    .nl__form {
+      gap: 0.9rem;
     }
   }
 
   /* ---------- Without JavaScript ---------- */
   /* A link to #newsletter still reveals the popup: the dialog becomes a block fixed over the whole
-     page, carrying the wash and the blur itself, with the portico in its middle. */
+     page (above the music button), carrying the wash and the blur itself, the portico in its middle. */
   .nl:target:not([data-ready]) {
     display: flex;
     flex-direction: column;
@@ -444,14 +514,19 @@ const contactHref = pathIn(locale, '/about-athena/#contact');
     width: auto;
     height: auto;
     max-height: none;
-    background: color-mix(in srgb, var(--blue-deep) 42%, transparent);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--blue-deep) 36%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
   }
   .nl:target:not([data-ready]) > * {
     flex: none;
-    width: min(100% - 2 * var(--nl-edge), 39.5rem);
+    width: min(100% - 2 * var(--nl-edge), 25rem);
     margin-inline: auto;
+  }
+  @media (min-width: 36rem) {
+    .nl:target:not([data-ready]) > * {
+      width: min(100% - 2 * var(--nl-edge), 40.8rem);
+    }
   }
 
   /* ---------- Open and close ---------- */

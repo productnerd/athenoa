@@ -120,6 +120,14 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [ ] /font-test: show a wider set of handwritten fonts (she likes none of the six). Mark which cover Greek.
 - [ ] Home, course tiles (Plato's Republic, Marcus Aurelius, Cratylus): reuse the Courses page's CourseCard so courses look the same wherever they appear. Cratylus has no course entry yet: add it as a placeholder course in both languages.
 
+## Added by Maria on 2026-10-11 (ninth round)
+
+- [x] Barely visible animated paper grain behind the page (22% strength)
+- [x] Night mode switch in the header (moon/sun), remembered; owl sound on switching to night, cicadas and a wave on switching back. Sounds are synthesised (public/audio/owl.mp3, daylight.mp3) and can be replaced with recordings.
+- [ ] Night mode second pass once the hero is in: keep the hero as a night scene (class theme-day on its panel), decide how footers end at night, check every section
+- [x] /font-test handwriting: one sentence per font in English and Greek; thirteen more Greek-capable hands added
+- [ ] Waiting for Maria's pick of handwriting font
+
 ## Open questions
 
 See the chat message of 2026-10-10.

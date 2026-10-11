@@ -9,6 +9,8 @@ export const ui = {
     footerNav: 'Footer',
     homeLink: 'ATHENOA, home',
     language: 'Language',
+    toNight: 'Switch to night mode',
+    toDay: 'Switch to day mode',
     socialOn: (network: string) => `ATHENOA on ${network}`,
   },
   el: {
@@ -18,6 +20,8 @@ export const ui = {
     footerNav: 'Υποσέλιδο',
     homeLink: 'ATHENOA, αρχική σελίδα',
     language: 'Γλώσσα',
+    toNight: 'Νυχτερινή εμφάνιση',
+    toDay: 'Ημερήσια εμφάνιση',
     socialOn: (network: string) => `Η ATHENOA στο ${network}`,
   },
 } satisfies Record<Locale, Record<string, unknown>>;

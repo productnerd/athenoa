@@ -1,0 +1,25 @@
+---
+// Lab page: the final home hero above plain filler, so the load sequence and the scroll
+// parallax can be judged on their own. Not part of the published site.
+import Base from '../../layouts/Base.astro';
+import Hero from '../../components/home/Hero.astro';
+---
+
+<Base title="Hero | ATHENOA lab" description="Home hero: the original picture redrawn as a night print" noindex>
+  <Hero />
+  <div class="wrap filler" aria-hidden="true"></div>
+  <div class="wrap filler filler--short" aria-hidden="true"></div>
+</Base>
+
+<style>
+  .filler {
+    height: 85vh;
+    margin-block: var(--space-l);
+    border: 1.5px dashed var(--line);
+    border-radius: var(--r-soft);
+  }
+  .filler--short {
+    height: 60vh;
+    border-radius: var(--r-soft-2);
+  }
+</style>

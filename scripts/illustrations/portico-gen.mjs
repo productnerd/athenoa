@@ -24,10 +24,10 @@ const TAU = Math.PI * 2;
 const deg = Math.PI / 180;
 
 // ---------- The measures shared by the pieces ----------
-// NewsletterDialog.astro repeats four of them in its grid: W, CELL, AXIS - CELL / 2 (= 18) and WALL.
+// NewsletterDialog.astro repeats four of them in its grid: W, CELL, AXIS - CELL / 2 (= 15) and WALL.
 const W = 620; // the frame, paper margins included
 const AXIS = 56; // axis of the left column, from the left edge of the frame
-const CELL = 76; // width of a column piece
+const CELL = 82; // width of a column piece
 const CX = CELL / 2; // the column axis inside its own piece
 const R_LOW = 25; // half the lower diameter of the shaft
 const R_TOP = 21; // half the upper diameter (0.84 of the lower)
@@ -92,12 +92,12 @@ const pill = (cx, r, y0, y1) => {
 // Ionic, seen from the front: a thin abacus; two volutes joined by the canalis; between them the
 // echinus with its eggs, in shade; the astragal; and the top of the shaft with the round heads of
 // the flutes.
-const CAP_H = 34;
+const CAP_H = 36;
 function capital() {
   const abacusH = 5;
-  const abacusR = 30;
-  const eyeX = 23; // volute eyes, from the axis
-  const r0 = 12.5; // outer radius of a volute
+  const abacusR = 31.5;
+  const eyeX = 24.5; // volute eyes, from the axis
+  const r0 = 14.5; // outer radius of a volute
   const decay = 0.55; // what is left of the radius after one turn
   const turns = 2.05;
   const eyeY = abacusH + r0;
@@ -106,8 +106,8 @@ function capital() {
 
   const yEchinus = 21; // foot of the echinus
   const yAstragal = 24.6;
-  const yHead = 27.2; // top of the flute heads
-  const ySpring = 30.6; // where the heads become straight
+  const yHead = 27.8; // top of the flute heads
+  const ySpring = 31.6; // where the heads become straight
   const xs = FLUTES.map((f) => CX + f * R_TOP);
   const head = (i) => {
     const rx = (xs[i + 1] - xs[i]) / 2;
@@ -148,7 +148,7 @@ function capital() {
     const x = CX + side * eyeX;
     out.push(wash(spline(whorl(x, eyeY, r0, decay, side, 0, 1, 30)) + 'Z', PAPER));
     out.push(line(spline(whorl(x, eyeY, r0, decay, side, 0, turns, 62))));
-    out.push(`<circle cx="${n(x)}" cy="${n(eyeY)}" r="1.9" fill="${INK}" stroke="none"/>`);
+    out.push(`<circle cx="${n(x)}" cy="${n(eyeY)}" r="2.2" fill="${INK}" stroke="none"/>`);
   }
   // Lower edge of the canalis
   out.push(line(canalis));
@@ -250,10 +250,10 @@ function palmette(x, y, leaves, { calyx = 5, lift = 3 } = {}) {
   const order = [...leaves].sort((a, b) => Math.abs(b.a) - Math.abs(a.a));
   for (const { a, len, w } of order) {
     const d =
-      `M0 0C${P(-w * 0.45, -len * 0.24)} ${P(-w, -len * 0.48)} ${P(-w, -len * 0.74)}` +
-      `C${P(-w, -len * 0.92)} ${P(-w * 0.55, -len)} ${P(0, -len)}` +
-      `C${P(w * 0.55, -len)} ${P(w, -len * 0.92)} ${P(w, -len * 0.74)}` +
-      `C${P(w, -len * 0.48)} ${P(w * 0.45, -len * 0.24)} 0 0Z`;
+      `M0 0C${P(-w * 0.55, -len * 0.2)} ${P(-w * 1.05, -len * 0.46)} ${P(-w * 0.94, -len * 0.68)}` +
+      `C${P(-w * 0.84, -len * 0.86)} ${P(-w * 0.3, -len * 0.96)} ${P(0, -len)}` +
+      `C${P(w * 0.3, -len * 0.96)} ${P(w * 0.84, -len * 0.86)} ${P(w * 0.94, -len * 0.68)}` +
+      `C${P(w * 1.05, -len * 0.46)} ${P(w * 0.55, -len * 0.2)} 0 0Z`;
     out.push(line(d, { fill: PAPER, transform: `translate(${n(x)} ${n(y)}) rotate(${n(a)}) translate(0 ${n(-lift)})` }));
   }
   // The calyx the leaves spring from
@@ -335,20 +335,20 @@ function pediment() {
   );
   // Acroteria: a palmette on the apex between two small scrolls, a smaller one above each corner
   for (const side of [-1, 1]) {
-    const cx = mid + side * 14.5;
-    const cy = apexY - 2.2;
-    const scroll = whorl(cx, cy, 4.2, 0.5, side, 0, 1.3, 26);
+    const cx = mid + side * 16;
+    const cy = apexY - 2;
+    const scroll = whorl(cx, cy, 5, 0.5, side, 0, 1.35, 28);
     out.push(
-      line(`M${P(mid + side * 4, apexY - 3.4)}Q${P(mid + side * 9, apexY - 6.6)} ${P(...scroll[0])}${spline(scroll).replace(/^M[^C]*/, '')}`),
+      line(`M${P(mid + side * 4, apexY - 3.4)}Q${P(mid + side * 10, apexY - 7.6)} ${P(...scroll[0])}${spline(scroll).replace(/^M[^C]*/, '')}`),
     );
   }
   out.push(
     ...palmette(mid, apexY - 0.6, [
-      { a: -66, len: 13, w: 2.9 },
-      { a: -33, len: 20.5, w: 3.2 },
-      { a: 0, len: 25.5, w: 3.5 },
-      { a: 33, len: 20.5, w: 3.2 },
-      { a: 66, len: 13, w: 2.9 },
+      { a: -62, len: 14.5, w: 3 },
+      { a: -31, len: 21.5, w: 3.3 },
+      { a: 0, len: 26, w: 3.6 },
+      { a: 31, len: 21.5, w: 3.3 },
+      { a: 62, len: 14.5, w: 3 },
     ]),
   );
   for (const side of [-1, 1]) {
