@@ -78,7 +78,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       widths: [360, 560, 800, 1100],
       sizes: '(min-width: 60rem) 26rem, 64vw',
     },
-    // A small file (690px wide): it is never shown wider than 23rem.
+    // A small file (690px wide): it is never shown wider than 34rem.
     second: {
       src: hilltop,
       alt: t.hilltopAlt,
@@ -86,7 +86,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       ratio: '690 / 300',
       focus: '70% 60%',
       widths: [360, 520, 690],
-      sizes: '(min-width: 60rem) 23rem, 50vw',
+      sizes: '(min-width: 60rem) 34rem, 70vw',
     },
   },
 ];
@@ -97,7 +97,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     <header class="benefits__head">
       <h2 class="t-1" id="benefits-title" data-split>{benefits.title}</h2>
       <p class="lead" data-reveal>{benefits.question}</p>
-      <Illustration name="olive-branch" class="benefits__olive" draw />
+      <Illustration name="torch" class="benefits__torch" draw />
     </header>
 
     <ul class="benefits__units" role="list">
@@ -140,8 +140,9 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     margin-top: var(--space-m);
     max-width: 30ch;
   }
-  .benefits__olive {
-    width: clamp(8rem, 5rem + 14vw, 15rem);
+  /* The torch: a tall drawing, so it is sized by its height */
+  .benefits__torch {
+    width: clamp(5.5rem, 4rem + 5vw, 8.5rem);
     margin-top: var(--space-m);
   }
 
@@ -199,9 +200,9 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
   }
   /* The second, smaller photograph of the last benefit rests on the lower edge of its box,
-     half on the blue and half on the paper. It is a small file, so it never passes 23rem. */
+     half on the blue and half on the paper. The file is 690px wide, so 34rem is as far as it goes. */
   .unit--3 {
-    --pill-w: clamp(11rem, 8rem + 14vw, 23rem);
+    --pill-w: clamp(15rem, 9rem + 24vw, 34rem);
     --pill-out: calc(var(--pill-w) * 300 / 690 / 2);
     margin-bottom: var(--pill-out);
   }
@@ -255,7 +256,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     .benefits__grid {
       row-gap: var(--space-xl);
     }
-    /* The olive sprig lies beside the question, under the title */
+    /* The torch stands beside the question, under the title */
     .benefits__head {
       display: grid;
       grid-template-columns: minmax(0, max-content) auto;
@@ -266,9 +267,10 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     .benefits__head h2 {
       grid-column: 1 / -1;
     }
-    .benefits__olive {
-      width: clamp(8rem, 12vw, 12rem);
-      margin: 0 0 0.4rem;
+    .benefits__torch {
+      align-self: start;
+      width: clamp(7rem, 9vw, 9.5rem);
+      margin: var(--space-s) 0 0 var(--space-l);
     }
 
     /* Photograph and box share one row, centred on each other, and overlap by two columns; the box keeps

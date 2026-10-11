@@ -441,6 +441,40 @@ b {
 :is(.on-blue, .on-blue-deep) .btn--ghost:hover::before {
   background: var(--creme-light);
 }
+/* Quiet: a secondary action. No fill, a thin hand-drawn line under the words. */
+.btn--quiet {
+  --btn-ink: var(--ink-strong);
+  min-height: 0;
+  padding: 0.45em 0.15em 0.5em;
+  font-weight: 460;
+  border-radius: 0.4rem;
+}
+.btn--quiet::before {
+  inset: auto 0 0.1em 0;
+  height: 1.5px;
+  background: currentColor;
+  border-radius: 2px;
+  filter: none;
+  opacity: 0.55;
+}
+.btn--quiet:hover {
+  --btn-ink: var(--ink-strong);
+  translate: none;
+}
+.btn--quiet:hover::before {
+  background: currentColor;
+  scale: 1;
+  opacity: 1;
+  border-radius: 2px;
+}
+:is(.on-blue, .on-blue-deep) .btn--quiet {
+  --btn-ink: var(--creme-light);
+}
+:is(.on-blue, .on-blue-deep) .btn--quiet::before,
+:is(.on-blue, .on-blue-deep) .btn--quiet:hover::before {
+  background: currentColor;
+}
+
 .btn[disabled],
 .btn[aria-disabled='true'] {
   opacity: 0.55;

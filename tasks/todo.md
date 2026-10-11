@@ -148,6 +148,15 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] About: "Contact Us" button above the contact form removed
 - [ ] Ancient Greek draft is being translated from the earlier course data: when wiring it, add the new course fields (subtitle, duration, format, available, facts, enrollNow)
 
+## Added by Maria on 2026-10-11 (twelfth round)
+
+- [x] Day sound: one soft two-second wave, quieter, with a long fade (cicadas dropped). Owl call 20% faster.
+- [x] Athena's announcement sentence in handwriting; an envelope on the newsletter slip
+- [x] "Enroll" is the solid button, "View course" a quiet underlined one; "& VAT" set smaller than the price (cards, popup, course page)
+- [x] "Explore our new course series" section removed from Home (Series.astro deleted; home.series data still feeds the course tabs)
+- [x] Torch moved from the Transmission panel to the Benefits heading, larger, replacing the olive sprig
+- [x] Hilltop photo in Benefits larger (up to 34rem)
+
 ## Open questions
 
 See the chat message of 2026-10-10.

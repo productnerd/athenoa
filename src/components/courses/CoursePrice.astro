@@ -8,11 +8,16 @@ interface Props {
   [key: string]: unknown;
 }
 const { price, class: className, ...rest } = Astro.props;
+// "€200 & VAT (24%)": the amount stands out, the tax note sits smaller beside it.
+const cut = price.display.indexOf(' ');
+const amount = cut < 0 ? price.display : price.display.slice(0, cut);
+const tax = cut < 0 ? '' : price.display.slice(cut + 1);
 ---
 
 <p class:list={['price', className]} {...rest}>
   <span class="price__label">{price.label}</span>
-  <span class="price__amount">{price.display}</span>
+  <span class="price__amount">{amount}</span>
+  {tax && <span class="price__tax">{tax}</span>}
 </p>
 
 <style>
@@ -34,5 +39,9 @@ const { price, class: className, ...rest } = Astro.props;
     letter-spacing: var(--title-tracking);
     font-variant-numeric: lining-nums;
     color: var(--ink-strong);
+  }
+  .price__tax {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
   }
 </style>

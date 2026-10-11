@@ -48,7 +48,6 @@ const t = {
         <p class="trans__lead" data-reveal>{transmission.text}</p>
         <p class="trans__cta" data-reveal style="--i:1">
           <a class="btn" href={transmission.cta.href}>{transmission.cta.label}</a>
-          <Illustration name="torch" class="trans__torch" draw />
         </p>
       </div>
     </div>
@@ -92,19 +91,12 @@ const t = {
     font-size: var(--step-1);
     line-height: 1.36;
   }
-  /* The torch stands at the end of the button's row, in the lighter blue. */
   .trans__cta {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
     justify-content: space-between;
     gap: var(--space-s) var(--space-m);
-  }
-  .trans__torch {
-    flex: none;
-    width: clamp(3.5rem, 2.4rem + 4cqw, 6.25rem);
-    margin-left: auto;
-    color: var(--blue-light);
   }
 
   /* Three bands of the same drawing, staggered and at different depths, make the sea:

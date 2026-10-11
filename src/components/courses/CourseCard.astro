@@ -33,8 +33,13 @@ const facts = [
   { label: ui.facts.dates, value: course.schedule },
   { label: ui.facts.duration, value: course.duration },
   { label: ui.facts.format, value: course.format },
-  { label: ui.facts.fee, value: course.price?.display },
+  { label: ui.facts.fee, value: course.price?.display, fee: true },
 ].filter((fact) => fact.value);
+// "€200 & VAT (24%)": the amount stands out, the tax note sits smaller beside it.
+const splitFee = (display: string) => {
+  const at = display.indexOf(' ');
+  return at < 0 ? [display, ''] : [display.slice(0, at), display.slice(at + 1)];
+};
 ---
 
 <article
@@ -82,14 +87,21 @@ const facts = [
         facts.map((fact) => (
           <div class="card__fact">
             <dt>{fact.label}</dt>
-            <dd>{fact.value}</dd>
+            {fact.fee ? (
+              <dd class="card__fee">
+                <span class="card__amount">{splitFee(fact.value!)[0]}</span>
+                <span class="card__tax">{splitFee(fact.value!)[1]}</span>
+              </dd>
+            ) : (
+              <dd>{fact.value}</dd>
+            )}
           </div>
         ))
       }
     </dl>
     <p class="card__go">
       <a
-        class="btn"
+        class:list={['btn', !course.available && 'btn--quiet']}
         href={href}
         id={actionId}
         aria-labelledby={`${actionId} ${titleId}`}
@@ -198,6 +210,21 @@ const facts = [
   .card__fact dd {
     margin: 0;
     font-variant-numeric: lining-nums;
+  }
+  .card__fee {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 0.45em;
+  }
+  .card__amount {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1;
+  }
+  .card__tax {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
   }
 
   @media (min-width: 62rem) {

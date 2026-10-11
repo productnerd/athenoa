@@ -9,7 +9,7 @@ import { organizationSchema, websiteSchema } from '../data/schema';
 
 const { home } = content(getLocale(Astro.url));
 const found = import.meta.glob<{ default: AstroComponentFactory }>('../components/home/*.astro', { eager: true });
-const order = ['Membership', 'Announcement', 'Seminar', 'Series', 'CourseTabs', 'Transmission', 'Start', 'Benefits'];
+const order = ['Membership', 'Announcement', 'Seminar', 'CourseTabs', 'Transmission', 'Start', 'Benefits'];
 const sections = order.map((name) => found[`../components/home/${name}.astro`]?.default).filter(Boolean);
 const highlight = home.hero.highlight;
 ---
