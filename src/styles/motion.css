@@ -192,7 +192,7 @@ html.motion body::before {
   pointer-events: none;
   background-image: url('/textures/grain-dark.webp');
   background-size: 400px 400px;
-  opacity: 0.3;
+  opacity: 0.255;
   animation: paper-grain 1s steps(1, end) infinite;
   will-change: transform;
 }
@@ -200,7 +200,7 @@ html.motion body::before {
 /* At night the page is dark, so the moving grain is the light one */
 html[data-theme='dark'].motion body::before {
   background-image: url('/textures/grain-light.webp');
-  opacity: 0.34;
+  opacity: 0.29;
 }
 
 /* ---------- Page transitions ---------- */

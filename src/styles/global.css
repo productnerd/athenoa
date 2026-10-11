@@ -46,8 +46,10 @@ body {
   min-height: 100vh;
   min-height: 100svh;
   background-color: var(--creme);
-  background-image: var(--grain);
-  background-size: 400px 400px;
+  /* The paper's grain, under a thin wash of the paper colour that takes 15% off its strength
+     (client direction, 11 October 2026: a little subtler) */
+  background-image: linear-gradient(color-mix(in srgb, var(--creme) 15%, transparent) 0 0), var(--grain);
+  background-size: auto, 400px 400px;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--step-0);
