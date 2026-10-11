@@ -115,6 +115,11 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
   - [ ] Integrate results: read the shared-file requests (sitemap for two languages, Greek header overflow on phones), assemble the final home page, run the responsive check, remove the lab pages.
   - [ ] Voice face: waiting for Maria's pick on /font-test.
 
+## Added by Maria on 2026-10-11 (eighth round) — NOT STARTED, disk full again (145 MB free at 07:20)
+
+- [ ] /font-test: show a wider set of handwritten fonts (she likes none of the six). Mark which cover Greek.
+- [ ] Home, course tiles (Plato's Republic, Marcus Aurelius, Cratylus): reuse the Courses page's CourseCard so courses look the same wherever they appear. Cratylus has no course entry yet: add it as a placeholder course in both languages.
+
 ## Open questions
 
 See the chat message of 2026-10-10.
