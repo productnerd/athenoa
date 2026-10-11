@@ -126,10 +126,6 @@ const [roots, studies, back, academy] = about.story;
           sizes="(min-width: 62rem) 64vw, 90vw"
         />
       </div>
-      <div class="academy__cta" data-reveal>
-        <Illustration name="olive-branch" class="academy__olive" draw data-depth="-0.1" />
-        <a class="btn" href={about.cta.href}>{about.cta.label}</a>
-      </div>
     </div>
   </div>
 </section>
@@ -279,14 +275,6 @@ const [roots, studies, back, academy] = about.story;
     display: none;
   }
   /* The olive branch lies above the button at every width, whatever the length of the label */
-  .academy__cta {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-s);
-    margin-top: var(--space-l);
-  }
   .academy__olive {
     width: 8.5rem;
   }
@@ -395,12 +383,6 @@ const [roots, studies, back, academy] = about.story;
       justify-self: center;
       width: clamp(9rem, 13vw, 12.5rem);
       margin-bottom: 24.75rem;
-    }
-    .academy__cta {
-      grid-column: 1 / span 4;
-      grid-row: 2;
-      align-self: end;
-      margin: 0 0 var(--space-l);
     }
     .academy__olive {
       width: 14rem;

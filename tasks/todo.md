@@ -138,6 +138,16 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [ ] Cicada sound: second synthesised attempt in place; Maria found the first too artificial. Real public-domain recordings exist on Wikimedia Commons ("Cicadas in Greece.ogg", 209 KB; "Cicada orni.ogg", 1.7 MB): download only with her permission.
 - [ ] Ancient Greek as a third language, for fun, LOW PRIORITY: translation being drafted into src/data/grc/; then add 'grc' to src/lib/locale.ts, src/data/index.ts, ui.ts, the header list and routes under src/pages/grc/. Components index their own word lists by locale ({en, el}[locale]): make those fall back to Greek for grc.
 
+## Added by Maria on 2026-10-11 (eleventh round)
+
+- [x] Handwriting no longer cut (word masks off for handwriting, more line height); never set in capitals (seminar note now sentence case; rule added to DESIGN.md)
+- [x] Footer: "Connect with us" and "Follow us" larger and closer to their lists; mute button the size of the night switch
+- [x] Course cards: title, subtitle, short description, a four-row facts table (dates, length, format, fee), "Enroll" where available, "Details to follow" note removed from the card. One course has dates "TBC".
+- [ ] The details of three courses are SAMPLE VALUES (marked in src/data/courses.ts and el/courses.ts): replace with Athena's own before launch
+- [x] Seminar section: only the lyre (Orphic egg and olive branch removed)
+- [x] About: "Contact Us" button above the contact form removed
+- [ ] Ancient Greek draft is being translated from the earlier course data: when wiring it, add the new course fields (subtitle, duration, format, available, facts, enrollNow)
+
 ## Open questions
 
 See the chat message of 2026-10-10.

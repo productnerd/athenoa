@@ -59,7 +59,8 @@ export const home = {
     kicker: 'MONTHLY SEMINAR',
     title: 'Orphic Hymns - The essence of the Spiritual Technology of the Greeks',
     open: 'Open to everyone + new students',
-    note: '*THE SEMINAR START DATE WILL BE ANNOUNCED SOON*',
+    // Capitals on the live site. Set in handwriting here, which is never used in capitals.
+    note: '*The seminar start date will be announced soon*',
   },
 
   series: {

@@ -7,8 +7,6 @@
 // The action is a real link to the course page; CourseDialog upgrades it to open the popup.
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
-import CoursePrice from './CoursePrice.astro';
-import PaperNote from './PaperNote.astro';
 import { content } from '../../data';
 import type { Course } from '../../data/courses';
 import { getLocale } from '../../lib/locale';
@@ -30,6 +28,13 @@ const href = coursePageHref(course.slug);
 const titleId = `card-title-${course.slug}`;
 const actionId = `card-action-${course.slug}`;
 const lead = cut === 'lead';
+// The same four facts on every card, in the same order, so cards can be compared at a glance.
+const facts = [
+  { label: ui.facts.dates, value: course.schedule },
+  { label: ui.facts.duration, value: course.duration },
+  { label: ui.facts.format, value: course.format },
+  { label: ui.facts.fee, value: course.price?.display },
+].filter((fact) => fact.value);
 ---
 
 <article
@@ -64,26 +69,24 @@ const lead = cut === 'lead';
     />
     {/* The picture is a second way in for a pointer; keyboard and screen readers use the one named link below. */}
     <a class="card__cover" href={href} data-course-open={course.slug} tabindex="-1" aria-hidden="true"></a>
-    {
-      course.status === 'placeholder' && (
-        <PaperNote class="card__badge" data-reveal="grow" style="--delay:500ms">
-          {ui.placeholderBadge}
-        </PaperNote>
-      )
-    }
   </div>
 
   <div class:list={['card__text', cut === 'paper' && 'box box--offset']} data-reveal-group>
-    <Title class:list={['card__title', lead ? 't-2' : 't-3']} id={titleId} set:html={keepHyphens(course.title)} />
+    <div class="card__head">
+      <Title class:list={['card__title', lead ? 't-2' : 't-3']} id={titleId} set:html={keepHyphens(course.title)} />
+      {course.subtitle && <p class="card__subtitle" set:html={keepHyphens(course.subtitle)} />}
+    </div>
     {course.summary && <p class="card__summary">{course.summary}</p>}
-    {
-      (course.schedule || course.price) && (
-        <div class="card__facts">
-          {course.schedule && <p class="card__schedule hand hand--m">{course.schedule}</p>}
-          {course.price && <CoursePrice price={course.price} />}
-        </div>
-      )
-    }
+    <dl class="card__facts">
+      {
+        facts.map((fact) => (
+          <div class="card__fact">
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
     <p class="card__go">
       <a
         class="btn"
@@ -92,7 +95,7 @@ const lead = cut === 'lead';
         aria-labelledby={`${actionId} ${titleId}`}
         data-course-open={course.slug}
       >
-        {ui.viewCourse}
+        {course.available ? ui.enrollNow : ui.viewCourse}
       </a>
     </p>
   </div>
@@ -161,14 +164,40 @@ const lead = cut === 'lead';
     color: var(--blue-light);
     opacity: 0.5;
   }
+  .card__head {
+    display: grid;
+    gap: 0.3rem;
+  }
+  .card__subtitle {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.15;
+    color: var(--ink-soft);
+  }
   .card__summary {
     max-width: 44ch;
   }
+  /* The facts: a small ruled table, the same on every card */
   .card__facts {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    margin: var(--space-s) 0 0;
+    border-top: 1.5px solid var(--line);
+  }
+  .card__fact {
+    display: grid;
+    grid-template-columns: 5.2rem minmax(0, 1fr);
+    gap: 0.75rem;
     align-items: baseline;
-    gap: 0.4rem 1.75rem;
+    padding: 0.42rem 0 0.46rem;
+    border-bottom: 1.5px solid var(--line);
+  }
+  .card__fact dt {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .card__fact dd {
+    margin: 0;
+    font-variant-numeric: lining-nums;
   }
 
   @media (min-width: 62rem) {
@@ -191,9 +220,13 @@ const lead = cut === 'lead';
       grid-area: figure;
       margin: calc(var(--rise) * -1) 0 var(--space-m) calc(clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem) * -1 - 1rem);
     }
-    .card--lead .card__title {
+    .card--lead .card__head {
       grid-area: title;
       padding-top: var(--space-l);
+    }
+    .card--lead .card__subtitle {
+      font-size: var(--step-2);
+      color: var(--sub-ink);
     }
     /* Greek is set in the fallback face, which runs wider than the title face. Beside the picture it goes
        a step smaller, so the long compound in the title stays whole instead of breaking at its hyphen. */
@@ -233,15 +266,6 @@ const lead = cut === 'lead';
   .card--arch .card__text {
     padding-inline: clamp(0.6rem, 0.3rem + 1.2vw, 1.25rem);
   }
-  /* The note lies across the straight left edge of the window */
-  .card--arch .card__badge {
-    left: calc(var(--pad) * -1 - 0.6rem);
-    bottom: 9%;
-    /* A long label (Greek) wraps inside the card instead of running past its right edge */
-    max-width: calc(100% + var(--pad) + 0.6rem);
-    white-space: normal;
-    line-height: 1.1;
-  }
 
   /* ---------- paper ---------- */
   .card--paper {
@@ -261,11 +285,6 @@ const lead = cut === 'lead';
     background-image: url('/textures/grain-light.webp');
     background-size: 400px 400px;
     filter: url(#rough-sm);
-  }
-  /* The note lies on the pebble and the shoulder of the arch, clear of the lettering in the picture */
-  .card--paper .card__badge {
-    left: -0.6rem;
-    top: 8%;
   }
   .card--paper .card__text {
     width: min(100% - 1.5rem, 26rem);

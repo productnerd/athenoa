@@ -656,11 +656,12 @@ function sky() {
   // teleia. The smallest dots may stay: they read as texture.
   const clear = ([x, y]) =>
     !(x > 70 && x < 810 && y > 130 && y < 700) && !(x > 540 && x < 1060 && y > 50 && y < 380);
-  // Sparks also keep out of the crown of rays about Athena's head on wide screens, and out of
-  // the strip the whole picture stands in on narrow ones: a star there tangles with the rays, the
-  // spear, the Nike or the tips of the roof.
+  // Sparks also keep out of the crown of rays about Athena's head on wide screens, out of the
+  // strip the whole picture stands in on narrow ones, and out of the low sky where the trees
+  // stand: a star there tangles with the rays, the spear, the Nike, the roof or a tree top.
   const far = ([x, y], [cx, cy], r) => Math.hypot(x - cx, y - cy) > r;
-  const open = (p) => clear(p) && far(p, [1150, 300], 280) && !(p[0] > 540 && p[0] < 1060 && p[1] > 380);
+  const open = (p) =>
+    clear(p) && far(p, [1150, 300], 280) && !(p[0] > 540 && p[0] < 1060 && p[1] > 380) && p[1] < 700;
   let sparks = '';
   for (const p of place(7, 150).filter(open)) sparks += spark(p, 15);
   for (const p of place(16, 90).filter(open)) sparks += spark(p, 10.5);

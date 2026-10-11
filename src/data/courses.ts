@@ -1,5 +1,7 @@
-// Course catalogue. Four courses for the redesign: one with full copy, three named on the live
-// home page with titles only.
+// Course catalogue. Four courses for the redesign. The first carries the full copy of the live site.
+// The other three are named on the live home page with titles only: their subtitles, descriptions,
+// dates, lengths and fees below are SAMPLE VALUES, written so the cards look complete. Each sample is
+// marked. Replace them with Athena's own before launch.
 //
 // "The Hidden Non-Duality of Ancient Greek Philosophy" carries the full copy from the live home page.
 // The other two exist on the live site as titles only, so they are marked status: 'placeholder'
@@ -23,8 +25,18 @@ export interface Course {
   /** File name (without extension) in src/assets/media */
   image: string;
   imageAlt: string;
+  /** A second line under the title */
+  subtitle?: string;
+  /** One or two sentences for the course card */
   summary?: string;
+  /** When it runs. "TBC" when the dates are not set. */
   schedule?: string;
+  /** How long it runs */
+  duration?: string;
+  /** How it is taught */
+  format?: string;
+  /** True when visitors can enrol now: the card's button reads "Enroll" */
+  available: boolean;
   instructor: string;
   price?: {
     amount: number;
@@ -53,9 +65,15 @@ export const courses: Course[] = [
     image: 'course-non-duality',
     imageAlt:
       'Course banner: The Hidden Non-Duality of Ancient Greek Philosophy, with marble figures of Pythagoras, Plato and Aristotle against a night sky of constellations',
+    // As lettered on the course banner
+    subtitle: 'Hellenic Wisdom as a Path of Self-Realization',
     summary:
       'Each week we will delve into the non-dual teaching expressed by the following great Philosophers ~ Ancient Sages: Plotinus, Plato, Pythagoras, The Pre-Socratics',
     schedule: 'Autumn 2026',
+    // From the course description: "this four-week course", live on Zoom, recordings kept 120 days
+    duration: 'Four weekly meetings',
+    format: 'Live on Zoom, with recordings',
+    available: true,
     instructor: 'Dr. Athena Despoina Potari',
     price: {
       amount: 200,
@@ -134,6 +152,14 @@ export const courses: Course[] = [
   {
     slug: 'platos-republic',
     title: "Plato's Republic",
+    // SAMPLE subtitle (the phrase is Athena's, from her biography), summary, dates, length and fee
+    subtitle: 'The Polity of the Soul',
+    summary: 'A slow, shared reading of the dialogue on justice, the soul and the city.',
+    schedule: 'Starts 12 January 2027',
+    duration: 'Eight weekly meetings',
+    format: 'Live on Zoom, with recordings',
+    price: { amount: 240, currency: 'EUR', vatRate: 24, display: '€240 & VAT (24%)', label: 'Participation cost:' },
+    available: true,
     status: 'placeholder',
     image: 'course-platos-republic',
     imageAlt:
@@ -144,7 +170,16 @@ export const courses: Course[] = [
   },
   {
     slug: 'marcus-aurelius-the-self',
-    title: 'Marcus Aurelius - The Self',
+    // The live title is "Marcus Aurelius - The Self"; here it is split into title and subtitle.
+    title: 'Marcus Aurelius',
+    subtitle: 'The Self',
+    // The summary renders the Greek lettering on the course artwork; dates, length and fee are SAMPLES
+    summary: 'An initiation into the world of the virtues, in theory and in practice.',
+    schedule: 'TBC',
+    duration: 'Six weekly meetings',
+    format: 'Live on Zoom, with recordings',
+    price: { amount: 180, currency: 'EUR', vatRate: 24, display: '€180 & VAT (24%)', label: 'Participation cost:' },
+    available: false,
     status: 'placeholder',
     image: 'course-marcus-aurelius',
     imageAlt:
@@ -155,7 +190,16 @@ export const courses: Course[] = [
   },
   {
     slug: 'plato-cratylus-platonic-virtues',
-    title: 'Plato, Cratylus - Platonic Virtues - Introduction to Greek Theology',
+    // The live title is "Plato, Cratylus - Platonic Virtues - Introduction to Greek Theology"; split here.
+    title: 'Plato, Cratylus',
+    subtitle: 'Platonic Virtues - Introduction to Greek Theology',
+    // SAMPLE summary, dates, length and fee
+    summary: 'The names of the gods and of the virtues, read through the dialogue on language.',
+    schedule: 'Spring 2027',
+    duration: 'Six weekly meetings',
+    format: 'Live on Zoom, with recordings',
+    price: { amount: 180, currency: 'EUR', vatRate: 24, display: '€180 & VAT (24%)', label: 'Participation cost:' },
+    available: false,
     status: 'placeholder',
     image: 'plato-statue',
     imageAlt: 'Marble statue of Plato, seated, with a statue of Athena on a column behind',
@@ -179,6 +223,8 @@ export const coursesPage = {
   description: 'Study at the Modern Platonic Academy & Remember Who You Really Are',
   ui: {
     viewCourse: 'View course',
+    enrollNow: 'Enroll',
+    facts: { dates: 'Dates', duration: 'Length', format: 'Format', fee: 'Fee' },
     close: 'Close',
     enroll: 'Get started',
     placeholderNote: 'Course details are on their way. Leave your name and we will write to you when enrolment opens.',

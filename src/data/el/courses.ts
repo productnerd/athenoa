@@ -21,7 +21,11 @@ export const courses: Course[] = [
     // Same sentence as home.series.text in ./home.ts.
     summary:
       'Κάθε εβδομάδα θα εμβαθύνουμε στη μη-δυαδική διδασκαλία που εξέφρασαν οι ακόλουθοι μεγάλοι Φιλόσοφοι ~ Αρχαίοι Σοφοί: Πλωτίνος, Πλάτων, Πυθαγόρας, οι Προσωκρατικοί',
+    subtitle: 'Η Ελληνική Σοφία ως Δρόμος Αυτοπραγμάτωσης',
     schedule: 'Φθινόπωρο 2026',
+    duration: 'Τέσσερις εβδομαδιαίες συναντήσεις',
+    format: 'Ζωντανά στο Zoom, με καταγραφές',
+    available: true,
     instructor: 'Δρ. Αθηνά Δέσποινα Ποτάρη',
     price: {
       amount: 200,
@@ -100,6 +104,13 @@ export const courses: Course[] = [
   {
     slug: 'platos-republic',
     title: 'Πλάτωνος Πολιτεία',
+    subtitle: 'Η Πολιτεία της Ψυχής',
+    summary: 'Μια αργή, κοινή ανάγνωση του διαλόγου για τη δικαιοσύνη, την ψυχή και την πόλη.',
+    schedule: 'Έναρξη 12 Ιανουαρίου 2027',
+    duration: 'Οκτώ εβδομαδιαίες συναντήσεις',
+    format: 'Ζωντανά στο Zoom, με καταγραφές',
+    price: { amount: 240, currency: 'EUR', vatRate: 24, display: '€240 & ΦΠΑ (24%)', label: 'Κόστος συμμετοχής:' },
+    available: true,
     status: 'placeholder',
     image: 'course-platos-republic',
     imageAlt:
@@ -110,7 +121,14 @@ export const courses: Course[] = [
   },
   {
     slug: 'marcus-aurelius-the-self',
-    title: 'Μάρκος Αυρήλιος - Ο Εαυτός',
+    title: 'Μάρκος Αυρήλιος',
+    subtitle: 'Ο Εαυτός',
+    summary: 'Μύηση στον κόσμο των αρετών, σε θεωρία και πράξη.',
+    schedule: 'Θα ανακοινωθεί',
+    duration: 'Έξι εβδομαδιαίες συναντήσεις',
+    format: 'Ζωντανά στο Zoom, με καταγραφές',
+    price: { amount: 180, currency: 'EUR', vatRate: 24, display: '€180 & ΦΠΑ (24%)', label: 'Κόστος συμμετοχής:' },
+    available: false,
     status: 'placeholder',
     image: 'course-marcus-aurelius',
     imageAlt:
@@ -121,7 +139,14 @@ export const courses: Course[] = [
   },
   {
     slug: 'plato-cratylus-platonic-virtues',
-    title: 'Πλάτωνος Κρατύλος - Πλατωνικές Αρετές - Εισαγωγή στην Ελληνική Θεολογία',
+    title: 'Πλάτωνος Κρατύλος',
+    subtitle: 'Πλατωνικές Αρετές - Εισαγωγή στην Ελληνική Θεολογία',
+    summary: 'Τα ονόματα των θεών και των αρετών, μέσα από τον διάλογο για τη γλώσσα.',
+    schedule: 'Άνοιξη 2027',
+    duration: 'Έξι εβδομαδιαίες συναντήσεις',
+    format: 'Ζωντανά στο Zoom, με καταγραφές',
+    price: { amount: 180, currency: 'EUR', vatRate: 24, display: '€180 & ΦΠΑ (24%)', label: 'Κόστος συμμετοχής:' },
+    available: false,
     status: 'placeholder',
     image: 'plato-statue',
     imageAlt: 'Μαρμάρινο άγαλμα του Πλάτωνα, καθιστού, με ένα άγαλμα της Αθηνάς πάνω σε κίονα στο βάθος',
@@ -145,6 +170,8 @@ export const coursesPage = {
   description: 'Σπουδάστε στη Σύγχρονη Πλατωνική Ακαδημία & Θυμηθείτε Ποιοι Πραγματικά Είστε',
   ui: {
     viewCourse: 'Δείτε τον κύκλο μαθημάτων',
+    enrollNow: 'Εγγραφή',
+    facts: { dates: 'Ημερομηνίες', duration: 'Διάρκεια', format: 'Τρόπος', fee: 'Κόστος' },
     close: 'Κλείσιμο',
     enroll: 'Ξεκινήστε',
     placeholderNote:

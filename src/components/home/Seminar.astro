@@ -14,10 +14,6 @@ const { kicker, title, open, note } = home.seminar;
 <section class="section seminar" aria-labelledby="seminar-title">
   <div class="wrap">
     <div class="seminar__stage">
-      <div class="seminar__branch" data-depth="-0.08">
-        <Illustration name="olive-branch" draw />
-      </div>
-
       <div class="seminar__panel panel panel--arch on-blue">
         <div class="panel__clip">
           <div class="seminar__sun" data-depth="0.14">
@@ -38,9 +34,6 @@ const { kicker, title, open, note } = home.seminar;
         </div>
       </div>
 
-      <div class="seminar__egg on-blue-light" data-reveal="grow" data-depth="-0.04">
-        <Illustration name="orphic-egg" draw />
-      </div>
     </div>
 
     <p class="seminar__note hand hand--m" data-reveal>{note}</p>
@@ -109,38 +102,8 @@ const { kicker, title, open, note } = home.seminar;
   /* The arch is half an ellipse as wide as the panel, so a point on its shoulder is a fixed share of
      that width across and down (percentage margins also measure the width). The pebble's centre sits
      just outside that point, and never further right than the page gutter allows. */
-  .seminar__egg {
-    --egg-w: clamp(7.5rem, 4.6rem + 12vw, 10.5rem);
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    left: min(86% - var(--egg-w) / 2, 100% + 0.5rem - var(--egg-w));
-    width: var(--egg-w);
-    margin-top: calc(14.1% - var(--egg-w) * 0.95);
-    padding: calc(var(--egg-w) * 0.13) calc(var(--egg-w) * 0.155) calc(var(--egg-w) * 0.145);
-    pointer-events: none;
-  }
-  .seminar__egg::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: var(--r-pebble-1);
-    background-color: var(--paper);
-    background-image: var(--grain);
-    background-size: 400px 400px;
-    filter: url(#rough-sm);
-  }
 
   /* ---------- The olive branch, tucked under the lower edge ---------- */
-  .seminar__branch {
-    position: absolute;
-    z-index: 0;
-    width: 9.5rem;
-    right: 6%;
-    top: calc(100% - 1.15rem);
-    pointer-events: none;
-  }
 
   /* ---------- The note on the paper below ---------- */
   .seminar__note {
@@ -189,18 +152,6 @@ const { kicker, title, open, note } = home.seminar;
       mask-image: linear-gradient(90deg, transparent 7%, #000 36%);
     }
     /* The pebble lies over the straight top edge and lines up with the text below it */
-    .seminar__egg {
-      --egg-w: clamp(10.5rem, 7rem + 5vw, 12.5rem);
-      top: auto;
-      bottom: calc(100% - 3.75rem);
-      left: clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
-      margin-top: 0;
-    }
-    .seminar__branch {
-      width: clamp(13rem, 8rem + 12vw, 19rem);
-      right: 20%;
-      top: calc(100% - 2.6rem);
-    }
     .seminar__note {
       max-width: 38ch;
       margin: var(--space-m) 0 0 clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);

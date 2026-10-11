@@ -120,14 +120,14 @@ const t = {
     position: fixed;
     left: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
     /* Level with the copyright line when the page is scrolled to its end */
-    bottom: max(0.2rem, calc(var(--footer-band) / 2 - 1.5rem));
+    bottom: max(0.2rem, calc(var(--footer-band) / 2 - 1.2rem));
     z-index: 55;
   }
   .music__button {
     display: grid;
     place-items: center;
-    width: 3rem;
-    height: 3rem;
+    width: 2.4rem;
+    height: 2.4rem;
     padding: 0;
     border: 1.5px solid color-mix(in srgb, var(--blue) 26%, transparent);
     border-radius: 54% 46% 52% 48% / 48% 54% 46% 52%;
@@ -145,8 +145,8 @@ const t = {
     border-color: transparent;
   }
   .music__button svg {
-    width: 1.6rem;
-    height: 1.6rem;
+    width: 1.45rem;
+    height: 1.45rem;
   }
   .music__button path {
     fill: none;

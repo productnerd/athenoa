@@ -87,6 +87,28 @@ html.motion [data-split].is-in .w__i {
   transform: none;
 }
 
+/* Handwriting has long tails, which a mask would cut. Its words fade and settle instead. */
+[data-split] :is(.t-sub, .hand) .w,
+[data-split]:is(.t-sub, .hand) .w {
+  overflow: visible;
+  padding-block: 0;
+  margin-block: 0;
+}
+html.motion [data-split] :is(.t-sub, .hand) .w__i,
+html.motion [data-split]:is(.t-sub, .hand) .w__i {
+  transform: translate3d(0, 0.45em, 0);
+  opacity: 0;
+  transition:
+    transform var(--dur-3) var(--ease-out),
+    opacity var(--dur-3) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 55ms + var(--delay, 0ms));
+}
+html.motion [data-split].is-in :is(.t-sub, .hand) .w__i,
+html.motion [data-split]:is(.t-sub, .hand).is-in .w__i {
+  transform: none;
+  opacity: 1;
+}
+
 /* The highlight behind emphasised words sweeps in after the heading has finished rising */
 html.motion [data-split] .hl__w {
   transition: color var(--dur-2) var(--ease-out);
