@@ -269,8 +269,9 @@ const isCurrent = (href: string) => {
   :global(html:not([data-theme='dark']) body.has-hero) .header:not(.is-scrolled, .is-open) {
     --marker: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cg fill='%23f9f3e3'%3E%3Cpath d='M4 22C2 12 14 7 30 6c22-2 48-3 68-1 12 1 20 6 19 14-1 9-13 14-29 15-24 2-50 3-68 1C9 34 5 30 4 22z'/%3E%3Cpath opacity='.6' d='M9 9C30 3 70 1 105 4c9 1 14 4 11 9C96 9 50 9 14 14c-6 0-9-3-5-5z'/%3E%3Cpath opacity='.6' d='M66 36c20-1 40-4 50-11 2 7-8 13-24 14-9 0-18-1-26-3z'/%3E%3Cpath opacity='.45' d='M1 25c1 6 6 10 14 11-7 2-14-2-14-11z'/%3E%3C/g%3E%3C/svg%3E");
   }
+  /* (a light blue a shade deeper than the sky: crème stood out too much) */
   :global(html:not([data-theme='dark']) body.has-hero) .header:not(.is-scrolled, .is-open) .lang summary::before {
-    background: var(--creme-light);
+    background: color-mix(in srgb, var(--blue) 13%, var(--blue-light));
   }
   /* By night the highlighter stroke is the darker blue, so light words stay readable on it */
   :global(html[data-theme='dark']) .header {
