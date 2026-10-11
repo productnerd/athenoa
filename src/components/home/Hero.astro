@@ -158,9 +158,11 @@ const rowsOf = (text: string) => {
     --hero-col: calc(var(--panel-w) - var(--scene-m) - var(--scene-h) * 0.93 - var(--hero-pad));
     --hero-fit: 5.3;
     --hero-rows: 5;
+    /* air between the header and the title: the title starts high, under the header */
+    --hero-top: clamp(1.25rem, 5svh, 3.5rem);
     --hero-fs: min(
       calc(var(--hero-col) / var(--hero-fit)),
-      calc(var(--hero-open) * 0.9 / (var(--hero-rows) * 0.95 + 1.15)),
+      calc((var(--hero-open) - var(--hero-top)) * 0.9 / (var(--hero-rows) * 0.95 + 1)),
       10rem
     );
 
@@ -168,13 +170,15 @@ const rowsOf = (text: string) => {
     margin-top: calc(var(--header-h) * -1);
     padding-bottom: var(--hero-fade);
   }
-  /* Greek titles fall back to a wider face and the words are longer: four rows. */
+  /* Greek titles fall back to a wider face and the words are longer: four rows. The column has
+     to hold the two highlighted words, which stand beside the roof; the second row is longer,
+     but it stands high in the open sky above the temple, so it may run past the column. */
   .hero--el {
-    --hero-fit: 7.8;
+    --hero-fit: 6.65;
     --hero-rows: 4;
   }
   .hero--grc {
-    --hero-fit: 7.9;
+    --hero-fit: 7.3;
     --hero-rows: 4;
   }
 
@@ -198,9 +202,9 @@ const rowsOf = (text: string) => {
     isolation: isolate;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     min-height: var(--panel-h);
-    padding: calc(var(--header-h) + 0.5rem) var(--hero-pad) calc(var(--scene-b) + var(--u) * 62);
+    padding: calc(var(--header-h) + var(--hero-top)) var(--hero-pad) calc(var(--scene-b) + var(--u) * 62);
   }
   /* Night: the darker blue ground, stone in Greek blue, light in light blue, crème line. */
   :global(html[data-theme='dark']) .hero__panel {

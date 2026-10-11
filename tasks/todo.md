@@ -193,6 +193,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Day or night by the sun (no location asked: reckoned from the time zone, Athens exactly for Greece); a manual switch holds until the next sunrise or sunset
 - [x] Greek footer headings a fifth smaller
 - [x] Pushed to a new GitHub repo (private; Pages not enabled)
+- [x] Greek desktop headline larger (about 17%) and every wide headline starts high under the header; English unchanged in effect (she confirmed English is right)
 - [ ] Night view is now what visitors see after sunset: it has had one pass only (footers end on a light band; Courses and course pages not reviewed section by section at night)
 
 ## Open questions
