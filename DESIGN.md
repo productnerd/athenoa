@@ -23,7 +23,9 @@ Reference images supplied by the client: a deep ultramarine field with naive cr√
 - The hero title is as large as the space allows: beside the picture it is a tall stack of short rows (no trees on the left of the picture, so the title has the height). Three arrangements, all in `Hero.astro`: wide windows have the stack beside the temple; nearly square windows (between four to five and five to four) have the title in three full-width lines above the temple, which stands at the lower right; phones and upright screens have four full-width lines with the temple below, at the lower right on tablets and in the middle on phones. `node scripts/hero-sizes.mjs` shoots twelve awkward sizes. The hero picture follows the day/night switch: a marble temple under a light-blue sky with two clouds by day, the starry night scene by night. Athena herself (with spear and Nike) is hidden for now at the client's wish and may return: `showAthena` in `Hero.astro`. The disc and rays behind her head are hidden with her (without her they read as a sun over the roof, which the client did not want).
 - The voice face (`.hand`, a fine calligraphic italic, not casual handwriting) only where a person is speaking or annotating: greetings, asides, Greek maxims, notes. Never for body copy, never for navigation. It is light, so use it at `.hand--m` size or larger and never below 1.2rem. Never set it in capitals. Its tails are long: never put it inside a box that clips, and never tighten its line height below `--hand-leading`. Two exceptions asked for by the client: Athena's announcement on Home is set smaller and closer (it is an announcement more than a letter), and the note under the 404 button is half size, slanted, with an asterisk, like a note in a margin.
 - Social icons are monochrome, in a plain straight row: no circles, no chips, no tilt.
-- No owls anywhere (the client finds them too "Duolingo"). Use the symbol drawings instead.
+- Header menu items are in capitals (small, letterspaced), with room between them so the brush marks of two neighbours never touch. Popups close with a cross only, no word.
+- Enrolling is a request, not a payment: "Enroll" opens a short form (name, email, why, where did you hear about us) with "Send request". Courses that are not open offer "Join waitlist" instead. Every card also has a quiet "View course".
+- No owls anywhere (the client finds them too "Duolingo"). Use the symbol drawings instead. In the same spirit nothing should read as childish: the day sky's texture is loose streaks of cloud, not cloud shapes.
 - Smooth load and scroll animation across the site, with parallax depth where it helps. Motion must be switchable off (see Motion). Parallax is gentle and trails slightly; photographs simply fade in; every hover effect starts after a short delay (`--hover-delay`).
 
 ## Avoid
@@ -79,6 +81,7 @@ Everything is attribute-driven and inert without JavaScript or with `prefers-red
 - `.drift`: slow idle float for small ornaments.
 - Reveals use `transform`, parallax writes `translate`, static tilt should use `rotate`. Keep to that split so effects stack.
 - Aim for one orchestrated moment per section, not everything moving at once.
+- Anything that loops must be cheap, because the client's machine is slow: animate only `transform` or `opacity` of an HTML element (or of an inline SVG's root), on a small layer of its own. Never animate a shape inside an SVG (the whole drawing is repainted every frame: the hero flame and the wave lines did this), and never let anything animate underneath a CSS `mask-image` (the mask is redone every frame: the hero's fade is a still strip for this reason). Loops stop while they are off screen. Check with `node scripts/perf.mjs`.
 - Hover: every transition that answers the pointer carries `var(--hover-delay)` as its delay (links, buttons, menu marks, tabs, icons), so nothing flickers as the pointer passes. A press (`:active`) answers at once.
 
 ## Checking your work
@@ -125,7 +128,7 @@ const { home, site } = content(locale); // also: about, courses, coursesPage, re
 So the three blues are all in play and no two neighbours match:
 - Home: hero is full bleed, light blue by day (marble in the paper colour, Greek-blue line) and darker Greek blue by night; Membership on paper with light-blue shapes; Announcement on paper; Seminar on Greek blue; Series on paper; course tabs on a light-blue sheet; Transmission on darker Greek blue; Start is Greek blue over the fresco; Benefits on paper with one light-blue, one Greek-blue and one darker-blue box.
 - About: opening on paper; the story's third block on darker Greek blue; the Academy block on light blue; Contact on Greek blue.
-- Courses: the open course leads on Greek blue; the other cards on light blue and paper; the price block inside the popup on darker Greek blue.
+- Courses: every course has the same arch card (`CourseCard.astro`) on a paper of its own, in the order of the course list: Greek blue, light blue, darker paper, darker blue. The colour follows the course wherever its card appears (Home too), like a small brand. The price block inside the popup is on darker Greek blue.
 
 ## Symbols
 
