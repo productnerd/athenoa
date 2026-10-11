@@ -704,17 +704,33 @@ function sky() {
   const far = ([x, y], [cx, cy], r) => Math.hypot(x - cx, y - cy) > r;
   const open = (p) =>
     clear(p) && far(p, [1150, 300], 280) && !(p[0] > 540 && p[0] < 1060 && p[1] > 380) && p[1] < 700;
-  const sparks = [
-    ...place(7, 150).filter(open).map((p) => spark(p, 15)),
-    ...place(16, 90).filter(open).map((p) => spark(p, 10.5)),
-    ...place(34, 60).filter(open).map((p) => spark(p, 6.5)),
+  // Each spark is kept with its place and size, so a halo can be laid under it
+  const sparkAt = [
+    ...place(7, 150).filter(open).map((p) => [p, 15]),
+    ...place(16, 90).filter(open).map((p) => [p, 10.5]),
+    ...place(34, 60).filter(open).map((p) => [p, 6.5]),
   ];
+  const sparks = sparkAt.map(([p, r]) => spark(p, r));
   const big = place(46, 38).filter(clear);
   const mid = place(130, 26).filter(clear);
   const small = place(300, 17);
   // The sparks and the largest dots are dealt into three sets: at night the page lets each set
   // brighten and dim in its own time, very slightly. The small dots keep still.
+  // The glow: a soft disc under every spark and large dot, brightest at the centre and gone at its
+  // rim. It is drawn, not filtered, so it costs nothing while the set fades in and out.
+  const halo = ([x, y], r) => `<circle cx="${num(x)}" cy="${num(y)}" r="${num(r)}"/>`;
   const set = (k) =>
+    `<radialGradient id="pb-halo-${k + 1}"><stop offset="0" stop-color="currentColor" stop-opacity=".6"/><stop offset=".35" stop-color="currentColor" stop-opacity=".22"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></radialGradient>` +
+    `<g fill="url(#pb-halo-${k + 1})" stroke="none">` +
+    sparkAt
+      .filter((_, i) => i % 3 === k)
+      .map(([p, r]) => halo(p, r * 2.6))
+      .join('') +
+    big
+      .filter((_, i) => i % 3 === k)
+      .map((p) => halo(p, 11))
+      .join('') +
+    '</g>' +
     path(dots(big.filter((_, i) => i % 3 === k)), ' stroke-width="4.3"') +
     path(sparks.filter((_, i) => i % 3 === k).join(''), ' fill="currentColor" stroke="none"');
   const body = path(dots(small), ' stroke-width="2.1" opacity=".75"') + path(dots(mid), ' stroke-width="3.1"');

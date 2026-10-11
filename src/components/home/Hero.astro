@@ -521,18 +521,18 @@ const rowsOf = (text: string) => {
     opacity: 0;
   }
 
-  /* The larger stars brighten and dim a little at night, three sets out of step. Each set is a
-     layer of its own and only its opacity moves, so nothing is redrawn while they pulse. */
+  /* The larger stars glow (a soft halo drawn under each) and pulse at night, three sets out of
+     step. Each set is a layer of its own and only its opacity moves, so nothing is redrawn. */
   @keyframes hero-twinkle {
     from {
       opacity: 1;
     }
     to {
-      opacity: 0.4;
+      opacity: 0.3;
     }
   }
   :global(html.motion[data-theme='dark']) .hero__layer--tw :global(svg) {
-    animation: hero-twinkle calc(3.4s + var(--n, 0) * 1.2s) var(--ease-in-out) calc(var(--n, 0) * -1.55s) infinite alternate;
+    animation: hero-twinkle calc(2.6s + var(--n, 0) * 0.9s) var(--ease-in-out) calc(var(--n, 0) * -1.3s) infinite alternate;
     will-change: opacity;
   }
 
