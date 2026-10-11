@@ -177,9 +177,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Ancient Greek wired in under /grc/ and offered in the language list (draft, noindex, no structured data, out of the sitemap)
 - [x] Hero: the disc and rays above the temple hidden too; rays from the flame run a little past the building and fade out; one ground line end to end (dashes and hill lines removed)
 - [x] Membership: the three points side by side in one row across the page (from 52rem); the statue now stands beside the button and the frieze
-- [ ] HELPER RUNNING: course card photos all one size; card summary smaller and quieter; photographs fade in instead of the paper curtain; hilltop photo (first asked "almost the full width", then "too pixelated, half the width"); torch left of the Benefits title, question close under the title
-- [ ] HELPER RUNNING: footer scenes at night show a moon and stars instead of a sun; the sun slides down and the moon and stars animate in when switching
-- [ ] After the helpers: add --hover-delay to the hovers in CourseCard.astro and Footer.astro; run the responsive check; commit
+- [x] Course card photos all one size; card summary smaller and quieter; photographs fade in instead of the paper curtain; hilltop photo at about half width (first tried almost full width: too pixelated); torch left of the Benefits title, question close under it
+- [x] Footer scenes at night: crescent moon and stars instead of a sun; when switching, the sun sinks behind the land or sea, the moon rises, the stars come out one by one. Aegean sun is a plain half disc (no rays). Checked in Chrome only.
+- [x] Hover delay: card photo zoom carries it; footer links use the global link rule
+- [x] Hero on landscape tablets and small windows: title beside the temple (stacked layout only on phones and upright screens); larger stars pulse at night
+- [x] Header steps aside when the footer fills about a third of the window
+- [ ] HELPER RUNNING: "Join waitlist" button and popup for courses that are not open; "details to follow" as a tilted handwritten note from Athena in the course popup; Enroll button of the lead card moved to the left
+- [ ] Open: she wrote the temple "should always be left of the screen" on in-between sizes; done as on desktop (temple right, title left) and asked her to confirm
 
 ## Open questions
 
