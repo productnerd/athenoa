@@ -42,6 +42,22 @@ The enrol popup needs labels the live site never had (for example "View course",
 - Its button reads "Take me to Ithaka" (Greek: «Πάρε με στην Ιθάκη»). The note under it is unchanged: "but let the journey be long and filled with adventures" in English, Cavafy's own line in Greek.
 - Home, "Let's Get Started": Athena's two lines are shown as one block of text. The words are unchanged.
 
+## Waitlist wording (11 October 2026, new; the live site has no waitlist)
+
+For courses that are not open yet. All of it is in `coursesPage.ui` (`joinWaitlist`, `waitlist`) in `src/data/courses.ts`, `src/data/el/courses.ts` and `src/data/grc/courses.ts`.
+
+| | English | Greek | Ancient Greek (draft) |
+|---|---|---|---|
+| Button | Join waitlist | Λίστα αναμονής | Ἀπογράψασθε |
+| Popup title | Join the waitlist | Εγγραφείτε στη λίστα αναμονής | Ὁ τῶν περιμενόντων κατάλογος |
+| Line above the course name | For the course | Για τον κύκλο μαθημάτων | Εἰς τὸ μάθημα |
+| Submit | Add me to the list | Προσθέστε με στη λίστα | Ἀπογράψατέ με |
+| Shown after submitting, until it is connected | The waitlist is not connected yet. Your address has not been sent anywhere. | Η λίστα αναμονής δεν είναι ακόμη διαθέσιμη. Η διεύθυνσή σας δεν στάλθηκε πουθενά. | Ὁ κατάλογος οὔπω συνῆπται. Οὐδὲν τῶν ὑμετέρων οὐδαμοῖ πέπεμπται. |
+
+## Ancient Greek (11 October 2026)
+
+The whole site also exists in Ancient Greek under `/grc/`, as a machine-drafted translation in `src/data/grc/` that Athena has not read. It is kept out of search engines. The translator's notes on word choices (for example τὸ μὴ δύο εἶναι for "non-duality") are in the session report of that day.
+
 ## Left as written, for Athena to decide
 
 See the end of this file once the proofreading pass is in.

@@ -182,7 +182,9 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Hover delay: card photo zoom carries it; footer links use the global link rule
 - [x] Hero on landscape tablets and small windows: title beside the temple (stacked layout only on phones and upright screens); larger stars pulse at night
 - [x] Header steps aside when the footer fills about a third of the window
-- [ ] HELPER RUNNING: "Join waitlist" button and popup for courses that are not open; "details to follow" as a tilted handwritten note from Athena in the course popup; Enroll button of the lead card moved to the left
+- [x] "Join waitlist" button (cards, popup, course page) and a small paper popup with one email field, in three languages, not connected; "Details to follow" as a tilted handwritten note under the picture in the course popup; Enroll on the lead card moved to the left under the facts
+- [x] Hero stars glow (a halo drawn under each large star) and pulse
+- [x] Waitlist and note spot-checked after the helper was stopped: 1280 day (English), 390 night (Greek), the single course page, three languages, sideways-scroll check on all pages. Not checked: 768 wide, keyboard-only use beyond Escape and focus return.
 - [ ] Open: she wrote the temple "should always be left of the screen" on in-between sizes; done as on desktop (temple right, title left) and asked her to confirm
 
 ## Open questions
