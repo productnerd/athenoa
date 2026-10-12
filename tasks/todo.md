@@ -254,7 +254,7 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Dove: wings half as loud, one chirp as it arrives
 - [x] The outline around framed photographs (and the arch line around the Apollo statue) breathes slowly
 - [x] About: Εὖ Ζῆν and ΓΝΩΘΙ ΣΑΥΤΟΝ as dictionary entries (word, Latin spelling, kind, meaning) with a paper note on hover and a soft plucked-string sound (kit class .lemma, src/lib/lemma.ts, src/data/lemmas.ts)
-- [x] Eyes in the bolder manner she pointed to (pale lens, large dark pupil looking ahead): dove, sparrow, the eye on the 404 boat, cicada. Athena's drawings are hidden and were not changed.
+- [x] Eyes: first a round lens with a round pupil (she: "a circle in a circle", not the Greek style she wanted); now a white shape pointed on one side and round on the other, the pupil at the round end and as tall as the eye. Dove, sparrow, the eye on the 404 boat, cicada. Athena's drawings are hidden and were not changed.
 - [x] "Yiayia's cookies" notice with a drawing of Greek biscuits, shown on a first visit; the choice is recorded for anything added later that needs consent. The site still sets no cookies.
 - [x] Notes on Mnemosyne, Mathesis, Polity of the Soul (About text) and on every symbol drawing, wherever it appears (Illustration.astro attaches them; LemmaNotes.astro plays the tone and flips a note away from the window's edge)
 - [x] Maxim written «Γνῶθι Σαυτόν»; note tone at 0.04

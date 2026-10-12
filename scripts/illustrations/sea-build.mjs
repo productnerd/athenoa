@@ -512,8 +512,8 @@ save(
   body += `<path d="${hull}" fill="${LIGHT}" stroke="none"/>`;
   body += `<path clip-path="url(#sea-boat-hull)" d="M4 118L41 128C66 134.5 142 134.5 171 127.5L198 121V132L177 138.5C146 145.5 62 145.5 35 138.5L4 129Z" fill="${WHITE}"/>`;
   body += `<path d="${hull}"/>`;
-  // an eye on the bow, as on the old ships: a pale lens with a large dark pupil looking ahead
-  body += `<path d="M149.5 136.2C153.5 129.6 162.6 128.8 168.4 133.2C164.4 140.4 155.6 141.8 149.5 136.2Z" fill="#fffdf6"/><ellipse cx="161" cy="135" rx="2.7" ry="3.9" transform="rotate(-12 161 135)" fill="currentColor" stroke="none"/>`;
+  // an eye on the bow, as on the old ships: pointed aft, round forward, the pupil at the round end
+  body += `<path d="M-1.15 0C-.75-.5-.3-1 .2-1C.75-1 1-.5 1 0C1 .5 .75 1 .2 1C-.3 1-.75 .5-1.15 0Z" transform="translate(159.5 135) scale(5 5)" fill="#fffdf6" stroke-width=".5"/><ellipse cx=".38" cy="0" rx=".62" ry="1" transform="translate(159.5 135) scale(5 5)" fill="currentColor" stroke="none"/>`;
   // steering oar over the stern quarter; the blade stays under water
   body += `<path d="M46 119L24 158" stroke="${LIGHT}"/><path d="M27 149C21.5 154.5 18 162.5 18.5 171C25 166.5 29.5 159 31.5 151.5Z" fill="${WHITE}"/>`;
   save('boat', svg(200, 178, body));

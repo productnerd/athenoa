@@ -38,6 +38,7 @@ const t = {
     {
       [0, 1, 2].map((n) => (
         <svg viewBox="0 0 12 30" style={`--n:${n}`} focusable="false">
+          <path class="halo" d="M6 29C2 24 10 20 6 15S2 6 6 1" />
           <path d="M6 29C2 24 10 20 6 15S2 6 6 1" />
         </svg>
       ))
@@ -124,7 +125,7 @@ const t = {
   .cookies__steam {
     position: absolute;
     left: 3.4rem;
-    top: -5rem;
+    top: -3.4rem;
     display: flex;
     gap: 2.1rem;
     pointer-events: none;
@@ -132,7 +133,7 @@ const t = {
   .cookies__steam svg {
     width: 0.75rem;
     height: 1.9rem;
-    opacity: 0.3;
+    opacity: 0.6;
   }
   .cookies__steam svg:nth-child(2) {
     margin-top: -0.5rem;
@@ -143,6 +144,11 @@ const t = {
     stroke-width: 1.5;
     stroke-linecap: round;
   }
+  /* a pale edge around each thread, so it shows over a dark picture as well as over a light one */
+  .cookies__steam path.halo {
+    stroke: var(--creme-light);
+    stroke-width: 4.2;
+  }
   /* each thread rises, thins and is gone, one after another; only transform and opacity move */
   @keyframes cookies-steam {
     0% {
@@ -150,7 +156,7 @@ const t = {
       transform: translate3d(0, 0.5rem, 0) scaleY(0.8);
     }
     35% {
-      opacity: 0.5;
+      opacity: 0.85;
     }
     100% {
       opacity: 0;
