@@ -209,6 +209,32 @@ const [roots, studies, back, academy] = about.story;
     background-size: 400px 400px;
     filter: url(#rough);
   }
+  /* The pebble wobbles a little, like a shape of cut paper that has not quite settled
+     (client direction, 12 October 2026). It turns and swells by its own `rotate` and `scale`, which
+     leave the reveal's transform alone; nothing is redrawn. */
+  @keyframes pebble-wobble {
+    0%,
+    100% {
+      rotate: 0deg;
+      scale: 1;
+    }
+    22% {
+      rotate: 1.6deg;
+      scale: 1.025 1.012;
+    }
+    47% {
+      rotate: -1.1deg;
+      scale: 0.99 1.022;
+    }
+    71% {
+      rotate: 0.9deg;
+      scale: 1.018 0.994;
+    }
+  }
+  :global(html.motion) .studies__pebble {
+    animation: pebble-wobble 8s ease-in-out infinite;
+    will-change: rotate, scale;
+  }
   .studies__laurel {
     position: absolute;
     left: -2.75rem;
