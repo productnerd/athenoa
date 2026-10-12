@@ -13,7 +13,7 @@ let problems = 0;
 for (const path of pages) {
   for (const width of widths) {
     const page = await browser.newPage({ viewport: { width, height: 900 } });
-    await page.goto(`${base}${path}?nomotion=1&theme=light`, { waitUntil: 'load' });
+    await page.goto(`${base}${path}?nomotion=1&theme=light&cookies=off`, { waitUntil: 'load' });
     await page.evaluate(() => document.fonts.ready);
     const result = await page.evaluate(() => {
       const vw = document.documentElement.clientWidth;

@@ -18,6 +18,8 @@ const url = new URL(path, base);
 if (!flag('motion')) url.searchParams.set('nomotion', '1');
 // The site follows the sun: pin the day view unless the address asks for a theme.
 if (!url.searchParams.has('theme')) url.searchParams.set('theme', 'light');
+// The cookie notice stays out of screenshots unless asked for
+if (!url.searchParams.has('cookies')) url.searchParams.set('cookies', 'off');
 
 const browser = await chromium.launch({ channel: 'chrome' });
 const page = await browser.newPage({

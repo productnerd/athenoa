@@ -56,6 +56,13 @@ The enrol popup needs labels the live site never had (for example "View course",
 
 - The button reads "See all courses" instead of "Enroll in our courses" (Greek: «Δείτε όλα τα μαθήματα»).
 
+## Dictionary entries and the cookie notice (12 October 2026, new wording for Athena to review)
+
+- About: «Εὖ Ζῆν» at the end of the third block and «ΓΝΩΘΙ ΣΑΥΤΟΝ» are set as small dictionary entries. The brackets or quotation marks around the translation and the full stop after it are dropped. New words: the Latin spelling ("eû zên", "gnôthi sautón"), the kind ("phrase", "maxim"; Greek: «φράση», «παράγγελμα») and the notes in `src/data/lemmas.ts`:
+  - Εὖ Ζῆν: "To live well. For Socrates what matters most is not living, but living well." Plato, Crito 48b.
+  - ΓΝΩΘΙ ΣΑΥΤΟΝ: "One of the maxims inscribed at the temple of Apollo at Delphi." Pausanias 10.24.1.
+- Cookie notice (`src/components/CookieNotice.astro`): "Yiayia’s cookies" / «Τα κουλουράκια της γιαγιάς», a short text saying what the site keeps in the browser, and two buttons, "Yes, all of them" / "Only the essentials".
+
 ## About page (11 October 2026, at Maria's request)
 
 - The translation after ΓΝΩΘΙ ΣΑΥΤΟΝ lost its brackets: “Know Thyself”. instead of (“Know Thyself”). The same in Greek and Ancient Greek.

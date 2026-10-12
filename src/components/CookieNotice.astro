@@ -1,0 +1,159 @@
+---
+// "Yiayia's cookies": the notice about what the site keeps in the visitor's browser, with a drawing
+// of Greek biscuits (a ring koulouri, a twisted koulouraki, a sugared kourabies, a melomakarono)
+// instead of the usual chocolate chip. Asked for by the client on 12 October 2026.
+//
+// What is true today: the site sets no cookies at all. It keeps a few notes in the browser's own
+// storage (day or night, sound on or off) so it can remember choices the visitor made, and nothing
+// is sent anywhere. So this is a notice more than a request. The answer is still recorded
+// ('ath-cookies' = 'all' | 'essential', and data-consent on <html>), and an 'ath:consent' event is
+// sent, so that anything added later that does need consent (visitor statistics, embedded video,
+// a payment provider) can wait for "all" before it loads. Nothing reads it yet.
+//
+// It shows once, on the first visit, in the lower right corner (the sound and day/night buttons
+// have the lower left), and does not block the page.
+import Illustration from './Illustration.astro';
+import { getLocale, mainLocale } from '../lib/locale';
+
+const t = {
+  en: {
+    title: 'Yiayia’s cookies',
+    text: 'This site keeps a few small notes in your browser to remember your choices: language, day or night, sound. Nothing tracks you. Anything more, such as visitor statistics, would only be added with your yes.',
+    all: 'Yes, all of them',
+    essential: 'Only the essentials',
+  },
+  el: {
+    title: 'Τα κουλουράκια της γιαγιάς',
+    text: 'Ο ιστότοπος κρατά λίγες μικρές σημειώσεις στον περιηγητή σας για να θυμάται τις επιλογές σας: γλώσσα, ημέρα ή νύχτα, ήχο. Τίποτα δεν σας παρακολουθεί. Οτιδήποτε επιπλέον, όπως στατιστικά επισκεψιμότητας, θα προστεθεί μόνο με τη συγκατάθεσή σας.',
+    all: 'Ναι, όλα',
+    essential: 'Μόνο τα απαραίτητα',
+  },
+}[mainLocale(getLocale(Astro.url))];
+---
+
+<aside class="cookies" data-cookies hidden aria-labelledby="cookies-title">
+  <Illustration name="greek-cookies" class="cookies__plate" />
+  <h2 class="cookies__title t-3" id="cookies-title">{t.title}</h2>
+  <p class="cookies__text">{t.text}</p>
+  <p class="cookies__go">
+    <button class="btn" type="button" data-cookies-set="all">{t.all}</button>
+    <button class="btn btn--quiet" type="button" data-cookies-set="essential">{t.essential}</button>
+  </p>
+</aside>
+
+<script>
+  const KEY = 'ath-cookies';
+  const read = () => {
+    try {
+      return localStorage.getItem(KEY);
+    } catch {
+      return null;
+    }
+  };
+  function setup() {
+    const notice = document.querySelector<HTMLElement>('[data-cookies]');
+    if (!notice) return;
+    const choice = read();
+    // ?cookies=off keeps it out of the way (used by the screenshot scripts)
+    const quiet = new URLSearchParams(location.search).get('cookies') === 'off';
+    if (choice) document.documentElement.dataset.consent = choice;
+    notice.hidden = Boolean(choice) || quiet;
+    if (notice.dataset.ready) return;
+    notice.dataset.ready = 'true';
+    notice.querySelectorAll<HTMLButtonElement>('[data-cookies-set]').forEach((button) =>
+      button.addEventListener('click', () => {
+        const answer = button.dataset.cookiesSet!;
+        try {
+          localStorage.setItem(KEY, answer);
+        } catch {}
+        document.documentElement.dataset.consent = answer;
+        // ANYTHING THAT NEEDS CONSENT listens for this, or reads data-consent on <html>
+        document.dispatchEvent(new CustomEvent('ath:consent', { detail: answer }));
+        notice.classList.add('is-leaving');
+        window.setTimeout(() => (notice.hidden = true), 350);
+      }),
+    );
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .cookies {
+    position: fixed;
+    right: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
+    bottom: clamp(0.75rem, 0.4rem + 1vw, 1.5rem);
+    z-index: 56;
+    isolation: isolate;
+    width: min(22rem, 100vw - 1.5rem);
+    padding: 1.1rem 1.4rem 1.3rem;
+    color: var(--blue-deep);
+  }
+  .cookies[hidden] {
+    display: none;
+  }
+  /* a sheet of paper with a hand-cut edge, like the other notes on the site */
+  .cookies::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--creme-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 26%, transparent);
+    border-radius: 2rem 1.5rem 2.2rem 1.7rem / 1.6rem 2.1rem 1.5rem 2rem;
+    filter: url(#rough-sm);
+  }
+  .cookies :global(.cookies__plate) {
+    --paper: var(--creme-light);
+    width: 9.5rem;
+    margin: -3.1rem 0 0.2rem -0.4rem;
+    color: var(--blue);
+  }
+  .cookies__title {
+    color: var(--blue);
+  }
+  .cookies__text {
+    margin-top: 0.35rem;
+    font-size: var(--step--1);
+    line-height: 1.45;
+  }
+  .cookies__go {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 1.1rem;
+    margin-top: 0.9rem;
+  }
+  .cookies__go .btn {
+    min-height: 2.6rem;
+    font-size: var(--step--1);
+  }
+  @keyframes cookies-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 1.2rem, 0) rotate(1.5deg);
+    }
+  }
+  :global(html.motion) .cookies {
+    animation: cookies-in 0.7s var(--ease-out) 1.6s both;
+    transition:
+      opacity 0.3s var(--ease-soft),
+      transform 0.35s var(--ease-soft);
+  }
+  .cookies.is-leaving {
+    opacity: 0;
+    transform: translate3d(0, 0.8rem, 0);
+  }
+  /* on a phone it sits above the two round buttons in the corner */
+  @media (max-width: 34rem) {
+    .cookies {
+      bottom: 3.6rem;
+    }
+  }
+  @media print {
+    .cookies {
+      display: none;
+    }
+  }
+</style>

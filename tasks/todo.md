@@ -249,6 +249,15 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Course cards: "with recordings" on its own quieter line; "View course" is a round plus button
 - [x] "Living Transmission" button reads "See all courses"
 
+## Added by Maria on 2026-10-12 (nineteenth round) — NOT PUSHED: she pushes at the end of a sprint, on her word
+
+- [x] Dove: wings half as loud, one chirp as it arrives
+- [x] The outline around framed photographs (and the arch line around the Apollo statue) breathes slowly
+- [x] About: Εὖ Ζῆν and ΓΝΩΘΙ ΣΑΥΤΟΝ as dictionary entries (word, Latin spelling, kind, meaning) with a paper note on hover and a soft plucked-string sound (kit class .lemma, src/lib/lemma.ts, src/data/lemmas.ts)
+- [x] Eyes in the bolder manner she pointed to (pale lens, large dark pupil looking ahead): dove, sparrow, the eye on the 404 boat, cicada. Athena's drawings are hidden and were not changed.
+- [x] "Yiayia's cookies" notice with a drawing of Greek biscuits, shown on a first visit; the choice is recorded for anything added later that needs consent. The site still sets no cookies.
+- [ ] Offered: more places for the dictionary entry (Mnemosyne, Mathesis, eudaimonia on the 404, ΑΘΕΝΟΑ, the symbols)
+
 ## Open questions
 
 See the chat message of 2026-10-10.
