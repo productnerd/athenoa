@@ -129,7 +129,7 @@ const custom = Object.entries(images).find(([file]) =>
 
 <script>
   // The pictures at the foot of the pages answer a click.
-  //   Home (Attica):     the donkey lifts its head twice and brays.
+  //   Home (Attica):     the donkey lifts its head and brays, once.
   //   About (Olympus):   a small bird flies out from behind a pine and off the screen, with a chirp.
   //                      Once only: it does not come back until the page is opened again.
   //   Courses (Aegean):  the dolphins dive under the first wave with a splash; a second click and
@@ -162,7 +162,7 @@ const custom = Object.entries(images).find(([file]) =>
       const kind = scene.dataset.footerScene;
       if (kind === 'attica') {
         const donkey = scene.querySelector('.footer__donkey');
-        if (donkey && once(donkey, 'is-braying', 2000)) play('/audio/bray.mp3', 0.16);
+        if (donkey && once(donkey, 'is-braying', 1400)) play('/audio/bray.mp3', 0.112);
       } else if (kind === 'olympus') {
         // once only: the bird has left, so later clicks find the tree empty
         const bird = scene.querySelector('[data-footer-flyer]');
@@ -286,7 +286,7 @@ const custom = Object.entries(images).find(([file]) =>
     cursor: pointer;
   }
 
-  /* The donkey brays: its head comes up twice. (The head is a group inside the drawing; it turns
+  /* The donkey brays: its head comes up once. (The head is a group inside the drawing; it turns
      about the top of the neck. A short, one-off movement of a very small drawing.) */
   /* at night the line is pale, so the pupils take the dark of the sky instead */
   :global(html[data-theme='dark']) .footer__donkey {
@@ -301,21 +301,15 @@ const custom = Object.entries(images).find(([file]) =>
     100% {
       transform: rotate(0deg);
     }
-    14% {
-      transform: rotate(-24deg);
+    30% {
+      transform: rotate(-26deg);
     }
-    34% {
-      transform: rotate(-6deg);
-    }
-    56% {
-      transform: rotate(-27deg);
-    }
-    80% {
-      transform: rotate(-4deg);
+    62% {
+      transform: rotate(-20deg);
     }
   }
   .footer__donkey:global(.is-braying) :global(.donkey__head) {
-    animation: donkey-bray 1.9s ease-in-out;
+    animation: donkey-bray 1.3s ease-in-out;
   }
 
   /* The bird of Olympus: out of sight behind a pine until the picture is clicked, then up and away
