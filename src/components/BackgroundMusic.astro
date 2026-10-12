@@ -184,7 +184,7 @@ const { ui } = content(getLocale(Astro.url));
           if (localStorage.getItem(KEY) === 'off') return;
         } catch {}
         const sound = new Audio(file);
-        sound.volume = 0.2;
+        sound.volume = 0.14;
         sound.play().catch(() => {});
       };
       const apply = (night: boolean) => {
