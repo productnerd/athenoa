@@ -40,7 +40,7 @@ function box(entry: Lemma & { word: string }, id: string, locale: Locale, means 
   const say = locale === 'en' ? `<span class="lemma__say">${entry.say}</span>` : '';
   return (
     `<span class="lemma__box" role="tooltip" id="${id}">` +
-    `<span class="lemma__head" lang="grc">${entry.word}</span>` +
+    `<span class="lemma__head" lang="${entry.lang ?? 'grc'}">${entry.word}</span>` +
     `<span class="lemma__line">${say}<span class="lemma__kind">${entry.kind[main]}</span></span>` +
     (means ? `<span class="lemma__gloss">${means}</span>` : '') +
     `<span class="lemma__note">${escape(entry.note[main])}</span>` +
@@ -58,10 +58,14 @@ export function withInlineLemmas(html: string, locale: Locale): string {
     // (an Ancient Greek page borrows the Greek notes, but its text has other forms of these words)
     if (at < 0 || locale === 'grc') continue;
     const id = `lemma-${++count}`;
+    // A translation the text gives in brackets right after the word ("Mathesis (discipleship)")
+    // leaves the line and stands in the note instead, with a capital.
+    const after = out.slice(at + word.length).match(/^\s*\(([^)<]*)\)/u);
+    const means = after ? after[1].charAt(0).toUpperCase() + after[1].slice(1) : '';
     out =
       out.slice(0, at) +
-      `<span class="lemma-inline" tabindex="0" data-lemma aria-describedby="${id}">${word}${box(entry, id, locale)}</span>` +
-      out.slice(at + word.length);
+      `<span class="lemma-inline" tabindex="0" data-lemma aria-describedby="${id}">${word}${box(entry, id, locale, means)}</span>` +
+      out.slice(at + word.length + (after ? after[0].length : 0));
   }
   return out;
 }

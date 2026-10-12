@@ -642,7 +642,8 @@ html.motion .illo--sun-rays svg {
   display: inline-block;
   width: 0.42em;
   height: 0.42em;
-  margin-left: 0.06em;
+  /* it takes no room in the line: a comma or full stop after the word sits under it */
+  margin: 0 -0.4em 0 0.04em;
   vertical-align: 0.7em;
   background-color: var(--sub-ink);
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 0Q11.300 8.700 20 10Q11.300 11.300 10 20Q8.700 11.300 0 10Q8.700 8.700 10 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
@@ -651,6 +652,7 @@ html.motion .illo--sun-rays svg {
 .lemma__word::after {
   width: 0.26em;
   height: 0.26em;
+  margin: 0 0 0 0.1em;
   vertical-align: 0.95em;
 }
 @keyframes lemma-glimmer {

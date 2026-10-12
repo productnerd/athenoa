@@ -5,8 +5,10 @@
 import type { MainLocale } from '../lib/locale';
 
 export interface Lemma {
-  /** The Greek word shown at the head of the note, where the page itself does not show it */
+  /** The word shown at the head of the note, where the page itself does not show it */
   word?: string;
+  /** Its language, when it is not Ancient Greek */
+  lang?: string;
   /** The word in Latin letters, with its accents, for readers who do not read Greek */
   say: string;
   kind: Record<MainLocale, string>;
@@ -56,8 +58,9 @@ export const inlineLemmas: Array<Lemma & { word: string; match: Record<MainLocal
     say: 'máthēsis',
     kind: { en: 'noun', el: 'ουσιαστικό' },
     note: {
-      en: 'Learning. For Plato, learning is nothing other than recollection.',
-      el: 'Η μάθηση. Για τον Πλάτωνα η μάθηση δεν είναι τίποτε άλλο παρά ανάμνηση.',
+      // (the text's own gloss, "discipleship", is shown above this in the note)
+      en: 'Learning, and the path of the one who learns beside a teacher. For Plato, learning is nothing other than recollection.',
+      el: 'Η μάθηση, και ο δρόμος εκείνου που μαθαίνει κοντά σε δάσκαλο. Για τον Πλάτωνα η μάθηση δεν είναι τίποτε άλλο παρά ανάμνηση.',
     },
     source: { en: 'Plato, Phaedo 72e', el: 'Πλάτων, Φαίδων 72e' },
   },
@@ -73,6 +76,20 @@ export const inlineLemmas: Array<Lemma & { word: string; match: Record<MainLocal
     source: { en: 'Plato, Republic 591e', el: 'Πλάτων, Πολιτεία 591e' },
   },
 ];
+
+// (appended to inlineLemmas below: a term that is not Greek)
+inlineLemmas.push({
+  match: { en: 'Usui Reiki', el: 'Usui Reiki' },
+  word: '臼井霊気',
+  lang: 'ja',
+  say: 'Usui reiki',
+  kind: { en: 'name', el: 'όνομα' },
+  note: {
+    en: 'A Japanese practice of healing through the laying on of hands, founded by Mikao Usui in 1922. Master is its teaching degree.',
+    el: 'Ιαπωνική πρακτική θεραπείας με την επίθεση των χεριών, που ίδρυσε ο Μικάο Ουσούι το 1922. Master είναι ο βαθμός του δασκάλου.',
+  },
+  source: { en: 'Japan, 1922', el: 'Ιαπωνία, 1922' },
+});
 
 // The symbol drawings: what each stands for. Keyed by the drawing's file name
 // (src/assets/illustrations/<name>.svg); Illustration.astro attaches the note wherever one is drawn.
