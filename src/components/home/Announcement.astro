@@ -127,6 +127,14 @@ const announced = home.announcement.courses
     color: var(--blue-light);
     --paper: var(--blue-deep);
   }
+  /* The eye is always pale with a dark pupil. By day the slip is dark and the line light, so the
+     line colour is the white of the eye; by night the slip is pale and the line dark, so it is the
+     other way round. */
+  :global(html[data-theme='dark']) .slip :global(.slip__dove) {
+    --eye-white: #fffdf6;
+    --eye-pupil: currentColor;
+    --eye-line: currentColor;
+  }
   @keyframes dove-in {
     0% {
       opacity: 0;

@@ -189,6 +189,34 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     background-size: 400px 400px;
     filter: url(#rough-sm);
   }
+  /* They swell and settle very slowly, each in its own time, like the line around the portrait on
+     the About page (client direction, 12 October 2026). Only the transform moves, on a layer of its own. */
+  @keyframes cutout-breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.022, 1.014);
+    }
+    72% {
+      transform: scale(0.992, 1.018);
+    }
+  }
+  :global(html.motion) .unit--1 .unit__frame::before,
+  :global(html.motion) .unit--2 .unit__frame::before {
+    animation: outline-breathe 11s ease-in-out infinite;
+    will-change: transform;
+  }
+  :global(html.motion) .unit--2 .unit__frame::before {
+    animation-duration: 13s;
+    animation-delay: -4s;
+  }
+  :global(html.motion) .unit--3 .unit__photos .unit__frame::before,
+  :global(html.motion) .unit__second::before {
+    animation: cutout-breathe 12s ease-in-out -2s infinite;
+    will-change: transform;
+  }
   .unit--1 .unit__frame::before {
     inset: -3% 2% -5% -6%;
     border-radius: var(--r-pebble-3);

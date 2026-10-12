@@ -131,6 +131,11 @@ const looks = [
   .niche__rays :global(.illo) {
     color: color-mix(in srgb, var(--blue) 46%, transparent);
   }
+  /* By night the page behind the niche is dark, and the Greek-blue rays sank into it: they are
+     drawn in the light blue there. (The niche keeps its daytime colours, so the token is the day's.) */
+  :global(html[data-theme='dark']) .niche__rays :global(.illo) {
+    color: color-mix(in srgb, var(--blue-light) 62%, transparent);
+  }
   /* The paper ground sits on the figure and is handed down to the photo's frame, so the
      multiplied photograph always has it to blend with, whichever of the two is being clipped. */
   .niche :global(.niche__statue) {
