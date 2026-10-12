@@ -1,0 +1,153 @@
+---
+// The contact form: the same fields wherever it stands. It is on the About page (AboutContact.astro)
+// and in the contact popup (ContactDialog.astro); `prefix` keeps the two sets of field ids apart when
+// both are on one page.
+import SourceField from './SourceField.astro';
+import { content } from '../data';
+import { getLocale } from '../lib/locale';
+
+interface Props {
+  prefix?: string;
+  // rises into view as the page is scrolled (not wanted inside a popup)
+  reveal?: boolean;
+}
+const { prefix = 'contact', reveal = false } = Astro.props;
+// Every word here comes from the data; the component adds none of its own.
+const { contact } = content(getLocale(Astro.url)).about;
+// A range of numbers ("2-3") stays on one line: browsers will otherwise break after its hyphen.
+const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</span>');
+---
+
+<!-- Not connected to a mail service yet: without JavaScript the browser hands the fields to the
+     visitor's mail app; with it, the script below composes a tidier message. -->
+<form
+  class="contact__form"
+  method="post"
+  action={`mailto:${contact.fallbackEmail}`}
+  enctype="text/plain"
+  data-contact-form
+  data-reveal={reveal ? '' : undefined}
+>
+  <div class="contact__fields">
+    {
+      contact.fields.map((field) => (
+        <div class:list={['field', `field--${field.name}`]}>
+          <label for={`${prefix}-${field.name}`}>
+            {field.label}
+            {field.required && (
+              <span class="contact__required" aria-hidden="true">
+                *
+              </span>
+            )}
+          </label>
+          {field.type === 'select' ? (
+            <SourceField
+              id={`${prefix}-${field.name}`}
+              name={field.name}
+              label={field.label}
+              required={field.required}
+            />
+          ) : field.type === 'textarea' ? (
+            <textarea
+              id={`${prefix}-${field.name}`}
+              name={field.name}
+              rows="6"
+              placeholder={field.placeholder}
+              autocomplete={field.autocomplete}
+              required={field.required}
+              data-label={field.label}
+            />
+          ) : (
+            <input
+              id={`${prefix}-${field.name}`}
+              name={field.name}
+              type={field.type}
+              placeholder={field.placeholder}
+              autocomplete={field.autocomplete}
+              required={field.required}
+              data-label={field.label}
+            />
+          )}
+        </div>
+      ))
+    }
+    <div class="contact__send">
+      <button class="btn" type="submit">{contact.submit}</button>
+      <p class="hand hand--m contact__note" set:html={note} />
+    </div>
+  </div>
+</form>
+
+<script>
+  // Until a form service is connected, "Send" opens the visitor's own mail app with the message written out.
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLFormElement>('[data-contact-form]:not([data-bound])').forEach(bind);
+  });
+
+  function bind(form: HTMLFormElement) {
+    form.dataset.bound = 'true';
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      // (a field that is not on show, the "where?" of an answer other than "Other", is left out)
+      const fields = Array.from(
+        form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>('input, textarea, select'),
+      ).filter((field) => field.offsetParent !== null);
+      const value = (name: string) => fields.find((field) => field.name === name)?.value.trim() ?? '';
+
+      // FORM SERVICE: connect it here. Replace everything below in this handler with a request to the
+      // service, for example fetch(endpoint, { method: 'POST', body: new FormData(form) }), and show its reply.
+      const details = fields
+        .filter((field) => !['subject', 'message'].includes(field.name) && field.value.trim())
+        // A label that is itself a question keeps its own mark (";" is the Greek question mark).
+        .map((field) => `${field.dataset.label}${/[?;]$/.test(field.dataset.label ?? '') ? '' : ':'} ${field.value.trim()}`);
+      // Mail links want CRLF line breaks.
+      const body = [value('message'), '', ...details].join('\n').replace(/\r?\n/g, '\r\n');
+      const address = form.getAttribute('action');
+      window.location.href = `${address}?subject=${encodeURIComponent(value('subject'))}&body=${encodeURIComponent(body)}`;
+    });
+  }
+</script>
+
+<style>
+  /* The short fields pair up only when the form itself is wide enough to hold their placeholders */
+  .contact__form {
+    container-type: inline-size;
+  }
+  .contact__fields {
+    display: grid;
+    gap: var(--space-s) var(--space-m);
+  }
+  .contact__required {
+    margin-left: 0.15em;
+  }
+  /* Darker than the kit default so placeholder text keeps a 4.5:1 contrast on the crème field */
+  .contact__form :is(input, textarea)::placeholder {
+    color: color-mix(in srgb, var(--blue-deep) 66%, transparent);
+  }
+  .contact__send {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-s) var(--space-m);
+    margin-top: var(--space-2xs);
+  }
+  /* Even lines when the note wraps */
+  .contact__note {
+    text-wrap: balance;
+  }
+  .contact__note :global(.contact__range) {
+    white-space: nowrap;
+  }
+
+  @container (min-width: 35rem) {
+    .contact__fields {
+      grid-template-columns: 1fr 1fr;
+    }
+    .field--subject,
+    .field--message,
+    .contact__send {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

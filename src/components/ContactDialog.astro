@@ -1,0 +1,216 @@
+---
+// The contact popup (client request, 12 October 2026): one native <dialog id="contact-form"> for the
+// whole site, placed once at body level (in Base.astro, beside the other popups). Any element with
+// data-contact-open opens it; the footer's "contact form" link does. Without JavaScript that link is
+// a plain link to the same form on the About page.
+//
+// It holds the very form of the About page (ContactForm.astro), on one sheet of paper.
+import ContactForm from './ContactForm.astro';
+import { content } from '../data';
+import { getLocale } from '../lib/locale';
+
+const { about, coursesPage } = content(getLocale(Astro.url));
+---
+
+<dialog class="cd" id="contact-form" aria-labelledby="contact-pop-title">
+  <div class="cd__sheet box">
+    <button class="cd__close" type="button" data-contact-close>
+      <span class="visually-hidden">{coursesPage.ui.close}</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+        <path d="M5 5.4c4.6 4.2 9 8.800 14 13.400M19 5c-4.400 4.800-9.200 9-13.800 14"></path>
+      </svg>
+    </button>
+    <h2 class="cd__title t-3" id="contact-pop-title">{about.contact.title}</h2>
+    <ContactForm prefix="contact-pop" />
+  </div>
+</dialog>
+
+<script>
+  const motionOn = () => document.documentElement.classList.contains('motion');
+  const find = () => document.querySelector<HTMLDialogElement>('dialog#contact-form[data-ready]');
+  // What was pressed to open the popup: focus goes back there when it closes.
+  let opener: HTMLElement | null = null;
+
+  function open(dialog: HTMLDialogElement, from: HTMLElement) {
+    if (dialog.open) return;
+    opener = from;
+    dialog.classList.remove('is-closing');
+    dialog.showModal();
+  }
+
+  // Plays the closing transition, then closes for real.
+  function close(dialog: HTMLDialogElement) {
+    if (!dialog.open || dialog.classList.contains('is-closing')) return;
+    if (!motionOn()) return dialog.close();
+    const finish = () => {
+      clearTimeout(timer);
+      dialog.removeEventListener('transitionend', onEnd);
+      dialog.close();
+    };
+    const onEnd = (event: TransitionEvent) => {
+      if (event.target === dialog && event.propertyName === 'opacity') finish();
+    };
+    const timer = setTimeout(finish, 500);
+    dialog.addEventListener('transitionend', onEnd);
+    dialog.classList.add('is-closing');
+  }
+
+  function bind(dialog: HTMLDialogElement) {
+    dialog.querySelector('[data-contact-close]')!.addEventListener('click', () => close(dialog));
+    // Escape
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close(dialog);
+    });
+    // A click on the backdrop lands on the dialog element itself. The press must start there too,
+    // so dragging a text selection out of a field does not close the popup.
+    let pressedBackdrop = false;
+    dialog.addEventListener('pointerdown', (event) => (pressedBackdrop = event.target === dialog));
+    dialog.addEventListener('click', (event) => {
+      if (event.target === dialog && pressedBackdrop) close(dialog);
+    });
+    dialog.addEventListener('close', () => {
+      dialog.classList.remove('is-closing');
+      // (what was typed is kept: a popup closed by mistake should not cost a written message)
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
+      opener = null;
+    });
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    const dialog = document.querySelector<HTMLDialogElement>('dialog#contact-form');
+    if (!dialog || dialog.hasAttribute('data-ready') || typeof dialog.showModal !== 'function') return;
+    dialog.setAttribute('data-ready', '');
+    bind(dialog);
+  });
+
+  // One listener for every contact link on every page, added once however often this module is
+  // run. Capture phase: it answers before the page router treats the link as navigation.
+  const bound = document.documentElement as HTMLElement & { athContact?: boolean };
+  if (!bound.athContact) {
+    bound.athContact = true;
+    document.addEventListener(
+      'click',
+      (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        const from = event.target instanceof Element ? event.target.closest<HTMLElement>('[data-contact-open]') : null;
+        const dialog = from && find();
+        if (!dialog) return;
+        event.preventDefault();
+        open(dialog, from);
+      },
+      true,
+    );
+  }
+</script>
+
+<style>
+  .cd {
+    width: min(100% - 1rem, 44rem);
+    max-width: none;
+    max-height: calc(100dvh - 1rem);
+    margin: auto;
+    /* Room for the rough edge of the sheet, which the scrolling box would otherwise cut */
+    padding: 0.5rem;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+  }
+  /* The page behind: blurred, under a thin wash of the darker blue (as behind the other popups) */
+  .cd::backdrop {
+    background: color-mix(in srgb, var(--blue-deep, #071260) 36%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+  /* The page behind stays put while the popup is open */
+  :global(html:has(dialog.cd[open])) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+  /* One sheet of paper with a hand-cut edge (.box) */
+  .cd__sheet {
+    --box-r: 2.5rem 3.3rem 2.3rem 3rem / 3.1rem 2.4rem 3.3rem 2.5rem;
+    display: grid;
+    gap: 1.2rem;
+    padding: clamp(1.6rem, 1.2rem + 2vw, 2.4rem) clamp(1.35rem, 0.9rem + 2.4vw, 2.3rem);
+  }
+  .cd__title {
+    /* clear of the close control */
+    padding-right: 3.2rem;
+    font-size: calc(clamp(1.75rem, 1.5rem + 1.1vw, 2.2rem) * var(--title-scale));
+  }
+  .cd__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.85rem;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 1.5px solid var(--line);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    background: none;
+    color: var(--ink-strong);
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--hover-delay),
+      color var(--dur-1) var(--hover-delay);
+  }
+  .cd__close:hover {
+    background: var(--ink-strong);
+    color: var(--creme-light);
+  }
+  .cd__close:focus-visible {
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    outline-offset: 3px;
+  }
+  .cd__close path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+  }
+  /* A shorter message box than on the page, so the whole form fits a laptop screen */
+  .cd :global(textarea) {
+    min-height: 0;
+    height: 6.5rem;
+  }
+  /* Night: the kit's field turns a fixed light colour when hovered or focused (global.css), which
+     would leave crème writing unreadable as it is typed. Here it stays night paper, a shade lifted. */
+  :global(html[data-theme='dark']) .cd :global(.field :is(input, textarea, select):is(:hover, :focus)) {
+    background: color-mix(in srgb, var(--blue) 12%, var(--creme-light));
+  }
+
+  /* ---------- Open and close ---------- */
+  :global(html.motion) .cd[open] {
+    transition:
+      opacity var(--dur-1) var(--ease-soft),
+      transform var(--dur-2) var(--ease-out);
+    will-change: transform, opacity;
+  }
+  :global(html.motion) .cd[open]::backdrop {
+    transition: opacity var(--dur-2) var(--ease-soft);
+  }
+  @starting-style {
+    :global(html.motion) .cd[open] {
+      opacity: 0;
+      transform: translate3d(0, 1.5rem, 0) scale(0.965);
+    }
+    :global(html.motion) .cd[open]::backdrop {
+      opacity: 0;
+    }
+  }
+  :global(html.motion) .cd.is-closing {
+    opacity: 0;
+    transform: translate3d(0, 0.75rem, 0) scale(0.98);
+    transition-duration: 0.26s;
+    transition-timing-function: var(--ease-in-out);
+  }
+  :global(html.motion) .cd.is-closing::backdrop {
+    opacity: 0;
+    transition-duration: 0.26s;
+  }
+</style>
