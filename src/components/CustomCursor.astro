@@ -1,0 +1,231 @@
+---
+// The site's own pointer (client request, 12 October 2026): a small round organic shape in Greek blue
+// that follows the mouse. It grows into a ring over anything that can be pressed, is joined by a small
+// question mark over a word or drawing that has a note, a little star over the footer pictures (which
+// answer a click), empties over a control that is switched off, and draws in a little while the
+// button is held down. Over a text field it steps
+// aside for the ordinary text cursor, which is the one people need there.
+//
+// Only for a mouse or trackpad (not touch), and only once the script has run: until then, and
+// wherever it cannot run, the ordinary pointer is used. It sits in the browser's top layer (it is a
+// manual popover), so it stays above the popups, which are in that layer too.
+---
+
+<div class="cursor" data-cursor aria-hidden="true" popover="manual" transition:persist="custom-cursor">
+  <span class="cursor__shape"></span>
+  <svg class="cursor__mark cursor__mark--help" viewBox="0 0 20 20" focusable="false">
+    <path class="cursor__halo" d="M6.4 6.6C6.2 3.9 8.1 2.4 10.2 2.5C12.4 2.6 13.9 4 13.7 6.1C13.4 8.9 10.1 9.2 10.2 12.7M10.2 16.9v.1"></path>
+    <path d="M6.4 6.6C6.2 3.9 8.1 2.4 10.2 2.5C12.4 2.6 13.9 4 13.7 6.1C13.4 8.9 10.1 9.2 10.2 12.7M10.2 16.9v.1"></path>
+  </svg>
+  <svg class="cursor__mark cursor__mark--play" viewBox="0 0 20 20" focusable="false">
+    <path d="M10 1Q11.2 8.8 19 10Q11.2 11.2 10 19Q8.8 11.2 1 10Q8.800 8.8 10 1Z"></path>
+  </svg>
+</div>
+
+<script>
+  type State = 'plain' | 'link' | 'help' | 'play' | 'text' | 'off';
+  const PRESSABLE =
+    'a[href], button, summary, select, label[for], [role="button"], input[type="submit"], input[type="button"], input[type="checkbox"], input[type="radio"]';
+  const TEXT = 'input:not([type="submit"], [type="button"], [type="checkbox"], [type="radio"]), textarea, [contenteditable="true"]';
+
+  function setup() {
+    const cursor = document.querySelector<HTMLElement>('[data-cursor]');
+    if (!cursor) return;
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    const root = document.documentElement;
+    // Into the top layer, and back to the top of it whenever a popup opens after it
+    const raise = () => {
+      try {
+        if (cursor.matches(':popover-open')) cursor.hidePopover();
+        cursor.showPopover();
+      } catch {}
+    };
+    // (each new page arrives with a fresh <html>, so the class is set again every time)
+    root.classList.add('has-cursor');
+    raise();
+    if (cursor.dataset.ready) return;
+    cursor.dataset.ready = 'true';
+    new MutationObserver((changes) => {
+      if (changes.some((change) => (change.target as Element).hasAttribute('open'))) raise();
+    }).observe(root, { attributes: true, attributeFilter: ['open'], subtree: true });
+
+    let x = -100;
+    let y = -100;
+    let frame = 0;
+    const draw = () => {
+      frame = 0;
+      cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    };
+    const stateOf = (target: EventTarget | null): State => {
+      if (!(target instanceof Element)) return 'plain';
+      if (target.closest(':disabled, [aria-disabled="true"]')) return 'off';
+      if (target.closest(TEXT)) return 'text';
+      if (target.closest('[data-lemma]')) return 'help';
+      if (target.closest(PRESSABLE)) return 'link';
+      if (target.closest('[data-footer-scene]')) return 'play';
+      return 'plain';
+    };
+    window.addEventListener(
+      'pointermove',
+      (event) => {
+        if (event.pointerType === 'touch') return;
+        x = event.clientX;
+        y = event.clientY;
+        cursor.dataset.state = stateOf(event.target);
+        cursor.classList.add('is-here');
+        if (!frame) frame = requestAnimationFrame(draw);
+      },
+      { passive: true },
+    );
+    window.addEventListener('pointerdown', () => cursor.classList.add('is-down'), { passive: true });
+    window.addEventListener('pointerup', () => cursor.classList.remove('is-down'), { passive: true });
+    window.addEventListener('pointercancel', () => cursor.classList.remove('is-down'), { passive: true });
+    // gone when the pointer leaves the window
+    root.addEventListener('pointerleave', () => cursor.classList.remove('is-here'));
+    window.addEventListener('blur', () => cursor.classList.remove('is-here', 'is-down'));
+  }
+
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style is:global>
+  /* The ordinary pointer gives way everywhere except in text fields */
+  html.has-cursor,
+  html.has-cursor * {
+    cursor: none !important;
+  }
+  html.has-cursor :is(input:not([type='submit'], [type='button'], [type='checkbox'], [type='radio']), textarea, [contenteditable='true']) {
+    cursor: text !important;
+  }
+
+  .cursor {
+    /* (undo what browsers give a popover) */
+    position: fixed;
+    inset: 0 auto auto 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    overflow: visible;
+    pointer-events: none;
+    /* the two inks are fixed: the page's tokens trade places at night, the pointer must not vanish */
+    --c-ink: #0b1c8c;
+    --c-paper: #f9f3e3;
+    --size: 0.95rem;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+    will-change: transform;
+  }
+  html:not(.has-cursor) .cursor {
+    display: none;
+  }
+  .cursor.is-here {
+    opacity: 1;
+  }
+  .cursor[data-state='text'] {
+    opacity: 0;
+  }
+  /* The shape: a pebble, a touch irregular, with a pale edge so it shows on blue as well as on paper */
+  .cursor__shape {
+    position: absolute;
+    left: calc(var(--size) / -2);
+    top: calc(var(--size) / -2);
+    width: var(--size);
+    height: var(--size);
+    box-sizing: border-box;
+    border: 1.5px solid var(--c-ink);
+    border-radius: 58% 42% 47% 53% / 46% 55% 45% 54%;
+    background-color: var(--c-ink);
+    box-shadow: 0 0 0 1.5px var(--c-paper);
+    transition:
+      width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      left 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      top 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+      background-color 0.2s linear,
+      border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+      scale 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes cursor-turn {
+    to {
+      rotate: 360deg;
+    }
+  }
+  html.motion .cursor__shape {
+    animation: cursor-turn 9s linear infinite;
+  }
+  /* Over something that can be pressed: an open ring, a different pebble */
+  .cursor:is([data-state='link'], [data-state='play']) {
+    --size: 2.5rem;
+  }
+  .cursor:is([data-state='link'], [data-state='play']) .cursor__shape {
+    background-color: color-mix(in srgb, var(--c-paper) 22%, transparent);
+    border-radius: 44% 56% 52% 48% / 55% 45% 56% 44%;
+  }
+  /* over a word with a note the pebble empties, so the word can still be read through it */
+  .cursor[data-state='help'] .cursor__shape {
+    background-color: color-mix(in srgb, var(--c-paper) 22%, transparent);
+  }
+  /* held down: a little smaller */
+  .cursor.is-down .cursor__shape {
+    scale: 0.72;
+  }
+  /* The marks: a question mark beside the pebble over a word with a note, a star in the ring over a
+     picture that plays */
+  .cursor__mark {
+    position: absolute;
+    left: 0;
+    top: 0;
+    translate: -50% -50%;
+    /* (the holder has no width of its own, and drawings are otherwise kept inside their holder) */
+    max-width: none;
+    opacity: 0;
+    scale: 0.6;
+    color: var(--c-ink);
+    transition:
+      opacity 0.18s linear,
+      scale 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  /* (beside the pebble, not on it: the word under the pointer is the thing being read) */
+  .cursor__mark--help {
+    left: 0.95rem;
+    top: -0.85rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: var(--c-ink);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  /* (a pale line under the dark one, so the mark reads on blue too) */
+  .cursor__mark--help .cursor__halo {
+    stroke: var(--c-paper);
+    stroke-width: 4.6;
+  }
+  .cursor__mark--play {
+    width: 0.95rem;
+    height: 0.95rem;
+    fill: var(--c-ink);
+    stroke: var(--c-paper);
+    stroke-width: 1.6;
+    paint-order: stroke;
+  }
+  /* over something switched off: the pebble empties and fades */
+  .cursor[data-state='off'] .cursor__shape {
+    background-color: transparent;
+    opacity: 0.45;
+  }
+  .cursor[data-state='help'] .cursor__mark--help,
+  .cursor[data-state='play'] .cursor__mark--play {
+    opacity: 1;
+    scale: 1;
+  }
+  @media print {
+    .cursor {
+      display: none;
+    }
+  }
+</style>

@@ -10,6 +10,7 @@ import NewsletterDialog from '../components/NewsletterDialog.astro';
 import WaitlistDialog from '../components/WaitlistDialog.astro';
 import CookieNotice from '../components/CookieNotice.astro';
 import LemmaNotes from '../components/LemmaNotes.astro';
+import CustomCursor from '../components/CustomCursor.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -134,6 +135,7 @@ const { ui } = content(locale);
     <WaitlistDialog />
     <CookieNotice />
     <LemmaNotes />
+    <CustomCursor />
     <script>
       import '../scripts/motion.ts';
     </script>
