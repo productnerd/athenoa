@@ -1,6 +1,6 @@
 ---
 // The site's own pointer (client request, 12 October 2026): a small round organic shape in Greek blue
-// that follows the mouse. It grows into a ring over anything that can be pressed, is joined by a small
+// that follows the mouse. It grows a little and empties over anything that can be pressed, is joined by a small
 // question mark over a word or drawing that has a note, a little star over the footer pictures (which
 // answer a click), empties over a control that is switched off, and draws in a little while the
 // button is held down. Over a text field it steps
@@ -156,9 +156,9 @@
   html.motion .cursor__shape {
     animation: cursor-turn 9s linear infinite;
   }
-  /* Over something that can be pressed: an open ring, a different pebble */
+  /* Over something that can be pressed: only a little larger, emptied, a different pebble */
   .cursor:is([data-state='link'], [data-state='play']) {
-    --size: 2.5rem;
+    --size: 1.3rem;
   }
   .cursor:is([data-state='link'], [data-state='play']) .cursor__shape {
     background-color: color-mix(in srgb, var(--c-paper) 22%, transparent);
@@ -172,8 +172,8 @@
   .cursor.is-down .cursor__shape {
     scale: 0.72;
   }
-  /* The marks: a question mark beside the pebble over a word with a note, a star in the ring over a
-     picture that plays */
+  /* The marks, both beside the pebble: a question mark over a word with a note, a star over a picture
+     that plays */
   .cursor__mark {
     position: absolute;
     left: 0;
@@ -206,8 +206,10 @@
     stroke-width: 4.6;
   }
   .cursor__mark--play {
-    width: 0.95rem;
-    height: 0.95rem;
+    left: 0.95rem;
+    top: -0.8rem;
+    width: 0.85rem;
+    height: 0.85rem;
     fill: var(--c-ink);
     stroke: var(--c-paper);
     stroke-width: 1.6;
