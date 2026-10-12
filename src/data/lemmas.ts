@@ -91,6 +91,19 @@ inlineLemmas.push({
   source: { en: 'Japan, 1922', el: 'Ιαπωνία, 1922' },
 });
 
+inlineLemmas.push({
+  match: { en: 'Mystagogy', el: 'Μυσταγωγία' },
+  word: 'μυσταγωγία',
+  say: 'mystagōgía',
+  kind: { en: 'noun', el: 'ουσιαστικό' },
+  note: {
+    en: 'Initiation into the mysteries: the leading of the one being initiated by someone who has walked the way before.',
+    el: 'Η μύηση στα μυστήρια: η καθοδήγηση του μυουμένου από κάποιον που έχει ήδη βαδίσει τον δρόμο.',
+  },
+  // the word's own parts, in place of a citation
+  source: { en: 'from μύστης, initiate, and ἄγω, to lead', el: 'από το μύστης και το ἄγω (οδηγώ)' },
+});
+
 // The symbol drawings: what each stands for. Keyed by the drawing's file name
 // (src/assets/illustrations/<name>.svg); Illustration.astro attaches the note wherever one is drawn.
 export const symbolLemmas: Record<string, Lemma & { word: string }> = {
