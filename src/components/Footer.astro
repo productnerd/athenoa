@@ -100,6 +100,12 @@ const custom = Object.entries(images).find(([file]) =>
           <div class="footer__layer footer__layer--near" data-depth="-0.05">
             <Illustration name={art.near} />
           </div>
+          {/* A donkey among the pines of Attica (client request, 12 October 2026): on the Home page only */}
+          {scene === 'attica' && (
+            <div class="footer__donkey" data-depth="-0.05">
+              <Illustration name="donkey" draw />
+            </div>
+          )}
         </>
       )
     }
@@ -205,6 +211,14 @@ const custom = Object.entries(images).find(([file]) =>
   }
   .footer__layer--near {
     bottom: -1px;
+  }
+  /* It stands on the ground line of the scene (60 of the picture's 1600 units up), left of centre */
+  .footer__donkey {
+    position: absolute;
+    left: 30.5%;
+    bottom: 14.4%;
+    width: 6.2%;
+    color: var(--blue);
   }
   /* The drawn layers hide one another with flat paper-coloured fills. The page grain is laid
      back over the whole picture (on a flat ground, so the sky is not grained twice), which

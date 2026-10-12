@@ -42,7 +42,8 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   </script>
 
   <!-- The plain words come first in the source; the grid sets them on the near water. -->
-  <div class="nf__near on-blue-deep">
+  {/* theme-day: the near water stays dark blue at night too (only blues there, never paper) */}
+  <div class="nf__near on-blue-deep theme-day">
     <div class="nf__deep" aria-hidden="true">
       <div class="nf__swell">
         <div class="nf__run"><Illustration name="sea-waves-near" /></div>
@@ -55,7 +56,7 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
           <div class="nf__words wrap" lang={locale} data-lang={locale}>
             <h1 class="visually-hidden">{t.heading}</h1>
             <div class="nf__way">
-              <a class="btn" href={t.home.href}>
+              <a class="btn" href={t.home.href} data-nf-home>
                 {t.home.label}
               </a>
               {/* Scribbled, not set: each word sits a little off the line and at its own slight angle.
@@ -78,6 +79,13 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   </div>
 
   <div class="nf__sky">
+    {/* By night: the hero's sky, with its galaxy, its glimmering stars and now and then a falling star */}
+    <div class="nf__night" aria-hidden="true">
+      <Illustration name="portal-b-milkyway" />
+      <Illustration name="portal-b-sky" />
+      {[1, 2, 3].map((n) => <Illustration name={`portal-b-stars-${n}`} class="nf__tw" style={`--n:${n - 1}`} />)}
+      <span class="nf__meteor"></span>
+    </div>
     <div class="nf__clouds" aria-hidden="true" data-reveal="fade" style="--delay: 500ms">
       {
         [1, 2, 3].map((n) => (
@@ -94,7 +102,7 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     <div class="nf__quote" data-reveal style="--delay: 250ms">
       {
         locales.map((locale) => (
-          <p class="nf__line" lang={locale} data-lang={locale}>
+          <p class="nf__line hand" lang={locale} data-lang={locale}>
             {notfound[locale].wander}
           </p>
         ))
@@ -126,6 +134,78 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
 
   <div class="nf__grain" aria-hidden="true"></div>
 </section>
+
+{/* A mellow sea, very quietly, for as long as the page is open */}
+<audio src="/audio/sea.mp3" loop preload="none" data-nf-sea></audio>
+
+<script>
+  // Sound on the not-found page. The sea plays under everything, very low, while the site's sound is
+  // on (it follows the music button, and starts with the first click or key press, as browsers
+  // require). A gust of wind fills the sail when "Back to Ithaka" is pressed.
+  const SEA = 0.09;
+  const WIND = 0.3;
+  let stop: (() => void) | undefined;
+  const muted = () => {
+    try {
+      return localStorage.getItem('ath-music') === 'off';
+    } catch {
+      return false;
+    }
+  };
+  function setup() {
+    stop?.();
+    stop = undefined;
+    const sea = document.querySelector<HTMLAudioElement>('[data-nf-sea]');
+    if (!sea) return;
+    const music = document.querySelector<HTMLAudioElement>('[data-music-audio]');
+    let ramp = 0;
+    const play = () => {
+      if (muted() || !sea.paused) return;
+      sea.volume = 0;
+      sea
+        .play()
+        .then(() => {
+          const began = performance.now();
+          const step = (now: number) => {
+            const k = Math.min(1, Math.max(0, (now - began) / 2500));
+            sea.volume = SEA * k;
+            if (k < 1) ramp = requestAnimationFrame(step);
+          };
+          ramp = requestAnimationFrame(step);
+        })
+        .catch(() => {});
+    };
+    const pause = () => {
+      cancelAnimationFrame(ramp);
+      sea.pause();
+    };
+    const follow = () => (music && music.paused && muted() ? pause() : play());
+    const gesture = () => play();
+    const wind = (event: Event) => {
+      const link = event.target instanceof Element ? event.target.closest('[data-nf-home]') : null;
+      if (!link || muted()) return;
+      const gust = new Audio('/audio/wind.mp3');
+      gust.volume = WIND;
+      gust.play().catch(() => {});
+    };
+    music?.addEventListener('play', follow);
+    music?.addEventListener('pause', follow);
+    window.addEventListener('pointerdown', gesture, { passive: true });
+    window.addEventListener('keydown', gesture, { passive: true });
+    document.addEventListener('click', wind, true);
+    play();
+    stop = () => {
+      music?.removeEventListener('play', follow);
+      music?.removeEventListener('pause', follow);
+      window.removeEventListener('pointerdown', gesture);
+      window.removeEventListener('keydown', gesture);
+      document.removeEventListener('click', wind, true);
+      pause();
+    };
+  }
+  document.addEventListener('astro:page-load', setup);
+  document.addEventListener('astro:before-swap', () => stop?.());
+</script>
 
 <style>
   .nf {
@@ -205,6 +285,76 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     padding: calc(var(--u) * 66) 0 3rem;
   }
 
+  /* ---------- the night sky ---------- */
+  /* Shown only in the night view. The drawings are the hero's own; each set of large stars is a
+     layer by itself whose opacity alone moves, so the glimmer costs nothing. */
+  .nf__night {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    display: none;
+    color: var(--blue-deep);
+    pointer-events: none;
+  }
+  :global(html[data-theme='dark']) .nf__night {
+    display: block;
+  }
+  .nf__night :global(.illo) {
+    position: absolute;
+    inset: 0;
+  }
+  .nf__night :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .nf__night :global(.illo--portal-b-milkyway) {
+    opacity: 0.8;
+  }
+  @keyframes nf-twinkle {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.3;
+    }
+  }
+  :global(html.motion) .nf__night :global(.nf__tw svg) {
+    animation: nf-twinkle calc(2.6s + var(--n, 0) * 0.9s) var(--ease-in-out) calc(var(--n, 0) * -1.3s) infinite alternate;
+    will-change: opacity;
+  }
+  .nf__meteor {
+    position: absolute;
+    left: 70%;
+    top: 14%;
+    width: clamp(4rem, 9vmin, 7rem);
+    height: 2px;
+    border-radius: 2px;
+    background: linear-gradient(to left, transparent, color-mix(in srgb, var(--blue-deep) 55%, transparent) 55%, var(--blue-deep));
+    opacity: 0;
+  }
+  @keyframes nf-meteor {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0, 0) rotate(-19.5deg);
+    }
+    0.5% {
+      opacity: 1;
+    }
+    2.9% {
+      opacity: 1;
+    }
+    3.8%,
+    100% {
+      opacity: 0;
+      transform: translate3d(-36vmin, 12.7vmin, 0) rotate(-19.5deg);
+    }
+  }
+  :global(html.motion) .nf__meteor {
+    animation: nf-meteor 25s linear 6s infinite;
+    will-change: transform, opacity;
+  }
+
   /* ---------- the words ---------- */
   .nf__quote {
     position: relative;
@@ -214,14 +364,20 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   }
   /* The sentence in the sky, in the reading face (Greek falls back to EB Garamond, see above). */
   .nf__line {
-    max-width: 16ch;
+    /* in the handwritten voice (client direction, 12 October 2026) */
+    position: relative;
+    z-index: 2;
+    max-width: 18ch;
     margin: 0;
-    font-family: var(--font-body);
-    font-size: max(1.7rem, min(clamp(2.3rem, 1.5rem + 3.5vw, 4.7rem), calc(var(--u) * 80)));
-    letter-spacing: -0.01em;
-    line-height: 1.12;
+    font-size: max(1.9rem, min(clamp(2.5rem, 1.6rem + 3.6vw, 4.9rem), calc(var(--u) * 84)));
+    line-height: 1.25;
     color: var(--ink-strong);
     text-wrap: balance;
+  }
+  /* Greek in the handwritten face too (the rule above, which sets Greek in EB Garamond, would win) */
+  .nf [data-lang='el'] .hand,
+  .nf .hand[data-lang='el'] {
+    font-family: 'ATH Lolotte', var(--font-hand);
   }
   /* Greek words are longer: a wider measure keeps the sentence to two lines */
   .nf__line[lang='el'] {
@@ -244,7 +400,7 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
   }
   /* A casual note in the margin: half the size the voice face has elsewhere, and at an angle. */
   .nf__aside {
-    font-size: calc(var(--step-1) * 0.5);
+    font-size: calc(var(--step-1) * 0.62);
     line-height: var(--hand-leading);
     color: var(--creme-light);
     rotate: -5deg;

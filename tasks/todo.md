@@ -267,6 +267,8 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Note on Usui Reiki; "discipleship" moved from the brackets into the note on Mathesis
 - [x] Note on Mystagogy; note sound at 0.02
 - [x] Contact section: the line under the title removed; on tablets the tripod stands to the right of the title. Closed notes no longer widen the page (they were laid out while hidden).
+- [x] Eyes confirmed by her ("much better"). A donkey, with those eyes, stands among the pines in the Home footer.
+- [x] 404: night view has the hero's night sky (galaxy, glimmering stars, a falling star every 25 s) and stays blue to the bottom; the sentence in the sky is handwritten; the note under the button is larger; a mellow sea loops very quietly (synthesised, volume 0.09, follows the sound button); a gust of wind sounds on "Back to Ithaka"
 - [ ] BEFORE LAUNCH: check every source cited in src/data/lemmas.ts against a text (written from memory); Athena to approve the notes
 - [ ] A symbol's note inside the enrolment form may be cut off by the form's scrolling area: not checked
 
