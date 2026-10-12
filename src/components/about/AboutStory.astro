@@ -168,6 +168,12 @@ const [roots, studies, back, academy] = about.story;
   }
 
   /* ---------- 1. Roots ---------- */
+  /* The first block lies over the next one, so the light-blue pebble that reaches up from behind the
+     graduation photograph passes behind these words, never over them. */
+  .roots {
+    position: relative;
+    z-index: 1;
+  }
   .roots__aside {
     position: relative;
     width: 11.5rem;
@@ -175,13 +181,6 @@ const [roots, studies, back, academy] = about.story;
   }
   .roots__text {
     position: relative;
-  }
-  .roots__text > p:first-of-type {
-    font-size: calc(var(--step-0) * 1.16);
-    line-height: 1.5;
-    /* The opening quotation mark hangs in the margin */
-    text-indent: -0.42em;
-    hanging-punctuation: none;
   }
   /* The spring by the white cypress, where the Orphic soul drinks from Mnemosyne.
      On a phone it stands beside the portrait. */

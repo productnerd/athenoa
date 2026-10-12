@@ -35,13 +35,14 @@ export function withLemma(html: string, locale: Locale): string {
 }
 
 /** The note itself, set like the head of a dictionary entry: the Greek word, how it is said, its kind, then the note. */
-function box(entry: Lemma & { word: string }, id: string, locale: Locale): string {
+function box(entry: Lemma & { word: string }, id: string, locale: Locale, means = ''): string {
   const main = mainLocale(locale);
   const say = locale === 'en' ? `<span class="lemma__say">${entry.say}</span>` : '';
   return (
     `<span class="lemma__box" role="tooltip" id="${id}">` +
     `<span class="lemma__head" lang="grc">${entry.word}</span>` +
     `<span class="lemma__line">${say}<span class="lemma__kind">${entry.kind[main]}</span></span>` +
+    (means ? `<span class="lemma__gloss">${means}</span>` : '') +
     `<span class="lemma__note">${escape(entry.note[main])}</span>` +
     `<span class="lemma__source">${escape(entry.source[main])}</span></span>`
   );
@@ -71,4 +72,19 @@ export function symbolNote(name: string, locale: Locale): { id: string; html: st
   if (!entry) return undefined;
   const id = `lemma-${++count}`;
   return { id, html: box(entry, id, locale) };
+}
+
+/** A Greek term in the middle of a text, with its translation in brackets after it
+ *  ("<span lang="grc">Εὖ Ζῆν</span> (Good Living)"): the term stays in the line and gains the note;
+ *  the bracketed translation leaves the line and stands in the note instead. */
+export function withGreekLemmas(html: string, locale: Locale): string {
+  return html.replace(/<span lang="grc">([^<]+)<\/span>\s*\(([^)]*)\)/gu, (match, word: string, means: string) => {
+    const entry = lemmas[word];
+    if (!entry) return match;
+    const id = `lemma-${++count}`;
+    return (
+      `<span class="lemma-inline" tabindex="0" data-lemma aria-describedby="${id}">` +
+      `<span lang="grc">${word}</span>${box({ ...entry, word }, id, locale, means)}</span>`
+    );
+  });
 }

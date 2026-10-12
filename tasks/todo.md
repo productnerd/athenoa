@@ -261,6 +261,9 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Cookie plate: flat biscuits, fatter seeded squiggle, scalloped biscuit, steam rising; plate sits above the sheet
 - [x] Paper texture 25% subtler everywhere (the two texture files themselves were made more transparent)
 - [x] Sun rays behind pictures (About hero, Apollo niche on Home) turn and swell very slowly
+- [x] Εὖ Ζῆν at the top of About opens the note; its bracketed translation left the line and stands in the note
+- [x] Words with a note carry a small glimmering four-point star (the affordance), besides the dotted underline
+- [x] About story: the first paragraph is the same size as the rest; the light-blue pebble passes behind the text above it
 - [ ] BEFORE LAUNCH: check every source cited in src/data/lemmas.ts against a text (written from memory); Athena to approve the notes
 - [ ] A symbol's note inside the enrolment form may be cut off by the form's scrolling area: not checked
 

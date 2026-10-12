@@ -1,6 +1,7 @@
 ---
 // Opening of "About Dr. Athena Potari": the title and the three introductory paragraphs beside a tall
 // arch portrait. Depth, far to near: sun rays, a blue paper arch, the photograph.
+import { withGreekLemmas } from '../../lib/lemma';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import temple from '../../assets/media/temple-blue-dress.jpg';
@@ -51,10 +52,10 @@ const [lead, ...paragraphs] = about.intro;
       </div>
     </div>
 
-    <p class="lead hero__lead" data-reveal set:html={lead} />
+    <p class="lead hero__lead" data-reveal set:html={withGreekLemmas(lead, locale)} />
 
     <div class="hero__more">
-      {paragraphs.map((text, i) => <p data-reveal style={`--i:${i + 1}`} set:html={text} />)}
+      {paragraphs.map((text, i) => <p data-reveal style={`--i:${i + 1}`} set:html={withGreekLemmas(text, locale)} />)}
     </div>
   </div>
 </section>

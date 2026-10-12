@@ -634,6 +634,42 @@ html.motion .illo--sun-rays svg {
   font-style: italic;
   color: color-mix(in srgb, var(--blue-deep) 70%, transparent);
 }
+/* The sign that a word has more to tell: a small four-point star after it, of the kind in the site's
+   skies, in the lighter ink. It glimmers slowly, and turns when the pointer arrives. */
+.lemma-inline::after,
+.lemma__word::after {
+  content: '';
+  display: inline-block;
+  width: 0.42em;
+  height: 0.42em;
+  margin-left: 0.06em;
+  vertical-align: 0.7em;
+  background-color: var(--sub-ink);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M10 0Q11.300 8.700 20 10Q11.300 11.300 10 20Q8.700 11.300 0 10Q8.700 8.700 10 0Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: rotate var(--dur-2) var(--ease-out) var(--hover-delay);
+}
+.lemma__word::after {
+  width: 0.26em;
+  height: 0.26em;
+  vertical-align: 0.95em;
+}
+@keyframes lemma-glimmer {
+  50% {
+    opacity: 0.45;
+  }
+}
+html.motion :is(.lemma-inline, .lemma__word)::after {
+  animation: lemma-glimmer 3.6s ease-in-out infinite;
+}
+.lemma-inline:is(:hover, :focus)::after,
+.lemma:is(:hover, :focus) .lemma__word::after {
+  rotate: 90deg;
+}
+.lemma__gloss {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-weight: 560;
+}
 /* The same note on a word in running text, and on a symbol drawing. The word keeps its place in
    the line and takes a dotted underline; a drawing only changes the pointer. Inside the note the
    Greek word stands first, as at the head of a dictionary entry. */
