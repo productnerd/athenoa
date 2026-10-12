@@ -162,7 +162,7 @@ const custom = Object.entries(images).find(([file]) =>
       const kind = scene.dataset.footerScene;
       if (kind === 'attica') {
         const donkey = scene.querySelector('.footer__donkey');
-        if (donkey && once(donkey, 'is-braying', 1400)) play('/audio/bray.mp3', 0.112);
+        if (donkey && once(donkey, 'is-braying', 1400)) play('/audio/bray.mp3', 0.056);
       } else if (kind === 'olympus') {
         // once only: the bird has left, so later clicks find the tree empty
         const bird = scene.querySelector('[data-footer-flyer]');
