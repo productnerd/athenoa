@@ -83,7 +83,13 @@ const custom = Object.entries(images).find(([file]) =>
     </div>
   </div>
 
-  <div class:list={['footer__scene', `footer__scene--${scene}`, !custom && 'footer__scene--drawn']} aria-hidden="true">
+  {/* A click on the picture wakes something in it (script below): the donkey brays, a bird leaves a
+      pine, the dolphins dive. A small surprise for the pointer; nothing depends on it. */}
+  <div
+    class:list={['footer__scene', `footer__scene--${scene}`, !custom && 'footer__scene--drawn']}
+    aria-hidden="true"
+    data-footer-scene={scene}
+  >
     {
       custom ? (
         <div class="footer__layer footer__layer--custom" data-depth="0.12">
@@ -97,6 +103,13 @@ const custom = Object.entries(images).find(([file]) =>
           <div class="footer__layer footer__layer--mid" data-depth="0.13">
             <Illustration name={art.mid} draw />
           </div>
+          {/* Olympus: a small bird waits out of sight behind a pine */}
+          {scene === 'olympus' && (
+            <span class="footer__flyer" data-footer-flyer>
+              <Illustration name="hero-sparrow" class="footer__flyer-body" />
+              <Illustration name="hero-sparrow-wing" class="footer__flyer-wing" />
+            </span>
+          )}
           <div class="footer__layer footer__layer--near" data-depth="-0.05">
             <Illustration name={art.near} />
           </div>
@@ -113,6 +126,51 @@ const custom = Object.entries(images).find(([file]) =>
 
   <p class="footer__legal" lang="el">{site.copyright}</p>
 </footer>
+
+<script>
+  // The pictures at the foot of the pages answer a click.
+  //   Home (Attica):     the donkey lifts its head twice and brays.
+  //   About (Olympus):   a small bird flies out from behind a pine and off the screen, with a chirp.
+  //   Courses (Aegean):  the dolphins dive under the first wave; a second click and they leap again.
+  // Sounds follow the site's sound button.
+  const quiet = () => {
+    try {
+      return localStorage.getItem('ath-music') === 'off';
+    } catch {
+      return false;
+    }
+  };
+  const play = (file: string, volume: number) => {
+    if (quiet()) return;
+    const sound = new Audio(file);
+    sound.volume = volume;
+    sound.play().catch(() => {});
+  };
+  const once = (el: Element, name: string, ms: number) => {
+    if (el.classList.contains(name)) return false;
+    el.classList.add(name);
+    window.setTimeout(() => el.classList.remove(name), ms);
+    return true;
+  };
+  document.addEventListener('astro:page-load', () => {
+    const scene = document.querySelector<HTMLElement>('[data-footer-scene]:not([data-footer-ready])');
+    if (!scene) return;
+    scene.dataset.footerReady = '';
+    scene.addEventListener('click', () => {
+      const kind = scene.dataset.footerScene;
+      if (kind === 'attica') {
+        const donkey = scene.querySelector('.footer__donkey');
+        if (donkey && once(donkey, 'is-braying', 2000)) play('/audio/bray.mp3', 0.16);
+      } else if (kind === 'olympus') {
+        const bird = scene.querySelector('[data-footer-flyer]');
+        if (bird && once(bird, 'is-flying', 3600)) window.setTimeout(() => play('/audio/chirp-2.mp3', 0.16), 250);
+      } else if (kind === 'aegean') {
+        const dived = scene.classList.toggle('is-dived');
+        if (dived) window.setTimeout(() => play('/audio/daylight.mp3', 0.1), 450);
+      }
+    });
+  });
+</script>
 
 <style>
   .footer {
@@ -212,6 +270,112 @@ const custom = Object.entries(images).find(([file]) =>
   .footer__layer--near {
     bottom: -1px;
   }
+  /* The picture can be clicked (see the script); its layers still let the click through to it */
+  .footer__scene[data-footer-scene] {
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  /* The donkey brays: its head comes up twice. (The head is a group inside the drawing; it turns
+     about the top of the neck. A short, one-off movement of a very small drawing.) */
+  .footer__donkey :global(.donkey__head) {
+    transform-box: view-box;
+    transform-origin: 90px 36px;
+  }
+  @keyframes donkey-bray {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    14% {
+      transform: rotate(-24deg);
+    }
+    34% {
+      transform: rotate(-6deg);
+    }
+    56% {
+      transform: rotate(-27deg);
+    }
+    80% {
+      transform: rotate(-4deg);
+    }
+  }
+  .footer__donkey:global(.is-braying) :global(.donkey__head) {
+    animation: donkey-bray 1.9s ease-in-out;
+  }
+
+  /* The bird of Olympus: out of sight behind a pine until the picture is clicked, then up and away
+     past the right-hand edge of the screen. It is drawn before the pines, so they hide it at first. */
+  .footer__flyer {
+    position: absolute;
+    left: 58.5%;
+    bottom: 47%;
+    width: 2.1%;
+    min-width: 1.4rem;
+    aspect-ratio: 42 / 36;
+    color: var(--blue);
+    --bird-fill: var(--paper);
+    opacity: 0;
+    scale: -1 1; /* it flies to the right; the drawing faces left */
+  }
+  .footer__flyer :global(.illo) {
+    position: absolute;
+    inset: 0;
+  }
+  .footer__flyer :global(.footer__flyer-wing) {
+    transform-origin: 55% 47%;
+  }
+  @keyframes flyer-away {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0.4rem, 0);
+    }
+    8% {
+      opacity: 1;
+    }
+    30% {
+      transform: translate3d(-9vw, -3.2rem, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(-62vw, -11rem, 0);
+    }
+  }
+  @keyframes flyer-flap {
+    from {
+      transform: scaleY(1);
+    }
+    to {
+      transform: translate3d(0, -22%, 0) scaleY(-1.5);
+    }
+  }
+  .footer__flyer:global(.is-flying) {
+    animation: flyer-away 3.4s cubic-bezier(0.35, 0, 0.7, 0.6) both;
+  }
+  .footer__flyer:global(.is-flying) :global(.footer__flyer-wing) {
+    animation: flyer-flap 0.13s ease-in-out infinite alternate;
+  }
+
+  /* The dolphins of the Aegean dive under the first wave (it is drawn after them, so it covers them
+     as they go down), and leap out again on the next click. */
+  .footer__scene :global(.aeg-dolphin) {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transition:
+      transform 0.9s cubic-bezier(0.34, 1.4, 0.5, 1),
+      opacity 0.3s linear;
+  }
+  .footer__scene :global(.aeg-dolphin + .aeg-dolphin) {
+    transition-delay: 0.14s;
+  }
+  .footer__scene:global(.is-dived) :global(.aeg-dolphin) {
+    transform: translateY(64px) rotate(26deg);
+    opacity: 0;
+    transition:
+      transform 0.8s cubic-bezier(0.5, -0.3, 0.8, 0.5),
+      opacity 0.25s linear 0.55s;
+  }
+
   /* It stands on the ground line of the scene (60 of the picture's 1600 units up), left of centre */
   .footer__donkey {
     position: absolute;

@@ -276,6 +276,9 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Waitlist popup: quiet "Got a question? Contact us" line under the button, opening an email. NOT PUSHED.
 - [x] Course popups (NOT PUSHED): the request form loads in the same sheet as the course details (no blue panel laid over it); the cross or Escape closes the popup completely from either view; no Back button; "Contact us" is the quiet question line that opens an email. The popups now exist on Home too (Enroll and the plus used to leave for the course page there).
 - [x] Day/night switch sounds at half volume (0.2); note hover sound up a tenth (0.022); seminar note on one line where it fits
+- [x] Footer pictures answer a click (NOT PUSHED): Home, the donkey lifts its head and brays (synthesised); About, a small bird flies out from behind a pine and off to the right with a chirp; Courses, the dolphins dive under the first wave and leap back on the next click (with the soft wave sound, which she did not ask for). Dolphins have the new eye.
+- [x] Donkey redrawn with a face: long head, light-blue muzzle, two eyes. A helper is refining the drawing.
+- [ ] PERFORMANCE ROUND (suggested 12 October 2026, waiting for her choice). Measured on the last build: Home HTML 548 KB (154 KB gzipped), 464 KB of it inline drawings (the waves drawing is in the page three times at 50 KB each; Milky Way 53 KB; pines 39 KB; rays 37 KB, now in three layers); 29 font files, about 1 MB, several families and subsets unused; 226 image files, 24.9 MB in all sizes; lab pages and old hero candidates still built.
 - [ ] BEFORE LAUNCH: check every source cited in src/data/lemmas.ts against a text (written from memory); Athena to approve the notes
 - [ ] A symbol's note inside the enrolment form may be cut off by the form's scrolling area: not checked
 
