@@ -242,6 +242,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] Footer on tablets and phones: the name sits closer above the two headings
 - [ ] What Athena will NOT see on the preview: PP Editorial New (she sees the stand-in), Tekst and Lolotte (trial fonts on Maria's Mac, not shipped: EB Garamond and Bradley Hand instead), the background music (file kept out of the repo until its licence is confirmed) and with it the fire sound, which follows the music
 
+## Added by Maria on 2026-10-12 (eighteenth round)
+
+- [x] Soft wing-beat sound as the dove flies in to the newsletter slip (synthesised, eight beats in step with the drawing, volume 0.14, once per page view, silent when sound is muted)
+- [x] Newsletter slip: heading "Newsletter", button "Subscribe"
+- [x] Course cards: "with recordings" on its own quieter line; "View course" is a round plus button
+- [x] "Living Transmission" button reads "See all courses"
+
 ## Open questions
 
 See the chat message of 2026-10-10.

@@ -47,6 +47,15 @@ The enrol popup needs labels the live site never had (for example "View course",
 - Seminar note: the asterisk at the end is gone, one stays at the start: "*The seminar start date will be announced soon". The same in Greek and Ancient Greek.
 - The "Discover all the features" button under the three membership points is removed (the wording stays in the data, unused).
 
+## Newsletter slip on Home (12 October 2026, at Maria's request)
+
+- A heading was added: "Newsletter" (Greek: «Ενημερωτικό Δελτίο»; Ancient Greek draft: Ἀγγελίαι).
+- The button reads "Subscribe" instead of "Subscribe to our Newsletter" (Greek: «Εγγραφή» instead of «Εγγραφείτε στο Ενημερωτικό μας Δελτίο»).
+
+## "Living Transmission" button on Home (12 October 2026, at Maria's request)
+
+- The button reads "See all courses" instead of "Enroll in our courses" (Greek: «Δείτε όλα τα μαθήματα»).
+
 ## About page (11 October 2026, at Maria's request)
 
 - The translation after ΓΝΩΘΙ ΣΑΥΤΟΝ lost its brackets: “Know Thyself”. instead of (“Know Thyself”). The same in Greek and Ancient Greek.

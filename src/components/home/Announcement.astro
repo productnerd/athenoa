@@ -28,6 +28,7 @@ const announced = home.announcement.courses
 
       <div class="slip box on-blue-deep" data-reveal data-depth="-0.04" style="--i:3">
         <Illustration name="dove-scroll" class="slip__dove" />
+        <h3 class="slip__title t-3">{newsletter.title}</h3>
         <p class="slip__text">{newsletter.text}</p>
         <p><a class="btn" href={newsletter.cta.href}>{newsletter.cta.label}</a></p>
       </div>
@@ -44,6 +45,34 @@ const announced = home.announcement.courses
     </ul>
   </div>
 </section>
+
+<script>
+  // The dove's wings, very quietly, as it flies in to the newsletter slip: eight soft beats in step
+  // with the drawing (which starts half a second after the slip comes into view). Once per visit to
+  // the page, only with motion on, and silent when the visitor has muted the site's sound.
+  const VOLUME = 0.14;
+  document.addEventListener('astro:page-load', () => {
+    const slip = document.querySelector<HTMLElement>('.slip');
+    if (!slip || slip.dataset.wings) return;
+    slip.dataset.wings = 'ready';
+    const play = () => {
+      if (!document.documentElement.classList.contains('motion')) return;
+      try {
+        if (localStorage.getItem('ath-music') === 'off') return;
+      } catch {}
+      const sound = new Audio('/audio/wings.mp3');
+      sound.volume = VOLUME;
+      window.setTimeout(() => sound.play().catch(() => {}), 500);
+    };
+    if (slip.classList.contains('is-in')) return; // already in view when the page opened: no sound
+    const watch = new MutationObserver(() => {
+      if (!slip.classList.contains('is-in')) return;
+      watch.disconnect();
+      play();
+    });
+    watch.observe(slip, { attributes: true, attributeFilter: ['class'] });
+  });
+</script>
 
 <style>
   .announcement__top {
@@ -136,6 +165,9 @@ const announced = home.announcement.courses
   }
   :global(html.motion) .slip:global(.is-in) :global(.dove-scroll__far-wing) {
     animation: dove-wing-far 0.36s ease-in-out 0.5s 8;
+  }
+  .slip__title {
+    margin-bottom: 0.35rem;
   }
   .slip__text {
     margin-bottom: var(--space-s);

@@ -44,8 +44,11 @@ export const home = {
     greeting: 'Dear Friends and Bright Fellow Travelers on the Path of the Greek Light,',
     text: 'It is with great pleasure that I announce the resumption of classes!',
     newsletter: {
+      // The heading and the short button label were asked for by the client on 12 October 2026;
+      // the live site has only the long button, "Subscribe to our Newsletter".
+      title: 'Newsletter',
       text: 'Be the first to know about our news, articles and upcoming activities',
-      cta: { label: 'Subscribe to our Newsletter', href: '#newsletter' },
+      cta: { label: 'Subscribe', href: '#newsletter' },
     },
     // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
     courses: [
@@ -74,7 +77,7 @@ export const home = {
   transmission: {
     title: 'Living Transmission of Ancient Thought for a Sustainable Future',
     text: 'Join us in restoring Philosophy to its rightful place in promoting a new evolution in consciousness and a future of harmonious coexistence!',
-    cta: { label: 'Enroll in our courses', href: site.routes.courses },
+    cta: { label: 'See all courses', href: site.routes.courses },
   },
 
   start: {

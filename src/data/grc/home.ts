@@ -45,8 +45,9 @@ export const home = {
     // Athena speaks: first person feminine.
     text: 'Πάνυ ἀσμένη ἀγγέλλω ὑμῖν τὰ μαθήματα πάλιν ἀρχόμενα!',
     newsletter: {
+      title: 'Ἀγγελίαι',
       text: 'Πρῶτοι πυνθάνεσθε τὰ παρ’ ἡμῶν ἀγγελλόμενα καὶ τὰ συγγράμματα καὶ ὅσα μέλλομεν πράξειν',
-      cta: { label: 'Ἐγγράψασθε εἰς τὸν τῶν ἀγγελιῶν κατάλογον', href: '#newsletter' },
+      cta: { label: 'Ἐγγράψασθε', href: '#newsletter' },
     },
     // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
     courses: [
@@ -76,7 +77,7 @@ export const home = {
   transmission: {
     title: 'Ζῶσα παράδοσις τῆς τῶν παλαιῶν διανοίας, ἵνα τὸ μέλλον βιώσιμον ᾖ',
     text: 'Συλλάβεσθε ἡμῖν τοῦ ἔργου, ὅπως ἡ Φιλοσοφία τὴν προσήκουσαν αὑτῇ χώραν ἀπολήψεται, νέαν τε τῆς συνειδήσεως ἐπίδοσιν προάγουσα καὶ τὸ ἐν ἁρμονίᾳ συζῆν εἰς τὸν ἔπειτα χρόνον!',
-    cta: { label: 'Ἐγγράψασθε εἰς τὰ ἡμέτερα μαθήματα', href: site.routes.courses },
+    cta: { label: 'Ἴδετε πάντα τὰ μαθήματα', href: site.routes.courses },
   },
 
   start: {

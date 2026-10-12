@@ -45,8 +45,9 @@ export const home = {
     greeting: 'Αγαπητοί Φίλοι και Φωτεινοί Συνοδοιπόροι στον Δρόμο του Ελληνικού Φωτός,',
     text: 'Με μεγάλη χαρά ανακοινώνω την επανέναρξη των μαθημάτων!',
     newsletter: {
+      title: 'Ενημερωτικό Δελτίο',
       text: 'Ενημερωθείτε πρώτοι για τα νέα, τα άρθρα και τις προσεχείς δραστηριότητές μας',
-      cta: { label: 'Εγγραφείτε στο Ενημερωτικό μας Δελτίο', href: '#newsletter' },
+      cta: { label: 'Εγγραφή', href: '#newsletter' },
     },
     // The three courses announced here. Each is drawn as a course card, the same as on the courses page.
     courses: [
@@ -74,7 +75,7 @@ export const home = {
   transmission: {
     title: 'Ζωντανή Μετάδοση της Αρχαίας Σκέψης για ένα Βιώσιμο Μέλλον',
     text: 'Ελάτε μαζί μας να αποδώσουμε ξανά στη Φιλοσοφία τη θέση που δικαιωματικά της ανήκει στην προαγωγή μιας νέας εξέλιξης της συνείδησης και ενός μέλλοντος αρμονικής συνύπαρξης!',
-    cta: { label: 'Εγγραφείτε στα μαθήματά μας', href: site.routes.courses },
+    cta: { label: 'Δείτε όλα τα μαθήματα', href: site.routes.courses },
   },
 
   start: {
