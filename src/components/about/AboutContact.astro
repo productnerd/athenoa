@@ -26,8 +26,7 @@ const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</
       <div class="contact__grid">
         <div class="contact__lead">
           <h2 id="contact-title" class="t-1 contact__title" data-split style={`--fit:${fit}`}>{contact.title}</h2>
-          <p class="lead" data-reveal>{contact.intro}</p>
-
+          {/* The line under the title ("Contact us regarding our work…") was removed at the client's wish, 12 October 2026 */}
           <Illustration name="tripod" class="contact__tripod" draw />
         </div>
 
@@ -205,6 +204,22 @@ const note = contact.note.replace(/\d+-\d+/g, '<span class="contact__range">$&</
     .field--message,
     .contact__send {
       grid-column: 1 / -1;
+    }
+  }
+  /* Tablets, where the form runs under the title: the tripod stands to the right of the title */
+  @media (min-width: 34rem) and (max-width: 61.99rem) {
+    .contact__lead {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      column-gap: var(--space-m);
+    }
+    .contact__title {
+      font-size: min(var(--step-4), calc((100cqi - 12rem) / (var(--fit) * 0.45)));
+    }
+    .contact__tripod {
+      width: clamp(7.5rem, 5rem + 9vw, 10.5rem);
+      margin-top: 0;
+      justify-self: end;
     }
   }
   @media (min-width: 62rem) {
