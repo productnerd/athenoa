@@ -48,6 +48,7 @@ All-caps eyebrow labels (unless the source text is already in capitals), numbere
 - `.panel` (+ `.panel--big`, `.panel--arch`, combine with `on-blue`, `on-blue-deep` or `on-blue-light`): blue cut-out with rough edge. Colour lives on `::before`, so text is never distorted. Put parallax layers that must be cut to the outline inside a child `.panel__clip`.
 - `.box` (+ `.box--line`, `.box--offset`, `.box--deep` for darker paper; add a surface class for a blue one): smaller organic text container.
 - `.hl` with `.hl__w` per word: organic brush highlight behind emphasised words.
+- Dictionary notes: a Greek term can open a small paper note on hover or focus, set like the head of a dictionary entry (Greek word, Latin spelling, kind, a sentence, a source), with a very quiet two-note tone. Three forms, one data file (`src/data/lemmas.ts`): `.lemma` (a term that closes a paragraph, set large with its meaning below: `withLemma`), `.lemma-inline` (a word in running text: `withInlineLemmas`), and symbol drawings, which get their note automatically from `<Illustration>` (pass `note={false}` to leave it off). `LemmaNotes.astro` in the layout does the sound and keeps notes inside the window.
 - `.btn`, `.btn--ghost`. On blue they invert automatically.
 - `.scales`: fish-scale ground (the aegis of Athena). Use very sparingly, and never behind the Apollo statue.
 - `.field`: form field wrapper (label + input/textarea).

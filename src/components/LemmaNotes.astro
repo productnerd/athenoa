@@ -1,0 +1,42 @@
+---
+// The behaviour of the small dictionary notes (kit classes .lemma, .lemma-inline, and symbol
+// drawings; see src/lib/lemma.ts). The stylesheet opens a note a moment after the pointer or the
+// keyboard rests on its word. This adds two things: a soft two-note tone as it opens (silent when
+// the visitor has muted the site), and a look at where the note would land, so that one near the
+// right edge of the window opens leftwards and one near the top opens downwards.
+// Mounted once, in the layout.
+---
+
+<script>
+  const WAIT = 260; // the same pause the stylesheet gives the note before it opens
+  const VOLUME = 0.04;
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-lemma]:not([data-lemma-ready])').forEach((entry) => {
+      entry.dataset.lemmaReady = '';
+      const note = entry.querySelector<HTMLElement>(':scope > .lemma__box');
+      let timer = 0;
+      const open = () => {
+        if (note) {
+          entry.classList.remove('lemma--left', 'lemma--below');
+          const host = entry.getBoundingClientRect();
+          if (host.left + note.offsetWidth > window.innerWidth - 12) entry.classList.add('lemma--left');
+          if (host.top - note.offsetHeight < 96) entry.classList.add('lemma--below');
+        }
+        clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          try {
+            if (localStorage.getItem('ath-music') === 'off') return;
+          } catch {}
+          const sound = new Audio('/audio/pluck.mp3');
+          sound.volume = VOLUME;
+          sound.play().catch(() => {});
+        }, WAIT);
+      };
+      const close = () => clearTimeout(timer);
+      entry.addEventListener('pointerenter', open);
+      entry.addEventListener('pointerleave', close);
+      entry.addEventListener('focus', open);
+      entry.addEventListener('blur', close);
+    });
+  });
+</script>

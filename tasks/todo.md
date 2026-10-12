@@ -256,7 +256,13 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] About: Εὖ Ζῆν and ΓΝΩΘΙ ΣΑΥΤΟΝ as dictionary entries (word, Latin spelling, kind, meaning) with a paper note on hover and a soft plucked-string sound (kit class .lemma, src/lib/lemma.ts, src/data/lemmas.ts)
 - [x] Eyes in the bolder manner she pointed to (pale lens, large dark pupil looking ahead): dove, sparrow, the eye on the 404 boat, cicada. Athena's drawings are hidden and were not changed.
 - [x] "Yiayia's cookies" notice with a drawing of Greek biscuits, shown on a first visit; the choice is recorded for anything added later that needs consent. The site still sets no cookies.
-- [ ] Offered: more places for the dictionary entry (Mnemosyne, Mathesis, eudaimonia on the 404, ΑΘΕΝΟΑ, the symbols)
+- [x] Notes on Mnemosyne, Mathesis, Polity of the Soul (About text) and on every symbol drawing, wherever it appears (Illustration.astro attaches them; LemmaNotes.astro plays the tone and flips a note away from the window's edge)
+- [x] Maxim written «Γνῶθι Σαυτόν»; note tone at 0.04
+- [x] Cookie plate: flat biscuits, fatter seeded squiggle, scalloped biscuit, steam rising; plate sits above the sheet
+- [x] Paper texture 25% subtler everywhere (the two texture files themselves were made more transparent)
+- [x] Sun rays behind pictures (About hero, Apollo niche on Home) turn and swell very slowly
+- [ ] BEFORE LAUNCH: check every source cited in src/data/lemmas.ts against a text (written from memory); Athena to approve the notes
+- [ ] A symbol's note inside the enrolment form may be cut off by the form's scrolling area: not checked
 
 ## Open questions
 

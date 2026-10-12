@@ -1,14 +1,20 @@
 ---
 // Inlines a line-art SVG from src/assets/illustrations so it can take the page's ink colour
 // and be drawn stroke by stroke. To swap artwork, replace the .svg file; nothing else changes.
+// A drawing that is one of the symbols (src/data/lemmas.ts) also carries a small note saying what
+// it stands for, which opens when a visitor rests on it. Pass note={false} to leave it off.
+import { symbolNote } from '../lib/lemma';
+import { getLocale } from '../lib/locale';
+
 interface Props {
   name: string;
   class?: string;
   draw?: boolean;
   label?: string;
+  note?: boolean;
   [key: string]: unknown;
 }
-const { name, class: className, draw = false, label, ...rest } = Astro.props;
+const { name, class: className, draw = false, label, note = true, ...rest } = Astro.props;
 const files = import.meta.glob<string>('../assets/illustrations/*.svg', {
   query: '?raw',
   import: 'default',
@@ -16,6 +22,7 @@ const files = import.meta.glob<string>('../assets/illustrations/*.svg', {
 });
 const svg = files[`../assets/illustrations/${name}.svg`];
 if (!svg) throw new Error(`Illustration "${name}" not found in src/assets/illustrations`);
+const about = note ? symbolNote(name, getLocale(Astro.url)) : undefined;
 ---
 
 <span
@@ -23,8 +30,11 @@ if (!svg) throw new Error(`Illustration "${name}" not found in src/assets/illust
   data-draw={draw ? '' : undefined}
   role={label ? 'img' : undefined}
   aria-label={label}
-  aria-hidden={label ? undefined : 'true'}
+  aria-hidden={label || about ? undefined : 'true'}
+  data-lemma={about ? '' : undefined}
+  tabindex={about ? 0 : undefined}
+  aria-describedby={about?.id}
   {...rest}
 >
-  <Fragment set:html={svg} />
+  <Fragment set:html={svg} />{about && <Fragment set:html={about.html} />}
 </span>

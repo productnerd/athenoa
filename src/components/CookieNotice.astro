@@ -33,6 +33,16 @@ const t = {
 
 <aside class="cookies" data-cookies hidden aria-labelledby="cookies-title">
   <Illustration name="greek-cookies" class="cookies__plate" />
+  {/* Three threads of steam over the plate: the biscuits are just out of the oven */}
+  <span class="cookies__steam" aria-hidden="true">
+    {
+      [0, 1, 2].map((n) => (
+        <svg viewBox="0 0 12 30" style={`--n:${n}`} focusable="false">
+          <path d="M6 29C2 24 10 20 6 15S2 6 6 1" />
+        </svg>
+      ))
+    }
+  </span>
   <h2 class="cookies__title t-3" id="cookies-title">{t.title}</h2>
   <p class="cookies__text">{t.text}</p>
   <p class="cookies__go">
@@ -107,8 +117,50 @@ const t = {
   .cookies :global(.cookies__plate) {
     --paper: var(--creme-light);
     width: 12.5rem;
-    margin: -3.4rem 0 0.2rem -0.5rem;
+    /* it sits above the sheet's top edge, like a plate set down on it */
+    margin: -4.3rem 0 0.1rem -0.5rem;
     color: var(--blue);
+  }
+  .cookies__steam {
+    position: absolute;
+    left: 3.4rem;
+    top: -5rem;
+    display: flex;
+    gap: 2.1rem;
+    pointer-events: none;
+  }
+  .cookies__steam svg {
+    width: 0.75rem;
+    height: 1.9rem;
+    opacity: 0.3;
+  }
+  .cookies__steam svg:nth-child(2) {
+    margin-top: -0.5rem;
+  }
+  .cookies__steam path {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+  /* each thread rises, thins and is gone, one after another; only transform and opacity move */
+  @keyframes cookies-steam {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0.5rem, 0) scaleY(0.8);
+    }
+    35% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+      transform: translate3d(0.15rem, -0.8rem, 0) scaleY(1.15);
+    }
+  }
+  :global(html.motion) .cookies__steam svg {
+    opacity: 0;
+    transform-origin: 50% 100%;
+    animation: cookies-steam 4.6s ease-out calc(var(--n) * 1.5s + 2.4s) infinite;
   }
   .cookies__title {
     color: var(--blue);

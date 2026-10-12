@@ -516,6 +516,22 @@ b {
   rotate: 0.9deg;
 }
 
+/* The crown of rays behind a picture turns a little one way and then the other, and swells by a
+   hair: very slowly (client direction, 12 October 2026). Only the drawing's own transform moves. */
+@keyframes rays-breathe {
+  from {
+    transform: rotate(-2.2deg) scale(1);
+  }
+  to {
+    transform: rotate(2.2deg) scale(1.035);
+  }
+}
+html.motion .illo--sun-rays svg {
+  transform-origin: 50% 50%;
+  animation: rays-breathe 28s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
 /* ---------- A Greek word as a dictionary entry ---------- */
 /* The word in the title face, how it is said and what it is on a small line under it, then its
    meaning; a note on a scrap of paper opens when the pointer rests on the entry (src/lib/lemma.ts).
@@ -618,8 +634,65 @@ b {
   font-style: italic;
   color: color-mix(in srgb, var(--blue-deep) 70%, transparent);
 }
+/* The same note on a word in running text, and on a symbol drawing. The word keeps its place in
+   the line and takes a dotted underline; a drawing only changes the pointer. Inside the note the
+   Greek word stands first, as at the head of a dictionary entry. */
+.lemma-inline {
+  position: relative;
+  cursor: help;
+  text-decoration: underline dotted color-mix(in srgb, currentColor 55%, transparent);
+  text-decoration-thickness: 0.09em;
+  text-underline-offset: 0.22em;
+}
+:where(.illo[data-lemma]) {
+  position: relative;
+}
+.illo[data-lemma] {
+  cursor: help;
+  pointer-events: auto !important;
+}
+.illo[data-lemma]:focus-visible,
+.lemma-inline:focus-visible {
+  outline-offset: 0.3rem;
+  border-radius: 0.5rem;
+}
+.lemma__box {
+  /* (a note keeps its own plain type whatever it is attached to) */
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+}
+.lemma__head {
+  display: block;
+  font-family: var(--font-title);
+  font-size: var(--step-1);
+  line-height: 1.15;
+  color: var(--blue);
+}
+.lemma__box .lemma__line {
+  margin: 0.1rem 0 0.4rem;
+  color: color-mix(in srgb, var(--blue-deep) 70%, transparent);
+}
+.lemma__note {
+  display: block;
+}
+/* near the right edge of the window the note opens leftwards; near the top, downwards (LemmaNotes.astro) */
+.lemma--left > .lemma__box {
+  left: auto;
+  right: 0;
+  transform-origin: 88% 100%;
+}
+.lemma--below > .lemma__box {
+  bottom: auto;
+  top: calc(100% + 0.7rem);
+  transform-origin: 12% 0;
+}
 /* It opens a moment after the pointer arrives (the sound waits the same 260ms) */
-.lemma:is(:hover, :focus) .lemma__box {
+[data-lemma]:is(:hover, :focus) > .lemma__box {
   visibility: visible;
   opacity: 1;
   transform: rotate(-1.2deg);

@@ -9,6 +9,7 @@ import BackgroundMusic from '../components/BackgroundMusic.astro';
 import NewsletterDialog from '../components/NewsletterDialog.astro';
 import WaitlistDialog from '../components/WaitlistDialog.astro';
 import CookieNotice from '../components/CookieNotice.astro';
+import LemmaNotes from '../components/LemmaNotes.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -132,6 +133,7 @@ const { ui } = content(locale);
     <NewsletterDialog />
     <WaitlistDialog />
     <CookieNotice />
+    <LemmaNotes />
     <script>
       import '../scripts/motion.ts';
     </script>

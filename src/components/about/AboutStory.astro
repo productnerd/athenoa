@@ -7,7 +7,7 @@
 //   3 return   a darker blue cut-out; the arch portrait stands out of its top edge, Athena rises behind it
 //   4 academy  a light blue sheet laid over the corner of the last photograph, then the maxim
 import { handCase } from '../../lib/hand';
-import { withLemma } from '../../lib/lemma';
+import { withInlineLemmas, withLemma } from '../../lib/lemma';
 import type { ImageMetadata } from 'astro';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
@@ -61,7 +61,7 @@ const [roots, studies, back, academy] = about.story;
         {
           roots.paragraphs.map((text, i) => (
             <>
-              <p set:html={text} />
+              <p set:html={withInlineLemmas(text, locale)} />
             </>
           ))
         }
@@ -87,7 +87,7 @@ const [roots, studies, back, academy] = about.story;
         {
           studies.paragraphs.map((text, i) => (
             <>
-              <p set:html={text} />
+              <p set:html={withInlineLemmas(text, locale)} />
               {/* The marks of the institutions named so far stand where the academic part of the story ends */}
               {i === 3 && <Logos />}
             </>
@@ -114,7 +114,7 @@ const [roots, studies, back, academy] = about.story;
           />
         </div>
         <div class="story__text back__text" data-reveal>
-          {back.paragraphs.map((text) => <p set:html={withLemma(text, locale)} />)}
+          {back.paragraphs.map((text) => <p set:html={withLemma(withInlineLemmas(text, locale), locale)} />)}
         </div>
       </div>
     </div>
@@ -122,7 +122,7 @@ const [roots, studies, back, academy] = about.story;
     <div class="story__block academy">
       <div class="box on-blue-light academy__sheet" data-reveal>
         <div class="story__text academy__text">
-          {academy.paragraphs.map((text) => <p set:html={withLemma(text, locale)} />)}
+          {academy.paragraphs.map((text) => <p set:html={withLemma(withInlineLemmas(text, locale), locale)} />)}
         </div>
       </div>
       <div class="academy__photo" data-depth="0.1">
@@ -137,35 +137,6 @@ const [roots, studies, back, academy] = about.story;
     </div>
   </div>
 </section>
-
-<script>
-  // A dictionary entry opens its note a moment after the pointer (or the keyboard) rests on it, and
-  // a soft, warm two-note chime sounds as it opens (a low note, then the fifth above it). Silent when the visitor has muted the site.
-  const WAIT = 260; // the same pause the stylesheet gives the note before it opens
-  const VOLUME = 0.04;
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll<HTMLElement>('[data-lemma]:not([data-lemma-ready])').forEach((entry) => {
-      entry.dataset.lemmaReady = '';
-      let timer = 0;
-      const open = () => {
-        clearTimeout(timer);
-        timer = window.setTimeout(() => {
-          try {
-            if (localStorage.getItem('ath-music') === 'off') return;
-          } catch {}
-          const sound = new Audio('/audio/pluck.mp3');
-          sound.volume = VOLUME;
-          sound.play().catch(() => {});
-        }, WAIT);
-      };
-      const close = () => clearTimeout(timer);
-      entry.addEventListener('pointerenter', open);
-      entry.addEventListener('pointerleave', close);
-      entry.addEventListener('focus', open);
-      entry.addEventListener('blur', close);
-    });
-  });
-</script>
 
 <style>
   .story {

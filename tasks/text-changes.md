@@ -62,6 +62,7 @@ The enrol popup needs labels the live site never had (for example "View course",
   - Εὖ Ζῆν: "To live well. For Socrates what matters most is not living, but living well." Plato, Crito 48b.
   - ΓΝΩΘΙ ΣΑΥΤΟΝ: "One of the maxims inscribed at the temple of Apollo at Delphi." Pausanias 10.24.1.
 - The maxim is written «Γνῶθι Σαυτόν», in ordinary capitals with its accents, instead of ΓΝΩΘΙ ΣΑΥΤΟΝ (Maria, 12 October 2026).
+- More notes of the same kind, all new wording in `src/data/lemmas.ts`, English and Greek, each with a source: on the words Mnemosyne, Mathesis and Polity of the Soul in the About text, and on every symbol drawing (tetractys, monad, bow and lyre, cave and sun, ladder, torch, cypress, tripod, butterfly, Orphic egg, cicada, ear of wheat, lyre, laurel). The sources were written from memory and should be checked before launch.
 - Cookie notice (`src/components/CookieNotice.astro`): "Yiayia’s cookies" / «Τα κουλουράκια της γιαγιάς», a short text saying what the site keeps in the browser, and two buttons, "Yes, all of them" / "Only the essentials".
 
 ## About page (11 October 2026, at Maria's request)
