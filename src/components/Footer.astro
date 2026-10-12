@@ -278,9 +278,13 @@ const custom = Object.entries(images).find(([file]) =>
 
   /* The donkey brays: its head comes up twice. (The head is a group inside the drawing; it turns
      about the top of the neck. A short, one-off movement of a very small drawing.) */
+  /* at night the line is pale, so the pupils take the dark of the sky instead */
+  :global(html[data-theme='dark']) .footer__donkey {
+    --eye-pupil: var(--paper);
+  }
   .footer__donkey :global(.donkey__head) {
     transform-box: view-box;
-    transform-origin: 90px 36px;
+    transform-origin: 93px 35px;
   }
   @keyframes donkey-bray {
     0%,
