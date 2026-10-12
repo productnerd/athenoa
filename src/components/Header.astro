@@ -16,6 +16,8 @@ const isCurrent = (href: string) => {
   const here = trim(path);
   return target === '/' ? here === '/' : here === target || here.startsWith(`${target}/`);
 };
+// The page itself (not a page beneath it): its menu item has nowhere to go
+const isHere = (href: string) => trim(barePath(href)) === trim(path);
 ---
 
 <header class="header" data-header>
@@ -35,6 +37,7 @@ const isCurrent = (href: string) => {
               <a
                 href={item.href}
                 aria-current={isCurrent(item.href) ? 'page' : undefined}
+                data-here={isHere(item.href) ? '' : undefined}
                 lang={locale === 'grc' ? 'el' : undefined}
               >
                 {item.label}
@@ -94,6 +97,8 @@ const isCurrent = (href: string) => {
     };
     toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
     header.querySelectorAll('.header__links a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+    // The item of the page you are on does nothing (the pointer cannot reach it; this is for the keyboard)
+    header.querySelectorAll('.header__links a[data-here]').forEach((link) => link.addEventListener('click', (event) => event.preventDefault()));
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') setOpen(false);
     });
@@ -250,6 +255,11 @@ const isCurrent = (href: string) => {
   .header__links > li:not(.header__lang) > a:hover,
   .header__links > li:not(.header__lang) > a[aria-current='page'] {
     color: var(--blue);
+  }
+  /* The page you are on: its item keeps the mark but is not a way anywhere, so the pointer passes
+     over it as over plain text */
+  .header__links > li:not(.header__lang) > a[data-here] {
+    pointer-events: none;
   }
   /* The name and the little statue lean in together */
   .header__brand .header__logo {
