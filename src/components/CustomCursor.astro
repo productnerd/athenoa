@@ -62,7 +62,7 @@
       if (target.closest(TEXT)) return 'text';
       if (target.closest('[data-lemma]')) return 'help';
       if (target.closest(PRESSABLE)) return 'link';
-      if (target.closest('[data-footer-scene]')) return 'play';
+      if (target.closest('[data-footer-scene]:not([data-footer-done])')) return 'play';
       return 'plain';
     };
     window.addEventListener(

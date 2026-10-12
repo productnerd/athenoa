@@ -131,7 +131,9 @@ const custom = Object.entries(images).find(([file]) =>
   // The pictures at the foot of the pages answer a click.
   //   Home (Attica):     the donkey lifts its head twice and brays.
   //   About (Olympus):   a small bird flies out from behind a pine and off the screen, with a chirp.
-  //   Courses (Aegean):  the dolphins dive under the first wave; a second click and they leap again.
+  //                      Once only: it does not come back until the page is opened again.
+  //   Courses (Aegean):  the dolphins dive under the first wave with a splash; a second click and
+  //                      they leap again with another.
   // Sounds follow the site's sound button.
   const quiet = () => {
     try {
@@ -162,11 +164,19 @@ const custom = Object.entries(images).find(([file]) =>
         const donkey = scene.querySelector('.footer__donkey');
         if (donkey && once(donkey, 'is-braying', 2000)) play('/audio/bray.mp3', 0.16);
       } else if (kind === 'olympus') {
+        // once only: the bird has left, so later clicks find the tree empty
         const bird = scene.querySelector('[data-footer-flyer]');
-        if (bird && once(bird, 'is-flying', 3600)) window.setTimeout(() => play('/audio/chirp-2.mp3', 0.16), 250);
+        if (bird && !('footerDone' in scene.dataset)) {
+          scene.dataset.footerDone = '';
+          bird.classList.add('is-flying');
+          window.setTimeout(() => bird.classList.remove('is-flying'), 3600);
+          window.setTimeout(() => play('/audio/chirp-2.mp3', 0.16), 250);
+        }
       } else if (kind === 'aegean') {
         const dived = scene.classList.toggle('is-dived');
-        if (dived) window.setTimeout(() => play('/audio/daylight.mp3', 0.1), 450);
+        // a splash as they go under, another as they break the surface
+        if (dived) window.setTimeout(() => play('/audio/splash-in.mp3', 0.16), 450);
+        else window.setTimeout(() => play('/audio/splash-out.mp3', 0.16), 120);
       }
     });
   });
