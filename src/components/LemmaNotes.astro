@@ -9,7 +9,7 @@
 
 <script>
   const WAIT = 260; // the same pause the stylesheet gives the note before it opens
-  const VOLUME = 0.02;
+  const VOLUME = 0.022;
   document.addEventListener('astro:page-load', () => {
     document.querySelectorAll<HTMLElement>('[data-lemma]:not([data-lemma-ready])').forEach((entry) => {
       entry.dataset.lemmaReady = '';

@@ -6,6 +6,7 @@ import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
 import Illustration from '../Illustration.astro';
 import CourseCard from '../courses/CourseCard.astro';
+import CourseDialog from '../courses/CourseDialog.astro';
 import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
@@ -45,6 +46,9 @@ const announced = home.announcement.courses
     </ul>
   </div>
 </section>
+
+{/* The same popups as on the Courses page, so "Enroll" and the plus open in place here too */}
+{announced.map((course) => <CourseDialog course={course} />)}
 
 <script>
   // The dove's wings, very quietly, and a single chirp, as it flies in to the newsletter slip: eight soft beats in step

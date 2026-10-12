@@ -92,9 +92,9 @@ const symbolFor = 'structure';
         )
       }
       {
-        (waitlist || !isOpen) && (
+        waitlist && (
           <p class="body__actions">
-            {waitlist && (
+            {(
               <a
                 class="btn"
                 href={site.routes.contact}
@@ -105,11 +105,14 @@ const symbolFor = 'structure';
                 {ui.joinWaitlist}
               </a>
             )}
-            {!isOpen && (
-              <a class:list={['btn', waitlist && 'btn--quiet']} href={site.routes.contact}>
-                {ui.contactInstead}
-              </a>
-            )}
+          </p>
+        )
+      }
+      {/* A quiet way to ask something first; it opens an email to the Academy */}
+      {
+        !isOpen && (
+          <p class="body__ask">
+            {ui.waitlist.question} <a href={`mailto:${site.emails[0]}`}>{ui.contactInstead}</a>
           </p>
         )
       }
@@ -235,6 +238,14 @@ const symbolFor = 'structure';
     flex-wrap: wrap;
     align-items: center;
     gap: 0.35rem 1.5rem;
+  }
+
+  .body__ask {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .body__ask a {
+    color: inherit;
   }
 
   /* ---------- Popup ---------- */

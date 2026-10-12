@@ -96,21 +96,23 @@ const t = {
           <label for={`${id}-source`}>{ui.heardFrom}</label>
           <SourceField id={`${id}-source`} label={ui.heardFrom} />
         </div>
+        {/* No "Back": in the popup the cross closes it (client direction, 12 October 2026) */}
         <div class="enroll__actions">
           <button class="btn" type="submit">{ui.sendRequest}</button>
-          <button class="btn btn--ghost" type="button" data-enroll-back>{ui.back}</button>
         </div>
+        <p class="enroll__ask">
+          {ui.waitlist.question}{' '}
+          <a href={`mailto:${site.emails[0]}`}>{ui.contactInstead}</a>
+        </p>
       </form>
 
       {/* Shown in place of the form once it has been filled in */}
       <div class="enroll__panel" data-enroll-sent tabindex="-1">
-        <p class="enroll__notice on-blue-light">
-          {ui.requestPending}{' '}
-          <a href={site.routes.contact}>{ui.contactInstead}</a>
+        <p class="enroll__notice on-blue-light">{ui.requestPending}</p>
+        <p class="enroll__ask">
+          {ui.waitlist.question}{' '}
+          <a href={`mailto:${site.emails[0]}`}>{ui.contactInstead}</a>
         </p>
-        <div class="enroll__actions">
-          <button class="btn btn--ghost" type="button" data-enroll-back>{ui.back}</button>
-        </div>
       </div>
     </div>
   </div>
@@ -304,6 +306,14 @@ const t = {
     white-space: nowrap;
   }
 
+  /* The way to ask something first: small and quiet, under everything else */
+  .enroll__ask {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .enroll__ask a {
+    color: inherit;
+  }
   /* A few lines are enough for "why": shorter than the message box of the contact form */
   .enroll__panel textarea {
     min-height: 5.5rem;
