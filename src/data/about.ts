@@ -57,7 +57,7 @@ export const about = {
       paragraphs: [
         'In our Academy, the in-depth study of Ancient Texts, Dialectics, Interdisciplinarity that unites the Philosophical, Theological, and Psychological with the Physical and Cosmological dimensions of Knowledge, Etymology and contact with the all-powerful Ancient Greek Language, are complemented by the teaching of direct experiential practices and tools of spiritual technology, such as: Meditations, Methods of Self-Knowledge, Ancient Hieratic Art, Orphic Hymns, direct study of Consciousness, as well as ethical criteria for action in our daily life.',
         'In this way, Philosophy is approached not as a vague theoretical knowledge, but is highlighted as a Way of Life - and, according to Plato’s words, as a Polity of the Soul.',
-        'The goal of our Academy is the Promotion of the Hellenic Teaching, the Revival of the Greek Spiritual Tradition, and the Fulfillment of the Apollonian Command: <span lang="grc">ΓΝΩΘΙ ΣΑΥΤΟΝ</span> “Know Thyself”.',
+        'The goal of our Academy is the Promotion of the Hellenic Teaching, the Revival of the Greek Spiritual Tradition, and the Fulfillment of the Apollonian Command: <span lang="grc">Γνῶθι Σαυτόν</span> “Know Thyself”.',
       ],
     },
   ],

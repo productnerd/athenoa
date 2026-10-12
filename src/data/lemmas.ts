@@ -23,7 +23,7 @@ export const lemmas: Record<string, Lemma> = {
     },
     source: { en: 'Plato, Crito 48b', el: 'Πλάτων, Κρίτων 48b' },
   },
-  'ΓΝΩΘΙ ΣΑΥΤΟΝ': {
+  'Γνῶθι Σαυτόν': {
     say: 'gnôthi sautón',
     kind: { en: 'maxim', el: 'παράγγελμα' },
     note: {
