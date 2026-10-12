@@ -154,6 +154,24 @@ const looks = [
     border-radius: var(--r-arch);
     pointer-events: none;
   }
+  /* The same slow breathing as the line around the framed portrait, without the turn (it is an arch) */
+  @keyframes niche-breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    35% {
+      transform: scale(1.018, 1.01);
+    }
+    70% {
+      transform: scale(0.992, 1.014);
+    }
+  }
+  :global(html.motion) .niche::after {
+    transform-origin: 50% 100%;
+    animation: niche-breathe 10s ease-in-out infinite;
+    will-change: transform;
+  }
 
   /* ---------- The three points ---------- */
   .points {

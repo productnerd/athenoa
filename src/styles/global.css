@@ -588,6 +588,27 @@ b {
   border-radius: var(--media-r, var(--r-soft));
   pointer-events: none;
 }
+/* The line breathes: it swells and settles very slowly, a little unevenly, like a line still being
+   drawn (client direction, 12 October 2026). Only its transform moves, so nothing is redrawn. */
+@keyframes outline-breathe {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  30% {
+    transform: scale(1.022, 1.012) rotate(1.4deg);
+  }
+  62% {
+    transform: scale(0.99, 1.02) rotate(-1deg);
+  }
+  84% {
+    transform: scale(1.014, 0.994) rotate(0.5deg);
+  }
+}
+html.motion .media--framed::before {
+  animation: outline-breathe 9s ease-in-out infinite;
+  will-change: transform;
+}
 .media figcaption {
   margin-top: 0.7rem;
   font-size: var(--step--1);

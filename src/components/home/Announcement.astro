@@ -47,10 +47,11 @@ const announced = home.announcement.courses
 </section>
 
 <script>
-  // The dove's wings, very quietly, as it flies in to the newsletter slip: eight soft beats in step
+  // The dove's wings, very quietly, and a single chirp, as it flies in to the newsletter slip: eight soft beats in step
   // with the drawing (which starts half a second after the slip comes into view). Once per visit to
   // the page, only with motion on, and silent when the visitor has muted the site's sound.
-  const VOLUME = 0.14;
+  const VOLUME = 0.07;
+  const CHIRP = 0.16;
   document.addEventListener('astro:page-load', () => {
     const slip = document.querySelector<HTMLElement>('.slip');
     if (!slip || slip.dataset.wings) return;
@@ -63,6 +64,10 @@ const announced = home.announcement.courses
       const sound = new Audio('/audio/wings.mp3');
       sound.volume = VOLUME;
       window.setTimeout(() => sound.play().catch(() => {}), 500);
+      // and one small chirp as it comes in over the slip
+      const chirp = new Audio('/audio/chirp-single.mp3');
+      chirp.volume = CHIRP;
+      window.setTimeout(() => chirp.play().catch(() => {}), 1700);
     };
     if (slip.classList.contains('is-in')) return; // already in view when the page opened: no sound
     const watch = new MutationObserver(() => {
