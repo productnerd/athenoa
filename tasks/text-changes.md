@@ -67,6 +67,7 @@ The enrol popup needs labels the live site never had (for example "View course",
 - "(discipleship)" after Mathesis no longer shows in the line; it stands in the note on the word, whose sentence now speaks of learning beside a teacher. "Usui Reiki" has a note too (new wording). Maria, 12 October 2026.
 - "Mystagogy" has a note too (new wording; its source line gives the word's parts, μύστης and ἄγω). Maria, 12 October 2026.
 - Contact section: the line under the title ("Contact us regarding our work, upcoming courses, retreats, articles and more.") is no longer shown (Maria, 12 October 2026). It stays in the data and in the page's text twin for search and AI readers.
+- Waitlist popup: a quiet line under the button, "Got a question? Contact us" (Greek: «Έχετε κάποια ερώτηση; Επικοινωνήστε μαζί μας»), which opens an email to philathenea@athenoa.academy. The "Contact us" link that showed after submitting is gone. Maria, 12 October 2026.
 - Cookie notice (`src/components/CookieNotice.astro`): "Yiayia’s cookies" / «Τα κουλουράκια της γιαγιάς», a short text saying what the site keeps in the browser, and two buttons, "Yes, all of them" / "Only the essentials".
 
 ## About page (11 October 2026, at Maria's request)

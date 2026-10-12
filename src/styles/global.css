@@ -516,20 +516,39 @@ b {
   rotate: 0.9deg;
 }
 
-/* The crown of rays behind a picture turns a little one way and then the other, and swells by a
-   hair: very slowly (client direction, 12 October 2026). Only the drawing's own transform moves. */
-@keyframes rays-breathe {
+/* The crown of rays behind a picture: its rays grow longer and shorter, slowly and never together
+   (client direction, 12 October 2026). The drawing arrives as three sets of rays, one over another
+   (Illustration.astro); each set swells from the centre and draws back in its own time, so
+   neighbouring rays are always at different lengths. Their inner ends lie behind the picture, so
+   only the tips are seen to move. Transforms only: nothing is redrawn. */
+:where(.illo--sun-rays) {
+  position: relative;
+}
+.illo--sun-rays svg + svg {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+@keyframes rays-length {
   from {
-    transform: rotate(-2.2deg) scale(1);
+    transform: scale(0.925) rotate(-0.8deg);
   }
   to {
-    transform: rotate(2.2deg) scale(1.035);
+    transform: scale(1.005) rotate(0.8deg);
   }
 }
 html.motion .illo--sun-rays svg {
   transform-origin: 50% 50%;
-  animation: rays-breathe 28s ease-in-out infinite alternate;
+  animation: rays-length 9s ease-in-out infinite alternate;
   will-change: transform;
+}
+html.motion .illo--sun-rays svg:nth-of-type(2) {
+  animation-duration: 12.5s;
+  animation-delay: -5s;
+}
+html.motion .illo--sun-rays svg:nth-of-type(3) {
+  animation-duration: 16s;
+  animation-delay: -11s;
 }
 
 /* ---------- A Greek word as a dictionary entry ---------- */

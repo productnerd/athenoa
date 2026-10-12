@@ -271,6 +271,9 @@ State when work stopped: all background agents were stopped. Hero candidates A/B
 - [x] 404: night view has the hero's night sky (galaxy, glimmering stars, a falling star every 25 s) and stays blue to the bottom; the sentence in the sky is handwritten; the note under the button is larger; a mellow sea loops very quietly (synthesised, volume 0.09, follows the sound button); a gust of wind sounds on "Back to Ithaka"
 - [x] Night view: the rays behind Apollo are drawn in light blue (they had sunk into the dark page); the dove's eye stays pale with a dark pupil on the pale slip
 - [x] The cut-outs behind the Benefits photographs breathe slowly
+- [x] PUSHED at her word on 12 October 2026 (through "Night: rays behind Apollo visible…"); the preview redeployed.
+- [x] Sun rays: three sets of rays lengthen and shorten out of step, wherever the drawing is used (About hero, Apollo niche, seminar lyre, course page). NOT PUSHED.
+- [x] Waitlist popup: quiet "Got a question? Contact us" line under the button, opening an email. NOT PUSHED.
 - [ ] BEFORE LAUNCH: check every source cited in src/data/lemmas.ts against a text (written from memory); Athena to approve the notes
 - [ ] A symbol's note inside the enrolment form may be cut off by the form's scrolling area: not checked
 

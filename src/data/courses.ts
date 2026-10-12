@@ -251,6 +251,8 @@ export const coursesPage = {
       // Followed by the title of the course
       forCourse: 'For the course',
       submit: 'Add me to the list',
+      // The quiet line under the button, followed by a link that opens an email to the Academy
+      question: 'Got a question?',
       // Shown in place of the form after a valid address is entered: the waitlist is not connected yet.
       pending: 'The waitlist is not connected yet. Your address has not been sent anywhere.',
     },

@@ -23,6 +23,16 @@ const files = import.meta.glob<string>('../assets/illustrations/*.svg', {
 const svg = files[`../assets/illustrations/${name}.svg`];
 if (!svg) throw new Error(`Illustration "${name}" not found in src/assets/illustrations`);
 const about = note ? symbolNote(name, getLocale(Astro.url)) : undefined;
+// The sun's rays are handed to the page as three drawings laid over one another, every third ray in
+// each, so that each set can lengthen and shorten in its own time (global.css) by its transform
+// alone. Animating the rays inside one drawing would have it redrawn on every frame.
+const layers = (source: string, n: number) => {
+  const open = source.match(/^<svg[^>]*>/)?.[0];
+  const shapes = source.match(/<path[^>]*\/>/g);
+  if (!open || !shapes) return [source];
+  return Array.from({ length: n }, (_, k) => open + shapes.filter((_, i) => i % n === k).join('') + '</svg>');
+};
+const drawings = name === 'sun-rays' ? layers(svg, 3) : [svg];
 ---
 
 <span
@@ -36,5 +46,5 @@ const about = note ? symbolNote(name, getLocale(Astro.url)) : undefined;
   aria-describedby={about?.id}
   {...rest}
 >
-  <Fragment set:html={svg} />{about && <Fragment set:html={about.html} />}
+  {drawings.map((drawing) => <Fragment set:html={drawing} />)}{about && <Fragment set:html={about.html} />}
 </span>

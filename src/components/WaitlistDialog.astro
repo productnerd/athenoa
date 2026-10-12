@@ -52,9 +52,14 @@ const t = ui.waitlist;
            connected yet, and the popup says so. -->
       <div class="wl__note" tabindex="-1" data-waitlist-note>
         <p>{t.pending}</p>
-        <p><a href={site.routes.contact} data-waitlist-contact>{ui.contactInstead}</a></p>
       </div>
     </div>
+
+    {/* A quiet line under the button, in both states: it opens an email to the Academy */}
+    <p class="wl__ask">
+      {t.question}{' '}
+      <a href={`mailto:${site.emails[0]}`}>{ui.contactInstead}</a>
+    </p>
   </div>
 </dialog>
 
@@ -129,7 +134,6 @@ const t = ui.waitlist;
     });
 
     // Leave the popup before going to the contact form.
-    dialog.querySelector('[data-waitlist-contact]')!.addEventListener('click', () => dialog.close());
 
     dialog.addEventListener('close', () => {
       dialog.classList.remove('is-closing');
@@ -337,5 +341,14 @@ const t = ui.waitlist;
   :global(html.motion) .wl.is-closing::backdrop {
     opacity: 0;
     transition-duration: 0.26s;
+  }
+  /* The way to ask something first: small and quiet, under everything else */
+  .wl__ask {
+    margin-top: var(--space-s);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .wl__ask a {
+    color: inherit;
   }
 </style>
