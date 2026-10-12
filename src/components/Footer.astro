@@ -175,8 +175,8 @@ const custom = Object.entries(images).find(([file]) =>
       } else if (kind === 'aegean') {
         const dived = scene.classList.toggle('is-dived');
         // a splash as they go under, another as they break the surface
-        if (dived) window.setTimeout(() => play('/audio/splash-in.mp3', 0.16), 450);
-        else window.setTimeout(() => play('/audio/splash-out.mp3', 0.16), 120);
+        if (dived) window.setTimeout(() => play('/audio/splash-in.mp3', 0.12), 450);
+        else window.setTimeout(() => play('/audio/splash-out.mp3', 0.12), 120);
       }
     });
   });
