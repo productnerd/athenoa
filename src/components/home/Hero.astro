@@ -190,10 +190,12 @@ const rowsOf = (text: string) => {
     --hero-rows: 4;
     /* air between the header and the title: the title starts high, under the header */
     --hero-top: clamp(1.25rem, 5svh, 3.5rem);
-    --hero-fs: min(
-      calc(var(--hero-col) / var(--hero-fitw)),
-      calc((var(--hero-open) - var(--hero-top)) * 0.9 / (var(--hero-rows) * 0.95 + 1)),
-      10rem
+    --hero-fs: calc(
+      min(
+          calc(var(--hero-col) / var(--hero-fitw)),
+          calc((var(--hero-open) - var(--hero-top)) * 0.9 / (var(--hero-rows) * 0.95 + 1)),
+          10rem
+        ) * var(--hero-trim, 1)
     );
 
     /* The picture runs under the sticky header, to the top of the window. */
@@ -203,6 +205,11 @@ const rowsOf = (text: string) => {
   /* Greek titles fall back to a wider face and the words are longer: four rows. The column has
      to hold the two highlighted words, which stand beside the roof; the second row is longer,
      but it stands high in the open sky above the temple, so it may run past the column. */
+  /* English beside the temple: a little smaller than the column would allow (client direction,
+     13 October 2026). Only this stack reads it; the phone and nearly-square titles set their own size. */
+  .hero--en {
+    --hero-trim: 0.9;
+  }
   .hero--el {
     --hero-fit: 6.85;
     --hero-rows: 4;
