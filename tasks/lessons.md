@@ -53,3 +53,8 @@
 - What happened: `.header__links li:not(...) a` was meant for the menu links but also matched the links of the language list nested inside one of those items, so the list took the menu's large title type on phones.
 - Rule: when a list can contain another list, style its items with child combinators (`> li > a`).
 
+
+## Sounds must be tested where the visitor is, not only in Chrome (13 October 2026)
+- Maria heard nothing on the GitHub Pages preview in Safari. Three causes, none visible in my Chrome tests: (1) Safari refuses `new Audio().play()` outside a click, and most effects answered timers, scroll or hover; (2) the fire sound waited for the music to be playing, and the music file is not on the preview; (3) with no music file the sound button could not switch anything.
+- Rule: short sounds go through `src/scripts/sound.ts` (one Web Audio context, woken by the first gesture). No sound may depend on another file having loaded. Say plainly when a browser is untested, and test with the music file blocked as well as present.
+- Still open: looping sounds (music, fire, sea) are `<audio>` elements, whose volume the iPhone ignores, so they may play at full loudness there. Untested.
