@@ -38,9 +38,9 @@
     let frame = 0;
     let began = 0; // when the current fade in started
 
+    // It follows the sound button's stored choice, after the first gesture. (It used to follow whether
+    // the music was actually playing, so with the music file missing the fire never sounded at all.)
     const allowed = () => {
-      if (music) return !music.paused;
-      // No music on this page: go by the stored choice and the first gesture instead
       try {
         return gestured && localStorage.getItem(KEY) !== 'off';
       } catch {
@@ -88,6 +88,11 @@
         cleanup.push(() => music.removeEventListener(type, apply));
       }
     }
+    // The sound button itself: its own listener stores the choice first, then this one reads it
+    const toggle = document.querySelector('[data-music-toggle]');
+    const onToggle = () => window.setTimeout(apply, 0);
+    toggle?.addEventListener('click', onToggle);
+    cleanup.push(() => toggle?.removeEventListener('click', onToggle));
 
     // The music starts on the first click, tap or key press, in a listener that runs before this one.
     // Answering the same gesture lets the fire start inside it, which some browsers insist on.

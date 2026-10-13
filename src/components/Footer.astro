@@ -134,20 +134,8 @@ const custom = Object.entries(images).find(([file]) =>
   //                      Once only: it does not come back until the page is opened again.
   //   Courses (Aegean):  the dolphins dive under the first wave with a splash; a second click and
   //                      they leap again with another.
-  // Sounds follow the site's sound button.
-  const quiet = () => {
-    try {
-      return localStorage.getItem('ath-music') === 'off';
-    } catch {
-      return false;
-    }
-  };
-  const play = (file: string, volume: number) => {
-    if (quiet()) return;
-    const sound = new Audio(file);
-    sound.volume = volume;
-    sound.play().catch(() => {});
-  };
+  // Sounds follow the site's sound button (see scripts/sound.ts).
+  import { playSound as play } from '../scripts/sound';
   const once = (el: Element, name: string, ms: number) => {
     if (el.classList.contains(name)) return false;
     el.classList.add(name);

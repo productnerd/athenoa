@@ -139,6 +139,8 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
 <audio src="/audio/sea.mp3" loop preload="none" data-nf-sea></audio>
 
 <script>
+  import { playSound } from '../../scripts/sound';
+
   // Sound on the not-found page. The sea plays under everything, very low, while the site's sound is
   // on (it follows the music button, and starts with the first click or key press, as browsers
   // require). A gust of wind fills the sail when "Back to Ithaka" is pressed.
@@ -184,9 +186,7 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
     const wind = (event: Event) => {
       const link = event.target instanceof Element ? event.target.closest('[data-nf-home]') : null;
       if (!link || muted()) return;
-      const gust = new Audio('/audio/wind.mp3');
-      gust.volume = WIND;
-      gust.play().catch(() => {});
+      playSound('/audio/wind.mp3', WIND);
     };
     music?.addEventListener('play', follow);
     music?.addEventListener('pause', follow);

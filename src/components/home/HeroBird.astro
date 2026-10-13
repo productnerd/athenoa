@@ -17,6 +17,8 @@ import Illustration from '../Illustration.astro';
 </span>
 
 <script>
+  import { playSound } from '../../scripts/sound';
+
   const PERIOD = 25000; // one visit every twenty-five seconds
   const VOLUME = 0.187;
   // Three calls; each visit sings the next one
@@ -66,14 +68,7 @@ import Illustration from '../Illustration.astro';
       return false;
     };
 
-    const chirp = () => {
-      try {
-        if (localStorage.getItem('ath-music') === 'off') return;
-      } catch {}
-      const sound = new Audio(CALLS[call++ % CALLS.length]);
-      sound.volume = VOLUME;
-      sound.play().catch(() => {});
-    };
+    const chirp = () => playSound(CALLS[call++ % CALLS.length], VOLUME);
 
     let timers: number[] = [];
     const at = (ms: number, state: string, then?: () => void) =>

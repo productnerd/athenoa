@@ -59,6 +59,8 @@ const { ui } = content(getLocale(Astro.url));
 </div>
 
 <script>
+  import { playSound } from '../scripts/sound';
+
   const KEY = 'ath-music';
   const AT = 'ath-music-at'; // where in the piece the last page left off (this tab only)
   const VOLUME = 0.112; // very low: it should sit under the page, not on top of it (lowered by a fifth on 11 October 2026)
@@ -75,8 +77,11 @@ const { ui } = content(getLocale(Astro.url));
       wanted = localStorage.getItem(KEY) !== 'off';
     } catch {}
 
+    // With no music file to play (it is kept out of the public preview until its licence is settled)
+    // the button still switches the site's other sounds, so it then shows the stored choice.
+    let broken = audio.error !== null;
     const render = () => {
-      const playing = !audio.paused;
+      const playing = broken ? wanted : !audio.paused;
       const label = playing ? button.dataset.labelOn! : button.dataset.labelOff!;
       button.setAttribute('aria-pressed', String(playing));
       button.setAttribute('aria-label', label);
@@ -124,7 +129,7 @@ const { ui } = content(getLocale(Astro.url));
     };
 
     button.addEventListener('click', () => {
-      if (audio.paused) {
+      if (broken ? !wanted : audio.paused) {
         wanted = true;
         remember('on');
         start();
@@ -133,6 +138,11 @@ const { ui } = content(getLocale(Astro.url));
         remember('off');
         audio.pause();
       }
+      if (broken) render();
+    });
+    audio.addEventListener('error', () => {
+      broken = true;
+      render();
     });
 
     // First interaction anywhere on the page starts the music, unless it was the mute button itself.
@@ -179,14 +189,7 @@ const { ui } = content(getLocale(Astro.url));
         moon.setAttribute('aria-label', text);
         moon.title = text;
       };
-      const play = (file: string) => {
-        try {
-          if (localStorage.getItem(KEY) === 'off') return;
-        } catch {}
-        const sound = new Audio(file);
-        sound.volume = 0.14;
-        sound.play().catch(() => {});
-      };
+      const play = (file: string) => playSound(file, 0.14);
       const apply = (night: boolean) => {
         if (night) page.dataset.theme = 'dark';
         else delete page.dataset.theme;

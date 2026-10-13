@@ -8,6 +8,8 @@
 ---
 
 <script>
+  import { playSound } from '../scripts/sound';
+
   const WAIT = 260; // the same pause the stylesheet gives the note before it opens
   const VOLUME = 0.022;
   document.addEventListener('astro:page-load', () => {
@@ -23,14 +25,7 @@
           if (host.top - note.offsetHeight < 96) entry.classList.add('lemma--below');
         }
         clearTimeout(timer);
-        timer = window.setTimeout(() => {
-          try {
-            if (localStorage.getItem('ath-music') === 'off') return;
-          } catch {}
-          const sound = new Audio('/audio/pluck.mp3');
-          sound.volume = VOLUME;
-          sound.play().catch(() => {});
-        }, WAIT);
+        timer = window.setTimeout(() => playSound('/audio/pluck.mp3', VOLUME), WAIT);
       };
       const close = () => clearTimeout(timer);
       entry.addEventListener('pointerenter', open);
