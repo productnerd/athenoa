@@ -29,8 +29,9 @@ const highlight = home.hero.highlight;
 // without her. Set this to true to show them all again; nothing else needs to change.
 const showAthena = false;
 // Beside the picture the title is a tall stack. Words per row, for the words before the highlight
-// (each highlighted word takes a row of its own).
-const stack = { en: [1, 2, 1], el: [1, 2], grc: [1, 3] }[locale];
+// (each highlighted word takes a row of its own). English: "STUDY AT / THE MODERN / PLATONIC /
+// ACADEMY" (client direction, 13 October 2026).
+const stack = { en: [2, 2], el: [1, 2], grc: [1, 3] }[locale];
 const rowsOf = (text: string) => {
   const words = text.trim().split(/\s+/).filter(Boolean);
   const rows: string[] = [];
@@ -186,7 +187,7 @@ const rowsOf = (text: string) => {
     --hero-fit: 5.3;
     /* the same, scaled for a title face of another width (--type-wide; 1 for PP Editorial New) */
     --hero-fitw: calc(var(--hero-fit) * var(--type-wide, 1));
-    --hero-rows: 5;
+    --hero-rows: 4;
     /* air between the header and the title: the title starts high, under the header */
     --hero-top: clamp(1.25rem, 5svh, 3.5rem);
     --hero-fs: min(
@@ -796,39 +797,9 @@ const rowsOf = (text: string) => {
     animation: hero-flame-2 1.7s ease-in-out infinite;
   }
 
-  /* ---------- wide screens, English: the title in two long lines across the sky ----------
-     (client direction, 11 October 2026: "the section for the headline text should be wider, there
-     is no reason for each word to have its own line"). "STUDY AT THE MODERN" over "PLATONIC
-     ACADEMY", as large as the height above the temple's roof allows: the lines may run out over
-     the open sky above the temple, and the subtitle sits under them on the left. --hero-fit is the
-     ems the first line needs, with room to spare for a wider fallback face, so that the second
-     highlighted word never joins the first line and a third line never appears. Greek keeps its
-     four shorter rows: its words are much longer. */
-  @media (min-width: 38rem) and (min-aspect-ratio: 5001/4000) {
-    .hero--en {
-      --hero-fit: 11.6;
-      --hero-gap: clamp(0.75rem, 2.2svh, 1.5rem);
-      /* from the foot of the screen to the tips of the rays over the roof */
-      --hero-roof: calc(var(--scene-b) + var(--scene-h) * 0.69);
-      --hero-fs: min(
-        /* never wider than three quarters of the window (client direction) */
-        calc(var(--panel-w) * 0.75 / var(--hero-fitw)),
-        calc((var(--hero-open) - var(--hero-top) - var(--hero-roof) - var(--hero-gap)) / 1.9),
-        10rem
-      );
-    }
-    .hero--en .hero__title {
-      width: calc(var(--hero-fitw) * 1em);
-      max-width: none;
-    }
-    .hero--en .hero__row {
-      display: inline;
-    }
-    .hero--en .hero__title .hl__w {
-      display: inline-block;
-      width: auto;
-    }
-  }
+  /* (Wide screens, English: for two days the title ran in two long lines across the sky. The client
+     went back to the stack on 13 October 2026: four rows on the left, beside the temple, which
+     leaves less empty sky.) */
 
   /* ---------- phones and upright screens: the title in the sky above, the picture below ----------
      Anything wider than it is tall, from about 600px up (a tablet on its side, a small window),
