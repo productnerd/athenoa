@@ -51,8 +51,12 @@ html.motion [data-reveal='unveil'] {
   overflow: clip;
   overflow-clip-margin: 0.12em;
   vertical-align: bottom;
-  padding-block: 0.06em;
-  margin-block: -0.06em;
+  /* Room inside the mask for tails below the line (g, j, y) and marks above it. The titles are set
+     tighter than their letters are tall, and Safari has no overflow-clip-margin, so the room has to
+     be real: 0.06em was not enough there, and the g of "Joining" lost its foot in the stand-in title
+     face. The negative margin gives the same space back, so nothing moves. */
+  padding-block: 0.1em 0.32em;
+  margin-block: -0.1em -0.32em;
 }
 [data-split] .w__i {
   display: inline-block;
