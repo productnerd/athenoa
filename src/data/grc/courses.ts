@@ -203,7 +203,7 @@ export const coursesPage = {
     // The four facts as four questions: when, for how long, how, and (Apology 20b) for how much.
     facts: { dates: 'Πότε', duration: 'Πόσον χρόνον', format: 'Πῶς', fee: 'Πόσου' },
     close: 'Κλείσατε',
-    enroll: 'Ἄρξασθε',
+    enroll: 'Ἐγγράψασθε',
     placeholderNote:
       'Τὰ καθ’ ἕκαστα τοῦ μαθήματος ὅσον οὔπω ἥξει. Καταλίπετε τὸ ὄνομα, καὶ ἐπιστελοῦμεν ὑμῖν ἐπειδὰν ἡ ἐγγραφὴ ἀνοιχθῇ.',
     placeholderBadge: 'Τὰ καθ’ ἕκαστα ἐν τάχει',

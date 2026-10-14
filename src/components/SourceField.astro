@@ -1,7 +1,11 @@
 ---
 // The controls for "Where did you hear about us?": a list of answers and, when "Other" is chosen, a
 // small field to say where. The caller provides the wrapper (.field) and the label.
-// No script: the extra field is shown by the stylesheet while "Other" is the chosen answer.
+//
+// The list opens as one of the site's own slips of paper, like the language list in the header,
+// rather than the browser's grey menu (client direction, 14 October 2026). The browser's <select>
+// stays underneath: it is what the form sends and checks, and without JavaScript it is all there is.
+// The extra field is shown by the stylesheet while "Other" is the chosen answer.
 import { sources } from '../data/sources';
 import { getLocale } from '../lib/locale';
 
@@ -14,14 +18,43 @@ interface Props {
 }
 const { id, name = 'source', label, required = false } = Astro.props;
 const t = sources[getLocale(Astro.url)];
+const answers = [...t.options, t.other];
 ---
 
-<div class="source">
+<div class="source" data-source>
   <select id={id} name={name} required={required} data-label={label}>
     <option value="">{t.choose}</option>
     {t.options.map((option) => <option value={option}>{option}</option>)}
     <option value={t.other} data-other>{t.other}</option>
   </select>
+
+  {/* The list as the visitor sees it (shown once the script below has run) */}
+  <div class="pick" data-pick hidden>
+    <button
+      class="pick__button is-empty"
+      type="button"
+      id={`${id}-pick`}
+      aria-haspopup="listbox"
+      aria-expanded="false"
+      aria-controls={`${id}-list`}
+      data-stands-for={id}
+    >
+      <span class="pick__value" id={`${id}-value`} data-pick-value>{t.choose}</span>
+      <svg class="pick__arrow" viewBox="0 0 12 8" aria-hidden="true" focusable="false">
+        <path d="M1.2 1.6 6 6.3l4.8-4.7"></path>
+      </svg>
+    </button>
+    <ul class="pick__list" id={`${id}-list`} role="listbox" tabindex="-1" hidden data-pick-list>
+      {
+        answers.map((answer, n) => (
+          <li class="pick__option" id={`${id}-o${n}`} role="option" aria-selected="false" data-value={answer}>
+            {answer}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
   <input
     class="source__other"
     type="text"
@@ -33,8 +66,133 @@ const t = sources[getLocale(Astro.url)];
   />
 </div>
 
+<script>
+  function enhance(root: HTMLElement) {
+    const select = root.querySelector('select')!;
+    const pick = root.querySelector<HTMLElement>('[data-pick]')!;
+    const button = pick.querySelector<HTMLButtonElement>('button')!;
+    const value = pick.querySelector<HTMLElement>('[data-pick-value]')!;
+    const list = pick.querySelector<HTMLUListElement>('[data-pick-list]')!;
+    const options = Array.from(list.querySelectorAll<HTMLLIElement>('[role="option"]'));
+    const placeholder = value.textContent ?? '';
+
+    // The question names both the button and the list
+    const label = document.querySelector<HTMLLabelElement>(`label[for="${select.id}"]`);
+    if (label) {
+      label.id ||= `${select.id}-label`;
+      label.htmlFor = button.id;
+      button.setAttribute('aria-labelledby', `${label.id} ${value.id}`);
+      list.setAttribute('aria-labelledby', label.id);
+    }
+    // The browser's list steps back: still sent and checked with the form, never seen or tabbed to
+    select.tabIndex = -1;
+    select.setAttribute('aria-hidden', 'true');
+    root.classList.add('source--picked');
+    pick.hidden = false;
+
+    let active = -1;
+    const show = () => {
+      const chosen = select.value;
+      value.textContent = chosen || placeholder;
+      button.classList.toggle('is-empty', !chosen);
+      options.forEach((option) => option.setAttribute('aria-selected', String(option.dataset.value === chosen)));
+    };
+    const mark = (n: number) => {
+      active = (n + options.length) % options.length;
+      options.forEach((option, i) => option.classList.toggle('is-active', i === active));
+      list.setAttribute('aria-activedescendant', options[active].id);
+      options[active].scrollIntoView({ block: 'nearest' });
+    };
+    const open = () => {
+      if (!list.hidden) return;
+      list.hidden = false;
+      // upwards when the window has no room for it below and more room above
+      root.classList.remove('is-up');
+      const at = button.getBoundingClientRect();
+      const tall = list.offsetHeight + 16;
+      if (window.innerHeight - at.bottom < tall && at.top > window.innerHeight - at.bottom) root.classList.add('is-up');
+      button.setAttribute('aria-expanded', 'true');
+      root.classList.add('is-open');
+      mark(Math.max(0, options.findIndex((option) => option.dataset.value === select.value)));
+      list.focus({ preventScroll: true });
+    };
+    const close = (refocus = true) => {
+      if (list.hidden) return;
+      list.hidden = true;
+      button.setAttribute('aria-expanded', 'false');
+      root.classList.remove('is-open');
+      list.removeAttribute('aria-activedescendant');
+      if (refocus) button.focus({ preventScroll: true });
+    };
+    const choose = (n: number) => {
+      select.value = options[n].dataset.value ?? '';
+      // as if the visitor had used the list itself: the form, the "Other" field and the messages follow
+      select.dispatchEvent(new Event('input', { bubbles: true }));
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+      show();
+      close();
+      // "Other": straight on to say where
+      if (root.querySelector<HTMLOptionElement>('option[data-other]')?.selected)
+        root.querySelector<HTMLInputElement>('.source__other')?.focus();
+    };
+
+    button.addEventListener('click', () => (list.hidden ? open() : close()));
+    button.addEventListener('keydown', (event) => {
+      if (['ArrowDown', 'ArrowUp', 'Enter', ' '].includes(event.key)) {
+        event.preventDefault();
+        open();
+      }
+    });
+    list.addEventListener('keydown', (event) => {
+      const keys: Record<string, () => void> = {
+        ArrowDown: () => mark(active + 1),
+        ArrowUp: () => mark(active - 1),
+        Home: () => mark(0),
+        End: () => mark(options.length - 1),
+        Enter: () => choose(active),
+        ' ': () => choose(active),
+        Escape: () => close(),
+      };
+      if (keys[event.key]) {
+        event.preventDefault();
+        keys[event.key]();
+        return;
+      }
+      if (event.key === 'Tab') return close(false);
+      // a letter jumps to the next answer that starts with it
+      if (event.key.length === 1) {
+        const letter = event.key.toLocaleLowerCase();
+        for (let i = 1; i <= options.length; i++) {
+          const n = (active + i) % options.length;
+          if (options[n].textContent?.trim().toLocaleLowerCase().startsWith(letter)) return mark(n);
+        }
+      }
+    });
+    options.forEach((option, n) => {
+      option.addEventListener('pointermove', () => n !== active && mark(n));
+      option.addEventListener('click', () => choose(n));
+    });
+    // a press anywhere else closes it
+    document.addEventListener('pointerdown', (event) => {
+      if (!list.hidden && !pick.contains(event.target as Node)) close(false);
+    });
+    list.addEventListener('focusout', (event) => {
+      if (!pick.contains(event.relatedTarget as Node)) close(false);
+    });
+    // the form emptied (or the list changed some other way): show what it holds now
+    select.addEventListener('change', show);
+    select.form?.addEventListener('reset', () => window.setTimeout(show));
+    show();
+  }
+
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll<HTMLElement>('[data-source]:not(.source--picked)').forEach(enhance);
+  });
+</script>
+
 <style>
   .source {
+    position: relative;
     display: grid;
     gap: 0.5rem;
   }
@@ -49,5 +207,150 @@ const t = sources[getLocale(Astro.url)];
     .source__other {
       display: block;
     }
+  }
+
+  /* The browser's list, once the site's own is in place: there, but out of sight */
+  .source--picked select {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .pick {
+    position: relative;
+  }
+  .pick[hidden] {
+    display: none;
+  }
+  /* The closed list looks like every other field of the form */
+  .pick__button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.8em 1.1em;
+    font: inherit;
+    line-height: 1.3;
+    text-align: left;
+    color: var(--blue-deep);
+    background: var(--creme-light);
+    border: 1.5px solid var(--line);
+    border-radius: 1.5rem 1.1rem 1.6rem 1.2rem / 1.2rem 1.6rem 1.1rem 1.5rem;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-1) var(--hover-delay),
+      background-color var(--dur-1) var(--hover-delay);
+  }
+  .pick__button.is-empty {
+    color: color-mix(in srgb, var(--blue-deep) 48%, transparent);
+  }
+  .pick__button:hover,
+  .pick__button:focus-visible,
+  .source.is-open .pick__button {
+    border-color: var(--blue);
+    background-color: color-mix(in srgb, var(--blue) 5%, var(--creme-light));
+  }
+  .source:has(select[aria-invalid='true']) .pick__button {
+    border-color: var(--blue);
+    border-width: 2px;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--blue-light) 75%, transparent);
+  }
+  .pick__arrow {
+    flex: none;
+    width: 0.8em;
+    height: 0.55em;
+    color: var(--blue);
+    transition: rotate var(--dur-1) var(--ease-out);
+  }
+  .pick__arrow path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .source.is-open .pick__arrow {
+    rotate: 180deg;
+  }
+
+  /* The open list: a slip of paper with a hand-cut edge, like the language list in the header */
+  .pick__list {
+    --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cg fill='%23b3c0f3'%3E%3Cpath d='M4 22C2 12 14 7 30 6c22-2 48-3 68-1 12 1 20 6 19 14-1 9-13 14-29 15-24 2-50 3-68 1C9 34 5 30 4 22z'/%3E%3Cpath opacity='.6' d='M9 9C30 3 70 1 105 4c9 1 14 4 11 9C96 9 50 9 14 14c-6 0-9-3-5-5z'/%3E%3Cpath opacity='.6' d='M66 36c20-1 40-4 50-11 2 7-8 13-24 14-9 0-18-1-26-3z'/%3E%3Cpath opacity='.45' d='M1 25c1 6 6 10 14 11-7 2-14-2-14-11z'/%3E%3C/g%3E%3C/svg%3E");
+    position: absolute;
+    inset: calc(100% + 0.5rem) 0 auto;
+    z-index: 30;
+    isolation: isolate;
+    display: grid;
+    gap: 0.1rem;
+    margin: 0;
+    padding: 0.8rem 0.7rem 0.9rem;
+    list-style: none;
+    rotate: -0.6deg;
+    outline: none;
+  }
+  .pick__list[hidden] {
+    display: none;
+  }
+  .source.is-up .pick__list {
+    inset: auto 0 calc(100% + 0.5rem);
+  }
+  .pick__list::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--creme-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border: 1.5px solid var(--line);
+    border-radius: 2.1rem 1.5rem 2.4rem 1.7rem / 1.6rem 2.3rem 1.5rem 2.2rem;
+    box-shadow: 0 0.9rem 2rem -1.2rem color-mix(in srgb, var(--blue-deep) 45%, transparent);
+    filter: url(#rough-sm);
+  }
+  :global(html[data-theme='dark']) .pick__list {
+    --mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40' preserveAspectRatio='none'%3E%3Cg fill='%231c2b96'%3E%3Cpath d='M4 22C2 12 14 7 30 6c22-2 48-3 68-1 12 1 20 6 19 14-1 9-13 14-29 15-24 2-50 3-68 1C9 34 5 30 4 22z'/%3E%3Cpath opacity='.6' d='M9 9C30 3 70 1 105 4c9 1 14 4 11 9C96 9 50 9 14 14c-6 0-9-3-5-5z'/%3E%3Cpath opacity='.6' d='M66 36c20-1 40-4 50-11 2 7-8 13-24 14-9 0-18-1-26-3z'/%3E%3Cpath opacity='.45' d='M1 25c1 6 6 10 14 11-7 2-14-2-14-11z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  :global(html.motion) .pick__list:not([hidden]) {
+    transition:
+      opacity var(--dur-1) var(--ease-out),
+      translate var(--dur-2) var(--ease-out);
+  }
+  @starting-style {
+    :global(html.motion) .pick__list:not([hidden]) {
+      opacity: 0;
+      translate: 0 -0.4rem;
+    }
+  }
+  /* Each answer; the one under the pointer or the keys, and the one chosen, take the highlighter */
+  .pick__option {
+    position: relative;
+    isolation: isolate;
+    padding: 0.45rem 0.9rem 0.5rem;
+    color: var(--ink);
+    cursor: pointer;
+    user-select: none;
+  }
+  .pick__option::before {
+    content: '';
+    position: absolute;
+    inset: 6% 0 0;
+    z-index: -1;
+    background: var(--mark) center / 100% 100% no-repeat;
+    rotate: -1.2deg;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .pick__option.is-active::before,
+  .pick__option[aria-selected='true']::before {
+    transform: none;
+  }
+  .pick__option[aria-selected='true'] {
+    color: var(--ink-strong);
+    font-weight: 560;
   }
 </style>

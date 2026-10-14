@@ -103,6 +103,16 @@ For courses that are not open yet. All of it is in `coursesPage.ui` (`joinWaitli
 | Submit | Add me to the list | Προσθέστε με στη λίστα | Ἀπογράψατέ με |
 | Shown after submitting, until it is connected | The waitlist is not connected yet. Your address has not been sent anywhere. | Η λίστα αναμονής δεν είναι ακόμη διαθέσιμη. Η διεύθυνσή σας δεν στάλθηκε πουθενά. | Ὁ κατάλογος οὔπω συνῆπται. Οὐδὲν τῶν ὑμετέρων οὐδαμοῖ πέπεμπται. |
 
+## Enrol button (14 October 2026)
+
+The button that opens enrolment in a course popup and on a course page read "Get started"; it now says the same as the course cards (client direction).
+
+| Where | Before | After |
+| --- | --- | --- |
+| English | Get started | Enroll |
+| Greek | Ξεκινήστε | Εγγραφή |
+| Ancient Greek draft | Ἄρξασθε | Ἐγγράψασθε |
+
 ## Test checkout (14 October 2026, branch experiment/checkout only)
 
 "Enroll" on a course with a fee now leads from the details form to a card payment in test mode. New words (in the Ancient Greek draft the modern Greek is used for now). The details button changes from "Send request" to "Continue to payment" for such courses.

@@ -226,7 +226,7 @@ export const coursesPage = {
     enrollNow: 'Enroll',
     facts: { dates: 'Dates', duration: 'Length', format: 'Format', fee: 'Fee' },
     close: 'Close',
-    enroll: 'Get started',
+    enroll: 'Enroll',
     placeholderNote: 'Course details are on their way. Leave your name and we will write to you when enrolment opens.',
     placeholderBadge: 'Details to follow',
     fullName: 'Full name',
