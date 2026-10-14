@@ -945,3 +945,37 @@ html.motion .media--framed::before {
   border-color: var(--blue);
   background: #fffaf0;
 }
+/* Night: that fixed light colour would leave pale writing unreadable as it is typed, so a field
+   stays night paper, a shade lifted */
+html[data-theme='dark'] .field :is(input, textarea, select):is(:hover, :focus) {
+  background-color: color-mix(in srgb, var(--blue) 12%, var(--creme-light));
+}
+/* A field that needs attention (scripts/fields.ts): a firmer outline with a light-blue halo, and a
+   short line under it in the same blue, marked with a small pebble. No red: the palette is blue. */
+.field [aria-invalid='true'] {
+  border-color: var(--blue);
+  border-width: 2px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--blue-light) 75%, transparent);
+}
+.field__error {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5em;
+  margin: 0.1rem 0 0 0.35rem;
+  font-size: var(--step--1);
+  font-weight: 560;
+  line-height: 1.35;
+  color: var(--ink-strong);
+}
+.field__error::before {
+  content: '';
+  flex: none;
+  width: 0.6em;
+  height: 0.6em;
+  translate: 0 0.05em;
+  border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+  background: var(--blue);
+}
+:is(.on-blue, .on-blue-deep) .field__error::before {
+  background: var(--blue-light);
+}

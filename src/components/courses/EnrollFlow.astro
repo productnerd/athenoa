@@ -28,6 +28,8 @@ const { course, id, class: className, ...rest } = Astro.props;
 const locale = getLocale(Astro.url);
 const { coursesPage, site } = content(locale);
 const { ui } = coursesPage;
+const [feeAmount, ...feeWords] = course.price?.display.split(' ') ?? [];
+const feeRest = feeWords.join(' ');
 // What the form says when a field is empty or wrong, in the language of the page
 // (the browser's own messages follow the browser's language instead).
 const t = {
@@ -55,7 +57,14 @@ const t = {
           <p class="enroll__course" set:html={keepHyphens(course.title)} />
           <div class="enroll__stub">
             {course.schedule && <p class="hand hand--m">{handCase(course.schedule)}</p>}
-            {course.price && <p class="enroll__amount">{course.price.display}</p>}
+            {/* The fee large, and what is added to it small under it ("€200" over "& VAT (24%)"):
+                client direction, 14 October 2026. The amount is the first word of the display. */}
+            {course.price && (
+              <p class="enroll__amount">
+                {feeAmount}
+                {feeRest && <span class="enroll__vat">{feeRest}</span>}
+              </p>
+            )}
           </div>
         </div>
         {/* The course's own symbol, under its summary (client direction, 11 October 2026) */}
@@ -278,6 +287,16 @@ const t = {
     line-height: 1;
     font-variant-numeric: lining-nums;
     color: var(--ink-strong);
+  }
+
+  .enroll__vat {
+    display: block;
+    margin-top: 0.3rem;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--step--1);
+    letter-spacing: 0;
+    color: var(--ink-soft);
   }
 
   .enroll__panel {
