@@ -220,6 +220,39 @@ export const coursesPage = {
     // A verb, read together with the instructor's name in the nominative: "Διδάσκει Ἀθηνᾶ Δέσποινα Ποτάρη".
     taughtBy: 'Διδάσκει',
     orderSummary: 'Ἡ ὑμετέρα ἐγγραφή',
+    // The test checkout (see the English file). In modern Greek for now: this draft's Ancient Greek
+    // for card payments has not been written.
+    checkout: {
+      continue: 'Συνέχεια στην πληρωμή',
+      stepDetails: 'Τα στοιχεία σας',
+      stepPayment: 'Πληρωμή',
+      testMode: 'Δοκιμαστική λειτουργία: δεν γίνεται πραγματική χρέωση.',
+      testHint: 'Χρησιμοποιήστε τη δοκιμαστική κάρτα 4242 4242 4242 4242, οποιαδήποτε μελλοντική ημερομηνία και οποιαδήποτε τρία ψηφία.',
+      cardNumber: 'Αριθμός κάρτας',
+      expiry: 'Λήξη (ΜΜ / ΕΕ)',
+      cvc: 'Κωδικός ασφαλείας',
+      cardName: 'Όνομα κατόχου',
+      fee: 'Δίδακτρα',
+      vat: 'ΦΠΑ',
+      total: 'Σύνολο',
+      pay: 'Πληρωμή',
+      processing: 'Επεξεργασία…',
+      changeDetails: 'Αλλαγή στοιχείων',
+      handledBy: 'Οι πληρωμές με κάρτα θα γίνονται μέσω Stripe.',
+      errors: {
+        number: 'Συμπληρώστε τα 16 ψηφία του αριθμού της κάρτας.',
+        notTestCard: 'Στη δοκιμαστική λειτουργία δέχονται μόνο οι δοκιμαστικές κάρτες της Stripe, όπως η 4242 4242 4242 4242.',
+        expiry: 'Συμπληρώστε μελλοντική ημερομηνία λήξης, ως ΜΜ / ΕΕ.',
+        cvc: 'Συμπληρώστε τα τρία ψηφία στο πίσω μέρος της κάρτας.',
+        name: 'Συμπληρώστε το όνομα του κατόχου.',
+        declined: 'Η κάρτα απορρίφθηκε. Δοκιμάστε άλλη κάρτα.',
+        funds: 'Η κάρτα δεν έχει επαρκές υπόλοιπο. Δοκιμάστε άλλη κάρτα.',
+      },
+      paidTitle: 'Η εγγραφή σας ολοκληρώθηκε',
+      paidText: 'Καλώς ήρθατε στο μάθημα. Η απόδειξη και οι οδηγίες συμμετοχής θα στέλνονταν τώρα στο',
+      reference: 'Αριθμός αναφοράς',
+      testNote: 'Ήταν δοκιμαστική πληρωμή: δεν χρεώθηκε και δεν στάλθηκε τίποτα.',
+    },
     // The waitlist (see the English file). ἀπογράφεσθαι, to have one's name put down on a list, keeps
     // it apart from ἐγγράφεσθαι, which is enrolment; the list is "the list of those who wait".
     joinWaitlist: 'Ἀπογράψασθε',

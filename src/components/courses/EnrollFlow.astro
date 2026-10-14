@@ -1,11 +1,14 @@
 ---
-// A request to enrol. Used inside the course popup and on the course page.
+// Enrolment. Used inside the course popup and on the course page.
 //
-// CLIENT DIRECTION, 11 October 2026: "Enroll" opens a short form that goes to Athena as a request:
-// name, why the course interests you, where you heard of the Academy, and a "Send request" button.
-// It replaces the earlier two steps that ended in a Stripe payment. An email address is asked for
-// as well, because a request cannot be answered without one.
-// Nothing is sent anywhere yet: the form never leaves the browser (see REQUESTS CONNECT HERE).
+// CLIENT DIRECTION, 11 October 2026: "Enroll" opens a short form: name, email, why the course
+// interests you, where you heard of the Academy.
+// EXPERIMENT, 14 October 2026 (branch experiment/checkout): for a course with a fee, that form is now
+// the first of two steps and the second is a card payment, as a Stripe checkout would take it, in
+// TEST MODE ONLY. Nothing is charged, sent or kept: the card fields never leave the browser, accept
+// only Stripe's published test cards, and are hidden from the browser's and password managers' card
+// autofill, so that nobody's real card is offered. See STRIPE CONNECTS HERE for going live.
+// A course without a fee keeps the request: "Send request", and a note that nothing was sent.
 //
 // Without JavaScript only the first button shows. It is a real link, to the contact form.
 import { handCase } from '../../lib/hand';
@@ -28,6 +31,13 @@ const { course, id, class: className, ...rest } = Astro.props;
 const locale = getLocale(Astro.url);
 const { coursesPage, site } = content(locale);
 const { ui } = coursesPage;
+const c = ui.checkout;
+// The sums the checkout shows: the fee, its VAT and the total, in the page's language
+const price = course.price;
+const money = (n: number) =>
+  new Intl.NumberFormat(mainLocale(locale) === 'el' ? 'el-GR' : 'en-IE', { style: 'currency', currency: price?.currency ?? 'EUR' }).format(n);
+const vat = price ? Math.round(price.amount * price.vatRate) / 100 : 0;
+const total = price ? price.amount + vat : 0;
 // What the form says when a field is empty or wrong, in the language of the page
 // (the browser's own messages follow the browser's language instead).
 const t = {
@@ -44,7 +54,13 @@ const t = {
 }[mainLocale(locale)];
 ---
 
-<div class:list={['enroll', className]} data-enroll data-step="idle" {...rest}>
+<div
+  class:list={['enroll', className]}
+  data-enroll
+  data-step="idle"
+  data-errors={price ? JSON.stringify(c.errors) : undefined}
+  {...rest}
+>
   <a class="btn enroll__start" href={site.routes.contact} data-enroll-start>{ui.enroll}</a>
 
   <div class="enroll__flow">
@@ -57,12 +73,33 @@ const t = {
             {course.schedule && <p class="hand hand--m">{handCase(course.schedule)}</p>}
             {course.price && <p class="enroll__amount">{course.price.display}</p>}
           </div>
+          {
+            price && (
+              <dl class="enroll__sums">
+                <div>
+                  <dt>{c.fee}</dt>
+                  <dd>{money(price.amount)}</dd>
+                </div>
+                <div>
+                  <dt>
+                    {c.vat} ({price.vatRate}%)
+                  </dt>
+                  <dd>{money(vat)}</dd>
+                </div>
+                <div class="enroll__total">
+                  <dt>{c.total}</dt>
+                  <dd>{money(total)}</dd>
+                </div>
+              </dl>
+            )
+          }
         </div>
         {/* The course's own symbol, under its summary (client direction, 11 October 2026) */}
         <Illustration name={courseSymbol(course.slug)} class="enroll__mark" />
       </div>
 
       <form class="enroll__panel" data-enroll-form aria-labelledby={`${id}-title`}>
+        {price && <p class="enroll__step">1 / 2 · {c.stepDetails}</p>}
         <div class="field">
           <label for={`${id}-name`}>{ui.fullName}</label>
           <input
@@ -98,13 +135,107 @@ const t = {
         </div>
         {/* No "Back": in the popup the cross closes it (client direction, 12 October 2026) */}
         <div class="enroll__actions">
-          <button class="btn" type="submit">{ui.sendRequest}</button>
+          <button class="btn" type="submit">{price ? c.continue : ui.sendRequest}</button>
         </div>
         <p class="enroll__ask">
           {ui.waitlist.question}{' '}
           <a href={`mailto:${site.emails[0]}`}>{ui.contactInstead}</a>
         </p>
       </form>
+
+      {
+        price && (
+          <form class="enroll__panel" data-enroll-pay-form novalidate aria-labelledby={`${id}-pay-title`}>
+            <p class="enroll__step" id={`${id}-pay-title`}>
+              2 / 2 · {c.stepPayment}
+            </p>
+            <p class="enroll__test">
+              <strong>{c.testMode}</strong> {c.testHint}
+            </p>
+            {/* autocomplete="off" and the password-manager hints keep anyone's saved real card out of
+                these fields: they are a test and must never hold one */}
+            <div class="field">
+              <label for={`${id}-card`}>{c.cardNumber}</label>
+              <input
+                id={`${id}-card`}
+                type="text"
+                inputmode="numeric"
+                autocomplete="off"
+                data-1p-ignore
+                data-lpignore="true"
+                data-bwignore
+                placeholder="4242 4242 4242 4242"
+                maxlength="19"
+                data-pay-card
+              />
+            </div>
+            <div class="enroll__pair">
+              <div class="field">
+                <label for={`${id}-exp`}>{c.expiry}</label>
+                <input
+                  id={`${id}-exp`}
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  data-1p-ignore
+                  data-lpignore="true"
+                  data-bwignore
+                  placeholder="MM / YY"
+                  maxlength="7"
+                  data-pay-exp
+                />
+              </div>
+              <div class="field">
+                <label for={`${id}-cvc`}>{c.cvc}</label>
+                <input
+                  id={`${id}-cvc`}
+                  type="text"
+                  inputmode="numeric"
+                  autocomplete="off"
+                  data-1p-ignore
+                  data-lpignore="true"
+                  data-bwignore
+                  placeholder="123"
+                  maxlength="4"
+                  data-pay-cvc
+                />
+              </div>
+            </div>
+            <div class="field">
+              <label for={`${id}-holder`}>{c.cardName}</label>
+              <input id={`${id}-holder`} type="text" autocomplete="off" data-1p-ignore data-lpignore="true" data-pay-name />
+            </div>
+            <p class="enroll__error" role="alert" data-pay-error hidden />
+            <div class="enroll__actions">
+              <button class="btn enroll__pay" type="submit" data-pay-button data-busy={c.processing}>
+                {c.pay} {money(total)}
+              </button>
+            </div>
+            <p class="enroll__ask">
+              <button class="enroll__link" type="button" data-enroll-change>
+                {c.changeDetails}
+              </button>
+              <span aria-hidden="true"> · </span>
+              {c.handledBy}
+            </p>
+          </form>
+        )
+      }
+
+      {
+        price && (
+          <div class="enroll__panel" data-enroll-paid tabindex="-1">
+            <h3 class="enroll__done">{c.paidTitle}</h3>
+            <p>
+              {c.paidText} <strong data-paid-email />.
+            </p>
+            <p class="enroll__ref">
+              {c.reference} <span data-paid-ref />
+            </p>
+            <p class="enroll__notice on-blue-light">{c.testNote}</p>
+          </div>
+        )
+      }
 
       {/* Shown in place of the form once it has been filled in */}
       <div class="enroll__panel" data-enroll-sent tabindex="-1">
@@ -119,7 +250,21 @@ const t = {
 </div>
 
 <script>
-  type Step = 'idle' | 'details' | 'sent';
+  type Step = 'idle' | 'details' | 'payment' | 'paid' | 'sent';
+
+  // STRIPE CONNECTS HERE (going live). This page is static, so the card can never be taken here. Either:
+  //  - a Stripe Payment Link per course (src/data/courses.ts, stripePaymentLink): on "Continue to
+  //    payment", send the visitor to the link with ?prefilled_email=<email> instead of showing step 2; or
+  //  - Stripe Checkout or the Payment Element, with a small server function (Netlify or Cloudflare)
+  //    that creates the session or payment intent for the course's slug and returns it.
+  // Until then step 2 is this simulation of Stripe's test mode, with Stripe's own test cards:
+  const TEST_CARDS: Record<string, 'ok' | 'declined' | 'funds'> = {
+    '4242424242424242': 'ok',
+    '5555555555554444': 'ok',
+    '4000000000000002': 'declined',
+    '4000000000009995': 'funds',
+  };
+  const digits = (value: string) => value.replace(/\D/g, '');
 
   function bind(root: HTMLElement) {
     const start = root.querySelector<HTMLAnchorElement>('[data-enroll-start]')!;
@@ -150,15 +295,101 @@ const t = {
       input.addEventListener('input', say);
     });
 
+    const pay = root.querySelector<HTMLFormElement>('[data-enroll-pay-form]');
+    const paid = root.querySelector<HTMLElement>('[data-enroll-paid]');
+
     // Fires only once validation has passed.
     form.addEventListener('submit', (event) => {
       event.preventDefault();
+      if (pay) {
+        // the name on the card starts as the name just given
+        const holder = pay.querySelector<HTMLInputElement>('[data-pay-name]')!;
+        if (!holder.value) holder.value = (form.elements.namedItem('name') as HTMLInputElement).value;
+        go('payment');
+        pay.querySelector<HTMLInputElement>('[data-pay-card]')?.focus();
+        return;
+      }
       // REQUESTS CONNECT HERE. Send new FormData(form) (name, email, why, source, source-other) with the
       // course to the service that will carry requests to Athena, and show its answer instead of the
       // note below. Until then nothing leaves the browser.
       go('sent');
       sent.focus();
     });
+
+    if (pay && paid) {
+      const errors = JSON.parse(root.dataset.errors ?? '{}') as Record<string, string>;
+      const card = pay.querySelector<HTMLInputElement>('[data-pay-card]')!;
+      const exp = pay.querySelector<HTMLInputElement>('[data-pay-exp]')!;
+      const cvc = pay.querySelector<HTMLInputElement>('[data-pay-cvc]')!;
+      const holder = pay.querySelector<HTMLInputElement>('[data-pay-name]')!;
+      const message = pay.querySelector<HTMLElement>('[data-pay-error]')!;
+      const button = pay.querySelector<HTMLButtonElement>('[data-pay-button]')!;
+      const label = button.textContent ?? '';
+
+      // As typed: the number in fours, the date as MM / YY
+      card.addEventListener('input', () => {
+        card.value = digits(card.value).slice(0, 16).replace(/(\d{4})(?=\d)/g, '$1 ');
+      });
+      exp.addEventListener('input', (event) => {
+        const d = digits(exp.value).slice(0, 4);
+        const erasing = (event as InputEvent).inputType?.startsWith('delete');
+        exp.value = d.length > 2 || (d.length === 2 && !erasing) ? `${d.slice(0, 2)} / ${d.slice(2)}` : d;
+      });
+      cvc.addEventListener('input', () => (cvc.value = digits(cvc.value).slice(0, 4)));
+
+      const fail = (text: string, field?: HTMLInputElement) => {
+        message.textContent = text;
+        message.hidden = false;
+        pay.querySelectorAll('input').forEach((input) => input.removeAttribute('aria-invalid'));
+        if (field) {
+          field.setAttribute('aria-invalid', 'true');
+          field.focus();
+        }
+      };
+      const check = (): string | null => {
+        const number = digits(card.value);
+        if (number.length !== 16) return fail(errors.number, card), null;
+        const outcome = TEST_CARDS[number];
+        if (!outcome) return fail(errors.notTestCard, card), null;
+        const [mm, yy] = [Number(digits(exp.value).slice(0, 2)), Number(digits(exp.value).slice(2, 4))];
+        const now = new Date();
+        const ends = new Date(2000 + yy, mm, 1); // the first day after the card's last month
+        if (!(mm >= 1 && mm <= 12) || digits(exp.value).length !== 4 || ends <= now) return fail(errors.expiry, exp), null;
+        if (!/^\d{3,4}$/.test(cvc.value)) return fail(errors.cvc, cvc), null;
+        if (!holder.value.trim()) return fail(errors.name, holder), null;
+        return outcome;
+      };
+
+      pay.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (button.disabled) return;
+        message.hidden = true;
+        const outcome = check();
+        if (!outcome) return;
+        // What Stripe's test mode would take a moment over
+        button.disabled = true;
+        button.classList.add('is-busy');
+        button.textContent = button.dataset.busy ?? '';
+        window.setTimeout(() => {
+          button.disabled = false;
+          button.classList.remove('is-busy');
+          button.textContent = label;
+          if (outcome !== 'ok') return fail(outcome === 'funds' ? errors.funds : errors.declined, card);
+          const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+          paid.querySelector('[data-paid-email]')!.textContent = email;
+          paid.querySelector('[data-paid-ref]')!.textContent = `TEST-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+          // the card is not kept, not even in the page
+          [card, exp, cvc].forEach((input) => (input.value = ''));
+          go('paid');
+          paid.focus();
+        }, 1400);
+      });
+
+      root.querySelector('[data-enroll-change]')?.addEventListener('click', () => {
+        go('details');
+        form.querySelector('input')?.focus();
+      });
+    }
 
     root.querySelectorAll('[data-enroll-back]').forEach((button) =>
       button.addEventListener('click', () => {
@@ -172,7 +403,11 @@ const t = {
       }),
     );
 
-    root.addEventListener('enroll:reset', () => go('idle'));
+    root.addEventListener('enroll:reset', () => {
+      // a closed popup forgets the card fields
+      root.querySelectorAll<HTMLInputElement>('[data-enroll-pay-form] input').forEach((input) => (input.value = ''));
+      go('idle');
+    });
   }
 
   document.addEventListener('astro:page-load', () => {
@@ -187,7 +422,13 @@ const t = {
   .enroll[data-step='idle'] .enroll__flow,
   .enroll:not([data-step='idle']) .enroll__start,
   .enroll:not([data-step='sent']) [data-enroll-sent],
-  .enroll[data-step='sent'] [data-enroll-form] {
+  .enroll:not([data-step='details']) [data-enroll-form],
+  .enroll:not([data-step='payment']) [data-enroll-pay-form],
+  .enroll:not([data-step='paid']) [data-enroll-paid] {
+    display: none;
+  }
+  /* The sums appear on the ticket once the payment is in view */
+  .enroll:not([data-step='payment'], [data-step='paid']) .enroll__sums {
     display: none;
   }
 
@@ -304,6 +545,119 @@ const t = {
     font-weight: 620;
     text-decoration-color: currentColor;
     white-space: nowrap;
+  }
+
+  /* ---------- the test checkout ---------- */
+  .enroll__step {
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .enroll__sums {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0.4rem 0 0;
+    font-size: var(--step--1);
+  }
+  .enroll__sums div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  .enroll__sums dd {
+    margin: 0;
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .enroll__total {
+    margin-top: 0.2rem;
+    padding-top: 0.45rem;
+    border-top: 1.5px dashed var(--line);
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  /* Test mode is said plainly, before any field */
+  .enroll__test {
+    padding: 0.75rem 1rem 0.8rem;
+    font-size: var(--step--1);
+    line-height: 1.45;
+    border: 1.5px dashed var(--line);
+    border-radius: 1.1rem 1.4rem 1rem 1.5rem / 1.4rem 1rem 1.5rem 1.1rem;
+  }
+  .enroll__test strong {
+    color: var(--ink-strong);
+  }
+  .enroll__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-s);
+  }
+  .enroll__pay {
+    font-variant-numeric: lining-nums;
+  }
+  .enroll__pay.is-busy[disabled] {
+    opacity: 1;
+    cursor: progress;
+  }
+  /* A small turning ring while the payment "goes through" */
+  .enroll__pay.is-busy::after {
+    content: '';
+    width: 0.9em;
+    height: 0.9em;
+    margin-left: 0.6em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: enroll-turn 0.8s linear infinite;
+  }
+  @keyframes enroll-turn {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+  .enroll__error {
+    font-size: var(--step--1);
+    font-weight: 560;
+    color: var(--ink-strong);
+  }
+  .enroll__error::before {
+    content: '! ';
+  }
+  .enroll [aria-invalid='true'] {
+    border-color: var(--ink-strong);
+    border-width: 2px;
+  }
+  .enroll__link {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    cursor: pointer;
+  }
+  .enroll__done {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-2);
+    line-height: 1.05;
+    color: var(--ink-strong);
+  }
+  .enroll__ref {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .enroll__ref span {
+    font-variant-numeric: lining-nums;
+    letter-spacing: 0.06em;
+    color: var(--ink-strong);
+  }
+
+  /* Night: the kit's field turns a fixed light colour when hovered or focused (global.css), which
+     would leave pale writing unreadable as it is typed. Here it stays night paper, a shade lifted. */
+  :global(html[data-theme='dark']) .enroll :global(.field :is(input, textarea, select):is(:hover, :focus)) {
+    background-color: color-mix(in srgb, var(--blue) 12%, var(--creme-light));
   }
 
   /* The way to ask something first: small and quiet, under everything else */

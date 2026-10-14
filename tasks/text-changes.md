@@ -103,6 +103,22 @@ For courses that are not open yet. All of it is in `coursesPage.ui` (`joinWaitli
 | Submit | Add me to the list | Προσθέστε με στη λίστα | Ἀπογράψατέ με |
 | Shown after submitting, until it is connected | The waitlist is not connected yet. Your address has not been sent anywhere. | Η λίστα αναμονής δεν είναι ακόμη διαθέσιμη. Η διεύθυνσή σας δεν στάλθηκε πουθενά. | Ὁ κατάλογος οὔπω συνῆπται. Οὐδὲν τῶν ὑμετέρων οὐδαμοῖ πέπεμπται. |
 
+## Test checkout (14 October 2026, branch experiment/checkout only)
+
+"Enroll" on a course with a fee now leads from the details form to a card payment in test mode. New words (in the Ancient Greek draft the modern Greek is used for now). The details button changes from "Send request" to "Continue to payment" for such courses.
+
+| Where | English | Greek |
+| --- | --- | --- |
+| Step labels | 1 / 2 · Your details; 2 / 2 · Payment | 1 / 2 · Τα στοιχεία σας; 2 / 2 · Πληρωμή |
+| Details button | Continue to payment | Συνέχεια στην πληρωμή |
+| Test notice | Test mode: no real payment is taken. Use the test card 4242 4242 4242 4242, any future date and any three digits. | Δοκιμαστική λειτουργία: δεν γίνεται πραγματική χρέωση. Χρησιμοποιήστε τη δοκιμαστική κάρτα 4242 4242 4242 4242, οποιαδήποτε μελλοντική ημερομηνία και οποιαδήποτε τρία ψηφία. |
+| Fields | Card number; Expiry (MM / YY); Security code; Name on card | Αριθμός κάρτας; Λήξη (ΜΜ / ΕΕ); Κωδικός ασφαλείας; Όνομα κατόχου |
+| Ticket sums | Course fee; VAT (24%); Total | Δίδακτρα; ΦΠΑ (24%); Σύνολο |
+| Pay button | Pay €248.00 (Processing… while it runs) | Πληρωμή 248,00 € (Επεξεργασία…) |
+| Under the button | Change your details · Card payments will be handled by Stripe. | Αλλαγή στοιχείων · Οι πληρωμές με κάρτα θα γίνονται μέσω Stripe. |
+| Errors | Enter the 16 digits of the card number. / In test mode only Stripe test cards work, such as 4242 4242 4242 4242. / Enter an expiry date in the future, as MM / YY. / Enter the three digits on the back of the card. / Enter the name on the card. / Your card was declined. Try another card. / Your card has insufficient funds. Try another card. | (the same, in Greek, in src/data/el/courses.ts) |
+| After paying | You are enrolled. Welcome to the course. Your receipt and the joining details would now go to [email]. Reference TEST-…. This was a test payment: nothing was charged and nothing was sent. | Η εγγραφή σας ολοκληρώθηκε. Καλώς ήρθατε στο μάθημα. Η απόδειξη και οι οδηγίες συμμετοχής θα στέλνονταν τώρα στο [email]. Αριθμός αναφοράς TEST-…. Ήταν δοκιμαστική πληρωμή: δεν χρεώθηκε και δεν στάλθηκε τίποτα. |
+
 ## Ancient Greek (11 October 2026)
 
 The whole site also exists in Ancient Greek under `/grc/`, as a machine-drafted translation in `src/data/grc/` that Athena has not read. It is kept out of search engines. The translator's notes on word choices (for example τὸ μὴ δύο εἶναι for "non-duality") are in the session report of that day.

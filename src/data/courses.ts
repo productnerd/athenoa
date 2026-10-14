@@ -242,6 +242,41 @@ export const coursesPage = {
     contactInstead: 'Contact us',
     taughtBy: 'With',
     orderSummary: 'Your enrolment',
+    // The test checkout (EnrollFlow.astro, branch experiment/checkout, 14 October 2026): after the
+    // details, a card payment in Stripe's test mode. Nothing is charged or sent.
+    checkout: {
+      continue: 'Continue to payment',
+      stepDetails: 'Your details',
+      stepPayment: 'Payment',
+      testMode: 'Test mode: no real payment is taken.',
+      testHint: 'Use the test card 4242 4242 4242 4242, any future date and any three digits.',
+      cardNumber: 'Card number',
+      expiry: 'Expiry (MM / YY)',
+      cvc: 'Security code',
+      cardName: 'Name on card',
+      fee: 'Course fee',
+      vat: 'VAT',
+      total: 'Total',
+      // Followed by the amount
+      pay: 'Pay',
+      processing: 'Processing…',
+      changeDetails: 'Change your details',
+      handledBy: 'Card payments will be handled by Stripe.',
+      errors: {
+        number: 'Enter the 16 digits of the card number.',
+        notTestCard: 'In test mode only Stripe test cards work, such as 4242 4242 4242 4242.',
+        expiry: 'Enter an expiry date in the future, as MM / YY.',
+        cvc: 'Enter the three digits on the back of the card.',
+        name: 'Enter the name on the card.',
+        declined: 'Your card was declined. Try another card.',
+        funds: 'Your card has insufficient funds. Try another card.',
+      },
+      paidTitle: 'You are enrolled',
+      // Followed by the email address given in the first step
+      paidText: 'Welcome to the course. Your receipt and the joining details would now go to',
+      reference: 'Reference',
+      testNote: 'This was a test payment: nothing was charged and nothing was sent.',
+    },
     // The waitlist, for a course that cannot be enrolled in yet (available: false). The button stands
     // where "Enroll" would; the rest are the words of the small popup it opens (WaitlistDialog.astro).
     // The popup also uses email, close and contactInstead from above.
