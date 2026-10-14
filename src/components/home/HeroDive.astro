@@ -1,0 +1,261 @@
+---
+// EXPERIMENT (branch experiment/temple-dive, 14 October 2026): scrolling down from the hero dives
+// into the picture. The hero holds still while the camera moves forward: the title flies past, the
+// trees and the ground slide out at the sides, the temple's front opens around us, we pass the flame
+// in a burst of its light, and the next section (Membership) settles out of the depth into place.
+//
+// How: the hero sits in a tall wrapper ([data-dive], in pages/index.astro) and sticks to the top
+// while the wrapper's extra room is scrolled through. Each part of the picture has a distance from
+// the camera (D); as the camera advances by d, a part scales by D / (D - d) about the flame, which
+// is how things grow as you walk towards them: far sky hardly at all, the near temple front a lot.
+// Only transform and opacity change, on layers that already exist. No library is needed.
+//
+// Without JavaScript, with reduced motion or with ?nomotion, nothing of this happens: the page is
+// the page it was.
+---
+
+<script>
+  type Part = { el: HTMLElement; D: number; fade?: [number, number]; x: number; y: number };
+
+  const DMAX = 2.75; // how far the camera travels, in the units of D below
+  const ROOM = 1.9; // how many screens of scrolling the dive takes
+  const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const smooth = (a: number, b: number, v: number) => {
+    const t = clamp((v - a) / (b - a));
+    return t * t * (3 - 2 * t);
+  };
+
+  // Distances from the camera. The camera stops at 2.75: everything nearer has passed by then.
+  const PLAN: Array<[string, number, [number, number]?]> = [
+    ['.hero__layer--sky', 30],
+    ['.hero__layer--milky', 30],
+    ['.hero__layer--haze', 6],
+    ['.hero__layer--birds', 4.5],
+    ['.hero__title', 1.15, [0.4, 0.85]],
+    ['.perch', 1.15, [0.3, 0.6]],
+    ['.hero__layer--trees-r', 1.9, [1.4, 1.75]],
+    ['.hero__layer--ground', 2.05, [1.55, 1.95]],
+    // the temple, taken apart: its front passes us, then the light, the flame and the back wall
+    ['.illo--portal-b-temple', 2.3, [1.9, 2.18]],
+    ['.illo--portal-b-flame', 2.6],
+    ['.illo--portal-b-light', 2.72],
+    ['.illo--portal-b-cella', 2.95],
+    ['.hero__layer--fire', 2.6],
+  ];
+
+  let stop: (() => void) | undefined;
+
+  function setup() {
+    stop?.();
+    stop = undefined;
+    const dive = document.querySelector<HTMLElement>('[data-dive]');
+    const hero = dive?.querySelector<HTMLElement>('.hero');
+    const panel = hero?.querySelector<HTMLElement>('.hero__panel');
+    // the section after the hero (Astro may place this component's own script tag in between)
+    let next = dive?.nextElementSibling as HTMLElement | null;
+    while (next && ['SCRIPT', 'STYLE', 'TEMPLATE'].includes(next.tagName)) next = next.nextElementSibling as HTMLElement | null;
+    const room = dive?.querySelector<HTMLElement>('.dive__room');
+    if (!dive || !hero || !panel || !next || !room) return;
+    const motion =
+      !matchMedia('(prefers-reduced-motion: reduce)').matches && !new URLSearchParams(location.search).has('nomotion');
+    if (!motion) return;
+
+    const root = document.documentElement;
+    root.classList.add('dive-on');
+    next.classList.add('dive-next');
+
+    const flash = document.createElement('div');
+    flash.className = 'dive-flash';
+    flash.setAttribute('aria-hidden', 'true');
+    panel.prepend(flash);
+
+    const parts: Part[] = [];
+    for (const [selector, D, fade] of PLAN) {
+      hero.querySelectorAll<HTMLElement>(selector).forEach((el) => parts.push({ el, D, fade, x: 0, y: 0 }));
+    }
+
+    let focus = { x: 0, y: 0 };
+    let start = 0; // scroll position where the dive begins and ends
+    let end = 1;
+
+    const measure = () => {
+      for (const part of parts) part.el.style.transform = '';
+      next.style.transform = '';
+      next.style.marginTop = '';
+      room.style.height = `${Math.round(window.innerHeight * ROOM)}px`;
+      const box = hero.getBoundingClientRect();
+      // the heart of the flame
+      const fire = hero.querySelector('.hero__fire--1') ?? hero.querySelector('.hero__layer--fire .illo');
+      const f = fire?.getBoundingClientRect();
+      focus = f
+        ? { x: f.left + f.width / 2 - box.left, y: f.top + f.height * 0.55 - box.top }
+        : { x: box.width * 0.75, y: box.height * 0.7 };
+      for (const part of parts) {
+        const r = part.el.getBoundingClientRect();
+        part.x = r.left - box.left;
+        part.y = r.top - box.top;
+      }
+      flash.style.setProperty('--fx', `${focus.x}px`);
+      flash.style.setProperty('--fy', `${focus.y}px`);
+      flash.style.setProperty('--dive-paper', getComputedStyle(document.body).backgroundColor);
+      // The hero sticks from the top of the page until the wrapper's room has been scrolled through.
+      start = 0;
+      end = Math.max(1, dive.offsetHeight - hero.offsetHeight);
+      // The next section is drawn up under the hero, so that it is exactly in place, at the top of
+      // the window, at the moment the dive ends and ordinary scrolling takes over.
+      const nextTop = window.scrollY + next.getBoundingClientRect().top;
+      next.style.marginTop = `${Math.round(end - nextTop)}px`;
+      update();
+    };
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const s = window.scrollY;
+      const p = clamp((s - start) / (end - start));
+      const d = p * DMAX;
+      for (const part of parts) {
+        if (d <= 0) {
+          part.el.style.transform = '';
+          part.el.style.opacity = '';
+          continue;
+        }
+        const gap = Math.max(part.D - d, 0.05);
+        const k = part.D / gap;
+        const tx = (focus.x - part.x) * (1 - k);
+        const ty = (focus.y - part.y) * (1 - k);
+        part.el.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${k.toFixed(4)})`;
+        part.el.style.opacity = part.fade ? String(1 - smooth(part.fade[0], part.fade[1], d)) : '';
+      }
+      // passing the flame: its light fills the window, then turns to the paper of the page
+      flash.style.opacity = String(smooth(2.18, 2.45, d));
+      flash.style.setProperty('--burn', String(smooth(2.38, 2.62, d)));
+      hero.classList.toggle('is-diving', d > 0);
+      hero.classList.toggle('is-dived', d >= 2.6);
+      // the next section comes up out of the depth and settles where it belongs
+      if (p >= 1) {
+        next.style.transform = '';
+        next.style.opacity = '';
+        next.classList.remove('is-diving');
+      } else {
+        const land = smooth(2.42, 2.75, d);
+        const scale = 0.82 + 0.18 * land;
+        next.style.transformOrigin = `50% ${Math.round(window.innerHeight * 0.4)}px`;
+        next.style.transform = `translate3d(0, ${Math.round(s - end)}px, 0) scale(${scale.toFixed(4)})`;
+        next.style.opacity = String(land);
+        next.classList.toggle('is-diving', land < 1);
+      }
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+    // the fonts change the title's size once they arrive
+    document.fonts?.ready.then(measure);
+
+    stop = () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', measure);
+      cancelAnimationFrame(frame);
+      root.classList.remove('dive-on');
+      next.classList.remove('dive-next', 'is-diving');
+      next.style.transform = next.style.opacity = next.style.marginTop = next.style.transformOrigin = '';
+      for (const part of parts) part.el.style.transform = part.el.style.opacity = '';
+      flash.remove();
+    };
+  }
+
+  document.addEventListener('astro:page-load', setup);
+  document.addEventListener('astro:before-swap', () => {
+    stop?.();
+    stop = undefined;
+  });
+</script>
+
+<style is:global>
+  /* The room the dive is scrolled through: none unless the dive is on */
+  .dive__room {
+    display: none;
+  }
+  html.dive-on .dive {
+    position: relative;
+    z-index: 1;
+  }
+  html.dive-on .dive__room {
+    display: block;
+  }
+  html.dive-on .dive .hero {
+    position: sticky;
+    top: calc(var(--header-h) * -1);
+    /* at least the whole window, also where the picture is shorter (phones), so nothing of the page
+       shows under it while it holds still */
+    min-height: calc(100lvh + var(--header-h));
+    /* what grows past the edges is cut there, so the page never scrolls sideways */
+    overflow: clip;
+  }
+  /* The pointer and scroll parallax step aside while the camera moves (its sums assume a page that
+     scrolls, and this one holds still) */
+  html.dive-on .dive .hero [data-depth],
+  html.dive-on .dive .hero [data-pointer] {
+    translate: none !important;
+  }
+  html.dive-on .dive .hero :is(.hero__layer, .illo, .hero__title, .perch) {
+    transform-origin: 0 0;
+  }
+  html.dive-on .dive .hero .hero__layer--temple .illo {
+    will-change: transform, opacity;
+  }
+  .dive-flash {
+    position: absolute;
+    inset: -2rem 0 auto;
+    /* the whole window, wherever the sheet of the picture ends */
+    height: calc(100lvh + var(--header-h) + 2rem);
+    z-index: 0;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--dive-paper);
+  }
+  /* the flame's light, from its heart outwards; it gives way to the page's own paper as we pass */
+  .dive-flash::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--fx) var(--fy), var(--pb-light) 0, var(--pb-light) 18%, var(--dive-paper) 75%);
+    opacity: calc(1 - var(--burn, 0));
+  }
+  /* While the camera moves, the parts follow the scroll at once: the reveal's easing (and its
+     delays, a second for the fire) would otherwise trail behind it. The picture may also draw past
+     the foot of its sheet, over the strip where it normally thins into the page, which turns solid
+     sky: the window is all picture until we are through. */
+  html.dive-on .hero.is-diving :is([data-reveal], .hero__layer, .illo, .hero__title, .perch) {
+    transition: none !important;
+  }
+  html.dive-on .hero.is-diving .hero__stage {
+    overflow: visible;
+  }
+  html.dive-on .hero.is-diving {
+    background-color: var(--blue-light);
+  }
+  html[data-theme='dark'].dive-on .hero.is-diving {
+    background-color: var(--blue-deep);
+  }
+  html.dive-on .hero.is-diving .hero__fade {
+    z-index: -2;
+    mask-image: none;
+  }
+  /* once we are through, the picture is gone (its pale strip would otherwise show under the section) */
+  html.dive-on .hero.is-dived {
+    visibility: hidden;
+  }
+  html.dive-on .dive-next {
+    position: relative;
+    z-index: 2;
+    will-change: transform, opacity;
+  }
+  html.dive-on .dive-next.is-diving {
+    pointer-events: none;
+  }
+</style>

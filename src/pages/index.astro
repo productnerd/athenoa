@@ -3,6 +3,7 @@
 // (the "new course series" intro was removed at the client's request; its course detail remains).
 import Base from '../layouts/Base.astro';
 import Hero from '../components/home/Hero.astro';
+import HeroDive from '../components/home/HeroDive.astro';
 import Membership from '../components/home/Membership.astro';
 import Announcement from '../components/home/Announcement.astro';
 import Seminar from '../components/home/Seminar.astro';
@@ -24,7 +25,12 @@ const { home } = content(locale);
   schema={[organizationSchema(locale), websiteSchema(locale)]}
   bodyClass="has-hero"
 >
-  <Hero />
+  {/* EXPERIMENT (branch experiment/temple-dive): the scroll dive into the temple (HeroDive.astro) */}
+  <div class="dive" data-dive>
+    <Hero />
+    <div class="dive__room" aria-hidden="true"></div>
+  </div>
+  <HeroDive />
   <Membership />
   <Announcement />
   <Seminar />
