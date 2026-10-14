@@ -24,7 +24,8 @@ const { kicker, title, open, note } = home.seminar;
           </div>
         </div>
 
-        <div class="seminar__lyre">
+        {/* An easter egg: pressed, the lyre sounds a chord and sways (client request, 14 October 2026) */}
+        <div class="seminar__lyre" data-lyre>
           <Illustration name="lyre" draw />
         </div>
 
@@ -40,6 +41,24 @@ const { kicker, title, open, note } = home.seminar;
     <p class="seminar__note hand hand--m" data-reveal>{handCase(note)}</p>
   </div>
 </section>
+
+<script>
+  import { playSound } from '../../scripts/sound';
+
+  // A strummed chord (D, A, D, F sharp, A, D, low to high), synthesised; it follows the sound button.
+  document.addEventListener('astro:page-load', () => {
+    const lyre = document.querySelector<HTMLElement>('[data-lyre]:not([data-lyre-ready])');
+    if (!lyre) return;
+    lyre.dataset.lyreReady = '';
+    lyre.addEventListener('click', () => {
+      playSound('/audio/lyre.mp3', 0.14);
+      lyre.classList.remove('is-strummed');
+      void lyre.offsetWidth; // (to sway again on a second press)
+      lyre.classList.add('is-strummed');
+    });
+    lyre.addEventListener('animationend', () => lyre.classList.remove('is-strummed'));
+  });
+</script>
 
 <style>
   .seminar__stage {
@@ -59,6 +78,8 @@ const { kicker, title, open, note } = home.seminar;
     padding-bottom: var(--space-l);
   }
   .seminar__lyre {
+    cursor: pointer;
+    transform-origin: 50% 90%;
     width: var(--lyre-w);
     margin-inline: auto;
   }
@@ -157,5 +178,23 @@ const { kicker, title, open, note } = home.seminar;
     .seminar__note {
       margin: var(--space-m) 0 0 clamp(1.25rem, 0.4rem + 4.6vw, 5.5rem);
     }
+  }
+  @keyframes lyre-sway {
+    0%,
+    100% {
+      rotate: 0deg;
+    }
+    20% {
+      rotate: -2.2deg;
+    }
+    45% {
+      rotate: 1.4deg;
+    }
+    70% {
+      rotate: -0.6deg;
+    }
+  }
+  :global(html.motion) .seminar__lyre:global(.is-strummed) {
+    animation: lyre-sway 1.1s ease-out;
   }
 </style>

@@ -165,8 +165,10 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     z-index: -1;
     border-radius: inherit;
     background-color: color-mix(in srgb, var(--creme-light) 90%, transparent);
-    background-image: var(--grain);
-    background-size: 400px 400px;
+    /* the grain under a wash of the paper colour, as on the page, a little stronger here because
+       the page's own grain shows through the pill as well (client direction, 14 October 2026) */
+    background-image: linear-gradient(color-mix(in srgb, var(--creme-light) 30%, transparent) 0 0), var(--grain);
+    background-size: auto, 400px 400px;
     border: 1.5px solid color-mix(in srgb, var(--blue) 16%, transparent);
     backdrop-filter: blur(10px);
     opacity: 0;
@@ -364,8 +366,8 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
     inset: 0;
     z-index: -1;
     background-color: var(--creme-light);
-    background-image: var(--grain);
-    background-size: 400px 400px;
+    background-image: linear-gradient(color-mix(in srgb, var(--creme-light) 15%, transparent) 0 0), var(--grain);
+    background-size: auto, 400px 400px;
     border: 1.5px solid var(--line);
     border-radius: 2.1rem 1.5rem 2.4rem 1.7rem / 1.6rem 2.3rem 1.5rem 2.2rem;
     filter: url(#rough-sm);
