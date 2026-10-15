@@ -53,7 +53,7 @@ const { kicker, title, open, note } = home.seminar;
     if (!lyre) return;
     lyre.dataset.lyreReady = '';
     lyre.addEventListener('click', () => {
-      playSound('/audio/lyre.mp3', 0.07);
+      playSound('/audio/lyre.mp3', 0.049);
       lyre.classList.remove('is-strummed');
       void lyre.offsetWidth; // (to sway again on a second press)
       lyre.classList.add('is-strummed');
