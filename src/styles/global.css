@@ -18,6 +18,11 @@ html {
   scroll-padding-top: calc(var(--header-h) + 1rem);
   hanging-punctuation: first;
 }
+/* In a list each line starts on its own: a hanging bracket put the telephone number in the footer out
+   of line with the addresses above it (Safari, the only browser that hangs punctuation) */
+li {
+  hanging-punctuation: none;
+}
 img,
 picture,
 svg,

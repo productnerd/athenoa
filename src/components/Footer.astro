@@ -248,7 +248,9 @@ const custom = Object.entries(images).find(([file]) =>
     z-index: 1;
     left: 50%;
     width: max(100%, 64rem);
-    margin-left: calc(max(100%, 64rem) / -2);
+    /* centred by its own width (Safari placed it short of the right edge when this was a margin
+       worked out from the parent's width: 16 October 2026) */
+    translate: -50% 0;
     aspect-ratio: 1600 / 525;
     pointer-events: none;
   }
