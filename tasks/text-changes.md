@@ -113,6 +113,14 @@ The button that opens enrolment in a course popup and on a course page read "Get
 | Greek | Ξεκινήστε | Εγγραφή |
 | Ancient Greek draft | Ἄρξασθε | Ἐγγράψασθε |
 
+## Waitlist popup (15 October 2026)
+
+A small line under the button, new (client request):
+
+| English | Greek | Ancient Greek draft |
+| --- | --- | --- |
+| We will notify you once the enrolments are open. | Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές. | Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν. |
+
 ## Test checkout (14 October 2026, branch experiment/checkout only)
 
 "Enroll" on a course with a fee now leads from the details form to a card payment in test mode. New words (in the Ancient Greek draft the modern Greek is used for now). The details button changes from "Send request" to "Continue to payment" for such courses.

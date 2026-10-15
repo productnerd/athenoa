@@ -46,6 +46,7 @@ const t = ui.waitlist;
           <input id="waitlist-email" type="email" required autocomplete="email" inputmode="email" />
         </div>
         <button class="btn" type="submit">{t.submit}</button>
+        <p class="wl__notify">{t.notify}</p>
       </form>
 
       <!-- Shown in place of the form after a valid address is entered: the waitlist is not
@@ -296,6 +297,11 @@ const t = ui.waitlist;
      would leave the crème address unreadable as it is typed. Here it stays night paper, a shade lifted. */
   :global(html[data-theme='dark']) .wl__form .field input:is(:hover, :focus) {
     background: color-mix(in srgb, var(--blue) 12%, var(--creme-light));
+  }
+  .wl__notify {
+    margin-top: -0.2rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
   }
   .wl__note {
     align-self: center;

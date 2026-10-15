@@ -261,6 +261,7 @@ export const coursesPage = {
       // Followed by the title of the course
       forCourse: 'Εἰς τὸ μάθημα',
       submit: 'Ἀπογράψατέ με',
+      notify: 'Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν.',
       // The quiet line under the button, followed by a link that opens an email to the Academy
       question: 'Ἀπορεῖτέ τι;',
       pending: 'Ὁ κατάλογος οὔπω συνῆπται. Οὐδὲν τῶν ὑμετέρων οὐδαμοῖ πέπεμπται.',
