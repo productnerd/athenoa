@@ -134,6 +134,24 @@ html.motion [data-draw].is-in [data-nodraw] {
   opacity: 1;
 }
 
+/* Safari redraws a whole drawing on every frame of this line drawing, which slowed the first seconds
+   of a page there (client report, 16 October 2026). There the drawings fade in whole instead.
+   (Hanging punctuation is a feature only Safari has, so it serves to recognise it.) */
+@supports (hanging-punctuation: first) {
+  html.motion [data-draw] :is(path, line, polyline, polygon, circle, ellipse, rect):not([data-nodraw]) {
+    stroke-dasharray: none;
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+  html.motion [data-draw]:not([data-reveal]) {
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease-out);
+  }
+  html.motion [data-draw].is-in {
+    opacity: 1;
+  }
+}
+
 /* ---------- Parallax ---------- */
 html.motion [data-depth],
 html.motion [data-pointer] {
