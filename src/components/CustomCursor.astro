@@ -1,7 +1,7 @@
 ---
 // The site's own pointer (client request, 12 October 2026): a small round organic shape in Greek blue
 // that follows the mouse. It grows a little and empties over anything that can be pressed or that has
-// a note, is joined by a little star over the footer pictures (which answer a click), empties over a
+// a note, is joined by a little star over the footer pictures and the lyre (which answer a click), empties over a
 // control that is switched off, and draws in a little while the button is held down. Over a text field
 // it steps aside for the ordinary text cursor, which is the one people need there.
 //
@@ -55,6 +55,8 @@
       if (!(target instanceof Element)) return 'plain';
       if (target.closest(':disabled, [aria-disabled="true"]')) return 'off';
       if (target.closest(TEXT)) return 'text';
+      // the lyre plays a chord when pressed: it shows the star like the footer pictures (it also has a note)
+      if (target.closest('[data-lyre]')) return 'play';
       if (target.closest('[data-lemma]')) return 'link';
       if (target.closest(PRESSABLE)) return 'link';
       if (target.closest('[data-footer-scene]:not([data-footer-done])')) return 'play';
