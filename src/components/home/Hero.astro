@@ -67,14 +67,15 @@ const rowsOf = (text: string) => {
       <div class="hero__layer hero__layer--milky" data-depth="0.42" data-pointer="-4" data-reveal="fade">
         <Illustration name="portal-b-milkyway" />
       </div>
-      {/* Far off behind the temple, the Olympus range: two faded silhouettes a shade off the sky, with
-          no outline, for depth. The clouds drift in front of them (client request, 15 October 2026). */}
-      <div class="hero__layer hero__layer--peaks" data-depth="0.44" data-pointer="-5" data-reveal="fade">
-        <Illustration name="hero-peaks" note={false} />
-      </div>
       {/* The day sky: soft shapes of cloud with no outline drift across it, slower than the drawn clouds */}
       <div class="hero__layer hero__layer--haze" data-depth="0.46" data-reveal="fade">
         {[0, 1, 2, 3, 4, 5, 6].map((n) => <Illustration name="hero-cloud-soft" class={`hero__haze hero__haze--${n + 1}`} />)}
+      </div>
+      {/* Far off behind the temple, the Olympus range: two faded silhouettes a shade off the sky, with
+          no outline, for depth. The clouds drift behind them (client direction, 15 October 2026: at first
+          they passed in front). */}
+      <div class="hero__layer hero__layer--peaks" data-depth="0.44" data-pointer="-5" data-reveal="fade">
+        <Illustration name="hero-peaks" note={false} />
       </div>
       {/* The drawn clouds are gone (client direction, 11 October 2026): only the loose streaks remain */}
       <div class="hero__layer"><span class="hero__meteor"></span></div>
