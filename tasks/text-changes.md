@@ -113,6 +113,14 @@ The button that opens enrolment in a course popup and on a course page read "Get
 | Greek | Ξεκινήστε | Εγγραφή |
 | Ancient Greek draft | Ἄρξασθε | Ἐγγράψασθε |
 
+## Waitlist popup (15 October 2026)
+
+A small line under the button, new (client request):
+
+| English | Greek | Ancient Greek draft |
+| --- | --- | --- |
+| We will notify you once the enrolments are open. | Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές. | Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν. |
+
 ## Ancient Greek (11 October 2026)
 
 The whole site also exists in Ancient Greek under `/grc/`, as a machine-drafted translation in `src/data/grc/` that Athena has not read. It is kept out of search engines. The translator's notes on word choices (for example τὸ μὴ δύο εἶναι for "non-duality") are in the session report of that day.
