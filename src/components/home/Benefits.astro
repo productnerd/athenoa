@@ -235,12 +235,15 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
   .unit--3 .unit__photos .unit__photo {
     --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
   }
-  /* The second, smaller photograph of the last benefit stands under the arch, a little to the right
-     of it, in the same column (client direction, 15 October 2026; it used to rest on the lower edge of
-     the box). Wider than the arch, never wider than the file allows (690px). */
+  /* The second, smaller photograph of the last benefit lies behind the arch, further back: it starts
+     under the arch's foot and to its right, and the arch hides part of it (client direction,
+     15 October 2026; it used to rest on the lower edge of the box). Wider than the arch, never wider
+     than the file allows (690px). */
   .unit__second {
+    position: relative;
+    z-index: -1;
     width: min(135%, 27rem, 86vw - 2 * var(--gutter));
-    margin: 2.2rem 0 0 12%;
+    margin: -2.6rem 0 0 22%;
   }
   .unit__second::before {
     inset: -0.5rem;
@@ -345,7 +348,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
     }
     .unit--3 .unit__second {
       width: min(128%, 27rem);
-      margin-left: 10%;
+      margin: -4.5rem 0 0 26%;
     }
   }
 </style>
