@@ -161,6 +161,39 @@ const rowsOf = (text: string) => {
 </section>
 
 <script>
+  // The swashes behind the highlighted words, centred on the letters in whatever face the browser
+  // drew them with: from 0.115em above the capitals to 0.115em under the baseline. The letters' place
+  // in the line comes from the face's own measures (the same ones the browser lays the line out by).
+  function fitSwashes() {
+    const ctx = document.createElement('canvas').getContext('2d');
+    if (!ctx) return;
+    document.querySelectorAll<HTMLElement>('.hero__title .hl__w').forEach((word) => {
+      const style = getComputedStyle(word);
+      const size = parseFloat(style.fontSize);
+      const box = word.getBoundingClientRect().height;
+      ctx.font = `${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`;
+      const face = ctx.measureText(word.textContent ?? 'H');
+      const capital = ctx.measureText('H');
+      const ascent = face.fontBoundingBoxAscent;
+      const descent = face.fontBoundingBoxDescent;
+      if (!size || !box || !ascent) return;
+      const baseline = (box - (ascent + descent)) / 2 + ascent;
+      const pad = size * 0.115;
+      word.style.setProperty('--hl-top', `${(baseline - capital.actualBoundingBoxAscent - pad).toFixed(1)}px`);
+      word.style.setProperty('--hl-bottom', `${(box - baseline - pad).toFixed(1)}px`);
+    });
+  }
+  let fitting = 0;
+  const refit = () => {
+    cancelAnimationFrame(fitting);
+    fitting = requestAnimationFrame(fitSwashes);
+  };
+  document.addEventListener('astro:page-load', () => {
+    fitSwashes();
+    document.fonts?.ready.then(fitSwashes);
+  });
+  window.addEventListener('resize', refit);
+
   // The clouds, the birds, the stars and the fire only move while the hero is on screen.
   document.addEventListener('astro:page-load', () => {
     const hero = document.querySelector<HTMLElement>('.hero');
@@ -299,25 +332,27 @@ const rowsOf = (text: string) => {
      baseline, so it covers whole words and does not hang below them (client direction, 14 October
      2026). In the title face the capitals rise 0.01em above the line's box and the baseline sits
      0.79em down it (line height 1); the stand-in face is set to the same lines (fonts.css). */
+  .hero__title .hl__w {
+    /* the swash's top and foot without the script; the script below measures the letters in the face
+       the browser actually used and sets --hl-top and --hl-bottom (Safari ignores the stand-in face's
+       line settings in fonts.css, so its letters sit lower than Chrome's) */
+    --hl-top-d: -0.125em;
+    --hl-bottom-d: 0.095em;
+  }
   .hero__title .hl__w::before {
-    inset: -0.125em -0.36em 0.095em -0.34em;
+    inset: var(--hl-top, var(--hl-top-d)) -0.36em var(--hl-bottom, var(--hl-bottom-d)) -0.34em;
     border-radius: 22% 27% 20% 29% / 44% 40% 47% 42%;
   }
   .hero__title .hl__w:nth-child(even)::before {
-    inset: -0.105em -0.38em 0.075em -0.33em;
+    inset: calc(var(--hl-top, var(--hl-top-d)) + 0.02em) -0.38em calc(var(--hl-bottom, var(--hl-bottom-d)) - 0.02em) -0.33em;
     border-radius: 27% 21% 29% 22% / 41% 46% 40% 45%;
   }
   /* Greek titles are set in EB Garamond, whose capitals start lower on the line (measured: from 0.16em
      to the baseline at 0.86em, in a line of 1.01): the swash moves down to sit centred on them too */
-  .hero--el .hero__title .hl__w::before,
-  .hero--grc .hero__title .hl__w::before {
-    top: 0.047em;
-    bottom: 0.037em;
-  }
-  .hero--el .hero__title .hl__w:nth-child(even)::before,
-  .hero--grc .hero__title .hl__w:nth-child(even)::before {
-    top: 0.067em;
-    bottom: 0.017em;
+  .hero--el .hero__title .hl__w,
+  .hero--grc .hero__title .hl__w {
+    --hl-top-d: 0.047em;
+    --hl-bottom-d: 0.037em;
   }
   /* The subtitle in the handwritten voice face. It may run wider than the stack above it, as far
      as the column goes, and never drops below the size a hand needs. */
