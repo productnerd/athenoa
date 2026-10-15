@@ -9,11 +9,18 @@
 // place in the piece is remembered and the music picks up from there, easing in, instead of starting
 // again. A link that forces such a reload fades the music out first, so it never cuts.
 import { content } from '../data';
+import { handCase } from '../lib/hand';
 import { getLocale, mainLocale } from '../lib/locale';
 
+// invite: a handwritten note beside the button while the browser holds sound back (see the script)
 const t = {
-  en: { group: 'Background music', turnOff: 'Turn the music off', turnOn: 'Turn the music on' },
-  el: { group: 'Μουσική υπόκρουση', turnOff: 'Απενεργοποίηση μουσικής', turnOn: 'Ενεργοποίηση μουσικής' },
+  en: { group: 'Background music', turnOff: 'Turn the music off', turnOn: 'Turn the music on', invite: 'tap for sound' },
+  el: {
+    group: 'Μουσική υπόκρουση',
+    turnOff: 'Απενεργοποίηση μουσικής',
+    turnOn: 'Ενεργοποίηση μουσικής',
+    invite: 'πατήστε για ήχο',
+  },
 }[mainLocale(getLocale(Astro.url))];
 const { ui } = content(getLocale(Astro.url));
 ---
@@ -56,10 +63,18 @@ const { ui } = content(getLocale(Astro.url));
       </g>
     </svg>
   </button>
+  {/* Most browsers allow no sound until the visitor presses something. While that holds, a note
+      beside the sound button says so (client direction, 15 October 2026). */}
+  <p class="music__invite" data-sound-invite hidden>
+    <svg viewBox="0 0 34 16" width="34" height="16" aria-hidden="true" focusable="false">
+      <path d="M32 9.5C24 13 13 12.5 4 7M4 7l5.2-3.6M4 7l6 2.4"></path>
+    </svg>
+    <span>{handCase(t.invite)}</span>
+  </p>
 </div>
 
 <script>
-  import { playSound } from '../scripts/sound';
+  import { playSound, soundHeldBack } from '../scripts/sound';
 
   const KEY = 'ath-music';
   const AT = 'ath-music-at'; // where in the piece the last page left off (this tab only)
@@ -102,6 +117,7 @@ const { ui } = content(getLocale(Astro.url));
     window.addEventListener('pagehide', keepPlace);
 
     let ramp = 0;
+    let heldBack = false; // the browser refused the music until the visitor presses something
     const start = () => {
       audio.volume = 0;
       audio
@@ -117,8 +133,9 @@ const { ui } = content(getLocale(Astro.url));
           };
           ramp = requestAnimationFrame(step);
         })
-        .catch(() => {
+        .catch((error: DOMException) => {
           // The browser is waiting for the visitor to interact first.
+          if (error?.name === 'NotAllowedError') heldBack = true;
         });
     };
 
@@ -144,6 +161,23 @@ const { ui } = content(getLocale(Astro.url));
       broken = true;
       render();
     });
+
+    // The invite: shown a moment after arrival if the browser is still holding sound back, gone with
+    // the first press (which starts everything). The page stays usable throughout: it is only a note.
+    const invite = root.querySelector<HTMLElement>('[data-sound-invite]');
+    if (invite) {
+      const leave = () => {
+        clearTimeout(timer);
+        root.classList.remove('is-inviting');
+        window.setTimeout(() => (invite.hidden = true), 400);
+      };
+      const timer = window.setTimeout(() => {
+        if (!heldBack && !soundHeldBack()) return;
+        invite.hidden = false;
+        requestAnimationFrame(() => root.classList.add('is-inviting'));
+      }, 2500);
+      for (const type of ['pointerdown', 'keydown']) window.addEventListener(type, leave, { once: true, passive: true, capture: true });
+    }
 
     // First interaction anywhere on the page starts the music, unless it was the mute button itself.
     const onFirstGesture = (event: Event) => {
@@ -292,6 +326,54 @@ const { ui } = content(getLocale(Astro.url));
   :global(html.motion) .music.is-playing .music__wave--2 {
     animation: music-pulse 2.8s var(--ease-in-out) infinite;
   }
+  /* The invite to press for sound: a handwritten note with a little arrow, and the button breathing */
+  .music__invite {
+    position: absolute;
+    left: calc(100% + 0.55rem);
+    bottom: 0.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    margin: 0;
+    white-space: nowrap;
+    font-family: var(--font-hand);
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--ink-strong);
+    text-shadow:
+      0 0 0.35rem var(--paper),
+      0 0 0.35rem var(--paper);
+    pointer-events: none;
+    opacity: 0;
+    translate: -0.4rem 0;
+    transition:
+      opacity 0.4s var(--ease-out),
+      translate 0.5s var(--ease-out);
+  }
+  .music__invite svg path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .music.is-inviting .music__invite {
+    opacity: 1;
+    translate: 0 0;
+  }
+  @keyframes music-invite {
+    0%,
+    100% {
+      scale: 1;
+    }
+    50% {
+      scale: 1.1;
+    }
+  }
+  :global(html.motion) .music.is-inviting [data-music-toggle] {
+    animation: music-invite 2.2s var(--ease-in-out) infinite;
+  }
+
   @media print {
     .music {
       display: none;
