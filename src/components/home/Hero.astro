@@ -67,6 +67,11 @@ const rowsOf = (text: string) => {
       <div class="hero__layer hero__layer--milky" data-depth="0.42" data-pointer="-4" data-reveal="fade">
         <Illustration name="portal-b-milkyway" />
       </div>
+      {/* Far off behind the temple, the Olympus range: two faded silhouettes a shade off the sky, with
+          no outline, for depth. The clouds drift in front of them (client request, 15 October 2026). */}
+      <div class="hero__layer hero__layer--peaks" data-depth="0.44" data-pointer="-5" data-reveal="fade">
+        <Illustration name="hero-peaks" note={false} />
+      </div>
       {/* The day sky: soft shapes of cloud with no outline drift across it, slower than the drawn clouds */}
       <div class="hero__layer hero__layer--haze" data-depth="0.46" data-reveal="fade">
         {[0, 1, 2, 3, 4, 5, 6].map((n) => <Illustration name="hero-cloud-soft" class={`hero__haze hero__haze--${n + 1}`} />)}
@@ -234,6 +239,9 @@ const rowsOf = (text: string) => {
     --highlight: var(--creme-light);
     --highlight-ink: var(--blue);
     --sub-ink: var(--blue);
+    /* the far mountains: barely darker than the sky, the nearer range a little more */
+    --peak-far: color-mix(in srgb, var(--blue) 9%, var(--blue-light));
+    --peak-near: color-mix(in srgb, var(--blue) 16%, var(--blue-light));
 
     position: relative;
     isolation: isolate;
@@ -255,6 +263,9 @@ const rowsOf = (text: string) => {
     --highlight: var(--blue-light);
     --highlight-ink: var(--blue-deep);
     --sub-ink: var(--blue-light);
+    /* by night a little lighter than the sky, as hills are against stars */
+    --peak-far: color-mix(in srgb, var(--blue) 26%, var(--blue-deep));
+    --peak-near: color-mix(in srgb, var(--blue) 38%, var(--blue-deep));
   }
 
   /* ---------- title ---------- */
@@ -368,6 +379,13 @@ const rowsOf = (text: string) => {
   .hero__layer--sky :global(.illo),
   .hero__layer--milky :global(.illo) {
     inset: -5% -2%;
+  }
+  /* The range stands on the ground line, its foot behind it, across the whole width */
+  .hero__layer--peaks :global(.illo) {
+    left: -2%;
+    right: -2%;
+    bottom: calc(var(--scene-b) + var(--u) * 6);
+    height: calc(var(--scene-h) * 0.95);
   }
   .hero__scene :global(.illo) {
     left: var(--scene-x);
