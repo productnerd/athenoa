@@ -141,28 +141,20 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
 <script>
   import { playSound } from '../../scripts/sound';
 
-  // Sound on the not-found page. The sea plays under everything, very low, while the site's sound is
-  // on (it follows the music button, and starts with the first click or key press, as browsers
-  // require). A gust of wind fills the sail when "Back to Ithaka" is pressed.
+  // Sound on the not-found page. The sea plays under everything, very low, from the first click or key
+  // press (browsers require one). A gust of wind fills the sail when "Back to Ithaka" is pressed. Both
+  // are sound effects: the sound button mutes only the music (client direction, 15 October 2026).
   const SEA = 0.09;
   const WIND = 0.3;
   let stop: (() => void) | undefined;
-  const muted = () => {
-    try {
-      return localStorage.getItem('ath-music') === 'off';
-    } catch {
-      return false;
-    }
-  };
   function setup() {
     stop?.();
     stop = undefined;
     const sea = document.querySelector<HTMLAudioElement>('[data-nf-sea]');
     if (!sea) return;
-    const music = document.querySelector<HTMLAudioElement>('[data-music-audio]');
     let ramp = 0;
     const play = () => {
-      if (muted() || !sea.paused) return;
+      if (!sea.paused) return;
       sea.volume = 0;
       sea
         .play()
@@ -181,22 +173,17 @@ const headings = { en: notfound.en.heading, el: notfound.el.heading };
       cancelAnimationFrame(ramp);
       sea.pause();
     };
-    const follow = () => (music && music.paused && muted() ? pause() : play());
     const gesture = () => play();
     const wind = (event: Event) => {
       const link = event.target instanceof Element ? event.target.closest('[data-nf-home]') : null;
-      if (!link || muted()) return;
+      if (!link) return;
       playSound('/audio/wind.mp3', WIND);
     };
-    music?.addEventListener('play', follow);
-    music?.addEventListener('pause', follow);
     window.addEventListener('pointerdown', gesture, { passive: true });
     window.addEventListener('keydown', gesture, { passive: true });
     document.addEventListener('click', wind, true);
     play();
     stop = () => {
-      music?.removeEventListener('play', follow);
-      music?.removeEventListener('pause', follow);
       window.removeEventListener('pointerdown', gesture);
       window.removeEventListener('keydown', gesture);
       document.removeEventListener('click', wind, true);

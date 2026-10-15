@@ -6,22 +6,14 @@
 // silent. A Web Audio context, once woken by the visitor's first click, tap or key press, may play at
 // any time. It also sets loudness itself (a gain), which the iPhone ignores on an <audio> element.
 //
-// Until that first gesture nothing plays, in any browser. Every sound follows the site's sound
-// button (localStorage 'ath-music').
+// Until that first gesture nothing plays, in any browser. The sound button in the corner mutes only
+// the music: these effects play either way (client direction, 15 October 2026).
 
 type Win = Window & { webkitAudioContext?: typeof AudioContext };
 
 let context: AudioContext | null = null;
 let woken = false;
 const buffers = new Map<string, Promise<AudioBuffer>>();
-
-export const soundOn = () => {
-  try {
-    return localStorage.getItem('ath-music') !== 'off';
-  } catch {
-    return true;
-  }
-};
 
 function wake() {
   woken = true;
@@ -52,9 +44,9 @@ function load(ctx: AudioContext, file: string) {
   return buffer;
 }
 
-/** Plays a short sound once, at `volume` (0 to 1). Silent if sound is off or nothing has been pressed yet. */
+/** Plays a short sound once, at `volume` (0 to 1). Silent until something has been pressed. */
 export async function playSound(file: string, volume: number) {
-  if (!woken || !context || !soundOn()) return;
+  if (!woken || !context) return;
   const ctx = context;
   try {
     if (ctx.state !== 'running') await ctx.resume();
