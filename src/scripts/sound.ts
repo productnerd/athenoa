@@ -6,8 +6,11 @@
 // silent. A Web Audio context, once woken by the visitor's first click, tap or key press, may play at
 // any time. It also sets loudness itself (a gain), which the iPhone ignores on an <audio> element.
 //
-// Until that first gesture nothing plays, in any browser. The sound button in the corner mutes only
-// the music: these effects play either way (client direction, 15 October 2026).
+// Each browser decides whether a page may sound before the visitor has pressed anything: most say no,
+// but Chrome says yes to a site its user often plays sound on. So the context is tried at once, and if
+// the browser holds it back, it is woken by the first click, tap or key press instead (and the corner
+// invites one, see BackgroundMusic.astro). The sound button in the corner mutes only the music: these
+// effects play either way (client direction, 15 October 2026).
 
 type Win = Window & { webkitAudioContext?: typeof AudioContext };
 
@@ -15,15 +18,24 @@ let context: AudioContext | null = null;
 let woken = false;
 const buffers = new Map<string, Promise<AudioBuffer>>();
 
-function wake() {
-  woken = true;
+function make() {
   if (!context) {
     const Context = window.AudioContext ?? (window as Win).webkitAudioContext;
-    if (!Context) return;
-    context = new Context();
+    if (Context) context = new Context();
   }
-  if (context.state !== 'running') context.resume().catch(() => {});
+  return context;
 }
+function wake() {
+  woken = true;
+  const ctx = make();
+  if (ctx && ctx.state !== 'running') ctx.resume().catch(() => {});
+}
+
+/** True while the browser is still holding sound back until the visitor presses something. */
+export const soundHeldBack = () => {
+  const ctx = make();
+  return !woken && (!ctx || ctx.state !== 'running');
+};
 for (const type of ['pointerdown', 'keydown', 'touchend']) {
   window.addEventListener(type, wake, { capture: true, passive: true });
 }
@@ -44,12 +56,16 @@ function load(ctx: AudioContext, file: string) {
   return buffer;
 }
 
-/** Plays a short sound once, at `volume` (0 to 1). Silent until something has been pressed. */
+/** Plays a short sound once, at `volume` (0 to 1). Silent while the browser holds sound back. */
 export async function playSound(file: string, volume: number) {
-  if (!woken || !context) return;
-  const ctx = context;
+  const ctx = make();
+  if (!ctx) return;
   try {
-    if (ctx.state !== 'running') await ctx.resume();
+    if (ctx.state !== 'running') {
+      // (a resume the browser does not allow waits for a gesture; this sound would come late, so skip it)
+      if (!woken) return;
+      await ctx.resume();
+    }
     const buffer = await load(ctx, file);
     const source = ctx.createBufferSource();
     source.buffer = buffer;

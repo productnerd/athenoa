@@ -15,7 +15,6 @@
   const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
   let cleanup: Array<() => void> = [];
-  let gestured = false; // a first click, tap or key press has happened (it holds across page changes)
 
   function stop() {
     cleanup.forEach((fn) => fn());
@@ -35,7 +34,9 @@
     let frame = 0;
     let began = 0; // when the current fade in started
 
-    const allowed = () => gestured;
+    // Tried at once: where the browser allows sound before a click it plays from the start, elsewhere
+    // the attempt fails quietly and the first click, tap or key press starts it.
+    const allowed = () => true;
 
     // 1 with the page at its top, 0 once most of the hero has scrolled away
     const level = () => {
@@ -71,11 +72,9 @@
     window.addEventListener('scroll', onScroll, { passive: true });
     cleanup.push(() => window.removeEventListener('scroll', onScroll));
 
-
     // The music starts on the first click, tap or key press, in a listener that runs before this one.
     // Answering the same gesture lets the fire start inside it, which some browsers insist on.
     const onGesture = () => {
-      gestured = true;
       apply();
     };
     for (const type of ['pointerdown', 'keydown']) {
