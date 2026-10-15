@@ -738,10 +738,6 @@ const rowsOf = (text: string) => {
     --delay: 1400ms;
     --hl-delay: 2.2s;
   }
-  /* The title face stands taller than its line: sink the waiting words fully out of the mask. */
-  :global(html.motion) .hero__title:not(.is-in) :global(.w__i) {
-    transform: translate3d(0, 135%, 0);
-  }
   /* The trees come up from behind the ground line. The drawing rises inside its layer, so the
      layer itself keeps still and the parallax script measures it where it will stand. */
   :global(html.motion) .hero__trees :global(.illo) {

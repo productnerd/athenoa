@@ -62,7 +62,10 @@ html.motion [data-reveal='unveil'] {
   display: inline-block;
 }
 html.motion [data-split] .w__i {
-  transform: translate3d(0, 105%, 0);
+  /* waiting below the mask, wholly: the mask reaches well under the line (its room for tails), so a
+     word pushed down only its own height showed its top there, cut, until it rose (client report,
+     16 October 2026) */
+  transform: translate3d(0, calc(100% + 1em), 0);
   transition: transform var(--dur-3) var(--ease-out);
   transition-delay: calc(var(--i, 0) * 55ms + var(--delay, 0ms));
 }
