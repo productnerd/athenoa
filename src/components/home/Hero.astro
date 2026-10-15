@@ -205,7 +205,8 @@ const rowsOf = (text: string) => {
 
 <style>
   .hero {
-    --hero-pad: clamp(1.4rem, 0.2rem + 4.6vw, 5.25rem);
+    /* the title starts where the logo does (--edge, tokens.css) */
+    --hero-pad: var(--edge);
     --panel-w: 100vw;
     --panel-h: max(100svh, 32rem);
     /* the first screen below the header, which lies over the top of the picture */

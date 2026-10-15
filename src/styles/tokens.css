@@ -57,6 +57,12 @@
   --gutter: clamp(1.15rem, 0.6rem + 2.6vw, 3.25rem);
   --measure: 62ch;
   --wrap: 82rem;
+  /* The header's width and the inner padding of its bar. --edge is where the logo starts, measured
+     from the window's edge; the hero title starts there too, so the two always line up (client
+     direction, 16 October 2026: the header a little wider, the title a little further in). */
+  --header-max: 110rem;
+  --bar-pad: clamp(0.9rem, 0.5rem + 1.6vw, 1.75rem);
+  --edge: calc(max(var(--gutter), (100vw - var(--header-max)) / 2) + var(--bar-pad));
 
   /* Organic shapes. Nothing on the site is a hard rectangle. */
   --r-arch: 999px 999px 2.2rem 2.6rem / 999px 999px 2rem 2.4rem;
