@@ -15,7 +15,7 @@ ratios.forEach((r, i) => {
   // the plectrum: a bright burst, softened a little (gut, not steel)
   let prev = 0;
   for (let k = 0; k < N; k++) { const v = rnd(); prev = 0.6 * v + 0.4 * prev; line[k] = prev; }
-  const start = Math.round(SR * (0.03 + i * 0.028)); // the sweep, low string to high
+  const start = Math.round(SR * (0.03 + i * 0.042)); // the sweep, low string to high (slowed a touch, 15 October 2026)
   const decay = 0.9955 - i * 0.0004; // higher strings die a little sooner
   const gain = 0.5 * (1 - i * 0.04);
   let idx = 0;
