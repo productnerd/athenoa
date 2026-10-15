@@ -23,15 +23,17 @@ const FAR = [
   [0.466, 0.805], [0.474, 0.785], [0.481, 0.8], // Stefani: two horns and the seat between
   [0.495, 0.74], [0.515, 0.705], [0.54, 0.7], [0.56, 0.715], [0.575, 0.705], // Plateau of the Muses, Profitis Ilias
   [0.6, 0.67], [0.64, 0.6], [0.69, 0.52], [0.75, 0.45], [0.81, 0.39], [0.87, 0.34], [0.93, 0.3], [1.02, 0.26],
+  [1.1, 0.24], [1.22, 0.22], // the Pierian hills, on to the right edge
 ];
 const NEAR = [
   [-0.02, 0.12], [0.07, 0.19], [0.15, 0.24], [0.23, 0.21], [0.31, 0.16], [0.4, 0.18], [0.5, 0.23],
   [0.6, 0.21], [0.7, 0.26], [0.8, 0.3], [0.9, 0.25], [1.02, 0.19],
 ];
 
-// The whole range a little right, so the summits rise in the open sky over the left of the temple's
-// roof, between it and the title
-const SHIFT = 0.11;
+// The whole range moved left, so the summit stands on the left third of the picture (client
+// direction, 15 October 2026). Mytikas is at 0.44 of the outline; the drawing runs from -2% to 102%
+// of the window, so -0.105 puts it at a third of the window.
+const SHIFT = -0.105;
 
 // Catmull-Rom through the points, as cubic Béziers: smooth, and it passes through every point
 function curve(points, shift = 0) {
