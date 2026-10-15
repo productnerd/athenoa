@@ -78,7 +78,7 @@ const { ui } = content(getLocale(Astro.url));
     } catch {}
 
     // With no music file to play (it is kept out of the public preview until its licence is settled)
-    // the button still switches the site's other sounds, so it then shows the stored choice.
+    // the button still records the choice, so it then shows that choice.
     let broken = audio.error !== null;
     const render = () => {
       const playing = broken ? wanted : !audio.paused;
@@ -178,7 +178,7 @@ const { ui } = content(getLocale(Astro.url));
     render();
 
     // Day and night. An owl calls when night falls; a soft wave greets the day.
-    // The sounds stay silent if the visitor has muted the site's music.
+    // (Sound effects: they play whether the music is on or off, client direction, 15 October 2026.)
     const moon = root.querySelector<HTMLButtonElement>('[data-theme-toggle]');
     if (moon) {
       const page = document.documentElement;

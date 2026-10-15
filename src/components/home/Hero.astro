@@ -295,6 +295,18 @@ const rowsOf = (text: string) => {
     inset: -0.105em -0.38em 0.075em -0.33em;
     border-radius: 27% 21% 29% 22% / 41% 46% 40% 45%;
   }
+  /* Greek titles are set in EB Garamond, whose capitals start lower on the line (measured: from 0.16em
+     to the baseline at 0.86em, in a line of 1.01): the swash moves down to sit centred on them too */
+  .hero--el .hero__title .hl__w::before,
+  .hero--grc .hero__title .hl__w::before {
+    top: 0.047em;
+    bottom: 0.037em;
+  }
+  .hero--el .hero__title .hl__w:nth-child(even)::before,
+  .hero--grc .hero__title .hl__w:nth-child(even)::before {
+    top: 0.067em;
+    bottom: 0.017em;
+  }
   /* The subtitle in the handwritten voice face. It may run wider than the stack above it, as far
      as the column goes, and never drops below the size a hand needs. */
   .hero__title .t-sub {
