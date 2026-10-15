@@ -264,6 +264,8 @@ const rowsOf = (text: string) => {
     isolation: isolate;
     max-width: 100%;
     font-size: var(--hero-fs);
+    /* a touch more air between the rows than other titles have (client direction, 15 October 2026) */
+    line-height: calc(var(--title-leading) + 0.05);
     text-wrap: wrap;
   }
   /* The highlighted words are set heavier than the rest of the title (client direction) */
@@ -283,14 +285,14 @@ const rowsOf = (text: string) => {
   /* The swash has to hold every letter of its word: a little wider and squarer than the kit's. */
   /* The swash is centred on the letters, from a little above the capitals to a little under the
      baseline, so it covers whole words and does not hang below them (client direction, 14 October
-     2026). In the title face the capitals rise 0.035em above the line's box and the baseline sits
-     0.765em down it (line height 0.95); the stand-in face is set to the same lines (fonts.css). */
+     2026). In the title face the capitals rise 0.01em above the line's box and the baseline sits
+     0.79em down it (line height 1); the stand-in face is set to the same lines (fonts.css). */
   .hero__title .hl__w::before {
-    inset: -0.15em -0.36em 0.07em -0.34em;
+    inset: -0.125em -0.36em 0.095em -0.34em;
     border-radius: 22% 27% 20% 29% / 44% 40% 47% 42%;
   }
   .hero__title .hl__w:nth-child(even)::before {
-    inset: -0.13em -0.38em 0.05em -0.33em;
+    inset: -0.105em -0.38em 0.075em -0.33em;
     border-radius: 27% 21% 29% 22% / 41% 46% 40% 45%;
   }
   /* The subtitle in the handwritten voice face. It may run wider than the stack above it, as far
