@@ -45,7 +45,9 @@ const { kicker, title, open, note } = home.seminar;
 <script>
   import { playSound } from '../../scripts/sound';
 
-  // A strummed chord (D, A, D, F sharp, A, D, low to high), synthesised; it follows the sound button.
+  // The sound of an ancient lyre, not a western chord (client direction, 15 October 2026): seven strings
+  // swept once with a plectrum, tuned to the Dorian harmonia (E F G A B C D, two conjunct tetrachords)
+  // in Pythagorean ratios, plucked gut with a short decay. Made by scripts/audio/lyre.mjs.
   document.addEventListener('astro:page-load', () => {
     const lyre = document.querySelector<HTMLElement>('[data-lyre]:not([data-lyre-ready])');
     if (!lyre) return;
