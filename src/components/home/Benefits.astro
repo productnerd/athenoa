@@ -86,7 +86,7 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       ratio: '690 / 300',
       focus: '70% 60%',
       widths: [360, 520, 690],
-      sizes: '(min-width: 60rem) 27rem, (min-width: 40rem) 22rem, 80vw',
+      sizes: '(min-width: 68rem) 30rem, (min-width: 60rem) 44vw, (min-width: 40rem) 30rem, 78vw',
     },
   },
 ];
@@ -110,15 +110,15 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
                 <div class:list={['unit__frame', mat]}>
                   <Media class="unit__photo" {...photo} />
                 </div>
+              </div>
+              <div class:list={['unit__box box', surface, second && 'unit__box--second']} data-reveal>
+                <h3 class="unit__title">{item.title}</h3>
+                <p>{item.italic ? <em>{item.text}</em> : item.text}</p>
                 {second && (
-                  <div class:list={['unit__frame unit__second', mat]}>
+                  <div class:list={['unit__frame unit__second', mat]} data-depth="-0.04">
                     <Media class="unit__photo" {...second} />
                   </div>
                 )}
-              </div>
-              <div class:list={['unit__box box', surface]} data-reveal>
-                <h3 class="unit__title">{item.title}</h3>
-                <p>{item.italic ? <em>{item.text}</em> : item.text}</p>
               </div>
             </li>
           );
@@ -233,21 +233,19 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
   .unit--3 .unit__photos .unit__photo {
     --media-r: 50% 50% 2.4rem 2.8rem / 32% 32% 2.2rem 2.6rem;
   }
-  /* The second, smaller photograph of the last benefit lies behind the arch, further back: it starts
-     under the arch's foot and to its right, and the arch hides part of it (client direction,
-     15 October 2026; it used to rest on the lower edge of the box). Wider than the arch, never wider
-     than the file allows (690px). */
-  .unit__second {
-    position: relative;
-    z-index: -1;
-  }
-  /* the arch, its blue rim included, lies over the photograph behind it */
-  .unit--3 .unit__photos > .unit__frame:first-child {
-    z-index: 1;
+  /* The second, smaller photograph of the last benefit rests on the lower edge of its box,
+     half on the blue and half on the paper. On a phone it takes most of the width of the box.
+     The file is 690px wide, so 30rem is as far as it goes. */
+  .unit--3 {
+    --pill-w: min(30rem, 86vw - 2 * var(--gutter));
+    --pill-out: calc(var(--pill-w) * 300 / 690 / 2);
+    margin-bottom: var(--pill-out);
   }
   .unit__second {
-    width: min(135%, 27rem, 86vw - 2 * var(--gutter));
-    margin: -2.6rem 0 0 22%;
+    position: absolute;
+    right: 7%;
+    bottom: calc(var(--pill-out) * -1);
+    width: var(--pill-w);
   }
   .unit__second::before {
     inset: -0.5rem;
@@ -256,6 +254,9 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
 
   .unit__box {
     padding-top: calc(var(--lap) + var(--space-m));
+  }
+  .unit__box--second {
+    padding-bottom: calc(var(--pill-out) + var(--space-m));
   }
   .unit--1 .unit__box {
     --box-r: 3.4rem 4.6rem 3.8rem 5rem / 4.4rem 3.6rem 5rem 3.8rem;
@@ -335,6 +336,9 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       grid-column: 4 / span 8;
       padding: var(--pad) var(--pad) var(--pad) calc(25% + var(--space-l));
     }
+    .unit__box--second {
+      padding-bottom: calc(var(--pill-out) + var(--space-m));
+    }
     .unit--2 .unit__photos {
       grid-column: 8 / span 5;
       justify-self: stretch;
@@ -345,16 +349,15 @@ const looks: { surface: string; mat: string; photo: Photo; second?: Photo }[] = 
       padding-left: var(--pad);
       padding-right: calc(25% + var(--space-l));
     }
-    /* Last benefit: the arch with the small photograph under it, on the left of the box */
+    /* Last benefit: the arch and the small photograph stand on one line, a little below the box.
+       The small photograph takes about half the page, and stops short of the arch beside it. */
+    .unit--3 {
+      --pill-w: min(30rem, 44vw);
+      align-items: end;
+    }
     .unit--3 .unit__photos {
       width: auto;
-      margin: 0 16% 0 4%;
-    }
-    /* kept inside the photographs' column, so it never reaches the words in the box beside it */
-    .unit--3 .unit__second {
-      width: 100%;
-      /* lower, so it hangs below the blue box (client direction, 15 October 2026) */
-      margin: -1rem 0 0 20%;
+      margin: 0 16% calc(var(--pill-out) * -1) 4%;
     }
   }
 </style>
