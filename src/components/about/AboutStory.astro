@@ -19,15 +19,12 @@ const locale = getLocale(Astro.url);
 const { about } = content(locale);
 const t = {
   en: {
-    library: 'A woman with dark hair and a white blouse smiles between library bookshelves, holding a book',
     graduation:
       'Graduates in red and blue academic gowns take their seats in a ceremony hall; one of them looks back over her shoulder',
     sea: 'A woman in white sits with her eyes closed and her hands folded, high above the blue sea',
     pines: 'A small group sits in a circle under pine trees, with the Acropolis on its rock behind them',
   },
   el: {
-    library:
-      'Μια γυναίκα με σκούρα μαλλιά και λευκή μπλούζα χαμογελά ανάμεσα στα ράφια μιας βιβλιοθήκης, κρατώντας ένα βιβλίο',
     graduation:
       'Απόφοιτοι με κόκκινες και μπλε ακαδημαϊκές τηβέννους παίρνουν τις θέσεις τους σε μια αίθουσα τελετών· μία απόφοιτη κοιτάζει πίσω, πάνω από τον ώμο της',
     sea: 'Μια γυναίκα ντυμένη στα λευκά κάθεται με κλειστά μάτια και ενωμένα χέρια, ψηλά πάνω από τη γαλάζια θάλασσα',
@@ -45,19 +42,6 @@ const [roots, studies, back, academy] = about.story;
     <div class="roots">
       <h2 id="story-title" class="hand story__title" data-reveal>{handCase(about.saysTitle)}</h2>
       <div class="story__text roots__text" data-reveal>
-        <div class="roots__aside">
-          <div data-depth="0.06">
-            <Media
-              src={photo(roots.image)}
-              alt={t.library}
-              shape="pebble-1"
-              ratio="1 / 1"
-              widths={[260, 389]}
-              sizes="15rem"
-              framed
-            />
-          </div>
-        </div>
         {
           roots.paragraphs.map((text, i) => (
             <>
@@ -173,11 +157,6 @@ const [roots, studies, back, academy] = about.story;
   .roots {
     position: relative;
     z-index: 1;
-  }
-  .roots__aside {
-    position: relative;
-    width: 11.5rem;
-    margin: 0 0 var(--space-m) 0.75rem;
   }
   .roots__text {
     position: relative;
@@ -297,14 +276,6 @@ const [roots, studies, back, academy] = about.story;
       grid-column: 5 / -1;
     }
     /* The portrait hangs off the column's left edge and the first lines follow its curve */
-    .roots__aside {
-      float: left;
-      width: 15rem;
-      margin: 0.4rem 1.9rem 1.2rem -9.75rem;
-      shape-outside: circle(50%) border-box;
-      shape-margin: 1.5rem;
-    }
-
     .academy__photo {
       margin-top: -3.5rem;
     }

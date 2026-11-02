@@ -23,7 +23,7 @@ export const about = {
   story: [
     {
       id: 'roots',
-      image: 'library-portrait',
+      // (its photograph, the library portrait, now signs the letter on Home: 2 November 2026)
       paragraphs: [
         '“I grew up in the beautiful nature of Attica, in the northern suburbs of Athens, in a house nestled in pine-covered gardens and Apollonian light, with a family of mathematicians. Pythagorean Teaching, Music, and Mathematics were the first endowments I received from my parents already from the age of four. Love for Greece and Philosophy were innate elements that emerged very early, and thus I devoted myself to the study of Greek Philosophy from a young age.',
         'I received the Call from Plato at the age of fourteen - after a shattering spiritual experience, triggered as I was reading the Ancient Dialogues. It was a lightning-like activation of Mnemosyne.',

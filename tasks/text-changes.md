@@ -121,6 +121,14 @@ A small line under the button, new (client request):
 | --- | --- | --- |
 | We will notify you once the enrolments are open. | Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές. | Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν. |
 
+## Home letter signed (2 November 2026)
+
+Under Athena's letter on Home: her photograph (the library portrait, moved from the opening of the About page), her name (as everywhere: site.founder) and a title line, new:
+
+| English | Greek | Ancient Greek draft |
+| --- | --- | --- |
+| Founder of the Philosophical Academy ATHENOA | Ιδρύτρια της Φιλοσοφικής Ακαδημίας ATHENOA | Ἱδρύτρια τῆς Ἀκαδημείας ATHENOA |
+
 ## Ancient Greek (11 October 2026)
 
 The whole site also exists in Ancient Greek under `/grc/`, as a machine-drafted translation in `src/data/grc/` that Athena has not read. It is kept out of search engines. The translator's notes on word choices (for example τὸ μὴ δύο εἶναι for "non-duality") are in the session report of that day.

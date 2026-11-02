@@ -43,6 +43,11 @@ export const home = {
   announcement: {
     greeting: 'Dear Friends and Bright Fellow Travelers on the Path of the Greek Light,',
     text: 'It is with great pleasure that I announce the resumption of classes!',
+    // The letter is signed: her photograph, her name (site.founder) and her title (client request, 2 November 2026)
+    signature: {
+      role: 'Founder of the Philosophical Academy ATHENOA',
+      alt: 'Dr. Athena Potari, smiling between library bookshelves, holding a book',
+    },
     newsletter: {
       // The heading and the short button label were asked for by the client on 12 October 2026;
       // the live site has only the long button, "Subscribe to our Newsletter".

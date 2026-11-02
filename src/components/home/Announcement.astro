@@ -4,6 +4,7 @@
 // on the courses page, so a course looks like a course wherever it appears).
 import { handCase } from '../../lib/hand';
 import Media from '../Media.astro';
+import portrait from '../../assets/media/library-portrait.jpg';
 import Illustration from '../Illustration.astro';
 import CourseCard from '../courses/CourseCard.astro';
 import CourseDialog from '../courses/CourseDialog.astro';
@@ -11,8 +12,8 @@ import { content } from '../../data';
 import { getLocale } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
-const { home, courses } = content(locale);
-const { greeting, text, newsletter } = home.announcement;
+const { home, courses, site } = content(locale);
+const { greeting, text, newsletter, signature } = home.announcement;
 // The announced courses, as their full course entries, so they are drawn as course cards.
 const announced = home.announcement.courses
   .map((item) => courses.find((course) => course.slug === item.slug))
@@ -25,6 +26,24 @@ const announced = home.announcement.courses
       <div class="letter box box--offset" data-reveal>
         <h2 class="hand hand--l" id="announcement-title">{handCase(greeting)}</h2>
         <p class="letter__text hand hand--l">{handCase(text)}</p>
+        {/* Signed by Athena: her photograph, her name and her title (client request, 2 November 2026;
+            the photograph moved here from the About page, so no photograph shows twice) */}
+        <figure class="letter__sign">
+          <Media
+            class="letter__portrait"
+            src={portrait}
+            alt={signature.alt}
+            shape="pebble-1"
+            ratio="1 / 1"
+            widths={[260, 389]}
+            sizes="11rem"
+            framed
+          />
+          <figcaption>
+            <span class="letter__name">{site.founder}</span>
+            <span class="letter__role">{signature.role}</span>
+          </figcaption>
+        </figure>
       </div>
 
       <div class="slip box on-blue-deep" data-reveal data-depth="-0.04" style="--i:3">
@@ -104,6 +123,56 @@ const announced = home.announcement.courses
   .letter__text {
     margin-top: var(--space-xs);
     max-width: 30ch;
+  }
+  /* The signature: on a phone a small portrait with the name beside it, under the words */
+  .letter__sign {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    margin: var(--space-m) 0 0;
+  }
+  .letter__sign :global(.letter__portrait) {
+    flex: none;
+    width: 6.5rem;
+  }
+  .letter figcaption {
+    display: grid;
+    gap: 0.3rem;
+  }
+  .letter__name {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1.1;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+  .letter__role {
+    font-size: var(--step--1);
+    line-height: 1.35;
+    color: var(--ink-soft);
+  }
+  /* From tablets up the portrait stands on the right of the letter, the name and title under it */
+  @media (min-width: 40rem) {
+    .letter {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: clamp(1.5rem, 0.5rem + 3vw, 3.5rem);
+      align-items: start;
+    }
+    .letter__sign {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: center;
+      flex-direction: column;
+      gap: 0.9rem;
+      max-width: 13rem;
+      margin: 0;
+      text-align: center;
+    }
+    .letter__sign :global(.letter__portrait) {
+      width: clamp(8rem, 5rem + 6vw, 11rem);
+    }
   }
   /* ---------- The newsletter slip ---------- */
   .slip {
