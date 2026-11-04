@@ -109,15 +109,6 @@ const playHref = pathIn(locale, '/nostos/play/');
         spellcheck="false"
         data-search
       />
-      <div class="nmap__seg" role="group" aria-label={t.linesLabel}>
-        {
-          (['core', 'her', 'co', 'all'] as const).map((mode) => (
-            <button type="button" data-mode={mode} aria-pressed={mode === 'core' ? 'true' : 'false'}>
-              {t.lines[mode]}
-            </button>
-          ))
-        }
-      </div>
       <p class="nmap__status" aria-live="polite" data-status></p>
     </form>
 
@@ -126,7 +117,6 @@ const playHref = pathIn(locale, '/nostos/play/');
         <svg
           class="nmap__svg"
           viewBox={mapViewBox.join(' ')}
-          data-lines="core"
           role="img"
           aria-label={t.mapLabel}
           data-svg
@@ -198,7 +188,7 @@ const playHref = pathIn(locale, '/nostos/play/');
     <div class="nmap__legend" role="group" aria-label={t.themes}>
       {
         groups.map((g) => (
-          <button type="button" class="nmap__theme" data-theme={g.id} aria-pressed="true" title={g.sub} disabled>
+          <button type="button" class="nmap__theme" data-theme={g.id} data-g={g.id} aria-pressed="true" title={g.sub} disabled>
             <svg viewBox="-1.5 -1.5 3 3" aria-hidden="true">
               <use href={`#nsh-${g.id}`} x="-1.5" y="-1.5" width="3" height="3" />
             </svg>
@@ -521,16 +511,6 @@ const playHref = pathIn(locale, '/nostos/play/');
     }
 
     // ---------- lines and themes ----------
-    root.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
-      b.addEventListener(
-        'click',
-        () => {
-          svg.dataset.lines = b.dataset.mode;
-          root.querySelectorAll('[data-mode]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-        },
-        on,
-      ),
-    );
     const hidden = new Set<string>();
     root.querySelectorAll<HTMLButtonElement>('[data-theme]').forEach((b) =>
       b.addEventListener(
@@ -592,6 +572,15 @@ const playHref = pathIn(locale, '/nostos/play/');
     --map-ink: var(--ink-strong);
     --map-soft: color-mix(in srgb, var(--ink) 52%, var(--paper));
     --map-line: color-mix(in srgb, var(--ink) 34%, transparent);
+    /* one pigment per theme, so the clusters read at a glance (an exception to the two-ink
+       palette, asked for by Maria on 4 November 2026): deeper by day, lighter on the night sky */
+    --g-path: #a07208;
+    --g-soul: #2238c3;
+    --g-ethics: #587626;
+    --g-cosmos: #b3352d;
+    --g-ways: #18766c;
+    --g-thinkers: #bd6424;
+    --g-gods: #77307f;
     position: relative;
     width: calc(100vw - 2 * var(--map-edge));
     margin-left: calc(50% - 50vw + var(--map-edge));
@@ -654,16 +643,6 @@ const playHref = pathIn(locale, '/nostos/play/');
     outline: 2px solid var(--ink-strong);
     outline-offset: 2px;
   }
-  .nmap__seg {
-    margin-left: auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.2rem;
-    padding: 0.2rem;
-    border: 1.5px solid var(--line);
-    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
-  }
-  .nmap__seg button,
   .nmap__zoom button,
   .nmap__theme {
     padding: 0.42em 0.9em;
@@ -679,13 +658,8 @@ const playHref = pathIn(locale, '/nostos/play/');
       background-color var(--dur-1) var(--hover-delay),
       color var(--dur-1) var(--hover-delay);
   }
-  .nmap__seg button:hover,
   .nmap__zoom button:hover {
     background: color-mix(in srgb, var(--blue-light) 40%, transparent);
-  }
-  .nmap__seg button[aria-pressed='true'] {
-    background: var(--blue-light);
-    color: var(--blue-deep);
   }
   .nmap__status {
     flex-basis: 100%;
@@ -741,10 +715,7 @@ const playHref = pathIn(locale, '/nostos/play/');
     opacity: 0.3;
     stroke-width: calc(var(--u) * 1.1px);
   }
-  .nmap__svg[data-lines='core'] .ln.is-core,
-  .nmap__svg[data-lines='her'] .ln.is-her.is-core,
-  .nmap__svg[data-lines='co'] .ln.is-co,
-  .nmap__svg[data-lines='all'] .ln,
+  .nmap__svg .ln.is-core,
   .nmap__svg .ln.is-own {
     display: inline;
   }
@@ -755,13 +726,29 @@ const playHref = pathIn(locale, '/nostos/play/');
     opacity: 0.9;
   }
 
+  :global(html[data-theme='dark']) .nmap {
+    --g-path: #f0c75e;
+    --g-soul: #a9b9ff;
+    --g-ethics: #b9d27a;
+    --g-cosmos: #f28a80;
+    --g-ways: #80d4c6;
+    --g-thinkers: #f5b07a;
+    --g-gods: #d8a6e4;
+  }
+  [data-g='path'] { --gc: var(--g-path); }
+  [data-g='soul'] { --gc: var(--g-soul); }
+  [data-g='ethics'] { --gc: var(--g-ethics); }
+  [data-g='cosmos'] { --gc: var(--g-cosmos); }
+  [data-g='ways'] { --gc: var(--g-ways); }
+  [data-g='thinkers'] { --gc: var(--g-thinkers); }
+  [data-g='gods'] { --gc: var(--g-gods); }
   .star {
-    --star: var(--map-soft);
+    --star: color-mix(in srgb, var(--gc) 74%, var(--paper));
     cursor: pointer;
     transition: opacity var(--dur-1);
   }
   .star.is-big {
-    --star: var(--map-ink);
+    --star: var(--gc);
   }
   .star__hit {
     fill: transparent;
@@ -857,7 +844,7 @@ const playHref = pathIn(locale, '/nostos/play/');
   .nmap__theme svg {
     width: 0.95em;
     height: 0.95em;
-    color: var(--map-ink);
+    color: var(--gc);
   }
   .nmap__theme:hover:not(:disabled) {
     background: color-mix(in srgb, var(--blue-light) 40%, transparent);
