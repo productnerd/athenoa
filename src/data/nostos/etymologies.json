@@ -2812,5 +2812,237 @@
   "status": "disputed",
   "talk": "yQ_GUqR-29k",
   "uncertain": true
+ },
+ {
+  "word": "ἐφάπτεσθαι",
+  "translit": "epháptesthai",
+  "parts": [
+   {
+    "part": "ἐπί",
+    "meaning": "upon"
+   },
+   {
+    "part": "ἅπτω / ἅπτομαι",
+    "meaning": "I kindle; I touch"
+   }
+  ],
+  "reading": "Touching truth is also being set alight by it, recalling Heraclitus's ever-living fire.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "ϝιδεῖν / video",
+  "translit": "wideîn",
+  "parts": [
+   {
+    "part": "ϝιδ-",
+    "meaning": "see, know (with digamma)"
+   }
+  ],
+  "reading": "ἰδεῖν means both to see and to know; with the digamma it gives the word 'video'.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "ἀπολλωθεῖτε",
+  "translit": "apollōtheîte",
+  "parts": [
+   {
+    "part": "ἀπό",
+    "meaning": "away from"
+   },
+   {
+    "part": "πολλῶν",
+    "meaning": "the many"
+   }
+  ],
+  "reading": "Her own verb from Apollo's name: leave the poles and polarities; she admits she bends the Greek language.",
+  "status": "hers",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "pagan (παγά)",
+  "translit": "pagá",
+  "parts": [
+   {
+    "part": "παγά",
+    "meaning": "spring, source (Doric)"
+   }
+  ],
+  "reading": "In the Tetraktys oath, 'source of ever-flowing nature'; she reads a pagan as one in contact with the source of intellection, a misunderstood term.",
+  "status": "disputed",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "Γλαύκων",
+  "translit": "Glaúkōn",
+  "parts": [
+   {
+    "part": "γλαυκός",
+    "meaning": "gleaming, bright"
+   }
+  ],
+  "reading": "The brightness of the soul, needed to build the polity.",
+  "status": "hers",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "Ἀδείμαντος",
+  "translit": "Adeímantos",
+  "parts": [
+   {
+    "part": "ἀδάμας",
+    "meaning": "adamant, unbreakable (her reading)"
+   }
+  ],
+  "reading": "Adamantine steadfastness and incorruptibility of ethos.",
+  "status": "hers",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "Σωκράτης",
+  "translit": "Sōkrátēs",
+  "parts": [
+   {
+    "part": "ἔσω",
+    "meaning": "within (reconstructed)"
+   }
+  ],
+  "reading": "Socrates as 'the inner one'.",
+  "status": "hers",
+  "talk": "AAWZRTOINyA",
+  "uncertain": true
+ },
+ {
+  "word": "ψυχοπομπός",
+  "translit": "psychopompós",
+  "parts": [
+   {
+    "part": "ψυχή",
+    "meaning": "soul"
+   },
+   {
+    "part": "πομπός",
+    "meaning": "escort, guide"
+   }
+  ],
+  "reading": "Hermes' epithet; the freed one who returns is a guide of souls, a teacher uniting two worlds.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "γνωσιολογία / ἐπιστημολογία",
+  "translit": "gnōsiología / epistēmología",
+  "parts": [
+   {
+    "part": "γνῶσις / ἐπιστήμη",
+    "meaning": "knowledge / science"
+   },
+   {
+    "part": "λόγος",
+    "meaning": "account, discourse"
+   }
+  ],
+  "reading": "Plato's theory of knowledge is the five ways the nous works.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "ὡραιότης",
+  "translit": "hōraiótēs",
+  "parts": [
+   {
+    "part": "ὥρα",
+    "meaning": "hour, season, ripeness"
+   }
+  ],
+  "reading": "The soul's ripeness: its hour has come; linked to the Horai, daughters of Themis.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "ἀποκαισαρωθῇς",
+  "translit": "apokaisarōthêis",
+  "parts": [
+   {
+    "part": "ἀπό",
+    "meaning": "(intensive)"
+   },
+   {
+    "part": "Καῖσαρ",
+    "meaning": "Caesar"
+   }
+  ],
+  "reading": "Marcus's warning to himself: do not turn into a Caesar, do not identify with the role.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "μετὰ τὰ φυσικά",
+  "translit": "metà tà physiká",
+  "parts": [
+   {
+    "part": "μετά",
+    "meaning": "after"
+   },
+   {
+    "part": "τὰ φυσικά",
+    "meaning": "the books on nature"
+   }
+  ],
+  "reading": "An editor's shelf title; Aristotle himself called it first philosophy or theology.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "Οὖτις",
+  "translit": "Oûtis",
+  "parts": [
+   {
+    "part": "οὐ",
+    "meaning": "not"
+   },
+   {
+    "part": "τις",
+    "meaning": "someone"
+   }
+  ],
+  "reading": "Pure consciousness: not someone, the nobody who is all.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "ἡλιοειδεστάτη",
+  "translit": "hēlioeidestátē",
+  "parts": [
+   {
+    "part": "ἥλιος",
+    "meaning": "sun"
+   },
+   {
+    "part": "εἶδος",
+    "meaning": "form, likeness"
+   }
+  ],
+  "reading": "Sight is the most sun-like sense, the bridge from the visible to the intelligible.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "θαυματοποιός",
+  "translit": "thaumatopoiós",
+  "parts": [
+   {
+    "part": "θαῦμα",
+    "meaning": "wonder"
+   },
+   {
+    "part": "ποιέω",
+    "meaning": "I make"
+   }
+  ],
+  "reading": "Plato's puppeteers; she hears the same word in today's spiritual wonder-mongering, and finds the true wonder-maker in the mind.",
+  "status": "standard",
+  "talk": "AAWZRTOINyA"
  }
 ]

@@ -151,6 +151,26 @@
    {
     "to": "health",
     "why": "'Release and healing' of the chains."
+   },
+   {
+    "to": "dividedline",
+    "why": "The lower segments of the line are the inside of the cave."
+   },
+   {
+    "to": "wonderworkers",
+    "why": "The figures behind the wall are carried by the wonder-workers, at root the mind."
+   },
+   {
+    "to": "agnoia",
+    "why": "The prisoners' mark is double ignorance."
+   },
+   {
+    "to": "spiritualcave",
+    "why": "Today's inflated spirituality is a renovated cave."
+   },
+   {
+    "to": "knowthyself",
+    "why": "The whole parable speaks about who you are."
    }
   ]
  },
@@ -163,8 +183,8 @@
   "group": "ethics",
   "take": "Paideia is not diplomas, rote learning (παπαγαλία) or technical training but the art of turning the whole eye of the soul from outside to inside, from becoming toward being and the Good. She ties the word to παῖς, the child: it is all for the child, the awakening of the sacred child, the eternal being one already is. In society it is the gate that joins the citizen to the polity, which is why every power has wanted to control it. She reads modern Greek resignation partly as the result of paideia being stripped away.",
   "more": [
-   "Παιδεία in her teaching is not the Ministry of Education's school system but spiritual education, a way of awakening and of εὐδαιμονία. Socrates defines it in the Republic as μεταστροφή, the turning of the soul from phenomena toward truth, light and being. In the Pythagoras lesson it has four stages, and in the 28 October talk it is the only soil in which a political change can take root.",
-   "Paideia makes the human: without it the mob (ὄχλος) never becomes a people (δῆμος), and there is no citizen, philosopher or full human being. There can be no healthy polis, let alone democracy, without philosophical education from early childhood. Modern schools train argumentative minds and useful cogs while excluding education's own telos, eudaimonia, so she calls for a revolution toward self-knowledge and an integrated education of mind, heart and ἦθος."
+   "The Cave is Plato's answer to the question 'what is paideia?', and the Sun simile shows its method: as the sun activates sight already in the eye, education activates the knowledge already within, so do not stuff children with information. Paideia and politics are 'the two Ps', life's two gates, and changing paideia is the root way to change a constitution. The educator's first task is to light the light within and shine it on others.",
+   "Παιδεία in her teaching is not the Ministry of Education's school system but spiritual education, a way of awakening and of εὐδαιμονία. Socrates defines it in the Republic as μεταστροφή, the turning of the soul from phenomena toward truth, light and being. In the Pythagoras lesson it has four stages, and in the 28 October talk it is the only soil in which a political change can take root."
   ],
   "weight": 5,
   "freq": 224,
@@ -306,6 +326,14 @@
    {
     "to": "plato",
     "why": "The definition comes from the Republic."
+   },
+   {
+    "to": "sun",
+    "why": "The sun's activation of sight is the model."
+   },
+   {
+    "to": "agnoia",
+    "why": "It is defined against not-learning."
    }
   ]
  },
@@ -433,6 +461,14 @@
    {
     "to": "theasis",
     "why": "A change of vision, not of the world."
+   },
+   {
+    "to": "exaiphnes",
+    "why": "The turning happens suddenly."
+   },
+   {
+    "to": "horai",
+    "why": "After the turning comes the hour of grace."
    }
   ],
   "est": true
@@ -577,8 +613,8 @@
   "group": "ethics",
   "take": "The Good is the first sun, the μέγιστον μάθημα, without which no other learning counts as true knowledge. It is beyond knowledge and truth, so it is touched and lived rather than understood; its light is truth and its heat is eros. In her vocabulary the small word εὖ names this inner light: whatever is joined to it takes on goodness, and diving to one's core one finds that one's being is the Good. Following Plotinus she says that when you know it you recognise it as yourself, and it comes 'like one who never left'.",
   "more": [
-   "The Good is the first principle and first cause, to which all causes trace back, and the sun outside the cave. She distinguishes it even from essence: οὐσία is unified pure consciousness without subject or object, while the Sun of the Good is the source, beyond consciousness. Yet the cave is not elsewhere: it is the Good's 'underground', differing by depth or vibration. Our entelechy is to attune our existence to it.",
-   "In the Cave the sun is the Good, and paideia turns the soul until it can bear to behold Being and what is brighter than Being, the Good. She describes it as goodness beyond good and evil, free, boundless, undefiled (ἀμίαντος), full knowledge without object, and ineffable. In her interview she calls the divine pure nature εὖ, pure goodness and pure consciousness, and behind every desire the soul is seeking the fullness of the Good."
+   "In the Sun simile the Good is the sun of the intelligible: it emits the light of truth, activates the nous to see, and makes ideas intelligible. Like the sun, which is the source of light without being light, the Good is the source of truth and knowledge without being either: a spring is not water. It is unknowable, so awakening is uniting with it, not knowing it; after the return to the cave she says all is the Good, even darkness.",
+   "The Good is the first principle and first cause, to which all causes trace back, and the sun outside the cave. She distinguishes it even from essence: οὐσία is unified pure consciousness without subject or object, while the Sun of the Good is the source, beyond consciousness. Yet the cave is not elsewhere: it is the Good's 'underground', differing by depth or vibration. Our entelechy is to attune our existence to it."
   ],
   "weight": 5,
   "freq": 178,
@@ -708,6 +744,22 @@
    {
     "to": "being",
     "why": "Being is ever-flowing nature, the Sun its source"
+   },
+   {
+    "to": "light",
+    "why": "Its light is the condition of intellection."
+   },
+   {
+    "to": "apophatic",
+    "why": "It is beyond knowledge, ineffable."
+   },
+   {
+    "to": "methexis",
+    "why": "The final stage is participation in the Good."
+   },
+   {
+    "to": "dividedline",
+    "why": "It sits at the top of the line."
    }
   ]
  },
@@ -1014,6 +1066,18 @@
    {
     "to": "politics",
     "why": "The logos is common, not private."
+   },
+   {
+    "to": "light",
+    "why": "Dark only from darkness; from light, luminous."
+   },
+   {
+    "to": "truth",
+    "why": "Touching truth as being kindled."
+   },
+   {
+    "to": "justice",
+    "why": "Justice holds his one-all."
    }
   ]
  },
@@ -1169,6 +1233,18 @@
    {
     "to": "cratylus",
     "why": "Source of the etymologies."
+   },
+   {
+    "to": "mysteries",
+    "why": "He was a mystic; mystagogy is inside his philosophy."
+   },
+   {
+    "to": "philosophy",
+    "why": "He defines philosophy as erotic pedagogy and as liberation from the cave."
+   },
+   {
+    "to": "metempsychosis",
+    "why": "Book X teaches reincarnation, which academics dismiss."
    }
   ]
  },
@@ -1344,6 +1420,10 @@
    {
     "to": "psychopolitics",
     "why": "A society can be diagnosed by its eros."
+   },
+   {
+    "to": "horai",
+    "why": "The ripe hour can come as Eros."
    }
   ]
  },
@@ -1355,9 +1435,11 @@
   "kind": "idea",
   "group": "ethics",
   "take": "Starting from Alexander, who owed ζῆν to his parents and εὖ ζῆν to Aristotle, she defines living well as one's relationship with oneself, not success, money or fame. It means freedom, virtue, inner peace (γαλήνη, ἀταραξία) and care for the common good, and it is a feast to celebrate rather than a life to endure. Paradoxically she calls it the easy path: what is hard is being tossed up and down by every honk and setback. Collective εὖ ζῆν is also the purpose of justice and what the just leader serves.",
-  "more": [],
-  "weight": 4,
-  "freq": 90,
+  "more": [
+   "She opens by naming what she and the host share: love for εὐδαιμονία, for εὖ ζῆν, 'true life', and for the union of science and spirituality that fulfils it. This, she says, is both the meaning and the purpose of Greek philosophy as the ancients defined it."
+  ],
+  "weight": 4.5,
+  "freq": 120,
   "talks": [
    {
     "id": "cRTJ00zjo1M",
@@ -1383,6 +1465,16 @@
     "id": "HY9w_6CSzm8",
     "t": "1:08:02",
     "note": "The just leader discerns what serves the collective εὖ ζῆν."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "19:29",
+    "note": "They share a love for εὐδαιμονία, for εὖ ζῆν, the true life."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "19:52",
+    "note": "This is the meaning and the purpose of Greek philosophy."
    }
   ],
   "links": [
@@ -1409,6 +1501,18 @@
    {
     "to": "stoics",
     "why": "Its core is the Stoic ἀταραξία, inner peace."
+   },
+   {
+    "to": "philosophy",
+    "why": "Living well is philosophy's purpose."
+   },
+   {
+    "to": "science",
+    "why": "Fulfilled by uniting science with spirituality."
+   },
+   {
+    "to": "spirituality",
+    "why": "Fulfilled by uniting science with spirituality."
    }
   ],
   "est": true
@@ -1422,9 +1526,10 @@
   "group": "ethics",
   "take": "Justice is not 'getting my rights' or punishment but balance held from the middle of Themis's scale, a collective state that brings things back to the mean. Inwardly it is τὰ ἑαυτοῦ πράττειν, each part of the soul doing its own around the one fiery Self, so it is an energy and a state rather than an act. Beyond the cave, in her reading of the Cratylus, justice is the finest, fastest fire passing through all things, the self-regulation of the cosmic fire that keeps the universe balanced. With eros it is one of the two keys to the Good, and it is why the freed must return to the cave.",
   "more": [
+   "Far more than a political institution, justice for Plato and his successors is the virtue of virtues, the union of all virtues, or the state of awakening and pure beholding. It unites the divisible and the indivisible, finding the sacred mean of Heraclitus's 'one-all'. Geometrically it is the harmony of all levels, which is why she calls φ its magic key and ties the Line's five to five as the Pythagorean rhythm of justice.",
    "The Republic, as she presents it, starts from defining justice and ends by defining everything: soul, polis, afterlife, music and education. When asked to define justice, Socrates would first ask what use the definition has in life. Her chosen line from Plato makes justice the condition of wisdom: knowledge severed from justice and the other virtues is mere cunning."
   ],
-  "weight": 4.5,
+  "weight": 5,
   "freq": 174,
   "talks": [
    {
@@ -1476,6 +1581,16 @@
     "id": "ax4J8WPxq_c",
     "t": "35:52",
     "note": "What remains after awakening is 'the Sun of justice'"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "44:19",
+    "note": "Justice is the virtue of virtues, or the state of awakening."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "44:36",
+    "note": "It unites the divisible and the indivisible, the one-all."
    }
   ],
   "links": [
@@ -1522,6 +1637,30 @@
    {
     "to": "politics",
     "why": "Justice makes the just citizen"
+   },
+   {
+    "to": "goldenratio",
+    "why": "φ is the magic key of justice."
+   },
+   {
+    "to": "arete",
+    "why": "It is the virtue of virtues."
+   },
+   {
+    "to": "republic",
+    "why": "The Republic is 'On the Just'."
+   },
+   {
+    "to": "awakening",
+    "why": "Justice is the state of awakening."
+   },
+   {
+    "to": "heraclitus",
+    "why": "It holds the sacred mean of his 'one-all'."
+   },
+   {
+    "to": "horai",
+    "why": "The soul's ripe hour is a daughter of Themis."
    }
   ]
  },
@@ -1532,10 +1671,10 @@
   "translit": "noûs",
   "kind": "idea",
   "group": "soul",
-  "take": "Nous is the first emanation of the One: cosmic consciousness and wisdom, the Platonic name for Heraclitus' fire and Logos. It is fluid and unified rather than a thing, and it 'cools' into soul to play the game of matter, so the body is the vehicle of the soul and the soul the vehicle of nous. True self-knowledge means recognising this fiery nous that wears the soul; her best modern Greek word for it is συνειδητότητα, awareness. Yet she also stresses that what finally awakens is beyond mind, and in her Nativity reading Joseph is the doubting mind.",
+  "take": "In this talk she uses νοῦς as a near synonym of consciousness and says it can work in five ways, which together make up Plato's theory of knowledge. Her central claim is that there is one wonder-worker, one prisoner, one light and one awakening, and all of them are the nous. With Marcus Aurelius she adds that all people are siblings, children of the same nous.",
   "more": [
-   "Nous is not the calculating mind (λογιστικόν), which is only a sub-function; it is awareness itself, whoever perceives your thoughts, the charioteer. It is the true perceiver behind every sense ('mind sees and mind hears', to which she adds 'mind smells, mind tastes'), the soul's core, symbolised by the Circle of the Same. In her reading of myth, infant Zeus nursed by Amalthea is our nous being fed so that it remembers itself.",
-   "Aristotle's God is νόησις νοήσεως, consciousness of consciousness, always awake; Zeus is the demiurgic nous (after Proclus) that keeps generating ideas and natures. Mantic knowing is the sacred marriage of heart and nous, and illness begins at the level of spirit or nous. In the eros talk eros must be steered by the divine nous, not the calculating mind."
+   "Nous is the first emanation of the One: cosmic consciousness and wisdom, the Platonic name for Heraclitus' fire and Logos. It is fluid and unified rather than a thing, and it 'cools' into soul to play the game of matter, so the body is the vehicle of the soul and the soul the vehicle of nous. True self-knowledge means recognising this fiery nous that wears the soul; her best modern Greek word for it is συνειδητότητα, awareness. Yet she also stresses that what finally awakens is beyond mind, and in her Nativity reading Joseph is the doubting mind.",
+   "Nous is not the calculating mind (λογιστικόν), which is only a sub-function; it is awareness itself, whoever perceives your thoughts, the charioteer. It is the true perceiver behind every sense ('mind sees and mind hears', to which she adds 'mind smells, mind tastes'), the soul's core, symbolised by the Circle of the Same. In her reading of myth, infant Zeus nursed by Amalthea is our nous being fed so that it remembers itself."
   ],
   "weight": 5,
   "freq": 137,
@@ -1665,6 +1804,26 @@
    {
     "to": "health",
     "why": "Illness starts at the level of nous."
+   },
+   {
+    "to": "wonderworkers",
+    "why": "The true wonder-worker is the nous."
+   },
+   {
+    "to": "dividedline",
+    "why": "The line ranks its five modes."
+   },
+   {
+    "to": "selfobservation",
+    "why": "The key practice is watching how the nous works."
+   },
+   {
+    "to": "stoics",
+    "why": "Marcus calls all humans children of one nous."
+   },
+   {
+    "to": "good",
+    "why": "The Good's light activates the nous."
    }
   ]
  },
@@ -1817,7 +1976,7 @@
   "take": "Truth for her is simple and has no content: it is a state, not a set of propositions or rules ('not the Ten Commandments'), and propositions are true only by participation (μέθεξις) in it. She reads ἀλήθεια as non-forgetting or non-sleep, hears in 'αλ' a root of light as in ἥλιος, and tentatively sees an anagram of θήλεια, female, because truth keeps giving birth. Truth does not come to you; you come to the truth, which waits here already.",
   "more": [
    "Truth is a state of consciousness, not an opinion, an angle or a list of propositions. Its first etymology is the removal of λήθη, forgetting, so truth is subtractive, like death: you strip away rather than add. It is often paradoxical, παρὰ τὴν δόξαν, because the cave is the realm of opinion and no opinion as such can be true. In the Sun simile truth is the immaterial light of the Good, which she distinguishes from mere reality.",
-   "Truth is not a fixed thing to capture, raise as a banner and hand to others; following Heraclitus it is a flow, and whoever claims to hold it as 'something' has lost it. Because truth is infinite, the interpretation of a text like the Cave can never be finished. She links ἀλήθεια with the sea (ἅλς) and wandering (ἄλη), and calls what remains after awakening the Sun, 'the true'."
+   "Plato calls the light of the Good ἀλήθεια: it mediates between the One and our intellection, as sunlight mediates between sun and eye. The ancients spoke of 'touching truth' (ἐφάπτεσθαι τῆς ἀληθείας), and she hears in the verb both touching and being set alight."
   ],
   "weight": 5,
   "freq": 458,
@@ -2207,8 +2366,8 @@
   "group": "path",
   "take": "Ἐξαίφνης, Plato's 'suddenly', is her favourite Platonic word in the podcast: the moment the prisoner is released, or the soul is born into light when its hour is ripe. It does not depend on the human mind but on cosmic law (νομοτέλεια); other traditions call it providence, and it belongs to mystery, which holds the highest place in philosophy. It can come as loss, divorce, ruin or depression, or as an inspiration and the love of one's life, a 'good suddenly'. Either way it shakes a boxed, repetitive life awake.",
   "more": [
-   "Awakening arrives 'suddenly', the Platonic and Socratic ἐξαίφνης: it cannot be controlled or triggered like pressing a code, because its cause does not lie in the one trying. It is ἀμήχανον, not the product of time, method or knowledge, and is sometimes called divine grace or the Χάριτες. Yet, citing a teacher she calls 'the Indian Socrates', she adds that the suddenness is preceded by long preparation and ripening.",
-   "The 'beautiful hour' of awakening cannot be scheduled or forced: it is Plato's ἐξαίφνης, a cut in chronological time ('preferably 20 to 25 December, when I'm on leave', she jokes). Suddenly some prisoners are freed; you are shaken, set ablaze, and live something ineffable, and the freed are 'strange' because they cannot yet say what they lived, though they know."
+   "Plato, she says, uses the 'much-longed-for' ἐξαίφνης three times in the cave: the breaking of the chains and every stage of awakening happen suddenly, and Plato does not explain how. Yet the sudden is preceded by long preparation, so awakening is both gradual and sudden. She identifies the ἐξαίφνης with the soul's ripe hour, also called grace.",
+   "Awakening arrives 'suddenly', the Platonic and Socratic ἐξαίφνης: it cannot be controlled or triggered like pressing a code, because its cause does not lie in the one trying. It is ἀμήχανον, not the product of time, method or knowledge, and is sometimes called divine grace or the Χάριτες. Yet, citing a teacher she calls 'the Indian Socrates', she adds that the suddenness is preceded by long preparation and ripening."
   ],
   "weight": 5,
   "freq": 160,
@@ -2314,6 +2473,14 @@
    {
     "to": "freewill",
     "why": "The rising in the cave is ineffable and mysterious"
+   },
+   {
+    "to": "horai",
+    "why": "The sudden is the soul's ripe hour."
+   },
+   {
+    "to": "metastrophe",
+    "why": "Suddenly the prisoners turn round."
    }
   ],
   "est": true
@@ -2326,9 +2493,11 @@
   "kind": "idea",
   "group": "path",
   "take": "Transcendence is the first of the two movements of philosophy: closing the eyes (μύω), turning away from becoming and finding the One 'beyond'. She calls the belief that truth lies somewhere else a useful 'intermediate falsehood' that helps the soul turn inward. It corresponds to leaving the cave, deconstructing every conjecture, belief and even idea, up to the mystics' 'devouring fire'. But the soul cannot stay above, so transcendence is only half of initiation.",
-  "more": [],
-  "weight": 4,
-  "freq": 90,
+  "more": [
+   "In the Neoplatonic formula she cites, enlightenment is transcendent, 'I leave the material', but this is only half: remaining only in the absolute is still dualism. The Good itself is 'beyond' (ἐπέκεινα) knowledge and being."
+  ],
+  "weight": 4.5,
+  "freq": 120,
   "talks": [
    {
     "id": "MW2u5olwgFc",
@@ -2344,6 +2513,21 @@
     "id": "HY9w_6CSzm8",
     "t": "45:38",
     "note": "Initiation is not complete until you return."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:12:03",
+    "note": "The Republic says the Good is ἐπέκεινα, beyond."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:46:36",
+    "note": "Enlightenment is transcendent: I leave the material."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:47:11",
+    "note": "Staying only in freedom and the absolute is a dualism."
    }
   ],
   "links": [
@@ -2366,6 +2550,14 @@
    {
     "to": "death",
     "why": "It requires a mystic death of habits, ideas and body-identity."
+   },
+   {
+    "to": "good",
+    "why": "The Good is beyond."
+   },
+   {
+    "to": "nonduality",
+    "why": "Transcendence alone keeps a duality."
    }
   ],
   "est": true
@@ -2379,10 +2571,11 @@
   "group": "path",
   "take": "Immanence is the second and longer movement: returning to the cave to recognise that the One remains in everything, here and now. She glosses ἐμμένεια as ἐν + μένω, the One that dwells everywhere, and illustrates it with Odysseus who, after reaching Ithaca, must still slay the suitors, that is, bring light to old habits and programming and integrate them. In daily life it means seeing the One at the tax office, on Taxisnet, in emails and morning coffee. The freed return out of love and justice and live on the razor's edge of the One and the many.",
   "more": [
+   "Leaving the cave is not the end: the circle closes only when the freed one descends into becoming, not only from compassion but because the apprenticeship is incomplete until then. The Neoplatonists called enlightenment transcendent and also ἐμμένεια, 'remaining in'. Back in the cave one sees that cave and Good are not two, that all is the Good, and that even illusion is awakening that forgets itself.",
    "The Neoplatonists debated whether the One is in the world or beyond it, and Plato can be read both ways: the cave points to transcendent Ideas, while Diotima and the Phaedrus show beauty passing through everything. She holds that immanence characterises Hellenism more: God is everywhere and in everyone. This is why the Greeks engaged with polis and art, and why she links lingering transcendentalism to the abuse of nature."
   ],
-  "weight": 4.5,
-  "freq": 120,
+  "weight": 5,
+  "freq": 160,
   "talks": [
    {
     "id": "MW2u5olwgFc",
@@ -2428,6 +2621,21 @@
     "id": "7YJYJLeJgUY",
     "t": "1:47:40",
     "note": "Transcendentalism and the rape of nature"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:45:55",
+    "note": "After all this one must go back down into the cave to close the circle."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:46:29",
+    "note": "Without descending into becoming the apprenticeship is not finished."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:46:41",
+    "note": "Neoplatonists: enlightenment is transcendent and also ἐμμένεια."
    }
   ],
   "links": [
@@ -2482,6 +2690,14 @@
    {
     "to": "nonduality",
     "why": "Duality and non-duality held together"
+   },
+   {
+    "to": "hermes",
+    "why": "The returning one is a psychopomp."
+   },
+   {
+    "to": "illusion",
+    "why": "Illusion is seen as awakening forgetting itself."
    }
   ],
   "est": true
@@ -2755,6 +2971,22 @@
    {
     "to": "eros",
     "why": "Eros belongs among the soul's forces."
+   },
+   {
+    "to": "politics",
+    "why": "The soul is the first polity."
+   },
+   {
+    "to": "horai",
+    "why": "The soul's ripe hour."
+   },
+   {
+    "to": "arete",
+    "why": "Virtue unites its parts."
+   },
+   {
+    "to": "darkness",
+    "why": "The passions are its dark regions."
    }
   ]
  },
@@ -2914,6 +3146,18 @@
    {
     "to": "politics",
     "why": "The last step is 'not I but we': the community, the One."
+   },
+   {
+    "to": "self",
+    "why": "The One is the true self."
+   },
+   {
+    "to": "philotes",
+    "why": "Love arises from oneness."
+   },
+   {
+    "to": "east",
+    "why": "It is the same core in every tradition."
    }
   ]
  },
@@ -3065,6 +3309,18 @@
    {
     "to": "politics",
     "why": "Rulers must first know themselves."
+   },
+   {
+    "to": "cave",
+    "why": "The cave is a parable of self-knowledge."
+   },
+   {
+    "to": "oneness",
+    "why": "It ends in 'we are one'."
+   },
+   {
+    "to": "selfobservation",
+    "why": "Mindfulness is the path of self-knowledge."
    }
   ]
  },
@@ -3078,7 +3334,7 @@
   "take": "In her reading of Plato's Sun simile, which she calls 'Platonic trigonometry', the eye is the most sun-like organ and stores the sun's light; likewise the soul is Good-like and carries a small fiery sun within. The sun is self-luminous while objects are lit by another, and it causes growth without being any of them, as the Good causes knowledge. Its light is truth and its heat is eros. The goal is a stability beyond the solstices, the 'ever-living sun', from whose point of view there is no waxing or waning.",
   "more": [
    "The sun is the visible symbol of the pure One and of spirit, so dismissing ancient 'sun worship' as primitive is, for her, an ignorant reading. In the Cave the sun is the Good, and the Sun above the Ideas is her image of the One beyond even the Ideas. After awakening there is no 'awakened person', only the Sun; and your inner sun was never in danger, since it never took part in the drama and only shines.",
-   "The inner light is ἀνέσπερον, unsetting: when we say the sun rose or set, it is really the earth, and we, who turn toward or away. This image grounds her reading of paideia as the turning of the soul's eye. Awakening is like veils lifting off an inner sun."
+   "She walks through the Sun simile as the key to the Cave: eye, visible objects and sun form a triangle, and light is the 'third kind' that makes sight possible. The sun does not put sight into the eye but activates a power already there, which for her defines education. Its lord is Apollo, who takes us away from the many."
   ],
   "weight": 5,
   "freq": 65,
@@ -3192,6 +3448,14 @@
    {
     "to": "awakening",
     "why": "Awakening uncovers an inner sun."
+   },
+   {
+    "to": "anamnesis",
+    "why": "Activation of innate power leads to knowledge as recollection."
+   },
+   {
+    "to": "senses",
+    "why": "Sight is the most sun-like of the senses."
    }
   ]
  },
@@ -3204,8 +3468,8 @@
   "group": "cosmos",
   "take": "Light is her constant image of spirit: the One is a boundless radiance (φωταύγεια, διαύγεια) that spreads like light through the windows of many rooms while staying one. The soul feeds on light, λόγος and realisations, and words are small vehicles carrying that light. She distinguishes three lights by their roots: sensible (ἡλ-, as in ἥλιος), spiritual (ἑλ-, as in Ἕλλην) and uncreated (the third root is uncertain).",
   "more": [
-   "Every light is an outflow (ἀπορροή) of fire and presupposes a fire, so in Corinth she moves 'from the gates of light to the source of light'. In the Sun simile light is the hidden fourth term, the 'third kind': without it we see nothing, yet we never see light itself, only objects. She derives φαίνεσθαι, to appear, from φῶς: whatever appears is light woven into forms through the Ideas, like the single light on a cinema screen.",
-   "Light runs through her etymologies. 'Ἑλ', in her reading, is spiritual light, present in Hellene and in freedom; ΟΡΦΕΑΣ is the carrier of light; she links φάντασμα to φάος (?). Light knows no borders and sticks to no form, so whoever is tuned to it cannot look after his own interest alone. The first Pythagorean symbol tells us not to speak of sacred things without light, meaning the inner fire of the heart."
+   "Light is the mediating condition: in the visible field it lets the eye see, and in the intelligible field its name is truth. To think something is like lighting it so that it becomes intelligible. In the end she says there are not two, light and darkness: darkness is light very much dimmed.",
+   "Every light is an outflow (ἀπορροή) of fire and presupposes a fire, so in Corinth she moves 'from the gates of light to the source of light'. In the Sun simile light is the hidden fourth term, the 'third kind': without it we see nothing, yet we never see light itself, only objects. She derives φαίνεσθαι, to appear, from φῶς: whatever appears is light woven into forms through the Ideas, like the single light on a cinema screen."
   ],
   "weight": 5,
   "freq": 235,
@@ -3335,6 +3599,14 @@
    {
     "to": "katharsis",
     "why": "Cleaning the veils lets light appear."
+   },
+   {
+    "to": "good",
+    "why": "The Good emits the light of truth."
+   },
+   {
+    "to": "nonduality",
+    "why": "There is no light and darkness as two."
    }
   ]
  },
@@ -3347,10 +3619,11 @@
   "group": "cosmos",
   "take": "Following Parmenides, only what always is, is; for the ancients 'is not' means 'is not true', not 'does not exist'. Whatever rises and sets, sometimes is and sometimes is not, has the quality of non-being: bodies, thoughts, emotions, war and peace, economic booms and busts. Hence Parmenides' reversal: what seems to be is not, and what seems not to be (the invisible, intelligible) truly is. Being has no opposite; being and non-being are not two but one.",
   "more": [
+   "What she finds most innovative in the similes is that the five modes of knowing correspond to Plato's ontology, five functions or levels of being, so the Cave is a synthesis of epistemology and ontology. On the ontological side the shadows 'seem to exist but do not', being only an emanation or echo of formed objects.",
    "She derives Ismenios from ἴσμεν, 'we know', which echoes ἐσμέν, 'we are': at the fourth step we know being. The archer's focus, ἑστία, is οὐσία. Seekers must not confuse the phenomenon with the essence."
   ],
-  "weight": 4.5,
-  "freq": 120,
+  "weight": 5,
+  "freq": 160,
   "talks": [
    {
     "id": "MW2u5olwgFc",
@@ -3386,6 +3659,16 @@
     "id": "XKLuMi-UjLc",
     "t": "1:51:22",
     "note": "ἴσμεν echoes ἐσμέν: we know being."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:01:27",
+    "note": "The five cognitive stages match five functions of being."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:20:40",
+    "note": "A shadow seems to exist but does not; it is an echo of a thing."
    }
   ],
   "links": [
@@ -3420,6 +3703,22 @@
    {
     "to": "zeus",
     "why": "Apollo returns us to the essence Zeus generates."
+   },
+   {
+    "to": "dividedline",
+    "why": "The line ranks levels of being and knowing."
+   },
+   {
+    "to": "eikasia",
+    "why": "Shadows are the lowest level of being."
+   },
+   {
+    "to": "consciousness",
+    "why": "Each mode of consciousness has its level of being."
+   },
+   {
+    "to": "illusion",
+    "why": "Shadows seem to exist but do not."
    }
   ],
   "est": true
@@ -3728,6 +4027,18 @@
    {
     "to": "arete",
     "why": "The philosophical life is virtuous."
+   },
+   {
+    "to": "mysteries",
+    "why": "Mystagogy is embedded in philosophy."
+   },
+   {
+    "to": "christianity",
+    "why": "The new religion's monopoly led to cutting it up."
+   },
+   {
+    "to": "euzen",
+    "why": "Its purpose is living well."
    }
   ]
  },
@@ -3903,6 +4214,18 @@
    {
     "to": "dialectic",
     "why": "The last step is shared dialogue for the common good."
+   },
+   {
+    "to": "oneness",
+    "why": "Politics flows from realising we are one."
+   },
+   {
+    "to": "philotes",
+    "why": "Its precondition is love for all beings."
+   },
+   {
+    "to": "soul",
+    "why": "The first polity is within the soul."
    }
   ]
  },
@@ -4042,6 +4365,14 @@
    {
     "to": "aporia",
     "why": "The appetite to know drives the first questions."
+   },
+   {
+    "to": "mysteries",
+    "why": "Even he placed theology at philosophy's summit."
+   },
+   {
+    "to": "metempsychosis",
+    "why": "Her example of the reborn Aristotle."
    }
   ]
  },
@@ -4055,7 +4386,7 @@
   "take": "For her the fashionable word 'awakening' belongs to consciousness, not to the body (though it finally includes it) and not even to the soul, whose awakening is only one stage. Reality is already awake as living logos and self-knowing nous; only we sleep and wake, so nothing changes in the world and everything changes in us. It is not a spectacle of visions or miracles but an often unnoticed inner shift of vision, like veils lifting, and she maps it as five ordered steps named after Apollo. In the eros talk the erotic path is itself a path of awakening, which she equates with eudaimonia and freedom.",
   "more": [
    "For her, awakening is not an experience, vision, energy event, emotion or insight, because every experience happens inside a limit while awakening concerns the infinite. It is the beholding (θέασις) of the One: a recognition without knowledge, a witness in which the separate 'you' disappears and you see you were always awake. It cannot be manufactured by time or method; it comes suddenly, usually after long ripening. The modern word stands for what the ancients called λύσις, liberation and εὐδαιμονία.",
-   "Awakening is the goal of the spiritual παιδεία the cave describes, and she frames Pythagorean philosophy and Greek philosophy in general as a path of awakening. It is not acquiring anything but realising that the One, eudaimonia and fullness are already present: 'it is not revealed; we are revealed'. It cannot be scheduled, it often begins in pain or crisis, and it is incomplete until it becomes life, work and action."
+   "She defines awakening as an ineffable realisation, a beholding in which nothing changes: only the true nature of the self and of the whole as one is seen. Because the word implies a sleeper, she prefers the ancient θέασις, and she calls 'the awakened person' one of the greatest illusions, since such an identity keeps a gap between the ego and the pure 'I am'. It is not a political revelation, an energy experience or an out-of-body state."
   ],
   "weight": 5,
   "freq": 232,
@@ -4221,6 +4552,14 @@
    {
     "to": "spirituality",
     "why": "Today's seekers confuse its phenomena with its essence."
+   },
+   {
+    "to": "illusion",
+    "why": "The 'awakened subject' is itself an illusion."
+   },
+   {
+    "to": "spiritualcave",
+    "why": "The term's inflation has produced a new spiritual cave."
    }
   ]
  },
@@ -4368,6 +4707,18 @@
    {
     "to": "divine",
     "why": "External, internal and mysteriac views are all true."
+   },
+   {
+    "to": "darkness",
+    "why": "Darkness is not a second thing."
+   },
+   {
+    "to": "ego",
+    "why": "An awakened identity keeps duality."
+   },
+   {
+    "to": "theasis",
+    "why": "The beholding is union."
    }
   ]
  },
@@ -4494,9 +4845,10 @@
   "group": "soul",
   "take": "Life in the body is, from the One's view, the field of death: σῶμα σῆμα, the body as tomb, the Cave, the soul's winter solstice. Yet awakening happens without leaving the body, by dis-identifying from it. The body is the vehicle of the soul and is contained by it, not the reverse. Politically she criticises the modern individual understood as a body, the subject of science and biopolitics, set in the place of soul and consciousness.",
   "more": [
-   "She inverts the usual picture: the soul does not enter the body; the body enters the soul and is embraced by it. Plato calls the body a seat of continual inflow and outflow, porous, breathing, always exchanging with the great river of life. The body does not sense; it is a set of gates through which the river's motions reach the soul, which is why a body without soul senses nothing. The soul's overflow beyond the body is the aura."
+   "She inverts the usual picture: the soul does not enter the body; the body enters the soul and is embraced by it. Plato calls the body a seat of continual inflow and outflow, porous, breathing, always exchanging with the great river of life. The body does not sense; it is a set of gates through which the river's motions reach the soul, which is why a body without soul senses nothing. The soul's overflow beyond the body is the aura.",
+   "Opinions, factions and ideologies rest on the belief that 'I am the body and others are bodies'. Racial origin refers only to the body, so dividing people by race identifies the human with the body, a materialist way of seeing."
   ],
-  "weight": 3.5,
+  "weight": 4.0,
   "freq": 289,
   "talks": [
    {
@@ -4538,6 +4890,21 @@
     "id": "DOdU0po-ehY",
     "t": "22:09",
     "note": "The part of the soul beyond the body is what we call the aura"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "36:44",
+    "note": "Racial origin refers to the body; dividing by it is a materialist view."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "40:33",
+    "note": "Do not impose body-centred categories like race on spirituality."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:21:33",
+    "note": "Opinions rest on the conviction that I am the body."
    }
   ],
   "links": [
@@ -4572,6 +4939,18 @@
    {
     "to": "fragrance",
     "why": "What the body exhales feeds other beings"
+   },
+   {
+    "to": "doxa",
+    "why": "Opinions rest on body-identification."
+   },
+   {
+    "to": "hellenism",
+    "why": "Racial identity is a bodily category."
+   },
+   {
+    "to": "ego",
+    "why": "Body and role are the first false self."
    }
   ]
  },
@@ -4584,9 +4963,10 @@
   "group": "ways",
   "take": "Wisdom is living awareness (ἐπίγνωσις) in contact with the here and now, where life itself tells you what is what. Using the Cratylus she ties σοφία to light and to ὁρμή, motion, being connected with an ever-changing energy, and σύνεσις to 'going along with' things like an alert general. The dry soul is the wisest, warmed by the fire of the Good. Pythagoras, she says, knew that love (φιλότης) and wisdom go together.",
   "more": [
-   "Wisdom is linked with light, the light of understanding and realisation (her etymology, flagged uncertain). Philosophy seeks to merge with it, not to collect information about it. Her chosen line from Plato sets its moral condition: all knowledge severed from justice and the other virtues is cunning, not wisdom."
+   "Wisdom is linked with light, the light of understanding and realisation (her etymology, flagged uncertain). Philosophy seeks to merge with it, not to collect information about it. Her chosen line from Plato sets its moral condition: all knowledge severed from justice and the other virtues is cunning, not wisdom.",
+   "She draws her first practical proposal from the 'sophia' in philosophy: observe the mind, do not take what we believe for granted, and open a space between what I think and the I that watches it. 'There lies the key.'"
   ],
-  "weight": 3.5,
+  "weight": 4.0,
   "freq": 410,
   "talks": [
    {
@@ -4630,6 +5010,16 @@
     "note": "Athena, wisdom, saves Dionysus' heart"
    },
    {
+    "id": "AAWZRTOINyA",
+    "t": "1:51:27",
+    "note": "From the root of philosophy, she starts with sophia."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:51:57",
+    "note": "Observe the mind: there lies the key."
+   },
+   {
     "id": "w_renaissance_call",
     "t": "",
     "note": "Written: A Call for a Renaissance of the Spirit in the Humanities"
@@ -4638,11 +5028,6 @@
     "id": "w_know_thyself_gc",
     "t": "",
     "note": "Written: Know Thyself: Hellenic Philosophy as a Path to Awakening and Happiness"
-   },
-   {
-    "id": "w_heraclitus_flow",
-    "t": "",
-    "note": "Written: The Flow as Political: Psychological and Political Dimensions of the Heraclitean Logos"
    }
   ],
   "links": [
@@ -4677,6 +5062,14 @@
    {
     "to": "justice",
     "why": "Without justice knowledge is mere cunning"
+   },
+   {
+    "to": "selfobservation",
+    "why": "Sophia, in practice, is observing the mind."
+   },
+   {
+    "to": "philotes",
+    "why": "The two halves of her closing advice."
    }
   ]
  },
@@ -4816,6 +5209,18 @@
    {
     "to": "philosophy",
     "why": "A holistic path leaves nothing out."
+   },
+   {
+    "to": "wonderworkers",
+    "why": "Meeting them is a stage of liberation."
+   },
+   {
+    "to": "illusion",
+    "why": "One is freed from interpretations, not from matter."
+   },
+   {
+    "to": "ego",
+    "why": "Liberation from the role."
    }
   ]
  },
@@ -5160,8 +5565,8 @@
   "group": "thinkers",
   "take": "'Beloved Plotinus' supplies her key descriptions of awakening: the seer is one with the seen, so it is not even a vision; you do not become someone else, 'another' wrapped around you departs; and the One waits for us to see it. His light passing from room to room images the one essence in many forms, and his 'let us flee to the beloved fatherland' turns the Odyssey into the soul's homecoming. She pairs him with θέασις and θέωσις, and with the call to become σύμπας.",
   "more": [
-   "Plotinus supplies her highest statements about the One and the Good: it is nowhere, yet there is nowhere it is not; it comes 'like one who never left'; and when you know the Good you recognise it as yourself (Ennead VI.9). She also takes from him that nous is fluid and unified, not a thing. She reads Kazantzakis' 'even the One does not exist' as reaching the highest vision Plotinus describes.",
-   "The supreme non-dual voice and central at her school. In Ennead VI.9 the seer becomes one with the seen, and the One is reached not by science or thinking but by a presence greater than knowledge. He teaches that at a certain point you must let go of the mind."
+   "She carries the Enneads with her and reads 'there were not two... not a vision but a union' as the best description of beholding. Plotinus calls the One your true self, says whoever unites with the One was always the One, and points to silence. She thinks he is little studied because his clearly non-dual teaching cannot be understood without being lived.",
+   "Plotinus supplies her highest statements about the One and the Good: it is nowhere, yet there is nowhere it is not; it comes 'like one who never left'; and when you know the Good you recognise it as yourself (Ennead VI.9). She also takes from him that nous is fluid and unified, not a thing. She reads Kazantzakis' 'even the One does not exist' as reaching the highest vision Plotinus describes."
   ],
   "weight": 5,
   "freq": 50,
@@ -5279,6 +5684,18 @@
    {
     "to": "proclus",
     "why": "Fellow Neoplatonist"
+   },
+   {
+    "to": "self",
+    "why": "The self he always was."
+   },
+   {
+    "to": "methexis",
+    "why": "In the end there was not even union."
+   },
+   {
+    "to": "anamnesis",
+    "why": "Union is remembering one was always the One."
    }
   ]
  },
@@ -5434,6 +5851,14 @@
    {
     "to": "zeus",
     "why": "His reading of Zeus."
+   },
+   {
+    "to": "apophatic",
+    "why": "He names the One by negations."
+   },
+   {
+    "to": "good",
+    "why": "The Good, the One, is beyond knowing."
    }
   ],
   "est": true
@@ -5578,6 +6003,10 @@
    {
     "to": "telos",
     "why": "The goal of eros coincides with the goal of life."
+   },
+   {
+    "to": "methexis",
+    "why": "The Symposium's final spectacle is μέθεξις with the One."
    }
   ],
   "est": true
@@ -6312,6 +6741,18 @@
    {
     "to": "symbol",
     "why": "It works as a symbol and archetype"
+   },
+   {
+    "to": "enlightenment",
+    "why": "Nobody is the completed state."
+   },
+   {
+    "to": "oneness",
+    "why": "The nobody is the All, the One."
+   },
+   {
+    "to": "ego",
+    "why": "No one: no separate identity remains."
    }
   ]
  },
@@ -6439,8 +6880,8 @@
   "group": "path",
   "take": "The Orphic, Eleusinian, Kabeiric and Platonic traditions encode the second birth. She derives initiation (μύησις) from μύω, closing eyes and lips to turn inward, and says from μύησις comes κύησις, pregnancy: initiation is conception, gestation, birth. The Kabeiric procession led to 'the Child', Persephone's story traces descent and return, and the Eleusinian climax fell, she says, at the autumn equinox. Mystery holds the highest place in philosophy.",
   "more": [
-   "She derives μύησις and μυστήριον from μύω, to close the eyes or mouth: initiation is closing the eyes to phenomena, and a mystery is secret not because it is forbidden but because it cannot be said. The highest grade, ἐποπτεία, is recognising sensible and intelligible as one. No special robe or place is needed, since the world is already God's Telesterion and the senses are its doors.",
-   "All the Greek mysteries, Kabeiric and Eleusinian, describe a descent into death or sleep and a return, so awakening is resurrection. The deepest of the three ways to approach a god is the mysteriac one, where the god is lived as an active mode of the One's being. Ismenios begins the mystical education, and the λέσχη was where initiates gathered."
+   "Embedded in philosophy is mystagogy, the hieratic, but not in today's religious sense. It was cut away when the new religion sought a monopoly on the divine, and after Justinian it went underground into alchemists and orders. She calls for putting mystagogy back 'on the central table of the Pythagoreans', without fear, and says we are the first generation in seventeen centuries free to do so.",
+   "She derives μύησις and μυστήριον from μύω, to close the eyes or mouth: initiation is closing the eyes to phenomena, and a mystery is secret not because it is forbidden but because it cannot be said. The highest grade, ἐποπτεία, is recognising sensible and intelligible as one. No special robe or place is needed, since the world is already God's Telesterion and the senses are its doors."
   ],
   "weight": 4.0,
   "freq": 211,
@@ -6582,6 +7023,22 @@
    {
     "to": "dialectic",
     "why": "Initiates gathered at the lesche."
+   },
+   {
+    "to": "philosophy",
+    "why": "Mystagogy is the buried part of philosophy."
+   },
+   {
+    "to": "christianity",
+    "why": "The new religion's monopoly cut it away."
+   },
+   {
+    "to": "plato",
+    "why": "Plato was a mystic."
+   },
+   {
+    "to": "spirituality",
+    "why": "Reuniting philosophy's spiritual aspects with its science."
    }
   ]
  },
@@ -7350,6 +7807,14 @@
    {
     "to": "aristotle",
     "why": "She grounds the always-awake world in his definition of God."
+   },
+   {
+    "to": "dividedline",
+    "why": "The line ranks consciousness's five modes."
+   },
+   {
+    "to": "self",
+    "why": "The sense of self follows the mode of consciousness."
    }
   ]
  },
@@ -7363,7 +7828,7 @@
   "take": "Following an etymology she takes from Plato's Cratylus, she reads ἀρετή as 'ever-flowing' (ἀεὶ ῥεῖν): virtue is the soul's energy flowing freely, without blockages. Observing and knowing the soul restores that flow, which is why self-knowledge is therapeutic; in Pythagorean terms the virtues are the right intervals of the soul's music. Ethics is regulating the soul toward ἀρετή, which, sustained over time, brings eudaimonia, and like Heracles at the crossroads we choose it, or vice, at every moment.",
   "more": [
    "Virtue is what the soul gestates together with logos (Diotima) and what nourishes the embryo of awakening. In the Leto story Artemis, whom she reads as ἀρετή, is born first, before Apollo the manifest light: out of forgetting comes virtue, then truth. Virtue is the mean that answers the twin errors of nihilism and hedonism, and justice brings one back to it. On the path of virtue, she says, we must be fighters like Ares.",
-   "Virtues are habits of being that lead to eudaimonia, not medieval moral rules. She says Plato defines virtue as the easy flow of the soul: when nothing obstructs our energy we are in a flow state, and whatever blocks it is non-virtue. Virtues come in grades from political to theurgic, and they are cultivated by practising love."
+   "She sets out the ancient ladder of virtues as the method of philosophy: first the ethical or political virtues, then the cathartic, then the paradigmatic, culminating in the hieratic or theological virtues found in nearly all ancient philosophers. The Republic teaches how to unite the soul's parts in a fine mean, and justice is the virtue of virtues."
   ],
   "weight": 5,
   "freq": 129,
@@ -7501,6 +7966,10 @@
    {
     "to": "philosophy",
     "why": "The philosophical life is virtuous."
+   },
+   {
+    "to": "soul",
+    "why": "Virtue unites the soul's parts."
    }
   ]
  },
@@ -7513,9 +7982,10 @@
   "group": "thinkers",
   "take": "She reads Christmas as the latest coding of the archetype of the sacred infant, behind which stand the Dionysia and the Heliougenna. She decodes the Nativity line by line: the cave is Plato's Cave, the manger is the solar-plexus seat of the irrational powers, the two animals are spleen and liver, Mary (Despoina) is the soul, Joseph the doubting mind, Herod's soldiers the forces threatening the newborn, and the flight into Egypt keeping it hidden. She ends wishing 'Christougenna, Iliougenna, Alithiougenna': birth of Christ, of the sun, of truth.",
   "more": [
-   "Early theologians appropriated Platonic and Aristotelian elements but could not let philosophy stand as an alternative path to the divine. Some theology put God outside the world and demonised body and desire, which she links to the abuse of nature; the daimon itself was turned into a demon. She stresses respect for all traditions while naming the loss, and notes academia grew out of church institutions."
+   "Early theologians appropriated Platonic and Aristotelian elements but could not let philosophy stand as an alternative path to the divine. Some theology put God outside the world and demonised body and desire, which she links to the abuse of nature; the daimon itself was turned into a demon. She stresses respect for all traditions while naming the loss, and notes academia grew out of church institutions.",
+   "She traces the distortion of philosophy to the post-Christian era and the Middle Ages: the new religion wanted a monopoly on access to the divine, so a path promising union with divinity through philosophy, logic and science had to be cut. Justinian's decree in the 6th century forbade teaching mathematics, the mysteries and theology, sending the knowledge underground."
   ],
-  "weight": 3.5,
+  "weight": 4.0,
   "freq": 62,
   "talks": [
    {
@@ -7567,6 +8037,16 @@
     "id": "woq9ebR-Mqg",
     "t": "36:54",
     "note": "Daimon is not the Christian demon"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "20:33",
+    "note": "Philosophy was distorted from post-Christian times through the Middle Ages."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "48:24",
+    "note": "The new religion wanted the monopoly of access to the divine."
    }
   ],
   "links": [
@@ -7609,6 +8089,14 @@
    {
     "to": "science",
     "why": "Universities inherited its exclusions"
+   },
+   {
+    "to": "philosophy",
+    "why": "Its monopoly led to philosophy being cut up."
+   },
+   {
+    "to": "mysteries",
+    "why": "It drove mystagogy underground."
    }
   ]
  },
@@ -7619,10 +8107,10 @@
   "translit": "epistḗmē",
   "kind": "idea",
   "group": "ways",
-  "take": "She derives ἐπιστήμη from ἐπί + ἵσταμαι, standing above and seeing the whole, so nothing that is not holistic is scientific in the ancient sense. In the Greek tradition science and spirituality were one, and she predicts that science, 'sweating but successfully', will within decades prove spirituality and bring a renaissance. The Galileo Commission call she wrote asks what the humanities would look like if consciousness, not matter, is primary.",
+  "take": "She respects science absolutely, but when the sciences are studied only materialistically, Platonic epistemology places them among convictions and dogmas; even science can harbour fanaticism, as the medical debates of the previous two years showed. With Kuhn she says communities resist paradigm change from emotional investment, not lack of evidence. The ancient aim is to reunite philosophy's science with its spirituality, 'because the source of science is God who ever geometrises'.",
   "more": [
-   "For the Greeks, studying the cosmos meant knowing the mind, nature and body of God: science is the mind's approach to the divine, mysticism the heart's, philosophy the spirit's. Science cannot reach the One, and knowledge detached from justice becomes dangerous, as in environmental damage. She sees physics moving to a consciousness-first paradigm that many scientists resist, like Galileo's colleagues refusing the telescope.",
-   "She presents Greek philosophy as the philosophy of the future because it unites science and spirituality, and she often reads ancient texts beside physics: the unified field, the quantum 'energy ocean', matter and energy converting 'through contact with fire'. She doubts that the Big Bang happened by chance, given the lawfulness of the cosmos. Historically, after the Enlightenment, science cut off from spirit became an instrument of political power, with the body as its subject."
+   "She derives ἐπιστήμη from ἐπί + ἵσταμαι, standing above and seeing the whole, so nothing that is not holistic is scientific in the ancient sense. In the Greek tradition science and spirituality were one, and she predicts that science, 'sweating but successfully', will within decades prove spirituality and bring a renaissance. The Galileo Commission call she wrote asks what the humanities would look like if consciousness, not matter, is primary.",
+   "For the Greeks, studying the cosmos meant knowing the mind, nature and body of God: science is the mind's approach to the divine, mysticism the heart's, philosophy the spirit's. Science cannot reach the One, and knowledge detached from justice becomes dangerous, as in environmental damage. She sees physics moving to a consciousness-first paradigm that many scientists resist, like Galileo's colleagues refusing the telescope."
   ],
   "weight": 4.0,
   "freq": 261,
@@ -7748,6 +8236,18 @@
    {
     "to": "cave",
     "why": "Those who know have left the cave."
+   },
+   {
+    "to": "doxa",
+    "why": "Materialist science becomes conviction."
+   },
+   {
+    "to": "ego",
+    "why": "Paradigm change threatens the knower's identity."
+   },
+   {
+    "to": "goldenratio",
+    "why": "Esoteric knowledge is encoded in geometry."
    }
   ]
  },
@@ -7761,7 +8261,7 @@
   "take": "The personality (περσόνα) is the sum of changing parts, a role with its costume and name, and identifying with it is the death philosophy undoes. Life is a theatre: the actor (ἠθοποιός) 'makes an ethos' by how he plays, but is not the role, and the task is to recognise who plays all the roles. Justice as 'doing one's own' refers to the one fiery Self, and acting justly is a two-way road to discovering it. The Titans, our outward tendencies, lock us into a role for every stimulus.",
   "more": [
    "Knowing yourself has three levels, laid out like a temple: the outer self (body, mind, personality, the story of the small self), the inner self (the soul and its faculties) and the secret self, oneself as the One. To reach the last you become a naked soul, in Proclus's phrase, taking off every role. Material things, even the body, can be taken away, she says, but the self cannot.",
-   "There is a form of individuality, but our being is one essence in all: 'there is the individual and there is no individual'. Eros has shaped our relation with ourselves before it touches anyone else: as we treat our partners without, we treat our partners within. The more sacredness we show ourselves, the more respect we show others, and the reverse. In the Apollo talk she asks how much we do just to maintain an imaginary persona."
+   "The true self is the primary essence, the pure One, prior to every predicate such as 'Greek'. Plotinus recognises it as 'the self I always was' and calls the One your true, mystical, or simply everyday self. The suffering self that seems to seek the light is itself a shadow: who seeks the light, the shadow or the light?"
   ],
   "weight": 4.0,
   "freq": 113,
@@ -7879,6 +8379,14 @@
    {
     "to": "anamnesis",
     "why": "Remember that Being is common."
+   },
+   {
+    "to": "ego",
+    "why": "The suffering, seeking self is a shadow."
+   },
+   {
+    "to": "plotinus",
+    "why": "He names it 'the self I always was'."
    }
   ]
  },
@@ -7933,8 +8441,10 @@
   "kind": "thinker",
   "group": "thinkers",
   "take": "From the Stoics she takes ἀταραξία, inner peace as the core of εὖ ζῆν, and ἐκπύρωσις, the periodic ignition of the universe in which the seminal reasons (σπερματικοὶ λόγοι) lie as seeds of all forms. Marcus Aurelius, 'very close to my heart this period', teaches ἀπάθεια: happiness not invested in externals, which she distinguishes from indifference, and he shows one can be free even in prison. An unnamed later Stoic gives her the idea that nothing happens to me without my free will.",
-  "more": [],
-  "weight": 2,
+  "more": [
+   "She cites Marcus Aurelius, 'the enlightened emperor, the Stoic', who ruled an empire at war yet lived the pure One, which the Stoics call the ἡγεμονικόν. From his notes to himself she takes two lessons: do not be 'Caesarified', do not identify with your role; and all people are siblings, children of the same nous."
+  ],
+  "weight": 2.5,
   "freq": 3,
   "talks": [
    {
@@ -7961,6 +8471,26 @@
     "id": "HY9w_6CSzm8",
     "t": "50:11",
     "note": "Marcus Aurelius: free even in prison."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "27:26",
+    "note": "Marcus Aurelius, the enlightened emperor, the Stoic."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "37:33",
+    "note": "He lived the pure One, which the Stoics call the ἡγεμονικόν."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "38:13",
+    "note": "Do not be Caesarified: do not identify with your role."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "38:22",
+    "note": "All are siblings, children of the same nous."
    }
   ],
   "links": [
@@ -7979,6 +8509,22 @@
    {
     "to": "freedom",
     "why": "Freedom even in prison."
+   },
+   {
+    "to": "ego",
+    "why": "Do not identify with the role."
+   },
+   {
+    "to": "nous",
+    "why": "All are children of the same nous."
+   },
+   {
+    "to": "oneness",
+    "why": "Marcus lived the pure One."
+   },
+   {
+    "to": "body",
+    "why": "Race, family and class do not divide siblings."
    }
   ]
  },
@@ -8154,6 +8700,18 @@
    {
     "to": "health",
     "why": "Her reading of ΥΓΙΕΙΑ looks Pythagorean."
+   },
+   {
+    "to": "justice",
+    "why": "Five is his number of justice."
+   },
+   {
+    "to": "dividedline",
+    "why": "The line's five match the pentagram."
+   },
+   {
+    "to": "mysteries",
+    "why": "He wed science to mystagogy."
    }
   ]
  },
@@ -8166,9 +8724,10 @@
   "group": "cosmos",
   "take": "Harmony is not the absence of opposites but their sacred union: ἁρμός, a joint, together with κρᾶσις and μῖξις, blending and mixing. With the Pythagoreans she says that without opposition there is no harmony, so we should not fear conflict. Apollo's fourth power, ὁμοπολῶν, moves the poles together into a new unity. In the eros talk, eros is the weft of universal harmony that holds the world in one.",
   "more": [
+   "Justice is harmony of all levels, and φ is 'the rhythm of harmony': each level relates to every higher one through the same ratio, order and geometry. Establishing justice and harmony in the soul lets it be reflected outside, as above so below.",
    "She derives ἁρμονία from ἁρμοί, joints, and ἀραρίσκω, to fit together: the healthy co-existence of everything in the universal polity, like the physicists' unified field where every vibration stands in proportion with all others. Health and harmony spread 'from end to end' of a social whole like organs in a body. Justice is the self-regulating fire that keeps the cosmos in this balance, and in his higher function Ares guards it."
   ],
-  "weight": 4.5,
+  "weight": 5,
   "freq": 84,
   "talks": [
    {
@@ -8200,6 +8759,21 @@
     "id": "yQ_GUqR-29k",
     "t": "1:36",
     "note": "Eros as the weft of universal harmony."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "54:27",
+    "note": "Harmony built in the soul is reflected outside: as above, so below."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:15:20",
+    "note": "φ is the rhythm of harmony."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:15:54",
+    "note": "Justice is harmony of all levels."
    },
    {
     "id": "w_heraclitus_flow",
@@ -8247,6 +8821,14 @@
    {
     "to": "peace",
     "why": "Eros, peace and harmony all join things into one."
+   },
+   {
+    "to": "goldenratio",
+    "why": "φ is harmony's rhythm."
+   },
+   {
+    "to": "soul",
+    "why": "Harmony is first built in the soul."
    }
   ]
  },
@@ -8511,9 +9093,10 @@
   "group": "soul",
   "take": "Against the idea that the spiritual must renounce the senses, she teaches that the philosopher purifies them. Sensation (Timaeus 43a-c) is the moment the river's waves, striking the body, reach the soul's circles; the sense organs are only gates, and it was never the body that sensed but the mind. Rightly understood, the senses are sacred gifts for enjoying God and one of the great initiations of embodied life: we reach fullness not through them but with them as allies.",
   "more": [
-   "Whoever trusts only what the five senses give still lives in the cave, she says, and seeking the exit through the senses only drives you deeper. Modern education cultivated the five senses and neglected the 'dozens' of the soul's senses, such as intuition, awareness and psychic sight, each a counterpart of a physical sense. As the saying goes, mind sees and mind hears: the soul can withdraw from the organs to turn toward itself."
+   "Whoever trusts only what the five senses give still lives in the cave, she says, and seeking the exit through the senses only drives you deeper. Modern education cultivated the five senses and neglected the 'dozens' of the soul's senses, such as intuition, awareness and psychic sight, each a counterpart of a physical sense. As the saying goes, mind sees and mind hears: the soul can withdraw from the organs to turn toward itself.",
+   "Sight is the 'most sun-like' of the senses, since we see through light, and Plato uses it to lead us from the visible to the intelligible. Opinions about the sensible world sit inside the cave, and liberation includes freedom from the narrow frame in which we interpret the senses."
   ],
-  "weight": 4.5,
+  "weight": 5,
   "freq": 267,
   "talks": [
    {
@@ -8570,6 +9153,11 @@
     "id": "cae0P7g3uFw",
     "t": "13:43",
     "note": "Senses as elements; touch the heaviest"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:02:54",
+    "note": "Sight is the most sun-like of our senses."
    }
   ],
   "links": [
@@ -8612,6 +9200,18 @@
    {
     "to": "haptesthai",
     "why": "Truth is touched yet dimensionless"
+   },
+   {
+    "to": "sun",
+    "why": "Sight is most like the sun."
+   },
+   {
+    "to": "doxa",
+    "why": "Sensible objects produce opinion."
+   },
+   {
+    "to": "freedom",
+    "why": "Liberation from sense interpretation."
    }
   ]
  },
@@ -8891,8 +9491,10 @@
   "kind": "idea",
   "group": "cosmos",
   "take": "The winter solstice, the darkest night, is a privileged gate, not a misfortune: darkness means introversion, the time to descend like Persephone into the subconscious with the hero's torch. There you face your monsters, hidden passions and their roots in events, family and ancestors, uproot them and sow virtues. At rock bottom the choice is 'light or nothing', and trauma can become θαῦμα, a miracle.",
-  "more": [],
-  "weight": 3,
+  "more": [
+   "Before arrival, light and darkness seem clearly different; once there, there is no difference. The soul enters dark regions through the passions and loses sight of truth. After the return she says the one in darkness is 'a dream within a dream', and darkness is light very much dimmed."
+  ],
+  "weight": 3.5,
   "freq": 61,
   "talks": [
    {
@@ -8914,6 +9516,21 @@
     "id": "QgYveGlAEhw",
     "t": "15:27",
     "note": "Nature strips itself at the winter solstice"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "30:22",
+    "note": "Before union, light and darkness seem clearly different."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:13:49",
+    "note": "In the passions the soul moves away from truth into darkness."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:47:39",
+    "note": "The one in darkness is a dream within a dream."
    }
   ],
   "links": [
@@ -8932,6 +9549,18 @@
    {
     "to": "katharsis",
     "why": "Shadow work is a purification"
+   },
+   {
+    "to": "nonduality",
+    "why": "There are not two."
+   },
+   {
+    "to": "illusion",
+    "why": "Darkness is a dream within a dream."
+   },
+   {
+    "to": "immanence",
+    "why": "Only after the return is darkness seen as light."
    }
   ]
  },
@@ -9067,6 +9696,26 @@
    {
     "to": "asabove",
     "why": "Its second principle is mirroring across levels"
+   },
+   {
+    "to": "ego",
+    "why": "'Greek' is a secondary predicate of the self."
+   },
+   {
+    "to": "body",
+    "why": "Racial identity refers to the body."
+   },
+   {
+    "to": "pythagoras",
+    "why": "His paideia came largely from the East."
+   },
+   {
+    "to": "knowthyself",
+    "why": "Ask who it is that is Greek."
+   },
+   {
+    "to": "cave",
+    "why": "Identity as Greek is another cave."
    }
   ]
  },
@@ -9222,9 +9871,11 @@
   "translit": "chōristikótēta",
   "kind": "idea",
   "group": "soul",
-  "take": "What falls away in awakening is the belief that you are a separate person, body, soul or mind: in Plotinus' terms not becoming someone else, but 'another' that had wrapped itself around you departing. The separate self is a story, 'a shadow from the cave'. Hence 'an awakened person' is a contradiction, and ego-centred goals (proving yourself, possessions, fame) lose their pull: whom would you be serving?",
-  "more": [],
-  "weight": 3,
+  "take": "Any identity, even 'the awakened one', sets itself against something else and so keeps a gap between the ego and the pure 'I am', between the ego and the One. She lists the false identities in order: I am my role, then my convictions (left, right, Greek, Platonist), then my knowledge (philosopher, scientist, knower), 'again a trap'. Threatened identity is why scholars and scientific communities resist what they do not understand.",
+  "more": [
+   "What falls away in awakening is the belief that you are a separate person, body, soul or mind: in Plotinus' terms not becoming someone else, but 'another' that had wrapped itself around you departing. The separate self is a story, 'a shadow from the cave'. Hence 'an awakened person' is a contradiction, and ego-centred goals (proving yourself, possessions, fame) lose their pull: whom would you be serving?"
+  ],
+  "weight": 4.5,
   "freq": 6,
   "talks": [
    {
@@ -9256,6 +9907,31 @@
     "id": "1OBymLpYfTo",
     "t": "15:20",
     "note": "Know thyself is not about the separate body-mind"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "28:53",
+    "note": "An awakened identity leaves a gap between ego and pure 'I am'."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:29:38",
+    "note": "As long as you say 'I am I', you have road ahead."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:41:55",
+    "note": "Changing the model threatens the sense of personality, 'I the knower'."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:45:32",
+    "note": "What is not understood threatens the ego of the knower."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:48:40",
+    "note": "I am my role, my convictions, my knowledge: each a trap."
    }
   ],
   "links": [
@@ -9278,6 +9954,22 @@
    {
     "to": "divineplay",
     "why": "Play the role, do not be the role"
+   },
+   {
+    "to": "self",
+    "why": "The ego is not the true self."
+   },
+   {
+    "to": "illusion",
+    "why": "The sense 'I am this body and role' does not hold."
+   },
+   {
+    "to": "doxa",
+    "why": "Convictions become identities."
+   },
+   {
+    "to": "hellenism",
+    "why": "'Greek' is a secondary predicate."
    }
   ]
  },
@@ -9516,15 +10208,16 @@
  {
   "id": "east",
   "label": "Eastern parallels",
-  "greek": "",
+  "greek": "Ἀνατολή",
   "translit": "",
   "kind": "idea",
   "group": "thinkers",
   "take": "She trained in India and found that meditation there cleared her lens until she could read Plato with new eyes: everything was already in her own tradition. She parallels Greek ideas with the Tao, Atman, Buddha nature and yoga, holding that truth is one. Yet the postwar West's turn East met cultural friction, and a message in the Himalayas told her that what she sought was where she started.",
   "more": [
+   "Having studied Hinduism, Buddhism and Taoism alongside the Greek tradition, she finds the same core under a different 'colour' given by culture, history and place. Those who realise awakening in any tradition live the same state. She draws on the Buddhist luminous void and calls philosophy, anachronistically, 'the yoga of the Greeks'.",
    "She draws parallels with India and Tibet: Plotinus' ἕνωσις is what others call yoga, the Greek teacher dedicated to all beings mirrors the bodhisattva, and the Buddha's 'the right moment is now' matches the Greek νῦν. She links the divisions of the Circle of the Other to the seven chakras, and Autobiography of a Yogi turned her own life toward meditation in 2008."
   ],
-  "weight": 4.5,
+  "weight": 5,
   "freq": 66,
   "talks": [
    {
@@ -9628,6 +10321,14 @@
    {
     "to": "katharsis",
     "why": "Energetic cleansing is not only Eastern"
+   },
+   {
+    "to": "oneness",
+    "why": "The core is the same One."
+   },
+   {
+    "to": "pythagoras",
+    "why": "Pythagoras brought universal knowledge from the East."
    }
   ]
  },
@@ -9640,10 +10341,11 @@
   "group": "path",
   "take": "θέασις, beholding, is how she says the Greek tradition names awakening: 'the beholding of the One', in which often nothing happens, no gate opens, no angel appears; you simply witness what already is. It shares a root with θέατρον and θεατής: we come into the divine theatre as spectators of truth. Her formula from the Republic is that a change of θέασις (seeing) leads to θέωσις (deification).",
   "more": [
-   "She says the ancient word for awakening is θέασις, beholding, not something that happens to you. Θέα and θέωσις contain θεός and θεά: to behold is to see what is already here waiting for you, what you are. Truth does not come to you; you come to it, and what shifts is the vision (μετατόπιση θέας), not the world."
+   "She says the ancient word for awakening is θέασις, beholding, not something that happens to you. Θέα and θέωσις contain θεός and θεά: to behold is to see what is already here waiting for you, what you are. Truth does not come to you; you come to it, and what shifts is the vision (μετατόπιση θέας), not the world.",
+   "For her θέασις is the ancient name for what we now call awakening: reaching the beholding of the Good, or touching truth. It is called beholding precisely because nothing is created and nothing happens; only a pure seeing arises. With Plotinus she says this seeing turns out to be union: there were not two."
   ],
-  "weight": 4.5,
-  "freq": 120,
+  "weight": 5,
+  "freq": 160,
   "talks": [
    {
     "id": "ax4J8WPxq_c",
@@ -9686,14 +10388,24 @@
     "note": "An inner shift of vision."
    },
    {
-    "id": "w_light_of_hellenism",
-    "t": "",
-    "note": "Written: The Light of Hellenism"
+    "id": "AAWZRTOINyA",
+    "t": "25:50",
+    "note": "The texts speak more often of reaching the beholding of the Good."
    },
    {
-    "id": "w_illusion_east_west",
-    "t": "",
-    "note": "Written: The illusion of East and West"
+    "id": "AAWZRTOINyA",
+    "t": "27:54",
+    "note": "The ancients spoke of θέαμα and θέασις because awakening implies a sleeper."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "29:45",
+    "note": "Plotinus: it was not a vision but a union."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "31:46",
+    "note": "That is exactly why they call it θέασις: nothing emerges but the seeing."
    }
   ],
   "links": [
@@ -9732,6 +10444,18 @@
    {
     "to": "spirituality",
     "why": "Beholding versus spectacular visions."
+   },
+   {
+    "to": "good",
+    "why": "What is beheld is the Good."
+   },
+   {
+    "to": "nonduality",
+    "why": "In beholding the seer is one with the seen."
+   },
+   {
+    "to": "methexis",
+    "why": "Beholding culminates in participation in the One."
    }
   ],
   "est": true
@@ -9744,9 +10468,11 @@
   "kind": "practice",
   "group": "path",
   "take": "Because what is realised is ἄρρητον, belonging neither to words nor concepts, she begins by saying what awakening is not: apophatic theology or knowledge. Diotima does the same with absolute beauty (no body, no limbs, no colour). Her practical test follows: while you still see or understand 'something', even God or the light, do not stop; you have not reached Ithaca.",
-  "more": [],
-  "weight": 3,
-  "freq": 40,
+  "more": [
+   "She defines awakening largely by what it is not: not a political revelation, not an out-of-body or energy experience, not small tastes. The Good is beyond knowledge and truth, ineffable, so whoever insists on knowing it is stuck at an earlier stage: one must let knowledge go to dive into the source."
+  ],
+  "weight": 3.5,
+  "freq": 60,
   "talks": [
    {
     "id": "ax4J8WPxq_c",
@@ -9772,6 +10498,26 @@
     "id": "1OBymLpYfTo",
     "t": "7:54",
     "note": "Poetry comes closest to the ineffable"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "31:03",
+    "note": "Awakening is not seeing through a 'global government'."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "31:20",
+    "note": "Nor an out-of-body experience or feeling energy."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:11:01",
+    "note": "The One is unknowable, ungraspable, inconceivable, ineffable."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:11:29",
+    "note": "You must leave knowledge behind to dive into the source."
    }
   ],
   "links": [
@@ -9794,6 +10540,18 @@
    {
     "to": "odyssey",
     "why": "Ithaca as the end of 'somethings'"
+   },
+   {
+    "to": "good",
+    "why": "The Good is beyond knowledge."
+   },
+   {
+    "to": "proclus",
+    "why": "He lists the One's negative names."
+   },
+   {
+    "to": "gnosis",
+    "why": "Knowledge must finally be left behind."
    }
   ],
   "est": true
@@ -9808,7 +10566,7 @@
   "take": "All knowledge is recollection because the soul's essence is the essence of the cosmos and the divine: knowing is not shopping for something new but activating an imprint already within. Feeling a lack proves it, as you cannot look for keys you do not know you lost. Activating the soul's memory (μνημοσύνη) is, for the ancients, activating eudaimonia; incense 'reminds' us, and her own first reading of Plato at 14 felt like remembering.",
   "more": [
    "With Plato she holds that all knowledge is recollection. Like an olive seed carrying the tree's genetic material, we carry 'psychic genetic material': the seeds of eudaimonia, knowledge and freedom, forgotten but never lost. In the Pythagoras lesson the path itself is stored in the soul's μνημοσύνη in the heart, and the name of Pythagoras' father, Mnesarchus, means memory ruling.",
-   "She asks us to approach every being with an awakened gaze of remembrance (μνημοσύνη): Being is common and already εὐδαίμων. The teleology of eros is to remind us of the pure divine nature we already are (the exact verb is unclear in the transcript)."
+   "Plato says knowledge is recollection, so teaching means reminding: activating the innate power of ἰδεῖν rather than inserting knowledge. Following Plotinus, she adds that whoever comes into union with the One was always the One and simply remembered it."
   ],
   "weight": 5,
   "freq": 160,
@@ -9922,6 +10680,18 @@
    {
     "to": "self",
     "why": "We remember that Being is common."
+   },
+   {
+    "to": "sun",
+    "why": "Like sight, knowledge is already within, waiting to be activated."
+   },
+   {
+    "to": "oneness",
+    "why": "Union with the One is remembering it."
+   },
+   {
+    "to": "plotinus",
+    "why": "He says the united one was always the One."
    }
   ],
   "est": true
@@ -10976,10 +11746,11 @@
   "group": "gods",
   "take": "In the Ares lesson Athena is war 'by union': through providence and strategy she removes the monstrous and passionate so that beings reunite, using every other means before bloody war, and she always overpowers Ares because wisdom rules force. In the radio interview she names wisdom as the goddess's first virtue, joined by justice, temperance and discernment. Her birth from Zeus's head means wisdom is the fruiting (κάρπισμα) of mind, its τέλος.",
   "more": [
-   "In the Odyssey the goddess is the divine guide who brings the lost soul home to Ithaca. She stands for philosophy, science, knowledge and virtue, and Potari calls her ἠθονόη, the one who knows the characters (ἤθη). Working with her means ethics, self-knowledge and a fresh, serious study of one's own tradition."
+   "In the Odyssey the goddess is the divine guide who brings the lost soul home to Ithaca. She stands for philosophy, science, knowledge and virtue, and Potari calls her ἠθονόη, the one who knows the characters (ἤθη). Working with her means ethics, self-knowledge and a fresh, serious study of one's own tradition.",
+   "Her symbol, the owl (γλαύξ), can turn its head and so has all-round, overseeing (ἐποπτική) vision: the opposite of the chained prisoners' one-sidedness."
   ],
-  "weight": 3.5,
-  "freq": 60,
+  "weight": 4.0,
+  "freq": 90,
   "talks": [
    {
     "id": "G9I6oc0TnxI",
@@ -11025,6 +11796,16 @@
     "id": "fqvKm4KHiJs",
     "t": "45:52",
     "note": "'With Athena, move your hand too': effort and grace together"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:24:38",
+    "note": "What is Athena's symbol? The owl."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:24:50",
+    "note": "The owl has spherical or epoptic vision; the prisoner sees one way only."
    }
   ],
   "links": [
@@ -11063,6 +11844,14 @@
    {
     "to": "orpheus",
     "why": "Orpheus carries Athena's primordial wisdom"
+   },
+   {
+    "to": "cave",
+    "why": "The owl's vision is the opposite of the prisoner's."
+   },
+   {
+    "to": "theasis",
+    "why": "Epoptic vision sees the whole."
    }
   ],
   "est": true
@@ -11076,10 +11865,11 @@
   "group": "ethics",
   "take": "The Presocratic, above all Empedoclean, name for the cohesive, attractive force that makes the many into one universe; Empedocles said everything is ruled by attraction and repulsion, as physics now says too. To know ourselves as cosmic φιλότης is, for her, the panacea for separateness. Self-knowledge leads to it, and from it comes the Neoplatonic call to love all things.",
   "more": [
-   "Pythagoras defined philosophy as φιλότης toward wisdom, so the path begins by cultivating the art of loving, the purified heart. In the Ares lesson the Presocratics' two cosmic forces are Νεῖκος, strife or division, and Φιλότης, love or union: both are divine workers in the architecture of the cosmos, embodied by Ares and Athena."
+   "Pythagoras defined philosophy as φιλότης toward wisdom, so the path begins by cultivating the art of loving, the purified heart. In the Ares lesson the Presocratics' two cosmic forces are Νεῖκος, strife or division, and Φιλότης, love or union: both are divine workers in the architecture of the cosmos, embodied by Ares and Athena.",
+   "The word philo-sophia says what must be activated first: φιλότης, love, cultivated together with consciousness until one remembers the One. Her second closing practice is φιλότης: training in love and kindness towards oneself and all beings. Love for all beings and for the common good is, for Plato, the precondition of politics."
   ],
-  "weight": 3.5,
-  "freq": 60,
+  "weight": 4.0,
+  "freq": 90,
   "talks": [
    {
     "id": "-mTgsVQO72E",
@@ -11120,6 +11910,21 @@
     "id": "COON0DK5OEU",
     "t": "4:23",
     "note": "The Presocratics began from the aporia of one versus many"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "23:01",
+    "note": "The word itself names what to activate first: φιλότης."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:49:36",
+    "note": "Love for all beings and the common good is the precondition of politics."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:52:07",
+    "note": "Practise love and kindness towards ourselves and all beings."
    }
   ],
   "links": [
@@ -11162,6 +11967,18 @@
    {
     "to": "athenagoddess",
     "why": "Athena carries union"
+   },
+   {
+    "to": "oneness",
+    "why": "Love arises from realising we are one."
+   },
+   {
+    "to": "politics",
+    "why": "Love for all beings is politics' precondition."
+   },
+   {
+    "to": "wisdom",
+    "why": "Her two closing practices are sophia and philotes."
    }
   ],
   "est": true
@@ -11419,9 +12236,11 @@
   "kind": "term",
   "group": "ways",
   "take": "One of the four names of philosophy's goal: non-dual awareness that rises beyond phenomena and duality to realise what is already whole and divine. It is freedom-giving knowledge, and she calls the final stage of Hellenic meditation, where subject and object merge, the very meaning of gnosis.",
-  "more": [],
-  "weight": 3,
-  "freq": 40,
+  "more": [
+   "On the Line, knowledge of concepts and then of numbers lies above the cave, 'almost there'. But the Good is 'after knowledge': at the top of the line knowledge ends in union, and the identity 'I the knower' is another trap."
+  ],
+  "weight": 3.5,
+  "freq": 60,
   "talks": [
    {
     "id": "woq9ebR-Mqg",
@@ -11437,6 +12256,26 @@
     "id": "DLOnGNrH3NQ",
     "t": "28:32",
     "note": "The merging of subject, object and process"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:11:53",
+    "note": "If you know high ideas and numbers: very good, you are almost there."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:22:43",
+    "note": "Above the line one knows concepts, then numbers."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:23:04",
+    "note": "At the top is the limit of knowledge, after knowledge, union."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:49:00",
+    "note": "'I am my knowledge', the knower, is again a trap."
    }
   ],
   "links": [
@@ -11459,6 +12298,22 @@
    {
     "to": "hellenicmeditation",
     "why": "The meditation path ends in it"
+   },
+   {
+    "to": "dividedline",
+    "why": "Knowledge occupies the upper line below the Good."
+   },
+   {
+    "to": "apophatic",
+    "why": "The Good is beyond knowledge."
+   },
+   {
+    "to": "ego",
+    "why": "'I the knower' is a false identity."
+   },
+   {
+    "to": "methexis",
+    "why": "Knowledge gives way to participation."
    }
   ],
   "est": true
@@ -11919,10 +12774,12 @@
   "translit": "Politeía",
   "kind": "text",
   "group": "thinkers",
-  "take": "She teaches the Republic almost every year, calls it the Bible of philosophy and an ark of knowledge, and wrote her LSE dissertation on it as an initiation. It presents a vision of realising the One through social and political structures, and its treatment of music and Homer is regulation, not banishment. Her course Building the Republic within and without reads the healthy city as a model for a healthy character, from which outer change follows.",
-  "more": [],
-  "weight": 3,
-  "freq": 40,
+  "take": "She calls it Plato's magnum opus: if all his other works were lost, its quintessence would survive in it. Subtitled 'On the Just', it begins in Piraeus with the question of justice and covers soul, virtues, constitutions, music, education, epistemology and life after death. It must be read whole, not in excerpts, and its core thesis is that the just city cannot exist outside unless it is first built in the soul.",
+  "more": [
+   "She teaches the Republic almost every year, calls it the Bible of philosophy and an ark of knowledge, and wrote her LSE dissertation on it as an initiation. It presents a vision of realising the One through social and political structures, and its treatment of music and Homer is regulation, not banishment. Her course Building the Republic within and without reads the healthy city as a model for a healthy character, from which outer change follows."
+  ],
+  "weight": 4.5,
+  "freq": 120,
   "talks": [
    {
     "id": "7YJYJLeJgUY",
@@ -11948,6 +12805,31 @@
     "id": "G9I6oc0TnxI",
     "t": "2:26",
     "note": "A whole book devoted to Homer"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "42:50",
+    "note": "The cave sits in Book VII of ten, the culmination of the work."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "43:20",
+    "note": "If only the Republic survived, its quintessence would be saved."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "44:06",
+    "note": "Its second title is 'On the Just'."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "53:33",
+    "note": "The just polity outside requires the polity first built in the soul."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "54:12",
+    "note": "The oligarchy charge comes from reading it in excerpts."
    }
   ],
   "links": [
@@ -11974,6 +12856,18 @@
    {
     "to": "homer",
     "why": "Its book on Homer"
+   },
+   {
+    "to": "justice",
+    "why": "Justice is its central theme."
+   },
+   {
+    "to": "paideia",
+    "why": "The cave answers its question about education."
+   },
+   {
+    "to": "soul",
+    "why": "It teaches the soul's parts and their harmony."
    }
   ],
   "est": true
@@ -12168,6 +13062,14 @@
    {
     "to": "science",
     "why": "Knowledge, not wonder-mongering."
+   },
+   {
+    "to": "spiritualcave",
+    "why": "Inflated spirituality becomes a new cave."
+   },
+   {
+    "to": "mysteries",
+    "why": "Its hieratic aspect is mystagogy."
    }
   ]
  },
@@ -12604,10 +13506,12 @@
   "translit": "ágnoia / chōristikótēta",
   "kind": "idea",
   "group": "path",
-  "take": "The single root of every evil, personal, political and planetary, is ignorance, specifically χωριστικότητα, the illusion that I am separate from others, from other nations and from nature. It is the same weed behind violence, war and ecological ruin. One disease means one panacea: knowing ourselves as love.",
-  "more": [],
-  "weight": 2,
-  "freq": 18,
+  "take": "The prisoners' defining mark is double ignorance: they do not know that they do not know, and take the cave for life itself. Worse still is to believe you know. Such people call the spiritual seeker mad and later persecute those who return to free them; Plato defines paideia against ἀμάθεια, the state of not-learning.",
+  "more": [
+   "The single root of every evil, personal, political and planetary, is ignorance, specifically χωριστικότητα, the illusion that I am separate from others, from other nations and from nature. It is the same weed behind violence, war and ecological ruin. One disease means one panacea: knowing ourselves as love."
+  ],
+  "weight": 4.5,
+  "freq": 120,
   "talks": [
    {
     "id": "4uxz_yy9DLI",
@@ -12628,6 +13532,26 @@
     "id": "7YJYJLeJgUY",
     "t": "1:51:07",
     "note": "If nature is divine, why torture it?"
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "57:34",
+    "note": "The cave shows the states of learning and of ἀμάθεια."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:31:48",
+    "note": "Double ignorance: they do not know that they do not know."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:32:10",
+    "note": "Worse is to think you know while not knowing that you do not know."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:32:18",
+    "note": "These are the prisoners who later persecute the freed."
    }
   ],
   "links": [
@@ -12646,6 +13570,14 @@
    {
     "to": "knowthyself",
     "why": "Self-knowledge is the remedy"
+   },
+   {
+    "to": "cave",
+    "why": "It is the condition of the prisoners."
+   },
+   {
+    "to": "eikasia",
+    "why": "Ignorance lives in conjecture, lost in the mass."
    }
   ],
   "est": true
@@ -14612,6 +15544,734 @@
    {
     "to": "hellenicmeditation",
     "why": "Meditation empties the mind of content."
+   }
+  ]
+ },
+ {
+  "id": "dividedline",
+  "label": "The divided line",
+  "greek": "γραμμή",
+  "translit": "grammḗ",
+  "kind": "idea",
+  "group": "path",
+  "take": "She reads the Line as the ordering of what the Sun taught: five objects of seeing or thinking and five modes of consciousness, from conjecture and opinion inside the cave, through knowledge of concepts and of numbers above it, to union with the Good at its top. She stresses that she decodes these five from the text rather than adding them, and that they match Plato's five levels of being, the five constitutions and the Pythagorean pentagram. The line is drawn in the mean and extreme ratio, φ.",
+  "more": [],
+  "weight": 4,
+  "freq": 90,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:14:00",
+    "note": "The Line sets in order what the Sun taught, in the mean and extreme ratio."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:17:45",
+    "note": "Five objects and five modes; she decodes rather than adds them."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:22:07",
+    "note": "Above a point on the line one leaves the cave for conscious νόησις."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:23:18",
+    "note": "Conjecture, opinion, knowledge (ideas, mathematics) and awakening as union."
+   }
+  ],
+  "links": [
+   {
+    "to": "goldenratio",
+    "why": "The line is constructed in φ."
+   },
+   {
+    "to": "eikasia",
+    "why": "Its lowest mode is conjecture."
+   },
+   {
+    "to": "doxa",
+    "why": "Its second mode is opinion and conviction."
+   },
+   {
+    "to": "cave",
+    "why": "The lower part of the line is the cave."
+   },
+   {
+    "to": "good",
+    "why": "Its top is the sun of the Good."
+   },
+   {
+    "to": "being",
+    "why": "The five modes of knowing match five levels of being."
+   },
+   {
+    "to": "pythagoras",
+    "why": "Five is the Pythagorean rhythm of justice and the pentagram."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "goldenratio",
+  "label": "The golden ratio φ",
+  "greek": "μέσος καὶ ἄκρος λόγος",
+  "translit": "mésos kaì ákros lógos",
+  "kind": "idea",
+  "group": "cosmos",
+  "take": "The Line is constructed in the mean and extreme ratio, a formulation of φ, which she calls 'the rhythm of harmony', found in the Acropolis, flowers, shells, galaxies and the human body. Because every level relates to every higher one by the same ratio, φ is 'the magic key of justice', the harmony of all levels.",
+  "more": [],
+  "weight": 3,
+  "freq": 40,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:01:53",
+    "note": "Under the similes lies a geometry, the geometry of φ."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:14:24",
+    "note": "Divide a segment, then each part again, in the same ratio."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:15:24",
+    "note": "φ structures the Acropolis, flowers, the body, shells and galaxies."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:15:49",
+    "note": "φ is the magic key of justice, the harmony of all levels."
+   }
+  ],
+  "links": [
+   {
+    "to": "justice",
+    "why": "φ is the key of justice as harmony of levels."
+   },
+   {
+    "to": "harmony",
+    "why": "φ is the rhythm of harmony."
+   },
+   {
+    "to": "dividedline",
+    "why": "The line is drawn in this ratio."
+   },
+   {
+    "to": "science",
+    "why": "Esoteric knowledge encoded in mathematics."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "eikasia",
+  "label": "Conjecture (eikasia)",
+  "greek": "εἰκασία",
+  "translit": "eikasía",
+  "kind": "term",
+  "group": "ways",
+  "take": "The lowest mode of mind, when intellection turns to images and shadows. She reads the shadows psychologically: the shadows of the personality, traumas and the projections we cast on others, as when a partner's morning frown becomes 'he doesn't love me'. This is where psychology and Jung's shadow work come in.",
+  "more": [],
+  "weight": 4,
+  "freq": 90,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:19:11",
+    "note": "Turned to images and shadows, the mind forms conjectures and projections."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:19:35",
+    "note": "The shadows are the personality's shadows, traumas and projections."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:20:01",
+    "note": "Seeing a sullen husband and concluding 'he doesn't love me' is projection."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:31:20",
+    "note": "In conjecture one is lost in the mass: what others say and believe."
+   }
+  ],
+  "links": [
+   {
+    "to": "dividedline",
+    "why": "It is the lowest segment of the line."
+   },
+   {
+    "to": "doxa",
+    "why": "The next mode up is opinion."
+   },
+   {
+    "to": "selfobservation",
+    "why": "Noticing when I conjecture is the first practice."
+   },
+   {
+    "to": "ego",
+    "why": "Projections come from the personality and its wounds."
+   },
+   {
+    "to": "cave",
+    "why": "The shadows on the wall."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "doxa",
+  "label": "Opinion and conviction",
+  "greek": "δόξα / πεποίθησις",
+  "translit": "dóxa / pepoíthēsis",
+  "kind": "term",
+  "group": "ways",
+  "take": "When we turn to sensible objects we form opinions, beliefs and views, the 'my view and your view' prized in democracy, and she places them inside the cave, in what she calls the deep cave. They rest on the belief 'I am the body and others are bodies'. A conviction is an opinion clothed in emotion, which is why even science, studied only materialistically, can turn into dogma and fanaticism, as Kuhn saw with paradigms.",
+  "more": [],
+  "weight": 4,
+  "freq": 90,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:21:05",
+    "note": "Views so prized in democracy are inside the cave."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:21:33",
+    "note": "They rest on the conviction that I am the body and you are a body."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:21:58",
+    "note": "This part of the line is the deep cave."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:40:52",
+    "note": "A conviction is an opinion clothed in emotion."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:41:21",
+    "note": "Kuhn: communities resist paradigm change from emotional investment."
+   }
+  ],
+  "links": [
+   {
+    "to": "eikasia",
+    "why": "Opinion is the mode just above conjecture."
+   },
+   {
+    "to": "body",
+    "why": "Opinions rest on identifying with the body."
+   },
+   {
+    "to": "science",
+    "why": "Materialist science becomes conviction and dogma."
+   },
+   {
+    "to": "wonderworkers",
+    "why": "Most people run through the wonder-worker: 'I have a view and believe it'."
+   },
+   {
+    "to": "selfobservation",
+    "why": "Watching when I hold a view is how one starts to leave the cave."
+   },
+   {
+    "to": "ego",
+    "why": "Changing a conviction threatens the knower's role."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "wonderworkers",
+  "label": "The wonder-workers",
+  "greek": "θαυματοποιοί",
+  "translit": "thaumatopoioí",
+  "kind": "idea",
+  "group": "path",
+  "take": "Outwardly they are all who build a mass reality: television, the news, the models people are told to believe. But while everyone wants to catch the outer wonder-workers, she turns inward: the true wonder-worker is the nous itself. Most people, she says with Plato, run through the wonder-worker: 'I have a view and I believe it.'",
+  "more": [],
+  "weight": 4,
+  "freq": 90,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "25:18",
+    "note": "Today's spiritual scene is full of wonder-mongering, as in Plato."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:30:40",
+    "note": "Governments, propagandists and religions are wonder-workers too, but the inner one matters."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:39:27",
+    "note": "They are all who take part in constructing a mass reality."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:43:05",
+    "note": "Most people function through the wonder-worker."
+   }
+  ],
+  "links": [
+   {
+    "to": "nous",
+    "why": "The one wonder-worker is the mind."
+   },
+   {
+    "to": "doxa",
+    "why": "They supply the opinions people believe."
+   },
+   {
+    "to": "cave",
+    "why": "They carry the figures whose shadows the prisoners see."
+   },
+   {
+    "to": "spiritualcave",
+    "why": "Spiritual wonder-mongering renovates the cave."
+   },
+   {
+    "to": "freedom",
+    "why": "Contact with them is a stage of liberation."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "horai",
+  "label": "The Horai and the soul's ripe hour",
+  "greek": "Ὧραι / ὡραιότης",
+  "translit": "Hôrai / hōraiótēs",
+  "kind": "deity",
+  "group": "gods",
+  "take": "Her own gate out of the cave is the ripeness of the soul: the hour has come, as chamomile springs up in spring once all the conditions are met. Since the talk is about justice, she notes that the Horai are the first daughters of Zeus by Themis, goddess of justice, and that their sisters the Graces name the same moment as grace. She says she is writing a treatise on the Horai.",
+  "more": [],
+  "weight": 3,
+  "freq": 40,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:35:27",
+    "note": "Ripeness of the soul: something inside has ripened, its hour has come."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:35:52",
+    "note": "The Horai are daughters of Zeus and Themis; she is writing a treatise on them."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:43:28",
+    "note": "The hour is also called grace; the Graces are sisters of the Horai."
+   }
+  ],
+  "links": [
+   {
+    "to": "exaiphnes",
+    "why": "The ripe hour is the sudden moment of release."
+   },
+   {
+    "to": "justice",
+    "why": "The Horai are daughters of Themis, goddess of justice."
+   },
+   {
+    "to": "zeus",
+    "why": "They are Zeus's first daughters by Themis."
+   },
+   {
+    "to": "eros",
+    "why": "The great calling can also come as Eros."
+   },
+   {
+    "to": "soul",
+    "why": "It is the soul's own ripening."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "illusion",
+  "label": "Illusion and interpretation",
+  "greek": "ψευδαίσθησις",
+  "translit": "pseudaísthēsis",
+  "kind": "idea",
+  "group": "soul",
+  "take": "She refuses to call life an illusion, since then the Good would have created something false; illusion is produced by interpretation, the way our nous works. The greatest illusion of the spiritual scene is 'the awakened subject'. After the return she says even illusion is awakening that forgets itself.",
+  "more": [],
+  "weight": 4,
+  "freq": 90,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "28:36",
+    "note": "Speaking of the awakened subject is one of the greatest illusions."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:28:06",
+    "note": "It is not that life is an illusion; the Good does not create something false."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:28:20",
+    "note": "Illusion is created by interpretation; the error is the interpretation (partly reconstructed)."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:47:18",
+    "note": "Even illusion is awakening that forgets itself."
+   }
+  ],
+  "links": [
+   {
+    "to": "awakening",
+    "why": "The 'awakened one' is itself an illusion."
+   },
+   {
+    "to": "ego",
+    "why": "The belief 'I am this body, personality, role' does not hold."
+   },
+   {
+    "to": "good",
+    "why": "The Good does not create anything false."
+   },
+   {
+    "to": "nous",
+    "why": "Illusion comes from how the mind interprets."
+   },
+   {
+    "to": "immanence",
+    "why": "On return, illusion is seen as forgetful awakening."
+   },
+   {
+    "to": "eikasia",
+    "why": "Interpretations and projections are the shadows."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "spiritualcave",
+  "label": "The new spiritual cave",
+  "greek": "πνευματικὸ σπήλαιο",
+  "translit": "pneumatikó spḗlaio",
+  "kind": "idea",
+  "group": "path",
+  "take": "Her name for the 'renovation of the cave' produced by today's inflation of spiritual terms: awakening approached materialistically, what other traditions call spiritual materialism, with wonder-mongering and misinformation. Identities such as 'the awakened one', or a spirituality fenced by race, are further versions of it.",
+  "more": [],
+  "weight": 3,
+  "freq": 40,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "24:45",
+    "note": "Interest in awakening brings a terminological and ideational inflation."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "24:53",
+    "note": "She calls it the new spiritual cave, a renovation of the cave."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "25:10",
+    "note": "Other traditions speak of spiritual materialism."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "40:44",
+    "note": "Body-centred categories in spirituality can become another cave."
+   }
+  ],
+  "links": [
+   {
+    "to": "cave",
+    "why": "It is the cave renovated in spiritual dress."
+   },
+   {
+    "to": "awakening",
+    "why": "Awakening is its main inflated term."
+   },
+   {
+    "to": "wonderworkers",
+    "why": "It is full of wonder-mongering."
+   },
+   {
+    "to": "hellenism",
+    "why": "A racially fenced Greek spirituality is another cave."
+   },
+   {
+    "to": "ego",
+    "why": "'The awakened one' is a new identity."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "methexis",
+  "label": "Participation (methexis)",
+  "greek": "μέθεξις",
+  "translit": "méthexis",
+  "kind": "term",
+  "group": "cosmos",
+  "take": "Her word for the final stage of the Line and of the ascent: participation in, or union with, the One, the Good, after one has already come to know ideas and numbers. She reads the Symposium's formless final spectacle as this μέθεξις. With Plotinus she adds that in the end 'there was not even union', since one was always the One.",
+  "more": [],
+  "weight": 3,
+  "freq": 40,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:12:22",
+    "note": "The Symposium's spectacle without form or colour is μέθεξις with the One."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:23:36",
+    "note": "The last mode of the line: μέθεξις with the monad, the One."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:44:46",
+    "note": "The ascent must culminate in absolute μέθεξις with the sun of the Good."
+   }
+  ],
+  "links": [
+   {
+    "to": "oneness",
+    "why": "It is participation in the One."
+   },
+   {
+    "to": "good",
+    "why": "Its object is the sun of the Good."
+   },
+   {
+    "to": "dividedline",
+    "why": "It is the top of the line."
+   },
+   {
+    "to": "theasis",
+    "why": "Beholding becomes union."
+   },
+   {
+    "to": "plotinus",
+    "why": "In the end there was not even union."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "selfobservation",
+  "label": "Observing the mind",
+  "greek": "παρατήρησις τοῦ νοῦ",
+  "translit": "paratḗrēsis toû noû",
+  "kind": "practice",
+  "group": "path",
+  "take": "What is now called mindfulness, she says, is the path of self-knowledge: recognising at each moment how your mind works, noticing when you conjecture and when you simply hold an opinion and believe it. Learning to function without the mediation of views, dogmas and convictions is where one begins to leave the cave. Her book in progress, based on her course on the cave, focuses on this.",
+  "more": [],
+  "weight": 3,
+  "freq": 40,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:42:27",
+    "note": "This is what is called mindfulness, the focus of her book."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:42:54",
+    "note": "Notice each moment when you conjecture and when you hold a view."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:43:19",
+    "note": "Functioning without views and dogmas, we begin to leave the cave."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:51:32",
+    "note": "Create a space between what I think and the I who observes it."
+   }
+  ],
+  "links": [
+   {
+    "to": "nous",
+    "why": "It watches how the nous works."
+   },
+   {
+    "to": "eikasia",
+    "why": "It catches conjectures and projections."
+   },
+   {
+    "to": "doxa",
+    "why": "It catches opinions believed without examination."
+   },
+   {
+    "to": "wisdom",
+    "why": "It is her practice drawn from sophia."
+   },
+   {
+    "to": "knowthyself",
+    "why": "It is the path of self-knowledge."
+   },
+   {
+    "to": "cave",
+    "why": "It is how one starts to leave the cave."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "hermes",
+  "label": "Hermes",
+  "greek": "Ἑρμῆς",
+  "translit": "Hermês",
+  "kind": "deity",
+  "group": "gods",
+  "take": "Those freed who go back into the cave to help lead her to the epithet ψυχοπομπός, guide of souls, belonging to Hermes, 'the symbol of the teacher who unites the two worlds'. With his caduceus he leads Persephone back to Demeter in spring. Crossing the dark valley, one needs a good psychopomp.",
+  "more": [],
+  "weight": 3,
+  "freq": 35,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:34:33",
+    "note": "With a good psychopomp one crosses the valley of darkness into light (probably hers)."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:38:19",
+    "note": "Hermes the psychopomp is the symbol of the teacher who unites two worlds."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:38:27",
+    "note": "He holds the caduceus and leads Persephone back to Demeter in spring."
+   }
+  ],
+  "links": [
+   {
+    "to": "immanence",
+    "why": "The returning teacher is a psychopomp."
+   },
+   {
+    "to": "paideia",
+    "why": "He is the symbol of the teacher."
+   },
+   {
+    "to": "cave",
+    "why": "He unites the world inside and outside the cave."
+   }
+  ]
+ },
+ {
+  "id": "metempsychosis",
+  "label": "Reincarnation",
+  "greek": "μετεμψύχωσις",
+  "translit": "metempsýchōsis",
+  "kind": "idea",
+  "group": "soul",
+  "take": "Taking up the host's point that souls may have lived in East and West, she says the passer-by of another ethnicity could be Aristotle reborn, so racial distinctions miss the soul. She notes that Book X of the Republic teaches metempsychosis, and mocks the academic view that Plato 'got tired' and threw in the myth of Er.",
+  "more": [],
+  "weight": 2,
+  "freq": 18,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "35:40",
+    "note": "The host raises Plato's metempsychosis: souls cross East and West."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "36:03",
+    "note": "Her example: the passer-by may be Aristotle, reincarnated."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "45:28",
+    "note": "Book X tells how reincarnation and metempsychosis take place."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "49:39",
+    "note": "Academics said Plato threw in the myth of Er."
+   }
+  ],
+  "links": [
+   {
+    "to": "body",
+    "why": "Racial identity ignores the travelling soul."
+   },
+   {
+    "to": "hellenism",
+    "why": "A Greek today may have been Eastern before."
+   },
+   {
+    "to": "republic",
+    "why": "Book X teaches it."
+   },
+   {
+    "to": "plato",
+    "why": "Academics dismiss this part of Plato."
+   }
+  ],
+  "est": true
+ },
+ {
+  "id": "enlightenment",
+  "label": "Enlightenment",
+  "greek": "φώτισις",
+  "translit": "phṓtisis",
+  "kind": "idea",
+  "group": "path",
+  "take": "She uses φώτισις nearly interchangeably with awakening for the completion at the top of the line. Her criterion: as long as you say 'I am the enlightened one', it is not complete. The true state is Οὖτις, Odysseus's 'Nobody', which Plotinus calls silence and Buddhists the luminous void.",
+  "more": [],
+  "weight": 2,
+  "freq": 54,
+  "talks": [
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:23:31",
+    "note": "The last mode of the line is awakening, enlightenment, the completion."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:29:44",
+    "note": "'I am the enlightened one' means it is not complete."
+   },
+   {
+    "id": "AAWZRTOINyA",
+    "t": "1:29:52",
+    "note": "It is pure consciousness, Odysseus's Nobody, the nobody-the-all."
+   }
+  ],
+  "links": [
+   {
+    "to": "awakening",
+    "why": "Used almost as a synonym."
+   },
+   {
+    "to": "ego",
+    "why": "An enlightened identity means it is incomplete."
+   },
+   {
+    "to": "odyssey",
+    "why": "Odysseus as Οὖτις, Nobody."
+   },
+   {
+    "to": "plotinus",
+    "why": "Plotinus calls the completed state silence."
+   },
+   {
+    "to": "east",
+    "why": "Buddhists call it the luminous void."
    }
   ]
  }

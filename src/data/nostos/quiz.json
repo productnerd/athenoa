@@ -4233,6 +4233,716 @@
   "explain": "Held online on 13 and 14 February 2021."
  },
  {
+  "q": "Which term does she say the ancients used more often than 'awakening'?",
+  "a": "θέασις, beholding (of the Good)",
+  "wrong": [
+   "μετάνοια, change of mind",
+   "ἔκστασις, ecstasy",
+   "ἀπάθεια, freedom from passion"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "25:50",
+  "explain": "The word ἀφύπνισις is rare in ancient texts; they speak of beholding or touching truth."
+ },
+ {
+  "q": "The verb inside ἐφάπτεσθαι τῆς ἀληθείας means both 'to touch' and what else?",
+  "a": "To kindle, to set alight",
+  "wrong": [
+   "To see",
+   "To remember",
+   "To purify"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "26:01",
+  "explain": "ἅπτω means to kindle as well as to touch, recalling Heraclitus's fire."
+ },
+ {
+  "q": "What does she call Heraclitus?",
+  "a": "Heraclitus the luminous",
+  "wrong": [
+   "Heraclitus the dark",
+   "Heraclitus the weeping philosopher",
+   "Heraclitus the riddler"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "27:01",
+  "explain": "He seems dark only from the position of darkness."
+ },
+ {
+  "q": "Why does she distrust the word 'awakening'?",
+  "a": "It implies a sleeper, yet once awake one sees no one was asleep",
+  "wrong": [
+   "It was coined by the Stoics",
+   "It refers only to political awareness",
+   "It belongs to Christian theology"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "27:58",
+  "explain": "There was only a state of pure seeing."
+ },
+ {
+  "q": "What does she call one of the greatest illusions?",
+  "a": "Speaking of the awakened subject or awakened person",
+  "wrong": [
+   "Belief in the gods",
+   "The reality of the body",
+   "The existence of time"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "28:36",
+  "explain": "Such an identity keeps a gap between ego and the pure 'I am'."
+ },
+ {
+  "q": "In the Plotinus passage she reads, it was 'not a vision but...'?",
+  "a": "A union",
+  "wrong": [
+   "A memory",
+   "A dream",
+   "A revelation"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "29:45",
+  "explain": "There were not two; the seer was one with the seen."
+ },
+ {
+  "q": "How many times does she say Plato uses ἐξαίφνης in the cave allegory?",
+  "a": "Three",
+  "wrong": [
+   "Once",
+   "Five",
+   "Seven"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "32:20",
+  "explain": "Awakening and its partial stages happen suddenly."
+ },
+ {
+  "q": "Is awakening sudden or gradual in this conversation?",
+  "a": "Both: sudden, but preceded by long preparation",
+  "wrong": [
+   "Only gradual",
+   "Only sudden, with no preparation",
+   "Neither: it happens only after death"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "32:32",
+  "explain": "Another teacher's line is quoted: the ἐξαίφνης follows a long preparation.",
+  "uncertain": true
+ },
+ {
+  "q": "What does she say differs between Eastern traditions and Greek philosophy?",
+  "a": "Only the 'colour', from culture, history and place",
+  "wrong": [
+   "The goal of the path",
+   "The nature of the true self",
+   "Whether the One exists"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "33:49",
+  "explain": "The core is the same; method and formulation differ."
+ },
+ {
+  "q": "What does she call 'Greek', taken as an identity?",
+  "a": "Yet another cave",
+  "wrong": [
+   "The first step of awakening",
+   "The root of virtue",
+   "Apollo's gift"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "34:25",
+  "explain": "Before you exist as Greek, you are."
+ },
+ {
+  "q": "Which Stoic term does she use for the pure One that Marcus Aurelius lived?",
+  "a": "ἡγεμονικόν, the ruling part",
+  "wrong": [
+   "λόγος σπερματικός",
+   "προαίρεσις",
+   "ἀταραξία"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "37:37",
+  "explain": "The Stoic tradition calls it the ruling part of our nature."
+ },
+ {
+  "q": "Which warning of Marcus Aurelius does she quote?",
+  "a": "Do not be 'Caesarified'",
+  "wrong": [
+   "Do not fear death",
+   "Do not give in to anger",
+   "Do not trust the senses"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "38:13",
+  "explain": "Do not identify so much with the role you play."
+ },
+ {
+  "q": "Who does she say instituted the term 'philosophy' in Greece?",
+  "a": "Pythagoras",
+  "wrong": [
+   "Socrates",
+   "Thales",
+   "Plato"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "38:53",
+  "explain": "He named the path, the root of the Platonic school."
+ },
+ {
+  "q": "According to her, at what ages did Pythagoras leave and return to Greece?",
+  "a": "Left at 16, returned at about 56",
+  "wrong": [
+   "Left at 20, returned at 40",
+   "Left at 30, returned at 70",
+   "Left at 12, returned at 60"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "39:23",
+  "explain": "Over three decades of paideia in Egypt and the East."
+ },
+ {
+  "q": "What is the Republic's subtitle?",
+  "a": "On the Just (περὶ δικαίου)",
+  "wrong": [
+   "On the Soul",
+   "On the Good",
+   "On Virtue"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "44:06",
+  "explain": "Justice is the theme of the whole work."
+ },
+ {
+  "q": "In which book of the Republic is the cave allegory?",
+  "a": "Book VII",
+  "wrong": [
+   "Book I",
+   "Book V",
+   "Book X"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "42:50",
+  "explain": "Of ten books, 'not at all by chance'."
+ },
+ {
+  "q": "What is the highest grade in her ladder of virtues?",
+  "a": "The hieratic or theological virtues",
+  "wrong": [
+   "The political virtues",
+   "The cathartic virtues",
+   "The paradigmatic virtues"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "47:16",
+  "explain": "Philosophy culminates in the hieratic."
+ },
+ {
+  "q": "What did Aristotle himself call the work we know as the Metaphysics?",
+  "a": "First philosophy, or theology",
+  "wrong": [
+   "The science of nature",
+   "Dialectic",
+   "Physics of the soul"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "47:27",
+  "explain": "'After the physics' was the editor's shelf title."
+ },
+ {
+  "q": "What image does she use for philosophy stripped of its theological part?",
+  "a": "A Frankenstein",
+  "wrong": [
+   "An empty temple",
+   "A ruined statue",
+   "A ship without a captain"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "49:04",
+  "explain": "It was cut up and stitched back without its mystagogy."
+ },
+ {
+  "q": "In her university anecdote, what did academics say about the myth of Er?",
+  "a": "That Plato got tired and threw it in",
+  "wrong": [
+   "That a later editor added it",
+   "That it was a Pythagorean forgery",
+   "That Aristotle wrote it"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "49:36",
+  "explain": "A symptom of reading Plato without his mystagogy."
+ },
+ {
+  "q": "Whose 6th-century decree does she say sent mathematics, the mysteries and theology underground?",
+  "a": "Justinian's",
+  "wrong": [
+   "Theodosius's",
+   "Constantine's",
+   "Julian's"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "50:54",
+  "explain": "The knowledge passed to groups that became alchemists and orders."
+ },
+ {
+  "q": "What are 'the two Ps' she calls life's two gates?",
+  "a": "Paideia and politics",
+  "wrong": [
+   "Philosophy and poetry",
+   "Piety and power",
+   "Psyche and polis"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "55:59",
+  "explain": "As we are educated, so we govern; paideia is the root of the constitution."
+ },
+ {
+  "q": "The cave allegory comes as Plato's answer to which question?",
+  "a": "What is paideia?",
+  "wrong": [
+   "What is justice?",
+   "What is the soul?",
+   "What happens after death?"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "57:00",
+  "explain": "It defines education and the state of the knower."
+ },
+ {
+  "q": "Which two similes must be understood before the cave?",
+  "a": "The Sun and the Line",
+  "wrong": [
+   "The Ship and the Beast",
+   "The Ring of Gyges and the Charioteer",
+   "The Myth of Er and the Noble Lie"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "59:06",
+  "explain": "The three form one synthesis."
+ },
+ {
+  "q": "How many modes of functioning of the nous does she find in the similes?",
+  "a": "Five",
+  "wrong": [
+   "Three",
+   "Four",
+   "Seven"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "59:55",
+  "explain": "Five modes that match five levels of being."
+ },
+ {
+  "q": "What geometry does she say lies under the Line?",
+  "a": "The mean and extreme ratio, φ",
+  "wrong": [
+   "The Pythagorean theorem",
+   "The square root of two",
+   "The five Platonic solids"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:01:53",
+  "explain": "The line is divided in the golden ratio."
+ },
+ {
+  "q": "Which sense is the 'most sun-like'?",
+  "a": "Sight",
+  "wrong": [
+   "Hearing",
+   "Touch",
+   "Smell"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:02:54",
+  "explain": "We see through light."
+ },
+ {
+  "q": "What is the 'third kind' that mediates between the eye and its objects?",
+  "a": "Light",
+  "wrong": [
+   "Air",
+   "The soul",
+   "Colour"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:04:35",
+  "explain": "Without light the three cannot produce sight."
+ },
+ {
+  "q": "What does the sun do to the power of sight, in her reading?",
+  "a": "It activates a power already in the eye",
+  "wrong": [
+   "It places it in the eye",
+   "It creates it at birth",
+   "It replaces it with knowledge"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:05:05",
+  "explain": "The model of education as activation, not insertion."
+ },
+ {
+  "q": "Written with digamma, ἰδεῖν gives which modern word, according to her?",
+  "a": "Video",
+  "wrong": [
+   "Theatre",
+   "Phenomenon",
+   "Photo"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:07:31",
+  "explain": "ϝιδ-, to see and to know."
+ },
+ {
+  "q": "What does Plato call the light of the Good in the intelligible field?",
+  "a": "ἀλήθεια, truth",
+  "wrong": [
+   "νοῦς, intellect",
+   "δόξα, opinion",
+   "ψυχή, soul"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:09:53",
+  "explain": "Truth mediates between the One and intellection."
+ },
+ {
+  "q": "Which image does she use to say the Good is not knowledge?",
+  "a": "A spring of water is not water",
+  "wrong": [
+   "A seed is not a tree",
+   "A map is not the land",
+   "A lamp is not the room"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:10:27",
+  "explain": "The Good is the source of knowledge, not knowledge itself."
+ },
+ {
+  "q": "From which word does she derive 'pagan'?",
+  "a": "The Doric παγά, source, in the Pythagorean oath",
+  "wrong": [
+   "πάγος, frost",
+   "Πάν, the god Pan",
+   "παγίς, a trap"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:10:37",
+  "explain": "A pagan, for her, is one in contact with the source."
+ },
+ {
+  "q": "The Pythagoreans swore by the Tetraktys, 'source of ever-flowing...' what?",
+  "a": "Nature",
+  "wrong": [
+   "Fire",
+   "Time",
+   "Light"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:10:34",
+  "explain": "παγὰν ἀενάου φύσεως."
+ },
+ {
+  "q": "In her account, awakening is...",
+  "a": "Union with the unknown, not knowledge of the One",
+  "wrong": [
+   "Complete knowledge of the One",
+   "An experience of energy",
+   "A memory of past lives"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:11:14",
+  "explain": "The One is unknowable; one must let knowledge go."
+ },
+ {
+  "q": "What does Apollo's name mean in her reading?",
+  "a": "Away from the many (ἀπὸ πολλῶν)",
+  "wrong": [
+   "The destroyer",
+   "The shining one",
+   "The healer"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:12:44",
+  "explain": "She even coins the verb 'ἀπολλωθεῖτε', leave the polarities."
+ },
+ {
+  "q": "She calls φ 'the magic key' of what?",
+  "a": "Justice",
+  "wrong": [
+   "Memory",
+   "Beauty",
+   "Immortality"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:15:49",
+  "explain": "Justice is the harmony of all levels in the same ratio."
+ },
+ {
+  "q": "At which mode of the line does she say psychology and shadow work come in?",
+  "a": "εἰκασία, conjecture",
+  "wrong": [
+   "Knowledge of numbers",
+   "Union with the Good",
+   "Knowledge of ideas"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:20:13",
+  "explain": "The shadows are traumas and projections."
+ },
+ {
+  "q": "What does she call the part of the line where opinions and convictions sit?",
+  "a": "The deep cave",
+  "wrong": [
+   "The upper world",
+   "The threshold",
+   "The intelligible place"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:21:58",
+  "explain": "Views rest on the belief 'I am the body'."
+ },
+ {
+  "q": "Why does Athena's owl contrast with the prisoners?",
+  "a": "It turns its head and sees all round",
+  "wrong": [
+   "It sees in the dark",
+   "It never sleeps",
+   "It flies above the cave"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:24:41",
+  "explain": "Epoptic vision versus one-sidedness."
+ },
+ {
+  "q": "Which film is said in the conversation to draw heavily on the cave?",
+  "a": "The Matrix",
+  "wrong": [
+   "Inception",
+   "The Truman Show",
+   "Blade Runner"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "41:22",
+  "explain": "Its script uses many elements of the allegory.",
+  "uncertain": true
+ },
+ {
+  "q": "Which Greek astrophysicist does she cite when teaching the cave?",
+  "a": "Manos Danezis",
+  "wrong": [
+   "Dimitri Nanopoulos",
+   "Stamatios Krimigis",
+   "Christos Papadimitriou"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:26:31",
+  "explain": "Physics describes the world as an ocean of energies and frequencies."
+ },
+ {
+  "q": "What does the story of Helen show, in her reading?",
+  "a": "Only her phantom went to Troy",
+  "wrong": [
+   "She was a goddess in disguise",
+   "She never existed",
+   "She returned to Sparta at once"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:27:33",
+  "explain": "The world of images was known before Plato."
+ },
+ {
+  "q": "What is her criterion that the path is not finished?",
+  "a": "You still say 'I am the awakened one'",
+  "wrong": [
+   "You still have desires",
+   "You still feel pain",
+   "You still live in a body"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:29:38",
+  "explain": "An awakened identity is a new shadow."
+ },
+ {
+  "q": "Who is the one wonder-worker?",
+  "a": "The nous, the mind",
+  "wrong": [
+   "Governments",
+   "Religions",
+   "The media"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:30:49",
+  "explain": "Outer wonder-workers exist, but the inner one is the mind."
+ },
+ {
+  "q": "What is the prisoners' defining mark?",
+  "a": "Double ignorance",
+  "wrong": [
+   "Cowardice",
+   "Greed",
+   "Laziness"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:31:48",
+  "explain": "They do not know that they do not know."
+ },
+ {
+  "q": "Which gate out of the cave does she add to the host's three?",
+  "a": "The soul's ripeness, its hour (ὥρα)",
+  "wrong": [
+   "A traumatic shock",
+   "A 'healthy depression'",
+   "The soul's eros"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:35:27",
+  "explain": "The other three are the host's scheme."
+ },
+ {
+  "q": "The Horai are daughters of Zeus and which goddess?",
+  "a": "Themis",
+  "wrong": [
+   "Hera",
+   "Mnemosyne",
+   "Leto"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:35:52",
+  "explain": "Themis, goddess of justice."
+ },
+ {
+  "q": "Which epithet of Hermes does she connect to the freed one who returns?",
+  "a": "Psychopomp, guide of souls",
+  "wrong": [
+   "Argeiphontes",
+   "Trismegistus",
+   "Kyllenios"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:38:19",
+  "explain": "Hermes is the teacher who unites two worlds."
+ },
+ {
+  "q": "How does she define a conviction (πεποίθησις)?",
+  "a": "An opinion clothed in emotion",
+  "wrong": [
+   "Knowledge proved by reason",
+   "A recollection of the soul",
+   "A law of nature"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:40:52",
+  "explain": "The emotional investment explains fanaticism."
+ },
+ {
+  "q": "Which philosopher of science does she cite on resistance to paradigm change?",
+  "a": "Thomas Kuhn",
+  "wrong": [
+   "Karl Popper",
+   "Paul Feyerabend",
+   "Imre Lakatos"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:41:24",
+  "explain": "Resistance comes from emotional investment, not lack of evidence."
+ },
+ {
+  "q": "Who proposes 'mind emptiness' in place of 'mindfulness'?",
+  "a": "The host, Giannis Avgoustatos",
+  "wrong": [
+   "Athena Potari",
+   "Plotinus",
+   "Jung"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:42:41",
+  "explain": "She agrees it is a nice observation."
+ },
+ {
+  "q": "After leaving the cave, what does the freed one first see, in her account?",
+  "a": "The stars and the moon at night",
+  "wrong": [
+   "The sun directly",
+   "The fire inside the cave",
+   "The wonder-workers' faces"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:44:05",
+  "explain": "This corresponds to the astral plane; the sun comes later."
+ },
+ {
+  "q": "Which Neoplatonic term names enlightenment's 'remaining in'?",
+  "a": "ἐμμένεια",
+  "wrong": [
+   "ὑπέρβασις",
+   "ἐπιστροφή",
+   "πρόοδος"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:46:39",
+  "explain": "ἐν-μένω: I remain in."
+ },
+ {
+  "q": "Besides compassion, why must the freed one return, in her view?",
+  "a": "The apprenticeship is incomplete until one descends into becoming",
+  "wrong": [
+   "To punish the wonder-workers",
+   "To be honoured by the prisoners",
+   "Because the light outside fades"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:46:24",
+  "explain": "The circle closes only with the return."
+ },
+ {
+  "q": "What does she finally say darkness is?",
+  "a": "Light very much dimmed",
+  "wrong": [
+   "The opposite of the Good",
+   "Evil",
+   "The body"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:47:43",
+  "explain": "There are not two; all is the Good."
+ },
+ {
+  "q": "What are her two closing practices?",
+  "a": "Observe the mind (σοφία) and practise love for all beings (φιλότης)",
+  "wrong": [
+   "Fasting and prayer",
+   "Reading and memorising",
+   "Breathwork and chanting"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:51:32",
+  "explain": "Both come from the two roots of 'philosophy'."
+ },
+ {
+  "q": "Which Plotinian phrase crowns her ladder of false selves?",
+  "a": "ἕν ἐσμεν, we are one",
+  "wrong": [
+   "γνῶθι σαυτόν, know thyself",
+   "πάντα ῥεῖ, all flows",
+   "μηδὲν ἄγαν, nothing too much"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "1:49:17",
+  "explain": "There I met myself: we are one."
+ },
+ {
+  "q": "What does she read the name Glaucon to mean?",
+  "a": "The brightness of the soul",
+  "wrong": [
+   "The owl's wisdom",
+   "The sea's depth",
+   "The fearless one"
+  ],
+  "talk": "AAWZRTOINyA",
+  "t": "55:37",
+  "explain": "From γλαυκός; one of three symbolic names for building the polity."
+ },
+ {
   "q": "In 'The Light of Hellenism', what does she take the root ΕΛ (El) in 'Hellenism' to mean?",
   "a": "The spiritual light of Being",
   "wrong": [
