@@ -1,4 +1,1184 @@
 {
- "works": [],
- "reading_path": []
+ "works": [
+  {
+   "id": "republic",
+   "title": "Republic",
+   "author": "Plato",
+   "greek_title": "Πολιτεία",
+   "why_she_reads_it": "She calls the Republic the \"Bible of Hellenism\": if every other Greek book were lost but this one, and even if only the Cave survived, the whole path of awakening would still be there. She reads it as an initiatory text \"On the Just\" about a universal polity of the soul, where paideia is the turning (μεταστροφή) of the soul and justice is the inner constitution of the true Self. It is the book she teaches almost every year and the one she tells beginners to open first.",
+   "talks": [
+    "AAWZRTOINyA",
+    "zfeWFBTNZIo",
+    "HY9w_6CSzm8",
+    "UkAPRIOoiRw",
+    "MW2u5olwgFc",
+    "DOdU0po-ehY",
+    "cae0P7g3uFw",
+    "7YJYJLeJgUY",
+    "cRTJ00zjo1M",
+    "-Rmboz-OmJQ",
+    "DLOnGNrH3NQ",
+    "CxNdDf0M9IY",
+    "XKLuMi-UjLc",
+    "fqvKm4KHiJs",
+    "ax4J8WPxq_c",
+    "WN2AHLV3COA",
+    "QgYveGlAEhw",
+    "1OBymLpYfTo",
+    "G9I6oc0TnxI",
+    "drptI20Rf5k",
+    "woq9ebR-Mqg",
+    "yQ_GUqR-29k"
+   ],
+   "weight": 5,
+   "excerpts": [
+    {
+     "ref": "Republic VII 514a-515a",
+     "label": "The prisoners in the cave",
+     "greek": "ἰδὲ γὰρ ἀνθρώπους οἷον ἐν καταγείῳ οἰκήσει σπηλαιώδει, ἀναπεπταμένην πρὸς τὸ φῶς τὴν εἴσοδον ἐχούσῃ μακρὰν παρὰ πᾶν τὸ σπήλαιον, ἐν ταύτῃ ἐκ παίδων ὄντας ἐν δεσμοῖς καὶ τὰ σκέλη καὶ τοὺς αὐχένας, ὥστε μένειν τε αὐτοὺς εἴς τε τὸ πρόσθεν μόνον ὁρᾶν, κύκλῳ δὲ τὰς κεφαλὰς ὑπὸ τοῦ δεσμοῦ ἀδυνάτους περιάγειν, φῶς δὲ αὐτοῖς πυρὸς ἄνωθεν καὶ πόρρωθεν καόμενον ὄπισθεν αὐτῶν, μεταξὺ δὲ τοῦ πυρὸς καὶ τῶν δεσμωτῶν ἐπάνω ὁδόν, παρʼ ἣν ἰδὲ τειχίον παρῳκοδομημένον, ὥσπερ τοῖς θαυματοποιοῖς πρὸ τῶν ἀνθρώπων πρόκειται τὰ παραφράγματα, ὑπὲρ ὧν τὰ θαύματα δεικνύασιν. ... ἄτοπον, ἔφη, λέγεις εἰκόνα καὶ δεσμώτας ἀτόπους. ὁμοίους ἡμῖν, ἦν δʼ ἐγώ",
+     "translation": "Behold! human beings living in a underground den, which has a mouth open towards the light and reaching all along the den; here they have been from their childhood, and have their legs and necks chained so that they cannot move, and can only see before them, being prevented by the chains from turning round their heads. Above and behind them a fire is blazing at a distance, and between the fire and the prisoners there is a raised way; and you will see, if you look, a low wall built along the way, like the screen which marionette players have in front of them, over which they show the ... You have shown me a strange image, and they are strange prisoners. Like ourselves, I replied;",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "She points out that the prisoners are chained by the legs and neck but not the hands: the hands stand for free will and the heart, so even deep in the cave the power to choose is never bound. The neck is the passage between heart and mind, and \"like ourselves\" means the cave is a portrait of how our own mind works before it knows itself.",
+     "talk": "HY9w_6CSzm8",
+     "t": "39:01"
+    },
+    {
+     "ref": "Republic VII 515c-516a",
+     "label": "Sudden release and the ascent",
+     "greek": "σκόπει δή, ἦν δʼ ἐγώ, αὐτῶν λύσιν τε καὶ ἴασιν τῶν τε δεσμῶν καὶ τῆς ἀφροσύνης, οἵα τις ἂν εἴη, εἰ φύσει τοιάδε συμβαίνοι αὐτοῖς· ὁπότε τις λυθείη καὶ ἀναγκάζοιτο ἐξαίφνης ἀνίστασθαί τε καὶ περιάγειν τὸν αὐχένα καὶ βαδίζειν καὶ πρὸς τὸ φῶς ἀναβλέπειν",
+     "translation": "At first, when any of them is liberated and compelled suddenly to stand up and turn his neck round and walk and look towards the light, he will suffer sharp pains; ... And suppose once more, that he is reluctantly dragged up a steep and rugged ascent, and held fast until he's forced into the presence of the sun himself, is he not likely to be pained and irritated? When he approaches the light his eyes will be dazzled, and he will not be able to see anything at all of what are now called realities. ... And first he will see the shadows best, next the reflections of men and other objects in the water, and then the objects themselves; then he will gaze upon the light of the moon and the stars and the spangled heaven;",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "Plato calls the release λύσις τε καὶ ἴασις, liberation and therapy, and it comes ἐξαίφνης, \"suddenly\": a blow of fate, a crisis or an inspiration. She reads the stages as modes of our own mind to be deconstructed, and the first seeing by starlight and moonlight as truth lived emotionally before it is understood.",
+     "talk": "HY9w_6CSzm8",
+     "t": "40:23"
+    },
+    {
+     "ref": "Republic VII 518b-d",
+     "label": "Paideia is the art of turning the soul",
+     "greek": "τὴν παιδείαν οὐχ οἵαν τινὲς ἐπαγγελλόμενοί φασιν εἶναι τοιαύτην καὶ εἶναι. φασὶ δέ που οὐκ ἐνούσης ἐν τῇ ψυχῇ ἐπιστήμης σφεῖς ἐντιθέναι, οἷον τυφλοῖς ὀφθαλμοῖς ὄψιν ἐντιθέντες. φασὶ γὰρ οὖν, ἔφη. ὁ δέ γε νῦν λόγος, ἦν δʼ ἐγώ, σημαίνει ταύτην τὴν ἐνοῦσαν ἑκάστου δύναμιν ἐν τῇ ψυχῇ καὶ τὸ ὄργανον ᾧ καταμανθάνει ἕκαστος, οἷον εἰ ὄμμα μὴ δυνατὸν ἦν ἄλλως ἢ σὺν ὅλῳ τῷ σώματι στρέφειν πρὸς τὸ φανὸν ἐκ τοῦ σκοτώδους, οὕτω σὺν ὅλῃ τῇ ψυχῇ ἐκ τοῦ γιγνομένου περιακτέον εἶναι, ἕως ἂν εἰς τὸ ὂν καὶ τοῦ ὄντος τὸ φανότατον δυνατὴ γένηται ἀνασχέσθαι θεωμένη· τοῦτο δʼ εἶναί φαμεν τἀγαθόν. ἦ γάρ; ναί. τούτου τοίνυν, ἦν δʼ ἐγώ, αὐτοῦ τέχνη ἂν εἴη, τῆς περιαγωγῆς, τίνα τρόπον ὡς ῥᾷστά τε καὶ ἀνυσιμώτατα μεταστραφήσεται, οὐ τοῦ ἐμποιῆσαι αὐτῷ τὸ ὁρᾶν, ἀλλʼ ὡς ἔχοντι μὲν αὐτό, οὐκ ὀρθῶς δὲ τετραμμένῳ οὐδὲ βλέποντι οἷ ἔδει, τοῦτο διαμηχανήσασθαι.",
+     "translation": "certain professors of education must be wrong when they say that they can put a knowledge into the soul which was not there before, like sight into blind eyes. ... Whereas, our argument shows that the power and capacity of learning exists in the soul already; and that just as the eye was unable to turn from darkness to light without the whole body, so too the instrument of knowledge can only by the movement of the whole soul be turned from the world of becoming into that of being, and learn by degrees to endure the sight of being, and of the brightest and best of being, or in other words, of the good. ... And must there not be some art which will effect conversion in the easiest and quickest manner; not implanting the faculty of sight, for that exists already, but has been turned in the wrong direction, and is looking away from the truth?",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "Education does not insert knowledge, as if putting sight into blind eyes; the soul already has the power to see and only needs to be turned toward the light. For her this is the true definition of παιδεία, and the change of seeing (θέασις) leads to θέωσις, awakening and eudaimonia.",
+     "talk": "zfeWFBTNZIo",
+     "t": "12:55"
+    },
+    {
+     "ref": "Republic VII 519c-d",
+     "label": "The freed must go back down",
+     "greek": "ἡμέτερον δὴ ἔργον, ἦν δʼ ἐγώ, τῶν οἰκιστῶν τάς τε βελτίστας φύσεις ἀναγκάσαι ἀφικέσθαι πρὸς τὸ μάθημα ὃ ἐν τῷ πρόσθεν ἔφαμεν εἶναι μέγιστον, ἰδεῖν τε τὸ ἀγαθὸν καὶ ἀναβῆναι ἐκείνην τὴν ἀνάβασιν, καὶ ἐπειδὰν ἀναβάντες ἱκανῶς ἴδωσι, μὴ ἐπιτρέπειν αὐτοῖς ὃ νῦν ἐπιτρέπεται. τὸ ποῖον δή; τὸ αὐτοῦ, ἦν δʼ ἐγώ, καταμένειν καὶ μὴ ἐθέλειν πάλιν καταβαίνειν παρʼ ἐκείνους τοὺς δεσμώτας μηδὲ μετέχειν τῶν παρʼ ἐκείνοις πόνων τε καὶ τιμῶν, εἴτε φαυλότεραι εἴτε σπουδαιότεραι.",
+     "translation": "Then, I said, the business of us who are the founders of the State will be to compel the best minds to attain that knowledge which we have already shown to be the greatest of all-they must continue to ascend until they arrive at the good; but when they have ascended and seen enough we must not allow them to do as they do now. What do you mean? I mean that they remain in the upper world: but this must not be allowed; they must be made to descend again among the prisoners in the den, and partake of their labours and honours, whether they are worth having or not.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "Leaving the cave (transcendence) is only half of initiation; the return (ἐμμένεια, immanence) completes it, out of love and because it is just. She uses this ending against dualist readings of Plato: the awakened go back to celebrate the sensible world and raise it to its highest beauty, living the One while answering emails and drinking coffee.",
+     "talk": "HY9w_6CSzm8",
+     "t": "45:38"
+    },
+    {
+     "ref": "Republic VI 508b, 508d, 509b",
+     "label": "The Sun: the eye is the most sun-like organ",
+     "greek": "ἀλλʼ ἡλιοειδέστατόν γε οἶμαι τῶν περὶ τὰς αἰσθήσεις ὀργάνων. πολύ γε. οὐκοῦν καὶ τὴν δύναμιν ἣν ἔχει ἐκ τούτου ταμιευομένην ὥσπερ ἐπίρρυτον κέκτηται; πάνυ μὲν οὖν. ... οὕτω τοίνυν καὶ τὸ τῆς ψυχῆς ὧδε νόει· ὅταν μὲν οὗ καταλάμπει ἀλήθειά τε καὶ τὸ ὄν, εἰς τοῦτο ἀπερείσηται, ἐνόησέν τε καὶ ἔγνω αὐτὸ καὶ νοῦν ἔχειν φαίνεται· ... οὐκ οὐσίας ὄντος τοῦ ἀγαθοῦ, ἀλλʼ ἔτι ἐπέκεινα τῆς οὐσίας πρεσβείᾳ καὶ δυνάμει ὑπερέχοντος.",
+     "translation": "Yet of all the organs of sense the eye is the most like the sun? By far the most like. And the power which the eye possesses is a sort of effluence which is dispensed from the sun? Exactly. ... And the soul is like the eye: when resting upon that on which truth and being shine, the soul perceives and understands and is radiant with intelligence; ... In like manner the good may be said to be not only the author of knowledge to all things known, but of their being and essence, and yet the good is not essence, but far exceeds essence in dignity and power.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "She calls the Sun simile \"Platonic trigonometry\". The eye is ἡλιοειδέστατον and stores the sun's power, so each eye is a sleeping sun; likewise the soul is ἀγαθοειδής, \"Good-like\", and each of us carries a small fiery sun within. The Good has light (truth, knowing) and heat (eros, φιλότης).",
+     "talk": "HY9w_6CSzm8",
+     "t": "20:30"
+    },
+    {
+     "ref": "Republic I 352d",
+     "label": "Not a chance matter, but how one should live",
+     "greek": "οὐ γὰρ περὶ τοῦ ἐπιτυχόντος ὁ λόγος, ἀλλὰ περὶ τοῦ ὅντινα τρόπον χρὴ ζῆν.",
+     "translation": "for no light matter is at stake, nothing less than the rule of human life.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "She quotes ὅντινα τρόπον χρὴ ζῆν to show that philosophy is a way of life, not talk about topics, even justice or the Good: it asks how it is beneficial to live each moment.",
+     "talk": "CxNdDf0M9IY",
+     "t": "11:04"
+    },
+    {
+     "ref": "Republic IV 443c-e",
+     "label": "Justice is the inner harmony of the soul",
+     "greek": "τὸ δέ γε ἀληθές, τοιοῦτόν τι ἦν, ὡς ἔοικεν, ἡ δικαιοσύνη ἀλλʼ οὐ περὶ τὴν ἔξω πρᾶξιν τῶν αὑτοῦ, ἀλλὰ περὶ τὴν ἐντός, ὡς ἀληθῶς περὶ ἑαυτὸν καὶ τὰ ἑαυτοῦ, μὴ ἐάσαντα τἀλλότρια πράττειν ἕκαστον ἐν αὑτῷ μηδὲ πολυπραγμονεῖν πρὸς ἄλληλα τὰ ἐν τῇ ψυχῇ γένη, ἀλλὰ τῷ ὄντι τὰ οἰκεῖα εὖ θέμενον καὶ ἄρξαντα αὐτὸν αὑτοῦ καὶ κοσμήσαντα καὶ φίλον γενόμενον ἑαυτῷ καὶ συναρμόσαντα τρία ὄντα, ὥσπερ ὅρους τρεῖς ἁρμονίας ἀτεχνῶς, νεάτης τε καὶ ὑπάτης καὶ μέσης, καὶ εἰ ἄλλα ἄττα μεταξὺ τυγχάνει ὄντα, πάντα ταῦτα συνδήσαντα καὶ παντάπασιν ἕνα γενόμενον ἐκ πολλῶν, σώφρονα καὶ ἡρμοσμένον",
+     "translation": "But in reality justice was such as we were describing, being concerned however, not with the outward man, but with the inward, which is the true self and concernment of man: for the just man does not permit the several elements within him to interfere with one another, or any of them to do the work of others,--he sets in order his own inner life, and is his own master and his own law, and at peace with himself; and when he has bound together the three principles within him, which may be compared to the higher, lower, and middle notes of the scale, and the intermediate intervals--when he has bound all these together, and is no longer many, but has become one entirely temperate and perfectly adjusted nature,",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "Justice as τὰ ἑαυτοῦ πράττειν means doing what belongs to the one fiery Self. It is the πολίτευμα of the soul, each part doing its own around the true Self, and a two-way road: I cannot be just without knowing my true self, and by acting justly I discover it.",
+     "talk": "HY9w_6CSzm8",
+     "t": "58:33"
+    },
+    {
+     "ref": "Republic VIII 544d-e",
+     "label": "States grow out of human characters",
+     "greek": "οἶσθʼ οὖν, ἦν δʼ ἐγώ, ὅτι καὶ ἀνθρώπων εἴδη τοσαῦτα ἀνάγκη τρόπων εἶναι, ὅσαπερ καὶ πολιτειῶν; ἢ οἴει ἐκ δρυός ποθεν ἢ ἐκ πέτρας τὰς πολιτείας γίγνεσθαι, ἀλλʼ οὐχὶ ἐκ τῶν ἠθῶν τῶν ἐν ταῖς πόλεσιν, ἃ ἂν ὥσπερ ῥέψαντα τἆλλα ἐφελκύσηται; οὐδαμῶς ἔγωγʼ, ἔφη, ἄλλοθεν ἢ ἐντεῦθεν.",
+     "translation": "Do you know, I said, that governments vary as the dispositions of men vary, and that there must be as many of the one as there are of the other? For we cannot suppose that States are made of 'oak and rock,' and not out of the human natures which are in them, and which in a figure turn the scale and draw other things after them? Yes, he said, the States are as the men are; they grow out of human characters.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/150",
+     "her_reading": "This is the root of her term ψυχοπολιτική, psycho-politics: the polis is the outer reflection of the citizen's soul, so when the soul changes the regime changes. She applies it to what she calls modern Greece's psycho-political trauma.",
+     "talk": "cRTJ00zjo1M",
+     "t": "1:00:09"
+    }
+   ],
+   "next_step": "Start with Book VII 514a-521b (the Cave), then go back to the Sun at 507b-509c, because she reads the three similes as one sequence that ends in the Cave."
+  },
+  {
+   "id": "symposium",
+   "title": "Symposium",
+   "author": "Plato",
+   "greek_title": "Συμπόσιον",
+   "why_she_reads_it": "The Symposium is her source for Diotima, whom she calls Socrates' teacher and the only woman teacher we hear teaching in the surviving texts. From Diotima she takes the idea that philosophy is an \"erotic pedagogy\": eros is the soul's rush toward union, rising by steps from bodily attraction to political eros, to the sciences and finally to merging in the sea of beauty. The goal of eros, she says, is the goal of human life.",
+   "talks": [
+    "-mTgsVQO72E",
+    "ax4J8WPxq_c",
+    "4uxz_yy9DLI",
+    "7YJYJLeJgUY",
+    "cRTJ00zjo1M",
+    "yQ_GUqR-29k",
+    "zfeWFBTNZIo",
+    "COON0DK5OEU",
+    "AAWZRTOINyA",
+    "CxNdDf0M9IY",
+    "HY9w_6CSzm8",
+    "MW2u5olwgFc",
+    "cae0P7g3uFw",
+    "woq9ebR-Mqg",
+    "DLOnGNrH3NQ",
+    "DOdU0po-ehY",
+    "WN2AHLV3COA"
+   ],
+   "weight": 5,
+   "excerpts": [
+    {
+     "ref": "Symposium 206c, 209a",
+     "label": "Pregnant in body and in soul",
+     "greek": "κυοῦσιν γάρ, ἔφη, ὦ Σώκρατες, πάντες ἄνθρωποι καὶ κατὰ τὸ σῶμα καὶ κατὰ τὴν ψυχήν, καὶ ἐπειδὰν ἔν τινι ἡλικίᾳ γένωνται, τίκτειν ἐπιθυμεῖ ἡμῶν ἡ φύσις. τίκτειν δὲ ἐν μὲν αἰσχρῷ οὐ δύναται, ἐν δὲ τῷ καλῷ. ... εἰσὶ γὰρ οὖν, ἔφη, οἳ ἐν ταῖς ψυχαῖς κυοῦσιν ἔτι μᾶλλον ἢ ἐν τοῖς σώμασιν, ἃ ψυχῇ προσήκει καὶ κυῆσαι καὶ τεκεῖν· τί οὖν προσήκει; φρόνησίν τε καὶ τὴν ἄλλην ἀρετήν",
+     "translation": "I mean to say, that all men are bringing to the birth in their bodies and in their souls. There is a certain age at which human nature is desirous of procreation--procreation which must be in beauty and not in deformity; ... But souls which are pregnant--for there certainly are men who are more creative in their souls than in their bodies--conceive that which is proper for the soul to conceive or contain. And what are these conceptions?--wisdom and virtue in general.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1600",
+     "her_reading": "Humans are pregnant in body but even more in soul, and the soul gestates logos and virtue, that is, awakening of consciousness. She makes this the second stage of the soul's second birth, the κυοφορία, and links it to Socrates the midwife of the Theaetetus.",
+     "talk": "MW2u5olwgFc",
+     "t": "50:15"
+    },
+    {
+     "ref": "Symposium 210a-d",
+     "label": "The ascent of eros to the sea of beauty",
+     "greek": "ἵνα ἀναγκασθῇ αὖ θεάσασθαι τὸ ἐν τοῖς ἐπιτηδεύμασι καὶ τοῖς νόμοις καλὸν ... μετὰ δὲ τὰ ἐπιτηδεύματα ἐπὶ τὰς ἐπιστήμας ἀγαγεῖν, ἵνα ἴδῃ αὖ ἐπιστημῶν κάλλος ... ἀλλʼ ἐπὶ τὸ πολὺ πέλαγος τετραμμένος τοῦ καλοῦ καὶ θεωρῶν πολλοὺς καὶ καλοὺς λόγους καὶ μεγαλοπρεπεῖς τίκτῃ καὶ διανοήματα ἐν φιλοσοφίᾳ ἀφθόνῳ",
+     "translation": "and first, if he be guided by his instructor aright, to love one such form only--out of that he should create fair thoughts; ... in the next stage he will consider that the beauty of the mind is more honourable than the beauty of the outward form. ... until he is compelled to contemplate and see the beauty of institutions and laws, ... and after laws and institutions he will go on to the sciences, that he may see their beauty, ... drawing towards and contemplating the vast sea of beauty, he will create many fair and noble thoughts and notions in boundless love of wisdom;",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1600",
+     "her_reading": "In her retelling the ladder rises from bodily attraction to the attraction of souls, then political eros (falling in love with society, its laws and institutions), the eros of the sciences and of the arts, and finally divine eros, merging into the ocean of life. The \"sea\" is where knowledge must let go and dive.",
+     "talk": "cRTJ00zjo1M",
+     "t": "43:05"
+    },
+    {
+     "ref": "Symposium 210e-211b",
+     "label": "Suddenly, a beauty with no form",
+     "greek": "ὃς γὰρ ἂν μέχρι ἐνταῦθα πρὸς τὰ ἐρωτικὰ παιδαγωγηθῇ, θεώμενος ἐφεξῆς τε καὶ ὀρθῶς τὰ καλά, πρὸς τέλος ἤδη ἰὼν τῶν ἐρωτικῶν ἐξαίφνης κατόψεταί τι θαυμαστὸν τὴν φύσιν καλόν ... οὐδʼ αὖ φαντασθήσεται αὐτῷ τὸ καλὸν οἷον πρόσωπόν τι οὐδὲ χεῖρες οὐδὲ ἄλλο οὐδὲν ὧν σῶμα μετέχει, οὐδέ τις λόγος οὐδέ τις ἐπιστήμη ... ἀλλʼ αὐτὸ καθʼ αὑτὸ μεθʼ αὑτοῦ μονοειδὲς ἀεὶ ὄν",
+     "translation": "He who has been instructed thus far in the things of love, and who has learned to see the beautiful in due order and succession, when he comes toward the end will suddenly perceive a nature of wondrous beauty ... or in the likeness of a face or hands or any other part of the bodily frame, or in any form of speech or knowledge, ... but beauty absolute, separate, simple, and everlasting,",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1600",
+     "her_reading": "She calls this \"a wonderful non-dual description\": Diotima cannot describe the final beauty because it is ineffable, so she approaches it by negation (no face, no hands, no speech, no knowledge). This beauty is what is beheld in awakening. She attaches to it the phrase κάλλος ἀμήχανον, beauty without any \"mechanism\" or mode, which in Plato's text is actually spoken by Glaucon of the Good (Republic 509a).",
+     "talk": "ax4J8WPxq_c",
+     "t": "11:16"
+    },
+    {
+     "ref": "Symposium 211b-c",
+     "label": "Using the beauties of earth as steps",
+     "greek": "τοῦτο γὰρ δή ἐστι τὸ ὀρθῶς ἐπὶ τὰ ἐρωτικὰ ἰέναι ἢ ὑπʼ ἄλλου ἄγεσθαι, ἀρχόμενον ἀπὸ τῶνδε τῶν καλῶν ἐκείνου ἕνεκα τοῦ καλοῦ ἀεὶ ἐπανιέναι, ὥσπερ ἐπαναβασμοῖς χρώμενον, ἀπὸ ἑνὸς ἐπὶ δύο καὶ ἀπὸ δυοῖν ἐπὶ πάντα τὰ καλὰ σώματα, καὶ ἀπὸ τῶν καλῶν σωμάτων ἐπὶ τὰ καλὰ ἐπιτηδεύματα, καὶ ἀπὸ τῶν ἐπιτηδευμάτων ἐπὶ τὰ καλὰ μαθήματα, καὶ ἀπὸ τῶν μαθημάτων ἐπʼ ἐκεῖνο τὸ μάθημα τελευτῆσαι, ὅ ἐστιν οὐκ ἄλλου ἢ αὐτοῦ ἐκείνου τοῦ καλοῦ μάθημα, καὶ γνῷ αὐτὸ τελευτῶν ὃ ἔστι καλόν.",
+     "translation": "And the true order of going, or being led by another, to the things of love, is to begin from the beauties of earth and mount upwards for the sake of that other beauty, using these as steps only, and from one going on to two, and from two to all fair forms, and from fair forms to fair practices, and from fair practices to fair notions, until from fair notions he arrives at the notion of absolute beauty, and at last knows what the essence of beauty is.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1600",
+     "her_reading": "Interpersonal eros is only the first step (ἀναβαθμός); the same innate force then carries us to higher \"edges\", beyond care for ourselves and our own. At the last step the One is not understood but touched, an erotic union with the idea that frees us from the roles of the theatre of duality.",
+     "talk": "-mTgsVQO72E",
+     "t": "4:21"
+    }
+   ],
+   "next_step": "Read Diotima's speech, 201d-212a, slowly, and mark each step of the ascent; she counts seven, and finding them yourself is the exercise."
+  },
+  {
+   "id": "heraclitus",
+   "title": "Fragments",
+   "author": "Heraclitus of Ephesus",
+   "greek_title": "Ἡρακλείτου ἀποσπάσματα",
+   "why_she_reads_it": "She calls Heraclitus \"the luminous\" rather than \"the dark\": his ever-living fire (πῦρ ἀείζωον) is not physical flame but Logos, primordial consciousness, which the Platonists call Nous. His sayings give her key formulas: the Logos is one and common (ξυνός) while sleepers think they have a private understanding, \"all things are one\", the Aion as a playing child, and \"the dry soul is wisest and best\". She uses them in almost every talk.",
+   "talks": [
+    "CxNdDf0M9IY",
+    "AAWZRTOINyA",
+    "DOdU0po-ehY",
+    "ax4J8WPxq_c",
+    "COON0DK5OEU",
+    "drptI20Rf5k",
+    "MW2u5olwgFc",
+    "-mTgsVQO72E",
+    "7YJYJLeJgUY",
+    "QgYveGlAEhw",
+    "Y70BLhDGLf8",
+    "cae0P7g3uFw",
+    "woq9ebR-Mqg",
+    "zfeWFBTNZIo",
+    "-Rmboz-OmJQ",
+    "UkAPRIOoiRw",
+    "WN2AHLV3COA",
+    "HY9w_6CSzm8",
+    "XKLuMi-UjLc",
+    "cRTJ00zjo1M"
+   ],
+   "weight": 5,
+   "excerpts": [
+    {
+     "ref": "Heraclitus B30 DK (Burnet fr. 20)",
+     "label": "The ever-living fire",
+     "greek": "κόσμον τόνδε, τὸν αὐτὸν ἁπάντων, οὔτε τις θεῶν οὔτε ἀνθρώπων ἐποίησεν, ἀλλ’ ἧν ἀεὶ καὶ ἔστιν καὶ ἔσται πῦρ ἀείζωον, ἁπτόμενον μέτρα καὶ ἀποσβεννύμενον μέτρα.",
+     "translation": "This world, which is the same for all, no one of gods or men has made; but it was ever, is now, and ever shall be an ever-living Fire, with measures kindling, and measures going out.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "\"This cosmos, the same for all\" means the totality of creation on every level, made by no god or human: maker and made are one. The fire \"kindles\" when it manifests as cosmos and \"goes out\" when it stays unmanifest, and since there is no time, both happen at once: \"everything is pulse\".",
+     "talk": "CxNdDf0M9IY",
+     "t": "14:39"
+    },
+    {
+     "ref": "Heraclitus B2 and B89 DK (Burnet fr. 92, 95)",
+     "label": "The common Logos; sleepers and the awake",
+     "greek": "τοῦ λόγου δ’ ἐόντος ξυνοῦ ζώουσιν οἱ πολλοὶ ὡς ἰδίαν ἔχοντες φρόνησιν. ... τοῖς ἐγρηγορόσιν ἕνα καὶ κοινόν κόσμον εἶναι, τῶν δὲ κοιμωμένων ἕκαστον εἰς ἴδιον ἀποστρέφεσθαι.",
+     "translation": "So we must follow the common, yet the many live as if they had a wisdom of their own. ... The waking have one common world, but the sleeping turn aside each into a world of his own.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "Studying consciousness, you begin to taste that it is not \"yours\", closed in a box with your name on it, but one and common; another name for that common unity is love. She insists ξυνός is spelled with upsilon (common), not ξινός with iota (sour).",
+     "talk": "-mTgsVQO72E",
+     "t": "11:33"
+    },
+    {
+     "ref": "Heraclitus B50 DK (Burnet fr. 1)",
+     "label": "All things are one",
+     "greek": "οὐκ ἐμοῦ, ἀλλὰ τοῦ λόγου ἀκούσαντας ὁμολογεῖν σοφόν ἐστιν ἓν πάντα εἶναι",
+     "translation": "It is wise to hearken, not to me, but to my Word, and to confess that all things are one.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "She calls this the founding principle of Hellenism: the One manifests in all and all is one. Set against the diversity the senses report, it creates the aporia of the one and the many from which Presocratic philosophy was born.",
+     "talk": "COON0DK5OEU",
+     "t": "3:20"
+    },
+    {
+     "ref": "Heraclitus B52 DK (Burnet fr. 79)",
+     "label": "Aion, a child at play",
+     "greek": "αἰὼν παῖς ἐστι παίζων, πεττεύων· παιδὸς ἡ βασιληίη.",
+     "translation": "Time is a child playing draughts, the kingly power is a child’s.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "She reads Αἰών as ἀεὶ ὤν, \"that which always is\", the divine Child of the Kabeiric mysteries: the pieces are the numbers and possibilities from which it manifests a new world each moment, and the \"kingdom of the child\" anticipates the later \"kingdom of God\". Against Einstein's \"God does not play dice\", this child does throw dice.",
+     "talk": "MW2u5olwgFc",
+     "t": "15:10"
+    },
+    {
+     "ref": "Heraclitus B118 DK (Burnet fr. 74-76)",
+     "label": "The dry soul",
+     "greek": "αὐγὴ ξηρὴ ψυχὴ σοφωτάτη καὶ ἀρίστη",
+     "translation": "The dry soul is the wisest and best.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "She quotes it as αὔη ψυχὴ σοφωτάτη καὶ ἀρίστη and reads αὔη as ἀ- plus ὕω, \"not rained on\". Passions are wet and sticky; philosophy, virtue and the inward turn warm the soul with the fire of the Good until the passions evaporate. (The Greek shown is the version printed by Diels.)",
+     "talk": "CxNdDf0M9IY",
+     "t": "1:10:36"
+    },
+    {
+     "ref": "Heraclitus B62, B21, B15 DK (Burnet fr. 67, 64, 127)",
+     "label": "Mortals and immortals; Hades and Dionysus",
+     "greek": "ἀθάνατοι θνητοί, θνητοὶ ἀθάνατοι, ζῶντες τὸν ἐκείνων θάνατον, τὸν δὲ ἐκείνων βίον τεθνεῶτες. ... θάνατός ἐστιν ὁκόσα ἐγερθέντες ὁρέομεν, ὁκόσα δὲ εὕδοντες ὕπνος. ... ὡυτὸς δὲ Ἀίδης καὶ Διόνυσος, ὅτεωι μαίνονται καὶ ληναΐζουσιν.",
+     "translation": "Mortals are immortals and immortals are mortals, the one living the others’ death and dying the others’ life. ... All the things we see when awake are death, even as all we see in slumber are sleep. ... But Hades is the same as Dionysos in whose honour they go mad and keep the feast of the wine-vat.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "The soul's descent into a body is, for the philosophers, a death: the waking everyday world is Hades, and what we call death is, from the divine side, a return or rebirth. This is her frame for the \"second birth\" of the soul.",
+     "talk": "MW2u5olwgFc",
+     "t": "9:19"
+    },
+    {
+     "ref": "Heraclitus B12 DK (Burnet fr. 41-42)",
+     "label": "The river",
+     "greek": "ποταμοῖσι τοῖσιν αὐτοῖσιν ἐμβαίνουσιν ἕτερα καὶ ἕτερα ὕδατα ἐπιρρεῖ·",
+     "translation": "You cannot step twice into the same rivers; for fresh waters are ever flowing in upon you.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "The eternal is always the same and never the same: every moment and manifestation is unique. She also uses the river to tell students that no one has heard a lesson before, not even she, and that truth is a flow (ῥοή), never a fixed thing to capture.",
+     "talk": "CxNdDf0M9IY",
+     "t": "32:49"
+    },
+    {
+     "ref": "Diogenes Laertius, Lives II.22",
+     "label": "A Delian diver for Heraclitus",
+     "greek": "φασὶ δʼ Εὐριπίδην αὐτῷ δόντα τὸ Ἡρακλείτου σύγγραμμα ἐρέσθαι, τί δοκεῖ; τὸν δὲ φάναι, ἃ μὲν συνῆκα, γενναῖα· οἶμαι δὲ καὶ ἃ μὴ συνῆκα· πλὴν Δηλίου γέ τινος δεῖται κολυμβητοῦ.",
+     "translation": "They relate that Euripides gave him the treatise of Heraclitus and asked his opinion upon it, and that his reply was, The part I understand is excellent, and so too is, I dare say, the part I do not understand; but it needs a Delian diver to get to the bottom of it.",
+     "translator": "R. D. Hicks (Loeb, 1925)",
+     "source_url": "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0004/tlg001/tlg0004.tlg001.perseus-eng2.xml",
+     "her_reading": "She cites Socrates' remark to say Heraclitus needs a long dive into the Apollonian, which is paradoxical and transcendent, and plays on Ἀπόλλων as ἀ- plus πολλῶν, \"not of the many\".",
+     "talk": "CxNdDf0M9IY",
+     "t": "19:39"
+    }
+   ],
+   "next_step": "Begin with fragment 30 (Burnet 20), the ever-living fire, which she writes on the board as her core text, then read fragment 2 on the common Logos beside it."
+  },
+  {
+   "id": "plotinus",
+   "title": "Enneads",
+   "author": "Plotinus",
+   "greek_title": "Ἐννεάδες",
+   "why_she_reads_it": "\"Beloved Plotinus\" is her main witness that the goal of philosophy is union, not knowledge: in the vision the seer is one with the seen, so it is not even a vision. She takes from him that the One is nowhere absent and waits for us to recognise it, that it comes by a presence greater than knowledge, and that awakening is a homecoming with closed eyes. Ennead VI.9 (On the Good) is the passage she reads most.",
+   "talks": [
+    "ax4J8WPxq_c",
+    "AAWZRTOINyA",
+    "CxNdDf0M9IY",
+    "zfeWFBTNZIo",
+    "woq9ebR-Mqg",
+    "QgYveGlAEhw",
+    "DOdU0po-ehY",
+    "HY9w_6CSzm8",
+    "7YJYJLeJgUY",
+    "XKLuMi-UjLc",
+    "1OBymLpYfTo",
+    "WN2AHLV3COA",
+    "cae0P7g3uFw",
+    "drptI20Rf5k",
+    "MW2u5olwgFc"
+   ],
+   "weight": 5,
+   "excerpts": [
+    {
+     "ref": "Ennead I.6.8",
+     "label": "Let us fly to the dear fatherland",
+     "greek": "φεύγωμεν δὴ φίλην ἐς πατρίδα, ἀληθέστερον ἄν τις παρακελεύοιτο. τίς οὖν ἡ φυγή; καὶ πῶς ἀναξόμεθα; οἷον ἀπὸ μάγου Κίρκης φησὶν ἢ Καλυψοῦς Ὀδυσσεὺς αἰνιττόμενος, δοκεῖ μοι, μεῖναι οὐκ ἀρεσθείς, καίτοι ἔχων ἡδονὰς δἰ ὀμμάτων καὶ κάλλει πολλῷ αἰσθητῷ συνών. πατρὶς δὲ ἡμῖν, ὅθενπερ ἤλθομεν, καὶ πατὴρ ἐκεῖ. τίς οὖν ὁ στόλος καὶ ἡ φυγή; οὐ ποσὶ δεῖ διανύσαι: πανταχοῦ γὰρ φέρουσι πόδες ἐπὶ γῆν ἄλλην ἀπ’ ἄλλης: οὐδέ σε δεῖ ἵππων ὄχημα ἤ τι θαλάττιον παρασκευάσαι, ἀλλὰ ταῦτα πάντα ἀφεῖναι δεῖ καὶ μὴ βλέπειν, ἀλλ’ οἷον μύσαντα ὄψιν ἄλλην ἀλλάξασθαι καὶ ἀνεγεῖραι, ἣν ἔχει μὲν πᾶς, χρῶνται δὲ ὀλίγοι.",
+     "translation": "\"Let us fly unto our dear fatherland!\" But how shall we fly? How escape from here? is the question Ulysses asks himself in that allegory which represents him trying to escape from the magic sway of Circe or Calypso, where neither the pleasure of the eyes, nor the view of fleshly beauty were able to hold him in those enchanted places. Our fatherland is the region whence we descend here below. It is there that dwells our Father. ... All these vain helps must be left aside, and not even considered. We must close the eyes of the body, to open another vision, which indeed all possess, but very few employ.",
+     "translator": "Kenneth Sylvan Guthrie (1918)",
+     "source_url": "https://www.gutenberg.org/ebooks/42930",
+     "her_reading": "Odysseus leaves Circe and Calypso despite their pleasures; our fatherland is where we come from, where our Father is, and it is also our τέλος, eudaimonia. The journey needs no feet, horses or ships: close the eyes and wake another way of seeing, which everyone has and few use.",
+     "talk": "zfeWFBTNZIo",
+     "t": "39:53"
+    },
+    {
+     "ref": "Ennead VI.9.4",
+     "label": "A presence greater than knowledge",
+     "greek": "γίνεται δὲ ἡ ἀπορία μάλιστα, ὅτι μηδὲ κατ’ ἐπιστήμην ἡ σύνεσις ἐκείνου μηδὲ κατὰ νόησιν, ὥσπερ τὰ ἄλλα νοητά, ἀλλὰ κατὰ παρουσίαν ἐπιστήμης κρείττονα. πάσχει δὲ ἡ ψυχὴ τοῦ ἓν εἶναι τὴν ἀπόστασιν καὶ οὐ πάντη ἐστὶν ἕν, ὅταν ἐπιστήμην του λαμβάνῃ: λόγος γὰρ ἡ ἐπιστήμη, πολλὰ δὲ ὁ λόγος. ... μέχρι μὲν γὰρ τῆς ὁδοῦ καὶ τῆς πορείας ἡ δίδαξις, ἡ δὲ θέα αὐτοῦ ἔργον ἤδη τοῦ ἰδεῖν βεβουλημένου.",
+     "translation": "The principal cause of our uncertainty is that our comprehension of the One comes to us neither by scientific knowledge, nor by thought, as the knowledge of other intelligible things, but by a presence which is superior to science. When the soul acquires the scientific knowledge of something, she withdraws from unity and ceases being entirely one; for science implies discursive reason and discursive reason implies manifoldness. ... Instruction, indeed, goes as far as showing the road, and guiding us in the way; but to obtain the vision (of the divinity), is the work suitable to him who has desired to obtain it.",
+     "translator": "Kenneth Sylvan Guthrie (1918)",
+     "source_url": "https://www.gutenberg.org/ebooks/42930",
+     "her_reading": "Stopping at intellectual knowledge is \"a hindrance and not a fruition of philosophy\": awareness of the One comes by a presence greater than knowledge, because reasoning is multiple. She compares it to Socrates' \"I know that I know nothing\" and to Tao Te Ching 71.",
+     "talk": "woq9ebR-Mqg",
+     "t": "47:12"
+    },
+    {
+     "ref": "Ennead VI.9.4",
+     "label": "Absent from none",
+     "greek": "οὐ γὰρ δὴ ἄπεστιν οὐδενὸς ἐκεῖνο καὶ πάντων δέ, ὥστε παρὸν μὴ παρεῖναι ἀλλ’ ἢ τοῖς δέχεσθαι δυναμένοις",
+     "translation": "Though He be absent from all beings, He is absent from none, so that He is present (to all) without being present (to them). He is present only for those who are able to receive Him, and who are prepared for Him,",
+     "translator": "Kenneth Sylvan Guthrie (1918)",
+     "source_url": "https://www.gutenberg.org/ebooks/42930",
+     "her_reading": "There is nowhere the Good is not; when you recognise it, it comes \"like one who never went away\". Her practical version: we do not wait for the One to reveal itself, the One waits for us to see it, here and now.",
+     "talk": "HY9w_6CSzm8",
+     "t": "53:56"
+    },
+    {
+     "ref": "Ennead VI.9.10-11",
+     "label": "The seer is one with the seen",
+     "greek": "τότε μὲν οὔτε ὁρᾷ οὔτε διακρίνει ὁ ὁρῶν οὐδὲ φαντάζεται δύο, ἀλλ’ οἷον ἄλλος γενόμενος καὶ οὐκ αὐτὸς οὐδ’ αὑτοῦ συντελεῖ ἐκεῖ, κἀκείνου γενόμενος ἕν ἐστιν ὥσπερ κέντρῳ κέντρον συνάψας ... ἐπεὶ τοίνυν δύο οὐκ ἦν, ἀλλ’ ἓν ἦν αὐτὸς ὁ ἰδὼν πρὸς τὸ ἑωραμένον, ὡς ἂν μὴ ἑωραμένον, ἀλλ’ ἡνωμένον",
+     "translation": "We should not even say that he will see, but only that he will be what he sees, ... Absorbed in the divinity, he is one with it, like a centre that coincides with another centre. ... As (this vision of the divinity) did not imply (the existence of) two things, and as he who was identical to Him whom he saw, so that he did not see Him, but was united thereto,",
+     "translator": "Kenneth Sylvan Guthrie (1918)",
+     "source_url": "https://www.gutenberg.org/ebooks/42930",
+     "her_reading": "In a vision there is a seer and a seen; describing his own witness, Plotinus says the two were one, so it was union (ἕνωσις), which other cultures call yoga. In awakening \"you\" disappear: not becoming someone else, but \"another\" who had wrapped itself around you departing.",
+     "talk": "ax4J8WPxq_c",
+     "t": "7:03"
+    },
+    {
+     "ref": "Ennead VI.9.11",
+     "label": "Why the mysteries are not told",
+     "greek": "τοῦτο δὴ ἐθέλον δηλοῦν τὸ τῶν μυστηρίων τῶνδε ἐπίταγμα, τὸ μὴ ἐκφέρειν εἰς μὴ μεμυημένους, ὡς οὐκ ἔκφορον ἐκεῖνο ὂν ἀπεῖπε δηλοῦν πρὸς ἄλλον τὸ θεῖον, ὅτῳ μὴ καὶ αὐτῷ ἰδεῖν εὐτύχηται.",
+     "translation": "That, no doubt, is the meaning of the mystery-rites' injunction not to reveal their secrets to the uninitiated. As that which is divine is unspeakable, it is ordered that the initiate should not talk thereof to any (uninitiated person) who have not had the happiness of beholding it (the vision).",
+     "translator": "Kenneth Sylvan Guthrie (1918)",
+     "source_url": "https://www.gutenberg.org/ebooks/42930",
+     "her_reading": "The supreme cannot be told, only lived. She ties this to her etymology of μυστήριον from μύω, to close the eyes or mouth: not secret by rule, but impossible to say.",
+     "talk": "zfeWFBTNZIo",
+     "t": "1:43:17"
+    },
+    {
+     "ref": "Ennead III.7.11",
+     "label": "Eternity: untrembling, all at once, standing in the One",
+     "greek": "δεῖ δὴ ἀναγαγεῖν ἡμᾶς αὐτοὺς πάλιν εἰς ἐκείνην τὴν διάθεσιν, ἣν ἐπὶ τοῦ αἰῶνος ἐλέγομεν εἶναι, τὴν ἀτρεμῆ ἐκείνην καὶ ὁμοῦ πᾶσαν καὶ ἄπειρον ἤδη ζωὴν καὶ ἀκλινῆ πάντη καὶ ἐν ἑνὶ καὶ πρὸς ἓν ἑστῶσαν",
+     "translation": "To accomplish this we shall have to return to the nature which, as we pointed out above, was essential to eternity; that immutable life, wholly realized all at once, infinite and perfect, subsisting in, and referring to unity.",
+     "translator": "Kenneth Sylvan Guthrie (1918)",
+     "source_url": "https://www.gutenberg.org/ebooks/42932",
+     "her_reading": "She lingers on the Greek words ἀτρεμής, ὁμοῦ πᾶσα, ἀκλινής and ἐν ἑνὶ ἑστῶσα. Her own wordplay: ἀτρεμής is an anagram echo of Artemis, and ἑστῶσα points to ἐνεστώς, the present tense: I am present when I stand toward the One.",
+     "talk": "QgYveGlAEhw",
+     "t": "1:19:08"
+    }
+   ],
+   "next_step": "Read Ennead I.6.8-9 (the fatherland and the inner eye) first, then the end of VI.9, chapters 9-11, which she reads aloud as the testimony of union."
+  },
+  {
+   "id": "delphi",
+   "title": "On the E at Delphi",
+   "author": "Plutarch",
+   "greek_title": "Περὶ τοῦ ΕΙ τοῦ ἐν Δελφοῖς",
+   "why_she_reads_it": "The Delphic γνῶθι σαυτόν is her one-line motto and the key to her whole teaching, and Plutarch's treatise is where she finds it paired with the cryptic E, read as εἶ, \"you are\": together they say \"you are what you seek\". She also takes from it Apollo's five names, which she turns into five steps of awakening, and the reading of Ἀπόλλων as the one who denies the many. Other Delphic maxims she explains, such as αἰσχύνην σέβου and κόσμιος γίνου, come from the same temple tradition.",
+   "talks": [
+    "woq9ebR-Mqg",
+    "cRTJ00zjo1M",
+    "1OBymLpYfTo",
+    "UkAPRIOoiRw",
+    "WN2AHLV3COA",
+    "fqvKm4KHiJs",
+    "-mTgsVQO72E",
+    "XKLuMi-UjLc",
+    "ax4J8WPxq_c",
+    "yQ_GUqR-29k",
+    "4uxz_yy9DLI",
+    "CxNdDf0M9IY",
+    "AAWZRTOINyA",
+    "DLOnGNrH3NQ",
+    "zfeWFBTNZIo",
+    "cae0P7g3uFw",
+    "COON0DK5OEU",
+    "G9I6oc0TnxI",
+    "MW2u5olwgFc",
+    "QgYveGlAEhw"
+   ],
+   "weight": 4,
+   "excerpts": [
+    {
+     "ref": "On the E at Delphi 17 (392a)",
+     "label": "Know thyself, and the answer: Thou art",
+     "greek": "ὁ μὲν γὰρ θεὸς ἕκαστον ἡμῶν ἐνταῦθα προσιόντα οἷον ἀσπαζόμενος προσαγορεύει τὸ γνῶθι σαυτόν, ὃ δὴ τοῦ χαῖρε οὐδὲν μεῖόν ἐστιν. ἡμεῖς δὲ πάλιν ἀμειβόμενοι τὸν θεὸν εἶ φαμέν, ὡς ἀληθῆ καὶ ἀψευδῆ καὶ μόνην μόνῳ προσήκουσαν τὴν τοῦ εἶναι προσαγόρευσιν ἀποδιδόντες.",
+     "translation": "For the God in a manner calls upon every one of us who comes hither, with this salutation, Know thyself, which is nothing inferior to All hail. And we again, answering the God, say to him Εἶ , thou art; attributing to him the true, unfeigned, and sole appellation of being, as agreeing to him alone.",
+     "translator": "R. Kippax, in W. W. Goodwin (ed.), Plutarch's Morals, vol. IV (1874)",
+     "source_url": "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0007/tlg090/tlg0007.tlg090.perseus-eng4.xml",
+     "her_reading": "Pilgrims came to know the god, and instead of a welcome Apollo says: if you want to know me, know yourself. Beside it stands ΕΙ, \"you are\": you already are the divinity you seek inside the temple. She also notes that the precept says \"thyself\" in the singular, pointing to one Self, consciousness turning its eye on itself.",
+     "talk": "woq9ebR-Mqg",
+     "t": "12:50"
+    },
+    {
+     "ref": "On the E at Delphi 2 (385b)",
+     "label": "The five names of Apollo",
+     "greek": "ὅτι μὲν γὰρ οὐχ ἧττον ὁ θεὸς φιλόσοφος ἢ μάντις, ἐδόκει πᾶσιν ὀρθῶς πρὸς τοῦτο τῶν ὀνομάτων ἕκαστον Ἀμμώνιος τίθεσθαι καὶ διδάσκειν, ὡς Πύθιος μέν ἐστι τοῖς ἀρχομένοις μανθάνειν καὶ διαπυνθάνεσθαι· Δήλιος δὲ καὶ Φαναῖος οἷς ἤδη τι δηλοῦται καὶ ὑποφαίνεται τῆς ἀληθείας· Ἰσμήνιος δὲ τοῖς ἔχουσι τὴν ἐπιστήμην, καὶ Λεσχηνόριος ὅταν ἐνεργῶσι καὶ ἀπολαύωσι χρώμενοι τῷ διαλέγεσθαι καὶ φιλοσοφεῖν πρὸς ἀλλήλους.",
+     "translation": "Since therefore this God is no less a philosopher than a prophet, Ammonius seemed to all of us rightly to apply every one of his names to this purpose, and to teach that he is Pythius (or a questionist ) to those who begin to learn and enquire; Delius and Phanaeus (or a manifester and prover ) to those to whom somewhat of the truth is already manifest and shines forth; Ismenius (or knowing ) to those that have acquired knowledge; and Leschenorius (or discoursing ) when they practise and enjoy their science, making use of it to discourse and philosophize with one another.",
+     "translator": "R. Kippax, in W. W. Goodwin (ed.), Plutarch's Morals, vol. IV (1874)",
+     "source_url": "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0007/tlg090/tlg0007.tlg090.perseus-eng4.xml",
+     "her_reading": "She treats the names as five steps of the awakening of consciousness, Pythios, Delios, Phanaios, Ismenios, Leschenorios (she separates Delios and Phanaios), joined by the four etymologies of Apollo in the Cratylus: four plus five makes nine, the ennead, \"the new one\". The god appears differently according to where the seeker stands.",
+     "talk": "XKLuMi-UjLc",
+     "t": "22:07"
+    },
+    {
+     "ref": "On the E at Delphi 20 (393b-c)",
+     "label": "Apollo: denying the many",
+     "greek": "οὐ γὰρ πολλὰ τὸ θεῖόν ἐστιν, ὡς ἡμῶν ἕκαστος ἐκ μυρίων διαφορῶν ἐν πάθεσι γιγνομένων, ἄθροισμα παντοδαπὸν καὶ πανηγυρικῶς μεμιγμένον· ἀλλʼ ἓν εἶναι δεῖ τὸ ὄν, ὥσπερ ὂν τὸ ἕν. ἡ δʼ ἑτερότης, διαφορᾷ τοῦ ὄντος, εἰς γένεσιν ἐξίσταται τοῦ μὴ ὄντος. ὅθεν εὖ καὶ τὸ πρῶτον ἔχει τῷ θεῷ τῶν ὀνομάτων καὶ τὸ δεύτερον καὶ τὸ τρίτον. Ἀπόλλων μὲν γὰρ οἷον ἀρνούμενος τὰ πολλὰ καὶ τὸ πλῆθος ἀποφάσκων ἐστίν, Ἰήιος δʼ ὡς εἷς καὶ μόνος·",
+     "translation": "For the Divinity is not many, as every one of us is made of ten thousand differences in affections, being a confused heap, filled with all diversities. But that which is must be one, as one must have a being. But diversity, which is esteemed to be different from being, goes forth to the generation of that which is not. Whence both the first of his names agrees rightly with this God, as do also the second and third. For he is called Apollo, as denying plurality and rejecting multitude; and Ieïos, as being only one;",
+     "translator": "R. Kippax, in W. W. Goodwin (ed.), Plutarch's Morals, vol. IV (1874)",
+     "source_url": "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0007/tlg090/tlg0007.tlg090.perseus-eng4.xml",
+     "her_reading": "She reads Ἀπόλλων as ἀ- plus πολλῶν, \"not of the many\", and says the Pythagoreans used Apollo as the code name for the One, as Plutarch and Plotinus report. Apollo invites us out of dualist views into a field where subject, object, self and other coexist in one illumination.",
+     "talk": "ax4J8WPxq_c",
+     "t": "16:41"
+    }
+   ],
+   "next_step": "Read chapters 17 to 21 first, where \"Know thyself\" meets \"Thou art\", then chapter 2 for the five names."
+  },
+  {
+   "id": "timaeus",
+   "title": "Timaeus",
+   "author": "Plato",
+   "greek_title": "Τίμαιος",
+   "why_she_reads_it": "The Timaeus gives her the anatomy of the soul: the world soul made of the Same and the Other, two circles crossed like the letter χ, which she maps onto the equator and the ecliptic, the solstices and the seven energy centres. It is also her main text on the senses: the soul's circles plunged into the \"river\" of becoming, sensation as that river's waves reaching the soul, and calm restoring right judgment. It is where she finds \"time, the moving image of eternity\".",
+   "talks": [
+    "DOdU0po-ehY",
+    "QgYveGlAEhw",
+    "MW2u5olwgFc",
+    "fqvKm4KHiJs",
+    "7YJYJLeJgUY",
+    "CxNdDf0M9IY",
+    "DLOnGNrH3NQ",
+    "zfeWFBTNZIo",
+    "WN2AHLV3COA"
+   ],
+   "weight": 4,
+   "excerpts": [
+    {
+     "ref": "Timaeus 36b-c",
+     "label": "Two strips joined like the letter X: the Same and the Other",
+     "greek": "ταύτην οὖν τὴν σύστασιν πᾶσαν διπλῆν κατὰ μῆκος σχίσας, μέσην πρὸς μέσην ἑκατέραν ἀλλήλαις οἷον χεῖ προσβαλὼν κατέκαμψεν εἰς ἓν κύκλῳ, συνάψας αὑταῖς τε καὶ ἀλλήλαις ἐν τῷ καταντικρὺ τῆς προσβολῆς, καὶ τῇ κατὰ ταὐτὰ ἐν ταὐτῷ περιαγομένῃ κινήσει πέριξ αὐτὰς ἔλαβεν, καὶ τὸν μὲν ἔξω, τὸν δʼ ἐντὸς ἐποιεῖτο τῶν κύκλων. τὴν μὲν οὖν ἔξω φορὰν ἐπεφήμισεν εἶναι τῆς ταὐτοῦ φύσεως, τὴν δʼ ἐντὸς τῆς θατέρου.",
+     "translation": "This entire compound he divided lengthways into two parts, which he joined to one another at the centre like the letter X, and bent them into a circular form, connecting them with themselves and each other at the point opposite to their original meeting-point; ... Now the motion of the outer circle he called the motion of the same, and the motion of the inner circle the motion of the other or diverse.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1572",
+     "her_reading": "The Demiurge splits the soul-mixture into two strips \"like Christmas koulourakia\" joined in a χ. In the world soul and in ours, the circle of the Same matches the celestial equator and the circle of the Other the ecliptic. At an equinox the circles meet (inner balance); at a solstice they are farthest apart.",
+     "talk": "QgYveGlAEhw",
+     "t": "1:39:39"
+    },
+    {
+     "ref": "Timaeus 37d",
+     "label": "Time, the moving image of eternity",
+     "greek": "εἰκὼ δʼ ἐπενόει κινητόν τινα αἰῶνος ποιῆσαι, καὶ διακοσμῶν ἅμα οὐρανὸν ποιεῖ μένοντος αἰῶνος ἐν ἑνὶ κατʼ ἀριθμὸν ἰοῦσαν αἰώνιον εἰκόνα, τοῦτον ὃν δὴ χρόνον ὠνομάκαμεν.",
+     "translation": "Wherefore he resolved to have a moving image of eternity, and when he set in order the heaven, he made this image eternal but moving according to number, while eternity itself rests in unity; and this image we call time.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1572",
+     "her_reading": "She stresses the wording: a moving image of eternity, not an image of a moving eternity, because eternity itself does not move. In the noetic there is no time; past is memory, future is projection, and only consciousness exists.",
+     "talk": "QgYveGlAEhw",
+     "t": "1:28:05"
+    },
+    {
+     "ref": "Timaeus 43a-c",
+     "label": "The soul plunged into a river; what sensation is",
+     "greek": "τὰς τῆς ἀθανάτου ψυχῆς περιόδους ἐνέδουν εἰς ἐπίρρυτον σῶμα καὶ ἀπόρρυτον. αἱ δʼ εἰς ποταμὸν ἐνδεθεῖσαι πολὺν οὔτʼ ἐκράτουν οὔτʼ ἐκρατοῦντο ... πυρὶ προσκρούσειε τὸ σῶμά τινος ἔξωθεν ἀλλοτρίῳ περιτυχὸν ἢ καὶ στερεῷ γῆς πάγῳ ὑγροῖς τε ὀλισθήμασιν ὑδάτων, εἴτε ζάλῃ πνευμάτων ὑπὸ ἀέρος φερομένων καταληφθείη, καὶ ὑπὸ πάντων τούτων διὰ τοῦ σώματος αἱ κινήσεις ἐπὶ τὴν ψυχὴν φερόμεναι προσπίπτοιεν· αἳ δὴ καὶ ἔπειτα διὰ ταῦτα ἐκλήθησάν τε καὶ νῦν ἔτι αἰσθήσεις συνάπασαι κέκληνται.",
+     "translation": "and fastening the courses of the immortal soul in a body which was in a state of perpetual influx and efflux. Now these courses, detained as in a vast river, neither overcame nor were overcome; ... when the body of any one met and came into collision with some external fire, or with the solid earth or the gliding waters, or was caught in the tempest borne on the air, and the motions produced by any of these impulses were carried through the body to the soul. All such motions have consequently received the general name of 'sensations,' which they still retain.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1572",
+     "her_reading": "The body enters the soul, not the soul the body: it is a porous seat of inflow and outflow, always in exchange with Heraclitus' river. Immersion in that river is the soul's \"first baptism\", and sensation is the moment the river's pulses reach the soul's circles, so it is the mind that senses, not the body.",
+     "talk": "DOdU0po-ehY",
+     "t": "31:33"
+    },
+    {
+     "ref": "Timaeus 44b-c",
+     "label": "When the flood calms",
+     "greek": "ὅταν δὲ τὸ τῆς αὔξης καὶ τροφῆς ἔλαττον ἐπίῃ ῥεῦμα, πάλιν δὲ αἱ περίοδοι λαμβανόμεναι γαλήνης τὴν ἑαυτῶν ὁδὸν ἴωσι καὶ καθιστῶνται μᾶλλον ἐπιόντος τοῦ χρόνου, τότε ἤδη πρὸς τὸ κατὰ φύσιν ἰόντων σχῆμα ἑκάστων τῶν κύκλων αἱ περιφοραὶ κατευθυνόμεναι, τό τε θάτερον καὶ τὸ ταὐτὸν προσαγορεύουσαι κατʼ ὀρθόν, ἔμφρονα τὸν ἔχοντα αὐτὰς γιγνόμενον ἀποτελοῦσιν. ἂν μὲν οὖν δὴ καὶ συνεπιλαμβάνηταί τις ὀρθὴ τροφὴ παιδεύσεως, ὁλόκληρος ὑγιής τε παντελῶς, τὴν μεγίστην ἀποφυγὼν νόσον, γίγνεται·",
+     "translation": "but when the flood of growth and nutriment abates, and the courses of the soul, calming down, go their own way and become steadier as time goes on, then the several circles return to their natural form, and their revolutions are corrected, and they call the same and the other by their right names, and make the possessor of them to become a rational being. And if these combine in him with any true nurture or education, he attains the fulness and health of the perfect man, and escapes the worst disease of all;",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1572",
+     "her_reading": "The soul's motions \"take advantage of the calm\" (γαλήνη), a phrase she loves: judgment of same and other becomes right and one is on the road to φρόνησις. Following Proclus, turbulence disturbs the soul's revolutions but never its essence, so ἀταραξία is revealed rather than produced.",
+     "talk": "DOdU0po-ehY",
+     "t": "52:12"
+    }
+   ],
+   "next_step": "Read 35a-37d on the making of the soul, then 42e-44c, the passage on sensation she teaches line by line."
+  },
+  {
+   "id": "phaedrus",
+   "title": "Phaedrus",
+   "author": "Plato",
+   "greek_title": "Φαῖδρος",
+   "why_she_reads_it": "The Phaedrus gives her the image of the soul as a chariot: two horses (desire and the spirited part) and a charioteer, reason in its lower form and nous in its higher. She reads it as part of a chain of vehicles in which body carries soul, soul carries nous and nous carries the fire. She also cites its \"ineffable luminosity\" of beauty seen before birth.",
+   "talks": [
+    "CxNdDf0M9IY",
+    "-Rmboz-OmJQ",
+    "7YJYJLeJgUY",
+    "QgYveGlAEhw",
+    "WN2AHLV3COA",
+    "woq9ebR-Mqg",
+    "zfeWFBTNZIo"
+   ],
+   "weight": 2,
+   "excerpts": [
+    {
+     "ref": "Phaedrus 246a-b",
+     "label": "The charioteer and the pair of winged horses",
+     "greek": "ἐοικέτω δὴ συμφύτῳ δυνάμει ὑποπτέρου ζεύγους τε καὶ ἡνιόχου. θεῶν μὲν οὖν ἵπποι τε καὶ ἡνίοχοι πάντες αὐτοί τε ἀγαθοὶ καὶ ἐξ ἀγαθῶν, τὸ δὲ τῶν ἄλλων μέμεικται. καὶ πρῶτον μὲν ἡμῶν ὁ ἄρχων συνωρίδος ἡνιοχεῖ, εἶτα τῶν ἵππων ὁ μὲν αὐτῷ καλός τε καὶ ἀγαθὸς καὶ ἐκ τοιούτων, ὁ δʼ ἐξ ἐναντίων τε καὶ ἐναντίος· χαλεπὴ δὴ καὶ δύσκολος ἐξ ἀνάγκης ἡ περὶ ἡμᾶς ἡνιόχησις.",
+     "translation": "And let the figure be composite--a pair of winged horses and a charioteer. Now the winged horses and the charioteers of the gods are all of them noble and of noble descent, but those of other races are mixed; the human charioteer drives his in a pair; and one of them is noble and of noble breed, and the other is ignoble and of ignoble breed; and the driving of them of necessity gives a great deal of trouble to him.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1636",
+     "her_reading": "The two horses are desire and θυμός, the charioteer is reason below and nous above. Her addition: nous is fiery by nature and must \"cool\" (ψύχεται) into soul, ψυχή, to take part in the game of matter. In the Ares talk the dark horse is the uncontrolled red force that must be purified, not killed.",
+     "talk": "CxNdDf0M9IY",
+     "t": "1:03:20"
+    },
+    {
+     "ref": "Phaedrus 250b-c",
+     "label": "Beauty shining in pure light",
+     "greek": "κάλλος δὲ τότʼ ἦν ἰδεῖν λαμπρόν, ὅτε σὺν εὐδαίμονι χορῷ μακαρίαν ὄψιν τε καὶ θέαν, ἑπόμενοι μετὰ μὲν Διὸς ἡμεῖς, ἄλλοι δὲ μετʼ ἄλλου θεῶν, εἶδόν τε καὶ ἐτελοῦντο τῶν τελετῶν ἣν θέμις λέγειν μακαριωτάτην, ἣν ὠργιάζομεν ὁλόκληροι μὲν αὐτοὶ ὄντες καὶ ἀπαθεῖς κακῶν ὅσα ἡμᾶς ἐν ὑστέρῳ χρόνῳ ὑπέμενεν, ὁλόκληρα δὲ καὶ ἁπλᾶ καὶ ἀτρεμῆ καὶ εὐδαίμονα φάσματα μυούμενοί τε καὶ ἐποπτεύοντες ἐν αὐγῇ καθαρᾷ, καθαροὶ ὄντες καὶ ἀσήμαντοι τούτου ὃ νῦν δὴ σῶμα περιφέροντες ὀνομάζομεν, ὀστρέου τρόπον δεδεσμευμένοι.",
+     "translation": "There was a time when with the rest of the happy band they saw beauty shining in brightness,--we philosophers following in the train of Zeus, others in company with other gods; and then we beheld the beatific vision and were initiated into a mystery which may be truly called most blessed, ... which we beheld shining in pure light, pure ourselves and not yet enshrined in that living tomb which we carry about, now that we are imprisoned in the body, like an oyster in his shell.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1636",
+     "her_reading": "She cites the Phaedrus for the ineffable luminosity that is the goal Plotinus calls \"the View\": θεωρία, which she derives from θεός and ὁρῶ, \"I see the god\". It is ἄρρητον because words work in duality.",
+     "talk": "woq9ebR-Mqg",
+     "t": "42:45"
+    }
+   ],
+   "next_step": "Read the palinode, 245c-250d, where the chariot and the vision of beauty come together."
+  },
+  {
+   "id": "phaedo",
+   "title": "Phaedo",
+   "author": "Plato",
+   "greek_title": "Φαίδων",
+   "why_she_reads_it": "From the Phaedo she takes the definition of philosophy as μελέτη θανάτου, the practice of dying: not preparation for physical death but the daily death of the false, personality-bound self. She pairs it with a second definition, philosophy as touching and rekindling truth. She also reads the dream that told Socrates \"make music and work\" as the whole Pythagorean programme.",
+   "talks": [
+    "MW2u5olwgFc",
+    "cae0P7g3uFw",
+    "WN2AHLV3COA"
+   ],
+   "weight": 3,
+   "excerpts": [
+    {
+     "ref": "Phaedo 60e",
+     "label": "Make music and work",
+     "greek": "πολλάκις μοι φοιτῶν τὸ αὐτὸ ἐνύπνιον ἐν τῷ παρελθόντι βίῳ, ἄλλοτ’ ἐν ἄλλῃ ὄψει φαινόμενον, τὰ αὐτὰ δὲ λέγον, ὦ Σώκρατες , ἔφη, μουσικὴν ποίει καὶ ἐργάζου.",
+     "translation": "In the course of my life I have often had intimations in dreams 'that I should compose music.' The same dream came to me sometimes in one form, and sometimes in another, but always saying the same or nearly the same words: 'Cultivate and make music,' said the dream. And hitherto I had imagined that this was only intended to exhort and encourage me in the study of philosophy, which has been the pursuit of my life, and is the noblest and best of music.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1658",
+     "her_reading": "Socrates' inner daimon did not mean \"learn the lyre\". Every power of the soul is a frequency and every frequency a ratio, so \"make music\" means tune the soul's inner arrangement into harmony, which is virtue, until it opens a gate to the One; \"and work\" means come back and embody it as service.",
+     "talk": "WN2AHLV3COA",
+     "t": "8:33"
+    },
+    {
+     "ref": "Phaedo 64a-c",
+     "label": "Philosophers practise dying",
+     "greek": "κινδυνεύουσι γὰρ ὅσοι τυγχάνουσιν ὀρθῶς ἁπτόμενοι φιλοσοφίας λεληθέναι τοὺς ἄλλους ὅτι οὐδὲν ἄλλο αὐτοὶ ἐπιτηδεύουσιν ἢ ἀποθνῄσκειν τε καὶ τεθνάναι. ... ἆρα μὴ ἄλλο τι ἢ τὴν τῆς ψυχῆς ἀπὸ τοῦ σώματος ἀπαλλαγήν;",
+     "translation": "For I deem that the true votary of philosophy is likely to be misunderstood by other men; they do not perceive that he is always pursuing death and dying; ... Is it not the separation of soul and body? And to be dead is the completion of this; when the soul exists in herself, and is released from the body and the body is released from the soul, what is this but death?",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1658",
+     "her_reading": "Death here is the release of the soul from the body: dis-identification from the bodily dimension and consciousness turning toward itself. Socrates uses two verbs, dying and being dead, because it is a daily process of removing one identification at a time. She links λανθάνειν, \"escape notice\", to λήθη.",
+     "talk": "MW2u5olwgFc",
+     "t": "34:08"
+    }
+   ],
+   "next_step": "Read 60c-61b (the music dream) and 63e-69e (philosophy as practice of dying) together."
+  },
+  {
+   "id": "cratylus",
+   "title": "Cratylus",
+   "author": "Plato",
+   "greek_title": "Κρατύλος",
+   "why_she_reads_it": "The Cratylus is the warrant for her constant etymologies: she presents it as Socrates showing that Greek letters and names encode the movements of being, a language \"given by higher minds\". From it she takes δίκαιον as what passes through everything (which she reads as fire), ἀρετή as the soul's ever-flowing stream, the four powers of Apollo, the letter rho as motion, and νέον and ἕνον.",
+   "talks": [
+    "HY9w_6CSzm8",
+    "MW2u5olwgFc",
+    "cRTJ00zjo1M",
+    "drptI20Rf5k",
+    "WN2AHLV3COA",
+    "XKLuMi-UjLc",
+    "Y70BLhDGLf8",
+    "fqvKm4KHiJs"
+   ],
+   "weight": 4,
+   "excerpts": [
+    {
+     "ref": "Cratylus 405a-e",
+     "label": "Apollo's four powers",
+     "greek": "ἓν ὂν τέτταρσι δυνάμεσι ταῖς τοῦ θεοῦ, ὥστε πασῶν ἐφάπτεσθαι καὶ δηλοῦν τρόπον τινὰ μουσικήν τε καὶ μαντικὴν καὶ ἰατρικὴν καὶ τοξικήν.",
+     "translation": "I do not believe that any single name could have been better adapted to express the attributes of the God, embracing and in a manner signifying all four of them,--music, and prophecy, and medicine, and archery. ... has reference to all the powers of the God, who is the single one, the everdarting, the purifier, the mover together (aplous, aei Ballon, apolouon, omopolon).",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1616",
+     "her_reading": "The four etymologies (ἀπολούων healing, ἁπλοῦς mantic simplicity, ἀεὶ βάλλων archery as steady will, ὁμοπολῶν music that moves opposites together) are for her the four passages between Plutarch's five names of Apollo, a ladder of awakening.",
+     "talk": "XKLuMi-UjLc",
+     "t": "44:16"
+    },
+    {
+     "ref": "Cratylus 412c-413b",
+     "label": "Justice: what passes through all things",
+     "greek": "δικαιοσύνη δέ, ὅτι μὲν ἐπὶ τῇ τοῦ δικαίου συνέσει τοῦτο κεῖται τὸ ὄνομα ... ἐπεὶ δʼ οὖν ἐπιτροπεύει τὰ ἄλλα πάντα διαϊόν , τοῦτο τὸ ὄνομα ἐκλήθη ὀρθῶς δίκαιον, εὐστομίας ἕνεκα τὴν τοῦ κάππα δύναμιν προσλαβόν. ... ὁ μὲν γὰρ τίς φησιν τοῦτο εἶναι δίκαιον, τὸν ἥλιον· τοῦτον γὰρ μόνον διαϊόντα καὶ κάοντα ἐπιτροπεύειν τὰ ὄντα.",
+     "translation": "Dikaiosune (justice) is clearly dikaiou sunesis (understanding of the just); ... they say that there is a penetrating power which passes through all this, and is the instrument of creation in all, and is the subtlest and swiftest element; ... And this element, which superintends all things and pierces (diaion) all, is rightly called dikaion; the letter k is only added for the sake of euphony. ... For one of them says that justice is the sun, and that he only is the piercing (diaionta) and burning (kaonta) element which is the guardian of nature.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1616",
+     "her_reading": "She reads δίκαιος as διακαῶς, \"burningly\", \"through fire\": justice is the subtlest, swiftest fiery energy pervading the cosmos and keeping it in balance, the self-regulating factor of the fire. That Heraclitus is named in this part of the dialogue is, she says, \"not by chance\".",
+     "talk": "HY9w_6CSzm8",
+     "t": "59:39"
+    },
+    {
+     "ref": "Cratylus 415c-d",
+     "label": "Arete: the ever-flowing soul",
+     "greek": "τοὐναντίον τούτου ἡ ἀρετὴ ἂν εἴη, σημαῖνον πρῶτον μὲν εὐπορίαν, ἔπειτα δὲ λελυμένην τὴν ῥοὴν τῆς ἀγαθῆς ψυχῆς εἶναι ἀεί, ὥστε τὸ ἀσχέτως καὶ τὸ ἀκωλύτως ἀεὶ ῥέον ἐπωνυμίαν εἴληφεν, ὡς ἔοικε, τοῦτο τοὔνομα, ὃ ὀρθῶς μὲν ἔχει ἀειρείτην καλεῖν",
+     "translation": "arete will be the opposite of it, signifying in the first place ease of motion, then that the stream of the good soul is unimpeded, and has therefore the attribute of ever flowing without let or hindrance, and is therefore called arete, or, more correctly, aeireite (ever-flowing),",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1616",
+     "her_reading": "Virtue is the easy flow of the soul and non-virtue is obstruction: when the soul flows ἀεὶ ῥεῖν, unhindered, it gives birth to ἀρετή. She explains the whole ethical side of the tradition as energy flow.",
+     "talk": "fqvKm4KHiJs",
+     "t": "40:28"
+    },
+    {
+     "ref": "Cratylus 409b",
+     "label": "New and always old",
+     "greek": "νέον δέ που καὶ ἕνον ἀεί ἐστι περὶ τὴν σελήνην τοῦτο τὸ φῶς, εἴπερ ἀληθῆ οἱ Ἀναξαγόρειοι λέγουσιν",
+     "translation": "This light about the moon is always new (neon) and always old (enon), if the disciples of Anaxagoras say truly.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1616",
+     "her_reading": "She reads νέον and ἕνον as an anagram: the divine Child of the second birth is \"new and always ancient\", a revelation of what we always were.",
+     "talk": "MW2u5olwgFc",
+     "t": "19:24"
+    },
+    {
+     "ref": "Cratylus 426c",
+     "label": "Rho, the instrument of motion",
+     "greek": "πρῶτον μὲν τοίνυν τὸ ῥῶ ἔμοιγε φαίνεται ὥσπερ ὄργανον εἶναι πάσης τῆς κινήσεως",
+     "translation": "In the first place, the letter rho appears to me to be the general instrument expressing all motion (kinesis).",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1616",
+     "her_reading": "For her the shapes and sounds of Greek letters reflect movements of being: ρ is flow, and the \"algorithm\" of Greek encodes how being is both one and perfectly structured.",
+     "talk": "drptI20Rf5k",
+     "t": "55:06"
+    }
+   ],
+   "next_step": "Read 404e-406a (Apollo) and 411a-416a (the names of the virtues), the two runs of etymologies she uses most."
+  },
+  {
+   "id": "theaetetus",
+   "title": "Theaetetus",
+   "author": "Plato",
+   "greek_title": "Θεαίτητος",
+   "why_she_reads_it": "From the Theaetetus she takes Socrates the midwife, son of Phaenarete, who speaks only with those already pregnant in soul and helps what is held in potential pass into actuality. It anchors her teaching that knowledge must be born, not stored as information, and it gives her the classic saying that philosophy begins in wonder.",
+   "talks": [
+    "MW2u5olwgFc",
+    "cae0P7g3uFw",
+    "QgYveGlAEhw",
+    "cRTJ00zjo1M",
+    "fqvKm4KHiJs"
+   ],
+   "weight": 3,
+   "excerpts": [
+    {
+     "ref": "Theaetetus 150b-c",
+     "label": "The art of midwifery for souls",
+     "greek": "τῇ δέ γʼ ἐμῇ τέχνῃ τῆς μαιεύσεως τὰ μὲν ἄλλα ὑπάρχει ὅσα ἐκείναις, διαφέρει δὲ τῷ τε ἄνδρας ἀλλὰ μὴ γυναῖκας μαιεύεσθαι καὶ τῷ τὰς ψυχὰς αὐτῶν τικτούσας ἐπισκοπεῖν ἀλλὰ μὴ τὰ σώματα. μέγιστον δὲ τοῦτʼ ἔνι τῇ ἡμετέρᾳ τέχνῃ, βασανίζειν δυνατὸν εἶναι παντὶ τρόπῳ πότερον εἴδωλον καὶ ψεῦδος ἀποτίκτει τοῦ νέου ἡ διάνοια ἢ γόνιμόν τε καὶ ἀληθές. ἐπεὶ τόδε γε καὶ ἐμοὶ ὑπάρχει ὅπερ ταῖς μαίαις· ἄγονός εἰμι σοφίας, καὶ ὅπερ ἤδη πολλοί μοι ὠνείδισαν, ὡς τοὺς μὲν ἄλλους ἐρωτῶ, αὐτὸς δὲ οὐδὲν ἀποφαίνομαι περὶ οὐδενὸς διὰ τὸ μηδὲν ἔχειν σοφόν, ἀληθὲς ὀνειδίζουσιν. τὸ δὲ αἴτιον τούτου τόδε· μαιεύεσθαί με ὁ θεὸς ἀναγκάζει, γεννᾶν δὲ ἀπεκώλυσεν.",
+     "translation": "Well, my art of midwifery is in most respects like theirs; but differs, in that I attend men and not women; and look after their souls when they are in labour, and not after their bodies: and the triumph of my art is in thoroughly examining whether the thought which the mind of the young man brings forth is a false idol or a noble and true birth. And like the midwives, I am barren, and the reproach which is often made against me, that I ask questions of others and have not the wit to answer them myself, is very just--the reason is, that the god compels me to be a midwife, but does not allow me to bring forth.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1726",
+     "her_reading": "Socrates' maieutic art helps what is held in potentiality pass into actuality, but the gestation must already have begun in the student. She calls the highest pregnancy that of the true self, the \"birth of light\", with Artemis helping you give birth to what you carry.",
+     "talk": "MW2u5olwgFc",
+     "t": "51:20"
+    },
+    {
+     "ref": "Theaetetus 151b",
+     "label": "Only with those who are pregnant",
+     "greek": "ἐνίοις δέ, ὦ Θεαίτητε, οἳ ἄν μοι μὴ δόξωσί πως ἐγκύμονες εἶναι, γνοὺς ὅτι οὐδὲν ἐμοῦ δέονται, πάνυ εὐμενῶς προμνῶμαι καί, σὺν θεῷ εἰπεῖν, πάνυ ἱκανῶς τοπάζω οἷς ἂν συγγενόμενοι ὄναιντο· ὧν πολλοὺς μὲν δὴ ἐξέδωκα προδίκῳ, πολλοὺς δὲ ἄλλοις σοφοῖς τε καὶ θεσπεσίοις ἀνδράσι. ταῦτα δή σοι, ὦ ἄριστε, ἕνεκα τοῦδε ἐμήκυνα· ὑποπτεύω σε, ὥσπερ καὶ αὐτὸς οἴει, ὠδίνειν τι κυοῦντα ἔνδον.",
+     "translation": "And there are others, Theaetetus, who come to me apparently having nothing in them; and as I know that they have no need of my art, I coax them into marrying some one, and by the grace of God I can generally tell who is likely to do them good. ... I tell you this long story, friend Theaetetus, because I suspect, as indeed you seem to think yourself, that you are in labour--great with some conception.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1726",
+     "her_reading": "Socrates does not speak with just anyone, only with those who are pregnant, and he recognises it through the ineffable. In her map of the second birth this is the stage of gestation, before the \"sudden\" birth into light.",
+     "talk": "cae0P7g3uFw",
+     "t": ""
+    },
+    {
+     "ref": "Theaetetus 155d",
+     "label": "Philosophy begins in wonder",
+     "greek": "μάλα γὰρ φιλοσόφου τοῦτο τὸ πάθος, τὸ θαυμάζειν· οὐ γὰρ ἄλλη ἀρχὴ φιλοσοφίας ἢ αὕτη, καὶ ἔοικεν ὁ τὴν Ἶριν Θαύμαντος ἔκγονον φήσας οὐ κακῶς γενεαλογεῖν.",
+     "translation": "for wonder is the feeling of a philosopher, and philosophy begins in wonder. He was not a bad genealogist who said that Iris (the messenger of heaven) is the child of Thaumas (wonder).",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1726",
+     "her_reading": "She gives the beginning of philosophy as θαυμασμός and ἔρως, from Aristotle back to Plato and Socrates: eros is the beginning of change, to love freedom and true life, the εὖ ζῆν. This is the Platonic locus for the saying.",
+     "talk": "cRTJ00zjo1M",
+     "t": "42:11"
+    }
+   ],
+   "next_step": "Read 148e-151d, the midwife speech, in one sitting, then 155d on wonder."
+  },
+  {
+   "id": "meno",
+   "title": "Meno",
+   "author": "Plato",
+   "greek_title": "Μένων",
+   "why_she_reads_it": "The Meno is the source of her repeated \"all knowledge is recollection\" (ἀνάμνησις). Because the essence of the soul is the essence of the cosmos, learning is activating an imprint we already carry, not shopping for something new; union with the One is remembering, not acquiring. She dates her own calling to an experience of recollection on first reading Plato at fourteen.",
+   "talks": [
+    "zfeWFBTNZIo",
+    "woq9ebR-Mqg",
+    "1OBymLpYfTo",
+    "AAWZRTOINyA",
+    "fqvKm4KHiJs",
+    "CxNdDf0M9IY",
+    "QgYveGlAEhw",
+    "WN2AHLV3COA"
+   ],
+   "weight": 2,
+   "excerpts": [
+    {
+     "ref": "Meno 81c-d",
+     "label": "All learning is recollection",
+     "greek": "ἅτε οὖν ἡ ψυχὴ ἀθάνατός τε οὖσα καὶ πολλάκις γεγονυῖα, καὶ ἑωρακυῖα καὶ τὰ ἐνθάδε καὶ τὰ ἐν Ἅιδου καὶ πάντα χρήματα, οὐκ ἔστιν ὅτι οὐ μεμάθηκεν· ὥστε οὐδὲν θαυμαστὸν καὶ περὶ ἀρετῆς καὶ περὶ ἄλλων οἷόν τʼ εἶναι αὐτὴν ἀναμνησθῆναι, ἅ γε καὶ πρότερον ἠπίστατο. ἅτε γὰρ τῆς φύσεως ἁπάσης συγγενοῦς οὔσης, καὶ μεμαθηκυίας τῆς ψυχῆς ἅπαντα, οὐδὲν κωλύει ἓν μόνον ἀναμνησθέντα, ὃ δὴ μάθησιν καλοῦσιν ἄνθρωποι, τἆλλα πάντα αὐτὸν ἀνευρεῖν, ἐάν τις ἀνδρεῖος ᾖ καὶ μὴ ἀποκάμνῃ ζητῶν· τὸ γὰρ ζητεῖν ἄρα καὶ τὸ μανθάνειν ἀνάμνησις ὅλον ἐστίν.",
+     "translation": "The soul, then, as being immortal, and having been born again many times, and having seen all things that exist, whether in this world or in the world below, has knowledge of them all; and it is no wonder that she should be able to call to remembrance all that she ever knew about virtue, and about everything; for as all nature is akin, and the soul has learned all things; there is no difficulty in her eliciting or as men say learning, out of a single recollection all the rest, if a man is strenuous and does not faint; for all enquiry and all learning is but recollection.",
+     "translator": "Benjamin Jowett (1871; 3rd ed. 1892)",
+     "source_url": "https://www.gutenberg.org/ebooks/1643",
+     "her_reading": "Union is the end of the philosophical love affair, and it is not acquiring something new but remembering. Feeling a lack proves it: we would not suffer from the chains if we had not once been free, just as you cannot look for keys you do not know you lost.",
+     "talk": "woq9ebR-Mqg",
+     "t": "39:07"
+    }
+   ],
+   "next_step": "Read 80d-86c: the paradox of inquiry, the myth of the soul, and the slave-boy lesson that demonstrates recollection."
+  },
+  {
+   "id": "odyssey",
+   "title": "Odyssey",
+   "author": "Homer",
+   "greek_title": "Ὀδύσσεια",
+   "why_she_reads_it": "She reads the Odyssey as the archetypal journey of the soul, as the Neoplatonists did: descent into becoming, suffering (she derives Odysseus from ὀδύσσομαι, \"I suffer\"), guidance by Athena, and νόστος, the return to Ithaca, the inner centre of fullness and freedom. Her signature twist is that Odysseus does not return to Ithaca but wakes up in Ithaca, and that reaching home is only half the work: the suitors must still be cleared.",
+   "talks": [
+    "G9I6oc0TnxI",
+    "zfeWFBTNZIo",
+    "MW2u5olwgFc",
+    "QgYveGlAEhw",
+    "ax4J8WPxq_c",
+    "COON0DK5OEU",
+    "cae0P7g3uFw",
+    "cRTJ00zjo1M",
+    "-Rmboz-OmJQ",
+    "7YJYJLeJgUY",
+    "CxNdDf0M9IY",
+    "DOdU0po-ehY",
+    "XKLuMi-UjLc",
+    "AAWZRTOINyA",
+    "fqvKm4KHiJs"
+   ],
+   "weight": 4,
+   "excerpts": [
+    {
+     "ref": "Odyssey 13.187-193, 13.352-354",
+     "label": "Waking in Ithaca without knowing it",
+     "greek": "ἑσταότες περὶ βωμόν. ὁ δʼ ἔγρετο δῖος Ὀδυσσεὺς / εὕδων ἐν γαίῃ πατρωΐῃ, οὐδέ μιν ἔγνω, / ἤδη δὴν ἀπεών· περὶ γὰρ θεὸς ἠέρα χεῦε / Παλλὰς Ἀθηναίη, κούρη Διός, ὄφρα μιν αὐτὸν / ἄγνωστον τεύξειεν ἕκαστά τε μυθήσαιτο, / μή μιν πρὶν ἄλοχος γνοίη ἀστοί τε φίλοι τε, / πρὶν πᾶσαν μνηστῆρας ὑπερβασίην ἀποτῖσαι. ... ὣς εἰποῦσα θεὰ σκέδασʼ ἠέρα, εἴσατο δὲ χθών· / γήθησέν τʼ ἄρʼ ἔπειτα πολύτλας δῖος Ὀδυσσεύς, / χαίρων ᾗ γαίῃ, κύσε δὲ ζείδωρον ἄρουραν.",
+     "translation": "Ulysses woke up once more upon his own soil. He had been so long away that he did not know it again; moreover, Jove's daughter Minerva had made it a foggy day, so that people might not know of his having come, and that she might tell him everything without either his wife or his fellow citizens and friends recognising him until he had taken his revenge upon the wicked suitors. ... As she spoke the goddess dispersed the mist and the land appeared. Then Ulysses rejoiced at finding himself again in his own land, and kissed the bounteous soil;",
+     "translator": "Samuel Butler (1900); Greek: A. T. Murray (1919)",
+     "source_url": "https://www.gutenberg.org/ebooks/1727",
+     "her_reading": "\"Odysseus does not return to Ithaca; Odysseus wakes up in Ithaca.\" He was always there and did not recognise it, which is her image for awakening: as long as you still see \"something\", you have not yet reached Ithaca.",
+     "talk": "zfeWFBTNZIo",
+     "t": "1:48:57"
+    },
+    {
+     "ref": "Odyssey 22.1-2, 22.35-38",
+     "label": "Clearing the suitors",
+     "greek": "αὐτὰρ ὁ γυμνώθη ῥακέων πολύμητις Ὀδυσσεύς, / ἆλτο δʼ ἐπὶ μέγαν οὐδόν, ἔχων βιὸν ἠδὲ φαρέτρην ... ὦ κύνες, οὔ μʼ ἔτʼ ἐφάσκεθʼ ὑπότροπον οἴκαδʼ ἱκέσθαι / δήμου ἄπο Τρώων, ὅτι μοι κατεκείρετε οἶκον, / δμῳῇσιν δὲ γυναιξὶ παρευνάζεσθε βιαίως, / αὐτοῦ τε ζώοντος ὑπεμνάασθε γυναῖκα,",
+     "translation": "Then Ulysses tore off his rags, and sprang on to the broad pavement with his bow and his quiver full of arrows. ... \"Dogs, did you think that I should not come back from Troy? You have wasted my substance, have forced my women servants to lie with you, and have wooed my wife while I was still living.",
+     "translator": "Samuel Butler (1900); Greek: A. T. Murray (1919)",
+     "source_url": "https://www.gutenberg.org/ebooks/1727",
+     "her_reading": "The return runs from book Α to Ν; from Ν to Ω Odysseus must secure Ithaca. The suitors are our habits, passions, inner voices and old worldviews, and \"killing\" them means bringing light to them and integrating them into the newborn consciousness. For Greeks today, she adds, it means clearing the heritage of those who try to appropriate it.",
+     "talk": "MW2u5olwgFc",
+     "t": "1:48:14"
+    },
+    {
+     "ref": "Odyssey 12.160-164",
+     "label": "Bound to the mast",
+     "greek": "οἶον ἔμʼ ἠνώγει ὄπʼ ἀκουέμεν· ἀλλά με δεσμῷ / δήσατʼ ἐν ἀργαλέῳ, ὄφρʼ ἔμπεδον αὐτόθι μίμνω, / ὀρθὸν ἐν ἱστοπέδῃ, ἐκ δʼ αὐτοῦ πείρατʼ ἀνήφθω. / εἰ δέ κε λίσσωμαι ὑμέας λῦσαί τε κελεύω, / ὑμεῖς δὲ πλεόνεσσι τότʼ ἐν δεσμοῖσι πιέζειν.",
+     "translation": "Therefore, take me and bind me to the crosspiece half way up the mast; bind me as I stand upright, with a bond so fast that I cannot possibly break away, and lash the rope's ends to the mast itself. If I beg and pray you to set me free, then bind me more tightly still.",
+     "translator": "Samuel Butler (1900); Greek: A. T. Murray (1919)",
+     "source_url": "https://www.gutenberg.org/ebooks/1727",
+     "her_reading": "Εὐτυχία turns on a wheel; εὐδαιμονία is the mast. The question is whether you can stay at your mast, on a central inner axis, feeling fullness and freedom whatever happens.",
+     "talk": "cRTJ00zjo1M",
+     "t": "12:06"
+    }
+   ],
+   "next_step": "Read Book XIII (the waking on Ithaca) and then Book XXII (the slaying of the suitors), the two halves of her reading of νόστος."
+  },
+  {
+   "id": "orphic_hymns",
+   "title": "Orphic Hymns",
+   "author": "Orphic tradition",
+   "greek_title": "Ὀρφέως Ὕμνοι",
+   "why_she_reads_it": "She taught a full course on the Orphic Hymns, read through their Neoplatonic decoding, and places Orpheus at the root of the lineage. The hymns are for her cosmic archetypes and practices: the hymn to Ares as the inner warrior who guards peace, the Hours who lead Persephone back to the light, and Mnemosyne who wakes the soul from forgetting. She also cites the hymn to Zeus on a \"liberating witness\" (not located here).",
+   "talks": [
+    "-Rmboz-OmJQ",
+    "ax4J8WPxq_c",
+    "DOdU0po-ehY",
+    "zfeWFBTNZIo"
+   ],
+   "weight": 3,
+   "excerpts": [
+    {
+     "ref": "Hymn to Ares (Homeric Hymn 8; no. 88 in her edition)",
+     "label": "Fence of Olympus, ally of Themis",
+     "greek": "Ἆρες ὑπερμενέτα, βρισάρματε, χρυσεοπήληξ, / ὀβριμόθυμε, φέρασπι, πολισσόε, χαλκοκορυστά, / καρτερόχειρ, ἀμόγητε, δορισθενές, ἕρκος Ὀλύμπου, / Νίκης εὐπολέμοιο πάτερ, συναρωγὲ Θέμιστος, ... κλῦθι, βροτῶν ἐπίκουρε, δοτὴρ εὐθαρσέος ἥβης, / πρηὺ καταστίλβων σέλας ὑψόθεν ἐς βιότητα / ἡμετέρην καὶ κάρτος ἀρήιον, ὥς κε δυναίμην / σεύασθαι κακότητα πικρὴν ἀπʼ ἐμοῖο καρήνου, / καὶ ψυχῆς ἀπατηλὸν ὑπογνάμψαι φρεσὶν ὁρμήν, / θυμοῦ τ᾽ αὖ μένος ὀξὺ κατισχέμεν, ὅς μʼ ἐρέθῃσι / φυλόπιδος κρυερῆς ἐπιβαινέμεν· ἀλλὰ σὺ θάρσος / δός, μάκαρ, εἰρήνης τε μένειν ἐν ἀπήμοσι θεσμοῖς",
+     "translation": "Ares, exceeding in strength, chariot-rider, golden-helmed, doughty in heart, shield-bearer, Saviour of cities, harnessed in bronze, strong of arm, unwearying, mighty with the spear, O defence of Olympus , father of warlike Victory, ally of Themis, ... hear me, helper of men, giver of dauntless youth! Shed down a kindly ray from above upon my life, and strength of war, that I may be able to drive away bitter cowardice from my head and crush down the deceitful impulses of my soul. Restrain also the keen fury of my heart which provokes me to tread the ways of blood-curdling strife. Rather, O blessed one, give you me boldness to abide within the harmless laws of peace,",
+     "translator": "Hugh G. Evelyn-White (1914)",
+     "source_url": "https://github.com/PerseusDL/canonical-greekLit/blob/master/data/tlg0013/tlg008/tlg0013.tlg008.perseus-eng2.xml",
+     "her_reading": "ἕρκος Ὀλύμπου is her favourite line: Ares is the fortress and outer shell of Olympus, the force behind every law and the custodian of peace, and βία means life-force, not violence. The hymn wakes the inner warrior, θάρσος and clarity, so that justice and εὐνομία can be upheld. (Her notes flag that the epithets she reads as \"hymn 88\" match the text usually printed as Homeric Hymn 8.)",
+     "talk": "-Rmboz-OmJQ",
+     "t": "45:08"
+    },
+    {
+     "ref": "Orphic Hymn 43 to the Seasons (Taylor's no. XLII)",
+     "label": "The Hours lead Persephone up to light",
+     "greek": "",
+     "translation": "DAUGHTERS of Jove and Themis, seasons bright, / Justice, and blessed peace, and lawful right, / Vernal and grassy, vivid, holy pow'rs, / Whose balmy breath exhales in lovely flow'rs / All-colour'd seasons, rich increase your care, / Circling, for ever flourishing and fair: / Invested with a veil of shining dew, / A flow'ry veil delightful to the view: / Attending Proserpine, when back from night, / The Fates and Graces lead her up to light; / When in a band-harmonious they advance, / And joyful round her, form the solemn dance:",
+     "translator": "Thomas Taylor, The Mystical Initiations; or, Hymns of Orpheus (1792)",
+     "source_url": "https://www.sacred-texts.com/cla/hoo/hoo47.htm",
+     "her_reading": "She closes the aromatic symposium with the Hours, many-coloured and many-scented, who lead Persephone back up to the light in a spiral ascent. She reads them as the moment of the soul's awakening, born when we see the sensible and the intelligible as one continuum.",
+     "talk": "DOdU0po-ehY",
+     "t": "1:13:06"
+    },
+    {
+     "ref": "Orphic Hymn 77 to Mnemosyne (Taylor's no. LXXVI)",
+     "label": "Memory joins soul to intellect",
+     "greek": "",
+     "translation": "THE consort I invoke of Jove divine, / Source of the holy, sweetly-speaking Nine; / Free from th' oblivion of the fallen mind, / By whom the soul with intellect is join'd: / Reason's increase, and thought to thee belong, / All-powerful, pleasant, vigilant, and strong: / 'Tis thine, to waken from lethargic rest / All thoughts deposited within the breast; / And nought neglecting, vigorous to excite / The mental eye from dark oblivion's night. / Come, blessed power, thy mystic's mem'ry wake / To holy rites, and Lethe's fetters break.",
+     "translator": "Thomas Taylor, The Mystical Initiations; or, Hymns of Orpheus (1792)",
+     "source_url": "https://www.sacred-texts.com/cla/hoo/hoo81.htm",
+     "her_reading": "She quotes a line on mind dwelling with souls (νοῦν ψυχαῖσι σύνοικον), which her notes mark as caption-garbled and probably from this hymn (uncertain). Mnemosyne is the soul's memory of its own nature: incense (θυμίαμα) \"reminds\" (θυμίζει) us, and Greeks must drink again the water of Mnemosyne from Homer's spring.",
+     "talk": "DOdU0po-ehY",
+     "t": "26:41"
+    }
+   ],
+   "next_step": "Read the closing sequence of her edition (Hestia, Sleep, Dream, Death, Ares) in one go, since her lesson on Ares is about why the series ends there."
+  },
+  {
+   "id": "pythagorean",
+   "title": "The Golden Verses and Iamblichus' Life of Pythagoras",
+   "author": "Pythagorean tradition; Iamblichus",
+   "greek_title": "Χρυσᾶ Ἔπη",
+   "why_she_reads_it": "Pythagoras is for her the Great Initiate who coined the word \"philosophy\", defined its aim as union with the Monad, and stands between Orphic spirituality and Presocratic science. She calls the Golden Verses the first lesson of the Platonic school for a thousand years, closes talks with their last lines, and swears with the Pythagoreans by the tetraktys, \"source of ever-flowing nature\". From Iamblichus she takes Pythagoras as an emanation of Apollo and the school of \"those who hear together\".",
+   "talks": [
+    "WN2AHLV3COA",
+    "cae0P7g3uFw",
+    "woq9ebR-Mqg",
+    "XKLuMi-UjLc",
+    "QgYveGlAEhw",
+    "zfeWFBTNZIo",
+    "CxNdDf0M9IY",
+    "MW2u5olwgFc"
+   ],
+   "weight": 3,
+   "excerpts": [
+    {
+     "ref": "Golden Verses 70-71",
+     "label": "If you leave the body for the free aether",
+     "greek": "Ἡνίοχον γνώμην στήσας καθύπερθεν ἀρίστην. / Ἢν δ’ ἀπολείψας σῶμα ἐς αἰθέρ’ ἐλεύθερον ἔλθῃς, / Ἔσσεαι ἀθάνατος θεὸς, ἄμβροτος, οὐκ ἔτι θνητός.",
+     "translation": "Letting intelligence o’er thy body reign; / So that, ascending into radiant Ether, / Midst the Immortals, thou shalt be thyself a God.",
+     "translator": "Nayán Louise Redfield (1917), English version of Fabre d'Olivet's French rendering",
+     "source_url": "https://www.gutenberg.org/ebooks/69174",
+     "her_reading": "She stresses that the Greek says ἤν, \"if\", not \"when\": leaving the body at death is not liberation, because you can die full of wants and soon return. Freedom is whenever we drop the illusion that we are the body. (Redfield's English, made from a French verse version, does not keep the \"if\".)",
+     "talk": "woq9ebR-Mqg",
+     "t": "40:15"
+    },
+    {
+     "ref": "Golden Verses 47-48",
+     "label": "The oath by the tetraktys",
+     "greek": "Ναὶ μὰ τὸν ἡμετέρᾳ ψυχᾷ παραδόντα τετρακτὺν, / Παγὰν ἀενάου φύσεως.",
+     "translation": "I swear it by the one who in our hearts engraved / The sacred Tetrad, symbol immense and pure, / Source of Nature and model of the Gods",
+     "translator": "Nayán Louise Redfield (1917), English version of Fabre d'Olivet's French rendering",
+     "source_url": "https://www.gutenberg.org/ebooks/69174",
+     "her_reading": "She quotes the oath by the tetraktys, \"source of ever-flowing nature\", and in the Pythagoras cycle treats the Golden Verses as the first lesson of the school.",
+     "talk": "cae0P7g3uFw",
+     "t": ""
+    },
+    {
+     "ref": "Iamblichus, On the Pythagoric Life, ch. 28",
+     "label": "The oath as Iamblichus gives it",
+     "greek": "οὔ, μὰ τὸν ἁμετέρας σοφίας εὑρόντα τετρακτύν, παγὰν ἀενάου φύσεως ῥιζώματ’ ἔχουσαν.",
+     "translation": "I swear by him who the tetractys found, Whence all our wisdom springs, and which contains Perennial Nature’s fountain, cause, and root.",
+     "translator": "Thomas Taylor (1818)",
+     "source_url": "https://www.gutenberg.org/ebooks/63300",
+     "her_reading": "Iamblichus is one of her two main biographers of Pythagoras (with Porphyry); she cites him for Pythagoras as an emanation of Apollo coming into the \"agora of the many\" to bring enlightened teaching.",
+     "talk": "woq9ebR-Mqg",
+     "t": "19:26"
+    },
+    {
+     "ref": "Golden Verses 17-19",
+     "label": "Bear your share of fate gently, and heal what you can",
+     "greek": "Ὅσσα τε δαιμονίῃσι τύχαις βροτοὶ ἄλγε ἔχουσιν, / Ὧν ἄν μοῖραν ἔχῃς πρᾴως φέρε, μήδ’ ἀγανάκτει. / Ἰᾶσθαι δὲ πρέπει καθόσον δυνῄ·",
+     "translation": "As to the evils which Destiny involves, / Judge them what they are: endure them all and strive, / As much as thou art able, to modify the traits:",
+     "translator": "Nayán Louise Redfield (1917), English version of Fabre d'Olivet's French rendering",
+     "source_url": "https://www.gutenberg.org/ebooks/69174",
+     "her_reading": "Bear what fate brings without indignation and heal what you can: develop the virtues to meet events without attaching your identity to them, keeping a \"sacred distance\", ἡσυχία and observation, where healing starts.",
+     "talk": "WN2AHLV3COA",
+     "t": "1:21:55"
+    }
+   ],
+   "next_step": "Read the Golden Verses aloud in one sitting, as she suggests, listening to them as vibration and not only as information."
+  },
+  {
+   "id": "nicomachean_ethics",
+   "title": "Nicomachean Ethics",
+   "author": "Aristotle",
+   "greek_title": "Ἠθικὰ Νικομάχεια",
+   "why_she_reads_it": "Aristotle gives her the frame that eudaimonia is the final cause of all causes, the τέλος and ἐντελέχεια of a human being, like the oak already in the acorn. She separates it from εὐτυχία, good luck on a turning wheel. She also uses his point that ἦθος comes from ἔθος, so the lawgiver is a shaper of character who habituates citizens toward the good.",
+   "talks": [
+    "fqvKm4KHiJs",
+    "zfeWFBTNZIo",
+    "-mTgsVQO72E",
+    "COON0DK5OEU",
+    "7YJYJLeJgUY",
+    "QgYveGlAEhw",
+    "G9I6oc0TnxI",
+    "Y70BLhDGLf8",
+    "cRTJ00zjo1M",
+    "woq9ebR-Mqg",
+    "4uxz_yy9DLI",
+    "DLOnGNrH3NQ",
+    "cae0P7g3uFw",
+    "CxNdDf0M9IY",
+    "MW2u5olwgFc",
+    "XKLuMi-UjLc",
+    "AAWZRTOINyA"
+   ],
+   "weight": 3,
+   "excerpts": [
+    {
+     "ref": "Nicomachean Ethics I.7 1097a-b",
+     "label": "Happiness, the end of all ends",
+     "greek": "τοιοῦτον δʼ ἡ εὐδαιμονία μάλιστʼ εἶναι δοκεῖ· ταύτην γὰρ αἱρούμεθα ἀεὶ διʼ αὐτὴν καὶ οὐδέποτε διʼ ἄλλο, τιμὴν δὲ καὶ ἡδονὴν καὶ νοῦν καὶ πᾶσαν ἀρετὴν αἱρούμεθα μὲν καὶ διʼ αὐτά (μηθενὸς γὰρ ἀποβαίνοντος ἑλοίμεθʼ ἂν ἕκαστον αὐτῶν), αἱρούμεθα δὲ καὶ τῆς εὐδαιμονίας χάριν, διὰ τούτων ὑπολαμβάνοντες εὐδαιμονήσειν. τὴν δʼ εὐδαιμονίαν οὐδεὶς αἱρεῖται τούτων χάριν, οὐδʼ ὅλως διʼ ἄλλο.",
+     "translation": "And of this nature Happiness is mostly thought to be, for this we choose always for its own sake, and never with a view to anything further: whereas honour, pleasure, intellect, in fact every excellence we choose for their own sakes, it is true (because we would choose each of these even if no result were to follow), but we choose them also with a view to happiness, conceiving that through their instrumentality we shall be happy: but no man chooses happiness with a view to them, nor in fact with a view to any other thing whatsoever. ... So then Happiness is manifestly something final and self-sufficient, being the end of all things which are and may be done.",
+     "translator": "D. P. Chase (1847; Everyman edition); Greek: I. Bywater (1894)",
+     "source_url": "https://www.gutenberg.org/ebooks/8438",
+     "her_reading": "Do not ask why we want eudaimonia; there is no further reason behind it. Everything we pursue, consciously or not, we pursue for it, because it is our entelechy, the purpose of incarnation, and we tend toward it because we come from it.",
+     "talk": "zfeWFBTNZIo",
+     "t": "20:57"
+    },
+    {
+     "ref": "Nicomachean Ethics II.1 1103a-b",
+     "label": "Character from habit; the lawgiver habituates",
+     "greek": "ἡ δʼ ἠθικὴ ἐξ ἔθους περιγίνεται, ὅθεν καὶ τοὔνομα ἔσχηκε μικρὸν παρεκκλῖνον ἀπὸ τοῦ ἔθους. ... οἱ γὰρ νομοθέται τοὺς πολίτας ἐθίζοντες ποιοῦσιν ἀγαθούς, καὶ τὸ μὲν βούλημα παντὸς νομοθέτου τοῦτʼ ἐστίν",
+     "translation": "whereas the Moral comes from custom, and so the Greek term denoting it is but a slight deflection from the term denoting custom in that language. ... because the law-givers make the individual members good men by habituation, and this is the intention certainly of every law-giver,",
+     "translator": "D. P. Chase (1847; Everyman edition); Greek: I. Bywater (1894)",
+     "source_url": "https://www.gutenberg.org/ebooks/8438",
+     "her_reading": "Responsibility falls first on the polity, because the lawgiver is not a bureaucrat but an ἠθοπλάστης, a shaper of character: law habituates (ἐθίζει) and so \"initiates\" the soul into values. Good laws, she says, are ones citizens can fall in love with.",
+     "talk": "Y70BLhDGLf8",
+     "t": "10:45"
+    }
+   ],
+   "next_step": "Read Book I, chapters 1-7, for the argument that happiness is the end with nothing behind it, then the opening of Book II on habit."
+  },
+  {
+   "id": "politics",
+   "title": "Politics",
+   "author": "Aristotle",
+   "greek_title": "Πολιτικά",
+   "why_she_reads_it": "From the Politics she takes ζῷον πολιτικόν: politics is human nature itself, not a construct, and the polis exists by nature and is prior even to the family and the individual. The city comes to be for the sake of living (ζῆν) but exists for living well (εὖ ζῆν), which is her own theme; abstaining from politics is itself a political stance, and the private-minded ἰδιώτης has lost something of being human.",
+   "talks": [
+    "cRTJ00zjo1M",
+    "Y70BLhDGLf8",
+    "zfeWFBTNZIo",
+    "COON0DK5OEU",
+    "DLOnGNrH3NQ",
+    "HY9w_6CSzm8",
+    "-mTgsVQO72E",
+    "7YJYJLeJgUY",
+    "AAWZRTOINyA",
+    "fqvKm4KHiJs"
+   ],
+   "weight": 3,
+   "excerpts": [
+    {
+     "ref": "Politics I.2 1252b-1253a",
+     "label": "For living, and for living well",
+     "greek": "",
+     "translation": "And when many villages so entirely join themselves together as in every respect to form but one society, that society is a city, and contains in itself, if I may so speak, the end and perfection of government: first founded that we might live, but continued that we may live happily. ... Hence it is evident that a city is a natural production, and that man is naturally a political animal,",
+     "translator": "William Ellis (1776; Everyman edition 1912)",
+     "source_url": "https://www.gutenberg.org/ebooks/6762",
+     "her_reading": "Εὖ ζῆν is the purpose of human life and of politics, and the lawgiver should aim at the eudaimonia of the whole city. Alexander's line that he owed ζῆν to his parents but εὖ ζῆν to Aristotle frames her whole talk on the good life.",
+     "talk": "cRTJ00zjo1M",
+     "t": "9:15"
+    },
+    {
+     "ref": "Politics I.2 1253a",
+     "label": "The whole is prior to the part",
+     "greek": "",
+     "translation": "Besides, the notion of a city naturally precedes that of a family or an individual, for the whole must necessarily be prior to the parts, ... but he that is incapable of society, or so complete in himself as not to want it, makes no part of a city, as a beast or a god.",
+     "translator": "William Ellis (1776; Everyman edition 1912)",
+     "source_url": "https://www.gutenberg.org/ebooks/6762",
+     "her_reading": "We are first born into a social whole and then into a family, so you cannot say \"first I find myself, then I will see about society\". Her notes record that she attributes this to the Nicomachean Ethics, though the classic place is here in Politics I.",
+     "talk": "Y70BLhDGLf8",
+     "t": "2:15"
+    }
+   ],
+   "next_step": "Read Book I, chapter 2 (1252a-1253a), where the polis grows from the household and is called prior to its parts."
+  },
+  {
+   "id": "proclus",
+   "title": "Commentaries on Plato (Republic, Timaeus) and Platonic Theology",
+   "author": "Proclus",
+   "greek_title": "Πρόκλου εἰς τὴν Πολιτείαν ὑπόμνημα",
+   "why_she_reads_it": "\"Beloved and fully awakened Proclus\" is her Neoplatonic interpreter of Plato, Homer and the Orphic hymns, who opens explanations by decoding the word. She takes from him the soul's descent by putting on \"tunics\" and ascent by stripping them until it is naked, procession and return, Athena's war by union against Ares' war by division, and, through his Timaeus commentary, that turbulence touches the soul's revolutions but never its essence.",
+   "talks": [
+    "QgYveGlAEhw",
+    "MW2u5olwgFc",
+    "-Rmboz-OmJQ",
+    "HY9w_6CSzm8",
+    "DOdU0po-ehY",
+    "-mTgsVQO72E",
+    "drptI20Rf5k",
+    "7YJYJLeJgUY",
+    "AAWZRTOINyA",
+    "CxNdDf0M9IY",
+    "G9I6oc0TnxI",
+    "XKLuMi-UjLc",
+    "cae0P7g3uFw",
+    "woq9ebR-Mqg",
+    "zfeWFBTNZIo",
+    "ax4J8WPxq_c"
+   ],
+   "weight": 3,
+   "excerpts": [
+    {
+     "ref": "Proclus, In Rempublicam I p. 141 Kroll",
+     "label": "Ares divides the contraries and needs Aphrodite",
+     "greek": "Ἄμφω μὲν οὖν οἵδε οἱ θεοὶ περὶ πάντα τὸν κόσμον ἐνεργοῦσιν, ὅ τε Ἥφαιστος λέγω καὶ ὁ Ἄρης, ὃ μὲν διακρίνων τὰς ἐναντιώσεις τοῦ παντὸς καὶ ἀνεγείρων ἀεὶ καὶ σώζων ἀτρέπτως, ἴνα τέλειος ὁ κόσμος ᾖ πᾶσιν τοῖς εἴδεσιν συμπεπληρωμένος ... καὶ δὴ καὶ Ἀφροδίτης ἄμφω δέονται κατὰ τὰς ἑαυτῶν ἐνεργείας, ὃ μὲν ἵνα τοῖς ἐναντίοις ἁρμονίαν ἐμποιήσῃ καὶ τάξιν",
+     "translation": "This deity, according to Proclus, in Repub. p. 388. perpetually discerns and nourishes, and constantly excites the contrarieties of the universe, that the world may exist perfect and entire from its parts. But he requires the assistance of Venus, that he may insert order and harmony into things contrary and discordant.",
+     "translator": "Thomas Taylor (1792), paraphrase of this passage in his note to the Orphic Hymn to Mars; Greek: W. Kroll (1899)",
+     "source_url": "https://www.sacred-texts.com/cla/hoo/hoo69.htm",
+     "her_reading": "Ares symbolises war by division in the sublunar, emotional world, while Athena wages war by union on the intelligible level. Higher Ares divides not to destroy but to restore justice and order, and he needs Aphrodite's love and beauty to learn to unite: Ares and Aphrodite give birth to Harmonia, which she calls Greek tantra.",
+     "talk": "-Rmboz-OmJQ",
+     "t": "15:46"
+    },
+    {
+     "ref": "Chaldean Oracle on the \"naked\" soul, quoted by Proclus (passage not located)",
+     "label": "Ascent by analysis: the naked soul",
+     "greek": "",
+     "translation": "",
+     "translator": "",
+     "source_url": "",
+     "her_reading": "The soul descends by synthesis, adding foreign tunics until it forms the rigid bond of death, and ascends by analysis, removing what does not belong to it, until \"as the oracle says\" it becomes naked (γυμνῆτις) and unites with the immaterial forms.",
+     "talk": "MW2u5olwgFc",
+     "t": "41:53"
+    },
+    {
+     "ref": "Proclus, Platonic Theology III.7 (not located)",
+     "label": "The one transcendent cause",
+     "greek": "",
+     "translation": "",
+     "translator": "",
+     "source_url": "",
+     "her_reading": "Quoted in the description of her talk on the One: before all beings and gods there is one transcendent, unparticipated cause, ineffable, unknowable and ungraspable, which Socrates calls the Good (through the Sun) and Parmenides the One (through negations).",
+     "talk": "ax4J8WPxq_c",
+     "t": ""
+    }
+   ],
+   "next_step": "Begin with the essays in his Republic commentary on the theology of Homer's myths (Kroll vol. I), where the passage on Ares and Aphrodite sits."
+  },
+  {
+   "id": "parmenides",
+   "title": "On Nature (fragments)",
+   "author": "Parmenides of Elea",
+   "greek_title": "Περὶ φύσεως",
+   "why_she_reads_it": "\"Our grandfather Parmenides\", near whom Socrates \"sprouted\", gives her the formula that to be is to be conscious (τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι) and the principle that only what always is, is. From this she draws her reversal: what seems to be (everything that comes and goes) is not, and what seems not to be (the invisible, the intelligible) truly is.",
+   "talks": [
+    "CxNdDf0M9IY",
+    "HY9w_6CSzm8",
+    "MW2u5olwgFc",
+    "cae0P7g3uFw",
+    "QgYveGlAEhw",
+    "7YJYJLeJgUY",
+    "ax4J8WPxq_c"
+   ],
+   "weight": 2,
+   "excerpts": [
+    {
+     "ref": "Parmenides B2.7-8 and B3 DK (Burnet fr. 4-5)",
+     "label": "Thinking and being are the same",
+     "greek": "τὸ γὰρ αὐτὸ νοεῖν ἐστίν τε καὶ εἶναι.",
+     "translation": "For thou canst not know what is not, that is impossible, nor utter it; for it is the same thing that can be thought and that can be.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "The first outflow of the One is Nous, Heraclitus' Logos, and Parmenides states it: to be is to be conscious. All cosmogony is living wisdom, and we are \"waves of fire and intellection\".",
+     "talk": "CxNdDf0M9IY",
+     "t": "1:00:16"
+    },
+    {
+     "ref": "Parmenides B8.1-6 DK (Burnet fr. 8)",
+     "label": "What is, is ungenerated and all at once",
+     "greek": "μοῦνος δ’ ἔτι μῦθος ὁδοῖο λείπεται ὡς ἔστιν· ταύτηι δ’ ἐπὶ σήματ’ ἔασι πολλὰ μάλ’, ὡς ἀγένητον ἐὸν καὶ ἀνώλεθρόν ἐστιν οὖλον μουνογενές τε καὶ ἀτρεμὲς ἠδ’ ἀτέλεστον· οὐδὲ ποτ’ ἦν οὐδ’ ἔσται, ἐπεὶ νῦν ἔστιν ὁμοῦ πᾶν, ἕν, συνεχές·",
+     "translation": "One path only is left for us to speak of, namely, that It is. In it are very many tokens that what is is uncreated and indestructible; for it is complete, immovable, and without end. Nor was it ever, nor will it be; for now it is, all at once, a continuous one.",
+     "translator": "John Burnet, Early Greek Philosophy (2nd ed. 1908; Bywater numbering)",
+     "source_url": "https://www.gutenberg.org/ebooks/67097",
+     "her_reading": "Only what always is, is; non-being never was. For the ancients \"is not\" means \"is not true\": whatever rises and sets, bodies, thoughts, war and peace, booms and busts, has the quality of non-being, which is why our world of experience \"seems but is not\".",
+     "talk": "MW2u5olwgFc",
+     "t": "19:55"
+    }
+   ],
+   "next_step": "Read fragments 2 to 8 in sequence; fragment 8 is the long description of what is."
+  }
+ ],
+ "reading_path": [
+  "republic",
+  "delphi",
+  "symposium",
+  "pythagorean",
+  "nicomachean_ethics",
+  "heraclitus",
+  "odyssey",
+  "phaedo",
+  "theaetetus",
+  "meno",
+  "timaeus",
+  "phaedrus",
+  "cratylus",
+  "politics",
+  "orphic_hymns",
+  "parmenides",
+  "plotinus",
+  "proclus"
+ ]
 }
