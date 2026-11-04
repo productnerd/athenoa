@@ -1,0 +1,8402 @@
+[
+ {
+  "a": "cave",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato offers the allegory when asked to define paideia."
+ },
+ {
+  "a": "cave",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cave is a womb and its exit the gate of the soul's birth."
+ },
+ {
+  "a": "cave",
+  "b": "freewill",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The free hands of the prisoners stand for free will."
+ },
+ {
+  "a": "cave",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The chains are forgetting; the prisoners sleep in the cosmic dream."
+ },
+ {
+  "a": "cave",
+  "b": "exaiphnes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Release from the chains comes 'suddenly'."
+ },
+ {
+  "a": "cave",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The freed must return into the cave to complete initiation."
+ },
+ {
+  "a": "cave",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Outside, the freed one sees reflections first, then the sun itself."
+ },
+ {
+  "a": "cave",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The first liberating act is the prisoner turning around."
+ },
+ {
+  "a": "cave",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato put it in his political work on purpose"
+ },
+ {
+  "a": "cave",
+  "b": "consciousness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Where I am in the cave depends on how my consciousness works"
+ },
+ {
+  "a": "cave",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The return exists to celebrate and raise the sensible"
+ },
+ {
+  "a": "cave",
+  "b": "plato",
+  "her": true,
+  "co": 41,
+  "npmi": 0.16,
+  "why": "She calls it the heart of the Republic"
+ },
+ {
+  "a": "cave",
+  "b": "ego",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The separate self is one of its shadows"
+ },
+ {
+  "a": "cave",
+  "b": "republic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is in Republic VII"
+ },
+ {
+  "a": "cave",
+  "b": "hellenicmeditation",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its structure becomes meditation"
+ },
+ {
+  "a": "ares",
+  "b": "cave",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The awakened need courage when they come back down"
+ },
+ {
+  "a": "cave",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The return into the cave is making music."
+ },
+ {
+  "a": "apollo",
+  "b": "cave",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His steps map onto the prisoner's journey."
+ },
+ {
+  "a": "cave",
+  "b": "health",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "'Release and healing' of the chains."
+ },
+ {
+  "a": "metastrophe",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Republic 518d defines paideia as the art of the soul's turning."
+ },
+ {
+  "a": "paideia",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Paideia is the gestation and birth of the sacred child within."
+ },
+ {
+  "a": "paideia",
+  "b": "politics",
+  "her": true,
+  "co": 27,
+  "npmi": 0.2,
+  "why": "It is the gate between individual and whole that powers want to control."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "paideia",
+  "her": true,
+  "co": 20,
+  "npmi": 0.19,
+  "why": "The true paidagogos leads toward eudaimonia, not just ABC."
+ },
+ {
+  "a": "eros",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Learning should be governed by love, inspiration and warmth."
+ },
+ {
+  "a": "courage",
+  "b": "paideia",
+  "her": true,
+  "co": 5,
+  "npmi": 0.24,
+  "why": "Paideia keeps the soul in γενναιότητα against resignation."
+ },
+ {
+  "a": "anamnesis",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Education activates what the soul already holds"
+ },
+ {
+  "a": "paideia",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A change of seeing leads to deification"
+ },
+ {
+  "a": "paideia",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Education of the senses is an initiation"
+ },
+ {
+  "a": "ethics",
+  "b": "paideia",
+  "her": true,
+  "co": 9,
+  "npmi": 0.19,
+  "why": "Plato's Academy taught ethics as self-moulding"
+ },
+ {
+  "a": "feminine",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Holistic education answers academia's masculine norms"
+ },
+ {
+  "a": "paideia",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A new scientific paradigm demands a new paideia"
+ },
+ {
+  "a": "knowthyself",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Schools should lead to self-knowledge"
+ },
+ {
+  "a": "kalliergeia",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Παιδεία is cultivation of the soul like a field"
+ },
+ {
+  "a": "awakening",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is a path of awakening"
+ },
+ {
+  "a": "diotima",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her teaching is erotic pedagogy."
+ },
+ {
+  "a": "mysteries",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ismenios begins the mystical education."
+ },
+ {
+  "a": "paideia",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The definition comes from the Republic."
+ },
+ {
+  "a": "dionysus",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Dionysus' mirror shows the inverted world that must be turned."
+ },
+ {
+  "a": "drysoul",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The inward turn evaporates the wet passions."
+ },
+ {
+  "a": "knowthyself",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Turning inward is how one comes to know oneself."
+ },
+ {
+  "a": "good",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The turning is toward the Good, brighter than being."
+ },
+ {
+  "a": "metastrophe",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pain gives the push that starts it"
+ },
+ {
+  "a": "metastrophe",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Turn the eyes of the soul, not the physical eyes"
+ },
+ {
+  "a": "krisis",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Crises force the turn on whole societies"
+ },
+ {
+  "a": "metastrophe",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We turn, not the sun."
+ },
+ {
+  "a": "consciousness",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The searchlight goes where we turn it."
+ },
+ {
+  "a": "metastrophe",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A change of vision, not of the world."
+ },
+ {
+  "a": "fire",
+  "b": "heraclitus",
+  "her": true,
+  "co": 12,
+  "npmi": 0.44,
+  "why": "B30 is her core text for the fire."
+ },
+ {
+  "a": "fire",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The fire is Logos, primordial consciousness."
+ },
+ {
+  "a": "fire",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Platonists call the same fire Nous."
+ },
+ {
+  "a": "fire",
+  "b": "justice",
+  "her": true,
+  "co": 9,
+  "npmi": 0.23,
+  "why": "Justice is the subtlest fire, the fire's self-regulation."
+ },
+ {
+  "a": "fire",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Our essence is Hestia's never-quenched flame."
+ },
+ {
+  "a": "fire",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Every light is an outflow of fire and presupposes a fire."
+ },
+ {
+  "a": "eros",
+  "b": "fire",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros lights the inner fire and carries us to the ever-living sun."
+ },
+ {
+  "a": "cosmos",
+  "b": "fire",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cosmos itself is this self-manifesting fire."
+ },
+ {
+  "a": "daimon",
+  "b": "fire",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The daimon is the inner flame"
+ },
+ {
+  "a": "fire",
+  "b": "fragrance",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Scent rises by its fiery-airy side"
+ },
+ {
+  "a": "fire",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul is a fiery exhalation"
+ },
+ {
+  "a": "fire",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophy kindles the inner fire"
+ },
+ {
+  "a": "fire",
+  "b": "good",
+  "her": true,
+  "co": 19,
+  "npmi": 0.36,
+  "why": "The Good as the Sun"
+ },
+ {
+  "a": "good",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The sun is the Good's image in the Sun simile."
+ },
+ {
+  "a": "eros",
+  "b": "good",
+  "her": true,
+  "co": 11,
+  "npmi": 0.27,
+  "why": "Eros is the heat of the Good and the way of approach."
+ },
+ {
+  "a": "good",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is the light that flows from the Good."
+ },
+ {
+  "a": "euzen",
+  "b": "good",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Εὖ, the Good, is what makes life a good life."
+ },
+ {
+  "a": "good",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her highest claims about the Good come from Plotinus."
+ },
+ {
+  "a": "good",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To know the Good is to recognise oneself."
+ },
+ {
+  "a": "good",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "If the Good were outside me there would be two, not One."
+ },
+ {
+  "a": "good",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Education turns the soul toward the Good"
+ },
+ {
+  "a": "desire",
+  "b": "good",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Desire is secretly a longing for the Good"
+ },
+ {
+  "a": "cave",
+  "b": "good",
+  "her": true,
+  "co": 23,
+  "npmi": 0.28,
+  "why": "The freed prisoner sees that the Good caused everything, even below"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "good",
+  "her": true,
+  "co": 23,
+  "npmi": 0.25,
+  "why": "The first half of the word"
+ },
+ {
+  "a": "east",
+  "b": "good",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She compares it to Tao, dharmakaya and Atman"
+ },
+ {
+  "a": "good",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Beauty passing through everything shows immanence"
+ },
+ {
+  "a": "good",
+  "b": "theoria",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The View is indescribable Beauty"
+ },
+ {
+  "a": "entelecheia",
+  "b": "good",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Our entelechy is attunement to it"
+ },
+ {
+  "a": "being",
+  "b": "good",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Being is ever-flowing nature, the Sun its source"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "euzen",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Εὖ ζῆν is eudaimonia lived day to day."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is discovered by following Apollo's γνῶθι σαυτόν."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Odysseus at the mast is the inner axis of eudaimonia."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "politics",
+  "her": true,
+  "co": 28,
+  "npmi": 0.17,
+  "why": "Eudaimonia of the city is the purpose of politics."
+ },
+ {
+  "a": "aristotle",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 19,
+  "npmi": 0.36,
+  "why": "Aristotle: a natural human tendency toward eudaimonia."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pythagoras called eudaimonia the best."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "freedom",
+  "her": true,
+  "co": 31,
+  "npmi": 0.23,
+  "why": "Recognising one's fiery nature is both freedom and eudaimonia."
+ },
+ {
+  "a": "daimon",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eudaimonia means recognising the inner δαίμων"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is our τέλος and entelechy"
+ },
+ {
+  "a": "desire",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 13,
+  "npmi": 0.17,
+  "why": "Every desire secretly seeks this fullness"
+ },
+ {
+  "a": "awakening",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "'Awakening' is today's word for it"
+ },
+ {
+  "a": "anamnesis",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Activating the soul's memory activates eudaimonia"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "eutychia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Fortune depends on circumstances; eudaimonia depends on nothing external"
+ },
+ {
+  "a": "entelecheia",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eudaimonia is the end every human carries within"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ithaca, the soul's home, is fullness and eudaimonia"
+ },
+ {
+  "a": "arete",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtue sustained over time brings it"
+ },
+ {
+  "a": "eros",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros is the path that leads there."
+ },
+ {
+  "a": "heraclitus",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His Logos is one and common to all."
+ },
+ {
+  "a": "aion",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His Aion is the playing child."
+ },
+ {
+  "a": "drysoul",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His B118 grounds her teaching on the passions."
+ },
+ {
+  "a": "heraclitus",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He breaks the creator and creation scheme."
+ },
+ {
+  "a": "apollo",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Reading him requires a long dive into the Apollonian."
+ },
+ {
+  "a": "dionysus",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He says Dionysus and Hades are the same."
+ },
+ {
+  "a": "divineplay",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His child-Aeon is the image of divine play"
+ },
+ {
+  "a": "becoming",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His river is the world of becoming"
+ },
+ {
+  "a": "eternity",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Aion, eternity, is a playing child"
+ },
+ {
+  "a": "heraclitus",
+  "b": "oneness",
+  "her": true,
+  "co": 12,
+  "npmi": 0.21,
+  "why": "All is one"
+ },
+ {
+  "a": "aporia",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth flows and cannot be held as a banner"
+ },
+ {
+  "a": "consciousness",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Consciousness is shared"
+ },
+ {
+  "a": "awakening",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His sleepers and awake"
+ },
+ {
+  "a": "daimon",
+  "b": "heraclitus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The daimon as fire"
+ },
+ {
+  "a": "hellenism",
+  "b": "heraclitus",
+  "her": true,
+  "co": 13,
+  "npmi": 0.17,
+  "why": "His fragment is its first principle"
+ },
+ {
+  "a": "heraclitus",
+  "b": "kazantzakis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She calls Kazantzakis his modern counterpart"
+ },
+ {
+  "a": "heraclitus",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The logos is common, not private."
+ },
+ {
+  "a": "justice",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Republic, 'On the Just', is about justice in soul and cosmos."
+ },
+ {
+  "a": "plato",
+  "b": "socrates",
+  "her": true,
+  "co": 54,
+  "npmi": 0.13,
+  "why": "Plato's Socrates is the midwife-teacher."
+ },
+ {
+  "a": "diotima",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Symposium gives Diotima's ladder."
+ },
+ {
+  "a": "death",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Phaedo defines philosophy as practice of dying."
+ },
+ {
+  "a": "plato",
+  "b": "politics",
+  "her": true,
+  "co": 58,
+  "npmi": 0.15,
+  "why": "Plato's polis mirrors the soul."
+ },
+ {
+  "a": "anamnesis",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato's doctrine of recollection describes her own first reading"
+ },
+ {
+  "a": "plato",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Timaeus gives the soul's two circles"
+ },
+ {
+  "a": "plato",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plotinus continues his lineage"
+ },
+ {
+  "a": "hellenism",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato is the core of Hellenism"
+ },
+ {
+  "a": "plato",
+  "b": "republic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The work she teaches every year"
+ },
+ {
+  "a": "music",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He regulated music for the soul"
+ },
+ {
+  "a": "language",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Cratylus grounds her word-work"
+ },
+ {
+  "a": "plato",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul generates constitutions"
+ },
+ {
+  "a": "plato",
+  "b": "tripartitesoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His three parts of the soul"
+ },
+ {
+  "a": "becoming",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His third category"
+ },
+ {
+  "a": "plato",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Platonic tradition continues the Pythagorean"
+ },
+ {
+  "a": "cratylus",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Source of the etymologies."
+ },
+ {
+  "a": "diotima",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Diotima's ladder is her map of eros."
+ },
+ {
+  "a": "eros",
+  "b": "freedom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ἐλευθερία has ἔρως inside it."
+ },
+ {
+  "a": "eros",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The sun's heat stands for eros."
+ },
+ {
+  "a": "eros",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros is the first ingredient of philosophy."
+ },
+ {
+  "a": "eros",
+  "b": "justice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros and the just are the two keys to the Good."
+ },
+ {
+  "a": "beauty",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros culminates in beholding a beauty without form"
+ },
+ {
+  "a": "eros",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The inner hero is born and endures through eros"
+ },
+ {
+  "a": "desire",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros must be ranked above scattered desires"
+ },
+ {
+  "a": "eros",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros seeks union, as philosophy seeks union with the One"
+ },
+ {
+  "a": "eros",
+  "b": "love",
+  "her": true,
+  "co": 16,
+  "npmi": 0.24,
+  "why": "Eros drives toward union, agape is its fullness"
+ },
+ {
+  "a": "eros",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Political eros is a higher grade of love"
+ },
+ {
+  "a": "eros",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The eros of questioning drives self-knowledge"
+ },
+ {
+  "a": "eros",
+  "b": "politicaleros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Raised to the city it is political eros"
+ },
+ {
+  "a": "eros",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The art of loving starts philosophy"
+ },
+ {
+  "a": "ergon",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Work is the offspring of eros"
+ },
+ {
+  "a": "eros",
+  "b": "peace",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Peace and eros are two sides of the same coin."
+ },
+ {
+  "a": "eros",
+  "b": "logos",
+  "her": true,
+  "co": 10,
+  "npmi": 0.17,
+  "why": "ἐρῶ also means 'I say': both seek the soul's truth."
+ },
+ {
+  "a": "eros",
+  "b": "harmony",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros is the weft of universal harmony."
+ },
+ {
+  "a": "aphrodite",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Heavenly and common Aphrodite show two qualities of eros."
+ },
+ {
+  "a": "eros",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A society can be diagnosed by its eros."
+ },
+ {
+  "a": "aristotle",
+  "b": "euzen",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Aristotle gave Alexander εὖ ζῆν and made it the aim of politics."
+ },
+ {
+  "a": "euzen",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Paideia is the way to εὖ ζῆν."
+ },
+ {
+  "a": "euzen",
+  "b": "justice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Collective εὖ ζῆν is the purpose of justice."
+ },
+ {
+  "a": "euzen",
+  "b": "stoics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its core is the Stoic ἀταραξία, inner peace."
+ },
+ {
+  "a": "harmony",
+  "b": "justice",
+  "her": true,
+  "co": 6,
+  "npmi": 0.29,
+  "why": "Justice is balance and harmonisation of opposites."
+ },
+ {
+  "a": "justice",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Doing one's own means acting from the one fiery Self."
+ },
+ {
+  "a": "immanence",
+  "b": "justice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Justice requires the freed to return to the cave."
+ },
+ {
+  "a": "justice",
+  "b": "shame",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Shame is justice regulating itself within."
+ },
+ {
+  "a": "justice",
+  "b": "wisdom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Justice separates wisdom from cunning"
+ },
+ {
+  "a": "justice",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Socrates tests definitions of justice by their use"
+ },
+ {
+  "a": "justice",
+  "b": "politics",
+  "her": true,
+  "co": 18,
+  "npmi": 0.24,
+  "why": "Justice makes the just citizen"
+ },
+ {
+  "a": "emanation",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Nous is the first emanation of the One."
+ },
+ {
+  "a": "logos",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Heraclitus' Logos and Plato's Nous are the same reality."
+ },
+ {
+  "a": "nous",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Fiery nous cools into soul."
+ },
+ {
+  "a": "consciousness",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Nous is best rendered as consciousness."
+ },
+ {
+  "a": "knowthyself",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Self-knowledge recognises the nous that wears the soul."
+ },
+ {
+  "a": "nous",
+  "b": "parmenides",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Thinking and being are the same."
+ },
+ {
+  "a": "nous",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Infant Zeus symbolises our nous"
+ },
+ {
+  "a": "nous",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Nous is the one that senses"
+ },
+ {
+  "a": "nous",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Circle of the Same symbolises the nous"
+ },
+ {
+  "a": "nous",
+  "b": "phronesis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She reads φρόνησις as the right motion and flow of nous"
+ },
+ {
+  "a": "nous",
+  "b": "oneness",
+  "her": true,
+  "co": 5,
+  "npmi": 0.11,
+  "why": "It is the One's first emanation"
+ },
+ {
+  "a": "aristotle",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His definition of God."
+ },
+ {
+  "a": "mantike",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Heart and nous united."
+ },
+ {
+  "a": "eros",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros is steered by the divine nous."
+ },
+ {
+  "a": "health",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Illness starts at the level of nous."
+ },
+ {
+  "a": "logos",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The political is logos in action."
+ },
+ {
+  "a": "cosmos",
+  "b": "logos",
+  "her": true,
+  "co": 36,
+  "npmi": 0.14,
+  "why": "The cosmos is ἔλλογος, endowed with logos."
+ },
+ {
+  "a": "consciousness",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Logos is directly linked to consciousness."
+ },
+ {
+  "a": "logos",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Discursive logos cannot reach the One"
+ },
+ {
+  "a": "hellenicmeditation",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Dialogismos is consciousness moving through logos"
+ },
+ {
+  "a": "logos",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Music is ratio, λόγος, of numbers"
+ },
+ {
+  "a": "knowtheknower",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The observer in us is logos"
+ },
+ {
+  "a": "hellene",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The 1940 Greeks became one with the common logos"
+ },
+ {
+  "a": "logos",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Logos seeks the truth of the soul."
+ },
+ {
+  "a": "dialectic",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "λέγω gives the λέσχη."
+ },
+ {
+  "a": "awakening",
+  "b": "logos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The awake know the common logos."
+ },
+ {
+  "a": "lethe",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is un-forgetting."
+ },
+ {
+  "a": "light",
+  "b": "truth",
+  "her": true,
+  "co": 22,
+  "npmi": 0.15,
+  "why": "Truth is the immaterial light in the soul's sun simile."
+ },
+ {
+  "a": "philosophy",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophy touches and rekindles truth."
+ },
+ {
+  "a": "being",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Only what does not decay is true."
+ },
+ {
+  "a": "truth",
+  "b": "wisdom",
+  "her": true,
+  "co": 48,
+  "npmi": 0.16,
+  "why": "Living truth as awareness is σοφία."
+ },
+ {
+  "a": "aporia",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Holding truth as 'something' loses it"
+ },
+ {
+  "a": "heraclitus",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth flows like his river"
+ },
+ {
+  "a": "cave",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Cave's truth cannot be exhausted"
+ },
+ {
+  "a": "sun",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Sun is the true"
+ },
+ {
+  "a": "socrates",
+  "b": "truth",
+  "her": true,
+  "co": 45,
+  "npmi": 0.24,
+  "why": "His definition of the philosopher"
+ },
+ {
+  "a": "east",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "One truth, many traditions"
+ },
+ {
+  "a": "eros",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros for truth begins philosophy"
+ },
+ {
+  "a": "mantike",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A simple truth is known without medium."
+ },
+ {
+  "a": "apollo",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Removing the many (ἁπλοῦς) reveals unified truth."
+ },
+ {
+  "a": "theasis",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We behold truth; it does not happen to us."
+ },
+ {
+  "a": "being",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Forgetting is the only 'opposite' of Being."
+ },
+ {
+  "a": "aion",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "God as a child forgets himself to play and return."
+ },
+ {
+  "a": "death",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Forgetting is the soul's death into the body."
+ },
+ {
+  "a": "aletheia",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is the lifting of lethe"
+ },
+ {
+  "a": "idiotes",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The idiot is the one who lives in lethe"
+ },
+ {
+  "a": "anamnesis",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Recollection undoes forgetting"
+ },
+ {
+  "a": "ego",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Forgetting makes us identify with the separate part"
+ },
+ {
+  "a": "lethe",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "From forgetting come passions and pain"
+ },
+ {
+  "a": "maieutics",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A midwife-teacher helps the birth."
+ },
+ {
+  "a": "christianity",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Christmas codes the birth of the sacred infant."
+ },
+ {
+  "a": "death",
+  "b": "secondbirth",
+  "her": true,
+  "co": 7,
+  "npmi": 0.32,
+  "why": "The birth is at the same time a death of the old self."
+ },
+ {
+  "a": "secondbirth",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The birth of inner light mirrors the sun's rebirth."
+ },
+ {
+  "a": "aion",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The child born is Aion, the ever-being."
+ },
+ {
+  "a": "diotima",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Diotima: the soul is pregnant with logos and virtue."
+ },
+ {
+  "a": "darkness",
+  "b": "secondbirth",
+  "her": true,
+  "co": 5,
+  "npmi": 0.32,
+  "why": "It follows the descent into darkness"
+ },
+ {
+  "a": "secondbirth",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What is born is the inner sun"
+ },
+ {
+  "a": "dionysus",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Dionysus' rebirth is an image of awakening"
+ },
+ {
+  "a": "persephone",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Persephone joins womb and tomb"
+ },
+ {
+  "a": "exaiphnes",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The birth comes suddenly"
+ },
+ {
+  "a": "exaiphnes",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Loss and depression can be the sudden call."
+ },
+ {
+  "a": "eros",
+  "b": "exaiphnes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Like falling in love, it cannot be engineered."
+ },
+ {
+  "a": "awakening",
+  "b": "exaiphnes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It shakes the sleeper awake."
+ },
+ {
+  "a": "exaiphnes",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It belongs to mystery, the highest place in philosophy."
+ },
+ {
+  "a": "exaiphnes",
+  "b": "nyn",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It happens now, not in a future"
+ },
+ {
+  "a": "exaiphnes",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Socrates' word"
+ },
+ {
+  "a": "exaiphnes",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ripening is real, but it is not the cause"
+ },
+ {
+  "a": "exaiphnes",
+  "b": "freewill",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The rising in the cave is ineffable and mysterious"
+ },
+ {
+  "a": "immanence",
+  "b": "transcendence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Transcendence must be completed by immanence."
+ },
+ {
+  "a": "cave",
+  "b": "transcendence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Transcendence is the ascent out of the cave."
+ },
+ {
+  "a": "oneness",
+  "b": "transcendence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It discovers the One 'beyond'."
+ },
+ {
+  "a": "proclus",
+  "b": "transcendence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It mirrors Proclus' return (ἐπιστροφή)."
+ },
+ {
+  "a": "death",
+  "b": "transcendence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It requires a mystic death of habits, ideas and body-identity."
+ },
+ {
+  "a": "immanence",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Slaying the suitors is the immanent stage."
+ },
+ {
+  "a": "immanence",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The One remains in all things."
+ },
+ {
+  "a": "eros",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love brings the freed back down."
+ },
+ {
+  "a": "immanence",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It mirrors Proclus' procession (πρόοδος)."
+ },
+ {
+  "a": "apollo",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo is the transcendent pole"
+ },
+ {
+  "a": "dionysus",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Dionysus is the immanent pole"
+ },
+ {
+  "a": "christianity",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Medieval transcendentalism demonised the world"
+ },
+ {
+  "a": "hellenism",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Immanence is its leaning"
+ },
+ {
+  "a": "immanence",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Duality and non-duality held together"
+ },
+ {
+  "a": "body",
+  "b": "death",
+  "her": true,
+  "co": 19,
+  "npmi": 0.22,
+  "why": "The body is a tomb, σῶμα σῆμα."
+ },
+ {
+  "a": "death",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Practice of dying is philosophy's first definition."
+ },
+ {
+  "a": "death",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What dies is identification with the persona."
+ },
+ {
+  "a": "death",
+  "b": "truth",
+  "her": true,
+  "co": 22,
+  "npmi": 0.22,
+  "why": "Both truth and death are subtractive."
+ },
+ {
+  "a": "death",
+  "b": "meletethanatou",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The philosopher practises in life what death does for all"
+ },
+ {
+  "a": "ares",
+  "b": "death",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ares is the divider who unties the soul"
+ },
+ {
+  "a": "death",
+  "b": "immortality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What we truly are was never born and never dies"
+ },
+ {
+  "a": "death",
+  "b": "disidentification",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What dies is identification with the body"
+ },
+ {
+  "a": "death",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Hestia dreams the incarnation that death ends"
+ },
+ {
+  "a": "body",
+  "b": "soul",
+  "her": true,
+  "co": 63,
+  "npmi": 0.2,
+  "why": "The soul embraces the body."
+ },
+ {
+  "a": "emanation",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Soul flows from nous, matter from soul."
+ },
+ {
+  "a": "drysoul",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The wise soul is a dry soul."
+ },
+ {
+  "a": "soul",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul holds a fiery sun as the eye holds sunlight."
+ },
+ {
+  "a": "justice",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Justice is the constitution of the soul."
+ },
+ {
+  "a": "proclus",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Proclus describes the soul's tunics."
+ },
+ {
+  "a": "sameandother",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul is made of the two circles"
+ },
+ {
+  "a": "equanimity",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Calm is revealed because the soul's essence is untouched"
+ },
+ {
+  "a": "fragrance",
+  "b": "soul",
+  "her": true,
+  "co": 8,
+  "npmi": 0.11,
+  "why": "The soul's exhalation and aura respond to scent"
+ },
+ {
+  "a": "self",
+  "b": "soul",
+  "her": true,
+  "co": 62,
+  "npmi": 0.12,
+  "why": "The soul is the middle level of the self"
+ },
+ {
+  "a": "odyssey",
+  "b": "soul",
+  "her": true,
+  "co": 14,
+  "npmi": 0.1,
+  "why": "The epic is the soul's journey"
+ },
+ {
+  "a": "poseidon",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The trident's Ψ is the soul"
+ },
+ {
+  "a": "psychopolitics",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul generates political orders"
+ },
+ {
+  "a": "consciousness",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening goes beyond the soul to consciousness."
+ },
+ {
+  "a": "health",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul gives the command to heal."
+ },
+ {
+  "a": "delphi",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul is the oracle."
+ },
+ {
+  "a": "eros",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros belongs among the soul's forces."
+ },
+ {
+  "a": "emanation",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "All emanation happens inside the One."
+ },
+ {
+  "a": "apollo",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo, 'not of the many', symbolises the One."
+ },
+ {
+  "a": "nonduality",
+  "b": "oneness",
+  "her": true,
+  "co": 14,
+  "npmi": 0.26,
+  "why": "Unity replaces the language of A or B."
+ },
+ {
+  "a": "oneness",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plotinus: nowhere, yet nowhere it is not."
+ },
+ {
+  "a": "apophatic",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Only negations can approach it"
+ },
+ {
+  "a": "light",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its nature is radiance, φωταύγεια"
+ },
+ {
+  "a": "oneness",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening is its beholding"
+ },
+ {
+  "a": "oneness",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Sun above the Ideas is her image of the One beyond knowledge"
+ },
+ {
+  "a": "gnosis",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Gnosis is another name of the same goal"
+ },
+ {
+  "a": "divine",
+  "b": "oneness",
+  "her": true,
+  "co": 23,
+  "npmi": 0.32,
+  "why": "The gods are the One's operations"
+ },
+ {
+  "a": "henosis",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophy aims at union with it"
+ },
+ {
+  "a": "ego",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Forgetting makes us identify with the separate part"
+ },
+ {
+  "a": "idiotes",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The idiot forgets he is one with all"
+ },
+ {
+  "a": "ennead",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The ennead is a 'new one', unity regained."
+ },
+ {
+  "a": "oneness",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The last step is 'not I but we': the community, the One."
+ },
+ {
+  "a": "delphi",
+  "b": "knowthyself",
+  "her": true,
+  "co": 6,
+  "npmi": 0.31,
+  "why": "It is the Delphic maxim."
+ },
+ {
+  "a": "apollo",
+  "b": "knowthyself",
+  "her": true,
+  "co": 8,
+  "npmi": 0.23,
+  "why": "Apollo calls us to it."
+ },
+ {
+  "a": "hestia",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It means finding the inner Hestia."
+ },
+ {
+  "a": "knowthyself",
+  "b": "self",
+  "her": true,
+  "co": 18,
+  "npmi": 0.29,
+  "why": "It asks who plays all the roles."
+ },
+ {
+  "a": "consciousness",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To know yourself is consciousness knowing itself"
+ },
+ {
+  "a": "ego",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Knowing yourself dissolves the supposed separate self"
+ },
+ {
+  "a": "anamnesis",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Since soul and cosmos share one essence, self-knowledge is knowledge of all"
+ },
+ {
+  "a": "delphice",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Read together with the E, it means you are what you seek"
+ },
+ {
+  "a": "knowthyself",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Knowing yourself leads to a state of cosmic love"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The goddess Athena leads the soul back to it"
+ },
+ {
+  "a": "knowtheknower",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its final meaning is to know the knower"
+ },
+ {
+  "a": "knowthyself",
+  "b": "tripartitesoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its first stage studies the three parts of the soul"
+ },
+ {
+  "a": "knowthyself",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It lifts the veil of forgetting"
+ },
+ {
+  "a": "diotima",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She taught that this path is erotic."
+ },
+ {
+  "a": "knowthyself",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Rulers must first know themselves."
+ },
+ {
+  "a": "light",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The sun's light is truth."
+ },
+ {
+  "a": "solstice",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Solstices are turnings that the ever-living sun transcends."
+ },
+ {
+  "a": "fire",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The sun is the symbol of the primordial fire."
+ },
+ {
+  "a": "apollo",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The light of Apollo is the One's light"
+ },
+ {
+  "a": "paideia",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Education is learning where to turn."
+ },
+ {
+  "a": "awakening",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening uncovers an inner sun."
+ },
+ {
+  "a": "being",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What appears is light, seeming rather than being."
+ },
+ {
+  "a": "cosmos",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cosmos is light taking form."
+ },
+ {
+  "a": "apollo",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo's light is what we seek"
+ },
+ {
+  "a": "hellenism",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She links Ἕλλην to the root of spiritual light"
+ },
+ {
+  "a": "darkness",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "At rock bottom the choice is 'light or nothing'"
+ },
+ {
+  "a": "light",
+  "b": "wisdom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Wisdom is tied to the light of understanding"
+ },
+ {
+  "a": "hellene",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Hellene is tuned to the light"
+ },
+ {
+  "a": "freedom",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Light is the first part of ἐλευθερία"
+ },
+ {
+  "a": "hestia",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The heart's hearth is the source of the light we speak with"
+ },
+ {
+  "a": "light",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Orpheus carries the light"
+ },
+ {
+  "a": "health",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Light heals."
+ },
+ {
+  "a": "katharsis",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Cleaning the veils lets light appear."
+ },
+ {
+  "a": "becoming",
+  "b": "being",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What becomes has the quality of non-being."
+ },
+ {
+  "a": "being",
+  "b": "parmenides",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Parmenides: only what always is, is."
+ },
+ {
+  "a": "being",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Being and non-being are one."
+ },
+ {
+  "a": "being",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The focus is being."
+ },
+ {
+  "a": "being",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ismenios is the knowledge of being."
+ },
+ {
+  "a": "being",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo returns us to the essence Zeus generates."
+ },
+ {
+  "a": "becoming",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pain in becoming wakes the soul."
+ },
+ {
+  "a": "becoming",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Becoming is the field of dualism."
+ },
+ {
+  "a": "becoming",
+  "b": "cave",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Becoming is life in the cave."
+ },
+ {
+  "a": "becoming",
+  "b": "dionysus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Dionysus' mirror is the world of becoming."
+ },
+ {
+  "a": "becoming",
+  "b": "drysoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Poseidon's waters soak the soul."
+ },
+ {
+  "a": "becoming",
+  "b": "matter",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Becoming is the moving god called matter"
+ },
+ {
+  "a": "becoming",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Other takes part in the flow"
+ },
+ {
+  "a": "becoming",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Sensation is the river reaching the soul"
+ },
+ {
+  "a": "becoming",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Education turns the soul from becoming to Being"
+ },
+ {
+  "a": "becoming",
+  "b": "eutychia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Fortune belongs to becoming"
+ },
+ {
+  "a": "becoming",
+  "b": "maieutics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The pregnant soul is in becoming"
+ },
+ {
+  "a": "drysoul",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its remedy evaporates the passions."
+ },
+ {
+  "a": "philosophy",
+  "b": "wisdom",
+  "her": true,
+  "co": 78,
+  "npmi": 0.36,
+  "why": "It is love of wisdom lived."
+ },
+ {
+  "a": "philosophy",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Socrates defined it as touching the Good."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It must become a path to eudaimonia"
+ },
+ {
+  "a": "odyssey",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Odysseus leaving the Phaeacians: understanding is not homecoming"
+ },
+ {
+  "a": "philosophy",
+  "b": "science",
+  "her": true,
+  "co": 47,
+  "npmi": 0.15,
+  "why": "For the Greeks philosophy was science and a path of awakening"
+ },
+ {
+  "a": "philosophy",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is born where the Same and the Other cross"
+ },
+ {
+  "a": "philosophy",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He coined the word and founded the path"
+ },
+ {
+  "a": "paideia",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "True education is philosophical education from childhood"
+ },
+ {
+  "a": "philosophy",
+  "b": "spirituality",
+  "her": true,
+  "co": 61,
+  "npmi": 0.17,
+  "why": "Philosophy is a spiritual path in its original meaning"
+ },
+ {
+  "a": "awakening",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophy was founded, like Taoism and Buddhism, as a path of awakening"
+ },
+ {
+  "a": "haptesthai",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its goal is touching truth"
+ },
+ {
+  "a": "meletethanatou",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is the practice of death"
+ },
+ {
+  "a": "philosophy",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pythagoras defined it as love toward wisdom"
+ },
+ {
+  "a": "henosis",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its aim is union with the One"
+ },
+ {
+  "a": "ergon",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Realisation must return as work"
+ },
+ {
+  "a": "dialectic",
+  "b": "philosophy",
+  "her": true,
+  "co": 34,
+  "npmi": 0.12,
+  "why": "Philosophy is shared dialogue."
+ },
+ {
+  "a": "music",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The philosophical life is musical."
+ },
+ {
+  "a": "diotima",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She taught that philosophy is erotic."
+ },
+ {
+  "a": "arete",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The philosophical life is virtuous."
+ },
+ {
+  "a": "nature",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Politics belongs to human nature."
+ },
+ {
+  "a": "aristotle",
+  "b": "politics",
+  "her": true,
+  "co": 18,
+  "npmi": 0.2,
+  "why": "Her political anthropology is Aristotle's."
+ },
+ {
+  "a": "ethics",
+  "b": "politics",
+  "her": true,
+  "co": 17,
+  "npmi": 0.3,
+  "why": "Law habituates character."
+ },
+ {
+  "a": "harmony",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A true polity is harmony from end to end."
+ },
+ {
+  "a": "ares",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Guardians must be philosophers."
+ },
+ {
+  "a": "ego",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The ἰδιώτης serves a self that does not exist"
+ },
+ {
+  "a": "love",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Universal love turns into work for all"
+ },
+ {
+  "a": "hellenism",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Greek humanism means serving all beings"
+ },
+ {
+  "a": "idiotes",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The private self-enclosed person is its opposite"
+ },
+ {
+  "a": "politics",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul generates the political order"
+ },
+ {
+  "a": "politics",
+  "b": "republic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato's vision of realising the One in social structures"
+ },
+ {
+  "a": "cosmos",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Good law transcribes cosmic law"
+ },
+ {
+  "a": "politicaleros",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its foundation is political eros"
+ },
+ {
+  "a": "ergon",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Political work embodies awakening"
+ },
+ {
+  "a": "music",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Harmonising the many is political work."
+ },
+ {
+  "a": "politics",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He is her model of the political man."
+ },
+ {
+  "a": "dialectic",
+  "b": "politics",
+  "her": true,
+  "co": 24,
+  "npmi": 0.17,
+  "why": "The last step is shared dialogue for the common good."
+ },
+ {
+  "a": "aristotle",
+  "b": "courage",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Γενναιότητα is the first moral virtue."
+ },
+ {
+  "a": "aristotle",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Good moves as the beloved."
+ },
+ {
+  "a": "aristotle",
+  "b": "ethics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ἦθος comes from habituation."
+ },
+ {
+  "a": "aristotle",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Aristotle gives her entelechy and telos"
+ },
+ {
+  "a": "aristotle",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophy as science of sciences"
+ },
+ {
+  "a": "aristotle",
+  "b": "entelecheia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His term"
+ },
+ {
+  "a": "aristotle",
+  "b": "idiotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We are collective first"
+ },
+ {
+  "a": "aristotle",
+  "b": "paideia",
+  "her": true,
+  "co": 13,
+  "npmi": 0.22,
+  "why": "Alexander's teacher, giver of the good life"
+ },
+ {
+  "a": "arete",
+  "b": "aristotle",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtue sustained brings eudaimonia"
+ },
+ {
+  "a": "aristotle",
+  "b": "consciousness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Consciousness of consciousness."
+ },
+ {
+  "a": "aporia",
+  "b": "aristotle",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The appetite to know drives the first questions."
+ },
+ {
+  "a": "awakening",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening is the soul's second birth."
+ },
+ {
+  "a": "awakening",
+  "b": "cave",
+  "her": true,
+  "co": 26,
+  "npmi": 0.27,
+  "why": "Leaving the cave is waking from the dream."
+ },
+ {
+  "a": "awakening",
+  "b": "consciousness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Consciousness expands beyond the skin."
+ },
+ {
+  "a": "awakening",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening is the polity's common purpose."
+ },
+ {
+  "a": "awakening",
+  "b": "lethe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To wake is to stop forgetting."
+ },
+ {
+  "a": "awakening",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She says the Greek tradition names awakening 'the beholding of the One'"
+ },
+ {
+  "a": "awakening",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What is realised in awakening is the One itself"
+ },
+ {
+  "a": "awakening",
+  "b": "ego",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "In awakening the belief in a separate self falls away"
+ },
+ {
+  "a": "apophatic",
+  "b": "awakening",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She approaches it by saying what it is not"
+ },
+ {
+  "a": "awakening",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Universal, impersonal love is its first mark"
+ },
+ {
+  "a": "awakening",
+  "b": "divineplay",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its second mark is seeing life as divine play"
+ },
+ {
+  "a": "awakening",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Odysseus's return pictures it"
+ },
+ {
+  "a": "awakening",
+  "b": "east",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Contemporary paths of awakening arose East and West"
+ },
+ {
+  "a": "apeiron",
+  "b": "awakening",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is recognition, not an experience"
+ },
+ {
+  "a": "awakening",
+  "b": "ergon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It must become work"
+ },
+ {
+  "a": "awakening",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pain often starts it"
+ },
+ {
+  "a": "awakening",
+  "b": "krisis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Crises hasten it"
+ },
+ {
+  "a": "apollo",
+  "b": "awakening",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His five cult names are the five steps of awakening."
+ },
+ {
+  "a": "awakening",
+  "b": "persephone",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Like Persephone's return, awakening is resurrection after descent."
+ },
+ {
+  "a": "awakening",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros rightly approached is a path of awakening."
+ },
+ {
+  "a": "awakening",
+  "b": "spirituality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Today's seekers confuse its phenomena with its essence."
+ },
+ {
+  "a": "apollo",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo is the non-dual."
+ },
+ {
+  "a": "fire",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The fire is maker and made at once."
+ },
+ {
+  "a": "diotima",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Diotima gives the model non-dual description"
+ },
+ {
+  "a": "kosmotheasis",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The holistic Greek worldview is her answer to dualism"
+ },
+ {
+  "a": "nonduality",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Sensible and intelligible are not two worlds to choose between"
+ },
+ {
+  "a": "east",
+  "b": "nonduality",
+  "her": true,
+  "co": 7,
+  "npmi": 0.26,
+  "why": "Plotinus' ἕνωσις is what other cultures call yoga"
+ },
+ {
+  "a": "cave",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "On the mystical level the cave's inside and outside are one"
+ },
+ {
+  "a": "nonduality",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The most non-dual of the ancient teachers"
+ },
+ {
+  "a": "gnosis",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Gnosis is non-dual awareness"
+ },
+ {
+  "a": "goldenthread",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cut lineage hid the non-dual corpus"
+ },
+ {
+  "a": "nonduality",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Our essence is common: there are no others."
+ },
+ {
+  "a": "harmony",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Opposites are united, not erased."
+ },
+ {
+  "a": "divine",
+  "b": "nonduality",
+  "her": true,
+  "co": 10,
+  "npmi": 0.3,
+  "why": "External, internal and mysteriac views are all true."
+ },
+ {
+  "a": "christianity",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Christmas follows it by four days."
+ },
+ {
+  "a": "pythagoras",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pythagorean four explains the 25th."
+ },
+ {
+  "a": "mysteries",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ancient festivals were organised around it."
+ },
+ {
+  "a": "sameandother",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Equinox and solstice are the two circles meeting and parting"
+ },
+ {
+  "a": "darkness",
+  "b": "solstice",
+  "her": true,
+  "co": 11,
+  "npmi": 0.49,
+  "why": "The winter solstice is the time of descent"
+ },
+ {
+  "a": "nyn",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The turnings help, but now is always the right moment"
+ },
+ {
+  "a": "cosmos",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "As below, so above: the sky mirrors consciousness"
+ },
+ {
+  "a": "body",
+  "b": "cave",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The body is one face of the cave."
+ },
+ {
+  "a": "body",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Biopolitics makes the body its object."
+ },
+ {
+  "a": "body",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Modern science took the body as its subject."
+ },
+ {
+  "a": "body",
+  "b": "senses",
+  "her": true,
+  "co": 34,
+  "npmi": 0.15,
+  "why": "The body is the doorway of sensation"
+ },
+ {
+  "a": "becoming",
+  "b": "body",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The body is always exchanging with the river"
+ },
+ {
+  "a": "body",
+  "b": "fragrance",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What the body exhales feeds other beings"
+ },
+ {
+  "a": "drysoul",
+  "b": "wisdom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The dry soul is the wisest."
+ },
+ {
+  "a": "eros",
+  "b": "wisdom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love and wisdom belong together."
+ },
+ {
+  "a": "pythagoras",
+  "b": "wisdom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pythagoras joined φιλότης and σοφία."
+ },
+ {
+  "a": "phronesis",
+  "b": "wisdom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Practical wisdom grows through right use of the senses"
+ },
+ {
+  "a": "freedom",
+  "b": "freewill",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Free will is the seed of freedom."
+ },
+ {
+  "a": "cave",
+  "b": "freedom",
+  "her": true,
+  "co": 32,
+  "npmi": 0.29,
+  "why": "Freedom is leaving the cave."
+ },
+ {
+  "a": "freedom",
+  "b": "stoics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Marcus Aurelius: free even in prison."
+ },
+ {
+  "a": "desire",
+  "b": "freedom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The longing for freedom hides in every desire"
+ },
+ {
+  "a": "freedom",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Freedom is for all beings, not one"
+ },
+ {
+  "a": "awakening",
+  "b": "freedom",
+  "her": true,
+  "co": 32,
+  "npmi": 0.19,
+  "why": "Awakening is the discovery of divine freedom"
+ },
+ {
+  "a": "freedom",
+  "b": "gnosis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Gnosis is freedom-giving knowledge"
+ },
+ {
+  "a": "freedom",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ithaca is freedom"
+ },
+ {
+  "a": "freedom",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Freedom comes from what cannot be taken away"
+ },
+ {
+  "a": "freedom",
+  "b": "politicaleros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Freedom is eros"
+ },
+ {
+  "a": "freedom",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Freedom needs a «No» and a «Yes»"
+ },
+ {
+  "a": "freedom",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A holistic path leaves nothing out."
+ },
+ {
+  "a": "eros",
+  "b": "freewill",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Wanting change opens the door to eros."
+ },
+ {
+  "a": "freewill",
+  "b": "stoics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "An unnamed Stoic: nothing happens to me without my free will."
+ },
+ {
+  "a": "freewill",
+  "b": "metastrophe",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Free will moves first in the turning"
+ },
+ {
+  "a": "freewill",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is the part of us untouched by the chains"
+ },
+ {
+  "a": "delphi",
+  "b": "shame",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The maxim is Delphic."
+ },
+ {
+  "a": "self",
+  "b": "shame",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is a dialogue with one's own parts."
+ },
+ {
+  "a": "ethics",
+  "b": "shame",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Shame is the conscience of character."
+ },
+ {
+  "a": "maieutics",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His art is midwifery."
+ },
+ {
+  "a": "diotima",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Diotima taught him."
+ },
+ {
+  "a": "death",
+  "b": "socrates",
+  "her": true,
+  "co": 20,
+  "npmi": 0.26,
+  "why": "Phaedo: philosophers practise dying."
+ },
+ {
+  "a": "eros",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He asks leaders to be in love with the Good."
+ },
+ {
+  "a": "aporia",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His not-knowing is the start of knowledge"
+ },
+ {
+  "a": "mysteries",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He was initiated"
+ },
+ {
+  "a": "science",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He warned against knowledge without justice"
+ },
+ {
+  "a": "meletethanatou",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophy as practice of death"
+ },
+ {
+  "a": "paideia",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He defines παιδεία as turning"
+ },
+ {
+  "a": "music",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His daimon said make music"
+ },
+ {
+  "a": "aphairesis",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth by subtraction"
+ },
+ {
+  "a": "daimon",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He followed his daimonion."
+ },
+ {
+  "a": "health",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He taught health as inner peace."
+ },
+ {
+  "a": "becoming",
+  "b": "parmenides",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What changes 'is not'."
+ },
+ {
+  "a": "consciousness",
+  "b": "parmenides",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To be is to be conscious."
+ },
+ {
+  "a": "parmenides",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Socrates 'sprouted' near him."
+ },
+ {
+  "a": "nous",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His nous is fluid."
+ },
+ {
+  "a": "kazantzakis",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Kazantzakis reached Plotinus' vision."
+ },
+ {
+  "a": "knowthyself",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Knowing the Good is knowing oneself."
+ },
+ {
+  "a": "plotinus",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He pairs θέασις with θέωσις"
+ },
+ {
+  "a": "odyssey",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He reads the Odyssey as the flight home"
+ },
+ {
+  "a": "eternity",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His treatise on eternity and time"
+ },
+ {
+  "a": "ego",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The 'other' that wrapped around us departs"
+ },
+ {
+  "a": "plotinus",
+  "b": "theoria",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His View"
+ },
+ {
+  "a": "logos",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Reasoning cannot reach the One"
+ },
+ {
+  "a": "plotinus",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Fellow Neoplatonist"
+ },
+ {
+  "a": "proclus",
+  "b": "titans",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He derives the Titans from τείνω."
+ },
+ {
+  "a": "dionysus",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He reads Dionysus' name."
+ },
+ {
+  "a": "proclus",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His commentary on the soul's χ"
+ },
+ {
+  "a": "equanimity",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Equanimity is revealed because essence is untouched"
+ },
+ {
+  "a": "myth",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Heroes' parentage decoded"
+ },
+ {
+  "a": "plato",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He comments on the Timaeus"
+ },
+ {
+  "a": "language",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His word-opening method"
+ },
+ {
+  "a": "proclus",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The naked soul"
+ },
+ {
+  "a": "philotes",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Loving all things"
+ },
+ {
+  "a": "goldenthread",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A holder of the thread before it was cut"
+ },
+ {
+  "a": "ares",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His commentary gives her war by division"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His commentary gives her war by union"
+ },
+ {
+  "a": "divineplay",
+  "b": "proclus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His divine dream is the world as God's drama"
+ },
+ {
+  "a": "proclus",
+  "b": "symbol",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Words are seeds of realisation."
+ },
+ {
+  "a": "proclus",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His reading of Zeus."
+ },
+ {
+  "a": "diotima",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The ladder ends in union with the One."
+ },
+ {
+  "a": "diotima",
+  "b": "fire",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her sea of truth is fiery."
+ },
+ {
+  "a": "beauty",
+  "b": "diotima",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She names the formless beauty"
+ },
+ {
+  "a": "apophatic",
+  "b": "diotima",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She describes by negation"
+ },
+ {
+  "a": "diotima",
+  "b": "feminine",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A key figure in reclaiming women in philosophy"
+ },
+ {
+  "a": "diotima",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her ladder includes political eros"
+ },
+ {
+  "a": "diotima",
+  "b": "katharsis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She cleansed the city's karmic residue"
+ },
+ {
+  "a": "diotima",
+  "b": "maieutics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her pregnancy of soul grounds Socrates' midwifery"
+ },
+ {
+  "a": "diotima",
+  "b": "politicaleros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Political eros crowns her ladder"
+ },
+ {
+  "a": "diotima",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The erotic path leads there."
+ },
+ {
+  "a": "diotima",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The goal of eros coincides with the goal of life."
+ },
+ {
+  "a": "apollo",
+  "b": "delphi",
+  "her": true,
+  "co": 10,
+  "npmi": 0.38,
+  "why": "He calls us at Delphi."
+ },
+ {
+  "a": "apollo",
+  "b": "dionysus",
+  "her": true,
+  "co": 6,
+  "npmi": 0.31,
+  "why": "They shake hands at Delphi."
+ },
+ {
+  "a": "apollo",
+  "b": "nyn",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Now is a name of Apollo"
+ },
+ {
+  "a": "apollo",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pythagoras as Apollo coming among the many"
+ },
+ {
+  "a": "apollo",
+  "b": "daimon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Socrates' daimonion is Apollonian consciousness"
+ },
+ {
+  "a": "apollo",
+  "b": "ennead",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His nine keys make the ennead, 'new one'."
+ },
+ {
+  "a": "apollo",
+  "b": "plutarch",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plutarch supplies the five cult names."
+ },
+ {
+  "a": "apollo",
+  "b": "cratylus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Cratylus supplies the four etymologies."
+ },
+ {
+  "a": "apollo",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "There is no Apollo without Zeus."
+ },
+ {
+  "a": "dionysus",
+  "b": "titans",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Titans dismember him."
+ },
+ {
+  "a": "dionysus",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Theatre shows the actor is not the role."
+ },
+ {
+  "a": "dionysus",
+  "b": "divineplay",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Life as Dionysus' theatre"
+ },
+ {
+  "a": "dionysus",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He embodies the Circle of the Other"
+ },
+ {
+  "a": "dionysus",
+  "b": "myth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Titans myth read symbolically"
+ },
+ {
+  "a": "dionysus",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Duality and non-duality dance together through him"
+ },
+ {
+  "a": "dionysus",
+  "b": "hellenism",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Explains Hellenism's engagement with life rather than withdrawal"
+ },
+ {
+  "a": "dionysus",
+  "b": "plutarch",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plutarch treats them as one."
+ },
+ {
+  "a": "dionysus",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Dionysus is the One becoming many."
+ },
+ {
+  "a": "dionysus",
+  "b": "emanation",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Going out into many and returning."
+ },
+ {
+  "a": "ares",
+  "b": "courage",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ares is the fighter's quality."
+ },
+ {
+  "a": "ares",
+  "b": "arete",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We must fight on the path of virtue."
+ },
+ {
+  "a": "ares",
+  "b": "harmony",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He guards Balance."
+ },
+ {
+  "a": "ares",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He explains the Republic's guardians."
+ },
+ {
+  "a": "ares",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Self-knowledge needs the warrior."
+ },
+ {
+  "a": "ares",
+  "b": "athenagoddess",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Athena's war by union rules over his war by division"
+ },
+ {
+  "a": "ares",
+  "b": "herkos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He is the fence and outer shell of Olympus"
+ },
+ {
+  "a": "ares",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He carries Neikos, division, the partner of Philotes"
+ },
+ {
+  "a": "ares",
+  "b": "ergon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "All work and action run on Arean energy"
+ },
+ {
+  "a": "hestia",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Odysseus' soaking is the wetting of the flame."
+ },
+ {
+  "a": "drysoul",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophy dries and rekindles it."
+ },
+ {
+  "a": "apollo",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo calls us to seek it."
+ },
+ {
+  "a": "hestia",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Hestia is the Same"
+ },
+ {
+  "a": "ego",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Hestia replaces the ego at the centre"
+ },
+ {
+  "a": "daimon",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The inner flame is a hearth"
+ },
+ {
+  "a": "eternity",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plotinus' eternity 'standing in the one' echoes the still centre"
+ },
+ {
+  "a": "apeiron",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She is the point where the infinite localises"
+ },
+ {
+  "a": "hestia",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The hearth sits at the soul's centre"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Finding the hearth is the condition of eudaimonia"
+ },
+ {
+  "a": "herkos",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ares guards her centre as the outer shell"
+ },
+ {
+  "a": "divineplay",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The world is the dream she dreams"
+ },
+ {
+  "a": "hestia",
+  "b": "will",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The steady will has one focus."
+ },
+ {
+  "a": "hestia",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The point contains all dimensions."
+ },
+ {
+  "a": "aion",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Kabeiric Child."
+ },
+ {
+  "a": "aion",
+  "b": "being",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Aion is 'that which always is'."
+ },
+ {
+  "a": "drysoul",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Poseidon's waters are the passions."
+ },
+ {
+  "a": "odyssey",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The origin is the goal"
+ },
+ {
+  "a": "apophatic",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ithaca is reached only when no 'something' remains"
+ },
+ {
+  "a": "homer",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Homer's epic"
+ },
+ {
+  "a": "ithaca",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The goal of the journey"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The divine guide of the hero"
+ },
+ {
+  "a": "odyssey",
+  "b": "symbol",
+  "her": true,
+  "co": 8,
+  "npmi": 0.2,
+  "why": "It works as a symbol and archetype"
+ },
+ {
+  "a": "delphi",
+  "b": "dionysus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Dionysus meets Apollo there."
+ },
+ {
+  "a": "cosmos",
+  "b": "delphi",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "'κόσμιος γίνου' means become cosmic"
+ },
+ {
+  "a": "delphi",
+  "b": "delphice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cryptic E stands beside the precept"
+ },
+ {
+  "a": "delphi",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His birth was prophesied there and he served as its priest"
+ },
+ {
+  "a": "delphi",
+  "b": "mantike",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Each of us can be the oracle."
+ },
+ {
+  "a": "delphi",
+  "b": "dialectic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its lesche hosted dialogue."
+ },
+ {
+  "a": "mysteries",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The mysteries encode the second birth."
+ },
+ {
+  "a": "mysteries",
+  "b": "persephone",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eleusis tells Persephone's descent and return."
+ },
+ {
+  "a": "mysteries",
+  "b": "transcendence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Μύω, closing the senses, begins the turn inward."
+ },
+ {
+  "a": "mysteries",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The senses are the doors of the world's initiation hall"
+ },
+ {
+  "a": "mysteries",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "ἐποπτεία is a beholding"
+ },
+ {
+  "a": "apophatic",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A mystery is what cannot be spoken"
+ },
+ {
+  "a": "mysteries",
+  "b": "nonduality",
+  "her": true,
+  "co": 12,
+  "npmi": 0.17,
+  "why": "The highest grade is seeing all as one"
+ },
+ {
+  "a": "mysteries",
+  "b": "myth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Myth initiates through symbols"
+ },
+ {
+  "a": "mysteries",
+  "b": "pythagoras",
+  "her": true,
+  "co": 23,
+  "npmi": 0.26,
+  "why": "He was initiated and reformed rites"
+ },
+ {
+  "a": "arete",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The theurgic virtues are initiatory"
+ },
+ {
+  "a": "goldenthread",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Orpheus founded the mysteries"
+ },
+ {
+  "a": "divine",
+  "b": "mysteries",
+  "her": true,
+  "co": 22,
+  "npmi": 0.25,
+  "why": "The mysteriac approach lives the god as the One."
+ },
+ {
+  "a": "awakening",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening is resurrection."
+ },
+ {
+  "a": "dialectic",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Initiates gathered at the lesche."
+ },
+ {
+  "a": "emanation",
+  "b": "fire",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The source is fiery."
+ },
+ {
+  "a": "emanation",
+  "b": "light",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Light is an outflow of fire."
+ },
+ {
+  "a": "emanation",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The model is Neoplatonic."
+ },
+ {
+  "a": "emanation",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Odysseus' return is the soul's return."
+ },
+ {
+  "a": "emanation",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Zeus generates the many."
+ },
+ {
+  "a": "drysoul",
+  "b": "fire",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The fire of the Good warms the soul dry."
+ },
+ {
+  "a": "arete",
+  "b": "drysoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtue loosens the passions."
+ },
+ {
+  "a": "maieutics",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "True teaching is midwifery."
+ },
+ {
+  "a": "kazantzakis",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He went beyond the One."
+ },
+ {
+  "a": "eros",
+  "b": "kazantzakis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To love is to be lost."
+ },
+ {
+  "a": "euzen",
+  "b": "kazantzakis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The deep heartbeat is the good life."
+ },
+ {
+  "a": "good",
+  "b": "kazantzakis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Sun of the Good beyond unity."
+ },
+ {
+  "a": "ares",
+  "b": "kazantzakis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His warlike path matches the warrior face of God"
+ },
+ {
+  "a": "idiotes",
+  "b": "kazantzakis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His responsibility for the whole earth refuses private withdrawal"
+ },
+ {
+  "a": "eros",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Disappointment with becoming lets the love of the Good catch."
+ },
+ {
+  "a": "self",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Depression breaks a persona that has stuck."
+ },
+ {
+  "a": "ego",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Forgetting makes us identify with the separate part"
+ },
+ {
+  "a": "krisis",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Crises seed transformation"
+ },
+ {
+  "a": "cosmos",
+  "b": "nature",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Living by nature is living with the rational cosmos."
+ },
+ {
+  "a": "cosmos",
+  "b": "justice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Justice keeps it balanced."
+ },
+ {
+  "a": "cosmos",
+  "b": "harmony",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its co-existence is harmony."
+ },
+ {
+  "a": "cosmos",
+  "b": "nonduality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Maker and made are one."
+ },
+ {
+  "a": "cosmos",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Everything in the cosmos tends toward its end"
+ },
+ {
+  "a": "cosmos",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The soul's circles mirror the sky"
+ },
+ {
+  "a": "cosmos",
+  "b": "plotinus",
+  "her": true,
+  "co": 18,
+  "npmi": 0.15,
+  "why": "Plotinus' σύμπας"
+ },
+ {
+  "a": "cosmos",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love holds the cosmos together"
+ },
+ {
+  "a": "cosmos",
+  "b": "poseidon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cosmic ocean"
+ },
+ {
+  "a": "cosmos",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Studying it is knowing God's mind"
+ },
+ {
+  "a": "cosmos",
+  "b": "symbol",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Symbols point to cosmic laws"
+ },
+ {
+  "a": "logos",
+  "b": "nature",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Nature is ἔλλογος."
+ },
+ {
+  "a": "nature",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Modern science cut itself off from φύσις as a measure."
+ },
+ {
+  "a": "aristotle",
+  "b": "nature",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The polis exists by nature."
+ },
+ {
+  "a": "consciousness",
+  "b": "fire",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The fire is primordial consciousness."
+ },
+ {
+  "a": "consciousness",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "One field in many forms."
+ },
+ {
+  "a": "consciousness",
+  "b": "matter",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Matter is consciousness appearing as matter"
+ },
+ {
+  "a": "consciousness",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She expects science to confirm the primacy of consciousness"
+ },
+ {
+  "a": "consciousness",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love is another name for its unity"
+ },
+ {
+  "a": "apollo",
+  "b": "consciousness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His names match degrees of consciousness."
+ },
+ {
+  "a": "consciousness",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Being conscious means being a witness of truth."
+ },
+ {
+  "a": "arete",
+  "b": "justice",
+  "her": true,
+  "co": 7,
+  "npmi": 0.2,
+  "why": "Justice restores the mean, which is virtue."
+ },
+ {
+  "a": "arete",
+  "b": "courage",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Γενναιότητα is the first moral virtue."
+ },
+ {
+  "a": "arete",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtue feeds the embryo of awakening."
+ },
+ {
+  "a": "arete",
+  "b": "ethics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtue is the soul's good habit of energy"
+ },
+ {
+  "a": "arete",
+  "b": "katharsis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Cathartic virtues are the second grade"
+ },
+ {
+  "a": "arete",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love practised becomes virtue"
+ },
+ {
+  "a": "arete",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her source for virtue as flow"
+ },
+ {
+  "a": "arete",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtues are the soul's harmony"
+ },
+ {
+  "a": "arete",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ἰθάκη is an anagram of ἠθική"
+ },
+ {
+  "a": "arete",
+  "b": "kalliergeia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtues prepare the soil of the soul"
+ },
+ {
+  "a": "arete",
+  "b": "tripartitesoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Knowing the soul's parts restores its flow"
+ },
+ {
+  "a": "arete",
+  "b": "will",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Virtue needs one steady direction."
+ },
+ {
+  "a": "apollo",
+  "b": "arete",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The archer tames the wild."
+ },
+ {
+  "a": "cave",
+  "b": "christianity",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cave of the Nativity is Plato's Cave."
+ },
+ {
+  "a": "christianity",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Joseph is the doubting mind."
+ },
+ {
+  "a": "christianity",
+  "b": "dionysus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Dionysia preceded Christmas."
+ },
+ {
+  "a": "christianity",
+  "b": "goldenthread",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It cut the lineage"
+ },
+ {
+  "a": "christianity",
+  "b": "daimon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It turned daimon into demon"
+ },
+ {
+  "a": "christianity",
+  "b": "spirituality",
+  "her": true,
+  "co": 13,
+  "npmi": 0.21,
+  "why": "Religion versus spiritual path"
+ },
+ {
+  "a": "christianity",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Universities inherited its exclusions"
+ },
+ {
+  "a": "politics",
+  "b": "science",
+  "her": true,
+  "co": 31,
+  "npmi": 0.16,
+  "why": "Science became a means of power."
+ },
+ {
+  "a": "hellenism",
+  "b": "science",
+  "her": true,
+  "co": 30,
+  "npmi": 0.12,
+  "why": "Science as spiritual path is Hellenism's gift"
+ },
+ {
+  "a": "matter",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Physics dissolves matter into energy and flow"
+ },
+ {
+  "a": "kosmotheasis",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The humanities need a new worldview"
+ },
+ {
+  "a": "oneness",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It cannot reach the One"
+ },
+ {
+  "a": "mantike",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Great ideas come by mantic flashes."
+ },
+ {
+  "a": "science",
+  "b": "spirituality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Knowledge versus wonder-mongering."
+ },
+ {
+  "a": "cave",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Those who know have left the cave."
+ },
+ {
+  "a": "self",
+  "b": "titans",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Titans lock us into roles."
+ },
+ {
+  "a": "oneness",
+  "b": "self",
+  "her": true,
+  "co": 34,
+  "npmi": 0.16,
+  "why": "The secret self is oneself as the One"
+ },
+ {
+  "a": "daimon",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The daimon is the true inner self"
+ },
+ {
+  "a": "eros",
+  "b": "self",
+  "her": true,
+  "co": 13,
+  "npmi": 0.17,
+  "why": "Eros first shapes our relation to ourselves."
+ },
+ {
+  "a": "idiotes",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The private persona is a narrow self."
+ },
+ {
+  "a": "anamnesis",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Remember that Being is common."
+ },
+ {
+  "a": "cave",
+  "b": "titans",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Their pull forges the chains."
+ },
+ {
+  "a": "fire",
+  "b": "stoics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ἐκπύρωσις is the fire's periodic blaze."
+ },
+ {
+  "a": "eros",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Φιλότης as the first ingredient."
+ },
+ {
+  "a": "becoming",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His opposites belong to becoming."
+ },
+ {
+  "a": "oneness",
+  "b": "pythagoras",
+  "her": true,
+  "co": 19,
+  "npmi": 0.19,
+  "why": "Union with the Monad"
+ },
+ {
+  "a": "katharsis",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Silence purified the senses"
+ },
+ {
+  "a": "cosmos",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Number structures the sky"
+ },
+ {
+  "a": "hellenism",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pythagoras is a link in the lineage"
+ },
+ {
+  "a": "east",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Contemporary of Lao Tzu and the Buddha; studied abroad"
+ },
+ {
+  "a": "hellenicmeditation",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His Hellenic mindfulness"
+ },
+ {
+  "a": "goldenthread",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He begins the Platonic lineage"
+ },
+ {
+  "a": "henosis",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His word for the aim of philosophy"
+ },
+ {
+  "a": "music",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Make music: tune the soul's frequencies"
+ },
+ {
+  "a": "orpheus",
+  "b": "pythagoras",
+  "her": true,
+  "co": 8,
+  "npmi": 0.21,
+  "why": "He reformed the degenerated Orphic current"
+ },
+ {
+  "a": "goldenverses",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Golden Verses carry his teaching"
+ },
+ {
+  "a": "pythagoras",
+  "b": "symbol",
+  "her": true,
+  "co": 16,
+  "npmi": 0.18,
+  "why": "His name is decoded level by level, like a temple"
+ },
+ {
+  "a": "politics",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His highest initiation was political"
+ },
+ {
+  "a": "harmony",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "No harmony without opposition."
+ },
+ {
+  "a": "ennead",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Nine as the 'new one'."
+ },
+ {
+  "a": "health",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her reading of ΥΓΙΕΙΑ looks Pythagorean."
+ },
+ {
+  "a": "harmony",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Music is the art of harmonising opposites."
+ },
+ {
+  "a": "apollo",
+  "b": "harmony",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "ὁμοπολῶν moves the poles together."
+ },
+ {
+  "a": "harmony",
+  "b": "peace",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros, peace and harmony all join things into one."
+ },
+ {
+  "a": "ethics",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We make an ethos in our role."
+ },
+ {
+  "a": "ethics",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The anagram makes ethics the road home"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "ethics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The goddess knows the ἤθη"
+ },
+ {
+  "a": "ethics",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ethics follows from recognising common self"
+ },
+ {
+  "a": "ethics",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Sound shapes ethos"
+ },
+ {
+  "a": "ethics",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ethics is the soul's structure and currents"
+ },
+ {
+  "a": "courage",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The «No» of 1940 rose from cultivated courage"
+ },
+ {
+  "a": "asabove",
+  "b": "courage",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Courage within appears as resistance without"
+ },
+ {
+  "a": "cave",
+  "b": "courage",
+  "her": true,
+  "co": 5,
+  "npmi": 0.23,
+  "why": "The returning philosopher needs courage to face the prisoners"
+ },
+ {
+  "a": "courage",
+  "b": "immortality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The hero who defies death touches eternity"
+ },
+ {
+  "a": "death",
+  "b": "persephone",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "First she bears death."
+ },
+ {
+  "a": "light",
+  "b": "persephone",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Then she bears light."
+ },
+ {
+  "a": "katharsis",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The senses are to be purified, not renounced"
+ },
+ {
+  "a": "fragrance",
+  "b": "senses",
+  "her": true,
+  "co": 8,
+  "npmi": 0.3,
+  "why": "Smell is the sense closest to φρόνησις and memory"
+ },
+ {
+  "a": "desire",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The appetite of the senses hides the soul's longing for the Good"
+ },
+ {
+  "a": "haptesthai",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is touched yet dimensionless"
+ },
+ {
+  "a": "fragrance",
+  "b": "phronesis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Smell opens a direct gate to φρόνησις"
+ },
+ {
+  "a": "fragrance",
+  "b": "katharsis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pure aromas cleanse and raise the aura"
+ },
+ {
+  "a": "anamnesis",
+  "b": "fragrance",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Scent awakens the soul's memory"
+ },
+ {
+  "a": "equanimity",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Her equanimity is never apathy but equal love"
+ },
+ {
+  "a": "love",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love follows from seeing that nothing is separate"
+ },
+ {
+  "a": "love",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Cosmic love is what we truly are"
+ },
+ {
+  "a": "agnoia",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love is the cure for the ignorance of separateness"
+ },
+ {
+  "a": "love",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love is the beginning of wisdom"
+ },
+ {
+  "a": "daimon",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The daimon rests in universal love."
+ },
+ {
+  "a": "harmony",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love holds the world together."
+ },
+ {
+  "a": "beauty",
+  "b": "cave",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Returning to the cave means raising the world to beauty"
+ },
+ {
+  "a": "beauty",
+  "b": "hellenism",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Greek art shows the sensible transfigured"
+ },
+ {
+  "a": "beauty",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Beauty is the divine made visible to the senses"
+ },
+ {
+  "a": "darkness",
+  "b": "katharsis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Shadow work is a purification"
+ },
+ {
+  "a": "hellenism",
+  "b": "kosmotheasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Hellenism is a holistic worldview"
+ },
+ {
+  "a": "east",
+  "b": "hellenism",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The same core, a different flavour"
+ },
+ {
+  "a": "hellenism",
+  "b": "spirituality",
+  "her": true,
+  "co": 41,
+  "npmi": 0.17,
+  "why": "A secular spiritual path"
+ },
+ {
+  "a": "goldenthread",
+  "b": "hellenism",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its broken and rekindled lineage"
+ },
+ {
+  "a": "hellenism",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Modern Greek identity carries its wound"
+ },
+ {
+  "a": "hellenism",
+  "b": "krisis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Crisis makes Greece a bastion of renaissance"
+ },
+ {
+  "a": "hellene",
+  "b": "hellenism",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its bearer is the Hellene"
+ },
+ {
+  "a": "hellenism",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its first principle is that all is one"
+ },
+ {
+  "a": "asabove",
+  "b": "hellenism",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its second principle is mirroring across levels"
+ },
+ {
+  "a": "myth",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Zeus symbolises our nous"
+ },
+ {
+  "a": "myth",
+  "b": "odyssey",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Odyssey is the soul's journey"
+ },
+ {
+  "a": "cave",
+  "b": "myth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Cave encodes truth in inexhaustible layers"
+ },
+ {
+  "a": "myth",
+  "b": "sun",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ancient sun worship was symbolic, not primitive"
+ },
+ {
+  "a": "myth",
+  "b": "symbol",
+  "her": true,
+  "co": 6,
+  "npmi": 0.17,
+  "why": "Myths work as symbols"
+ },
+ {
+  "a": "homer",
+  "b": "myth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Homer coded laws in story"
+ },
+ {
+  "a": "myth",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato filtered myths for children"
+ },
+ {
+  "a": "divineplay",
+  "b": "ego",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Play the role, do not be the role"
+ },
+ {
+  "a": "daimon",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eudaimonia is known as pure minds, νόες"
+ },
+ {
+  "a": "daimon",
+  "b": "haptesthai",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Touching truth sets it ablaze"
+ },
+ {
+  "a": "daimon",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros exists to remind us of it."
+ },
+ {
+  "a": "daimon",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The daimonion's command was musical."
+ },
+ {
+  "a": "anamnesis",
+  "b": "daimon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The path is a remembering of what we are."
+ },
+ {
+  "a": "solstice",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Zeus is fed at the Capricorn gate"
+ },
+ {
+  "a": "awakening",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening is a liberating witness"
+ },
+ {
+  "a": "consciousness",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Every birth of his is a birth of consciousness"
+ },
+ {
+  "a": "oneness",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "As Zeus he returns things to the source"
+ },
+ {
+  "a": "east",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The seven divisions and the seven chakras"
+ },
+ {
+  "a": "east",
+  "b": "nyn",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Buddha's now"
+ },
+ {
+  "a": "east",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The bodhisattva and the Greek πολιτικός"
+ },
+ {
+  "a": "east",
+  "b": "spirituality",
+  "her": true,
+  "co": 19,
+  "npmi": 0.24,
+  "why": "Eastern devotion versus Hellenic secular path"
+ },
+ {
+  "a": "east",
+  "b": "katharsis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Energetic cleansing is not only Eastern"
+ },
+ {
+  "a": "divineplay",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Beholding links to the theatre"
+ },
+ {
+  "a": "divine",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Beholding contains the god and the goddess."
+ },
+ {
+  "a": "spirituality",
+  "b": "theasis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Beholding versus spectacular visions."
+ },
+ {
+  "a": "aletheia",
+  "b": "anamnesis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth as unforgetting rests on recollection"
+ },
+ {
+  "a": "anamnesis",
+  "b": "goldenthread",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The chain survives in the soul's memory"
+ },
+ {
+  "a": "anamnesis",
+  "b": "entelecheia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The seed already holds what it will become"
+ },
+ {
+  "a": "anamnesis",
+  "b": "eros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros is a reminder."
+ },
+ {
+  "a": "apollo",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Same is Apollonian"
+ },
+ {
+  "a": "phronesis",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Phronesis grows through the right use of the senses"
+ },
+ {
+  "a": "equanimity",
+  "b": "phronesis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Calm restores judgment"
+ },
+ {
+  "a": "becoming",
+  "b": "phronesis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is understanding of flow"
+ },
+ {
+  "a": "kosmotheasis",
+  "b": "matter",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Materialism is a mistaken worldview"
+ },
+ {
+  "a": "cave",
+  "b": "matter",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Taking matter as stable is the newborn's upside-down view"
+ },
+ {
+  "a": "eternity",
+  "b": "nyn",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "In the noetic everything happens now"
+ },
+ {
+  "a": "divineplay",
+  "b": "eternity",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Aion is a child playing"
+ },
+ {
+  "a": "eternity",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Time arises with the χ of duality"
+ },
+ {
+  "a": "eros",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The teleology of eros."
+ },
+ {
+  "a": "daimon",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The goal is the good daimon we are."
+ },
+ {
+  "a": "aporia",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Paideia begins with forgetting"
+ },
+ {
+  "a": "apollo",
+  "b": "aporia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Asking lets the god reveal himself."
+ },
+ {
+  "a": "aporia",
+  "b": "cave",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The restless prisoner begins to ask."
+ },
+ {
+  "a": "katharsis",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The naked soul"
+ },
+ {
+  "a": "katharsis",
+  "b": "symbol",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Only living archetypes can purge an audience"
+ },
+ {
+  "a": "katharsis",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Purification prepares for initiation"
+ },
+ {
+  "a": "health",
+  "b": "katharsis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Washing is healing."
+ },
+ {
+  "a": "apollo",
+  "b": "katharsis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "ἀπολούων is one of his names."
+ },
+ {
+  "a": "katharsis",
+  "b": "will",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Cleansing begins with willing to change."
+ },
+ {
+  "a": "katharsis",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The habits removed are those that cause suffering."
+ },
+ {
+  "a": "divineplay",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "θάτερον is the theatre of roles"
+ },
+ {
+  "a": "cave",
+  "b": "divineplay",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The shadows of the cave are the shadow play"
+ },
+ {
+  "a": "divineplay",
+  "b": "equanimity",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The awakened watch without identifying"
+ },
+ {
+  "a": "acceptance",
+  "b": "divineplay",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Accepting the drama opens the ego to the Whole"
+ },
+ {
+  "a": "equanimity",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Fullness independent of conditions"
+ },
+ {
+  "a": "kosmotheasis",
+  "b": "senses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Worldview decides how we treat the senses"
+ },
+ {
+  "a": "measure",
+  "b": "sameandother",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The circles keep or lose their measure"
+ },
+ {
+  "a": "hestia",
+  "b": "measure",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The mean is the hearth"
+ },
+ {
+  "a": "measure",
+  "b": "solstice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The mean favours the inner equinox"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "measure",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The centre is eudaimonia"
+ },
+ {
+  "a": "apollo",
+  "b": "delphice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "One of the two inscriptions she ascribes to the god himself"
+ },
+ {
+  "a": "delphice",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It names the true self as the divine"
+ },
+ {
+  "a": "delphice",
+  "b": "plutarch",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plutarch wrote On the E at Delphi."
+ },
+ {
+  "a": "delphice",
+  "b": "justice",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Five at the centre is justice."
+ },
+ {
+  "a": "philotes",
+  "b": "poseidon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He embodies the cosmic cohesive force"
+ },
+ {
+  "a": "consciousness",
+  "b": "poseidon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The ocean is an ocean of consciousness"
+ },
+ {
+  "a": "love",
+  "b": "poseidon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "He is love in its highest register"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She leads the soul back home"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "She is philosophy's patron"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "gratitude",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Gratitude both invites and flows from the fruiting of wisdom"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "politics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Through providence she keeps cities and souls in unity so bloody war is not needed"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Orpheus carries Athena's primordial wisdom"
+ },
+ {
+  "a": "agnoia",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is the remedy for separateness"
+ },
+ {
+  "a": "athenagoddess",
+  "b": "philotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Athena carries union"
+ },
+ {
+  "a": "eros",
+  "b": "idiotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Eros opens us out of private life"
+ },
+ {
+  "a": "idiotes",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love for another is the first opening"
+ },
+ {
+  "a": "aletheia",
+  "b": "idiotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cure is lifting lethe"
+ },
+ {
+  "a": "idiotes",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "1940 was a «No» to ἰδιώτευσις"
+ },
+ {
+  "a": "ego",
+  "b": "idiotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His shell is the ego"
+ },
+ {
+  "a": "dialectic",
+  "b": "idiotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cure is shared dialogue."
+ },
+ {
+  "a": "eutychia",
+  "b": "hestia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Without the soul's hearth only fortune is possible"
+ },
+ {
+  "a": "eutychia",
+  "b": "krisis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Crises reveal fortune's instability"
+ },
+ {
+  "a": "eutychia",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Only the self cannot be taken away"
+ },
+ {
+  "a": "entelecheia",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Education should let each person manifest their potential"
+ },
+ {
+  "a": "entelecheia",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The telos is already within us"
+ },
+ {
+  "a": "entelecheia",
+  "b": "telos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is the telos held within"
+ },
+ {
+  "a": "gnosis",
+  "b": "theoria",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The third meditation stage is gnosis"
+ },
+ {
+  "a": "gnosis",
+  "b": "hellenicmeditation",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The meditation path ends in it"
+ },
+ {
+  "a": "hellenicmeditation",
+  "b": "theoria",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The final stage of meditation"
+ },
+ {
+  "a": "oneness",
+  "b": "theoria",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The seer becomes one with the seen"
+ },
+ {
+  "a": "east",
+  "b": "hellenicmeditation",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It resembles yoga but is in the Greek scriptures"
+ },
+ {
+  "a": "hellenicmeditation",
+  "b": "silence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Emptying the mind."
+ },
+ {
+  "a": "hellenicmeditation",
+  "b": "nous",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pure nous resting in itself."
+ },
+ {
+  "a": "hellenicmeditation",
+  "b": "mantike",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Unmediated knowing arises in that emptiness."
+ },
+ {
+  "a": "apeiron",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The infinite is what we are"
+ },
+ {
+  "a": "apeiron",
+  "b": "consciousness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The infinite focuses into a localised mind"
+ },
+ {
+  "a": "psychopolitics",
+  "b": "symbol",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Trampling a people's symbol wounds its psyche"
+ },
+ {
+  "a": "homer",
+  "b": "symbol",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Homer is the source of the archetypes"
+ },
+ {
+  "a": "awakening",
+  "b": "symbol",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening is unspeakable and needs symbols."
+ },
+ {
+  "a": "senses",
+  "b": "symbol",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The noetic is not reducible to the sensible."
+ },
+ {
+  "a": "language",
+  "b": "symbol",
+  "her": true,
+  "co": 14,
+  "npmi": 0.13,
+  "why": "Names and words carry the teaching."
+ },
+ {
+  "a": "homer",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato studied and filtered him"
+ },
+ {
+  "a": "hellenism",
+  "b": "homer",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His epics are pillars of Greek identity"
+ },
+ {
+  "a": "hellenism",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Greece too must return to its own root"
+ },
+ {
+  "a": "immanence",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Arrival is not completion: one returns and works"
+ },
+ {
+  "a": "cave",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Facing the suitors parallels going back into the cave"
+ },
+ {
+  "a": "homer",
+  "b": "ithaca",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Iliad and Odyssey frame the journey."
+ },
+ {
+  "a": "psychopolitics",
+  "b": "republic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Soul and city mirror each other"
+ },
+ {
+  "a": "music",
+  "b": "republic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its regulation of music"
+ },
+ {
+  "a": "homer",
+  "b": "republic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its book on Homer"
+ },
+ {
+  "a": "divine",
+  "b": "spirituality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Philosophers related to the gods differently from popular religion"
+ },
+ {
+  "a": "ares",
+  "b": "spirituality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Spirituality needs a cultivated inner warrior"
+ },
+ {
+  "a": "herkos",
+  "b": "spirituality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Refinement within needs boundaries without"
+ },
+ {
+  "a": "ergon",
+  "b": "spirituality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Awakening must become action"
+ },
+ {
+  "a": "courage",
+  "b": "spirituality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The warrior's courage is also the philosopher's"
+ },
+ {
+  "a": "divine",
+  "b": "zeus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Zeus as creative consciousness"
+ },
+ {
+  "a": "apollo",
+  "b": "divine",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo as transcendent aspect"
+ },
+ {
+  "a": "divine",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The divine is in all"
+ },
+ {
+  "a": "divine",
+  "b": "myth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Myths decode the divine operations"
+ },
+ {
+  "a": "divine",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Orphics teach the internal approach."
+ },
+ {
+  "a": "language",
+  "b": "logos",
+  "her": true,
+  "co": 17,
+  "npmi": 0.16,
+  "why": "Word and consciousness"
+ },
+ {
+  "a": "language",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Language works like music on the soul"
+ },
+ {
+  "a": "ergon",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Music is followed by work"
+ },
+ {
+  "a": "apollo",
+  "b": "music",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Music is the fourth of his powers."
+ },
+ {
+  "a": "psychopolitics",
+  "b": "tripartitesoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The ruling part of the soul shapes the regime"
+ },
+ {
+  "a": "asabove",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "As within, so without"
+ },
+ {
+  "a": "paideia",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cure is cultivation through παιδεία"
+ },
+ {
+  "a": "aphrodite",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Two Aphrodites, two kinds of eros a society can promote."
+ },
+ {
+  "a": "music",
+  "b": "psychopolitics",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The older test looked at a society's arts."
+ },
+ {
+  "a": "agnoia",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Education must heal ignorance"
+ },
+ {
+  "a": "agnoia",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Self-knowledge is the remedy"
+ },
+ {
+  "a": "knowthyself",
+  "b": "krisis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Crisis turns us within"
+ },
+ {
+  "a": "krisis",
+  "b": "paideia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Crisis distorts education choices"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "krisis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Losing externals shows the basis of being well is within"
+ },
+ {
+  "a": "krisis",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Change without a rooted «Yes» is swallowed"
+ },
+ {
+  "a": "ethics",
+  "b": "feminine",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Emotion and character belong in knowledge"
+ },
+ {
+  "a": "courage",
+  "b": "herkos",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Guarding our gains and virtues takes warrior courage"
+ },
+ {
+  "a": "disidentification",
+  "b": "meletethanatou",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What dies is the illusory self bounded by the skin"
+ },
+ {
+  "a": "haptesthai",
+  "b": "meletethanatou",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Touching truth and dying are, she says, the same"
+ },
+ {
+  "a": "meletethanatou",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The death of the illusory self is also a rebirth"
+ },
+ {
+  "a": "dionysus",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Orphic way is the Dionysian way of the heart"
+ },
+ {
+  "a": "ares",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His hymn cycle ends with Ares"
+ },
+ {
+  "a": "goldenthread",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Orphic memory in the heart is where the chain survives"
+ },
+ {
+  "a": "apollo",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The task is to become Apollonian."
+ },
+ {
+  "a": "consciousness",
+  "b": "knowtheknower",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The knower is pure consciousness"
+ },
+ {
+  "a": "disidentification",
+  "b": "knowtheknower",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "You have thoughts and a body but are not them"
+ },
+ {
+  "a": "freedom",
+  "b": "knowtheknower",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "What it finds is freedom and boundlessness"
+ },
+ {
+  "a": "aphairesis",
+  "b": "disidentification",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is reached by removing identities"
+ },
+ {
+  "a": "body",
+  "b": "disidentification",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We are not the body we have"
+ },
+ {
+  "a": "disidentification",
+  "b": "ego",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The ego is the narrow identity we shed"
+ },
+ {
+  "a": "aletheia",
+  "b": "aphairesis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Ἀ-λήθεια is truth as removal of forgetting"
+ },
+ {
+  "a": "aphairesis",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Each subtraction is a «No»"
+ },
+ {
+  "a": "anamnesis",
+  "b": "aphairesis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We remove what hides what we already know"
+ },
+ {
+  "a": "aphairesis",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is reached by removing, not adding"
+ },
+ {
+  "a": "aletheia",
+  "b": "feminine",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is feminine, ever giving birth"
+ },
+ {
+  "a": "fire",
+  "b": "haptesthai",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Touching is kindling"
+ },
+ {
+  "a": "haptesthai",
+  "b": "truth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Truth is touched, not argued"
+ },
+ {
+  "a": "henosis",
+  "b": "poseidon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The cosmic ocean Poseidon symbolises"
+ },
+ {
+  "a": "east",
+  "b": "henosis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It parallels yoga and nirvana"
+ },
+ {
+  "a": "ergon",
+  "b": "immanence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The freed one returns to the cave to work"
+ },
+ {
+  "a": "goldenverses",
+  "b": "immortality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "They promise immortality as realisation"
+ },
+ {
+  "a": "disidentification",
+  "b": "goldenverses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Liberation is dropping 'I am the body'"
+ },
+ {
+  "a": "equanimity",
+  "b": "goldenverses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Bearing fate with sacred distance"
+ },
+ {
+  "a": "ego",
+  "b": "immortality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Leaving the ego behind is the hero's act"
+ },
+ {
+  "a": "immortality",
+  "b": "secondbirth",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The second birth reveals the unborn self"
+ },
+ {
+  "a": "eternity",
+  "b": "immortality",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Becoming one with the all is becoming eternal"
+ },
+ {
+  "a": "hellene",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The 1940 «No» made Greeks Hellenes in actuality"
+ },
+ {
+  "a": "hellene",
+  "b": "idiotes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A Hellene cannot withdraw into private interest"
+ },
+ {
+  "a": "archaios",
+  "b": "hellene",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To be Hellene is to return to the principles"
+ },
+ {
+  "a": "archaios",
+  "b": "good",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The first principle is the Good"
+ },
+ {
+  "a": "archaios",
+  "b": "entelecheia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Our entelechy is to align with the first principle"
+ },
+ {
+  "a": "kalliergeia",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The «Yes» is cultivation"
+ },
+ {
+  "a": "arete",
+  "b": "noandyes",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Like Heracles at the crossroads, each moment asks a yes and a no"
+ },
+ {
+  "a": "asabove",
+  "b": "plato",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato expresses it best, she says"
+ },
+ {
+  "a": "beauty",
+  "b": "politicaleros",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is activated by the καλόν"
+ },
+ {
+  "a": "kalliergeia",
+  "b": "nature",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It follows nature's cycles"
+ },
+ {
+  "a": "soul",
+  "b": "tripartitesoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The parts are powers of the soul, not the soul"
+ },
+ {
+  "a": "desire",
+  "b": "tripartitesoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The desiring part is the sum of desires"
+ },
+ {
+  "a": "ares",
+  "b": "tripartitesoul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The spirited part is Ares' domain"
+ },
+ {
+  "a": "acceptance",
+  "b": "ego",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The ego is resistance to what is"
+ },
+ {
+  "a": "acceptance",
+  "b": "equanimity",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Accepting and letting go"
+ },
+ {
+  "a": "acceptance",
+  "b": "goldenverses",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Bear what fate brings without indignation"
+ },
+ {
+  "a": "eudaimonia",
+  "b": "gratitude",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Gratitude completes the path of eudaimonia"
+ },
+ {
+  "a": "entelecheia",
+  "b": "gratitude",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It leads the soul to its entelechy"
+ },
+ {
+  "a": "divine",
+  "b": "gratitude",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It opens us to divine grace"
+ },
+ {
+  "a": "apollo",
+  "b": "mantike",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Mantic is his second power, ἁπλοῦς."
+ },
+ {
+  "a": "mantike",
+  "b": "silence",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It is reached in inner silence."
+ },
+ {
+  "a": "delphi",
+  "b": "plutarch",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His five names belong to the Delphic god."
+ },
+ {
+  "a": "cratylus",
+  "b": "plutarch",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His five names and the Cratylus' four make nine keys."
+ },
+ {
+  "a": "cratylus",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Socrates gives the etymologies."
+ },
+ {
+  "a": "cratylus",
+  "b": "ennead",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Its four complete the nine."
+ },
+ {
+  "a": "cratylus",
+  "b": "language",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Similar words share meaning."
+ },
+ {
+  "a": "apollo",
+  "b": "health",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Healing is his first power."
+ },
+ {
+  "a": "health",
+  "b": "peace",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Health is a form of inner peace."
+ },
+ {
+  "a": "eros",
+  "b": "health",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The flow of eros is vigour."
+ },
+ {
+  "a": "health",
+  "b": "will",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Healing starts with the will to change."
+ },
+ {
+  "a": "apollo",
+  "b": "will",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The archer's power is a will with one aim."
+ },
+ {
+  "a": "freewill",
+  "b": "will",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The choice of direction is ours to make."
+ },
+ {
+  "a": "ennead",
+  "b": "harmony",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The new one is harmonised opposites."
+ },
+ {
+  "a": "dialectic",
+  "b": "eudaimonia",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Shared life becomes a feast."
+ },
+ {
+  "a": "apollo",
+  "b": "peace",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The archer wages a war of peace."
+ },
+ {
+  "a": "peace",
+  "b": "will",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "A focused will tames wildness."
+ },
+ {
+  "a": "aphrodite",
+  "b": "body",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pandemos is the bodily, lustful approach."
+ },
+ {
+  "a": "hellenism",
+  "b": "logos",
+  "her": false,
+  "co": 33,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "logos",
+  "b": "science",
+  "her": false,
+  "co": 24,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "love",
+  "b": "wisdom",
+  "her": false,
+  "co": 47,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "love",
+  "b": "mysteries",
+  "her": false,
+  "co": 38,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "philosophy",
+  "b": "sun",
+  "her": false,
+  "co": 7,
+  "npmi": 0.16,
+  "why": ""
+ },
+ {
+  "a": "divine",
+  "b": "sun",
+  "her": false,
+  "co": 5,
+  "npmi": 0.38,
+  "why": ""
+ },
+ {
+  "a": "mysteries",
+  "b": "sun",
+  "her": false,
+  "co": 6,
+  "npmi": 0.27,
+  "why": ""
+ },
+ {
+  "a": "divine",
+  "b": "nature",
+  "her": false,
+  "co": 22,
+  "npmi": 0.56,
+  "why": ""
+ },
+ {
+  "a": "hellenism",
+  "b": "philosophy",
+  "her": false,
+  "co": 60,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "mysteries",
+  "b": "spirituality",
+  "her": false,
+  "co": 37,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "senses",
+  "b": "spirituality",
+  "her": false,
+  "co": 34,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "logos",
+  "b": "soul",
+  "her": false,
+  "co": 46,
+  "npmi": 0.1,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "soul",
+  "her": false,
+  "co": 78,
+  "npmi": 0.22,
+  "why": ""
+ },
+ {
+  "a": "soul",
+  "b": "symbol",
+  "her": false,
+  "co": 44,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "plato",
+  "b": "soul",
+  "her": false,
+  "co": 93,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "nature",
+  "b": "nonduality",
+  "her": false,
+  "co": 12,
+  "npmi": 0.41,
+  "why": ""
+ },
+ {
+  "a": "logos",
+  "b": "myth",
+  "her": false,
+  "co": 6,
+  "npmi": 0.14,
+  "why": ""
+ },
+ {
+  "a": "logos",
+  "b": "symbol",
+  "her": false,
+  "co": 21,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "philosophy",
+  "b": "politics",
+  "her": false,
+  "co": 55,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "paideia",
+  "b": "spirituality",
+  "her": false,
+  "co": 27,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "mysteries",
+  "b": "symbol",
+  "her": false,
+  "co": 24,
+  "npmi": 0.14,
+  "why": ""
+ },
+ {
+  "a": "language",
+  "b": "senses",
+  "her": false,
+  "co": 17,
+  "npmi": 0.1,
+  "why": ""
+ },
+ {
+  "a": "plato",
+  "b": "senses",
+  "her": false,
+  "co": 49,
+  "npmi": 0.07,
+  "why": ""
+ },
+ {
+  "a": "awakening",
+  "b": "plato",
+  "her": false,
+  "co": 46,
+  "npmi": 0.12,
+  "why": ""
+ },
+ {
+  "a": "awakening",
+  "b": "socrates",
+  "her": false,
+  "co": 31,
+  "npmi": 0.2,
+  "why": ""
+ },
+ {
+  "a": "body",
+  "b": "consciousness",
+  "her": false,
+  "co": 48,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "consciousness",
+  "b": "wisdom",
+  "her": false,
+  "co": 53,
+  "npmi": 0.07,
+  "why": ""
+ },
+ {
+  "a": "knowthyself",
+  "b": "oneness",
+  "her": false,
+  "co": 12,
+  "npmi": 0.2,
+  "why": ""
+ },
+ {
+  "a": "nature",
+  "b": "oneness",
+  "her": false,
+  "co": 20,
+  "npmi": 0.27,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "love",
+  "her": false,
+  "co": 51,
+  "npmi": 0.16,
+  "why": ""
+ },
+ {
+  "a": "love",
+  "b": "plato",
+  "her": false,
+  "co": 63,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "plato",
+  "her": false,
+  "co": 74,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "pythagoras",
+  "her": false,
+  "co": 26,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "apollo",
+  "b": "beauty",
+  "her": false,
+  "co": 23,
+  "npmi": 0.16,
+  "why": ""
+ },
+ {
+  "a": "body",
+  "b": "truth",
+  "her": false,
+  "co": 44,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "fire",
+  "b": "plato",
+  "her": false,
+  "co": 27,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "apollo",
+  "b": "fire",
+  "her": false,
+  "co": 11,
+  "npmi": 0.23,
+  "why": ""
+ },
+ {
+  "a": "body",
+  "b": "light",
+  "her": false,
+  "co": 19,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "light",
+  "b": "nature",
+  "her": false,
+  "co": 12,
+  "npmi": 0.24,
+  "why": ""
+ },
+ {
+  "a": "divine",
+  "b": "light",
+  "her": false,
+  "co": 12,
+  "npmi": 0.21,
+  "why": ""
+ },
+ {
+  "a": "light",
+  "b": "mysteries",
+  "her": false,
+  "co": 18,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "body",
+  "b": "socrates",
+  "her": false,
+  "co": 33,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "east",
+  "b": "nature",
+  "her": false,
+  "co": 10,
+  "npmi": 0.27,
+  "why": ""
+ },
+ {
+  "a": "desire",
+  "b": "philosophy",
+  "her": false,
+  "co": 24,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "divine",
+  "b": "east",
+  "her": false,
+  "co": 14,
+  "npmi": 0.39,
+  "why": ""
+ },
+ {
+  "a": "divine",
+  "b": "pythagoras",
+  "her": false,
+  "co": 15,
+  "npmi": 0.29,
+  "why": ""
+ },
+ {
+  "a": "desire",
+  "b": "mysteries",
+  "her": false,
+  "co": 16,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "east",
+  "b": "mysteries",
+  "her": false,
+  "co": 16,
+  "npmi": 0.22,
+  "why": ""
+ },
+ {
+  "a": "apollo",
+  "b": "self",
+  "her": false,
+  "co": 21,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "consciousness",
+  "b": "cosmos",
+  "her": false,
+  "co": 60,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "truth",
+  "her": false,
+  "co": 50,
+  "npmi": 0.14,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "wisdom",
+  "her": false,
+  "co": 51,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "harmony",
+  "her": false,
+  "co": 11,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "harmony",
+  "b": "plato",
+  "her": false,
+  "co": 14,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "christianity",
+  "b": "philosophy",
+  "her": false,
+  "co": 18,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "christianity",
+  "b": "divine",
+  "her": false,
+  "co": 11,
+  "npmi": 0.41,
+  "why": ""
+ },
+ {
+  "a": "consciousness",
+  "b": "hellenism",
+  "her": false,
+  "co": 50,
+  "npmi": 0.1,
+  "why": ""
+ },
+ {
+  "a": "dialectic",
+  "b": "hellenism",
+  "her": false,
+  "co": 25,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "dialectic",
+  "b": "myth",
+  "her": false,
+  "co": 6,
+  "npmi": 0.22,
+  "why": ""
+ },
+ {
+  "a": "myth",
+  "b": "socrates",
+  "her": false,
+  "co": 7,
+  "npmi": 0.14,
+  "why": ""
+ },
+ {
+  "a": "orpheus",
+  "b": "socrates",
+  "her": false,
+  "co": 15,
+  "npmi": 0.27,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "soul",
+  "her": false,
+  "co": 72,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "soul",
+  "b": "truth",
+  "her": false,
+  "co": 71,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "ethics",
+  "b": "philosophy",
+  "her": false,
+  "co": 18,
+  "npmi": 0.14,
+  "why": ""
+ },
+ {
+  "a": "ethics",
+  "b": "spirituality",
+  "her": false,
+  "co": 13,
+  "npmi": 0.16,
+  "why": ""
+ },
+ {
+  "a": "cave",
+  "b": "plotinus",
+  "her": false,
+  "co": 13,
+  "npmi": 0.24,
+  "why": ""
+ },
+ {
+  "a": "christianity",
+  "b": "nature",
+  "her": false,
+  "co": 7,
+  "npmi": 0.25,
+  "why": ""
+ },
+ {
+  "a": "dialectic",
+  "b": "self",
+  "her": false,
+  "co": 23,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "silence",
+  "b": "symbol",
+  "her": false,
+  "co": 7,
+  "npmi": 0.21,
+  "why": ""
+ },
+ {
+  "a": "apollo",
+  "b": "silence",
+  "her": false,
+  "co": 6,
+  "npmi": 0.27,
+  "why": ""
+ },
+ {
+  "a": "freedom",
+  "b": "good",
+  "her": false,
+  "co": 29,
+  "npmi": 0.23,
+  "why": ""
+ },
+ {
+  "a": "aristotle",
+  "b": "wisdom",
+  "her": false,
+  "co": 19,
+  "npmi": 0.16,
+  "why": ""
+ },
+ {
+  "a": "good",
+  "b": "harmony",
+  "her": false,
+  "co": 7,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "language",
+  "b": "socrates",
+  "her": false,
+  "co": 17,
+  "npmi": 0.1,
+  "why": ""
+ },
+ {
+  "a": "homer",
+  "b": "soul",
+  "her": false,
+  "co": 7,
+  "npmi": 0.1,
+  "why": ""
+ },
+ {
+  "a": "homer",
+  "b": "logos",
+  "her": false,
+  "co": 7,
+  "npmi": 0.33,
+  "why": ""
+ },
+ {
+  "a": "body",
+  "b": "myth",
+  "her": false,
+  "co": 7,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "homer",
+  "b": "politics",
+  "her": false,
+  "co": 6,
+  "npmi": 0.21,
+  "why": ""
+ },
+ {
+  "a": "homer",
+  "b": "spirituality",
+  "her": false,
+  "co": 6,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "desire",
+  "b": "paideia",
+  "her": false,
+  "co": 12,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "courage",
+  "b": "politics",
+  "her": false,
+  "co": 5,
+  "npmi": 0.12,
+  "why": ""
+ },
+ {
+  "a": "courage",
+  "b": "science",
+  "her": false,
+  "co": 5,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "courage",
+  "b": "plato",
+  "her": false,
+  "co": 8,
+  "npmi": 0.12,
+  "why": ""
+ },
+ {
+  "a": "hellenism",
+  "b": "knowthyself",
+  "her": false,
+  "co": 14,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "hellenism",
+  "her": false,
+  "co": 49,
+  "npmi": 0.2,
+  "why": ""
+ },
+ {
+  "a": "arete",
+  "b": "consciousness",
+  "her": false,
+  "co": 19,
+  "npmi": 0.11,
+  "why": ""
+ },
+ {
+  "a": "nous",
+  "b": "spirituality",
+  "her": false,
+  "co": 8,
+  "npmi": 0.2,
+  "why": ""
+ },
+ {
+  "a": "east",
+  "b": "nous",
+  "her": false,
+  "co": 5,
+  "npmi": 0.34,
+  "why": ""
+ },
+ {
+  "a": "arete",
+  "b": "paideia",
+  "her": false,
+  "co": 12,
+  "npmi": 0.22,
+  "why": ""
+ },
+ {
+  "a": "arete",
+  "b": "desire",
+  "her": false,
+  "co": 8,
+  "npmi": 0.21,
+  "why": ""
+ },
+ {
+  "a": "freedom",
+  "b": "soul",
+  "her": false,
+  "co": 55,
+  "npmi": 0.09,
+  "why": ""
+ },
+ {
+  "a": "nous",
+  "b": "paideia",
+  "her": false,
+  "co": 5,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "divine",
+  "b": "nous",
+  "her": false,
+  "co": 5,
+  "npmi": 0.26,
+  "why": ""
+ },
+ {
+  "a": "good",
+  "b": "self",
+  "her": false,
+  "co": 26,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "dialectic",
+  "b": "paideia",
+  "her": false,
+  "co": 16,
+  "npmi": 0.16,
+  "why": ""
+ },
+ {
+  "a": "aristotle",
+  "b": "hellenism",
+  "her": false,
+  "co": 20,
+  "npmi": 0.23,
+  "why": ""
+ },
+ {
+  "a": "darkness",
+  "b": "soul",
+  "her": false,
+  "co": 20,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "plotinus",
+  "b": "soul",
+  "her": false,
+  "co": 24,
+  "npmi": 0.14,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "solstice",
+  "her": false,
+  "co": 22,
+  "npmi": 0.26,
+  "why": ""
+ },
+ {
+  "a": "solstice",
+  "b": "symbol",
+  "her": false,
+  "co": 16,
+  "npmi": 0.33,
+  "why": ""
+ },
+ {
+  "a": "senses",
+  "b": "solstice",
+  "her": false,
+  "co": 14,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "darkness",
+  "b": "good",
+  "her": false,
+  "co": 9,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "good",
+  "her": false,
+  "co": 32,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "odyssey",
+  "b": "wisdom",
+  "her": false,
+  "co": 10,
+  "npmi": 0.12,
+  "why": ""
+ },
+ {
+  "a": "awakening",
+  "b": "plotinus",
+  "her": false,
+  "co": 14,
+  "npmi": 0.21,
+  "why": ""
+ },
+ {
+  "a": "cave",
+  "b": "soul",
+  "her": false,
+  "co": 42,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "apollo",
+  "b": "solstice",
+  "her": false,
+  "co": 10,
+  "npmi": 0.27,
+  "why": ""
+ },
+ {
+  "a": "dionysus",
+  "b": "love",
+  "her": false,
+  "co": 8,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "secondbirth",
+  "b": "truth",
+  "her": false,
+  "co": 11,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "dionysus",
+  "b": "truth",
+  "her": false,
+  "co": 7,
+  "npmi": 0.1,
+  "why": ""
+ },
+ {
+  "a": "dionysus",
+  "b": "solstice",
+  "her": false,
+  "co": 6,
+  "npmi": 0.39,
+  "why": ""
+ },
+ {
+  "a": "body",
+  "b": "secondbirth",
+  "her": false,
+  "co": 10,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "dionysus",
+  "her": false,
+  "co": 8,
+  "npmi": 0.12,
+  "why": ""
+ },
+ {
+  "a": "delphi",
+  "b": "self",
+  "her": false,
+  "co": 12,
+  "npmi": 0.17,
+  "why": ""
+ },
+ {
+  "a": "apollo",
+  "b": "darkness",
+  "her": false,
+  "co": 9,
+  "npmi": 0.31,
+  "why": ""
+ },
+ {
+  "a": "secondbirth",
+  "b": "socrates",
+  "her": false,
+  "co": 11,
+  "npmi": 0.24,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "silence",
+  "her": false,
+  "co": 10,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "silence",
+  "b": "solstice",
+  "her": false,
+  "co": 7,
+  "npmi": 0.41,
+  "why": ""
+ },
+ {
+  "a": "harmony",
+  "b": "solstice",
+  "her": false,
+  "co": 5,
+  "npmi": 0.23,
+  "why": ""
+ },
+ {
+  "a": "language",
+  "b": "silence",
+  "her": false,
+  "co": 5,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "pythagoras",
+  "b": "silence",
+  "her": false,
+  "co": 6,
+  "npmi": 0.24,
+  "why": ""
+ },
+ {
+  "a": "parmenides",
+  "b": "soul",
+  "her": false,
+  "co": 6,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "parmenides",
+  "b": "plato",
+  "her": false,
+  "co": 6,
+  "npmi": 0.14,
+  "why": ""
+ },
+ {
+  "a": "delphi",
+  "b": "plotinus",
+  "her": false,
+  "co": 6,
+  "npmi": 0.26,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "odyssey",
+  "her": false,
+  "co": 11,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "arete",
+  "b": "logos",
+  "her": false,
+  "co": 13,
+  "npmi": 0.18,
+  "why": ""
+ },
+ {
+  "a": "delphi",
+  "b": "orpheus",
+  "her": false,
+  "co": 5,
+  "npmi": 0.26,
+  "why": ""
+ },
+ {
+  "a": "logos",
+  "b": "orpheus",
+  "her": false,
+  "co": 11,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "heraclitus",
+  "b": "orpheus",
+  "her": false,
+  "co": 7,
+  "npmi": 0.34,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "heraclitus",
+  "her": false,
+  "co": 17,
+  "npmi": 0.22,
+  "why": ""
+ },
+ {
+  "a": "cave",
+  "b": "death",
+  "her": false,
+  "co": 14,
+  "npmi": 0.23,
+  "why": ""
+ },
+ {
+  "a": "language",
+  "b": "odyssey",
+  "her": false,
+  "co": 5,
+  "npmi": 0.13,
+  "why": ""
+ },
+ {
+  "a": "arete",
+  "b": "knowthyself",
+  "her": false,
+  "co": 6,
+  "npmi": 0.2,
+  "why": ""
+ },
+ {
+  "a": "cave",
+  "b": "eros",
+  "her": false,
+  "co": 9,
+  "npmi": 0.19,
+  "why": ""
+ },
+ {
+  "a": "good",
+  "b": "justice",
+  "her": false,
+  "co": 14,
+  "npmi": 0.28,
+  "why": ""
+ },
+ {
+  "a": "cave",
+  "b": "justice",
+  "her": false,
+  "co": 12,
+  "npmi": 0.21,
+  "why": ""
+ },
+ {
+  "a": "freedom",
+  "b": "homer",
+  "her": false,
+  "co": 5,
+  "npmi": 0.15,
+  "why": ""
+ },
+ {
+  "a": "beauty",
+  "b": "fragrance",
+  "her": false,
+  "co": 7,
+  "npmi": 0.16,
+  "why": ""
+ },
+ {
+  "a": "cosmos",
+  "b": "fragrance",
+  "her": false,
+  "co": 9,
+  "npmi": 0.25,
+  "why": ""
+ },
+ {
+  "a": "fragrance",
+  "b": "hellenism",
+  "her": false,
+  "co": 6,
+  "npmi": 0.17,
+  "why": ""
+ }
+]
