@@ -14,14 +14,13 @@ export const nostosUi = {
   en: {
     name: 'Nostos',
     map: {
-      metaTitle: 'Nostos: Athena’s ideas as a night sky',
+      metaTitle: 'Nostos: Athena’s idea universe',
       metaDescription:
         'A map of the ideas Dr Athena Potari teaches: each star an idea, sized by how often it comes up in Athena’s talks, joined to the ideas Athena links it to.',
-      title: 'Athena’s ideas, as a night sky',
+      title: 'Athena’s idea universe',
       // {n}: the number of transcribed talks
       intro:
         'Each star is an idea Athena teaches. Its size is how often it comes up across {n} transcribed talks. Lines join the ideas Athena links, or keeps discussing in the same breath. Choose a star to open it.',
-      draft: 'Drawn from Athena’s talks and writings, which Athena is still reading through: some details may change.',
       mapLabel: 'Map of the ideas in Athena’s teaching',
       search: 'Find a star',
       searchPlaceholder: 'Find a star: eros, Plato, ψυχή',
@@ -310,13 +309,12 @@ export const nostosUi = {
   el: {
     name: 'Νόστος',
     map: {
-      metaTitle: 'Νόστος: οι ιδέες της Αθηνάς σαν νυχτερινός ουρανός',
+      metaTitle: 'Νόστος: το σύμπαν των ιδεών της Αθηνάς',
       metaDescription:
         'Ένας χάρτης των ιδεών που διδάσκει η Δρ. Αθηνά Ποτάρη: κάθε αστέρι μια ιδέα, όσο μεγάλο όσο συχνά τη συζητά η Αθηνά, ενωμένο με τις ιδέες με τις οποίες η Αθηνά τη συνδέει.',
-      title: 'Οι ιδέες της Αθηνάς, σαν νυχτερινός ουρανός',
+      title: 'Το σύμπαν των ιδεών της Αθηνάς',
       intro:
         'Κάθε αστέρι είναι μια ιδέα που διδάσκει η Αθηνά. Το μέγεθός του δείχνει πόσο συχνά εμφανίζεται σε {n} απομαγνητοφωνημένες ομιλίες. Οι γραμμές ενώνουν τις ιδέες που συνδέει η Αθηνά ή που συζητά συνεχώς μαζί. Επιλέξτε ένα αστέρι για να το ανοίξετε.',
-      draft: 'Βασισμένο στις ομιλίες και τα κείμενα της Αθηνάς, που η Αθηνά διαβάζει ακόμη: κάποιες λεπτομέρειες μπορεί να αλλάξουν. Το περιεχόμενο είναι στα αγγλικά.',
       mapLabel: 'Χάρτης των ιδεών της διδασκαλίας της Αθηνάς',
       search: 'Βρείτε ένα αστέρι',
       searchPlaceholder: 'Βρείτε ένα αστέρι: έρως, Πλάτων, ψυχή',

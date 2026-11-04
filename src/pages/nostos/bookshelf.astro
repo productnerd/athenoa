@@ -288,26 +288,37 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
   .nostos-head {
     display: grid;
     gap: var(--space-s);
-    max-width: 46rem;
     margin-bottom: var(--space-xl);
   }
   .nostos-head > * {
     margin: 0;
   }
+  /* the Nostos menu at the right, with a little air before the title */
+  .nostos-head > :global(.nnav) {
+    justify-self: end;
+    margin-bottom: var(--space-s);
+  }
+  @media (max-width: 61.99rem) {
+    .nostos-head h1,
+    .nostos-intro {
+      max-width: 46rem;
+    }
+  }
   @media (min-width: 62rem) {
     .nostos-head {
-      max-width: none;
       grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
       column-gap: var(--space-xl);
       align-items: end;
     }
-    .nostos-head > :global(.nnav),
+    .nostos-head > :global(.nnav) {
+      grid-column: 1 / -1;
+    }
     .nostos-head h1 {
       grid-column: 1;
     }
     .nostos-intro {
       grid-column: 2;
-      grid-row: 1 / span 2;
+      grid-row: 2;
     }
   }
 

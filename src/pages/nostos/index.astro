@@ -26,7 +26,6 @@ const byTheme = groups.map((g) => ({
         <NostosNav />
         <h1 class="t-1" data-split>{t.title}</h1>
         <p class="lead nostos-intro" data-reveal>{t.intro.replace('{n}', String(meta.transcribedTalks))}</p>
-        <p class="small nostos-draft" data-reveal style="--i:1">{t.draft}</p>
       </header>
       <StarMap />
     </div>
@@ -72,35 +71,40 @@ const byTheme = groups.map((g) => ({
   .nostos-head {
     display: grid;
     gap: var(--space-s);
-    max-width: 46rem;
     margin-bottom: var(--space-l);
   }
   /* on wide screens the words stand beside the title, so the map is in sight at once */
   @media (min-width: 62rem) {
     .nostos-head {
-      max-width: none;
       grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
       column-gap: var(--space-xl);
       align-items: end;
     }
-    .nostos-head > :global(.nnav),
+    .nostos-head > :global(.nnav) {
+      grid-column: 1 / -1;
+    }
     .nostos-head h1 {
       grid-column: 1;
     }
     .nostos-intro {
       grid-column: 2;
-      grid-row: 1 / span 2;
+      grid-row: 2;
       align-self: end;
-    }
-    .nostos-draft {
-      grid-column: 2;
     }
   }
   .nostos-head > * {
     margin: 0;
   }
-  .nostos-draft {
-    color: var(--ink-soft);
+  /* the Nostos menu at the right, with a little air before the title */
+  .nostos-head > :global(.nnav) {
+    justify-self: end;
+    margin-bottom: var(--space-s);
+  }
+  @media (max-width: 61.99rem) {
+    .nostos-head h1,
+    .nostos-intro {
+      max-width: 46rem;
+    }
   }
   .nostos-list__intro {
     margin: var(--space-2xs) 0 var(--space-l);
