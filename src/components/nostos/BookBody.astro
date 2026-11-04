@@ -1,0 +1,291 @@
+---
+// Nostos, the bookshelf: what is inside one book (tasks/nostos.md, Bookshelf). The same markup is the
+// open book in the list under the shelf (the whole page without JavaScript) and the inside of the 3D
+// book when a spine is taken off the shelf (the shelf's script copies it there and shows one passage
+// at a time).
+//
+// THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts). The
+// passages are original Greek with public-domain translations published before 1929, as given.
+import { nostosUi } from '../../data/nostos/ui';
+import { conceptById, conceptsForWork, talkName, talksForWork, talkUrl, type Work } from '../../lib/nostos';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+
+interface Props {
+  work: Work;
+}
+const { work: w } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = nostosUi[mainLocale(locale)].shelf;
+const fill = (text: string, values: Record<string, string | number>) =>
+  text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
+const weight = Math.max(1, Math.min(5, Math.round(w.weight ?? 3)));
+const ideas = conceptsForWork(w);
+const heard = talksForWork(w);
+const map = pathIn(locale, '/nostos/');
+---
+
+<div class="nbook-body" data-work={w.id}>
+  <div class="nbook__inside" lang="en">
+    <p class="nbook__author">{w.author}</p>
+    <p class="nbook__title">{w.title}</p>
+    {w.greek_title && <p class="nbook__greek" lang="grc">{w.greek_title}</p>}
+    <div class="nbook__weight">
+      <span class="nbook__pebbles" aria-hidden="true">
+        {[1, 2, 3, 4, 5].map((n) => <span class:list={['nbook__pebble', n <= weight && 'is-on']} />)}
+      </span>
+      <span class="nbook__small" lang={locale === 'en' ? 'en' : 'el'}>
+        {t.weight}: {fill(t.weightOf, { n: weight })}
+      </span>
+    </div>
+    {
+      w.next_step && (
+        <div class="nbook__start">
+          <p class="nbook__h" lang={locale === 'en' ? 'en' : 'el'}>{t.start}</p>
+          <p>{w.next_step}</p>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="nbook__page" lang="en">
+    <p class="nbook__h" lang={locale === 'en' ? 'en' : 'el'}>{t.why}</p>
+    <p>{w.why_she_reads_it}</p>
+
+    {
+      w.excerpts.map((e, i) => (
+        <article class="npassage" data-passage={i}>
+          <p class="nbook__h" lang={locale === 'en' ? 'en' : 'el'}>
+            {fill(t.passage, { i: i + 1, n: w.excerpts.length })}
+            {e.ref && <span class="npassage__ref"> · {e.ref}</span>}
+          </p>
+          {e.label && <h4 class="npassage__label">{e.label}</h4>}
+          {e.translation && <blockquote class="npassage__text">{e.translation}</blockquote>}
+          {e.greek && (
+            <details class="npassage__greek">
+              <summary lang={locale === 'en' ? 'en' : 'el'}>{t.greek}</summary>
+              <p lang="grc">{e.greek}</p>
+            </details>
+          )}
+          {(e.translator || e.source_url) && (
+            <p class="nbook__small">
+              {e.translator && (
+                <>
+                  <span lang={locale === 'en' ? 'en' : 'el'}>{t.translation}:</span> {e.translator}
+                </>
+              )}
+              {e.translator && e.source_url && ' · '}
+              {e.source_url && (
+                <a href={e.source_url} target="_blank" rel="noopener" lang={locale === 'en' ? 'en' : 'el'}>
+                  {t.source}
+                </a>
+              )}
+            </p>
+          )}
+          {e.her_reading && (
+            <div class="npassage__her">
+              <p class="nbook__h" lang={locale === 'en' ? 'en' : 'el'}>{t.reading}</p>
+              <p class="hand hand--m npassage__hand">{e.her_reading}</p>
+              {e.talk && (
+                <a class="nbook__small" href={talkUrl(e.talk, e.t)} target="_blank" rel="noopener" lang={locale === 'en' ? 'en' : 'el'}>
+                  {t.hear}
+                  {e.t ? ` · ${e.t}` : ''}
+                </a>
+              )}
+            </div>
+          )}
+        </article>
+      ))
+    }
+
+    {
+      ideas.length > 0 && (
+        <>
+          <p class="nbook__h" lang={locale === 'en' ? 'en' : 'el'}>{t.threads}</p>
+          <p class="nbook__chips">
+            {ideas.map((id) => (
+              <a class="nbook__chip" href={`${map}?star=${encodeURIComponent(id)}`}>
+                {conceptById(id)!.label}
+              </a>
+            ))}
+          </p>
+        </>
+      )
+    }
+    {
+      heard.length > 0 && (
+        <>
+          <p class="nbook__h" lang={locale === 'en' ? 'en' : 'el'}>{t.talks}</p>
+          <ul class="nbook__talks">
+            {heard.map((id) => (
+              <li>
+                <a href={talkUrl(id)} target="_blank" rel="noopener">
+                  {talkName(id)}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .nbook-body {
+    display: grid;
+    gap: var(--space-m) var(--space-l);
+  }
+  @media (min-width: 52rem) {
+    .nbook-body {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+      align-items: start;
+    }
+  }
+  .nbook__inside,
+  .nbook__page {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+  .nbook-body :global(p) {
+    margin: 0;
+  }
+  .nbook__author {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nbook__title {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-2);
+    line-height: 1.05;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+  .nbook__greek {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-1);
+    color: var(--ink-strong);
+  }
+  .nbook__weight {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.4rem;
+  }
+  .nbook__pebbles {
+    display: flex;
+    gap: 0.3rem;
+  }
+  .nbook__pebble {
+    width: 0.75rem;
+    height: 0.65rem;
+    border: 1.5px solid var(--ink-strong);
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+  }
+  .nbook__pebble.is-on {
+    background: var(--ink-strong);
+  }
+  .nbook__start {
+    display: grid;
+    gap: 0.25rem;
+    margin-top: 0.8rem;
+  }
+  .nbook__h {
+    margin-top: 0.8rem !important;
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .nbook__small {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nbook__small a,
+  a.nbook__small {
+    color: inherit;
+  }
+  .npassage {
+    display: grid;
+    gap: 0.5rem;
+    padding-top: 0.4rem;
+  }
+  .npassage[hidden] {
+    display: none;
+  }
+  .npassage__ref {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .npassage__label {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1.15;
+    color: var(--ink-strong);
+  }
+  .npassage__text {
+    margin: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--blue-light);
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+  .npassage__greek summary {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .npassage__greek p {
+    margin-top: 0.4rem !important;
+    padding-left: 1rem;
+    border-left: 2px solid var(--line);
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+  .npassage__her {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.2rem 1.1rem 0.9rem;
+    border-radius: 1.6rem 1.2rem 1.7rem 1.3rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    background: color-mix(in srgb, var(--blue-light) 45%, transparent);
+  }
+  .npassage__hand {
+    color: var(--ink-strong);
+  }
+  /* the annotation is in English: in the English voice face on every version of the site */
+  .npassage__hand:lang(en) {
+    font-family: 'ATH Hand', var(--font-hand);
+  }
+  .nbook__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .nbook__chip {
+    display: inline-flex;
+    padding: 0.3rem 0.8rem;
+    font-size: var(--step--1);
+    color: var(--ink-strong);
+    text-decoration: none;
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+    transition: border-color var(--dur-1) var(--hover-delay);
+  }
+  .nbook__chip:hover {
+    border-color: currentColor;
+  }
+  .nbook__talks {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--step--1);
+  }
+  .nbook__talks a {
+    color: var(--ink);
+  }
+</style>
