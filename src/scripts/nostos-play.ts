@@ -1035,6 +1035,7 @@ async function stepsFor(ids: string[]) {
   const list = Object.values(all);
   return {
     concepts,
+    idea: (id: string) => ideas.get(id),
     step: (u: string): Step | undefined => (u.startsWith('c') ? (ideas.has(u.slice(1)) ? { k: 'c', concept: ideas.get(u.slice(1)) } : undefined) : all[u]),
     images: list.filter((x) => x.k === 'i').map((x) => x.meaning as string),
     readings: list.filter((x) => x.k === 'm').flatMap((x) => x.beats.map((b: any) => b.reading as string)),
@@ -1180,6 +1181,32 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         choose(stage, prompt, clip(bt.reading, 220), others, (ok) => ok && right++, onward, b === order.length - 1 ? from : null);
       };
       return beat();
+    }
+    case 'k': {
+      // one of her links: given her reason, find the idea at the other end (either end, in Review)
+      const flip = mode === 'recall' && Math.random() < 0.5;
+      const from = M.idea(flip ? s.b : s.a);
+      const to = M.idea(flip ? s.a : s.b);
+      const others = pick((s.not as string[]).map(M.idea).filter((c): c is Concept => !!c), 3);
+      if (!from || !to || others.length < 3) return read(h('p', { class: 'nprompt', lang: 'en' }, `“${s.why}”`));
+      const name = (c: Concept) => (c.greek ? `${c.label} · ${c.greek}` : c.label);
+      const star = (c: Concept) => h('a', { href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, c.label);
+      return choose(
+        stage,
+        h(
+          'div',
+          null,
+          head,
+          h('p', { class: 'nsmall' }, fill(W.links.ask, { label: from.label })),
+          h('p', { class: 'nprompt nprompt--big', lang: 'en' }, `“${s.why}”`),
+          h('p', { class: 'nsmall' }, W.links.choose),
+        ),
+        name(to),
+        others.map(name),
+        answered,
+        next,
+        h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, star(from), ' · ', star(to))),
+      );
     }
     case 'p':
       return read(

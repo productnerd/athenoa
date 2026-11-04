@@ -67,7 +67,7 @@ export const nostosUi = {
       // the path: everything, one short lesson at a time, in the order of her talks
       path: {
         title: 'The path',
-        intro: 'Everything in Nostos, one short lesson at a time, in the order of Athena’s talks: each idea as it first comes up, then the questions, myths, roots and passages around it.',
+        intro: 'Everything in Nostos, one short lesson at a time, in the order of Athena’s talks: each idea as it first comes up, then the questions, myths, roots, passages and links around it.',
         // {i}, {n}: chapter or lesson numbers
         chapter: 'Chapter {i} of {n}',
         lesson: 'Lesson {i} of {n}',
@@ -89,6 +89,7 @@ export const nostosUi = {
           p: 'A practice to try',
           w: 'A question to carry',
           l: 'In Athena’s words',
+          k: 'Find the link',
           x: 'From the bookshelf',
         },
         meaning: 'Which is Athena’s meaning?',
@@ -358,7 +359,7 @@ export const nostosUi = {
       surprise: 'Κάτι στην τύχη',
       path: {
         title: 'Το μονοπάτι',
-        intro: 'Όλος ο Νόστος, ένα σύντομο μάθημα τη φορά, με τη σειρά των ομιλιών της Αθηνάς: κάθε ιδέα όταν πρωτοεμφανίζεται, και γύρω της οι ερωτήσεις, οι μύθοι, οι ρίζες και τα χωρία. Το περιεχόμενο είναι στα αγγλικά.',
+        intro: 'Όλος ο Νόστος, ένα σύντομο μάθημα τη φορά, με τη σειρά των ομιλιών της Αθηνάς: κάθε ιδέα όταν πρωτοεμφανίζεται, και γύρω της οι ερωτήσεις, οι μύθοι, οι ρίζες, τα χωρία και οι συνδέσεις. Το περιεχόμενο είναι στα αγγλικά.',
         chapter: 'Κεφάλαιο {i} από {n}',
         lesson: 'Μάθημα {i} από {n}',
         overall: '{done} από {n} μαθήματα',
@@ -378,6 +379,7 @@ export const nostosUi = {
           p: 'Μια πρακτική να δοκιμάσετε',
           w: 'Μια ερώτηση να κρατήσετε',
           l: 'Με τα λόγια της Αθηνάς',
+          k: 'Βρείτε τη σύνδεση',
           x: 'Από τη βιβλιοθήκη',
         },
         meaning: 'Ποιο είναι το νόημα της Αθηνάς;',

@@ -7,8 +7,10 @@
 //
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
 import {
+  conceptById,
   concepts,
   distinctions,
+  edges,
   etymologies,
   images,
   library,
@@ -26,11 +28,12 @@ import {
 } from './nostos';
 
 /** c idea · q question · tf true or false · s order · m myth · e roots · d distinction · i image
- *  p practice · w question to carry · l her line · x bookshelf passage */
-export type StepKind = 'c' | 'q' | 'tf' | 's' | 'm' | 'e' | 'd' | 'i' | 'p' | 'w' | 'l' | 'x';
+ *  k one of her links between two ideas · p practice · w question to carry · l her line
+ *  x bookshelf passage */
+export type StepKind = 'c' | 'q' | 'tf' | 's' | 'm' | 'e' | 'd' | 'i' | 'k' | 'p' | 'w' | 'l' | 'x';
 export type Step = { k: StepKind; [field: string]: unknown };
 /** the kinds that come back in Review (the rest are read, not asked) */
-export const asked: StepKind[] = ['c', 'q', 'tf', 's', 'm', 'e', 'd', 'i'];
+export const asked: StepKind[] = ['c', 'q', 'tf', 's', 'm', 'e', 'd', 'i', 'k'];
 
 const LESSON = 8;
 
@@ -108,8 +111,43 @@ const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
 export type Chapter = { id: string; title: string; talk?: string; lessons: string[][]; steps: Record<string, Step> };
 const order = talks.map((t) => t.id);
 const introduced = new Set<string>();
+// the chapter that introduces each idea: the first talk, in path order, where it comes up
+const introAt = new Map(concepts.map((c) => [c.id, order.findIndex((id) => c.talks.some((r) => r.id === id))]));
+introAt.forEach((ci, id) => ci < 0 && introAt.set(id, order.length));
 
-function chapter(id: string, title: string, list: Entry[], talk?: string): Chapter {
+// Her links, where she says why (the same ones as Find the link). Each goes to a chapter whose talk
+// speaks of both ideas, once both have been introduced, choosing the chapter that has the fewest
+// links for its size, so no talk is swamped; with no such talk, to the chapter of the later idea.
+const herLinks = edges.filter((e) => e.her && e.why && e.why.length > 12 && conceptById(e.a) && conceptById(e.b));
+const tied = new Map<string, Set<string>>();
+for (const e of herLinks) {
+  tied.set(e.a, (tied.get(e.a) ?? new Set()).add(e.b));
+  tied.set(e.b, (tied.get(e.b) ?? new Set()).add(e.a));
+}
+const linksIn = new Map<number, Entry[]>();
+const sizeOf = (ci: number) => (ci < order.length ? entries.filter((e) => e.talk === order[ci]).length : 60) + 1;
+for (const e of herLinks) {
+  const from = Math.max(introAt.get(e.a)!, introAt.get(e.b)!);
+  const talksOf = (id: string) => new Set(conceptById(id)!.talks.map((r) => r.id));
+  const ta = talksOf(e.a);
+  const tb = talksOf(e.b);
+  const both = order.map((id, ci) => ci).filter((ci) => ci >= from && ta.has(order[ci]) && tb.has(order[ci]));
+  const load = (ci: number) => (linksIn.get(ci)?.length ?? 0) / sizeOf(ci);
+  const ci = both.length ? both.reduce((best, x) => (load(x) < load(best) ? x : best)) : from;
+  // decoys for the question: ideas she links to neither end, a few to choose from
+  const key = `${e.a}|${e.b}`;
+  const not = concepts
+    .filter((c) => c.weight >= 2 && c.id !== e.a && c.id !== e.b && !tied.get(e.a)?.has(c.id) && !tied.get(e.b)?.has(c.id))
+    .map((c) => c.id)
+    .sort((x, y) => hash(key + x).localeCompare(hash(key + y)))
+    .slice(0, 5);
+  let u = `k${hash(key)}`;
+  while (taken.has(u)) u += 'x';
+  taken.add(u);
+  linksIn.set(ci, [...(linksIn.get(ci) ?? []), { u, step: { k: 'k', a: e.a, b: e.b, why: e.why, not }, at: -1, text: '' }]);
+}
+
+function chapter(id: string, title: string, list: Entry[], talk?: string, links: Entry[] = []): Chapter {
   list.sort((a, b) => a.at - b.at);
   // the ideas this chapter introduces: those that come up in this talk and in no earlier one
   const ideas = concepts.filter((c) => !introduced.has(c.id) && (talk ? c.talks.some((r) => r.id === talk) : true));
@@ -143,6 +181,12 @@ function chapter(id: string, title: string, list: Entry[], talk?: string): Chapt
   const route: Entry[] = [];
   list.forEach((e, n) => route.push(...(before.get(n) ?? []), e));
   if (!list.length) route.push(...(before.get(0) ?? []));
+  // her links, spread through the chapter, each after both of its ideas have been introduced
+  const placed = links.map((l, k) => {
+    const after = Math.max(...[l.step.a, l.step.b].map((x) => route.findIndex((e) => e.u === `c${x}`)));
+    return { l, at: Math.max(after + 1, Math.round(((k + 0.5) / links.length) * route.length)) };
+  });
+  placed.sort((x, y) => y.at - x.at).forEach(({ l, at }) => route.splice(Math.min(at, route.length), 0, l));
   // lessons of about eight steps, as even as they come
   const count = Math.max(1, Math.round(route.length / LESSON));
   const lessons = Array.from({ length: count }, (_, j) =>
@@ -152,9 +196,9 @@ function chapter(id: string, title: string, list: Entry[], talk?: string): Chapt
 }
 
 export const chapters: Chapter[] = [
-  ...order.map((id) => chapter(id, talkName(id), entries.filter((e) => e.talk === id), id)),
+  ...order.map((id, ci) => chapter(id, talkName(id), entries.filter((e) => e.talk === id), id, linksIn.get(ci))),
   // what no talk claims (and any idea not met yet) closes the path
-  chapter('across', '', entries.filter((e) => !e.talk || !order.includes(e.talk))),
+  chapter('across', '', entries.filter((e) => !e.talk || !order.includes(e.talk)), undefined, linksIn.get(order.length)),
 ].filter((c) => c.lessons.some((l) => l.length));
 
 /** The outline the play page carries: chapters and their lessons as lists of step ids */
