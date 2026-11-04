@@ -698,6 +698,60 @@ async function forge(A: Arena) {
   show();
 }
 
+// Find the link (from the prototype's map game, moved into the play flow at the client's wish): she ties
+// one idea to another and says why; given her reason, choose the idea at the other end
+async function links(A: Arena) {
+  const [list, concepts] = await Promise.all([feed<[string, string, string][]>('links'), feed<Concept[]>('concepts')]);
+  const byId = new Map(concepts.map((c) => [c.id, c]));
+  const set = pick(list, 8);
+  let i = 0;
+  let found = 0;
+  const name = (c: Concept) => (c.greek ? `${c.label} · ${c.greek}` : c.label);
+  const show = () => {
+    if (i >= set.length) return finish(A, 'links', fill(W.links.result, { r: found, n: set.length }));
+    A.progress(i / set.length);
+    A.score(`${found}`);
+    const [a, b, why] = Math.random() < 0.5 ? set[i] : [set[i][1], set[i][0], set[i][2]];
+    const from = byId.get(a)!;
+    const to = byId.get(b)!;
+    // three other ideas, none of them linked to the first by her
+    const taken = new Set(list.filter((l) => l[0] === a || l[1] === a).flatMap((l) => [l[0], l[1]]));
+    const decoys = pick(
+      concepts.filter((c) => !taken.has(c.id) && c.weight >= 2),
+      3,
+    );
+    A.stage.replaceChildren();
+    choose(
+      A.stage,
+      h(
+        'div',
+        null,
+        h('p', { class: 'nsmall' }, fill(W.links.ask, { label: from.label })),
+        h('p', { class: 'nprompt nprompt--big', lang: 'en' }, `“${why}”`),
+        h('p', { class: 'nsmall' }, W.links.choose),
+      ),
+      name(to),
+      decoys.map(name),
+      (ok) => {
+        if (ok) {
+          found++;
+          earn(15);
+        }
+      },
+      () => {
+        i++;
+        show();
+      },
+      h(
+        'div',
+        { class: 'nexplain' },
+        h('p', { lang: 'en' }, h('a', { href: `${mapBase}?star=${encodeURIComponent(from.id)}` }, from.label), ' · ', h('a', { href: `${mapBase}?star=${encodeURIComponent(to.id)}` }, to.label)),
+      ),
+    );
+  };
+  show();
+}
+
 async function fork(A: Arena) {
   const [items] = await Promise.all([feed<any[]>('distinctions'), feed('talks').then((t) => Object.assign(talkNames, t))]);
   const set = pick(items, 8);
@@ -885,6 +939,7 @@ const ACTIVITIES: Record<string, { run: (A: Arena, opt?: any) => Promise<void>; 
   myth: { run: mythDecoder, section: 'understand' },
   forge: { run: forge, section: 'understand' },
   fork: { run: fork, section: 'understand' },
+  links: { run: links, section: 'understand' },
   threads: { run: threads, section: 'own' },
   askesis: { run: askesis, section: 'own' },
 };
@@ -984,7 +1039,7 @@ function setup() {
   root.querySelector('[data-review]')?.addEventListener('click', () => start('cards'), on);
   root.querySelector('[data-surprise]')?.addEventListener(
     'click',
-    () => start(pick(['ladder', 'myth', 'forge', 'fork', 'quiz', 'threads'], 1)[0]),
+    () => start(pick(['ladder', 'myth', 'forge', 'fork', 'links', 'quiz', 'threads'], 1)[0]),
     on,
   );
   dialog.addEventListener(

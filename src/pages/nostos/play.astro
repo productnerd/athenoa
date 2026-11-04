@@ -9,6 +9,7 @@ import { nostosUi } from '../../data/nostos/ui';
 import {
   concepts,
   distinctions,
+  edges,
   etymologies,
   lines,
   myths,
@@ -41,6 +42,7 @@ const acts: Record<'remember' | 'understand' | 'own', Act[]> = {
     { id: 'myth', symbol: 'orphic-egg', surface: '', shape: 'var(--r-pebble-1)', span: 7, count: count(t.acts.myth.count, myths.filter((m) => m.beats?.length >= 2).length) },
     { id: 'forge', symbol: 'wheat', surface: 'box--deep', shape: 'var(--r-soft)', span: 7, count: count(t.acts.forge.count, etymologies.filter((e) => e.parts?.length >= 2 && e.parts.length <= 4).length) },
     { id: 'fork', symbol: 'spring-cypress', surface: 'on-blue-light', shape: 'var(--r-leaf)', span: 5, count: count(t.acts.fork.count, distinctions.filter((d) => d.a && d.b && d.a_gloss && d.b_gloss).length) },
+    { id: 'links', symbol: 'olive-branch', surface: 'on-blue-deep', shape: 'var(--r-pebble-1)', span: 7, count: count(t.acts.links.count, edges.filter((e) => e.her && e.why && e.why.length > 12).length) },
   ],
   own: [
     { id: 'threads', symbol: 'butterfly', surface: 'on-blue-deep', shape: 'var(--r-pebble-3)', span: 6, count: count(t.acts.threads.count, 0) },

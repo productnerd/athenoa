@@ -288,6 +288,46 @@ export const plain = (text: string) =>
     .toLocaleLowerCase('el')
     .replace(/ς/g, 'σ');
 
+// ---------- The bookshelf ----------
+
+/** The books on the shelf, in the order they stand: by author, as in the prototype */
+export const shelf = library.works.slice().sort((a, b) => (a.author || '').localeCompare(b.author || ''));
+
+/** The ideas on the map that a book threads into: its author when the author is a star, and any idea
+ *  named in what is said about the book (the prototype's conceptsFor), most mentioned first */
+export function conceptsForWork(w: Work) {
+  const text = [w.title, w.author, w.why_she_reads_it, ...w.excerpts.map((e) => `${e.her_reading ?? ''} ${e.label ?? ''}`)]
+    .join(' ')
+    .toLowerCase();
+  const ids = new Set<string>();
+  const authors: Record<string, string> = {
+    plato: 'plato',
+    heraclitus: 'heraclitus',
+    homer: 'homer',
+    plotinus: 'plotinus',
+    proclus: 'proclus',
+    pythagoras: 'pythagoras',
+    parmenides: 'parmenides',
+    aristotle: 'aristotle',
+    orpheus: 'orpheus',
+    orphic: 'orpheus',
+    empedocles: 'empedocles',
+  };
+  for (const [word, id] of Object.entries(authors)) if (text.includes(word) && conceptMap.has(id)) ids.add(id);
+  for (const c of concepts) {
+    if (c.group === 'thinkers') continue;
+    const label = c.label.toLowerCase();
+    if (label.length > 3 && text.includes(label)) ids.add(c.id);
+  }
+  return [...ids].sort((a, b) => (conceptMap.get(b)!.freq || 0) - (conceptMap.get(a)!.freq || 0)).slice(0, 10);
+}
+
+/** The talks a book comes up in: its own list and those its passages are read in */
+export const talksForWork = (w: Work) =>
+  [...new Set([...((w.talks ?? []) as (string | TalkRef)[]).map((t) => (typeof t === 'string' ? t : t.id)), ...w.excerpts.map((e) => e.talk)])].filter(
+    (id): id is string => !!id && talkMap.has(id),
+  );
+
 // ---------- The map (positions from the build-time layout) ----------
 
 const layout = layoutJson as {

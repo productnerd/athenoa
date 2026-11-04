@@ -3,7 +3,9 @@
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
 import type { APIRoute } from 'astro';
 import {
+  conceptById,
   concepts,
+  edges,
   distinctions,
   etymologies,
   myths,
@@ -32,6 +34,11 @@ const feeds = {
       take: clip(c.take ?? '', 420),
     })),
   talks: () => Object.fromEntries(talks.map((t) => [t.id, talkName(t.id)])),
+  // the links she makes herself, where she says why: [idea, other idea, her reason]
+  links: () =>
+    edges
+      .filter((e) => e.her && e.why && e.why.length > 12 && conceptById(e.a) && conceptById(e.b))
+      .map((e) => [e.a, e.b, e.why]),
   quiz: () => quiz,
   truefalse: () => truefalse,
   sequences: () => sequences.filter((s) => s.steps?.length >= 3 && s.steps.length <= 9),

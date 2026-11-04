@@ -6,8 +6,9 @@
 //
 // Without JavaScript the map is a still picture, and the list of ideas under it (in the page) holds
 // everything. With it, a star opens its note beside the map (a sheet on phones), the legend switches
-// themes off and on, search finds a star by its English, Greek or Latin spelling, and "Find the link"
-// asks for the star she links to a marked one.
+// themes off and on, and search finds a star by its English, Greek or Latin spelling. The map is for
+// exploring only: every activity, "Find the link" among them, is on the play page (client direction,
+// 4 November 2026).
 //
 // The map keeps its daytime inks by night as well (theme-day): it is a night sky already, like the hero.
 //
@@ -78,10 +79,6 @@ const index = concepts.map((c) => ({
   freq: c.freq,
   n: neighbours[c.id] ?? [],
 }));
-// "Find the link" draws from the links she makes herself, where she says why
-const hunts = edges
-  .filter((e) => e.her && e.why && e.why.length > 12 && star.has(e.a) && star.has(e.b))
-  .map((e) => [e.a, e.b, e.why]);
 
 const playHref = pathIn(locale, '/nostos/play/');
 ---
@@ -91,7 +88,7 @@ const playHref = pathIn(locale, '/nostos/play/');
   data-nmap
   data-play={playHref}
   data-claude={nostosFlags.claude ? 'on' : undefined}
-  data-words={JSON.stringify({ note: ui.note, hunt: ui.hunt, noMatch: t.noMatch })}
+  data-words={JSON.stringify({ note: ui.note, noMatch: t.noMatch })}
 >
   <div class="panel panel--big on-blue-deep nmap__sky">
     <div class="panel__clip nmap__ground" aria-hidden="true">
@@ -119,7 +116,6 @@ const playHref = pathIn(locale, '/nostos/play/');
           ))
         }
       </div>
-      <button type="button" class="nmap__btn" data-hunt>{t.hunt}</button>
       <p class="nmap__status" aria-live="polite" data-status></p>
     </form>
 
@@ -182,13 +178,11 @@ const playHref = pathIn(locale, '/nostos/play/');
           </g>
         </svg>
       </div>
-      <div class="nmap__pulse" data-pulse hidden aria-hidden="true"></div>
       <div class="nmap__zoom" data-zoombar hidden>
         <button type="button" data-zoom="in" aria-label={t.zoomIn}>+</button>
         <button type="button" data-zoom="out" aria-label={t.zoomOut}>−</button>
         <button type="button" data-recentre class="nmap__recentre">{t.recentre}</button>
       </div>
-      <div class="nmap__clue box theme-day" data-clue hidden aria-live="polite"></div>
         <aside class="nmap__note box theme-day" data-note hidden aria-label="" tabindex="-1">
         <button type="button" class="nmap__close" data-close aria-label={ui.note.close}>
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
@@ -216,10 +210,10 @@ const playHref = pathIn(locale, '/nostos/play/');
 
 </div>
 
-<script type="application/json" data-nmap-index set:html={JSON.stringify({ index, hunts })} />
+<script type="application/json" data-nmap-index set:html={JSON.stringify({ index })} />
 
 <script>
-  import { award, load, setKnown } from '../../scripts/nostos-progress';
+  import { load, setKnown } from '../../scripts/nostos-progress';
 
   type Entry = { id: string; label: string; find: string[]; freq: number; n: string[] };
   const plain = (text: string) =>
@@ -228,7 +222,6 @@ const playHref = pathIn(locale, '/nostos/play/');
       .replace(/\p{M}/gu, '')
       .toLocaleLowerCase('el')
       .replace(/ς/g, 'σ');
-  const fill = (text: string, key: string, value: string | number) => text.replace(`{${key}}`, String(value));
 
   let stop: (() => void) | undefined;
 
@@ -238,7 +231,7 @@ const playHref = pathIn(locale, '/nostos/play/');
     const root = document.querySelector<HTMLElement>('[data-nmap]');
     const data = document.querySelector('[data-nmap-index]');
     if (!root || !data) return;
-    const { index, hunts } = JSON.parse(data.textContent ?? '{}') as { index: Entry[]; hunts: [string, string, string][] };
+    const { index } = JSON.parse(data.textContent ?? '{}') as { index: Entry[] };
     const byId = new Map(index.map((e) => [e.id, e]));
     const words = JSON.parse(root.dataset.words ?? '{}');
     const view = root.querySelector<HTMLElement>('[data-view]')!;
@@ -246,8 +239,6 @@ const playHref = pathIn(locale, '/nostos/play/');
     const svg = root.querySelector<SVGSVGElement>('[data-svg]')!;
     const note = root.querySelector<HTMLElement>('[data-note]')!;
     const noteIn = root.querySelector<HTMLElement>('[data-note-in]')!;
-    const clue = root.querySelector<HTMLElement>('[data-clue]')!;
-    const pulse = root.querySelector<HTMLElement>('[data-pulse]')!;
     const status = root.querySelector<HTMLElement>('[data-status]')!;
     const search = root.querySelector<HTMLInputElement>('[data-search]')!;
     const starEl = new Map(
@@ -302,7 +293,6 @@ const playHref = pathIn(locale, '/nostos/play/');
       world.classList.toggle('is-gliding', glide && !reduced());
       world.classList.add('is-moving');
       world.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${k})`;
-      if (hunt) placePulse(hunt.mark);
       clearTimeout(settle);
       // once still, the layer is drawn again at its new size (sharp) and the labels are set
       settle = window.setTimeout(() => {
@@ -342,7 +332,7 @@ const playHref = pathIn(locale, '/nostos/play/');
     view.addEventListener(
       'pointerdown',
       (event) => {
-        if ((event.target as Element).closest('button, a, input, .nmap__clue, .nmap__note')) return;
+        if ((event.target as Element).closest('button, a, input, .nmap__note')) return;
         pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
         moved = 0;
         if (pointers.size === 2) {
@@ -403,12 +393,8 @@ const playHref = pathIn(locale, '/nostos/play/');
       (event) => {
         if (moved >= 4 || (event.target as Element).closest('.nmap__note')) return;
         const el = (event.target as Element).closest<SVGGElement>('.star');
-        if (el) {
-          if (hunt) guess(el.dataset.id!);
-          else select(el.dataset.id!);
-        } else if (!hunt && !(event.target as Element).closest('button, .nmap__clue')) {
-          select(null);
-        }
+        if (el) select(el.dataset.id!);
+        else if (!(event.target as Element).closest('button')) select(null);
       },
       on,
     );
@@ -421,7 +407,6 @@ const playHref = pathIn(locale, '/nostos/play/');
       () => {
         measure();
         labels();
-        if (hunt) placePulse(hunt.mark);
       },
       on,
     );
@@ -571,7 +556,7 @@ const playHref = pathIn(locale, '/nostos/play/');
       () => {
         status.textContent = '';
         const id = search.value.trim().length > 2 ? find(search.value) : null;
-        if (!hunt) paint(id ?? chosen);
+        paint(id ?? chosen);
       },
       on,
     );
@@ -588,89 +573,6 @@ const playHref = pathIn(locale, '/nostos/play/');
       },
       on,
     );
-
-    // ---------- find the link ----------
-    let hunt: { mark: string; other: string; why: string; tries: number } | null = null;
-    const placePulse = (id: string) => {
-      const [x, y] = screenOf(id);
-      const r = Number(starEl.get(id)!.dataset.r) * s0 * k;
-      pulse.style.transform = `translate(${x}px, ${y}px)`;
-      pulse.style.setProperty('--size', `${Math.max(28, r * 2 + 18)}px`);
-    };
-    const say = (parts: (string | Node)[]) => {
-      clue.replaceChildren(...parts);
-      clue.hidden = false;
-    };
-    const el = (tag: string, cls: string, text?: string) => {
-      const node = document.createElement(tag);
-      node.className = cls;
-      if (text !== undefined) node.textContent = text;
-      return node;
-    };
-    const button = (text: string, ghost: boolean, act: () => void) => {
-      const b = el('button', ghost ? 'btn btn--ghost' : 'btn', text) as HTMLButtonElement;
-      b.type = 'button';
-      b.addEventListener('click', act);
-      return b;
-    };
-    const ask = (message = '') => {
-      if (!hunt) return;
-      const parts: (string | Node)[] = [
-        el('p', 'nmap__clue-h', fill(words.hunt.tries, 'n', hunt.tries + 1)),
-        el('p', '', fill(words.hunt.ask, 'label', byId.get(hunt.mark)!.label)),
-        el('p', 'nmap__clue-why', `“${hunt.why}”`),
-      ];
-      if (message) parts.push(el('p', 'nmap__clue-miss', message));
-      const row = el('div', 'nmap__clue-row');
-      row.append(el('span', 'nmap__clue-tap', words.hunt.tap), button(words.hunt.stop, true, endHunt));
-      parts.push(row);
-      say(parts);
-    };
-    const startHunt = () => {
-      const [a, b, why] = hunts[Math.floor(Math.random() * hunts.length)];
-      const flip = Math.random() < 0.5;
-      hunt = { mark: flip ? b : a, other: flip ? a : b, why, tries: 0 };
-      select(null);
-      search.value = '';
-      root.classList.add('is-hunting');
-      centreOn(hunt.mark);
-      placePulse(hunt.mark);
-      pulse.hidden = false;
-      ask();
-    };
-    const reveal = (found: boolean) => {
-      if (!hunt) return;
-      const { mark, other } = hunt;
-      paint(mark);
-      placePulse(other);
-      hunt.mark = other;
-      const row = el('div', 'nmap__clue-row');
-      row.append(button(words.hunt.again, false, startHunt), button(words.hunt.done, true, endHunt));
-      say([
-        el('p', 'nmap__clue-h', found ? words.hunt.found : words.hunt.answer),
-        el('p', 'nmap__clue-pair', `${byId.get(mark)!.label} · ${byId.get(other)!.label}`),
-        row,
-      ]);
-    };
-    const guess = (id: string) => {
-      if (!hunt || id === hunt.mark) return;
-      if (id === hunt.other) {
-        award(hunt.tries === 0 ? 15 : 8);
-        reveal(true);
-      } else {
-        hunt.tries++;
-        if (hunt.tries >= 3) reveal(false);
-        else ask(fill(words.hunt.notThat, 'label', byId.get(id)!.label));
-      }
-    };
-    const endHunt = () => {
-      hunt = null;
-      clue.hidden = true;
-      pulse.hidden = true;
-      root.classList.remove('is-hunting');
-      paint(null);
-    };
-    root.querySelector('[data-hunt]')!.addEventListener('click', startHunt, on);
 
     stop = () => {
       ac.abort();
@@ -747,7 +649,6 @@ const playHref = pathIn(locale, '/nostos/play/');
     border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
   }
   .nmap__seg button,
-  .nmap__btn,
   .nmap__zoom button,
   .nmap__theme {
     padding: 0.42em 0.9em;
@@ -770,13 +671,6 @@ const playHref = pathIn(locale, '/nostos/play/');
   .nmap__seg button[aria-pressed='true'] {
     background: var(--blue-light);
     color: var(--blue-deep);
-  }
-  .nmap__btn {
-    color: var(--blue-deep);
-    background: var(--creme);
-  }
-  .nmap__btn:hover {
-    background: var(--creme-light);
   }
   .nmap__status {
     flex-basis: 100%;
@@ -917,7 +811,7 @@ const playHref = pathIn(locale, '/nostos/play/');
     transition: none;
   }
 
-  /* ---------- zoom, the marked star, the clue ---------- */
+  /* ---------- zoom ---------- */
   .nmap__zoom {
     position: absolute;
     right: 0.7rem;
@@ -932,78 +826,6 @@ const playHref = pathIn(locale, '/nostos/play/');
   .nmap__zoom button {
     min-width: 2.2rem;
   }
-  .nmap__pulse {
-    --size: 40px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    z-index: 1;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-  }
-  .nmap__pulse::before {
-    content: '';
-    position: absolute;
-    left: calc(var(--size) / -2);
-    top: calc(var(--size) / -2);
-    width: var(--size);
-    height: var(--size);
-    border: 2px solid var(--creme);
-    border-radius: 50%;
-  }
-  @keyframes nmap-pulse {
-    from {
-      scale: 0.7;
-      opacity: 0.9;
-    }
-    to {
-      scale: 1.6;
-      opacity: 0;
-    }
-  }
-  :global(html.motion) .nmap__pulse::before {
-    animation: nmap-pulse 1.6s var(--ease-out) infinite;
-  }
-  .nmap__clue {
-    --box-r: var(--r-soft-2);
-    position: absolute;
-    left: 0.8rem;
-    bottom: 0.8rem;
-    z-index: 3;
-    width: min(26rem, calc(100% - 1.6rem));
-    padding: 1.1rem 1.3rem 1.2rem;
-    font-size: var(--step--1);
-    cursor: auto;
-  }
-  .nmap__clue :global(p) {
-    margin: 0 0 0.4rem;
-  }
-  .nmap__clue :global(.nmap__clue-h) {
-    color: var(--ink-soft);
-  }
-  .nmap__clue :global(.nmap__clue-why) {
-    font-family: 'EB Garamond Variable', 'EB Garamond', serif;
-    font-size: var(--step-0);
-    color: var(--ink-strong);
-  }
-  .nmap__clue :global(.nmap__clue-pair) {
-    font-family: var(--font-title);
-    font-size: var(--step-1);
-    color: var(--ink-strong);
-  }
-  .nmap__clue :global(.nmap__clue-row) {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.6rem 1rem;
-    margin-top: 0.6rem;
-  }
-  .nmap__clue :global(.nmap__clue-tap) {
-    flex: 1;
-    color: var(--ink-soft);
-  }
-
   /* ---------- the legend ---------- */
   .nmap__legend {
     display: flex;
