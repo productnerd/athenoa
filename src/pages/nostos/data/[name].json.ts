@@ -17,6 +17,7 @@ import {
   talks,
   truefalse,
 } from '../../../lib/nostos';
+import { chapters } from '../../../lib/nostos-path';
 
 const clip = (text: string, n: number) => (text.length > n ? `${text.slice(0, n - 1).replace(/\s+\S*$/, '')}…` : text);
 
@@ -47,13 +48,16 @@ const feeds = {
   distinctions: () => distinctions.filter((d) => d.a && d.b && d.a_gloss && d.b_gloss),
   practices: () => practices,
   questions: () => questions,
-} as const;
+  // the path: what each chapter's lessons need, one file per chapter (path-<talk id>), loaded when a
+  // lesson or a review reaches it
+  ...Object.fromEntries(chapters.map((c) => [`path-${c.id}`, () => c.steps])),
+} as Record<string, () => unknown>;
 
 export function getStaticPaths() {
   return Object.keys(feeds).map((name) => ({ params: { name } }));
 }
 
 export const GET: APIRoute = ({ params }) =>
-  new Response(JSON.stringify(feeds[params.name as keyof typeof feeds]()), {
+  new Response(JSON.stringify(feeds[params.name!]()), {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   });

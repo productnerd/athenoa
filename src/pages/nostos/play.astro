@@ -20,6 +20,7 @@ import {
   sequences,
   talkUrl,
 } from '../../lib/nostos';
+import { askedTotal, pathOutline } from '../../lib/nostos-path';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
@@ -59,6 +60,9 @@ const acts: Record<'remember' | 'understand' | 'own', Act[]> = {
 const line = lines[0];
 const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
 const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
+const fill = (text: string, values: Record<string, string | number>) =>
+  text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
+const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -66,7 +70,7 @@ const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
     data-nplay
     data-feed-src="/nostos/data/"
     data-map-href={pathIn(locale, '/nostos/')}
-    data-cards={cards}
+    data-asked={askedTotal}
     data-stars={concepts.length}
     data-labels={JSON.stringify(labels)}
   >
@@ -78,27 +82,46 @@ const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
           <p class="lead nostos-intro" data-reveal>{t.intro}</p>
         </header>
 
-        <div class="nplay-today box on-blue-light" data-reveal>
-          <div class="nplay-today__main">
-            <p class="nplay-today__h">{t.today}</p>
-            <p class="nplay-today__line" data-today-line>
-              {t.todayLine.replace('{due}', String(cards)).replace('{rung}', '1').replace('{name}', t.rungs[0][1])}
+        <div class="nplay-today" data-reveal>
+          <div class="nplay-path box on-blue">
+            <p class="nplay-path__h">
+              {t.path.title} · <span data-path-chapter>{fill(t.path.chapter, { i: 1, n: pathOutline.length })}</span>
             </p>
+            <h2 class="nplay-path__title" lang="en" data-path-title>{pathOutline[0].title}</h2>
+            <ol class="nplay-stones" role="list" data-path-stones>
+              {pathOutline[0].lessons.map(() => (
+                <li>
+                  <span class="nstone" />
+                </li>
+              ))}
+            </ol>
+            <p class="nplay-path__line" data-path-line>{fill(t.path.overall, { done: 0, n: lessons })}</p>
+            <p class="nplay-path__intro">{t.path.intro}</p>
             <div class="nplay-today__btns">
-              <button type="button" class="btn" data-review>{t.review}</button>
-              <button type="button" class="btn btn--ghost" data-surprise>{t.surprise}</button>
+              <button type="button" class="btn" data-path-go>{t.path.begin}</button>
             </div>
           </div>
-          {
-            line && (
-              <figure class="nplay-line">
-                <blockquote class="hand hand--m" lang="en">{line.text}</blockquote>
-                <figcaption class="small">
-                  <a href={talkUrl(line.talk!, line.t)} target="_blank" rel="noopener">{t.herLine}</a>
-                </figcaption>
-              </figure>
-            )
-          }
+          <div class="nplay-side">
+            <div class="nplay-review box on-blue-light">
+              <p class="nplay-path__h">{t.review.title}</p>
+              <p class="nplay-review__line" data-review-line>{t.review.none}</p>
+              <p class="nplay-review__note">{t.review.empty}</p>
+              <div class="nplay-today__btns">
+                <button type="button" class="btn" data-review disabled>{t.review.go}</button>
+                <button type="button" class="btn btn--ghost" data-surprise>{t.surprise}</button>
+              </div>
+            </div>
+            {
+              line && (
+                <figure class="nplay-line">
+                  <blockquote class="hand hand--m" lang="en">{line.text}</blockquote>
+                  <figcaption class="small">
+                    <a href={talkUrl(line.talk!, line.t)} target="_blank" rel="noopener">{t.herLine}</a>
+                  </figcaption>
+                </figure>
+              )
+            }
+          </div>
         </div>
         <p class="nplay-nojs">
           {t.noScript} <a href={pathIn(locale, '/nostos/')}>{t.mapLink}</a>
@@ -205,6 +228,7 @@ const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
 </Base>
 
 <script type="application/json" data-nplay-words set:html={JSON.stringify(words)} />
+<script type="application/json" data-npath set:html={JSON.stringify(pathOutline)} />
 
 <script>
   import '../../scripts/nostos-play';
@@ -241,35 +265,118 @@ const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
     }
   }
 
-  /* ---------- today ---------- */
+  /* ---------- the path and Review ---------- */
   .nplay-today {
-    --box-r: var(--r-soft-2);
     display: grid;
-    gap: var(--space-m) var(--space-l);
-    align-items: center;
+    gap: var(--space-m);
+    align-items: start;
   }
-  @media (min-width: 52rem) {
+  @media (min-width: 56rem) {
     .nplay-today {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
     }
   }
-  .nplay-today__main {
+  .nplay-path {
+    --box-r: var(--r-soft-2);
     display: grid;
-    gap: 0.6rem;
+    gap: 0.7rem;
   }
-  .nplay-today__main > p {
+  .nplay-path > p,
+  .nplay-review > p {
     margin: 0;
   }
-  .nplay-today__h {
+  .nplay-path__h {
     font-size: var(--step--1);
     color: var(--ink-soft);
   }
-  .nplay-today__line {
+  .nplay-path__title {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-2);
+    line-height: 1.1;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+  .nplay-path__line {
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+  .nplay-path__intro {
+    max-width: 38rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  /* the chapter's lessons as stones on the way: walked, here, still ahead */
+  .nplay-stones {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.55rem 0.5rem;
+    margin: 0.5rem 0 0.2rem;
+    padding: 0;
+    list-style: none;
+  }
+  .nplay-stones :global(li) {
+    display: flex;
+  }
+  .nplay-stones :global(li:nth-child(odd)) {
+    translate: 0 0.18rem;
+  }
+  .nplay-stones :global(.nstone) {
+    display: block;
+    width: 1.35rem;
+    height: 1.1rem;
+    padding: 0;
+    background: none;
+    border: 1.5px solid currentColor;
+    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+    color: var(--ink);
+    opacity: 0.45;
+    cursor: pointer;
+    transition: opacity var(--dur-1) var(--hover-delay);
+  }
+  .nplay-stones :global(li:nth-child(3n) .nstone) {
+    border-radius: 46% 54% 44% 56% / 55% 45% 55% 45%;
+  }
+  .nplay-stones :global(.nstone.is-done) {
+    background: currentColor;
+    opacity: 0.85;
+  }
+  .nplay-stones :global(.nstone.is-here) {
+    width: 1.7rem;
+    height: 1.4rem;
+    background: var(--blue-light);
+    border-color: var(--blue-light);
+    outline: 1.5px solid currentColor;
+    outline-offset: 3px;
+    opacity: 1;
+  }
+  .nplay-stones :global(.nstone:disabled) {
+    cursor: default;
+  }
+  .nplay-stones :global(.nstone:not(:disabled):hover) {
+    opacity: 1;
+  }
+  .nplay-side {
+    display: grid;
+    gap: var(--space-m);
+  }
+  .nplay-review {
+    --box-r: var(--r-pebble-2);
+    display: grid;
+    gap: 0.5rem;
+  }
+  .nplay-review__line {
     font-family: var(--font-title);
     font-weight: var(--title-weight);
     font-size: var(--step-1);
     line-height: 1.2;
     color: var(--ink-strong);
+  }
+  .nplay-review__note {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
   }
   .nplay-today__btns {
     display: flex;
@@ -1222,5 +1329,41 @@ const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
     max-width: 30rem;
     margin: 0;
     font-size: var(--step-1);
+  }
+
+  /* the path: a new idea, a passage, one of her lines */
+  .nkind {
+    margin: 0 0 0.2rem;
+    letter-spacing: 0.02em;
+  }
+  .nidea {
+    display: grid;
+    gap: 0.45rem;
+    justify-items: center;
+    text-align: center;
+  }
+  .nidea > * {
+    margin: 0;
+  }
+  .nidea__take {
+    max-width: 36rem;
+    text-align: left;
+    line-height: 1.55;
+  }
+  .npass {
+    margin: 0;
+    padding-left: 1rem;
+    border-left: 2px solid var(--blue-light);
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-0);
+    line-height: 1.55;
+  }
+  .nline {
+    margin: 0;
+    color: var(--ink-strong);
+  }
+  /* her words are in English: in the English voice face on every version of the site */
+  .nline:lang(en) {
+    font-family: 'ATH Hand', var(--font-hand);
   }
 </style>

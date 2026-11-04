@@ -17,6 +17,8 @@ export interface Progress {
   done: Record<string, number>;
   /** the visitor's own links (Threads): concept id -> what it reminds them of */
   threads?: Record<string, string>;
+  /** the path: step id -> 1 once read, or [box, due] for a step that comes back in Review */
+  path?: Record<string, 1 | [number, string]>;
   v: 1;
 }
 

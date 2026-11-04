@@ -131,6 +131,8 @@ All of the Nostos interface wording is new and lives in `src/data/nostos/ui.ts` 
 | Home, a Greek-blue sheet after the course tabs | Nostos · Study Athena’s teaching by doing: a map of the ideas, short activities drawn from the talks, and the books behind them. · Enter Nostos | Νόστος · Μελετήστε τη διδασκαλία της Αθηνάς κάνοντας: … · Είσοδος στον Νόστο |
 | Each course page, a line at the end | The ideas of this course, and the rest of Athena’s teaching, to explore and practise in Nostos. Open Nostos | Οι ιδέες αυτού του μαθήματος, και όλη η διδασκαλία της Αθηνάς, … Άνοιγμα του Νόστου |
 
+Inside Nostos, later the same day: the play page opens with **The path** (every idea, question, myth, root and passage in the order of Athena's talks, in short lessons) and a separate **Review** (what the path has covered, coming back a little before it would be forgotten). Their words are in `ui.ts` under `play.path` and `play.review`, English and Greek, all proposed. The old "Today" line and its "Review cards" button are gone (Logos cards stays as one of the activities), and the map's link switches ("Strongest", "Athena's links", "Said together", "All") are removed with their words.
+
 ## Ancient Greek (11 October 2026)
 
 The whole site also exists in Ancient Greek under `/grc/`, as a machine-drafted translation in `src/data/grc/` that Athena has not read. It is kept out of search engines. The translator's notes on word choices (for example τὸ μὴ δύο εἶναι for "non-duality") are in the session report of that day.
