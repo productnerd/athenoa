@@ -2,7 +2,7 @@
 // Nostos, the bookshelf (tasks/nostos.md, Bookshelf): the texts she reads from, as spines on a shelf in
 // the spirit of Stripe Press. A spine eases out under the pointer; chosen, the book comes forward, turns
 // to its cover and opens on its hinge to the inside page. On phones it opens to a single page; with
-// reduced motion it simply shows the open page. Without JavaScript every book is open in the list below.
+// reduced motion it simply shows the open page. The books open with the script only.
 // Not in the sitemap and noindex until launch. THE CONTENT IS NEW WORDING for Athena to review.
 import Base from '../../layouts/Base.astro';
 import NostosNav from '../../components/nostos/NostosNav.astro';
@@ -66,8 +66,8 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
           <div class="nshelf__row" data-reveal-group>
             {
               books.map((b) => (
-                <a
-                  href={`#w-${b.w.id}`}
+                <button
+                  type="button"
                   class:list={['nspine', `nspine--${b.paper}`]}
                   style={`--h:${b.height.toFixed(2)}rem; --w:${b.width.toFixed(2)}rem`}
                   data-book={b.w.id}
@@ -75,7 +75,7 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
                 >
                   <span class="nspine__author">{b.w.author}</span>
                   <span class="nspine__title" lang={b.w.greek_title ? 'grc' : 'en'}>{b.w.greek_title ?? b.w.title}</span>
-                </a>
+                </button>
               ))
             }
           </div>
@@ -89,9 +89,9 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
               <ol>
                 {path.map((b) => (
                   <li>
-                    <a href={`#w-${b!.w.id}`} data-book={b!.w.id} lang="en">
+                    <button type="button" data-book={b!.w.id} lang="en">
                       {b!.w.title}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ol>
@@ -101,25 +101,21 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
       </div>
     </section>
 
-    <section class="section nshelf-list" aria-labelledby="nshelf-list-title">
-      <div class="wrap">
-        <h2 class="t-2" id="nshelf-list-title">{t.listTitle}</h2>
-        <p class="nshelf-list__intro">{t.listIntro}</p>
-        {
-          books.map((b) => (
-            <article class:list={['nshelf-list__book box', b.paper === 'light' ? 'on-blue-light' : '']} id={`w-${b.w.id}`} data-paper={b.paper}>
-              <BookBody work={b.w} />
-              <template data-cover>
-                <Illustration name={b.symbol} class="nbook3d__mark" note={false} />
-                <p class="nbook3d__author">{b.w.author}</p>
-                <p class="nbook3d__title" lang="en">{b.w.title}</p>
-                {b.w.greek_title && <p class="nbook3d__greek" lang="grc">{b.w.greek_title}</p>}
-              </template>
-            </article>
-          ))
-        }
-      </div>
-    </section>
+    {/* What is inside each book, kept out of sight until its spine is chosen (the list of all the books
+        that once followed the shelf was taken away at the client's wish, 4 November 2026) */}
+    {
+      books.map((b) => (
+        <template data-book-body={b.w.id} data-paper={b.paper}>
+          <BookBody work={b.w} />
+          <div data-cover>
+            <Illustration name={b.symbol} class="nbook3d__mark" note={false} />
+            <p class="nbook3d__author">{b.w.author}</p>
+            <p class="nbook3d__title" lang="en">{b.w.title}</p>
+            {b.w.greek_title && <p class="nbook3d__greek" lang="grc">{b.w.greek_title}</p>}
+          </div>
+        </template>
+      ))
+    }
 
     <dialog class="nstage" data-stage>
       <button type="button" class="nstage__close" data-stage-close aria-label={t.close}>
@@ -192,16 +188,17 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
     };
 
     const open = (id: string) => {
-      const item = root.querySelector<HTMLElement>(`#w-${CSS.escape(id)}`);
-      if (!item) return;
+      const template = root.querySelector<HTMLTemplateElement>(`template[data-book-body="${CSS.escape(id)}"]`);
+      if (!template) return;
       clear();
+      const item = template.content;
       const body = item.querySelector('.nbook-body')!;
       // (the inside of the cover is copied to the head of the page too, where phones show it)
       page.replaceChildren(body.querySelector('.nbook__inside')!.cloneNode(true), body.querySelector('.nbook__page')!.cloneNode(true));
       inside.replaceChildren(body.querySelector('.nbook__inside')!.cloneNode(true));
-      outside.replaceChildren((item.querySelector<HTMLTemplateElement>('template[data-cover]')!.content.cloneNode(true)));
+      outside.replaceChildren(...Array.from(item.querySelector('[data-cover]')!.childNodes, (n) => n.cloneNode(true)));
       passages(item.querySelectorAll('.npassage').length);
-      book.dataset.paper = item.dataset.paper;
+      book.dataset.paper = template.dataset.paper;
       stage.setAttribute('aria-label', item.querySelector('.nbook__title')?.textContent ?? '');
       page.scrollTop = 0;
       inside.scrollTop = 0;
@@ -235,7 +232,6 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
     root.addEventListener(
       'click',
       (event) => {
-        if (event instanceof MouseEvent && (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0)) return;
         const link = (event.target as Element).closest<HTMLElement>('[data-book]');
         if (!link) return;
         event.preventDefault();
@@ -341,8 +337,14 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
     padding: 0.9rem 0 1rem;
     color: var(--ink);
     text-decoration: none;
+    font: inherit;
+    border: 0;
+    background: none;
+    cursor: pointer;
     transform-style: preserve-3d;
-    transition: transform 0.35s var(--ease-out) var(--hover-delay);
+    transition:
+      translate 0.4s var(--ease-out) var(--hover-delay),
+      rotate 0.4s var(--ease-out) var(--hover-delay);
   }
   /* the cut-out of the spine, on a layer of its own (the rough edge lives there, never on the words) */
   .nspine::before {
@@ -378,9 +380,16 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
     --paper: var(--creme-deep);
     --ink: var(--blue);
   }
+  /* Under the pointer a book eases out of the row and turns a little towards you (with translate and
+     rotate: the entrance animation holds transform, and would otherwise cancel the hover) */
   .nspine:hover,
   .nspine:focus-visible {
-    transform: translateY(-0.9rem) rotateY(-14deg);
+    translate: 0 -1.1rem;
+    rotate: y -16deg;
+  }
+  .nspine:hover::before,
+  .nspine:focus-visible::before {
+    background: color-mix(in srgb, var(--paper) 88%, var(--creme-light));
   }
   .nspine:focus-visible {
     outline: 2px solid var(--ink-strong, var(--blue));
@@ -437,26 +446,17 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
     margin: 0 0.55rem;
     opacity: 0.6;
   }
-  .nshelf__path a {
+  .nshelf__path button {
+    padding: 0;
+    font: inherit;
     color: var(--ink-strong);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    background: none;
+    border: 0;
+    cursor: pointer;
   }
 
-  /* ---------- the list: every book, open ---------- */
-  .nshelf-list__intro {
-    margin: var(--space-2xs) 0 var(--space-l);
-    color: var(--ink-soft);
-  }
-  .nshelf-list__book {
-    --box-r: var(--r-soft);
-    margin-bottom: var(--space-m);
-  }
-  .nshelf-list__book:nth-child(even) {
-    --box-r: var(--r-soft-2);
-  }
-  /* with the script, the list is a quieter index: the books open from the shelf */
-  .nshelf-list__book :global(.npassage + .npassage) {
-    margin-top: 0.8rem;
-  }
 </style>
 
 <style is:global>
