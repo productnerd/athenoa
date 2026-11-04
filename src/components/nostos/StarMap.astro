@@ -170,11 +170,6 @@ const playHref = pathIn(locale, '/nostos/play/');
           </g>
         </svg>
       </div>
-      <div class="nmap__zoom" data-zoombar hidden>
-        <button type="button" data-zoom="in" aria-label={t.zoomIn}>+</button>
-        <button type="button" data-zoom="out" aria-label={t.zoomOut}>−</button>
-        <button type="button" data-recentre class="nmap__recentre">{t.recentre}</button>
-      </div>
         <aside class="nmap__note box" data-note hidden aria-label="" tabindex="-1">
         <button type="button" class="nmap__close" data-close aria-label={ui.note.close}>
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
@@ -244,7 +239,6 @@ const playHref = pathIn(locale, '/nostos/play/');
 
     root.classList.add('is-live');
     document.documentElement.classList.add('nostos-live');
-    root.querySelector<HTMLElement>('[data-zoombar]')!.hidden = false;
     root.querySelectorAll<HTMLButtonElement>('.nmap__theme').forEach((b) => (b.disabled = false));
 
     // ---------- the view: one transform on one layer ----------
@@ -307,12 +301,6 @@ const playHref = pathIn(locale, '/nostos/play/');
       tx += (wide ? W * 0.36 : W / 2) - sx;
       ty += (wide ? H / 2 : H * 0.32) - sy;
       apply(glide);
-    };
-    const recentre = () => {
-      k = 1;
-      tx = 0;
-      ty = 0;
-      apply(true);
     };
     measure();
     labels();
@@ -390,10 +378,6 @@ const playHref = pathIn(locale, '/nostos/play/');
       },
       on,
     );
-    root.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((b) =>
-      b.addEventListener('click', () => zoomAt(b.dataset.zoom === 'in' ? 1.4 : 1 / 1.4, W / 2, H / 2, true), on),
-    );
-    root.querySelector('[data-recentre]')!.addEventListener('click', recentre, on);
     window.addEventListener(
       'resize',
       () => {
@@ -643,7 +627,6 @@ const playHref = pathIn(locale, '/nostos/play/');
     outline: 2px solid var(--ink-strong);
     outline-offset: 2px;
   }
-  .nmap__zoom button,
   .nmap__theme {
     padding: 0.42em 0.9em;
     font: inherit;
@@ -657,9 +640,6 @@ const playHref = pathIn(locale, '/nostos/play/');
     transition:
       background-color var(--dur-1) var(--hover-delay),
       color var(--dur-1) var(--hover-delay);
-  }
-  .nmap__zoom button:hover {
-    background: color-mix(in srgb, var(--blue-light) 40%, transparent);
   }
   .nmap__status {
     flex-basis: 100%;
@@ -812,22 +792,6 @@ const playHref = pathIn(locale, '/nostos/play/');
     transition: none;
   }
 
-  /* ---------- zoom ---------- */
-  .nmap__zoom {
-    position: absolute;
-    right: 0.7rem;
-    bottom: 0.7rem;
-    z-index: 2;
-    display: flex;
-    gap: 0.25rem;
-    padding: 0.2rem;
-    background: color-mix(in srgb, var(--paper) 85%, transparent);
-    border: 1.5px solid var(--line);
-    border-radius: 1.3rem 1rem 1.4rem 1.1rem / 1.1rem 1.4rem 1rem 1.3rem;
-  }
-  .nmap__zoom button {
-    min-width: 2.2rem;
-  }
   /* ---------- the legend ---------- */
   .nmap__legend {
     display: flex;
