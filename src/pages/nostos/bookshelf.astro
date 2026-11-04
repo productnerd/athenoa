@@ -137,6 +137,12 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
 
 <script>
   import { load, save } from '../../scripts/nostos-progress';
+  import { playSound, preloadSounds } from '../../scripts/sound';
+
+  // Two soft sounds (client request, 4 November 2026): the book sliding off the shelf, then its cover
+  // turning on the hinge. Synthesised; very quiet, like the site's other effects.
+  const TAKE = 0.12;
+  const OPEN = 0.12;
 
   let stop: (() => void) | undefined;
 
@@ -161,6 +167,7 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
       timers = [];
     };
     root.classList.add('is-live');
+    preloadSounds('/audio/book-take.mp3', '/audio/book-open.mp3');
 
     // one passage at a time, with a way to the others
     const passages = (n: number) => {
@@ -205,18 +212,24 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
       stage.classList.remove('is-leaving');
       book.className = 'nbook3d is-closed';
       stage.showModal();
+      playSound('/audio/book-take.mp3', TAKE);
       const progress = load();
       progress.done.book = (progress.done.book || 0) + 1;
       save(progress);
       if (!motion()) {
         book.className = 'nbook3d is-open';
+        later(() => playSound('/audio/book-open.mp3', OPEN), 120);
         return;
       }
       // off the shelf, round to its cover, then the cover opens on its hinge
       requestAnimationFrame(() =>
         requestAnimationFrame(() => {
           book.className = 'nbook3d is-front';
-          later(() => (book.className = 'nbook3d is-open'), 750);
+          later(() => {
+            book.className = 'nbook3d is-open';
+            // the cover starts to turn 0.15 s after this, and lands about a second later
+            later(() => playSound('/audio/book-open.mp3', OPEN), 120);
+          }, 750);
         }),
       );
     };
@@ -343,8 +356,17 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
     cursor: pointer;
     transform-style: preserve-3d;
     transition:
-      translate 0.4s var(--ease-out) var(--hover-delay),
-      rotate 0.4s var(--ease-out) var(--hover-delay);
+      translate 0.9s var(--ease-in-out) var(--hover-delay),
+      rotate 0.9s var(--ease-in-out) var(--hover-delay);
+  }
+  /* (the entrance animation sets transition on every revealed element and would drop the two above:
+     both are listed together here, the entrance with its stagger) */
+  :global(html.motion) .nspine[data-reveal] {
+    transition:
+      opacity var(--dur-3) var(--ease-out) calc(var(--i, 0) * 95ms),
+      transform var(--dur-3) var(--ease-out) calc(var(--i, 0) * 95ms),
+      translate 0.9s var(--ease-in-out) var(--hover-delay),
+      rotate 0.9s var(--ease-in-out) var(--hover-delay);
   }
   /* the cut-out of the spine, on a layer of its own (the rough edge lives there, never on the words) */
   .nspine::before {
@@ -380,16 +402,12 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
     --paper: var(--creme-deep);
     --ink: var(--blue);
   }
-  /* Under the pointer a book eases out of the row and turns a little towards you (with translate and
+  /* Under the pointer a book eases slowly a little out of the row and turns slightly towards you (with translate and
      rotate: the entrance animation holds transform, and would otherwise cancel the hover) */
   .nspine:hover,
   .nspine:focus-visible {
-    translate: 0 -1.1rem;
-    rotate: y -16deg;
-  }
-  .nspine:hover::before,
-  .nspine:focus-visible::before {
-    background: color-mix(in srgb, var(--paper) 88%, var(--creme-light));
+    translate: 0 -0.55rem;
+    rotate: y -7deg;
   }
   .nspine:focus-visible {
     outline: 2px solid var(--ink-strong, var(--blue));

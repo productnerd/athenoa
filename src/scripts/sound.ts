@@ -56,6 +56,13 @@ function load(ctx: AudioContext, file: string) {
   return buffer;
 }
 
+/** Fetches and decodes sounds ahead of time, so the first play is not late (a context may be made and
+ *  may decode before the visitor's first press; it only plays after it). */
+export function preloadSounds(...files: string[]) {
+  const ctx = make();
+  if (ctx) files.forEach((file) => load(ctx, file).catch(() => {}));
+}
+
 /** Plays a short sound once, at `volume` (0 to 1). Silent while the browser holds sound back. */
 export async function playSound(file: string, volume: number) {
   const ctx = make();

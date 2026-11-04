@@ -16,7 +16,6 @@ const items = [
 ---
 
 <nav class="nnav" aria-label={t.label}>
-  <span class="nnav__name">{t.label} <span lang="grc">νόστος</span></span>
   <ul>
     {
       items.map((item) => (
@@ -39,13 +38,6 @@ const items = [
     align-items: baseline;
     gap: 0.3rem 1.2rem;
     font-size: var(--step--1);
-  }
-  .nnav__name {
-    color: var(--ink-soft);
-  }
-  .nnav__name span {
-    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
-    font-style: italic;
   }
   .nnav ul {
     display: flex;
