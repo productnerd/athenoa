@@ -4,6 +4,7 @@
 import { handCase } from '../../lib/hand';
 import Base from '../../layouts/Base.astro';
 import Illustration from '../../components/Illustration.astro';
+import NostosInvite from '../../components/nostos/NostosInvite.astro';
 import CourseBody from '../../components/courses/CourseBody.astro';
 import CoursePrice from '../../components/courses/CoursePrice.astro';
 import RegistrationInfo from '../../components/courses/RegistrationInfo.astro';
@@ -79,6 +80,8 @@ const canEnrol = course.available && course.price;
           </section>
         )
       }
+      {/* NEW: the way into Nostos (proposed, src/data/nostos/ui.ts) */}
+      <NostosInvite variant="course" />
     </div>
   </article>
 </Base>

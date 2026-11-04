@@ -1,5 +1,7 @@
 // DRAFT machine translation (English to Greek) of src/data/site.ts, for layout and typeface testing only.
 // To be reviewed by Athena before any of it is published.
+import { nostosUi } from '../nostos/ui';
+
 export const site = {
   name: 'ATHENOA',
   // The live footer signs off in Greek capitals.
@@ -25,6 +27,8 @@ export const site = {
   nav: [
     { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/el/about-athena/' },
     { label: 'Μαθήματα', href: '/el/courses/' },
+    // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos
+    { label: nostosUi.el.entry.nav, href: '/el/nostos/' },
   ],
   footer: {
     linksTitle: 'Εσωτερικοί Σύνδεσμοι',

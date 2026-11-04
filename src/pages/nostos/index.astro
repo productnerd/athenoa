@@ -3,6 +3,7 @@
 // the whole page without JavaScript). Not in the sitemap and marked noindex until launch
 // (tasks/nostos.md, step 8). THE CONTENT IS NEW WORDING for Athena to review (src/lib/nostos.ts).
 import Base from '../../layouts/Base.astro';
+import NostosNav from '../../components/nostos/NostosNav.astro';
 import StarMap from '../../components/nostos/StarMap.astro';
 import ConceptNote from '../../components/nostos/ConceptNote.astro';
 import { nostosUi } from '../../data/nostos/ui';
@@ -22,7 +23,7 @@ const byTheme = groups.map((g) => ({
   <section class="section nostos-top">
     <div class="wrap">
       <header class="nostos-head">
-        <p class="nostos-name">{ui.name} <span lang="grc">νόστος</span></p>
+        <NostosNav />
         <h1 class="t-1" data-split>{t.title}</h1>
         <p class="lead nostos-intro" data-reveal>{t.intro.replace('{n}', String(meta.transcribedTalks))}</p>
         <p class="small nostos-draft" data-reveal style="--i:1">{t.draft}</p>
@@ -82,7 +83,7 @@ const byTheme = groups.map((g) => ({
       column-gap: var(--space-xl);
       align-items: end;
     }
-    .nostos-name,
+    .nostos-head > :global(.nnav),
     .nostos-head h1 {
       grid-column: 1;
     }
@@ -97,14 +98,6 @@ const byTheme = groups.map((g) => ({
   }
   .nostos-head > * {
     margin: 0;
-  }
-  .nostos-name {
-    font-size: var(--step-0);
-    color: var(--ink-soft);
-  }
-  .nostos-name span {
-    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
-    font-style: italic;
   }
   .nostos-draft {
     color: var(--ink-soft);

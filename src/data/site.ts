@@ -1,4 +1,6 @@
 // Site-wide facts. Copy here is taken from the live site (athenoa.academy, October 2026).
+import { nostosUi } from './nostos/ui';
+
 export const site = {
   name: 'ATHENOA',
   // The live footer signs off in Greek capitals.
@@ -24,6 +26,8 @@ export const site = {
   nav: [
     { label: 'About Dr. Athena', href: '/about-athena/' },
     { label: 'Courses', href: '/courses/' },
+    // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos
+    { label: nostosUi.en.entry.nav, href: '/nostos/' },
   ],
   footer: {
     linksTitle: 'Internal Links',

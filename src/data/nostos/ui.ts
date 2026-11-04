@@ -247,6 +247,21 @@ export const nostosUi = {
       lang: { en: 'English', el: 'Greek' },
       kind: { essay: 'essay', article: 'article', paper: 'paper', interview: 'interview', thesis: 'thesis' },
     },
+    // The ways in (tasks/nostos.md, step 6): the header menu, a line on Home and on each course page,
+    // and the small menu that joins the four Nostos pages
+    entry: {
+      nav: 'Nostos',
+      sub: { label: 'Nostos', map: 'The map', play: 'Play', shelf: 'Bookshelf', sources: 'Sources' },
+      home: {
+        title: 'Nostos',
+        line: 'Study her teaching by doing: a map of her ideas, short activities drawn from her talks, and the books she reads from.',
+        cta: 'Enter Nostos',
+      },
+      course: {
+        line: 'The ideas of this course, and the rest of her teaching, to explore and practise in Nostos.',
+        cta: 'Open Nostos',
+      },
+    },
     groups: {
       path: 'The path',
       soul: 'Soul and mind',
@@ -479,6 +494,19 @@ export const nostosUi = {
       keyIdeas: 'Κύριες ιδέες',
       lang: { en: 'Αγγλικά', el: 'Ελληνικά' },
       kind: { essay: 'δοκίμιο', article: 'άρθρο', paper: 'μελέτη', interview: 'συνέντευξη', thesis: 'διατριβή' },
+    },
+    entry: {
+      nav: 'Νόστος',
+      sub: { label: 'Νόστος', map: 'Ο χάρτης', play: 'Δραστηριότητες', shelf: 'Βιβλιοθήκη', sources: 'Πηγές' },
+      home: {
+        title: 'Νόστος',
+        line: 'Μελετήστε τη διδασκαλία της κάνοντας: ένας χάρτης των ιδεών της, σύντομες δραστηριότητες από τις ομιλίες της, και τα βιβλία από τα οποία διαβάζει.',
+        cta: 'Είσοδος στον Νόστο',
+      },
+      course: {
+        line: 'Οι ιδέες αυτού του μαθήματος, και όλη η διδασκαλία της, για να τις εξερευνήσετε και να τις ασκήσετε στον Νόστο.',
+        cta: 'Άνοιγμα του Νόστου',
+      },
     },
     groups: {
       path: 'Ο δρόμος',

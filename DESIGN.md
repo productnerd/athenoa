@@ -129,6 +129,7 @@ const { home, site } = content(locale); // also: about, courses, coursesPage, re
 So the three blues are all in play and no two neighbours match:
 - Home: hero is full bleed, light blue by day (marble in the paper colour, Greek-blue line) and darker Greek blue by night; Membership on paper with light-blue shapes; Announcement on paper; Seminar on Greek blue; Series on paper; course tabs on a light-blue sheet; Transmission on darker Greek blue; Start is Greek blue over the fresco; Benefits on paper with one light-blue, one Greek-blue and one darker-blue box.
 - About: opening on paper; the story's third block on darker Greek blue; the Academy block on light blue; Contact on Greek blue.
+- Nostos (branch `nostos`): the star map is a darker blue panel that stays a night sky in both themes; the Home way in is a Greek-blue sheet between the light-blue course tabs and the darker blue of Transmission; the play menu mixes paper, darker paper and the three blues, one per activity.
 - Courses: every course has the same arch card (`CourseCard.astro`) on a paper of its own, in the order of the course list: Greek blue, light blue, darker paper, darker blue. The colour follows the course wherever its card appears (Home too), like a small brand. The price block inside the popup is on darker Greek blue.
 
 ## Symbols

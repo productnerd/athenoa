@@ -121,6 +121,16 @@ A small line under the button, new (client request):
 | --- | --- | --- |
 | We will notify you once the enrolments are open. | Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές. | Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν. |
 
+## Nostos (from 4 November 2026, branch nostos, proposed and not yet approved)
+
+All of the Nostos interface wording is new and lives in `src/data/nostos/ui.ts` (English and Greek; the Ancient Greek draft uses the Greek). Its study content (src/data/nostos/*.json) is generated from her talks and is for Athena to review. Outside Nostos itself, three places gain new words:
+
+| Where | English | Greek |
+| --- | --- | --- |
+| Header menu, after Courses | Nostos | Νόστος |
+| Home, a Greek-blue sheet after the course tabs | Nostos · Study her teaching by doing: a map of her ideas, short activities drawn from her talks, and the books she reads from. · Enter Nostos | Νόστος · Μελετήστε τη διδασκαλία της κάνοντας: … · Είσοδος στον Νόστο |
+| Each course page, a line at the end | The ideas of this course, and the rest of her teaching, to explore and practise in Nostos. Open Nostos | Οι ιδέες αυτού του μαθήματος, … στον Νόστο. Άνοιγμα του Νόστου |
+
 ## Ancient Greek (11 October 2026)
 
 The whole site also exists in Ancient Greek under `/grc/`, as a machine-drafted translation in `src/data/grc/` that Athena has not read. It is kept out of search engines. The translator's notes on word choices (for example τὸ μὴ δύο εἶναι for "non-duality") are in the session report of that day.
