@@ -1,0 +1,1098 @@
+---
+// Nostos: the star map, the front door (tasks/nostos.md, Star map). Each star is an idea she teaches;
+// its size follows how often she speaks of it; its shape tells its theme (seven themes, and only the
+// site's blues and crème to tell them by). The places come from the build-time layout, so the browser
+// never runs a simulation: it only pans, zooms and highlights, by moving one layer with a transform.
+//
+// Without JavaScript the map is a still picture, and the list of ideas under it (in the page) holds
+// everything. With it, a star opens its note beside the map (a sheet on phones), the legend switches
+// themes off and on, search finds a star by its English, Greek or Latin spelling, and "Find the link"
+// asks for the star she links to a marked one.
+//
+// The map keeps its daytime inks by night as well (theme-day): it is a night sky already, like the hero.
+//
+// THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
+import Illustration from '../Illustration.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import {
+  concepts,
+  conceptById,
+  coreLinks,
+  edges,
+  groups,
+  mapViewBox,
+  nostosFlags,
+  plain,
+  shortLabel,
+  stars,
+} from '../../lib/nostos';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const ui = nostosUi[mainLocale(locale)];
+const t = ui.map;
+
+// ---- the seven star shapes, one per theme, drawn at radius 1 ----
+const ring = (points: number, outer: number, inner: number) =>
+  Array.from({ length: points * 2 }, (_, i) => {
+    const a = (i * Math.PI) / points - Math.PI / 2;
+    const r = i % 2 ? inner : outer;
+    return `${(Math.cos(a) * r).toFixed(3)},${(Math.sin(a) * r).toFixed(3)}`;
+  }).join(' ');
+const shapes: Record<string, string> = {
+  path: '<circle r="1" fill="currentColor"/>',
+  soul: '<path d="M0-1.42Q.2-.2 1.42 0Q.2.2 0 1.42Q-.2.2-1.42 0Q-.2-.2 0-1.42Z" fill="currentColor"/>',
+  ethics: `<polygon points="${ring(8, 1.3, 0.66)}" fill="currentColor"/>`,
+  cosmos: '<circle r=".68" fill="currentColor"/><circle r="1.08" fill="none" stroke="currentColor" stroke-width=".18"/>',
+  ways: '<path d="M0-1.36L1.02 0 0 1.36-1.02 0Z" fill="currentColor"/>',
+  thinkers:
+    '<path d="M-.34-1.2H.34V-.34H1.2V.34H.34V1.2H-.34V.34H-1.2V-.34H-.34Z" fill="currentColor"/>',
+  gods: `<polygon points="${ring(6, 1.34, 0.52)}" fill="currentColor"/>`,
+};
+
+// ---- stars, lines, labels ----
+const star = new Map(stars.map((s) => [s.id, s]));
+const big = new Set(
+  stars
+    .slice()
+    .sort((a, b) => b.r - a.r)
+    .slice(0, 34)
+    .map((s) => s.id),
+);
+const core = new Set(coreLinks.map(([a, b]) => `${a}|${b}`));
+const isCore = (a: string, b: string) => core.has(`${a}|${b}`) || core.has(`${b}|${a}`);
+const lines = edges
+  .filter((e) => star.has(e.a) && star.has(e.b))
+  .map((e) => ({ ...e, ga: conceptById(e.a)!.group, gb: conceptById(e.b)!.group, core: isCore(e.a, e.b) }));
+
+// ---- what the script needs about each star: label, the words search looks through, neighbours ----
+const neighbours: Record<string, string[]> = {};
+for (const l of lines) {
+  (neighbours[l.a] ??= []).push(l.b);
+  (neighbours[l.b] ??= []).push(l.a);
+}
+const index = concepts.map((c) => ({
+  id: c.id,
+  label: c.label,
+  find: [c.label, c.greek, c.translit, c.id].filter(Boolean).map((w) => plain(w!)),
+  freq: c.freq,
+  n: neighbours[c.id] ?? [],
+}));
+// "Find the link" draws from the links she makes herself, where she says why
+const hunts = edges
+  .filter((e) => e.her && e.why && e.why.length > 12 && star.has(e.a) && star.has(e.b))
+  .map((e) => [e.a, e.b, e.why]);
+
+const playHref = pathIn(locale, '/nostos/play/');
+---
+
+<div
+  class="nmap theme-day"
+  data-nmap
+  data-play={playHref}
+  data-claude={nostosFlags.claude ? 'on' : undefined}
+  data-words={JSON.stringify({ note: ui.note, hunt: ui.hunt, noMatch: t.noMatch })}
+>
+  <div class="panel panel--big on-blue-deep nmap__sky">
+    <div class="panel__clip nmap__ground" aria-hidden="true">
+      <Illustration name="portal-b-stars-1" class="nmap__field" note={false} />
+      <Illustration name="portal-b-stars-3" class="nmap__field nmap__field--far" note={false} />
+    </div>
+
+    <form class="nmap__bar" data-bar role="search" onsubmit="return false">
+      <label class="visually-hidden" for="nmap-q">{t.search}</label>
+      <input
+        class="nmap__search"
+        id="nmap-q"
+        type="search"
+        placeholder={t.searchPlaceholder}
+        autocomplete="off"
+        spellcheck="false"
+        data-search
+      />
+      <div class="nmap__seg" role="group" aria-label={t.linesLabel}>
+        {
+          (['core', 'her', 'co', 'all'] as const).map((mode) => (
+            <button type="button" data-mode={mode} aria-pressed={mode === 'core' ? 'true' : 'false'}>
+              {t.lines[mode]}
+            </button>
+          ))
+        }
+      </div>
+      <button type="button" class="nmap__btn" data-hunt>{t.hunt}</button>
+      <p class="nmap__status" aria-live="polite" data-status></p>
+    </form>
+
+    <div class="nmap__view" data-view>
+      <div class="nmap__world" data-world>
+        <svg
+          class="nmap__svg"
+          viewBox={mapViewBox.join(' ')}
+          data-lines="core"
+          role="img"
+          aria-label={t.mapLabel}
+          data-svg
+        >
+          <defs>
+            {groups.map((g) => <symbol id={`nsh-${g.id}`} viewBox="-1.5 -1.5 3 3" overflow="visible" set:html={shapes[g.id]} />)}
+          </defs>
+          <g class="nmap__lines">
+            {
+              lines.map((l) => {
+                const a = star.get(l.a)!;
+                const b = star.get(l.b)!;
+                return (
+                  <line
+                    class:list={['ln', l.core && 'is-core', l.her && 'is-her', l.co > 0 && 'is-co']}
+                    x1={a.x}
+                    y1={a.y}
+                    x2={b.x}
+                    y2={b.y}
+                    data-a={l.a}
+                    data-b={l.b}
+                    data-ga={l.ga}
+                    data-gb={l.gb}
+                  />
+                );
+              })
+            }
+          </g>
+          <g class="nmap__stars">
+            {
+              stars.map((s) => {
+                const c = conceptById(s.id)!;
+                return (
+                  <g
+                    class:list={['star', big.has(s.id) && 'is-big']}
+                    data-id={s.id}
+                    data-g={c.group}
+                    data-r={s.r}
+                    transform={`translate(${s.x} ${s.y})`}
+                  >
+                    <circle class="star__hit" r={Math.max(s.r + 4, 12)} />
+                    <circle class="star__ring" r={s.r + 5} />
+                    <use class="star__shape" href={`#nsh-${c.group}`} x={-s.r * 1.5} y={-s.r * 1.5} width={s.r * 3} height={s.r * 3} />
+                    <text class="star__label" y={s.r} dy="1.05em">
+                      {shortLabel(c.label)}
+                    </text>
+                  </g>
+                );
+              })
+            }
+          </g>
+        </svg>
+      </div>
+      <div class="nmap__pulse" data-pulse hidden aria-hidden="true"></div>
+      <div class="nmap__zoom" data-zoombar hidden>
+        <button type="button" data-zoom="in" aria-label={t.zoomIn}>+</button>
+        <button type="button" data-zoom="out" aria-label={t.zoomOut}>−</button>
+        <button type="button" data-recentre class="nmap__recentre">{t.recentre}</button>
+      </div>
+      <div class="nmap__clue box theme-day" data-clue hidden aria-live="polite"></div>
+        <aside class="nmap__note box theme-day" data-note hidden aria-label="" tabindex="-1">
+        <button type="button" class="nmap__close" data-close aria-label={ui.note.close}>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path>
+          </svg>
+        </button>
+        <div class="nmap__note-in" data-note-in></div>
+      </aside>
+    </div>
+
+    <div class="nmap__legend" role="group" aria-label={t.themes}>
+      {
+        groups.map((g) => (
+          <button type="button" class="nmap__theme" data-theme={g.id} aria-pressed="true" title={g.sub} disabled>
+            <svg viewBox="-1.5 -1.5 3 3" aria-hidden="true">
+              <use href={`#nsh-${g.id}`} x="-1.5" y="-1.5" width="3" height="3" />
+            </svg>
+            {ui.groups[g.id as keyof typeof ui.groups] ?? g.label}
+          </button>
+        ))
+      }
+      <span class="nmap__size">{t.sizeKey}</span>
+    </div>
+  </div>
+
+</div>
+
+<script type="application/json" data-nmap-index set:html={JSON.stringify({ index, hunts })} />
+
+<script>
+  import { award, load, setKnown } from '../../scripts/nostos-progress';
+
+  type Entry = { id: string; label: string; find: string[]; freq: number; n: string[] };
+  const plain = (text: string) =>
+    text
+      .normalize('NFD')
+      .replace(/\p{M}/gu, '')
+      .toLocaleLowerCase('el')
+      .replace(/ς/g, 'σ');
+  const fill = (text: string, key: string, value: string | number) => text.replace(`{${key}}`, String(value));
+
+  let stop: (() => void) | undefined;
+
+  function setup() {
+    stop?.();
+    stop = undefined;
+    const root = document.querySelector<HTMLElement>('[data-nmap]');
+    const data = document.querySelector('[data-nmap-index]');
+    if (!root || !data) return;
+    const { index, hunts } = JSON.parse(data.textContent ?? '{}') as { index: Entry[]; hunts: [string, string, string][] };
+    const byId = new Map(index.map((e) => [e.id, e]));
+    const words = JSON.parse(root.dataset.words ?? '{}');
+    const view = root.querySelector<HTMLElement>('[data-view]')!;
+    const world = root.querySelector<HTMLElement>('[data-world]')!;
+    const svg = root.querySelector<SVGSVGElement>('[data-svg]')!;
+    const note = root.querySelector<HTMLElement>('[data-note]')!;
+    const noteIn = root.querySelector<HTMLElement>('[data-note-in]')!;
+    const clue = root.querySelector<HTMLElement>('[data-clue]')!;
+    const pulse = root.querySelector<HTMLElement>('[data-pulse]')!;
+    const status = root.querySelector<HTMLElement>('[data-status]')!;
+    const search = root.querySelector<HTMLInputElement>('[data-search]')!;
+    const starEl = new Map(
+      Array.from(svg.querySelectorAll<SVGGElement>('.star')).map((el) => [el.dataset.id!, el]),
+    );
+    const lineEls = Array.from(svg.querySelectorAll<SVGLineElement>('.ln'));
+    const [vx, vy, vw, vh] = svg.viewBox.baseVal ? [svg.viewBox.baseVal.x, svg.viewBox.baseVal.y, svg.viewBox.baseVal.width, svg.viewBox.baseVal.height] : [0, 0, 1, 1];
+    const ac = new AbortController();
+    const on = { signal: ac.signal } as AddEventListenerOptions;
+    const reduced = () => !document.documentElement.classList.contains('motion');
+
+    root.classList.add('is-live');
+    document.documentElement.classList.add('nostos-live');
+    root.querySelector<HTMLElement>('[data-zoombar]')!.hidden = false;
+    root.querySelectorAll<HTMLButtonElement>('.nmap__theme').forEach((b) => (b.disabled = false));
+
+    // ---------- the view: one transform on one layer ----------
+    let W = 1;
+    let H = 1;
+    let s0 = 1; // screen pixels per map unit when the whole map fits
+    let ox = 0;
+    let oy = 0;
+    let k = 1;
+    let tx = 0;
+    let ty = 0;
+    let settle = 0;
+    const measure = () => {
+      W = view.clientWidth;
+      H = view.clientHeight;
+      s0 = Math.min(W / vw, H / vh);
+      ox = (W - vw * s0) / 2 - vx * s0;
+      oy = (H - vh * s0) / 2 - vy * s0;
+    };
+    // where a star is on the screen (relative to the view)
+    const screenOf = (id: string) => {
+      const el = starEl.get(id)!;
+      const m = el.transform.baseVal.getItem(0).matrix;
+      return [tx + k * (ox + m.e * s0), ty + k * (oy + m.f * s0)];
+    };
+    const labels = () => {
+      svg.style.setProperty('--u', String(1 / (s0 * k)));
+      const lit = svg.classList.contains('has-sel');
+      starEl.forEach((el, id) => {
+        const r = Number(el.dataset.r);
+        // the 34 biggest at first, then more as the map comes closer (a star's label shows once it is
+        // drawn at 20 pixels or more across its radius), whatever the size of the screen
+        const show = el.classList.contains('is-big') || (k > 1.05 && r * k * Math.max(s0, 0.9) >= 20) || (lit && el.classList.contains('is-lit'));
+        el.classList.toggle('show-label', show);
+      });
+    };
+    const apply = (glide = false) => {
+      world.classList.toggle('is-gliding', glide && !reduced());
+      world.classList.add('is-moving');
+      world.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${k})`;
+      if (hunt) placePulse(hunt.mark);
+      clearTimeout(settle);
+      // once still, the layer is drawn again at its new size (sharp) and the labels are set
+      settle = window.setTimeout(() => {
+        world.classList.remove('is-moving', 'is-gliding');
+        labels();
+      }, glide ? 520 : 160);
+    };
+    const zoomAt = (factor: number, px: number, py: number, glide = false) => {
+      const nk = Math.min(5, Math.max(0.6, k * factor));
+      tx = px - ((px - tx) * nk) / k;
+      ty = py - ((py - ty) * nk) / k;
+      k = nk;
+      apply(glide);
+    };
+    const centreOn = (id: string, glide = true) => {
+      k = Math.max(k, 1.5);
+      const [sx, sy] = screenOf(id);
+      // leave room for the note on the right on wide screens, and for the sheet at the foot on phones
+      const wide = window.innerWidth >= 960;
+      tx += (wide ? W * 0.36 : W / 2) - sx;
+      ty += (wide ? H / 2 : H * 0.32) - sy;
+      apply(glide);
+    };
+    const recentre = () => {
+      k = 1;
+      tx = 0;
+      ty = 0;
+      apply(true);
+    };
+    measure();
+    labels();
+
+    // ---------- dragging, pinching, ctrl or pinch on a trackpad ----------
+    const pointers = new Map<number, { x: number; y: number }>();
+    let moved = 0;
+    let pinch = 0;
+    view.addEventListener(
+      'pointerdown',
+      (event) => {
+        if ((event.target as Element).closest('button, a, input, .nmap__clue, .nmap__note')) return;
+        pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+        moved = 0;
+        if (pointers.size === 2) {
+          const [a, b] = [...pointers.values()];
+          pinch = Math.hypot(a.x - b.x, a.y - b.y);
+        }
+      },
+      on,
+    );
+    view.addEventListener(
+      'pointermove',
+      (event) => {
+        const last = pointers.get(event.pointerId);
+        if (!last) return;
+        const dx = event.clientX - last.x;
+        const dy = event.clientY - last.y;
+        pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+        if (pointers.size === 1) {
+          moved += Math.abs(dx) + Math.abs(dy);
+          if (moved < 4) return;
+          // (held only once it is a drag, so that a plain press still lands on the star under it)
+          if (!view.hasPointerCapture(event.pointerId)) view.setPointerCapture(event.pointerId);
+          view.classList.add('is-dragging');
+          tx += dx;
+          ty += dy;
+          apply();
+        } else if (pointers.size === 2) {
+          const [a, b] = [...pointers.values()];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          const box = view.getBoundingClientRect();
+          if (pinch) zoomAt(d / pinch, (a.x + b.x) / 2 - box.left, (a.y + b.y) / 2 - box.top);
+          pinch = d;
+          moved = 99;
+        }
+      },
+      on,
+    );
+    const lift = (event: PointerEvent) => {
+      pointers.delete(event.pointerId);
+      if (pointers.size < 2) pinch = 0;
+      if (!pointers.size) window.setTimeout(() => view.classList.remove('is-dragging'));
+    };
+    view.addEventListener('pointerup', lift, on);
+    view.addEventListener('pointercancel', lift, on);
+    view.addEventListener(
+      'wheel',
+      (event) => {
+        // a pinch on a trackpad, or the wheel with Ctrl or ⌘: zoom; a plain wheel scrolls the page
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        const box = view.getBoundingClientRect();
+        zoomAt(Math.exp(-event.deltaY * 0.01), event.clientX - box.left, event.clientY - box.top);
+      },
+      { ...on, passive: false },
+    );
+    view.addEventListener(
+      'click',
+      (event) => {
+        if (moved >= 4 || (event.target as Element).closest('.nmap__note')) return;
+        const el = (event.target as Element).closest<SVGGElement>('.star');
+        if (el) {
+          if (hunt) guess(el.dataset.id!);
+          else select(el.dataset.id!);
+        } else if (!hunt && !(event.target as Element).closest('button, .nmap__clue')) {
+          select(null);
+        }
+      },
+      on,
+    );
+    root.querySelectorAll<HTMLButtonElement>('[data-zoom]').forEach((b) =>
+      b.addEventListener('click', () => zoomAt(b.dataset.zoom === 'in' ? 1.4 : 1 / 1.4, W / 2, H / 2, true), on),
+    );
+    root.querySelector('[data-recentre]')!.addEventListener('click', recentre, on);
+    window.addEventListener(
+      'resize',
+      () => {
+        measure();
+        labels();
+        if (hunt) placePulse(hunt.mark);
+      },
+      on,
+    );
+
+    // ---------- choosing a star ----------
+    let chosen: string | null = null;
+    const paint = (id: string | null) => {
+      svg.classList.toggle('has-sel', !!id);
+      const lit = new Set(id ? [id, ...(byId.get(id)?.n ?? [])] : []);
+      starEl.forEach((el, key) => {
+        el.classList.toggle('is-lit', lit.has(key));
+        el.classList.toggle('is-sel', key === id);
+      });
+      lineEls.forEach((ln) => ln.classList.toggle('is-own', !!id && (ln.dataset.a === id || ln.dataset.b === id)));
+      labels();
+    };
+    const markKnown = () => {
+      const { known } = load();
+      starEl.forEach((el, id) => el.classList.toggle('is-known', !!known[id]));
+    };
+    const actions = (id: string) => {
+      const { known } = load();
+      const row = document.createElement('div');
+      row.className = 'cnote__actions';
+      const knownBtn = document.createElement('button');
+      knownBtn.type = 'button';
+      knownBtn.className = known[id] ? 'btn btn--ghost' : 'btn';
+      knownBtn.setAttribute('aria-pressed', known[id] ? 'true' : 'false');
+      knownBtn.textContent = known[id] ? words.note.known : words.note.markKnown;
+      knownBtn.addEventListener('click', () => {
+        setKnown(id, !load().known[id]);
+        markKnown();
+        row.replaceWith(actions(id));
+      });
+      const quiz = document.createElement('a');
+      quiz.className = 'btn btn--ghost';
+      quiz.href = `${root.dataset.play}?quiz=${encodeURIComponent(id)}`;
+      quiz.textContent = words.note.quiz;
+      row.append(knownBtn, quiz);
+      if (root.dataset.claude === 'on') {
+        const spar = document.createElement('a');
+        spar.className = 'btn btn--ghost';
+        spar.href = `${root.dataset.play}?spar=${encodeURIComponent(id)}`;
+        spar.textContent = words.note.spar;
+        row.append(spar);
+      }
+      return row;
+    };
+    const openNote = (id: string) => {
+      const source = document.querySelector(`#c-${CSS.escape(id)} .cnote`);
+      if (!source) return;
+      noteIn.replaceChildren(source.cloneNode(true));
+      noteIn.firstElementChild!.append(actions(id));
+      note.setAttribute('aria-label', byId.get(id)?.label ?? '');
+      note.hidden = false;
+      noteIn.scrollTop = 0;
+      root.classList.add('has-note');
+    };
+    const closeNote = () => {
+      note.hidden = true;
+      root.classList.remove('has-note');
+    };
+    const select = (id: string | null, focus = false) => {
+      chosen = id;
+      paint(id);
+      if (!id) return closeNote();
+      openNote(id);
+      if (focus) centreOn(id);
+    };
+    root.querySelector('[data-close]')!.addEventListener('click', () => select(null), on);
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key === 'Escape' && chosen) select(null);
+      },
+      on,
+    );
+    // a linked idea in a note, or "show on the map" in the list: go to that star
+    document.addEventListener(
+      'click',
+      (event) => {
+        const link = (event.target as Element).closest<HTMLElement>('[data-goto]');
+        if (!link || !byId.has(link.dataset.goto!)) return;
+        event.preventDefault();
+        if (!root.contains(link)) root.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+        select(link.dataset.goto!, true);
+      },
+      on,
+    );
+    markKnown();
+    window.addEventListener('nostos:progress', markKnown, on);
+
+    // ---------- lines and themes ----------
+    root.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
+      b.addEventListener(
+        'click',
+        () => {
+          svg.dataset.lines = b.dataset.mode;
+          root.querySelectorAll('[data-mode]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        },
+        on,
+      ),
+    );
+    const hidden = new Set<string>();
+    root.querySelectorAll<HTMLButtonElement>('[data-theme]').forEach((b) =>
+      b.addEventListener(
+        'click',
+        () => {
+          const g = b.dataset.theme!;
+          hidden.has(g) ? hidden.delete(g) : hidden.add(g);
+          b.setAttribute('aria-pressed', String(!hidden.has(g)));
+          svg.dataset.hide = [...hidden].join(' ');
+        },
+        on,
+      ),
+    );
+
+    // ---------- search: English, Greek or Latin spelling, accents ignored ----------
+    const find = (text: string) => {
+      const q = plain(text.trim());
+      if (!q) return null;
+      const exact = index.find((e) => e.find.includes(q));
+      if (exact) return exact.id;
+      return index.filter((e) => e.find.some((w) => w.includes(q))).sort((a, b) => b.freq - a.freq)[0]?.id ?? null;
+    };
+    search.addEventListener(
+      'input',
+      () => {
+        status.textContent = '';
+        const id = search.value.trim().length > 2 ? find(search.value) : null;
+        if (!hunt) paint(id ?? chosen);
+      },
+      on,
+    );
+    search.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key !== 'Enter') return;
+        event.preventDefault();
+        const id = find(search.value);
+        if (id) {
+          select(id, true);
+          search.blur();
+        } else status.textContent = words.noMatch;
+      },
+      on,
+    );
+
+    // ---------- find the link ----------
+    let hunt: { mark: string; other: string; why: string; tries: number } | null = null;
+    const placePulse = (id: string) => {
+      const [x, y] = screenOf(id);
+      const r = Number(starEl.get(id)!.dataset.r) * s0 * k;
+      pulse.style.transform = `translate(${x}px, ${y}px)`;
+      pulse.style.setProperty('--size', `${Math.max(28, r * 2 + 18)}px`);
+    };
+    const say = (parts: (string | Node)[]) => {
+      clue.replaceChildren(...parts);
+      clue.hidden = false;
+    };
+    const el = (tag: string, cls: string, text?: string) => {
+      const node = document.createElement(tag);
+      node.className = cls;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    };
+    const button = (text: string, ghost: boolean, act: () => void) => {
+      const b = el('button', ghost ? 'btn btn--ghost' : 'btn', text) as HTMLButtonElement;
+      b.type = 'button';
+      b.addEventListener('click', act);
+      return b;
+    };
+    const ask = (message = '') => {
+      if (!hunt) return;
+      const parts: (string | Node)[] = [
+        el('p', 'nmap__clue-h', fill(words.hunt.tries, 'n', hunt.tries + 1)),
+        el('p', '', fill(words.hunt.ask, 'label', byId.get(hunt.mark)!.label)),
+        el('p', 'nmap__clue-why', `“${hunt.why}”`),
+      ];
+      if (message) parts.push(el('p', 'nmap__clue-miss', message));
+      const row = el('div', 'nmap__clue-row');
+      row.append(el('span', 'nmap__clue-tap', words.hunt.tap), button(words.hunt.stop, true, endHunt));
+      parts.push(row);
+      say(parts);
+    };
+    const startHunt = () => {
+      const [a, b, why] = hunts[Math.floor(Math.random() * hunts.length)];
+      const flip = Math.random() < 0.5;
+      hunt = { mark: flip ? b : a, other: flip ? a : b, why, tries: 0 };
+      select(null);
+      search.value = '';
+      root.classList.add('is-hunting');
+      centreOn(hunt.mark);
+      placePulse(hunt.mark);
+      pulse.hidden = false;
+      ask();
+    };
+    const reveal = (found: boolean) => {
+      if (!hunt) return;
+      const { mark, other } = hunt;
+      paint(mark);
+      placePulse(other);
+      hunt.mark = other;
+      const row = el('div', 'nmap__clue-row');
+      row.append(button(words.hunt.again, false, startHunt), button(words.hunt.done, true, endHunt));
+      say([
+        el('p', 'nmap__clue-h', found ? words.hunt.found : words.hunt.answer),
+        el('p', 'nmap__clue-pair', `${byId.get(mark)!.label} · ${byId.get(other)!.label}`),
+        row,
+      ]);
+    };
+    const guess = (id: string) => {
+      if (!hunt || id === hunt.mark) return;
+      if (id === hunt.other) {
+        award(hunt.tries === 0 ? 15 : 8);
+        reveal(true);
+      } else {
+        hunt.tries++;
+        if (hunt.tries >= 3) reveal(false);
+        else ask(fill(words.hunt.notThat, 'label', byId.get(id)!.label));
+      }
+    };
+    const endHunt = () => {
+      hunt = null;
+      clue.hidden = true;
+      pulse.hidden = true;
+      root.classList.remove('is-hunting');
+      paint(null);
+    };
+    root.querySelector('[data-hunt]')!.addEventListener('click', startHunt, on);
+
+    stop = () => {
+      ac.abort();
+      document.documentElement.classList.remove('nostos-live');
+    };
+  }
+
+  document.addEventListener('astro:page-load', setup);
+  document.addEventListener('astro:before-swap', () => stop?.());
+</script>
+
+<style>
+  .nmap {
+    position: relative;
+  }
+  .nmap__sky {
+    padding: clamp(0.9rem, 0.5rem + 1.4vw, 1.6rem);
+    display: grid;
+    gap: 0.8rem;
+  }
+  /* the far stars: a still layer of the hero's own star drawings */
+  .nmap__ground :global(.nmap__field) {
+    position: absolute;
+    inset: 0;
+    color: var(--blue-light);
+    opacity: 0.55;
+  }
+  .nmap__ground :global(.nmap__field--far) {
+    opacity: 0.3;
+  }
+  .nmap__ground :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---------- the bar: search, which lines, the game ---------- */
+  /* the controls need the script; without it the map is a still picture, the list below holds all */
+  .nmap:not(.is-live) .nmap__bar {
+    display: none;
+  }
+  .nmap__bar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 0.8rem;
+  }
+  .nmap__search {
+    flex: 1 1 14rem;
+    min-width: 0;
+    max-width: 22rem;
+    padding: 0.6em 1.05em;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--ink-strong);
+    background: color-mix(in srgb, var(--blue) 55%, var(--blue-deep));
+    border: 1.5px solid color-mix(in srgb, var(--blue-light) 40%, transparent);
+    border-radius: 1.5rem 1.1rem 1.6rem 1.2rem / 1.2rem 1.6rem 1.1rem 1.5rem;
+  }
+  .nmap__search::placeholder {
+    color: color-mix(in srgb, var(--creme) 60%, transparent);
+  }
+  .nmap__search:focus-visible {
+    outline: 2px solid var(--blue-light);
+    outline-offset: 2px;
+  }
+  .nmap__seg {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem;
+    padding: 0.2rem;
+    border: 1.5px solid color-mix(in srgb, var(--blue-light) 35%, transparent);
+    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+  }
+  .nmap__seg button,
+  .nmap__btn,
+  .nmap__zoom button,
+  .nmap__theme {
+    padding: 0.42em 0.9em;
+    font: inherit;
+    font-size: var(--step--1);
+    line-height: 1.2;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    border-radius: 1.2rem 0.9rem 1.3rem 1rem / 1rem 1.3rem 0.9rem 1.2rem;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--hover-delay),
+      color var(--dur-1) var(--hover-delay);
+  }
+  .nmap__seg button:hover,
+  .nmap__zoom button:hover {
+    background: color-mix(in srgb, var(--blue-light) 16%, transparent);
+  }
+  .nmap__seg button[aria-pressed='true'] {
+    background: var(--blue-light);
+    color: var(--blue-deep);
+  }
+  .nmap__btn {
+    color: var(--blue-deep);
+    background: var(--creme);
+  }
+  .nmap__btn:hover {
+    background: var(--creme-light);
+  }
+  .nmap__status {
+    flex-basis: 100%;
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+  .nmap__status:empty {
+    display: none;
+  }
+
+  /* ---------- the map ---------- */
+  .nmap__view {
+    position: relative;
+    height: clamp(24rem, 66vh, 46rem);
+    overflow: hidden;
+    border-radius: 1.6rem 2.2rem 1.8rem 2.4rem / 2.2rem 1.7rem 2.3rem 1.8rem;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+  }
+  .nmap__view.is-dragging {
+    cursor: grabbing;
+  }
+  .nmap__world {
+    position: absolute;
+    inset: 0;
+    transform-origin: 0 0;
+  }
+  /* while it moves, the layer is only moved (cheap); once still, it is drawn again, sharp */
+  .nmap__world.is-moving {
+    will-change: transform;
+  }
+  .nmap__world.is-gliding {
+    transition: transform 0.5s var(--ease-out);
+  }
+  .nmap__svg {
+    --u: 1.3;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .ln {
+    display: none;
+    stroke: var(--blue-light);
+    stroke-width: calc(var(--u) * 0.8px);
+    stroke-dasharray: calc(var(--u) * 3px) calc(var(--u) * 4px);
+    opacity: 0.4;
+  }
+  .ln.is-her {
+    stroke: var(--creme);
+    stroke-dasharray: none;
+    opacity: 0.45;
+    stroke-width: calc(var(--u) * 1.1px);
+  }
+  .nmap__svg[data-lines='core'] .ln.is-core,
+  .nmap__svg[data-lines='her'] .ln.is-her.is-core,
+  .nmap__svg[data-lines='co'] .ln.is-co,
+  .nmap__svg[data-lines='all'] .ln,
+  .nmap__svg .ln.is-own {
+    display: inline;
+  }
+  .nmap__svg.has-sel .ln:not(.is-own) {
+    opacity: 0.1;
+  }
+  .nmap__svg .ln.is-own {
+    opacity: 0.9;
+  }
+
+  .star {
+    --star: var(--blue-light);
+    cursor: pointer;
+    transition: opacity var(--dur-1);
+  }
+  .star.is-big {
+    --star: var(--creme);
+  }
+  .star__hit {
+    fill: transparent;
+  }
+  .star__shape {
+    color: var(--star);
+  }
+  .star__ring {
+    fill: none;
+    stroke: var(--creme);
+    stroke-width: calc(var(--u) * 1.4px);
+    opacity: 0;
+  }
+  .star.is-known .star__ring {
+    opacity: 0.45;
+    stroke-dasharray: calc(var(--u) * 2px) calc(var(--u) * 3px);
+  }
+  .star.is-sel .star__ring {
+    opacity: 1;
+    stroke-dasharray: none;
+  }
+  .star__label {
+    display: none;
+    font-family: var(--font-body);
+    font-size: calc(var(--u) * 12.5px);
+    text-anchor: middle;
+    fill: var(--creme);
+    paint-order: stroke;
+    stroke: var(--blue-deep);
+    stroke-width: calc(var(--u) * 3px);
+    stroke-linejoin: round;
+    pointer-events: none;
+  }
+  .star.is-big .star__label {
+    display: inline;
+  }
+  .nmap.is-live .star__label {
+    display: none;
+  }
+  .nmap.is-live .star.show-label .star__label {
+    display: inline;
+  }
+  .star:hover .star__label {
+    display: inline !important;
+  }
+  .nmap__svg.has-sel .star:not(.is-lit) {
+    opacity: 0.22;
+  }
+  /* themes switched off in the legend */
+  .nmap__svg[data-hide~='path'] :is(.star[data-g='path'], .ln[data-ga='path'], .ln[data-gb='path']),
+  .nmap__svg[data-hide~='soul'] :is(.star[data-g='soul'], .ln[data-ga='soul'], .ln[data-gb='soul']),
+  .nmap__svg[data-hide~='ethics'] :is(.star[data-g='ethics'], .ln[data-ga='ethics'], .ln[data-gb='ethics']),
+  .nmap__svg[data-hide~='cosmos'] :is(.star[data-g='cosmos'], .ln[data-ga='cosmos'], .ln[data-gb='cosmos']),
+  .nmap__svg[data-hide~='ways'] :is(.star[data-g='ways'], .ln[data-ga='ways'], .ln[data-gb='ways']),
+  .nmap__svg[data-hide~='thinkers'] :is(.star[data-g='thinkers'], .ln[data-ga='thinkers'], .ln[data-gb='thinkers']),
+  .nmap__svg[data-hide~='gods'] :is(.star[data-g='gods'], .ln[data-ga='gods'], .ln[data-gb='gods']) {
+    opacity: 0.1;
+    pointer-events: none;
+  }
+  .nmap__svg[data-hide] .ln:is([data-ga], [data-gb]) {
+    transition: none;
+  }
+
+  /* ---------- zoom, the marked star, the clue ---------- */
+  .nmap__zoom {
+    position: absolute;
+    right: 0.7rem;
+    bottom: 0.7rem;
+    z-index: 2;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.2rem;
+    background: color-mix(in srgb, var(--blue-deep) 80%, transparent);
+    border-radius: 1.3rem 1rem 1.4rem 1.1rem / 1.1rem 1.4rem 1rem 1.3rem;
+  }
+  .nmap__zoom button {
+    min-width: 2.2rem;
+  }
+  .nmap__pulse {
+    --size: 40px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+  .nmap__pulse::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--size) / -2);
+    top: calc(var(--size) / -2);
+    width: var(--size);
+    height: var(--size);
+    border: 2px solid var(--creme);
+    border-radius: 50%;
+  }
+  @keyframes nmap-pulse {
+    from {
+      scale: 0.7;
+      opacity: 0.9;
+    }
+    to {
+      scale: 1.6;
+      opacity: 0;
+    }
+  }
+  :global(html.motion) .nmap__pulse::before {
+    animation: nmap-pulse 1.6s var(--ease-out) infinite;
+  }
+  .nmap__clue {
+    --box-r: var(--r-soft-2);
+    position: absolute;
+    left: 0.8rem;
+    bottom: 0.8rem;
+    z-index: 3;
+    width: min(26rem, calc(100% - 1.6rem));
+    padding: 1.1rem 1.3rem 1.2rem;
+    font-size: var(--step--1);
+    cursor: auto;
+  }
+  .nmap__clue :global(p) {
+    margin: 0 0 0.4rem;
+  }
+  .nmap__clue :global(.nmap__clue-h) {
+    color: var(--ink-soft);
+  }
+  .nmap__clue :global(.nmap__clue-why) {
+    font-family: 'EB Garamond Variable', 'EB Garamond', serif;
+    font-size: var(--step-0);
+    color: var(--ink-strong);
+  }
+  .nmap__clue :global(.nmap__clue-pair) {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    color: var(--ink-strong);
+  }
+  .nmap__clue :global(.nmap__clue-row) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+    margin-top: 0.6rem;
+  }
+  .nmap__clue :global(.nmap__clue-tap) {
+    flex: 1;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- the legend ---------- */
+  .nmap__legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.4rem;
+  }
+  .nmap__theme {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    color: var(--blue-light);
+  }
+  .nmap__theme svg {
+    width: 0.95em;
+    height: 0.95em;
+    color: var(--blue-light);
+  }
+  .nmap__theme:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--blue-light) 14%, transparent);
+  }
+  .nmap__theme[aria-pressed='false'] {
+    opacity: 0.45;
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+  .nmap__theme:disabled {
+    cursor: default;
+  }
+  .nmap__size {
+    margin-left: auto;
+    font-size: var(--step--1);
+    color: color-mix(in srgb, var(--creme) 70%, transparent);
+  }
+
+  /* ---------- the note: beside the map on wide screens, a sheet from the foot on phones ---------- */
+  .nmap__note {
+    --box-r: 2.2rem 2.8rem 2.4rem 3rem / 2.8rem 2.2rem 3rem 2.4rem;
+    position: fixed;
+    inset: auto 0.5rem 0.5rem;
+    z-index: 60;
+    max-height: 72dvh;
+    padding: 0;
+    color: var(--ink);
+  }
+  .nmap__note[hidden] {
+    display: none;
+  }
+  .nmap__note-in {
+    max-height: inherit;
+    overflow: auto;
+    touch-action: pan-y;
+    overscroll-behavior: contain;
+    padding: 1.6rem clamp(1.3rem, 1rem + 1.5vw, 2rem) 1.8rem;
+  }
+  /* on wide screens it lies over the right of the map, inside it, clear of the controls */
+  @media (min-width: 60rem) {
+    .nmap__note {
+      position: absolute;
+      inset: 0.8rem 0.8rem auto auto;
+      width: min(25rem, 36%);
+      max-height: calc(100% - 1.6rem);
+      z-index: 4;
+      cursor: auto;
+      user-select: text;
+    }
+  }
+  .nmap__close {
+    position: absolute;
+    top: 0.7rem;
+    right: 0.8rem;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    color: var(--ink-strong);
+    background: var(--creme-light);
+    border: 1.5px solid var(--line);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--hover-delay),
+      color var(--dur-1) var(--hover-delay);
+  }
+  .nmap__close:hover {
+    color: var(--creme-light);
+    background: var(--ink-strong);
+  }
+  .nmap__close path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+  }
+  .nmap__note :global(.cnote) {
+    padding-right: 2.2rem;
+  }
+  :global(html.motion) .nmap__note:not([hidden]) {
+    transition:
+      opacity var(--dur-1) var(--ease-out),
+      translate var(--dur-2) var(--ease-out);
+  }
+  @starting-style {
+    :global(html.motion) .nmap__note:not([hidden]) {
+      opacity: 0;
+      translate: 0 0.8rem;
+    }
+  }
+</style>

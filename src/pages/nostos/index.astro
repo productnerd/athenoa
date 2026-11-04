@@ -1,0 +1,167 @@
+---
+// Nostos, the front door: the star map of her ideas, then the same ideas as a readable list (which is
+// the whole page without JavaScript). Not in the sitemap and marked noindex until launch
+// (tasks/nostos.md, step 8). THE CONTENT IS NEW WORDING for Athena to review (src/lib/nostos.ts).
+import Base from '../../layouts/Base.astro';
+import StarMap from '../../components/nostos/StarMap.astro';
+import ConceptNote from '../../components/nostos/ConceptNote.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import { concepts, groups, meta } from '../../lib/nostos';
+import { getLocale, mainLocale } from '../../lib/locale';
+
+const ui = nostosUi[mainLocale(getLocale(Astro.url))];
+const t = ui.map;
+const byTheme = groups.map((g) => ({
+  group: g,
+  label: ui.groups[g.id as keyof typeof ui.groups] ?? g.label,
+  items: concepts.filter((c) => c.group === g.id).sort((a, b) => b.freq - a.freq),
+}));
+---
+
+<Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  <section class="section nostos-top">
+    <div class="wrap">
+      <header class="nostos-head">
+        <p class="nostos-name">{ui.name} <span lang="grc">νόστος</span></p>
+        <h1 class="t-1" data-split>{t.title}</h1>
+        <p class="lead nostos-intro" data-reveal>{t.intro.replace('{n}', String(meta.transcribedTalks))}</p>
+        <p class="small nostos-draft" data-reveal style="--i:1">{t.draft}</p>
+      </header>
+      <StarMap />
+    </div>
+  </section>
+
+  <section class="section nostos-list" aria-labelledby="nostos-list-title">
+    <div class="wrap">
+      <h2 class="t-2" id="nostos-list-title">{t.listTitle}</h2>
+      <p class="nostos-list__intro">{t.listIntro}</p>
+      {
+        byTheme.map(({ group, label, items }) => (
+          <div class="nostos-list__theme">
+            <h3 class="t-3">{label}</h3>
+            <ul class="nostos-list__items">
+              {items.map((c) => (
+                <li id={`c-${c.id}`}>
+                  <details>
+                    <summary>
+                      <span class="nostos-list__label">{c.label}</span>
+                      {c.greek && <span class="nostos-list__greek" lang="grc">{c.greek}</span>}
+                    </summary>
+                    <div class="nostos-list__body">
+                      <ConceptNote concept={c} />
+                      <button type="button" class="btn btn--ghost nostos-list__go" data-goto={c.id}>
+                        {t.openOnMap}
+                      </button>
+                    </div>
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nostos-top {
+    padding-top: var(--space-l);
+  }
+  .nostos-head {
+    display: grid;
+    gap: var(--space-s);
+    max-width: 46rem;
+    margin-bottom: var(--space-l);
+  }
+  /* on wide screens the words stand beside the title, so the map is in sight at once */
+  @media (min-width: 62rem) {
+    .nostos-head {
+      max-width: none;
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: var(--space-xl);
+      align-items: end;
+    }
+    .nostos-name,
+    .nostos-head h1 {
+      grid-column: 1;
+    }
+    .nostos-intro {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+      align-self: end;
+    }
+    .nostos-draft {
+      grid-column: 2;
+    }
+  }
+  .nostos-head > * {
+    margin: 0;
+  }
+  .nostos-name {
+    font-size: var(--step-0);
+    color: var(--ink-soft);
+  }
+  .nostos-name span {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-style: italic;
+  }
+  .nostos-draft {
+    color: var(--ink-soft);
+  }
+  .nostos-list__intro {
+    margin: var(--space-2xs) 0 var(--space-l);
+    color: var(--ink-soft);
+  }
+  .nostos-list__theme + .nostos-list__theme {
+    margin-top: var(--space-l);
+  }
+  .nostos-list__items {
+    display: grid;
+    gap: 0.1rem;
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 48rem) {
+    .nostos-list__items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-l);
+      align-items: start;
+    }
+  }
+  .nostos-list__items summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.7rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    list-style: none;
+  }
+  .nostos-list__items summary::-webkit-details-marker {
+    display: none;
+  }
+  .nostos-list__label {
+    font-weight: 560;
+    color: var(--ink-strong);
+  }
+  .nostos-list__greek {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    color: var(--ink-soft);
+  }
+  .nostos-list__body {
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-s) 0 var(--space-m);
+    justify-items: start;
+  }
+  /* "show on the map" needs the map's script */
+  .nostos-list__go {
+    display: none;
+  }
+  :global(html.nostos-live) .nostos-list__go {
+    display: inline-flex;
+  }
+</style>

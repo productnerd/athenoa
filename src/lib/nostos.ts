@@ -34,10 +34,10 @@ export interface Group {
   label: string;
   sub: string;
 }
-/** A place in a talk: the talk's YouTube id and the second it starts at */
+/** A place in a talk: the talk's YouTube id and where in it ("53:08", "1:08:54") */
 export interface TalkRef {
   id: string;
-  t?: number;
+  t?: string | number;
   note?: string;
 }
 export interface Concept {
@@ -50,7 +50,7 @@ export interface Concept {
   /** what it means in her teaching */
   take: string;
   /** other angles */
-  more?: string;
+  more?: string[];
   /** 1 to 5 */
   weight: number;
   /** mentions across the transcripts (loose: see tasks/nostos.md) */
@@ -98,7 +98,7 @@ export interface Writing {
 /** Items reconstructed from garbled captions carry uncertain: true (show it quietly, never hide it) */
 interface FromTalk {
   talk?: string;
-  t?: number;
+  t?: string | number;
   uncertain?: boolean;
 }
 export interface QuizItem extends FromTalk {
@@ -162,7 +162,7 @@ export interface Excerpt {
   source_url?: string;
   her_reading?: string;
   talk?: string;
-  t?: number;
+  t?: string | number;
 }
 export interface Work {
   id: string;
@@ -182,6 +182,12 @@ export interface Star {
   y: number;
   r: number;
 }
+
+// ---------- Switches ----------
+
+/** The two activities that need Claude (Socratic sparring, Teach it back) stay hidden until Maria
+ *  decides on the server function they need (tasks/nostos.md, "Claude-powered activities"). */
+export const nostosFlags = { claude: false };
 
 // ---------- The data ----------
 
@@ -251,9 +257,28 @@ export function itemsForTalk(id: string) {
   };
 }
 
+/** Seconds from a place in a talk: 95, "1:35" or "1:01:35" */
+export function seconds(t?: string | number) {
+  if (t === undefined || t === '') return 0;
+  if (typeof t === 'number') return Math.floor(t);
+  const parts = t.split(':').map(Number);
+  return parts.every((n) => !Number.isNaN(n)) ? parts.reduce((total, n) => total * 60 + n, 0) : 0;
+}
+
 /** A YouTube link to a moment in a talk */
-export const talkUrl = (id: string, t?: number) =>
-  `https://www.youtube.com/watch?v=${id}${t ? `&t=${Math.floor(t)}s` : ''}`;
+export const talkUrl = (id: string, t?: string | number) => {
+  const s = seconds(t);
+  return `https://www.youtube.com/watch?v=${id}${s ? `&t=${s}s` : ''}`;
+};
+
+/** A talk's name for a list: its English title, without the hash some titles start with */
+export const talkName = (id: string) => {
+  const talk = talkMap.get(id);
+  return talk ? (talk.en || talk.title).replace(/^#\s*/, '') : id;
+};
+
+/** A concept's label without its bracketed aside or second clause, for the map */
+export const shortLabel = (label: string) => label.replace(/\s*\(.*?\)/g, '').replace(/,.*$/, '');
 
 /** Text without accents, breathings or case, for search and matching (σπήλαιον = σπηλαιον = ΣΠΉΛΑΙΟΝ) */
 export const plain = (text: string) =>
