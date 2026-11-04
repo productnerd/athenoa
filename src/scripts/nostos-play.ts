@@ -1,0 +1,1055 @@
+// Nostos: the activities (tasks/nostos.md, Play), ported from the prototype's startActivity() and act*
+// functions (reference/nostos-prototype/app.js), restyled to the site: quiet feedback by ink and a small
+// mark, no colours for right and wrong, nothing that bounces. Each activity fetches its own material
+// from /nostos/data/<name>.json when it starts. Progress lives in this browser (nostos-progress.ts).
+//
+// The two activities that need Claude (Socratic sparring, Teach it back) are not here: they stay hidden
+// until Maria decides on the server function they need.
+//
+// THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
+import { award, load, save, today, type Progress } from './nostos-progress';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type Words = Record<string, any>;
+type Concept = { id: string; label: string; greek?: string; translit?: string; group: string; weight: number; freq: number; take: string };
+type Arena = { stage: HTMLElement; progress: (f: number) => void; score: (s: string) => void };
+
+let W: Words = {};
+let feedBase = '/nostos/data/';
+let mapBase = '/nostos/';
+const feeds = new Map<string, Promise<any>>();
+const feed = <T = any>(name: string): Promise<T> => {
+  if (!feeds.has(name)) {
+    const request = fetch(`${feedBase}${name}.json`).then((r) => {
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json();
+    });
+    request.catch(() => feeds.delete(name));
+    feeds.set(name, request);
+  }
+  return feeds.get(name)!;
+};
+
+// ---------- small helpers ----------
+type Child = Node | string | null | undefined | false;
+function h(tag: string, attrs: Record<string, any> | null = null, ...children: (Child | Child[])[]) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(attrs ?? {})) {
+    if (value === null || value === undefined || value === false) continue;
+    if (key === 'class') node.className = value;
+    else if (key.startsWith('on')) node.addEventListener(key.slice(2), value);
+    else if (key === 'style') Object.assign(node.style, value);
+    else node.setAttribute(key, value === true ? '' : String(value));
+  }
+  for (const child of children.flat()) if (child) node.append(child);
+  return node;
+}
+const fill = (text: string, values: Record<string, string | number>) =>
+  text.replace(/\{(\w+)\}/g, (_, key) => (key in values ? String(values[key]) : `{${key}}`));
+const shuffle = <T>(list: T[]) => {
+  const out = list.slice();
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+};
+const pick = <T>(list: T[], n: number) => shuffle(list).slice(0, n);
+const clip = (text: string, n: number) => (text.length > n ? `${text.slice(0, n - 1).replace(/\s+\S*$/, '')}…` : text);
+const seconds = (t?: string | number) => {
+  if (!t) return 0;
+  if (typeof t === 'number') return Math.floor(t);
+  const parts = t.split(':').map(Number);
+  return parts.every((n) => !Number.isNaN(n)) ? parts.reduce((a, b) => a * 60 + b, 0) : 0;
+};
+const youtube = (id: string, t?: string | number) => `https://www.youtube.com/watch?v=${id}${seconds(t) ? `&t=${seconds(t)}s` : ''}`;
+const greek = (text: string, cls = '') => h('span', { class: `ng ${cls}`, lang: 'grc' }, text);
+const MARK_RIGHT = '<svg class="nmark" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.8c2 1.6 3.5 3.3 4.8 5.2 2.6-4.8 6-8.7 10.2-12"/></svg>';
+const MARK_WRONG = '<svg class="nmark" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6.4c4.2 3.6 8 7.6 12 11.6M18 6c-4 4-8 7.8-12 12"/></svg>';
+const mark = (right: boolean) => {
+  const span = h('span', { class: 'nmark-wrap' });
+  span.innerHTML = (right ? MARK_RIGHT : MARK_WRONG) + `<span class="visually-hidden">${right ? W.arena.right : W.arena.wrong}</span>`;
+  return span;
+};
+const unsure = (item: { uncertain?: boolean }) =>
+  item.uncertain ? h('span', { class: 'nunsure', title: W.uncertain }, h('span', { class: 'visually-hidden' }, W.uncertain)) : null;
+
+// ---------- the ladder of progress ----------
+const rungIndex = (xp: number) => {
+  let index = 0;
+  (W.rungs as [number, string, string][]).forEach((rung, k) => {
+    if (xp >= rung[0]) index = k;
+  });
+  return index;
+};
+const streak = (p: Progress) => {
+  let n = 0;
+  const day = new Date();
+  const key = (d: Date) => d.toISOString().slice(0, 10);
+  if (!p.days[today()]) day.setDate(day.getDate() - 1);
+  while (p.days[key(day)]) {
+    n++;
+    day.setDate(day.getDate() - 1);
+  }
+  return n;
+};
+let liveNote: HTMLElement | null = null;
+function earn(points: number) {
+  if (!points) return;
+  const before = rungIndex(load().xp);
+  const xp = award(points);
+  const after = rungIndex(xp);
+  if (!liveNote) return;
+  liveNote.textContent = after > before ? fill(W.arena.newRung, { name: W.rungs[after][1] }) : fill(W.arena.points, { n: points });
+  liveNote.classList.remove('is-on');
+  void liveNote.offsetWidth;
+  liveNote.classList.add('is-on');
+}
+const played = (id: string) => {
+  const p = load();
+  p.done[id] = (p.done[id] || 0) + 1;
+  save(p);
+};
+
+// ---------- the arena: one dialog for every activity ----------
+let dialog: HTMLDialogElement;
+let cleanup: (() => void) | null = null;
+const talkNames: Record<string, string> = {};
+const talkRef = (id?: string, t?: string | number) =>
+  id && talkNames[id]
+    ? h(
+        'p',
+        { class: 'nfrom' },
+        `${W.arena.from} `,
+        h('a', { href: youtube(id, t), target: '_blank', rel: 'noopener', lang: 'en' }, clip(talkNames[id], 70) + (t ? ` · ${t}` : '')),
+      )
+    : null;
+
+function openArena(title: string, section: string): Arena {
+  cleanup?.();
+  cleanup = null;
+  const stage = h('div', { class: 'narena__stage' });
+  const bar = h('span', { class: 'narena__fill' });
+  const score = h('span', { class: 'narena__score' });
+  liveNote = h('span', { class: 'narena__note', 'aria-live': 'polite' });
+  const close = h('button', { type: 'button', class: 'narena__close', 'aria-label': W.arena.close, onclick: () => dialog.close() });
+  close.innerHTML =
+    '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path></svg>';
+  const sheet = dialog.querySelector('.narena__sheet')!;
+  sheet.replaceChildren(
+    close,
+    h(
+      'div',
+      { class: 'narena__head' },
+      h('p', { class: 'narena__section' }, section),
+      h('h2', { class: 'narena__title t-3', id: 'narena-title' }, title),
+      h('div', { class: 'narena__meta' }, score, liveNote),
+      h('div', { class: 'narena__bar', role: 'progressbar', 'aria-label': W.arena.progress, 'aria-valuemin': 0, 'aria-valuemax': 100 }, bar),
+    ),
+    stage,
+  );
+  if (!dialog.open) dialog.showModal();
+  dialog.scrollTop = 0;
+  const barBox = sheet.querySelector<HTMLElement>('.narena__bar')!;
+  return {
+    stage,
+    progress: (f) => {
+      bar.style.width = `${Math.round(f * 100)}%`;
+      barBox.setAttribute('aria-valuenow', String(Math.round(f * 100)));
+    },
+    score: (s) => (score.textContent = s),
+  };
+}
+
+function finish(A: Arena, id: string, message: string, extra?: Node | null) {
+  played(id);
+  A.progress(1);
+  A.stage.replaceChildren(
+    h('div', { class: 'nend' }, greek(W.arena.end, 'nend__word'), h('p', { class: 'nend__msg' }, message), extra ?? null),
+    h(
+      'div',
+      { class: 'nrow nrow--centre' },
+      h('button', { type: 'button', class: 'btn', onclick: () => start(id) }, W.arena.again),
+      h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => dialog.close() }, W.arena.back),
+    ),
+  );
+  (A.stage.querySelector('.btn') as HTMLElement)?.focus();
+}
+
+/** A multiple-choice question: options as paper strips; after the answer the right one is inked
+ *  and marked, a wrong choice is crossed, and an explanation and a Next button follow. */
+function choose(
+  stage: HTMLElement,
+  prompt: Node,
+  right: string,
+  wrongs: string[],
+  answered: (ok: boolean) => void,
+  next: () => void,
+  explain?: Node | null,
+) {
+  const options = shuffle([right, ...wrongs]);
+  const box = h('div', { class: 'nopts', role: 'group' });
+  options.forEach((text) => {
+    const button = h('button', { type: 'button', class: 'nopt' }, h('span', { class: 'nopt__text' }, text)) as HTMLButtonElement;
+    button.addEventListener('click', () => {
+      const ok = text === right;
+      box.querySelectorAll<HTMLButtonElement>('.nopt').forEach((b) => {
+        b.disabled = true;
+        const isRight = b.querySelector('.nopt__text')!.textContent === right;
+        if (isRight) {
+          b.classList.add('is-right');
+          b.prepend(mark(true));
+        } else if (b !== button) b.classList.add('is-other');
+      });
+      if (!ok) {
+        button.classList.add('is-wrong');
+        button.prepend(mark(false));
+      }
+      answered(ok);
+      const go = h('button', { type: 'button', class: 'btn', onclick: next }, W.arena.next);
+      stage.append(explain ?? '', h('div', { class: 'nrow' }, go));
+      go.focus({ preventScroll: true });
+    });
+    box.append(button);
+  });
+  stage.append(prompt, box);
+  (box.firstElementChild as HTMLElement)?.focus({ preventScroll: true });
+}
+
+// ---------- the activities ----------
+const INTERVALS = [0, 1, 3, 7, 16, 35];
+const addDays = (n: number) => {
+  const d = new Date();
+  d.setDate(d.getDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+const cardPool = (concepts: Concept[]) => concepts.filter((c) => c.greek && c.take);
+
+async function cards(A: Arena) {
+  const pool = cardPool(await feed<Concept[]>('concepts'));
+  const p = load();
+  const due = pool
+    .filter((c) => !p.srs[c.id] || p.srs[c.id].due <= today())
+    .sort((x, y) => (p.srs[x.id]?.box || 0) - (p.srs[y.id]?.box || 0) || y.freq - x.freq);
+  const deck = (due.length ? due : pick(pool, 10)).slice(0, 12);
+  let i = 0;
+  let good = 0;
+  const show = () => {
+    if (i >= deck.length) return finish(A, 'cards', fill(W.cards.result, { good, n: deck.length }));
+    A.progress(i / deck.length);
+    A.score(`${i + 1} / ${deck.length}`);
+    const c = deck[i];
+    const box = load().srs[c.id]?.box || 0;
+    const card = h(
+      'button',
+      { type: 'button', class: 'nflip', 'aria-label': W.cards.turn, 'aria-pressed': 'false' },
+      h(
+        'span',
+        { class: 'nflip__in' },
+        h(
+          'span',
+          { class: 'nflip__face' },
+          h('span', { class: 'nsmall' }, fill(W.cards.box, { n: box + 1 })),
+          greek(c.greek!, 'nflip__greek'),
+          c.translit ? h('span', { class: 'nflip__translit', lang: 'grc-Latn' }, c.translit) : null,
+        ),
+        h(
+          'span',
+          { class: 'nflip__face nflip__back' },
+          h('span', { class: 'nsmall' }, W.groups[c.group] ?? ''),
+          h('span', { class: 'nflip__label' }, c.label),
+          h('span', { class: 'nflip__take', lang: 'en' }, clip(c.take, 380)),
+        ),
+      ),
+    );
+    const grade = h(
+      'div',
+      { class: 'nrow nrow--centre', hidden: true },
+      h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => rate(0) }, W.cards.again),
+      h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => rate(1) }, W.cards.hazy),
+      h('button', { type: 'button', class: 'btn', onclick: () => rate(2) }, W.cards.got),
+    );
+    card.addEventListener('click', () => {
+      const on = card.classList.toggle('is-on');
+      card.setAttribute('aria-pressed', String(on));
+      grade.hidden = false;
+    });
+    const rate = (r: number) => {
+      const next = r === 0 ? 0 : r === 1 ? box : Math.min(5, box + 1);
+      const progress = load();
+      progress.srs[c.id] = { box: next, due: addDays(INTERVALS[next]) };
+      save(progress);
+      if (r === 2) {
+        good++;
+        earn(5);
+      }
+      i++;
+      show();
+    };
+    A.stage.replaceChildren(card, grade);
+    card.focus({ preventScroll: true });
+  };
+  show();
+}
+
+async function match(A: Arena) {
+  const pool = cardPool(await feed<Concept[]>('concepts')).filter((c) => c.label.length < 34);
+  const set = pick(pool, 6);
+  const left = shuffle(set);
+  const right = shuffle(set);
+  let chosen: string | null = null;
+  let done = 0;
+  let misses = 0;
+  const t0 = Date.now();
+  const timer = h('span', { class: 'ntimer' }, '0.0 s');
+  const tick = window.setInterval(() => (timer.textContent = `${((Date.now() - t0) / 1000).toFixed(1)} s`), 100);
+  cleanup = () => clearInterval(tick);
+  const L = h('div', { class: 'nmatch__col' });
+  const R = h('div', { class: 'nmatch__col' });
+  const hint = h('p', { class: 'nsmall nmatch__hint', 'aria-live': 'polite' });
+  left.forEach((c) =>
+    L.append(
+      h(
+        'button',
+        {
+          type: 'button',
+          class: 'ntile',
+          'data-id': c.id,
+          'aria-pressed': 'false',
+          onclick: (e: Event) => {
+            L.querySelectorAll('.ntile').forEach((t) => {
+              t.classList.remove('is-sel');
+              t.setAttribute('aria-pressed', 'false');
+            });
+            const t = e.currentTarget as HTMLElement;
+            t.classList.add('is-sel');
+            t.setAttribute('aria-pressed', 'true');
+            chosen = c.id;
+            hint.textContent = '';
+          },
+        },
+        greek(c.greek!),
+      ),
+    ),
+  );
+  right.forEach((c) =>
+    R.append(
+      h(
+        'button',
+        {
+          type: 'button',
+          class: 'ntile',
+          'data-id': c.id,
+          onclick: (e: Event) => {
+            const t = e.currentTarget as HTMLButtonElement;
+            if (!chosen) {
+              hint.textContent = W.match.first;
+              return;
+            }
+            if (chosen === c.id) {
+              const g = L.querySelector<HTMLButtonElement>(`[data-id="${CSS.escape(c.id)}"]`)!;
+              [t, g].forEach((x) => {
+                x.classList.add('is-done');
+                x.classList.remove('is-sel');
+                x.disabled = true;
+                x.prepend(mark(true));
+              });
+              chosen = null;
+              done++;
+              A.progress(done / 6);
+              if (done === 6) {
+                clearInterval(tick);
+                const s = +((Date.now() - t0) / 1000).toFixed(1);
+                const p = load();
+                const best = p.best.match && p.best.match < s ? p.best.match : s;
+                p.best.match = best;
+                save(p);
+                earn(20 + (s < 30 ? 10 : 0) - Math.min(10, misses * 2));
+                finish(A, 'match', fill(W.match.result, { s: s.toFixed(1), m: misses, best }));
+              }
+            } else {
+              misses++;
+              t.classList.remove('is-miss');
+              void t.offsetWidth;
+              t.classList.add('is-miss');
+            }
+          },
+        },
+        c.label,
+      ),
+    ),
+  );
+  A.score('6');
+  A.stage.replaceChildren(
+    h('div', { class: 'nrow nrow--between' }, h('p', { class: 'nprompt' }, W.match.prompt), timer),
+    h('div', { class: 'nmatch' }, L, R),
+    hint,
+  );
+}
+
+async function quiz(A: Arena, opt: { concept?: string } = {}) {
+  const [items] = await Promise.all([feed<any[]>('quiz'), feed('talks').then((t) => Object.assign(talkNames, t))]);
+  let pool = items.slice();
+  if (opt.concept) {
+    const c = (await feed<Concept[]>('concepts')).find((x) => x.id === opt.concept);
+    if (c) {
+      const keys = [c.label, c.greek, c.id].filter(Boolean).map((s) => s!.toLowerCase());
+      const related = pool.filter((q) => keys.some((k) => `${q.q} ${q.a} ${q.explain ?? ''}`.toLowerCase().includes(k)));
+      if (related.length >= 3) pool = related;
+    }
+  }
+  const qs = pick(pool, Math.min(10, pool.length));
+  let i = 0;
+  let right = 0;
+  const show = () => {
+    if (i >= qs.length)
+      return finish(A, 'quiz', `${fill(W.quiz.result, { r: right, n: qs.length })} ${right >= qs.length * 0.8 ? W.quiz.well : W.quiz.again}`);
+    A.progress(i / qs.length);
+    A.score(`${right} · ${i + 1} / ${qs.length}`);
+    const q = qs[i];
+    A.stage.replaceChildren();
+    choose(
+      A.stage,
+      h('p', { class: 'nprompt', lang: 'en' }, q.q, unsure(q)),
+      q.a,
+      (q.wrong ?? []).slice(0, 3),
+      (ok) => {
+        if (ok) {
+          right++;
+          earn(8);
+        }
+      },
+      () => {
+        i++;
+        show();
+      },
+      h('div', { class: 'nexplain' }, q.explain ? h('p', { lang: 'en' }, q.explain) : null, talkRef(q.talk, q.t)),
+    );
+  };
+  show();
+}
+
+async function lightning(A: Arena) {
+  const [items] = await Promise.all([feed<any[]>('truefalse'), feed('talks').then((t) => Object.assign(talkNames, t))]);
+  const deck = shuffle(items);
+  let i = 0;
+  let score = 0;
+  let run = 0;
+  let left = 60;
+  let over = false;
+  const timer = h('span', { class: 'ntimer' }, '60');
+  const tick = window.setInterval(() => {
+    left--;
+    timer.textContent = String(left);
+    A.progress((60 - left) / 60);
+    if (left <= 0) end();
+  }, 1000);
+  let wait = 0;
+  cleanup = () => {
+    clearInterval(tick);
+    clearTimeout(wait);
+  };
+  const end = () => {
+    if (over) return;
+    over = true;
+    cleanup?.();
+    const p = load();
+    p.best.tf = Math.max(p.best.tf || 0, score);
+    save(p);
+    earn(Math.round(score / 2));
+    finish(A, 'tf', fill(W.tf.result, { s: score, b: p.best.tf }));
+  };
+  const show = () => {
+    if (over) return;
+    if (i >= deck.length) return end();
+    const item = deck[i];
+    A.score(fill(W.tf.score, { s: score, k: run }));
+    const answer = h('div', { class: 'nexplain', 'aria-live': 'polite' });
+    const go = (value: boolean, button: HTMLElement) => {
+      A.stage.querySelectorAll<HTMLButtonElement>('.nopt').forEach((b) => (b.disabled = true));
+      const ok = value === item.true;
+      if (ok) {
+        run++;
+        score += Math.min(5, run);
+      } else run = 0;
+      button.classList.add(ok ? 'is-right' : 'is-wrong');
+      button.prepend(mark(ok));
+      answer.replaceChildren(h('p', { lang: 'en' }, item.explain ?? ''));
+      i++;
+      wait = window.setTimeout(show, ok ? 900 : 1900);
+    };
+    A.stage.replaceChildren(
+      h('div', { class: 'nrow nrow--between' }, h('p', { class: 'nsmall' }, W.tf.label), timer),
+      h('p', { class: 'nprompt nprompt--big', lang: 'en' }, item.s, unsure(item)),
+      h(
+        'div',
+        { class: 'ntwo' },
+        h('button', { type: 'button', class: 'nopt nopt--two', onclick: (e: Event) => go(true, e.currentTarget as HTMLElement) }, greek('ἀληθές'), h('span', null, W.tf.yes)),
+        h('button', { type: 'button', class: 'nopt nopt--two', onclick: (e: Event) => go(false, e.currentTarget as HTMLElement) }, greek('ψευδές'), h('span', null, W.tf.no)),
+      ),
+      answer,
+    );
+  };
+  show();
+}
+
+async function ladders(A: Arena) {
+  const [items] = await Promise.all([feed<any[]>('sequences'), feed('talks').then((t) => Object.assign(talkNames, t))]);
+  const set = pick(items, 4);
+  let si = 0;
+  let climbed = 0;
+  const show = () => {
+    if (si >= set.length) return finish(A, 'ladder', fill(W.ladder.result, { r: climbed, n: set.length }));
+    A.progress(si / set.length);
+    A.score(fill(W.ladder.of, { i: si + 1, n: set.length }));
+    const s = set[si];
+    const steps: string[] = s.steps;
+    const order: number[] = [];
+    // the ladder: a rung for every step, filled from the bottom
+    const ladder = h('ol', { class: 'nladder', reversed: true });
+    const pool = h('div', { class: 'ntiles' });
+    const check = h('button', { type: 'button', class: 'btn', disabled: true }, W.ladder.check) as HTMLButtonElement;
+    const tiles = shuffle(steps.map((text, k) => ({ text, k })));
+    const draw = () => {
+      ladder.replaceChildren(
+        ...steps.map((_, n) => {
+          const k = order[n];
+          return h(
+            'li',
+            { class: 'nladder__rung' },
+            k === undefined
+              ? null
+              : h(
+                  'button',
+                  {
+                    type: 'button',
+                    class: 'ntile ntile--rung',
+                    onclick: () => {
+                      order.splice(n, 1);
+                      draw();
+                    },
+                  },
+                  steps[k],
+                ),
+          );
+        }),
+      );
+      pool.querySelectorAll<HTMLButtonElement>('.ntile').forEach((b) => {
+        const used = order.includes(Number(b.dataset.k));
+        b.disabled = used;
+        b.classList.toggle('is-used', used);
+      });
+      check.disabled = order.length !== steps.length;
+    };
+    tiles.forEach((tile) =>
+      pool.append(
+        h(
+          'button',
+          {
+            type: 'button',
+            class: 'ntile',
+            'data-k': tile.k,
+            onclick: () => {
+              order.push(tile.k);
+              draw();
+            },
+          },
+          tile.text,
+        ),
+      ),
+    );
+    check.addEventListener('click', () => {
+      const ok = order.every((k, n) => k === n);
+      ladder.replaceChildren(
+        ...steps.map((text, n) =>
+          h('li', { class: `nladder__rung ${order[n] === n ? 'is-right' : 'is-wrong'}` }, h('span', { class: 'ntile ntile--rung ntile--still' }, mark(order[n] === n), text)),
+        ),
+      );
+      pool.remove();
+      check.remove();
+      earn(ok ? 20 : 5);
+      if (ok) climbed++;
+      A.stage.append(
+        h('div', { class: 'nexplain' }, s.note ? h('p', { lang: 'en' }, s.note) : null, talkRef(s.talk, s.t)),
+        h('div', { class: 'nrow' }, h('button', { type: 'button', class: 'btn', onclick: () => (si++, show()) }, W.ladder.next)),
+      );
+    });
+    A.stage.replaceChildren(
+      h('p', { class: 'nsmall' }, W.ladder.prompt),
+      h('h3', { class: 'nsubject', lang: 'en' }, s.title, unsure(s)),
+      h('div', { class: 'nladder-wrap' }, ladder, pool),
+      h('div', { class: 'nrow' }, check),
+    );
+    draw();
+  };
+  show();
+}
+
+async function mythDecoder(A: Arena) {
+  const [items] = await Promise.all([feed<any[]>('myths'), feed('talks').then((t) => Object.assign(talkNames, t))]);
+  const m = pick(items, 1)[0];
+  const readings: string[] = items.flatMap((x: any) => x.beats.map((b: any) => b.reading)).filter(Boolean);
+  let i = 0;
+  let right = 0;
+  const show = () => {
+    if (i >= m.beats.length) return finish(A, 'myth', fill(W.myth.result, { r: right, n: m.beats.length }), talkRef(m.talk));
+    A.progress(i / m.beats.length);
+    A.score(`${right}`);
+    const beat = m.beats[i];
+    A.stage.replaceChildren();
+    choose(
+      A.stage,
+      h(
+        'div',
+        null,
+        h('p', { class: 'nsmall' }, `${m.title} · ${fill(W.myth.beat, { i: i + 1, n: m.beats.length })}`, unsure(m)),
+        h('p', { class: 'nprompt nprompt--big', lang: 'en' }, beat.beat),
+        h('p', { class: 'nsmall' }, W.myth.ask),
+      ),
+      clip(beat.reading, 220),
+      pick(readings.filter((r) => r !== beat.reading), 2).map((r) => clip(r, 220)),
+      (ok) => {
+        if (ok) {
+          right++;
+          earn(8);
+        }
+      },
+      () => {
+        i++;
+        show();
+      },
+    );
+  };
+  show();
+}
+
+async function forge(A: Arena) {
+  const [items] = await Promise.all([feed<any[]>('etymologies'), feed('talks').then((t) => Object.assign(talkNames, t))]);
+  const set = pick(items, 6);
+  const allParts: { part: string; meaning: string }[] = items.flatMap((e: any) => e.parts);
+  let i = 0;
+  let right = 0;
+  const show = () => {
+    if (i >= set.length) return finish(A, 'forge', fill(W.forge.result, { r: right, n: set.length }));
+    A.progress(i / set.length);
+    A.score(`${right}`);
+    const e = set[i];
+    const need: string[] = e.parts.map((p: any) => p.part);
+    const decoys = pick(
+      allParts.filter((p) => !need.includes(p.part)),
+      3,
+    );
+    const tiles = shuffle([...e.parts, ...decoys]);
+    const chosen: string[] = [];
+    let missed = false;
+    const slot = h('div', { class: 'nslot' });
+    const pool = h('div', { class: 'ntiles' });
+    const reveal = () => {
+      pool.remove();
+      if (!missed) right++;
+      earn(missed ? 4 : 10);
+      A.stage.append(
+        h(
+          'div',
+          { class: 'nexplain' },
+          h('p', { class: 'nstatus' }, W.forge.status[e.status] ?? e.status),
+          h('p', { lang: 'en' }, e.reading),
+          talkRef(e.talk),
+        ),
+        h('div', { class: 'nrow' }, h('button', { type: 'button', class: 'btn', onclick: () => (i++, show()) }, W.forge.next)),
+      );
+    };
+    tiles.forEach((p: any) =>
+      pool.append(
+        h(
+          'button',
+          {
+            type: 'button',
+            class: 'ntile ntile--root',
+            onclick: (ev: Event) => {
+              const t = ev.currentTarget as HTMLButtonElement;
+              if (need.includes(p.part) && !chosen.includes(p.part)) {
+                chosen.push(p.part);
+                t.disabled = true;
+                t.classList.add('is-used');
+                slot.append(h('span', { class: 'ntile ntile--root ntile--still' }, greek(p.part), h('span', { class: 'ngloss', lang: 'en' }, p.meaning)));
+                if (chosen.length === need.length) reveal();
+              } else {
+                missed = true;
+                t.classList.remove('is-miss');
+                void t.offsetWidth;
+                t.classList.add('is-miss');
+              }
+            },
+          },
+          greek(p.part),
+          h('span', { class: 'ngloss', lang: 'en' }, p.meaning),
+        ),
+      ),
+    );
+    A.stage.replaceChildren(
+      h('p', { class: 'nsmall' }, W.forge.prompt),
+      greek(e.word, 'nbig'),
+      e.translit ? h('p', { class: 'ntranslit', lang: 'grc-Latn' }, e.translit, unsure(e)) : unsure(e),
+      slot,
+      pool,
+    );
+  };
+  show();
+}
+
+async function fork(A: Arena) {
+  const [items] = await Promise.all([feed<any[]>('distinctions'), feed('talks').then((t) => Object.assign(talkNames, t))]);
+  const set = pick(items, 8);
+  let i = 0;
+  let right = 0;
+  const show = () => {
+    if (i >= set.length) return finish(A, 'fork', fill(W.fork.result, { r: right, n: set.length }));
+    A.progress(i / set.length);
+    A.score(`${right}`);
+    const d = set[i];
+    const side = Math.random() < 0.5 ? 'a' : 'b';
+    const gloss = side === 'a' ? d.a_gloss : d.b_gloss;
+    const after = h('div');
+    const go = (value: string, button: HTMLElement) => {
+      A.stage.querySelectorAll<HTMLButtonElement>('.nfork__arm').forEach((b) => (b.disabled = true));
+      const ok = value === side;
+      button.classList.add(ok ? 'is-right' : 'is-wrong');
+      button.prepend(mark(ok));
+      if (ok) {
+        right++;
+        earn(6);
+      }
+      after.replaceChildren(
+        h(
+          'div',
+          { class: 'nexplain' },
+          h('p', { lang: 'en' }, greek(d.a), ` ${d.a_gloss} · `, greek(d.b), ` ${d.b_gloss}`),
+          d.point ? h('p', { lang: 'en' }, d.point) : null,
+          talkRef(d.talk),
+        ),
+        h('div', { class: 'nrow' }, h('button', { type: 'button', class: 'btn', onclick: () => (i++, show()) }, W.fork.next)),
+      );
+      (after.querySelector('.btn') as HTMLElement)?.focus({ preventScroll: true });
+    };
+    const y = h('div', { class: 'nfork__y', 'aria-hidden': 'true' });
+    y.innerHTML = '<svg viewBox="0 0 200 90" preserveAspectRatio="none"><path d="M100 88V52C100 34 74 22 50 4M100 52C100 34 126 22 150 4"/></svg>';
+    A.stage.replaceChildren(
+      h('p', { class: 'nsmall' }, W.fork.prompt),
+      h('p', { class: 'nprompt nprompt--big nprompt--centre', lang: 'en' }, `“${gloss}”`, unsure(d)),
+      h(
+        'div',
+        { class: 'nfork' },
+        h('button', { type: 'button', class: 'nopt nfork__arm', onclick: (e: Event) => go('a', e.currentTarget as HTMLElement) }, greek(d.a)),
+        h('button', { type: 'button', class: 'nopt nfork__arm', onclick: (e: Event) => go('b', e.currentTarget as HTMLElement) }, greek(d.b)),
+        y,
+      ),
+      after,
+    );
+  };
+  show();
+}
+
+async function threads(A: Arena, opt: { concept?: string } = {}) {
+  const concepts = (await feed<Concept[]>('concepts')).filter((c) => c.take);
+  const chosen = opt.concept ? concepts.find((c) => c.id === opt.concept) : undefined;
+  const set = chosen ? [chosen] : pick(concepts.filter((c) => c.weight >= 3 && c.group !== 'thinkers'), 3);
+  let i = 0;
+  let kept = 0;
+  const show = () => {
+    if (i >= set.length) return finish(A, 'threads', fill(W.threads.result, { n: Object.keys(load().threads ?? {}).length }));
+    A.progress(i / set.length);
+    A.score(`${i + 1} / ${set.length}`);
+    const c = set[i];
+    const mine = load().threads?.[c.id] ?? '';
+    const lead = h('p', { class: 'nsmall nthread__lead' }, W.threads.hint);
+    const area = h('textarea', { class: 'nthread__text', rows: 3, 'aria-label': W.threads.prompt, lang: '' }) as HTMLTextAreaElement;
+    area.value = mine;
+    const nudges = h(
+      'div',
+      { class: 'nrow nrow--tight' },
+      ...Object.values(W.threads.nudges as Record<string, { label: string; line: string }>).map((n) =>
+        h('button', { type: 'button', class: 'nchip', onclick: () => ((lead.textContent = n.line), area.focus()) }, n.label),
+      ),
+    );
+    const keep = h(
+      'button',
+      {
+        type: 'button',
+        class: 'btn',
+        onclick: () => {
+          const text = area.value.trim();
+          if (!text) return area.focus();
+          const p = load();
+          const first = !p.threads?.[c.id];
+          p.threads = { ...(p.threads ?? {}), [c.id]: text };
+          save(p);
+          if (first) earn(6);
+          kept++;
+          i++;
+          show();
+        },
+      },
+      W.threads.keep,
+    );
+    A.stage.replaceChildren(
+      h(
+        'div',
+        { class: 'nthread__idea' },
+        c.greek ? greek(c.greek, 'nthread__greek') : null,
+        h('h3', { class: 'nsubject' }, c.label),
+        h('p', { lang: 'en' }, clip(c.take, 260)),
+        h('a', { class: 'nsmall', href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, W.mapLink),
+      ),
+      h('label', { class: 'nprompt' }, W.threads.prompt),
+      lead,
+      nudges,
+      area,
+      h('div', { class: 'nrow' }, keep, h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => (i++, show()) }, W.threads.skip)),
+    );
+    area.focus({ preventScroll: true });
+  };
+  show();
+  void kept;
+}
+
+async function askesis(A: Arena) {
+  const [practices, questions] = await Promise.all([
+    feed<any[]>('practices'),
+    feed<any[]>('questions'),
+    feed('talks').then((t) => Object.assign(talkNames, t)),
+  ]);
+  const day = today();
+  const seed = [...day].reduce((a, ch) => a + ch.charCodeAt(0), 0);
+  const p = practices[seed % practices.length];
+  const q = questions[(seed * 7) % questions.length];
+  const doneToday = load().best.askesis === Number(day.replaceAll('-', ''));
+  A.score(day);
+  A.progress(doneToday ? 1 : 0);
+  const did = h(
+    'button',
+    {
+      type: 'button',
+      class: 'btn',
+      disabled: doneToday,
+      onclick: (e: Event) => {
+        const b = e.currentTarget as HTMLButtonElement;
+        const progress = load();
+        progress.best.askesis = Number(day.replaceAll('-', ''));
+        progress.done.askesis = (progress.done.askesis || 0) + 1;
+        save(progress);
+        earn(25);
+        b.disabled = true;
+        b.textContent = W.askesis.done;
+        A.progress(1);
+      },
+    },
+    doneToday ? W.askesis.done : W.askesis.did,
+  );
+  const all = () => {
+    A.stage.replaceChildren(
+      h('h3', { class: 'nsubject' }, W.askesis.allTitle),
+      h(
+        'div',
+        { class: 'nall' },
+        ...practices.map((x) =>
+          h(
+            'details',
+            { class: 'nall__item' },
+            h('summary', { lang: 'en' }, x.title),
+            h('ul', { class: 'nsteps', lang: 'en' }, ...(x.steps ?? []).map((s: string) => h('li', null, s))),
+            x.why ? h('p', { class: 'nsmall', lang: 'en' }, x.why) : null,
+          ),
+        ),
+      ),
+    );
+  };
+  A.stage.replaceChildren(
+    h('p', { class: 'nsmall' }, W.askesis.today),
+    h('h3', { class: 'nsubject', lang: 'en' }, p.title, unsure(p)),
+    h('ul', { class: 'nsteps', lang: 'en' }, ...(p.steps ?? []).map((s: string) => h('li', null, s))),
+    p.why ? h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, p.why), talkRef(p.talk)) : null,
+    q
+      ? h('div', { class: 'ncarry' }, h('p', { class: 'nsmall' }, W.askesis.carry), h('p', { class: 'ncarry__q', lang: 'en' }, q.q), talkRef(q.talk))
+      : null,
+    h('div', { class: 'nrow' }, did, h('button', { type: 'button', class: 'btn btn--ghost', onclick: all }, W.askesis.all)),
+  );
+}
+
+const ACTIVITIES: Record<string, { run: (A: Arena, opt?: any) => Promise<void>; section: string }> = {
+  cards: { run: cards, section: 'remember' },
+  match: { run: match, section: 'remember' },
+  quiz: { run: quiz, section: 'remember' },
+  tf: { run: lightning, section: 'remember' },
+  ladder: { run: ladders, section: 'understand' },
+  myth: { run: mythDecoder, section: 'understand' },
+  forge: { run: forge, section: 'understand' },
+  fork: { run: fork, section: 'understand' },
+  threads: { run: threads, section: 'own' },
+  askesis: { run: askesis, section: 'own' },
+};
+
+async function start(id: string, opt: any = {}) {
+  const act = ACTIVITIES[id];
+  if (!act) return;
+  const A = openArena(W.acts[id].name, W.sections[act.section].title);
+  A.stage.replaceChildren(h('p', { class: 'nsmall' }, '…'));
+  try {
+    await act.run(A, opt);
+  } catch {
+    A.stage.replaceChildren(h('p', null, W.failed));
+  }
+}
+
+// ---------- the page around the activities ----------
+function refresh(root: HTMLElement) {
+  const p = load();
+  // under each activity: how often it was played, and the best scores
+  root.querySelectorAll<HTMLElement>('[data-act]').forEach((button) => {
+    const id = button.dataset.act!;
+    const extra = button.querySelector<HTMLElement>('[data-played]');
+    if (extra) {
+      const n = p.done[id] || 0;
+      extra.textContent = n === 0 ? '' : n === 1 ? W.playedOnce : fill(W.played, { n });
+    }
+    const count = button.querySelector<HTMLElement>('[data-count]');
+    if (!count) return;
+    if (id === 'match') count.textContent = p.best.match ? fill(W.acts.match.count, { n: p.best.match }) : W.acts.match.none;
+    if (id === 'tf') count.textContent = p.best.tf ? fill(W.acts.tf.count, { n: p.best.tf }) : W.acts.tf.none;
+    if (id === 'threads') count.textContent = fill(W.acts.threads.count, { n: Object.keys(p.threads ?? {}).length });
+  });
+  // today: cards due and the rung
+  const today_ = root.querySelector<HTMLElement>('[data-today-line]');
+  const total = Number(root.dataset.cards ?? 0);
+  const seen = Object.values(p.srs);
+  const due = total - seen.length + seen.filter((s) => s.due <= today()).length;
+  const r = rungIndex(p.xp);
+  if (today_) today_.textContent = fill(W.todayLine, { due, rung: r + 1, name: W.rungs[r][1] });
+  // the ascent
+  root.querySelectorAll<HTMLElement>('[data-rung]').forEach((li) => {
+    const k = Number(li.dataset.rung);
+    li.classList.toggle('is-reached', k <= r);
+    li.classList.toggle('is-here', k === r);
+    const togo = li.querySelector<HTMLElement>('[data-togo]');
+    if (togo) togo.textContent = k === r + 1 ? fill(W.ascent.toGo, { n: W.rungs[k][0] - p.xp }) : '';
+  });
+  const stat = (name: string, value: string | number) => {
+    const node = root.querySelector<HTMLElement>(`[data-stat="${name}"]`);
+    if (node) node.textContent = String(value);
+  };
+  stat('xp', p.xp);
+  stat('streak', streak(p));
+  stat('known', `${Object.keys(p.known).length} / ${root.dataset.stars}`);
+  stat('long', seen.filter((s) => s.box >= 3).length);
+  const counts = [0, 0, 0, 0, 0, 0];
+  counts[0] = total - seen.length;
+  seen.forEach((s) => counts[s.box]++);
+  const most = Math.max(...counts, 1);
+  root.querySelectorAll<HTMLElement>('[data-box]').forEach((bar) => {
+    const k = Number(bar.dataset.box);
+    bar.style.setProperty('--h', String(Math.max(0.04, counts[k] / most)));
+    bar.querySelector('[data-box-n]')!.textContent = String(counts[k]);
+  });
+  const known = root.querySelector<HTMLElement>('[data-known]');
+  if (known) {
+    const ids = Object.keys(p.known);
+    const labels = JSON.parse(root.dataset.labels ?? '{}');
+    known.replaceChildren(
+      ...(ids.length
+        ? ids.filter((id) => labels[id]).map((id) => h('a', { class: 'nchip', href: `${mapBase}?star=${encodeURIComponent(id)}` }, labels[id]))
+        : [h('p', { class: 'nsmall' }, W.ascent.knownNone)]),
+    );
+  }
+}
+
+let stopPage: (() => void) | undefined;
+function setup() {
+  stopPage?.();
+  stopPage = undefined;
+  const root = document.querySelector<HTMLElement>('[data-nplay]');
+  const words = document.querySelector('[data-nplay-words]');
+  if (!root || !words) return;
+  W = JSON.parse(words.textContent ?? '{}');
+  feedBase = root.dataset.feedSrc ?? feedBase;
+  mapBase = root.dataset.mapHref ?? mapBase;
+  dialog = root.querySelector<HTMLDialogElement>('[data-arena]')!;
+  const ac = new AbortController();
+  const on = { signal: ac.signal };
+  document.documentElement.classList.add('nostos-play-live');
+
+  root.querySelectorAll<HTMLButtonElement>('[data-act]').forEach((b) => {
+    b.disabled = false;
+    b.addEventListener('click', () => start(b.dataset.act!), on);
+  });
+  root.querySelector('[data-review]')?.addEventListener('click', () => start('cards'), on);
+  root.querySelector('[data-surprise]')?.addEventListener(
+    'click',
+    () => start(pick(['ladder', 'myth', 'forge', 'fork', 'quiz', 'threads'], 1)[0]),
+    on,
+  );
+  dialog.addEventListener(
+    'close',
+    () => {
+      cleanup?.();
+      cleanup = null;
+      refresh(root);
+    },
+    on,
+  );
+  dialog.addEventListener(
+    'click',
+    (event) => {
+      if (event.target === dialog) dialog.close();
+    },
+    on,
+  );
+  window.addEventListener('nostos:progress', () => refresh(root), on);
+
+  // erase progress, after asking
+  const reset = root.querySelector<HTMLElement>('[data-reset]');
+  reset?.addEventListener(
+    'click',
+    () => {
+      const area = root.querySelector<HTMLElement>('[data-reset-area]')!;
+      area.replaceChildren(
+        h(
+          'div',
+          { class: 'nrow' },
+          h('p', { class: 'nsmall' }, W.ascent.resetAsk),
+          h(
+            'button',
+            {
+              type: 'button',
+              class: 'btn',
+              onclick: () => {
+                save({ xp: 0, days: {}, srs: {}, known: {}, best: {}, done: {}, v: 1 });
+                area.replaceChildren(h('p', { class: 'nsmall', role: 'status' }, W.ascent.erased));
+              },
+            },
+            W.ascent.resetYes,
+          ),
+          h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => area.replaceChildren() }, W.ascent.resetNo),
+        ),
+      );
+    },
+    on,
+  );
+
+  refresh(root);
+
+  // straight into an activity from a link: ?quiz=<idea> from the map, ?play=<activity>
+  const params = new URLSearchParams(location.search);
+  if (params.get('quiz')) start('quiz', { concept: params.get('quiz') });
+  else if (params.get('thread')) start('threads', { concept: params.get('thread') });
+  else if (params.get('play') && ACTIVITIES[params.get('play')!]) start(params.get('play')!);
+
+  stopPage = () => {
+    ac.abort();
+    cleanup?.();
+    if (dialog.open) dialog.close();
+    document.documentElement.classList.remove('nostos-play-live');
+  };
+}
+
+document.addEventListener('astro:page-load', setup);
+document.addEventListener('astro:before-swap', () => stopPage?.());

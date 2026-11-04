@@ -474,6 +474,19 @@ const playHref = pathIn(locale, '/nostos/play/');
       const source = document.querySelector(`#c-${CSS.escape(id)} .cnote`);
       if (!source) return;
       noteIn.replaceChildren(source.cloneNode(true));
+      // the visitor's own link to this idea, made in Threads on the play page
+      const mine = load().threads?.[id];
+      if (mine) {
+        const yours = document.createElement('div');
+        yours.className = 'cnote__yours';
+        const head = document.createElement('h4');
+        head.className = 'cnote__h';
+        head.textContent = words.note.yours;
+        const text = document.createElement('p');
+        text.textContent = mine;
+        yours.append(head, text);
+        noteIn.firstElementChild!.querySelector('.cnote__freq')?.after(yours);
+      }
       noteIn.firstElementChild!.append(actions(id));
       note.setAttribute('aria-label', byId.get(id)?.label ?? '');
       note.hidden = false;
@@ -513,6 +526,12 @@ const playHref = pathIn(locale, '/nostos/play/');
     );
     markKnown();
     window.addEventListener('nostos:progress', markKnown, on);
+    // a link from elsewhere in Nostos to one star: /nostos/?star=<id>
+    const asked = new URLSearchParams(location.search).get('star');
+    if (asked && byId.has(asked)) {
+      root.scrollIntoView({ block: 'start' });
+      window.setTimeout(() => select(asked, true), 60);
+    }
 
     // ---------- lines and themes ----------
     root.querySelectorAll<HTMLButtonElement>('[data-mode]').forEach((b) =>
