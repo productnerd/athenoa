@@ -4,14 +4,16 @@
 //   attica   Home (and anything not listed)   mountains of Attica with umbrella pines
 //   olympus  About Athena                     Mount Olympus with mountain pines
 //   aegean   Courses and course pages         the Aegean
+//   island   Nostos, in every language        a Cycladic island village with its windmill
 //
 // Every scene is three layered SVG files (far, mid, near) that move at different depths:
 //   attica   footer-mountains.svg, footer-hills.svg, footer-pines.svg
 //   olympus  footer-olympus-far.svg, footer-olympus-mid.svg, footer-olympus-near.svg
 //   aegean   footer-aegean-far.svg, footer-aegean-mid.svg, footer-aegean-near.svg
+//   island   footer-island-far.svg, footer-island-mid.svg, footer-island-near.svg
 // To swap artwork, replace those files. Or drop one transparent image named footer-landscape,
-// footer-olympus or footer-aegean (.png, .webp or .avif) in src/assets/illustrations and it
-// replaces the drawn layers of that scene. No code changes either way.
+// footer-olympus, footer-aegean or footer-island (.png, .webp or .avif) in src/assets/illustrations
+// and it replaces the drawn layers of that scene. No code changes either way.
 // The far file of each scene also holds its sun and its night sky (moon and stars) as groups
 // named .sky-day and .sky-night: a replacement drawing needs the same groups (see the styles below).
 import { Image } from 'astro:assets';
@@ -20,9 +22,9 @@ import Illustration from './Illustration.astro';
 import SocialIcons from './SocialIcons.astro';
 import logo from '../assets/media/logo.png';
 import { content } from '../data';
-import { getLocale } from '../lib/locale';
+import { barePath, getLocale } from '../lib/locale';
 
-type Scene = 'attica' | 'olympus' | 'aegean';
+type Scene = 'attica' | 'olympus' | 'aegean' | 'island';
 interface Props {
   /** Overrides the scene chosen from the page address. */
   scene?: Scene;
@@ -30,7 +32,15 @@ interface Props {
 
 const { site } = content(getLocale(Astro.url));
 const path = Astro.url.pathname.replace(/^\/el(?=\/)/, '');
-const byPage: Scene = path.startsWith('/about-athena') ? 'olympus' : path.startsWith('/courses') ? 'aegean' : 'attica';
+// Nostos is also read in Ancient Greek (/grc/nostos/), so its pages are found with either prefix taken off
+const nostos = /^\/nostos(\/|$)/.test(barePath(Astro.url.pathname));
+const byPage: Scene = nostos
+  ? 'island'
+  : path.startsWith('/about-athena')
+    ? 'olympus'
+    : path.startsWith('/courses')
+      ? 'aegean'
+      : 'attica';
 const scene = Astro.props.scene ?? byPage;
 
 const layers: Record<Scene, { far: string; mid: string; near: string; image: string }> = {
@@ -44,6 +54,7 @@ const layers: Record<Scene, { far: string; mid: string; near: string; image: str
     image: 'footer-olympus',
   },
   aegean: { far: 'footer-aegean-far', mid: 'footer-aegean-mid', near: 'footer-aegean-near', image: 'footer-aegean' },
+  island: { far: 'footer-island-far', mid: 'footer-island-mid', near: 'footer-island-near', image: 'footer-island' },
 };
 const art = layers[scene];
 
@@ -84,7 +95,7 @@ const custom = Object.entries(images).find(([file]) =>
   </div>
 
   {/* A click on the picture wakes something in it (script below): the donkey brays, a bird leaves a
-      pine, the dolphins dive. A small surprise for the pointer; nothing depends on it. */}
+      pine, the dolphins dive, the windmill turns. A small surprise for the pointer; nothing depends on it. */}
   <div
     class:list={['footer__scene', `footer__scene--${scene}`, !custom && 'footer__scene--drawn']}
     aria-hidden="true"
@@ -134,6 +145,8 @@ const custom = Object.entries(images).find(([file]) =>
   //                      Once only: it does not come back until the page is opened again.
   //   Courses (Aegean):  the dolphins dive under the first wave with a splash; a second click and
   //                      they leap again with another.
+  //   Nostos (island):   a gust of wind, and the windmill's sails go round once, slowly. A click while
+  //                      they turn changes nothing.
   // Sounds follow the site's sound button (see scripts/sound.ts).
   import { playSound as play } from '../scripts/sound';
   const once = (el: Element, name: string, ms: number) => {
@@ -165,6 +178,9 @@ const custom = Object.entries(images).find(([file]) =>
         // a splash as they go under, another as they break the surface
         if (dived) window.setTimeout(() => play('/audio/splash-in.mp3', 0.12), 450);
         else window.setTimeout(() => play('/audio/splash-out.mp3', 0.12), 120);
+      } else if (kind === 'island') {
+        const sails = scene.querySelector('.isl-sails');
+        if (sails && once(sails, 'is-turning', 5200)) play('/audio/wind.mp3', 0.06);
       }
     });
   });
@@ -374,6 +390,20 @@ const custom = Object.entries(images).find(([file]) =>
       opacity 0.25s linear 0.55s;
   }
 
+  /* The windmill of the island turns its sails round once, slowly, and stops. (The sails are a group
+     inside the drawing, which gives the hub as its transform-origin. A one-off movement, with motion only.) */
+  .footer__scene :global(.isl-sails) {
+    transform-box: view-box;
+  }
+  @keyframes sails-turn {
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  :global(html.motion) .footer__scene :global(.isl-sails.is-turning) {
+    animation: sails-turn 5s cubic-bezier(0.45, 0, 0.35, 1);
+  }
+
   /* It stands on the ground line of the scene (60 of the picture's 1600 units up), left of centre */
   .footer__donkey {
     position: absolute;
@@ -506,6 +536,10 @@ const custom = Object.entries(images).find(([file]) =>
   }
   .footer--aegean {
     --footer-ground: var(--blue-deep);
+  }
+  /* the quay at the foot of the island is drawn in the ink colour (footer-island-near.svg) */
+  .footer--island {
+    --footer-ground: var(--blue);
   }
 
   @media (max-width: 60rem) {

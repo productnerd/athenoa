@@ -19,6 +19,7 @@ const sets = {
   aegean: ['footer-aegean-far', 'footer-aegean-mid', 'footer-aegean-near'],
   attica: ['footer-mountains', 'footer-hills', 'footer-pines'],
   olympus: ['footer-olympus-far', 'footer-olympus-mid', 'footer-olympus-near'],
+  island: ['footer-island-far', 'footer-island-mid', 'footer-island-near'],
 };
 const W = Number(process.env.W ?? 1600);
 
