@@ -53,11 +53,11 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  <NostosNav />
   <div data-nshelf data-words={JSON.stringify({ prev: t.prev, next: t.next, close: t.close })}>
     <section class="section nshelf-top">
       <div class="wrap">
         <header class="nostos-head">
-          <NostosNav />
           <h1 class="t-1" data-split>{t.title}</h1>
           <p class="lead nostos-intro" data-reveal>{t.intro}</p>
         </header>
@@ -283,7 +283,7 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
 
 <style>
   .nshelf-top {
-    padding-top: var(--space-l);
+    padding-top: calc(var(--space-s) * 2);
   }
   .nostos-head {
     display: grid;
@@ -292,11 +292,6 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
   }
   .nostos-head > * {
     margin: 0;
-  }
-  /* the Nostos menu at the right, with a little air before the title */
-  .nostos-head > :global(.nnav) {
-    justify-self: end;
-    margin-bottom: var(--space-s);
   }
   @media (max-width: 61.99rem) {
     .nostos-head h1,
@@ -310,15 +305,12 @@ const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== 
       column-gap: var(--space-xl);
       align-items: end;
     }
-    .nostos-head > :global(.nnav) {
-      grid-column: 1 / -1;
-    }
     .nostos-head h1 {
       grid-column: 1;
     }
     .nostos-intro {
       grid-column: 2;
-      grid-row: 2;
+      grid-row: 1;
     }
   }
 

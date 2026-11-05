@@ -20,13 +20,12 @@ export const nostosUi = {
       title: 'Athena’s idea universe',
       // {n}: the number of transcribed talks
       intro:
-        'Each star is an idea Athena teaches. Its size is how often it comes up across {n} transcribed talks. Lines join the ideas Athena links, or keeps discussing in the same breath. Choose a star to open it.',
+        'Each star is an idea Athena teaches. Its size is how often it comes up across {n} transcribed talks. Lines join the ideas Athena links.',
       mapLabel: 'Map of the ideas in Athena’s teaching',
       search: 'Find a star',
       searchPlaceholder: 'Find a star: eros, Plato, ψυχή',
       noMatch: 'No star by that name yet',
       themes: 'Themes',
-      sizeKey: 'Size: how often it comes up',
       // the readable list under the map (and the whole page without JavaScript)
       listTitle: 'All the ideas',
       listIntro: 'The same ideas, listed by theme.',
@@ -34,9 +33,6 @@ export const nostosUi = {
     },
     note: {
       close: 'Close',
-      // {n}: number of mentions
-      mentioned: 'Mentioned {n} times in Athena’s talks',
-      estimated: 'Weight in Athena’s teaching (estimated)',
       take: 'In Athena’s teaching',
       more: 'Another angle',
       roots: 'Roots',
@@ -314,21 +310,18 @@ export const nostosUi = {
         'Ένας χάρτης των ιδεών που διδάσκει η Δρ. Αθηνά Ποτάρη: κάθε αστέρι μια ιδέα, όσο μεγάλο όσο συχνά τη συζητά η Αθηνά, ενωμένο με τις ιδέες με τις οποίες η Αθηνά τη συνδέει.',
       title: 'Το σύμπαν των ιδεών της Αθηνάς',
       intro:
-        'Κάθε αστέρι είναι μια ιδέα που διδάσκει η Αθηνά. Το μέγεθός του δείχνει πόσο συχνά εμφανίζεται σε {n} απομαγνητοφωνημένες ομιλίες. Οι γραμμές ενώνουν τις ιδέες που συνδέει η Αθηνά ή που συζητά συνεχώς μαζί. Επιλέξτε ένα αστέρι για να το ανοίξετε.',
+        'Κάθε αστέρι είναι μια ιδέα που διδάσκει η Αθηνά. Το μέγεθός του δείχνει πόσο συχνά εμφανίζεται σε {n} απομαγνητοφωνημένες ομιλίες. Οι γραμμές ενώνουν τις ιδέες που συνδέει η Αθηνά.',
       mapLabel: 'Χάρτης των ιδεών της διδασκαλίας της Αθηνάς',
       search: 'Βρείτε ένα αστέρι',
       searchPlaceholder: 'Βρείτε ένα αστέρι: έρως, Πλάτων, ψυχή',
       noMatch: 'Δεν υπάρχει ακόμη αστέρι με αυτό το όνομα',
       themes: 'Θέματα',
-      sizeKey: 'Μέγεθος: πόσο συχνά εμφανίζεται',
       listTitle: 'Όλες οι ιδέες',
       listIntro: 'Οι ίδιες ιδέες, ανά θέμα.',
       openOnMap: 'Στον χάρτη',
     },
     note: {
       close: 'Κλείσιμο',
-      mentioned: 'Αναφέρεται {n} φορές στις ομιλίες της Αθηνάς',
-      estimated: 'Βάρος στη διδασκαλία της Αθηνάς (κατ’ εκτίμηση)',
       take: 'Στη διδασκαλία της Αθηνάς',
       more: 'Άλλη οπτική',
       roots: 'Ρίζες',

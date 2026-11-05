@@ -1,6 +1,8 @@
 ---
 // Nostos: the small menu that joins its four pages (the map, play, the bookshelf, sources), at the head
-// of each. The page you are on is marked and is not a link. Wording proposed (src/data/nostos/ui.ts).
+// of each, at the right. It stays in sight as the page scrolls, just under the site's header, on a
+// paper pill once the page has moved (client direction, 5 November 2026). The page you are on is
+// marked and is not a link. Wording proposed (src/data/nostos/ui.ts).
 import { nostosUi } from '../../data/nostos/ui';
 import { barePath, getLocale, mainLocale, pathIn } from '../../lib/locale';
 
@@ -15,7 +17,8 @@ const items = [
 ];
 ---
 
-<nav class="nnav" aria-label={t.label}>
+<div class="nnav-bar">
+<nav class="nnav wrap" aria-label={t.label}>
   <ul>
     {
       items.map((item) => (
@@ -30,8 +33,21 @@ const items = [
     }
   </ul>
 </nav>
+</div>
 
 <style>
+  /* first in the page (a child of main), so it can stay in sight all the way down */
+  .nnav-bar {
+    position: sticky;
+    top: calc(var(--header-h) + 0.35rem);
+    z-index: 40;
+    margin-top: var(--space-l);
+    pointer-events: none;
+  }
+  /* anchors land below the header and this menu, not under them */
+  :global(html:has(.nnav-bar)) {
+    scroll-padding-top: calc(var(--header-h) + 3.5rem);
+  }
   .nnav {
     display: flex;
     flex-wrap: wrap;
@@ -46,8 +62,22 @@ const items = [
     justify-content: flex-end;
     gap: 0.2rem 0.4rem;
     margin: 0;
-    padding: 0;
+    padding: 0.2rem;
     list-style: none;
+    pointer-events: auto;
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+    border: 1.5px solid transparent;
+    transition:
+      background-color var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out);
+  }
+  /* once the page has scrolled (the site's header says so), a paper pill like the header's own, so
+     the page passing under it does not show through */
+  :global(.header.is-scrolled ~ main) .nnav ul {
+    background-color: color-mix(in srgb, var(--creme-light) 95%, transparent);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border-color: color-mix(in srgb, var(--blue) 16%, transparent);
   }
   .nnav a,
   .nnav__here {

@@ -32,10 +32,10 @@ const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  <NostosNav />
   <section class="section nsrc-top">
     <div class="wrap">
       <header class="nostos-head">
-        <NostosNav />
         <h1 class="t-1" data-split>{t.title}</h1>
         <p class="lead nostos-intro" data-reveal>{fill(t.intro, { t: talks.length, w: writings.length })}</p>
       </header>
@@ -136,7 +136,7 @@ const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
 
 <style>
   .nsrc-top {
-    padding-top: var(--space-l);
+    padding-top: calc(var(--space-s) * 2);
     padding-bottom: 0;
   }
   .nostos-head {
@@ -145,11 +145,6 @@ const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
   }
   .nostos-head > * {
     margin: 0;
-  }
-  /* the Nostos menu at the right, with a little air before the title */
-  .nostos-head > :global(.nnav) {
-    justify-self: end;
-    margin-bottom: var(--space-s);
   }
   @media (max-width: 61.99rem) {
     .nostos-head h1,
@@ -163,15 +158,12 @@ const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
       column-gap: var(--space-xl);
       align-items: end;
     }
-    .nostos-head > :global(.nnav) {
-      grid-column: 1 / -1;
-    }
     .nostos-head h1 {
       grid-column: 1;
     }
     .nostos-intro {
       grid-column: 2;
-      grid-row: 2;
+      grid-row: 1;
     }
   }
   .nsrc__h {

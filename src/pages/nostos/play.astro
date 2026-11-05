@@ -66,6 +66,7 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  <NostosNav />
   <div
     data-nplay
     data-feed-src="/nostos/data/"
@@ -77,7 +78,6 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
     <section class="section nplay-top">
       <div class="wrap">
         <header class="nostos-head">
-          <NostosNav />
           <h1 class="t-1" data-split>{t.title}</h1>
           <p class="lead nostos-intro" data-reveal>{t.intro}</p>
         </header>
@@ -236,7 +236,7 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 
 <style>
   .nplay-top {
-    padding-top: var(--space-l);
+    padding-top: calc(var(--space-s) * 2);
     padding-bottom: var(--space-m);
   }
   .nostos-head {
@@ -246,11 +246,6 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
   }
   .nostos-head > * {
     margin: 0;
-  }
-  /* the Nostos menu at the right, with a little air before the title */
-  .nostos-head > :global(.nnav) {
-    justify-self: end;
-    margin-bottom: var(--space-s);
   }
   @media (max-width: 61.99rem) {
     .nostos-head h1,
@@ -264,15 +259,12 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
       column-gap: var(--space-xl);
       align-items: end;
     }
-    .nostos-head > :global(.nnav) {
-      grid-column: 1 / -1;
-    }
     .nostos-head h1 {
       grid-column: 1;
     }
     .nostos-intro {
       grid-column: 2;
-      grid-row: 2;
+      grid-row: 1;
     }
   }
 

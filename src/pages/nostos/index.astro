@@ -20,12 +20,25 @@ const byTheme = groups.map((g) => ({
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  <NostosNav />
   <section class="section nostos-top">
     <div class="wrap">
       <header class="nostos-head">
-        <NostosNav />
         <h1 class="t-1" data-split>{t.title}</h1>
         <p class="lead nostos-intro" data-reveal>{t.intro.replace('{n}', String(meta.transcribedTalks))}</p>
+        <form class="nostos-find" role="search" onsubmit="return false">
+          <label class="visually-hidden" for="nmap-q">{t.search}</label>
+          <input
+            class="nostos-find__input"
+            id="nmap-q"
+            type="search"
+            placeholder={t.searchPlaceholder}
+            autocomplete="off"
+            spellcheck="false"
+            data-search
+          />
+          <p class="nostos-find__status" aria-live="polite" data-status></p>
+        </form>
       </header>
       <StarMap />
     </div>
@@ -66,7 +79,7 @@ const byTheme = groups.map((g) => ({
 
 <style>
   .nostos-top {
-    padding-top: var(--space-l);
+    padding-top: calc(var(--space-s) * 2);
   }
   .nostos-head {
     display: grid;
@@ -80,31 +93,60 @@ const byTheme = groups.map((g) => ({
       column-gap: var(--space-xl);
       align-items: end;
     }
-    .nostos-head > :global(.nnav) {
-      grid-column: 1 / -1;
-    }
     .nostos-head h1 {
       grid-column: 1;
     }
     .nostos-intro {
       grid-column: 2;
-      grid-row: 2;
+      grid-row: 1;
       align-self: end;
+    }
+    .nostos-find {
+      grid-column: 2;
     }
   }
   .nostos-head > * {
     margin: 0;
-  }
-  /* the Nostos menu at the right, with a little air before the title */
-  .nostos-head > :global(.nnav) {
-    justify-self: end;
-    margin-bottom: var(--space-s);
   }
   @media (max-width: 61.99rem) {
     .nostos-head h1,
     .nostos-intro {
       max-width: 46rem;
     }
+  }
+  /* search, under the intro; it needs the map's script, so without it it is not shown */
+  .nostos-find {
+    display: none;
+    gap: 0.4rem;
+  }
+  :global(html.nostos-live) .nostos-find {
+    display: grid;
+  }
+  .nostos-find__input {
+    width: 100%;
+    max-width: 22rem;
+    padding: 0.6em 1.05em;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--ink);
+    background: var(--creme-light);
+    border: 1.5px solid var(--line);
+    border-radius: 1.5rem 1.1rem 1.6rem 1.2rem / 1.2rem 1.6rem 1.1rem 1.5rem;
+  }
+  .nostos-find__input::placeholder {
+    color: var(--ink-soft);
+  }
+  .nostos-find__input:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 2px;
+  }
+  .nostos-find__status {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+  .nostos-find__status:empty {
+    display: none;
   }
   .nostos-list__intro {
     margin: var(--space-2xs) 0 var(--space-l);

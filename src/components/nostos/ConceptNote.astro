@@ -21,7 +21,6 @@ interface Props {
 const { concept: c } = Astro.props;
 const ui = nostosUi[mainLocale(getLocale(Astro.url))];
 const t = ui.note;
-const say = (text: string, n: number | string) => text.replace('{n}', String(n));
 const group = groupById(c.group);
 const roots = rootsFor(c).slice(0, 2);
 const links = c.links.filter((l) => conceptById(l.to)).slice(0, 8);
@@ -33,7 +32,6 @@ const places = c.talks.slice(0, 7);
   {c.greek && <p class="cnote__greek" lang="grc">{c.greek}</p>}
   <h3 class="cnote__label">{c.label}</h3>
   {c.translit && <p class="cnote__translit" lang="grc-Latn">{c.translit}</p>}
-  <p class="cnote__freq">{c.est ? t.estimated : say(t.mentioned, c.freq)}</p>
 
   <h4 class="cnote__h">{t.take}</h4>
   <p lang="en">{c.take}</p>
@@ -145,11 +143,6 @@ const places = c.talks.slice(0, 7);
     font-style: italic;
     color: var(--ink-soft);
   }
-  .cnote__freq {
-    margin-bottom: 0.4rem !important;
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-  }
   .cnote__h {
     margin-top: 0.9rem !important;
     font-family: var(--font-body);
@@ -208,6 +201,11 @@ const places = c.talks.slice(0, 7);
     margin: 0;
     padding: 0;
     list-style: none;
+  }
+  /* the linked ideas side by side wherever there is room for two, so the note stays short */
+  .cnote__links {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+    column-gap: var(--space-m);
   }
   .cnote__links p {
     margin: 0.1rem 0 0;
