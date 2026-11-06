@@ -44,6 +44,15 @@ const hash = (text: string) => {
   return (h >>> 0).toString(36);
 };
 
+// Items left out of the path: trivia about Athena's life, talks and media rather than her ideas (client
+// direction, 6 November 2026), listed in src/data/nostos-exclude.json by file and key
+type Exclude = Partial<Record<'quiz' | 'truefalse' | 'sequences' | 'myths' | 'images' | 'practices' | 'questions' | 'distinctions' | 'etymologies', string[]>>;
+const exclude = Object.values(import.meta.glob<Exclude>('../data/nostos-exclude.json', { eager: true, import: 'default' }))[0] ?? {};
+const keep = (file: keyof Exclude) => {
+  const out = new Set(exclude[file] ?? []);
+  return (key: string | undefined) => !out.has(key ?? '');
+};
+
 type Entry = { u: string; step: Step; at: number; text: string; main?: string; raw?: string; rawMain?: string; talk?: string };
 const entries: Entry[] = [];
 const taken = new Set<string>();
@@ -72,25 +81,25 @@ const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
 
 {
   let at = place(quiz);
-  for (const x of quiz) add('q', x.q, { ...x }, `${x.q} ${x.a} ${x.explain ?? ''}`, x.talk, at(x), `${x.q} ${x.a}`);
+  for (const x of quiz.filter((x) => keep('quiz')(x.q))) add('q', x.q, { ...x }, `${x.q} ${x.a} ${x.explain ?? ''}`, x.talk, at(x), `${x.q} ${x.a}`);
   at = place(truefalse);
-  for (const x of truefalse) add('tf', x.s, { ...x }, `${x.s} ${x.explain ?? ''}`, x.talk, at(x), x.s);
+  for (const x of truefalse.filter((x) => keep('truefalse')(x.s))) add('tf', x.s, { ...x }, `${x.s} ${x.explain ?? ''}`, x.talk, at(x), x.s);
   at = place(sequences);
-  for (const x of sequences) add('s', x.id || x.title, { ...x }, `${x.title} ${x.steps.join(' ')}`, x.talk, at(x), x.title);
+  for (const x of sequences.filter((x) => keep('sequences')(x.title))) add('s', x.id || x.title, { ...x }, `${x.title} ${x.steps.join(' ')}`, x.talk, at(x), x.title);
   at = place(myths);
-  for (const x of myths) add('m', x.id || x.title, { ...x }, `${x.title} ${x.beats.map((b) => b.beat).join(' ')}`, x.talk, at(x), x.title);
+  for (const x of myths.filter((x) => keep('myths')(x.title))) add('m', x.id || x.title, { ...x }, `${x.title} ${x.beats.map((b) => b.beat).join(' ')}`, x.talk, at(x), x.title);
   at = place(etymologies);
-  for (const x of etymologies) add('e', x.word, { ...x }, `${x.word} ${x.reading}`, x.talk, at(x), `${x.word} ${x.translit ?? ''}`);
+  for (const x of etymologies.filter((x) => keep('etymologies')(x.word))) add('e', x.word, { ...x }, `${x.word} ${x.reading}`, x.talk, at(x), `${x.word} ${x.translit ?? ''}`);
   // a distinction without both glosses cannot be asked: it is read instead
   at = place(distinctions);
-  for (const x of distinctions)
+  for (const x of distinctions.filter((x) => keep('distinctions')(`${x.a}|${x.b}`)))
     add('d', `${x.a}|${x.b}`, { ...x, read: !(x.a_gloss && x.b_gloss) || undefined }, `${x.a} ${x.b} ${x.point ?? ''}`, x.talk, at(x), `${x.a} ${x.b}`);
   at = place(images);
-  for (const x of images) add('i', x.image, { ...x }, `${x.image} ${x.meaning}`, x.talk, at(x), x.image);
+  for (const x of images.filter((x) => keep('images')(x.image))) add('i', x.image, { ...x }, `${x.image} ${x.meaning}`, x.talk, at(x), x.image);
   at = place(practices);
-  for (const x of practices) add('p', x.title, { ...x }, `${x.title} ${x.why ?? ''}`, x.talk, at(x), x.title);
+  for (const x of practices.filter((x) => keep('practices')(x.title))) add('p', x.title, { ...x }, `${x.title} ${x.why ?? ''}`, x.talk, at(x), x.title);
   at = place(questions);
-  for (const x of questions) add('w', x.q, { ...x }, x.q, x.talk, at(x));
+  for (const x of questions.filter((x) => keep('questions')(x.q))) add('w', x.q, { ...x }, x.q, x.talk, at(x));
   at = place(lines);
   for (const x of lines) add('l', x.text, { ...x }, x.text, x.talk, at(x));
   for (const w of library.works) {
