@@ -892,11 +892,16 @@ html.motion .narena__stage > * {
 .narena__stage > .nkind--pill {
   justify-self: center;
 }
-/* the buttons that move on sit at the bottom right of the step, with room above them */
-.narena__stage > .nrow:last-child {
+/* the buttons that move on sit at the bottom right of the step, with room above and below them: every
+   such row in a step, whether it is the step's own or inside what appears after an answer */
+.narena__stage .nrow:not(.nrow--centre, .nrow--between) {
   justify-content: flex-end;
   margin-top: 2.75rem;
   margin-bottom: 3rem;
+}
+/* (a row inside what appears after an answer misses the step's own gap: the same room in all) */
+.narena__stage > :not(.nrow) .nrow:not(.nrow--centre, .nrow--between) {
+  margin-top: 3.75rem;
 }
 /* (and the page leaves room under it, clear of the tutor's button in the corner) */
 .narena--page {
