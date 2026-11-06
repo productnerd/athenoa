@@ -286,7 +286,7 @@ export const nostosUi = {
     // and the small menu that joins the four Nostos pages
     entry: {
       nav: 'Nostos',
-      sub: { label: 'Nostos', map: 'The map', play: 'Learn', shelf: 'Bookshelf', sources: 'Talks & Articles' },
+      sub: { label: 'Nostos', map: 'The Map', play: 'Learn', shelf: 'Bookshelf', sources: 'Talks & Articles' },
       home: {
         title: 'Nostos',
         line: 'Study Athena’s teaching by doing: a map of the ideas, short activities drawn from the talks, and the books behind them.',
