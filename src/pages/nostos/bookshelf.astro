@@ -50,9 +50,12 @@ const books = shelf.map((w, i) => ({
 }));
 const byId = new Map(books.map((b) => [b.w.id, b]));
 const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== undefined);
+// The shelf of spines is hidden for now: the reading path stands in its place (client direction,
+// 6 November 2026). Its markup and styles stay.
+const showShelf = false;
 
 // The reading path as a winding trail (client request, 6 November 2026): the books stand in a grid of
-// 6, 4 or 2 across (by width), the trail runs through them left to right, turns, and comes back, like a
+// 4, 3 or 2 across (by width), the trail runs through them left to right, turns, and comes back, like a
 // board game. For each width: where each book sits, and the trail through them, in a box 100 wide and
 // 100 high per row (stretched to the grid; the book's middle is 34% down its row).
 const trail = (c: number) => {
@@ -73,9 +76,9 @@ const trail = (c: number) => {
   }
   return { d, rows: Math.ceil(path.length / c), at };
 };
-const trails = { 6: trail(6), 4: trail(4), 2: trail(2) };
+const trails = { 4: trail(4), 3: trail(3), 2: trail(2) };
 const place = (k: number) =>
-  ([6, 4, 2] as const).map((c) => `--c${c}:${trails[c].at(k).col + 1};--r${c}:${trails[c].at(k).r + 1}`).join(';');
+  ([4, 3, 2] as const).map((c) => `--c${c}:${trails[c].at(k).col + 1};--r${c}:${trails[c].at(k).r + 1}`).join(';');
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -88,6 +91,7 @@ const place = (k: number) =>
           <p class="lead nostos-intro" data-reveal>{t.intro}</p>
         </header>
 
+        {showShelf && (
         <div class="nshelf" role="group" aria-label={t.shelfLabel}>
           <div class="nshelf__row" data-reveal-group>
             {
@@ -107,13 +111,13 @@ const place = (k: number) =>
           </div>
           <div class="nshelf__ledge" aria-hidden="true"></div>
         </div>
+        )}
 
         {
           path.length > 0 && (
-            <nav class="nroad" aria-labelledby="nroad-title">
-              <h2 class="t-3 nroad__h" id="nroad-title">{t.path}</h2>
-              <ol class="nroad__list" style={`--rows6:${trails[6].rows};--rows4:${trails[4].rows};--rows2:${trails[2].rows}`}>
-                {([6, 4, 2] as const).map((c) => (
+            <nav class="nroad" aria-label={t.path}>
+              <ol class="nroad__list" style={`--rows4:${trails[4].rows};--rows3:${trails[3].rows};--rows2:${trails[2].rows}`}>
+                {([4, 3, 2] as const).map((c) => (
                   <svg class={`nroad__line nroad__line--${c}`} viewBox={`0 0 100 ${trails[c].rows * 100}`} preserveAspectRatio="none" aria-hidden="true">
                     <path d={trails[c].d} />
                   </svg>
@@ -178,9 +182,8 @@ const place = (k: number) =>
   import { load, save } from '../../scripts/nostos-progress';
   import { playSound, preloadSounds } from '../../scripts/sound';
 
-  // Two soft sounds (client request, 4 November 2026): the book sliding off the shelf, then its cover
-  // turning on the hinge. Synthesised; very quiet, like the site's other effects.
-  const TAKE = 0.12;
+  // One soft sound as the cover turns: the pages (client request, 6 November 2026; the book sliding off
+  // the shelf and the cover landing were taken out). Synthesised; very quiet, like the site's effects.
   const OPEN = 0.12;
 
   let stop: (() => void) | undefined;
@@ -206,7 +209,7 @@ const place = (k: number) =>
       timers = [];
     };
     root.classList.add('is-live');
-    preloadSounds('/audio/book-take.mp3', '/audio/book-open.mp3');
+    preloadSounds('/audio/book-open.mp3');
 
     // one passage at a time, with a way to the others
     const passages = (n: number) => {
@@ -251,7 +254,6 @@ const place = (k: number) =>
       stage.classList.remove('is-leaving');
       book.className = 'nbook3d is-closed';
       stage.showModal();
-      playSound('/audio/book-take.mp3', TAKE);
       const progress = load();
       progress.done.book = (progress.done.book || 0) + 1;
       save(progress);
@@ -484,30 +486,29 @@ const place = (k: number) =>
   .nroad {
     --cols: 2;
     --rows: var(--rows2);
-    --row: 15rem;
-    --bw: 5.6rem;
+    --row: 19rem;
+    --bw: 7.6rem;
     --bh: calc(var(--bw) * 1.38);
-    --bd: 0.95rem;
-    margin-top: var(--space-xl);
+    --bd: 1.2rem;
+    margin-top: var(--space-l);
   }
   @media (min-width: 40rem) {
     .nroad {
-      --cols: 4;
-      --rows: var(--rows4);
-      --row: 16rem;
-      --bw: 6rem;
+      --cols: 3;
+      --rows: var(--rows3);
+      --row: 23rem;
+      --bw: 9.6rem;
+      --bd: 1.4rem;
     }
   }
   @media (min-width: 62rem) {
     .nroad {
-      --cols: 6;
-      --rows: var(--rows6);
-      --row: 16.5rem;
-      --bw: 6.3rem;
+      --cols: 4;
+      --rows: var(--rows4);
+      --row: 27rem;
+      --bw: 11.5rem;
+      --bd: 1.6rem;
     }
-  }
-  .nroad__h {
-    margin: 0 0 var(--space-m);
   }
   .nroad__list {
     position: relative;
@@ -555,24 +556,24 @@ const place = (k: number) =>
     .nroad__line--2 {
       display: none;
     }
+    .nroad__line--3 {
+      display: block;
+    }
+    .nroad__stop {
+      grid-column: var(--c3);
+      grid-row: var(--r3);
+    }
+  }
+  @media (min-width: 62rem) {
+    .nroad__line--3 {
+      display: none;
+    }
     .nroad__line--4 {
       display: block;
     }
     .nroad__stop {
       grid-column: var(--c4);
       grid-row: var(--r4);
-    }
-  }
-  @media (min-width: 62rem) {
-    .nroad__line--4 {
-      display: none;
-    }
-    .nroad__line--6 {
-      display: block;
-    }
-    .nroad__stop {
-      grid-column: var(--c6);
-      grid-row: var(--r6);
     }
   }
   /* the book: a box with depth, turned a little away; it turns towards you under the pointer */
@@ -626,7 +627,7 @@ const place = (k: number) =>
     grid-template-rows: auto 1fr auto;
     justify-items: center;
     align-items: center;
-    padding: 0.5rem 0.45rem 0.6rem;
+    padding: calc(var(--bw) * 0.09) calc(var(--bw) * 0.08) calc(var(--bw) * 0.1);
     background: var(--c);
     border-radius: 0.2rem 0.7rem 0.6rem 0.2rem / 0.2rem 0.6rem 0.7rem 0.2rem;
     transform: translateZ(calc(var(--bd) / 2));
@@ -649,7 +650,7 @@ const place = (k: number) =>
   }
   .nroad__n {
     justify-self: start;
-    font-size: 0.72rem;
+    font-size: calc(var(--bw) * 0.11);
     font-variant-numeric: lining-nums;
     opacity: 0.85;
   }
@@ -661,7 +662,7 @@ const place = (k: number) =>
   .nroad__title {
     font-family: var(--font-title);
     font-weight: var(--title-weight);
-    font-size: 0.78rem;
+    font-size: calc(var(--bw) * 0.125);
     line-height: 1.05;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -670,10 +671,10 @@ const place = (k: number) =>
   }
   .nroad__title:lang(grc) {
     font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
-    font-size: 0.86rem;
+    font-size: calc(var(--bw) * 0.14);
   }
   .nroad__name {
-    max-width: 11rem;
+    max-width: 15rem;
     font-size: var(--step--1);
     line-height: 1.2;
     color: var(--ink-strong);
@@ -683,7 +684,7 @@ const place = (k: number) =>
     overflow: hidden;
   }
   .nroad__author {
-    max-width: 11rem;
+    max-width: 15rem;
     font-size: 0.8rem;
     color: var(--ink-soft);
     white-space: nowrap;

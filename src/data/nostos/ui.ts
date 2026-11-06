@@ -239,7 +239,7 @@ export const nostosUi = {
         'The texts Dr Athena Potari reads from, from Plato’s Republic to the Orphic Hymns: why Athena returns to each, a passage in a public-domain translation with the Greek, and Athena’s reading of it.',
       title: 'The books behind Athena’s teaching',
       intro:
-        'There is no book by Athena yet, so here are the texts Athena reads from. Take one off the shelf to open it: what it is, why it matters to Athena, the passage itself, and how it threads into Athena’s ideas.',
+        'There is no book by Athena yet, so here are the texts Athena reads from, in an order to read them in. Open one to see what it is, why it matters to Athena, the passage itself, and how it threads into Athena’s ideas.',
       shelfLabel: 'Athena’s bookshelf',
       // {title} by {author}
       spine: '{title}, by {author}',
@@ -520,7 +520,7 @@ export const nostosUi = {
         'Τα κείμενα από τα οποία διαβάζει η Δρ. Αθηνά Ποτάρη, από την Πολιτεία του Πλάτωνα ως τους Ορφικούς Ύμνους: γιατί η Αθηνά επιστρέφει στο καθένα, ένα απόσπασμα με το πρωτότυπο και η ανάγνωση της Αθηνάς.',
       title: 'Τα βιβλία πίσω από τη διδασκαλία της Αθηνάς',
       intro:
-        'Δεν υπάρχει ακόμη βιβλίο της Αθηνάς, γι’ αυτό εδώ βρίσκονται τα κείμενα από τα οποία διαβάζει η Αθηνά. Πάρτε ένα από το ράφι για να το ανοίξετε: τι είναι, γιατί έχει σημασία για την Αθηνά, το ίδιο το απόσπασμα, και πώς δένεται με τις ιδέες της Αθηνάς. Τα κείμενα και οι μεταφράσεις είναι στα αγγλικά, με το αρχαίο πρωτότυπο.',
+        'Δεν υπάρχει ακόμη βιβλίο της Αθηνάς, γι’ αυτό εδώ βρίσκονται τα κείμενα από τα οποία διαβάζει η Αθηνά. Είναι εδώ με μια σειρά για να τα διαβάσετε. Ανοίξτε ένα για να δείτε τι είναι, γιατί έχει σημασία για την Αθηνά, το ίδιο το απόσπασμα, και πώς δένεται με τις ιδέες της Αθηνάς. Τα κείμενα και οι μεταφράσεις είναι στα αγγλικά, με το αρχαίο πρωτότυπο.',
       shelfLabel: 'Η βιβλιοθήκη της Αθηνάς',
       spine: '{title}, {author}',
       path: 'Μια σειρά για να τα διαβάσετε',

@@ -62,6 +62,18 @@ const big = new Set(
     .slice(0, 34)
     .map((s) => s.id),
 );
+// on arrival the stars come out one by one, from the middle of the map outwards, a little unevenly
+// (client request, 6 November 2026): each star's delay, in milliseconds
+const [mx, my, mw, mh] = mapViewBox;
+const far = Math.hypot(mw / 2, mh / 2);
+const jitter = (id: string) => [...id].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 997, 7) / 997;
+// (ranked, so they come at an even pace over about two and a half seconds, not in one burst)
+const outward = stars
+  .map((s) => ({ id: s.id, d: Math.hypot(s.x - (mx + mw / 2), s.y - (my + mh / 2)) / far + jitter(s.id) * 0.18 }))
+  .sort((a, b) => a.d - b.d)
+  .map((s) => s.id);
+const rank = new Map(outward.map((id, i) => [id, i]));
+const delay = (s: { id: string }) => Math.round(120 + (rank.get(s.id)! / Math.max(1, outward.length - 1)) * 2400);
 const core = new Set(coreLinks.map(([a, b]) => `${a}|${b}`));
 const isCore = (a: string, b: string) => core.has(`${a}|${b}`) || core.has(`${b}|${a}`);
 const lines = edges
@@ -150,6 +162,7 @@ const playHref = pathIn(locale, '/nostos/play/');
                     data-id={s.id}
                     data-g={c.group}
                     data-r={s.r}
+                    style={`--d:${delay(s)}ms`}
                     transform={`translate(${s.x} ${s.y})`}
                   >
                     <circle class="star__glow" r={s.r * 2.8} fill={`url(#ngl-${c.group})`} />
@@ -664,6 +677,32 @@ const playHref = pathIn(locale, '/nostos/play/');
   }
   .star__glow {
     pointer-events: none;
+  }
+  /* the stars come out one by one on arrival (their delays are worked out above), then the lines;
+     hidden until the script starts it, so they never show all at once first. Motion only. */
+  :global(html.motion) .nmap:not(.is-live) :is(.star, .nmap__lines) {
+    opacity: 0;
+  }
+  :global(html.motion) .nmap.is-live .star {
+    animation: nstar-in 0.9s var(--ease-out) var(--d, 0ms) backwards;
+  }
+  :global(html.motion) .nmap.is-live .star__shape {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: nstar-grow 0.9s var(--ease-out) var(--d, 0ms) backwards;
+  }
+  :global(html.motion) .nmap.is-live .nmap__lines {
+    animation: nstar-in 1.6s var(--ease-out) 1.3s backwards;
+  }
+  @keyframes nstar-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes nstar-grow {
+    from {
+      transform: scale(0.15);
+    }
   }
   .ln {
     display: none;
