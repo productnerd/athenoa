@@ -65,6 +65,22 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 // the journey: each stone's sway left or right (-1 to 1), and the dotted trail through them, in a box
 // 100 wide and 100 high per stone (stretched to the column)
 const sway = (ci: number, li: number) => Math.sin(li * 0.95 + ci * 1.7) * 0.95;
+// stepping stones: each its own pebble, turned a little, a few a touch larger or smaller; and each
+// chapter's banner its own hand-cut shape (client direction, 6 November 2026)
+const pebbles = [
+  '52% 48% 50% 50% / 50% 52% 48% 50%',
+  'var(--r-pebble-1)',
+  '47% 53% 44% 56% / 55% 46% 54% 45%',
+  'var(--r-pebble-2)',
+  '56% 44% 52% 48% / 45% 56% 44% 55%',
+  'var(--r-pebble-3)',
+  '50% 50% 50% 50%',
+];
+const pebble = (ci: number, li: number) => {
+  const k = ci * 7 + li * 5;
+  return `--sr:${pebbles[k % pebbles.length]};--rot:${((k * 13) % 15) - 7}deg;--sz:${[1, 1.06, 0.95, 1, 1.03, 0.97][k % 6]}`;
+};
+const cuts = ['var(--r-soft)', 'var(--r-soft-2)', '2.8rem 2rem 3.2rem 2.4rem / 2.2rem 3rem 2.4rem 3.2rem', '2.2rem 3.4rem 2.6rem 3rem / 3.2rem 2.4rem 3.4rem 2.2rem'];
 const trail = (ci: number, n: number) =>
   Array.from({ length: n }, (_, li) => [50 + sway(ci, li) * 50, li * 100 + 50])
     .map(([x, y], k, all) => {
@@ -124,7 +140,7 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
       {
         pathOutline.map((c, ci) => (
           <section class="njch" data-ch={ci} data-ch-scene={scenes.length ? sceneFor(ci) : undefined} aria-labelledby={`njch-${ci}`}>
-            <header class="njch__banner">
+            <header class="njch__banner box on-blue" style={`--box-r:${cuts[ci % cuts.length]}`}>
               <p class="njch__n">{fill(t.path.chapter, { i: ci + 1, n: pathOutline.length })}</p>
               <h2 class="njch__title" id={`njch-${ci}`} lang={c.title ? 'en' : undefined}>
                 {c.title || t.path.across}
@@ -132,9 +148,7 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
               <div class="njch__bar" aria-hidden="true">
                 <span data-ch-fill />
               </div>
-              <p class="njch__count" data-ch-count>
-                {fill(t.path.overall, { done: 0, n: c.lessons.length })}
-              </p>
+              <p class="njch__count" data-ch-count></p>
             </header>
             <ol class="njch__stones" style={`--rows:${c.lessons.length}`}>
               <svg class="njch__trail" viewBox={`0 0 100 ${c.lessons.length * 100}`} preserveAspectRatio="none" aria-hidden="true">
@@ -145,6 +159,7 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
                   <button
                     type="button"
                     class="nnode"
+                    style={pebble(ci, li)}
                     data-node
                     data-c={ci}
                     data-l={li}
@@ -414,16 +429,11 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     gap: 0.35rem;
     width: min(100% - 2 * var(--gutter), 40rem);
     margin: var(--space-l) auto var(--space-m);
-    padding: 1rem 1.4rem 1.1rem;
-    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
-    background-color: var(--blue);
-    color: var(--creme-light);
-    --ink-soft: color-mix(in srgb, var(--creme-light) 78%, var(--blue));
+    padding: 1.15rem 1.6rem 1.25rem;
+    color: var(--ink);
   }
-  :global(html[data-theme='dark']) .njch__banner {
-    background-color: var(--blue-light);
-    color: var(--blue-deep);
-    --ink-soft: color-mix(in srgb, var(--blue-deep) 72%, var(--blue-light));
+  .njch__title {
+    color: var(--ink-strong);
   }
   .njch__banner > * {
     margin: 0;
@@ -445,6 +455,18 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+  /* (room under the last line, so a clamped title's descenders are not cut) */
+  .njch__title {
+    padding-bottom: 0.12em;
+  }
+  @media (max-width: 30rem) {
+    .njch__title {
+      font-size: var(--step-1);
+    }
+  }
+  .njch__count:empty {
+    display: none;
   }
   .njch__bar {
     height: 0.5rem;
@@ -496,23 +518,37 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     transform: translateX(calc(var(--x) * var(--reach)));
   }
   .nnode {
+    --st-bg: var(--creme-deep);
+    --st-line: color-mix(in srgb, var(--blue) 30%, transparent);
+    --st-w: 2px;
     position: relative;
+    isolation: isolate;
     display: grid;
     place-items: center;
-    width: var(--stone);
-    height: var(--stone);
+    width: calc(var(--stone) * var(--sz, 1));
+    height: calc(var(--stone) * var(--sz, 1));
     padding: 0;
     font: inherit;
     font-family: var(--font-title);
     font-size: var(--step-1);
     color: var(--ink-soft);
-    background: var(--creme-deep);
-    border: 2px solid color-mix(in srgb, var(--blue) 30%, transparent);
-    border-radius: 52% 48% 50% 50% / 50% 52% 48% 50%;
+    background: none;
+    border: 0;
     cursor: default;
-    transition:
-      transform var(--dur-2) var(--ease-out),
-      background-color var(--dur-2) var(--ease-out);
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .nnode::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--st-bg);
+    background-image: var(--grain);
+    background-size: 300px 300px;
+    border: var(--st-w) solid var(--st-line);
+    border-radius: var(--sr, 50%);
+    rotate: var(--rot, 0deg);
+    transition: background-color var(--dur-2) var(--ease-out);
   }
   .nnode__tick {
     display: none;
@@ -525,9 +561,9 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     stroke-linejoin: round;
   }
   .nnode.is-done {
+    --st-bg: var(--blue);
+    --st-line: var(--blue);
     color: var(--creme-light);
-    background: var(--blue);
-    border-color: var(--blue);
     cursor: pointer;
   }
   .nnode.is-done .nnode__n {
@@ -537,20 +573,22 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     display: block;
   }
   .nnode.is-here {
+    --st-bg: var(--blue-light);
+    --st-line: var(--blue);
+    --st-w: 3px;
     width: calc(var(--stone) * 1.22);
     height: calc(var(--stone) * 1.22);
     color: var(--blue-deep);
-    background: var(--blue-light);
-    border: 3px solid var(--blue);
     cursor: pointer;
   }
-  /* a ring breathes round the stone you are on */
+  /* a ring breathes round the stone you are on, in the stone's own shape */
   .nnode.is-here::before {
     content: '';
     position: absolute;
     inset: -0.55rem;
     border: 2px solid var(--blue);
-    border-radius: inherit;
+    border-radius: var(--sr, 50%);
+    rotate: var(--rot, 0deg);
     opacity: 0.35;
   }
   :global(html.motion) .nnode.is-here::before {

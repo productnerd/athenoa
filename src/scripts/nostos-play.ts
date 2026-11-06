@@ -1600,7 +1600,8 @@ function refresh(root: HTMLElement) {
       const walked = c.lessons.filter((l) => lessonDone(p, l)).length;
       section.querySelector<HTMLElement>('[data-ch-fill]')?.style.setProperty('--f', String(walked / c.lessons.length));
       const count = section.querySelector<HTMLElement>('[data-ch-count]');
-      if (count) count.textContent = fill(W.path.overall, { done: walked, n: c.lessons.length });
+      // (nothing said while none is walked: the empty bar says it)
+      if (count) count.textContent = walked ? fill(W.path.overall, { done: walked, n: c.lessons.length }) : '';
     });
   }
   const due = dueList(p).length;
