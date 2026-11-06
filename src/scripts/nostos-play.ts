@@ -1435,45 +1435,48 @@ function refresh(root: HTMLElement) {
     if (id === 'tf') count.textContent = p.best.tf ? fill(W.acts.tf.count, { n: p.best.tf }) : W.acts.tf.none;
     if (id === 'threads') count.textContent = fill(W.acts.threads.count, { n: Object.keys(p.threads ?? {}).length });
   });
-  // the path: the chapter being walked, its lessons as stones, and what Review holds today
+  // the ascent's line: how much of the path is walked
   if (outline.length) {
-    const at = here(p);
-    const ci = at ? at.ci : outline.length - 1;
-    const chapter = outline[ci];
-    const text = (name: string, value: string) => {
-      const node = root.querySelector<HTMLElement>(`[data-path-${name}]`);
-      if (node) node.textContent = value;
-    };
-    text('chapter', fill(W.path.chapter, { i: ci + 1, n: outline.length }));
-    text('title', chapterName(ci));
     const all = outline.reduce((n, c) => n + c.lessons.length, 0);
     const walkedN = outline.reduce((n, c) => n + c.lessons.filter((l) => lessonDone(p, l)).length, 0);
-    text('line', at ? fill(W.path.overall, { done: walkedN, n: all }) : W.path.doneAll);
-    const go = root.querySelector<HTMLButtonElement>('[data-path-go]');
-    if (go) {
-      go.hidden = !at;
-      go.textContent = Object.keys(p.path ?? {}).length ? W.path.go : W.path.begin;
-    }
-    root.querySelector('[data-path-stones]')?.replaceChildren(
-      ...chapter.lessons.map((lesson, li) => {
-        const done = lessonDone(p, lesson);
-        const now = !!at && at.ci === ci && at.li === li;
-        return h(
-          'li',
-          null,
-          h('button', {
-            type: 'button',
-            class: `nstone${done ? ' is-done' : ''}${now ? ' is-here' : ''}`,
-            'data-lesson': li,
-            'aria-label': fill(W.path.lesson, { i: li + 1, n: chapter.lessons.length }),
-            'aria-current': now ? 'step' : null,
-            disabled: !done && !now,
-          }),
-        );
-      }),
-    );
+    const line = root.querySelector<HTMLElement>('[data-path-line]');
+    if (line) line.textContent = here(p) ? fill(W.path.overall, { done: walkedN, n: all }) : W.path.doneAll;
+  }
+  // the journey (Learn page): every lesson a stone, walked, current or still ahead; each chapter's count
+  if (outline.length) {
+    const at = here(p);
+    root.querySelectorAll<HTMLButtonElement>('[data-node]').forEach((stone) => {
+      const ci = Number(stone.dataset.c);
+      const li = Number(stone.dataset.l);
+      const done = lessonDone(p, outline[ci].lessons[li]);
+      const now = !!at && at.ci === ci && at.li === li;
+      stone.classList.toggle('is-done', done);
+      stone.classList.toggle('is-here', now);
+      stone.disabled = !done && !now;
+      if (now) stone.setAttribute('aria-current', 'step');
+      else stone.removeAttribute('aria-current');
+      const go = stone.querySelector<HTMLElement>('[data-node-go]');
+      if (go) {
+        go.textContent = now ? (Object.keys(p.path ?? {}).length ? W.path.go : W.path.begin) : '';
+        // beside the stone, on the side the trail leaves free
+        const x = parseFloat(stone.parentElement?.style.getPropertyValue('--x') || '0');
+        go.dataset.side = x > 0.15 ? 'left' : 'right';
+      }
+    });
+    root.querySelectorAll<HTMLElement>('[data-ch]').forEach((section) => {
+      const c = outline[Number(section.dataset.ch)];
+      const walked = c.lessons.filter((l) => lessonDone(p, l)).length;
+      section.querySelector<HTMLElement>('[data-ch-fill]')?.style.setProperty('--f', String(walked / c.lessons.length));
+      const count = section.querySelector<HTMLElement>('[data-ch-count]');
+      if (count) count.textContent = fill(W.path.overall, { done: walked, n: c.lessons.length });
+    });
   }
   const due = dueList(p).length;
+  const badge = root.querySelector<HTMLElement>('[data-review-badge]');
+  if (badge) {
+    badge.hidden = !due;
+    badge.textContent = String(due);
+  }
   const reviewLine = root.querySelector<HTMLElement>('[data-review-line]');
   if (reviewLine) reviewLine.textContent = due ? fill(W.review.due, { n: due }) : W.review.none;
   const reviewButton = root.querySelector<HTMLButtonElement>('[data-review]');
@@ -1507,16 +1510,6 @@ function refresh(root: HTMLElement) {
     bar.style.setProperty('--h', String(Math.max(0.04, counts[k] / most)));
     bar.querySelector('[data-box-n]')!.textContent = String(counts[k]);
   });
-  const known = root.querySelector<HTMLElement>('[data-known]');
-  if (known) {
-    const ids = Object.keys(p.known);
-    const labels = JSON.parse(root.dataset.labels ?? '{}');
-    known.replaceChildren(
-      ...(ids.length
-        ? ids.filter((id) => labels[id]).map((id) => h('a', { class: 'nchip', href: `${mapBase}?star=${encodeURIComponent(id)}` }, labels[id]))
-        : [h('p', { class: 'nsmall' }, W.ascent.knownNone)]),
-    );
-  }
 }
 
 let stopPage: (() => void) | undefined;
@@ -1577,17 +1570,23 @@ function setup() {
   });
   // the path and Review open their own page
   root.querySelector('[data-review]')?.addEventListener('click', () => navigate(`${pathHref}?review`), on);
-  root.querySelector('[data-path-go]')?.addEventListener('click', () => navigate(pathHref), on);
-  root.querySelector('[data-path-stones]')?.addEventListener(
+  // a stone on the journey: that lesson, on the path page
+  root.querySelector('[data-journey]')?.addEventListener(
     'click',
     (event) => {
-      const stone = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-lesson]');
-      const at = here(load());
-      const ci = at ? at.ci : outline.length - 1;
-      if (stone && !stone.disabled) navigate(`${pathHref}?c=${ci}&l=${stone.dataset.lesson}`);
+      const stone = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-node]');
+      if (stone && !stone.disabled) navigate(`${pathHref}?c=${stone.dataset.c}&l=${stone.dataset.l}`);
     },
     on,
   );
+  // Review and the ascent open as popups from their floating buttons
+  root.querySelectorAll<HTMLElement>('[data-pop-open]').forEach((button) =>
+    button.addEventListener('click', () => root.querySelector<HTMLDialogElement>(`[data-pop="${button.dataset.popOpen}"]`)?.showModal(), on),
+  );
+  root.querySelectorAll<HTMLDialogElement>('[data-pop]').forEach((pop) => {
+    pop.querySelector('[data-pop-close]')?.addEventListener('click', () => pop.close(), on);
+    pop.addEventListener('click', (event) => event.target === pop && pop.close(), on);
+  });
   root.querySelector('[data-surprise]')?.addEventListener(
     'click',
     () => start(pick(['ladder', 'myth', 'forge', 'fork', 'links', 'quiz', 'threads'], 1)[0]),
@@ -1642,6 +1641,10 @@ function setup() {
   );
 
   refresh(root);
+  // the journey opens at the stone you are on
+  const current = root.querySelector<HTMLElement>('.nnode.is-here');
+  const started = Object.keys(load().path ?? {}).length > 0;
+  if (current && started) current.scrollIntoView({ block: 'center' });
 
   // straight into an activity from a link: ?quiz=<idea> from the map, ?play=<activity>
   const params = new URLSearchParams(location.search);

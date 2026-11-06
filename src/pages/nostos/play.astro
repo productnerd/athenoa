@@ -13,13 +13,11 @@ import {
   distinctions,
   edges,
   etymologies,
-  lines,
   myths,
   nostosFlags,
   practices,
   quiz,
   sequences,
-  talkUrl,
 } from '../../lib/nostos';
 import { askedTotal, pathOutline } from '../../lib/nostos-path';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
@@ -59,12 +57,34 @@ const acts: Record<'remember' | 'understand' | 'own', Act[]> = {
       : []),
   ],
 };
-const line = lines[0];
 const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
-const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
 const fill = (text: string, values: Record<string, string | number>) =>
   text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
 const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
+
+// the journey: each stone's sway left or right (-1 to 1), and the dotted trail through them, in a box
+// 100 wide and 100 high per stone (stretched to the column)
+const sway = (ci: number, li: number) => Math.sin(li * 0.95 + ci * 1.7) * 0.95;
+const trail = (ci: number, n: number) =>
+  Array.from({ length: n }, (_, li) => [50 + sway(ci, li) * 50, li * 100 + 50])
+    .map(([x, y], k, all) => {
+      if (!k) return `M${x.toFixed(1)} ${y}`;
+      const [px, py] = all[k - 1];
+      return ` C${px.toFixed(1)} ${py + 50} ${x.toFixed(1)} ${y - 50} ${x.toFixed(1)} ${y}`;
+    })
+    .join('');
+// the places on the way home, drawn in src/assets/illustrations/journey-*.svg, three chapters to each;
+// each drawing is defined once (as a symbol) and shown behind its chapters
+const raw = import.meta.glob<string>('../../assets/illustrations/journey-*.svg', { query: '?raw', import: 'default', eager: true });
+const scenes = Object.entries(raw)
+  .sort(([a], [b]) => a.localeCompare(b, 'en', { numeric: true }))
+  .map(([file, svg], k) => {
+    const open = svg.match(/<svg\b([^>]*)>/)!;
+    const attrs = open[1].replace(/\s(xmlns(:\w+)?|viewBox|width|height)="[^"]*"/g, '');
+    const inner = svg.slice(open.index! + open[0].length, svg.lastIndexOf('</svg>'));
+    return { id: k, viewBox: open[1].match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 1600 1000', attrs, inner, name: file };
+  });
+const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Math.floor((ci * scenes.length) / pathOutline.length)) : 0);
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -76,60 +96,100 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
     data-path-href={pathIn(locale, '/nostos/path/')}
     data-asked={askedTotal}
     data-stars={concepts.length}
-    data-labels={JSON.stringify(labels)}
   >
-    <section class="section nplay-top">
-      <div class="wrap">
-        <header class="nostos-head">
-          <h1 class="t-1" data-split>{t.title}</h1>
-        </header>
+    <h1 class="visually-hidden">{t.title}</h1>
+    <p class="nplay-nojs wrap">
+      {t.noScript} <a href={pathIn(locale, '/nostos/')}>{t.mapLink}</a>
+    </p>
 
-        <div class="nplay-today" data-reveal>
-          <div class="nplay-path box on-blue">
-            <p class="nplay-path__h">
-              {t.path.title} · <span data-path-chapter>{fill(t.path.chapter, { i: 1, n: pathOutline.length })}</span>
-            </p>
-            <h2 class="nplay-path__title" lang="en" data-path-title>{pathOutline[0].title}</h2>
-            <ol class="nplay-stones" role="list" data-path-stones>
-              {pathOutline[0].lessons.map(() => (
-                <li>
-                  <span class="nstone" />
+    {/* The path as a journey (client direction, 6 November 2026): one column of lesson stones to
+        scroll down, a chapter (a talk) at a time. Each chapter's banner stays at the top while it is
+        walked, so the title is always the chapter you are in; behind it, the chapter's place on the
+        journey home (scenes in src/assets/illustrations/journey-*.svg). */}
+    <div class="njourney" data-journey>
+      {
+        pathOutline.map((c, ci) => (
+          <section class="njch" data-ch={ci} aria-labelledby={`njch-${ci}`}>
+            {scenes.length > 0 && (
+              <div class="njch__scene" aria-hidden="true">
+                <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax meet" focusable="false">
+                  <use href={`#njenv-${sceneFor(ci)}`} />
+                </svg>
+              </div>
+            )}
+            <header class="njch__banner">
+              <p class="njch__n">{fill(t.path.chapter, { i: ci + 1, n: pathOutline.length })}</p>
+              <h2 class="njch__title" id={`njch-${ci}`} lang={c.title ? 'en' : undefined}>
+                {c.title || t.path.across}
+              </h2>
+              <div class="njch__bar" aria-hidden="true">
+                <span data-ch-fill />
+              </div>
+              <p class="njch__count" data-ch-count>
+                {fill(t.path.overall, { done: 0, n: c.lessons.length })}
+              </p>
+            </header>
+            <ol class="njch__stones" style={`--rows:${c.lessons.length}`}>
+              <svg class="njch__trail" viewBox={`0 0 100 ${c.lessons.length * 100}`} preserveAspectRatio="none" aria-hidden="true">
+                <path d={trail(ci, c.lessons.length)} />
+              </svg>
+              {c.lessons.map((_, li) => (
+                <li style={`--x:${sway(ci, li).toFixed(3)}`}>
+                  <button
+                    type="button"
+                    class="nnode"
+                    data-node
+                    data-c={ci}
+                    data-l={li}
+                    aria-label={fill(t.path.lesson, { i: li + 1, n: c.lessons.length })}
+                    disabled
+                  >
+                    <span class="nnode__n">{li + 1}</span>
+                    <svg class="nnode__tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                      <path d="M5 12.6c2 1.6 3.6 3.4 5 5.4 2.6-4.6 5.6-8.6 9-12" />
+                    </svg>
+                    <span class="nnode__go" data-node-go />
+                  </button>
                 </li>
               ))}
             </ol>
-            <p class="nplay-path__line" data-path-line>{fill(t.path.overall, { done: 0, n: lessons })}</p>
-            <p class="nplay-path__intro">{t.path.intro}</p>
-            <div class="nplay-today__btns">
-              <button type="button" class="btn" data-path-go>{t.path.begin}</button>
-            </div>
-          </div>
-          <div class="nplay-side">
-            <div class="nplay-review box on-blue-light">
-              <p class="nplay-path__h">{t.review.title}</p>
-              <p class="nplay-review__line" data-review-line>{t.review.none}</p>
-              <p class="nplay-review__note">{t.review.empty}</p>
-              <div class="nplay-today__btns">
-                <button type="button" class="btn" data-review disabled>{t.review.go}</button>
-                {nostosFlags.activities && <button type="button" class="btn btn--ghost" data-surprise>{t.surprise}</button>}
-              </div>
-            </div>
-            {
-              line && (
-                <figure class="nplay-line">
-                  <blockquote class="hand hand--m" lang="en">{line.text}</blockquote>
-                  <figcaption class="small">
-                    <a href={talkUrl(line.talk!, line.t)} target="_blank" rel="noopener">{t.herLine}</a>
-                  </figcaption>
-                </figure>
-              )
-            }
-          </div>
+          </section>
+        ))
+      }
+    </div>
+
+    {/* Review and the ascent, a button away (client direction, 6 November 2026) */}
+    <div class="nfloat">
+      <button type="button" class="nfloat__btn" data-pop-open="review">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5M4.6 3.8l.3 3.6 3.6-.4" />
+        </svg>
+        <span>{t.review.title}</span>
+        <span class="nfloat__badge" data-review-badge hidden></span>
+      </button>
+      <button type="button" class="nfloat__btn" data-pop-open="ascent">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M8 3v18M16 3v18M8 7h8M8 12h8M8 17h8" />
+        </svg>
+        <span>{t.ascent.title}</span>
+      </button>
+    </div>
+
+    <dialog class="npop" data-pop="review" aria-labelledby="npop-review">
+      <div class="npop__sheet box on-blue-light">
+        <button type="button" class="npop__close" data-pop-close aria-label={t.arena.close}>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path>
+          </svg>
+        </button>
+        <h2 class="t-3" id="npop-review">{t.review.title}</h2>
+        <p class="npop__line" data-review-line>{t.review.none}</p>
+        <p class="small">{t.review.empty}</p>
+        <div>
+          <button type="button" class="btn" data-review disabled>{t.review.go}</button>
         </div>
-        <p class="nplay-nojs">
-          {t.noScript} <a href={pathIn(locale, '/nostos/')}>{t.mapLink}</a>
-        </p>
       </div>
-    </section>
+    </dialog>
 
     {
       nostosFlags.activities &&
@@ -167,12 +227,16 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
       ))
     }
 
-    <section class="section nplay-ascent" aria-labelledby="nplay-ascent">
-      <div class="wrap">
-        <div class="panel panel--big on-blue nplay-ascent__panel">
+    <dialog class="npop npop--wide" data-pop="ascent" aria-labelledby="nplay-ascent">
+        <div class="npop__sheet box on-blue nplay-ascent__panel">
+          <button type="button" class="npop__close" data-pop-close aria-label={t.arena.close}>
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+              <path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path>
+            </svg>
+          </button>
           <div class="nplay-ascent__head">
             <h2 class="t-2" id="nplay-ascent">{t.ascent.title}</h2>
-            <p>{t.ascent.intro}</p>
+            <p class="npop__line" data-path-line>{fill(t.path.overall, { done: 0, n: lessons })}</p>
             <dl class="nplay-stats">
               <div><dt>{t.ascent.xp}</dt><dd data-stat="xp">0</dd></div>
               <div><dt>{t.ascent.streak}</dt><dd data-stat="streak">0</dd></div>
@@ -212,17 +276,12 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
             </div>
           </div>
 
-          <div class="nplay-known">
-            <h3 class="t-3">{t.ascent.knownTitle}</h3>
-            <div class="nplay-known__list" data-known><p class="small">{t.ascent.knownNone}</p></div>
-            <div class="nplay-reset">
-              <button type="button" class="btn btn--ghost" data-reset>{t.ascent.reset}</button>
-              <div data-reset-area aria-live="polite"></div>
-            </div>
+          <div class="nplay-reset">
+            <button type="button" class="btn btn--ghost" data-reset>{t.ascent.reset}</button>
+            <div data-reset-area aria-live="polite"></div>
           </div>
         </div>
-      </div>
-    </section>
+    </dialog>
 
     <dialog class="narena" data-arena aria-labelledby="narena-title">
       <div class="narena__sheet box"></div>
@@ -230,6 +289,15 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
   </div>
 </Base>
 
+{
+  scenes.length > 0 && (
+    <svg class="visually-hidden" aria-hidden="true" focusable="false">
+      {scenes.map((sc) => (
+        <symbol id={`njenv-${sc.id}`} viewBox={sc.viewBox} set:html={`<g${sc.attrs}>${sc.inner}</g>`} />
+      ))}
+    </svg>
+  )
+}
 <script type="application/json" data-nplay-words set:html={JSON.stringify(words)} />
 <script type="application/json" data-npath set:html={JSON.stringify(pathOutline)} />
 
@@ -238,179 +306,361 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 </script>
 
 <style>
-  .nplay-top {
-    padding-top: calc(var(--space-s) * 2);
-    padding-bottom: var(--space-m);
-  }
-  .nostos-head {
-    display: grid;
-    gap: var(--space-s);
-    margin-bottom: var(--space-l);
-  }
-  .nostos-head > * {
-    margin: 0;
-  }
-  @media (max-width: 61.99rem) {
-    .nostos-head h1 {
-      max-width: 46rem;
-    }
-  }
-  @media (min-width: 62rem) {
-    .nostos-head {
-      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-      column-gap: var(--space-xl);
-      align-items: end;
-    }
-    /* (no introduction beside it any more: the title takes the width) */
-    .nostos-head h1 {
-      grid-column: 1 / -1;
-    }
-  }
-
-  /* ---------- the path and Review ---------- */
-  .nplay-today {
-    display: grid;
-    gap: var(--space-m);
-    align-items: start;
-  }
-  @media (min-width: 56rem) {
-    .nplay-today {
-      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-    }
-  }
-  .nplay-path {
-    --box-r: var(--r-soft-2);
-    display: grid;
-    gap: 0.7rem;
-  }
-  .nplay-path > p,
-  .nplay-review > p {
-    margin: 0;
-  }
-  .nplay-path__h {
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-  }
-  .nplay-path__title {
-    margin: 0;
-    font-family: var(--font-title);
-    font-weight: var(--title-weight);
-    font-size: var(--step-2);
-    line-height: 1.1;
-    letter-spacing: var(--title-tracking);
-    color: var(--ink-strong);
-  }
-  .nplay-path__line {
-    font-size: var(--step--1);
-    color: var(--ink);
-  }
-  .nplay-path__intro {
-    max-width: 38rem;
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-  }
-  /* the chapter's lessons as stones on the way: walked, here, still ahead */
-  .nplay-stones {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.55rem 0.5rem;
-    margin: 0.5rem 0 0.2rem;
-    padding: 0;
-    list-style: none;
-  }
-  .nplay-stones :global(li) {
-    display: flex;
-  }
-  .nplay-stones :global(li:nth-child(odd)) {
-    translate: 0 0.18rem;
-  }
-  .nplay-stones :global(.nstone) {
-    display: block;
-    width: 1.35rem;
-    height: 1.1rem;
-    padding: 0;
-    background: none;
-    border: 1.5px solid currentColor;
-    border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
-    color: var(--ink);
-    opacity: 0.45;
-    cursor: pointer;
-    transition: opacity var(--dur-1) var(--hover-delay);
-  }
-  .nplay-stones :global(li:nth-child(3n) .nstone) {
-    border-radius: 46% 54% 44% 56% / 55% 45% 55% 45%;
-  }
-  .nplay-stones :global(.nstone.is-done) {
-    background: currentColor;
-    opacity: 0.85;
-  }
-  .nplay-stones :global(.nstone.is-here) {
-    width: 1.7rem;
-    height: 1.4rem;
-    background: var(--blue-light);
-    border-color: var(--blue-light);
-    outline: 1.5px solid currentColor;
-    outline-offset: 3px;
-    opacity: 1;
-  }
-  .nplay-stones :global(.nstone:disabled) {
-    cursor: default;
-  }
-  .nplay-stones :global(.nstone:not(:disabled):hover) {
-    opacity: 1;
-  }
-  .nplay-side {
-    display: grid;
-    gap: var(--space-m);
-  }
-  .nplay-review {
-    --box-r: var(--r-pebble-2);
-    display: grid;
-    gap: 0.5rem;
-  }
-  .nplay-review__line {
-    font-family: var(--font-title);
-    font-weight: var(--title-weight);
-    font-size: var(--step-1);
-    line-height: 1.2;
-    color: var(--ink-strong);
-  }
-  .nplay-review__note {
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-  }
-  .nplay-today__btns {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-top: 0.4rem;
-  }
-  .nplay-line {
-    margin: 0;
-  }
-  .nplay-line blockquote {
-    margin: 0;
-    color: var(--ink-strong);
-  }
-  /* her line is in English: in the English voice face on every version of the site */
-  .nplay-line blockquote:lang(en) {
-    font-family: 'ATH Hand', var(--font-hand);
-  }
-  .nplay-line figcaption {
-    margin-top: 0.4rem;
-  }
-  .nplay-line a {
-    color: var(--ink-soft);
-  }
+  /* ---------- the journey ---------- */
   .nplay-nojs {
-    margin: var(--space-m) 0 0;
+    margin: var(--space-m) auto 0;
   }
   :global(html.nostos-play-live) .nplay-nojs {
     display: none;
   }
-  :global(html:not(.nostos-play-live)) .nplay-today__btns {
+  .njourney {
+    --stone: 4.6rem;
+    --row: 6.4rem;
+    --reach: 6.5rem;
+    padding-bottom: var(--space-xl);
+  }
+  @media (max-width: 30rem) {
+    .njourney {
+      --stone: 4rem;
+      --row: 5.8rem;
+      --reach: 4.6rem;
+    }
+  }
+  .njch {
+    position: relative;
+    padding-bottom: var(--space-l);
+  }
+  /* the chapter's place on the journey: it stays behind while the chapter is walked, and the next
+     one rises in after it */
+  .njch__scene {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    margin-bottom: -100vh;
+    pointer-events: none;
+    color: var(--ink);
+    opacity: 0.3;
+  }
+  .njch__scene svg {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+  /* the chapter's banner: the page's title while the chapter is in view */
+  .njch__banner {
+    position: sticky;
+    top: calc(var(--header-h) + 0.35rem + var(--nnav-h, 2.9rem) + 0.5rem);
+    z-index: 3;
+    display: grid;
+    gap: 0.35rem;
+    width: min(100% - 2 * var(--gutter), 40rem);
+    margin: var(--space-l) auto var(--space-m);
+    padding: 1rem 1.4rem 1.1rem;
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+    background-color: var(--blue);
+    color: var(--creme-light);
+    --ink-soft: color-mix(in srgb, var(--creme-light) 78%, var(--blue));
+  }
+  :global(html[data-theme='dark']) .njch__banner {
+    background-color: var(--blue-light);
+    color: var(--blue-deep);
+    --ink-soft: color-mix(in srgb, var(--blue-deep) 72%, var(--blue-light));
+  }
+  .njch__banner > * {
+    margin: 0;
+  }
+  .njch__n,
+  .njch__count {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    font-variant-numeric: lining-nums;
+  }
+  .njch__title {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-2);
+    line-height: 1.05;
+    letter-spacing: var(--title-tracking);
+    text-wrap: balance;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .njch__bar {
+    height: 0.5rem;
+    margin-top: 0.25rem;
+    border-radius: 0.4rem;
+    background: color-mix(in srgb, currentColor 22%, transparent);
+    overflow: hidden;
+  }
+  .njch__bar span {
+    display: block;
+    width: calc(var(--f, 0) * 100%);
+    height: 100%;
+    border-radius: inherit;
+    background: currentColor;
+    transition: width var(--dur-3) var(--ease-out);
+  }
+  /* the stones, swaying left and right down one column, on a dotted trail */
+  .njch__stones {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-auto-rows: var(--row);
+    width: min(100% - 2 * var(--gutter), 26rem);
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+  .njch__trail {
+    position: absolute;
+    left: calc(50% - var(--reach));
+    width: calc(2 * var(--reach));
+    top: 0;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .njch__trail path {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 11;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.5;
+  }
+  .njch__stones li {
+    display: grid;
+    place-items: center;
+    transform: translateX(calc(var(--x) * var(--reach)));
+  }
+  .nnode {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--stone);
+    height: var(--stone);
+    padding: 0;
+    font: inherit;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+    background: var(--creme-deep);
+    border: 2px solid color-mix(in srgb, var(--blue) 30%, transparent);
+    border-radius: 52% 48% 50% 50% / 50% 52% 48% 50%;
+    cursor: default;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      background-color var(--dur-2) var(--ease-out);
+  }
+  .nnode__tick {
     display: none;
+    width: 46%;
+    height: 46%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .nnode.is-done {
+    color: var(--creme-light);
+    background: var(--blue);
+    border-color: var(--blue);
+    cursor: pointer;
+  }
+  .nnode.is-done .nnode__n {
+    display: none;
+  }
+  .nnode.is-done .nnode__tick {
+    display: block;
+  }
+  .nnode.is-here {
+    width: calc(var(--stone) * 1.22);
+    height: calc(var(--stone) * 1.22);
+    color: var(--blue-deep);
+    background: var(--blue-light);
+    border: 3px solid var(--blue);
+    cursor: pointer;
+  }
+  /* a ring breathes round the stone you are on */
+  .nnode.is-here::before {
+    content: '';
+    position: absolute;
+    inset: -0.55rem;
+    border: 2px solid var(--blue);
+    border-radius: inherit;
+    opacity: 0.35;
+  }
+  :global(html.motion) .nnode.is-here::before {
+    animation: nnode-breathe 2.8s var(--ease-in-out) infinite;
+  }
+  @keyframes nnode-breathe {
+    50% {
+      transform: scale(1.12);
+      opacity: 0.1;
+    }
+  }
+  .nnode:is(.is-done, .is-here):hover {
+    transform: translateY(-3px);
+  }
+  .nnode:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 6px;
+  }
+  .nnode__go {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + 0.9rem);
+    display: none;
+    padding: 0.35rem 0.9rem;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    white-space: nowrap;
+    color: var(--creme-light);
+    background: var(--blue);
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+    translate: 0 -50%;
+  }
+  .nnode__go[data-side='left'] {
+    left: auto;
+    right: calc(100% + 0.9rem);
+  }
+  /* on a phone the label may take two lines rather than run off the screen */
+  @media (max-width: 30rem) {
+    .nnode__go {
+      width: max-content;
+      max-width: 8rem;
+      white-space: normal;
+      text-align: center;
+      line-height: 1.2;
+    }
+  }
+  .nnode.is-here .nnode__go {
+    display: block;
+  }
+
+  /* ---------- Review and the ascent, a button away ---------- */
+  .nfloat {
+    position: fixed;
+    right: calc(var(--gutter) * 0.6 + env(safe-area-inset-right, 0px));
+    bottom: calc(1.1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.6rem;
+  }
+  .nfloat__btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.45rem 1.1rem 0.45rem 0.85rem;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--ink-strong);
+    background-color: color-mix(in srgb, var(--creme-light) 95%, transparent);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 22%, transparent);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+    cursor: pointer;
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+  .nfloat__btn:hover {
+    transform: translateY(-2px);
+  }
+  .nfloat__btn svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .nfloat__badge {
+    min-width: 1.5rem;
+    padding: 0.05rem 0.4rem;
+    font-size: 0.8rem;
+    font-variant-numeric: lining-nums tabular-nums;
+    text-align: center;
+    color: var(--creme-light);
+    background: var(--blue);
+    border-radius: 0.8rem;
+  }
+  @media (max-width: 30rem) {
+    .nfloat__btn span:not(.nfloat__badge) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    .nfloat__btn {
+      padding: 0.45rem 0.75rem;
+    }
+  }
+  .npop {
+    width: min(100% - 1rem, 30rem);
+    max-width: none;
+    max-height: calc(100dvh - 1rem);
+    margin: auto;
+    padding: 0.5rem;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    overflow: hidden auto;
+    overscroll-behavior: contain;
+  }
+  .npop--wide {
+    width: min(100% - 1rem, 60rem);
+  }
+  .npop::backdrop {
+    background: color-mix(in srgb, var(--blue-deep, #071260) 36%, transparent);
+  }
+  .npop__sheet {
+    --box-r: 2.4rem 3rem 2.2rem 2.8rem / 2.9rem 2.3rem 3.1rem 2.4rem;
+    display: grid;
+    gap: 0.8rem;
+  }
+  .npop__sheet > :is(h2, p) {
+    margin: 0;
+    padding-right: 3rem;
+  }
+  .npop__line {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.2;
+  }
+  .npop__close {
+    position: absolute;
+    top: 0.9rem;
+    right: 0.9rem;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    color: inherit;
+    background: none;
+    border: 1.5px solid currentColor;
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    cursor: pointer;
+    opacity: 0.8;
+  }
+  .npop__close path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
   }
 
   /* ---------- the menu ---------- */
@@ -529,6 +779,7 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
   }
   .nplay-ascent__head > p {
     margin: var(--space-xs) 0 var(--space-m);
+    padding-right: 3rem;
   }
   .nplay-stats {
     display: grid;
@@ -632,8 +883,7 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
   .nplay-rung__pts span {
     display: block;
   }
-  .nplay-boxes h3,
-  .nplay-known h3 {
+  .nplay-boxes h3 {
     margin: 0 0 0.4rem;
   }
   .nplay-boxes__bars {
@@ -662,11 +912,6 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
   .nplay-boxes__k {
     font-size: var(--step--1);
     color: var(--ink-soft);
-  }
-  .nplay-known__list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
   }
   .nplay-reset {
     display: grid;

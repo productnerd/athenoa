@@ -61,12 +61,10 @@ export const nostosUi = {
       noScript: 'The activities need JavaScript. All of Athena’s ideas are also on the map page.',
       mapLink: 'Open the map',
       failed: 'This did not load. Close it and try again.',
-      herLine: 'One of Athena’s lines',
       surprise: 'Surprise me',
       // the path: everything, one short lesson at a time, in the order of her talks
       path: {
         title: 'The path',
-        intro: 'Everything in Nostos, one short lesson at a time, in the order of Athena’s talks: each idea as it first comes up, then the questions, myths, roots, passages and links around it.',
         // {i}, {n}: chapter or lesson numbers
         chapter: 'Chapter {i} of {n}',
         lesson: 'Lesson {i} of {n}',
@@ -203,7 +201,6 @@ export const nostosUi = {
       },
       ascent: {
         title: 'Your ascent',
-        intro: 'Diotima’s ladder, from the Symposium: each round you play takes you a little higher. Kept in this browser only.',
         xp: 'experience',
         streak: 'days in a row',
         known: 'stars known',
@@ -214,8 +211,6 @@ export const nostosUi = {
         boxesIntro: 'Each idea and question from the path moves up a box each time you remember it in Review, and comes back less often.',
         boxNew: 'new',
         box: 'box {n}',
-        knownTitle: 'Stars you know',
-        knownNone: 'Open a star on the map and mark it when you can explain it.',
         reset: 'Erase my progress',
         resetAsk: 'Erase all your experience, cards, stars and links in this browser?',
         resetYes: 'Erase',
@@ -353,11 +348,9 @@ export const nostosUi = {
       noScript: 'Οι δραστηριότητες χρειάζονται JavaScript. Όλες οι ιδέες της Αθηνάς βρίσκονται και στη σελίδα του χάρτη.',
       mapLink: 'Άνοιγμα του χάρτη',
       failed: 'Δεν φορτώθηκε. Κλείστε και δοκιμάστε ξανά.',
-      herLine: 'Μια φράση της Αθηνάς',
       surprise: 'Κάτι στην τύχη',
       path: {
         title: 'Το μονοπάτι',
-        intro: 'Όλος ο Νόστος, ένα σύντομο μάθημα τη φορά, με τη σειρά των ομιλιών της Αθηνάς: κάθε ιδέα όταν πρωτοεμφανίζεται, και γύρω της οι ερωτήσεις, οι μύθοι, οι ρίζες, τα χωρία και οι συνδέσεις. Το περιεχόμενο είναι στα αγγλικά.',
         chapter: 'Κεφάλαιο {i} από {n}',
         lesson: 'Μάθημα {i} από {n}',
         overall: '{done} από {n} μαθήματα',
@@ -486,7 +479,6 @@ export const nostosUi = {
       },
       ascent: {
         title: 'Η άνοδός σας',
-        intro: 'Η σκάλα της Διοτίμας, από το Συμπόσιο: κάθε γύρος σας ανεβάζει λίγο ψηλότερα. Φυλάσσεται μόνο σε αυτόν τον φυλλομετρητή.',
         xp: 'εμπειρία',
         streak: 'συνεχόμενες μέρες',
         known: 'γνωστά αστέρια',
@@ -496,8 +488,6 @@ export const nostosUi = {
         boxesIntro: 'Κάθε ιδέα και ερώτηση του μονοπατιού ανεβαίνει ένα κουτί κάθε φορά που τη θυμάστε στην επανάληψη, και επιστρέφει πιο αραιά.',
         boxNew: 'νέες',
         box: 'κουτί {n}',
-        knownTitle: 'Αστέρια που γνωρίζετε',
-        knownNone: 'Ανοίξτε ένα αστέρι στον χάρτη και σημειώστε το όταν μπορείτε να το εξηγήσετε.',
         reset: 'Διαγραφή της προόδου μου',
         resetAsk: 'Να διαγραφούν όλη η εμπειρία, οι κάρτες, τα αστέρια και οι συνδέσεις σας σε αυτόν τον φυλλομετρητή;',
         resetYes: 'Διαγραφή',

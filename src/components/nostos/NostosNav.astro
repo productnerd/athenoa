@@ -36,6 +36,19 @@ const items = [
 </nav>
 </div>
 
+<script>
+  // how tall the menu is (it wraps on phones), for what stays in sight under it (the Learn page's
+  // chapter banners)
+  let watch: ResizeObserver | undefined;
+  document.addEventListener('astro:page-load', () => {
+    watch?.disconnect();
+    const nav = document.querySelector<HTMLElement>('.nnav-bar .nnav');
+    if (!nav) return;
+    watch = new ResizeObserver(() => document.documentElement.style.setProperty('--nnav-h', `${nav.offsetHeight}px`));
+    watch.observe(nav);
+  });
+</script>
+
 <style>
   /* first in the page (a child of main), so it can stay in sight all the way down */
   .nnav-bar {
