@@ -1175,7 +1175,8 @@ function starMark(group: string) {
 /** One step, to learn (first time on the path) or to recall (Review). Reading steps call answered(null)
  *  when the visitor moves on; the rest call answered(right or not) when they answer. */
 function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material, answered: (ok: boolean | null) => void, next: () => void) {
-  const head = h('p', { class: 'nsmall nkind' }, W.path.kinds[s.k] ?? '');
+  // what kind of step it is; a new idea's in a pill of its own, the others quietly (client direction)
+  const head = h('p', { class: `nsmall nkind${s.k === 'c' && mode === 'learn' ? ' nkind--pill' : ''}` }, W.path.kinds[s.k] ?? '');
   const go = (ok: boolean | null) => {
     const button = h('button', { type: 'button', class: 'btn', onclick: () => (answered(ok), next()) }, W.arena.next);
     return h('div', { class: 'nrow' }, button);
@@ -1769,7 +1770,7 @@ function setup() {
       const quote = loader.querySelector('[data-load-quote]');
       if (quote && quotes.length) quote.textContent = quotes[Math.floor(Math.random() * quotes.length)];
       requestAnimationFrame(() => requestAnimationFrame(() => loader.classList.add('is-on')));
-      // a breath of wind as it opens, the sea while it waits, a lyre as the lesson appears
+      // a breath of wind as it opens, the sea while it waits, a soft bell as the lesson appears
       playSound('/audio/wind.mp3', 0.035);
       window.setTimeout(() => playSound('/audio/sea.mp3', 0.04, { after: 3.6, over: 1.8 }), 300);
     }
@@ -1781,7 +1782,7 @@ function setup() {
         const wait = calm ? 600 : Math.max(0, 5200 - (performance.now() - began));
         window.setTimeout(() => {
           loader.classList.add('is-leaving');
-          playSound('/audio/lyre.mp3', 0.03);
+          playSound('/audio/arrive.mp3', 0.05);
           window.setTimeout(() => (loader.hidden = true), 650);
         }, wait);
       });

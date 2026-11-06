@@ -129,6 +129,10 @@ Under Athena's letter on Home: her photograph (the library portrait, moved from 
 | --- | --- | --- |
 | Founder of the Philosophical Academy ATHENOA | Ιδρύτρια της Φιλοσοφικής Ακαδημίας ATHENOA | Ἱδρύτρια τῆς Ἀκαδημείας ATHENOA |
 
+## Why not yours (6 November 2026)
+
+Under a wrong answer, NEW WORDING proposed (`ui.ts`, `play.tutor`): "“{part}” ({meaning}) is not one of its roots.", "“{gloss}” is what Athena says of {right}, not of {wrong}, which is “{other}”.", "In Athena’s teaching this is true." / "… false.", "“{step}” comes at step {right}, not at step {at}."; Greek «… δεν είναι μία από τις ρίζες της.», «… λέει η Αθηνά για το {right}, όχι για το {wrong}, που είναι «{other}».», «Στη διδασκαλία της Αθηνάς αυτό είναι σωστό / λάθος.», «… έρχεται στο βήμα {right}, όχι στο {at}.». For the quiz, a line written for each wrong option (`src/data/nostos-whynot.json`, being written, for Athena to review like the rest of the content).
+
 ## Live courses, and Nostos as one's own journey (6 November 2026)
 
 At the client's wording the menu's "Courses" is "Live Courses", and so is the courses page's own title (Greek «Ζωντανά μαθήματα»; Ancient Greek draft «Ζῶντα μαθήματα», unchecked). The menu's Nostos, the Home sheet and the line on each course page now open Learn rather than the map. The courses page ends on Nostos, NEW WORDING proposed: "Nostos" · "Or walk the path on your own" · "Nostos is Athena’s teaching as a journey you take at your own pace: nine stages, from the first call of philosophy to the return home, in short lessons, with the map of Athena’s ideas and the books behind them." · "Begin the journey"; Greek «Ή διανύστε το μονοπάτι μόνοι σας» · «Ο Νόστος είναι η διδασκαλία της Αθηνάς ως ένα ταξίδι στον δικό σας ρυθμό: …» · «Ξεκινήστε το ταξίδι».

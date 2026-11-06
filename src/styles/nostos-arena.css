@@ -868,3 +868,33 @@ html.motion .narena__stage > * {
     transform: translateY(0.35rem);
   }
 }
+
+/* ---------- the path page: a smaller title, a pill for a new idea, Next at the bottom right ---------- */
+.narena--page .narena__title {
+  font-size: var(--step-2);
+  line-height: 1.05;
+}
+.nkind--pill {
+  justify-self: start;
+  width: fit-content;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.85rem 0.3rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--blue-deep);
+  background: var(--blue-light);
+  border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
+}
+.nidea .nkind--pill,
+.narena__stage > .nkind--pill {
+  justify-self: center;
+}
+/* the buttons that move on sit at the bottom right of the step, with room above them */
+.narena__stage > .nrow:last-child {
+  justify-content: flex-end;
+  margin-top: var(--space-m);
+  margin-bottom: var(--space-s);
+}
+.narena__stage > .nrow--centre:last-child {
+  justify-content: center;
+}
