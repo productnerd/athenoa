@@ -20,6 +20,8 @@ import {
   truefalse,
 } from '../../../lib/nostos';
 import { chapters } from '../../../lib/nostos-path';
+// why each quiz option is wrong, written for it (optional: absent until it is written)
+const whyNot = Object.values(import.meta.glob<Record<string, Record<string, string>>>('../../../data/nostos-whynot.json', { eager: true, import: 'default' }))[0] ?? {};
 
 const feeds = {
   // the ideas, slim: what cards, match and threads need, and the words quiz looks for
@@ -55,6 +57,7 @@ const feeds = {
       .filter((e) => e.her && e.why && e.why.length > 12 && conceptById(e.a) && conceptById(e.b))
       .map((e) => [e.a, e.b, e.why]),
   quiz: () => quiz,
+  whynot: () => whyNot,
   truefalse: () => truefalse,
   sequences: () => sequences.filter((s) => s.steps?.length >= 3 && s.steps.length <= 9),
   myths: () => myths.filter((m) => m.beats?.length >= 2),

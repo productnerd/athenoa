@@ -258,14 +258,7 @@ function choose(
       const go = h('button', { type: 'button', class: 'btn', onclick: next }, W.arena.next);
       // a wrong choice: why it is not Athena's answer, from what the choice itself is (another idea's
       // meaning, another link's reason...), or from the tutor (with the visitor's key)
-      const why = !ok && whyNot ? whyNot(text) : null;
-      const whyBox = why ? h('div', { class: 'nwhynot' }, h('p', { class: 'nwhynot__h' }, W.tutor.whyNot)) : null;
-      if (whyBox && typeof why === 'string') whyBox.append(h('p', null, why));
-      else if (whyBox && why) {
-        const line = h('p', { class: 'nsmall' }, W.tutor.whyNotThinking);
-        whyBox.append(line);
-        (why as Promise<string>).then((t) => line.replaceWith(h('p', null, t))).catch(() => whyBox.remove());
-      }
+      const whyBox = !ok && whyNot ? whyNote(whyNot(text)) : null;
       stage.append(whyBox ?? '', explain ?? '', h('div', { class: 'nrow' }, go));
       go.focus({ preventScroll: true });
     });
@@ -277,6 +270,19 @@ function choose(
 
 /** Why a wrong choice is wrong: a line at once, a promise of one from the tutor, or nothing */
 type WhyNot = (chosen: string) => string | Promise<string> | null;
+/** The "Why not yours" note: its lines at once, or a line from the tutor once it comes */
+function whyNote(...lines: (string | Promise<string> | null | undefined)[]) {
+  const shown = lines.filter((l): l is string | Promise<string> => !!l);
+  if (!shown.length) return null;
+  const box = h('div', { class: 'nwhynot' }, h('p', { class: 'nwhynot__h' }, W.tutor.whyNot));
+  shown.forEach((line) => {
+    if (typeof line === 'string') return box.append(h('p', null, line));
+    const wait = h('p', { class: 'nsmall' }, W.tutor.whyNotThinking);
+    box.append(wait);
+    line.then((t) => wait.replaceWith(h('p', null, t))).catch(() => wait.remove());
+  });
+  return box;
+}
 
 // ---------- the activities ----------
 const INTERVALS = [0, 1, 3, 7, 16, 35];
@@ -623,7 +629,10 @@ function ladderStep(stage: HTMLElement, s: any, answered: (ok: boolean) => void,
     pool.remove();
     check.remove();
     answered(ok);
+    // the steps out of place (two at most): where they were put, and where they come
+    const misplaced = order.map((k, n) => ({ k, n })).filter(({ k, n }) => k !== n).slice(0, 2);
     stage.append(
+      whyNote(...misplaced.map(({ k, n }) => fill(W.tutor.orderWas, { step: steps[k], at: n + 1, right: k + 1 }))) ?? '',
       h('div', { class: 'nexplain' }, s.note ? h('p', { lang: 'en' }, s.note) : null, talkRef(s.talk, s.t)),
       h('div', { class: 'nrow' }, h('button', { type: 'button', class: 'btn', onclick: next }, nextLabel)),
     );
@@ -716,6 +725,7 @@ function forgeStep(
   );
   const tiles = shuffle([...e.parts, ...decoys]);
   const chosen: string[] = [];
+  const wrongly: { part: string; meaning: string }[] = [];
   let missed = false;
   const slot = h('div', { class: 'nslot' });
   const pool = h('div', { class: 'ntiles' });
@@ -723,6 +733,7 @@ function forgeStep(
     pool.remove();
     answered(!missed);
     stage.append(
+      whyNote(...wrongly.slice(0, 3).map((p) => fill(W.tutor.notRoot, { part: p.part, meaning: p.meaning }))) ?? '',
       h('div', { class: 'nexplain' }, h('p', { class: 'nstatus' }, W.forge.status[e.status] ?? e.status), h('p', { lang: 'en' }, e.reading), talkRef(e.talk)),
       h('div', { class: 'nrow' }, h('button', { type: 'button', class: 'btn', onclick: next }, nextLabel)),
     );
@@ -744,6 +755,7 @@ function forgeStep(
               if (chosen.length === need.length) reveal();
             } else {
               missed = true;
+              if (!need.includes(p.part) && !wrongly.some((w) => w.part === p.part)) wrongly.push(p);
               t.classList.remove('is-miss');
               void t.offsetWidth;
               t.classList.add('is-miss');
@@ -856,7 +868,9 @@ function forkStep(stage: HTMLElement, d: any, answered: (ok: boolean) => void, n
     button.classList.add(ok ? 'is-right' : 'is-wrong');
     button.prepend(mark(ok));
     answered(ok);
+    const [right, wrong] = side === 'a' ? [d.a, d.b] : [d.b, d.a];
     after.replaceChildren(
+      (!ok && whyNote(fill(W.tutor.otherSide, { gloss, right, wrong, other: side === 'a' ? d.b_gloss : d.a_gloss }))) || '',
       h(
         'div',
         { class: 'nexplain' },
@@ -1101,12 +1115,13 @@ const dueList = (p: Progress) =>
 /** What a set of steps needs: their chapters' files, the ideas, and the material for decoys */
 async function stepsFor(ids: string[]) {
   const wanted = [...new Set(ids.map((u) => chapterOf.get(u)).filter((ci) => ci !== undefined))] as number[];
-  const [concepts, parts, ety, , pictures] = await Promise.all([
+  const [concepts, parts, ety, , pictures, reasons] = await Promise.all([
     feed<Concept[]>('concepts'),
     Promise.all(wanted.map((ci) => feed<Record<string, Step>>(`path-${outline[ci].id}`))),
     feed<any[]>('etymologies'),
     feed('talks').then((t) => Object.assign(talkNames, t)),
     feed<Record<string, Picture>>('art').catch(() => ({}) as Record<string, Picture>),
+    feed<Record<string, Record<string, string>>>('whynot').catch(() => ({}) as Record<string, Record<string, string>>),
   ]);
   const all: Record<string, Step> = Object.assign({}, ...parts);
   const ideas = new Map(concepts.map((c) => [c.id, c]));
@@ -1115,6 +1130,8 @@ async function stepsFor(ids: string[]) {
     concepts,
     idea: (id: string) => ideas.get(id),
     picture: (id: string) => pictures[id] as Picture | undefined,
+    /** why a quiz's wrong option is wrong, as written for it (src/data/nostos-whynot.json) */
+    whyNot: (q: string, option: string) => reasons[q]?.[option] ?? null,
     step: (u: string): Step | undefined => (u.startsWith('c') ? (ideas.has(u.slice(1)) ? { k: 'c', concept: ideas.get(u.slice(1)) } : undefined) : all[u]),
     images: list.filter((x) => x.k === 'i').map((x) => x.meaning as string),
     imageOf: new Map(list.filter((x) => x.k === 'i').map((x) => [x.meaning as string, x.image as string])),
@@ -1214,7 +1231,7 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         answered,
         next,
         h('div', { class: 'nexplain' }, s.explain ? h('p', { lang: 'en' }, s.explain) : null, from),
-        hasKey() ? (text) => explainWrong(feedBase, s.q, s.a, text, s.explain ?? '') : undefined,
+        (text) => M.whyNot(s.q, text) ?? (hasKey() ? explainWrong(feedBase, s.q, s.a, text, s.explain ?? '') : null),
       );
     case 'tf': {
       const after = h('div');
@@ -1225,6 +1242,7 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         button.prepend(mark(ok));
         answered(ok);
         after.replaceChildren(
+          (!ok && whyNote(s.true ? W.tutor.tfTrue : W.tutor.tfFalse)) || '',
           h('div', { class: 'nexplain' }, s.explain ? h('p', { lang: 'en' }, s.explain) : null, from),
           h('div', { class: 'nrow' }, h('button', { type: 'button', class: 'btn', onclick: next }, W.arena.next)),
         );

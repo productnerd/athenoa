@@ -273,6 +273,12 @@ export const nostosUi = {
         otherLink: 'That is how Athena connects “{a}” and “{b}”.',
         otherImage: 'That is what “{image}” means.',
         otherEnd: '“{label}”: {take}',
+        // NEW WORDING, proposed (6 November 2026): why a wrong answer is wrong, for each kind of step
+        notRoot: '“{part}” ({meaning}) is not one of its roots.',
+        otherSide: '“{gloss}” is what Athena says of {right}, not of {wrong}, which is “{other}”.',
+        tfTrue: 'In Athena’s teaching this is true.',
+        tfFalse: 'In Athena’s teaching this is false.',
+        orderWas: '“{step}” comes at step {right}, not at step {at}.',
         keyTitle: 'Add your Claude API key',
         keyLine:
           'The tutor and the written questions run on your own Anthropic API key. It is kept only in this browser and sent only to Anthropic. What you use is billed to your Anthropic account.',
@@ -651,6 +657,11 @@ export const nostosUi = {
         otherLink: 'Έτσι συνδέει η Αθηνά το «{a}» με το «{b}».',
         otherImage: 'Αυτό σημαίνει το «{image}».',
         otherEnd: '«{label}»: {take}',
+        notRoot: '«{part}» ({meaning}): δεν είναι μία από τις ρίζες της.',
+        otherSide: '«{gloss}» λέει η Αθηνά για το {right}, όχι για το {wrong}, που είναι «{other}».',
+        tfTrue: 'Στη διδασκαλία της Αθηνάς αυτό είναι σωστό.',
+        tfFalse: 'Στη διδασκαλία της Αθηνάς αυτό είναι λάθος.',
+        orderWas: '«{step}» έρχεται στο βήμα {right}, όχι στο {at}.',
         keyTitle: 'Προσθέστε το κλειδί σας για το Claude API',
         keyLine:
           'Ο βοηθός και οι γραπτές ερωτήσεις λειτουργούν με το δικό σας κλειδί Anthropic API. Φυλάσσεται μόνο σε αυτόν τον φυλλομετρητή και στέλνεται μόνο στην Anthropic. Ό,τι χρησιμοποιείτε χρεώνεται στον λογαριασμό σας στην Anthropic.',

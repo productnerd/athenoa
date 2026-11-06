@@ -30,10 +30,14 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
       <blockquote class="hand hand--l" lang="en" data-load-quote></blockquote>
       <figcaption>{t.path.loadBy}</figcaption>
     </figure>
-    <div class="nload__stones" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
+    <div class="nload__sun" aria-hidden="true">
+      <span class="nload__halo"></span>
+      <svg viewBox="-40 -40 80 80" focusable="false">
+        <circle r="14" />
+        <path d="M21.0 0.0L33.0 0.0M18.2 10.5L23.4 13.5M10.5 18.2L16.5 28.6M0.0 21.0L0.0 27.0M-10.5 18.2L-16.5 28.6M-18.2 10.5L-23.4 13.5M-21.0 0.0L-33.0 0.0M-18.2 -10.5L-23.4 -13.5M-10.5 -18.2L-16.5 -28.6M-0.0 -21.0L-0.0 -27.0M10.5 -18.2L16.5 -28.6M18.2 -10.5L23.4 -13.5" />
+      </svg>
     </div>
-    <p class="nload__label">{t.path.loading}</p>
+    <p class="visually-hidden">{t.path.loading}</p>
   </div>
   <script type="application/json" data-quotes set:html={JSON.stringify(quotes)} />
 
@@ -186,46 +190,76 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
     letter-spacing: 0.06em;
     color: var(--ink-soft);
   }
-  /* stepping stones lighting one after another, as on the path */
-  .nload__stones {
-    display: flex;
-    gap: 0.7rem;
+  /* a soft light behind the line, breathing */
+  .nload__quote {
+    position: relative;
   }
-  .nload__stones span {
-    width: 0.9rem;
-    height: 0.9rem;
-    background: var(--creme-deep);
-    border: 1.5px solid color-mix(in srgb, var(--blue) 35%, transparent);
-    border-radius: 52% 48% 55% 45% / 47% 55% 45% 53%;
+  .nload__quote::before {
+    content: '';
+    position: absolute;
+    inset: -45% -25%;
+    z-index: -1;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--blue-light) 55%, transparent), transparent);
+    opacity: 0.55;
   }
-  .nload__stones span:nth-child(2n) {
-    border-radius: 45% 55% 48% 52% / 55% 45% 53% 47%;
+  :global(html.motion) .nload__quote::before {
+    animation: nload-breathe 4.5s var(--ease-in-out) infinite;
   }
-  :global(html.motion) .nload__stones span {
-    animation: nload-stone 1.8s var(--ease-in-out) infinite;
+  .nload__quote blockquote {
+    text-shadow: 0 0 1.6rem color-mix(in srgb, var(--blue-light) 70%, transparent);
   }
-  .nload__stones span:nth-child(2) { animation-delay: 0.18s; }
-  .nload__stones span:nth-child(3) { animation-delay: 0.36s; }
-  .nload__stones span:nth-child(4) { animation-delay: 0.54s; }
-  .nload__stones span:nth-child(5) { animation-delay: 0.72s; }
-  @keyframes nload-stone {
-    0%,
-    60%,
-    100% {
-      background: var(--creme-deep);
-      transform: none;
-    }
-    25% {
-      background: var(--blue);
-      transform: translateY(-0.25rem);
+  @keyframes nload-breathe {
+    50% {
+      opacity: 1;
+      transform: scale(1.06);
     }
   }
-  .nload__label {
-    margin: 0;
-    font-size: var(--step--1);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
+  /* the loading: a small sun in the corner, turning slowly, its light pulsing */
+  .nload__sun {
+    position: fixed;
+    right: calc(1.4rem + env(safe-area-inset-right, 0px));
+    bottom: calc(1.4rem + env(safe-area-inset-bottom, 0px));
+    display: grid;
+    place-items: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    color: var(--ink-strong);
+  }
+  .nload__halo {
+    position: absolute;
+    inset: -60%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--blue-light) 85%, transparent), transparent);
+    opacity: 0.5;
+  }
+  .nload__sun svg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+  }
+  .nload__sun circle {
+    fill: color-mix(in srgb, var(--blue-light) 60%, transparent);
+  }
+  :global(html.motion) .nload__sun svg {
+    animation: nload-turn 14s linear infinite;
+  }
+  :global(html.motion) .nload__halo {
+    animation: nload-pulse 2.4s var(--ease-in-out) infinite;
+  }
+  @keyframes nload-turn {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes nload-pulse {
+    50% {
+      opacity: 1;
+      transform: scale(1.25);
+    }
   }
   /* the map: under the lesson on narrow screens, the width of the window a little short of each edge.
      It comes up behind the Next button to just under the explanation, and fades in from its top edge
