@@ -1358,17 +1358,13 @@ function walked(A: Arena, ci: number, li: number, fresh: boolean) {
 async function review() {
   const A = openArena(W.review.title, W.path.title);
   A.stage.replaceChildren(h('p', { class: 'nsmall' }, '…'));
+  // the end of a round: its result, and the way back to Learn (never on into a lesson: client
+  // direction, 6 November 2026)
   const end = (message: string) => {
     A.progress(1);
-    const at = here(load());
     A.stage.replaceChildren(
       h('div', { class: 'nend' }, greek(W.arena.end, 'nend__word'), h('p', { class: 'nend__msg' }, message)),
-      h(
-        'div',
-        { class: 'nrow nrow--centre' },
-        at ? h('button', { type: 'button', class: 'btn', onclick: () => walk(at.ci, at.li) }, W.path.go) : null,
-        h('button', { type: 'button', class: 'btn btn--ghost', onclick: leave }, W.path.back),
-      ),
+      h('div', { class: 'nrow nrow--centre' }, h('button', { type: 'button', class: 'btn', onclick: leave }, W.path.back)),
     );
     (A.stage.querySelector('.btn') as HTMLElement)?.focus();
   };
