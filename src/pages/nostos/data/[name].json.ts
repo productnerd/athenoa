@@ -2,6 +2,8 @@
 // play page itself stays light). Built from src/data/nostos/ at build time. Not listed in the sitemap.
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
 import type { APIRoute } from 'astro';
+import { getImage } from 'astro:assets';
+import { artFor, credit } from '../../../lib/nostos-art';
 import {
   conceptById,
   concepts,
@@ -33,6 +35,19 @@ const feeds = {
       // whole: the path's idea steps show all of it, the activities shorten it where they need to
       take: c.take ?? '',
     })),
+  // the pictures, by idea: a web-sized file, its caption in both languages, the credit if one is due
+  art: async () =>
+    Object.fromEntries(
+      await Promise.all(
+        concepts
+          .map((c) => [c.id, artFor(c.id)] as const)
+          .filter(([, a]) => a)
+          .map(async ([id, a]) => {
+            const img = await getImage({ src: a!.image, width: 900, format: 'webp' });
+            return [id, { src: img.src, w: img.attributes.width, h: img.attributes.height, en: a!.title_en, el: a!.title_el, page: a!.page_url, credit: credit(a!) }];
+          }),
+      ),
+    ),
   talks: () => Object.fromEntries(talks.map((t) => [t.id, talkName(t.id)])),
   // the links she makes herself, where she says why: [idea, other idea, her reason]
   links: () =>
@@ -50,13 +65,13 @@ const feeds = {
   // the path: what each chapter's lessons need, one file per chapter (path-<talk id>), loaded when a
   // lesson or a review reaches it
   ...Object.fromEntries(chapters.map((c) => [`path-${c.id}`, () => c.steps])),
-} as Record<string, () => unknown>;
+} as Record<string, () => unknown | Promise<unknown>>;
 
 export function getStaticPaths() {
   return Object.keys(feeds).map((name) => ({ params: { name } }));
 }
 
-export const GET: APIRoute = ({ params }) =>
-  new Response(JSON.stringify(feeds[params.name!]()), {
+export const GET: APIRoute = async ({ params }) =>
+  new Response(JSON.stringify(await feeds[params.name!]()), {
     headers: { 'Content-Type': 'application/json; charset=utf-8' },
   });

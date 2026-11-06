@@ -135,6 +135,8 @@ Inside Nostos, later the same day: the play page opens with **The path** (every 
 
 On 5 November 2026, at the client's wording, the map's introduction ends at "Lines join the ideas Athena links." (Greek: «Οι γραμμές ενώνουν τις ιδέες που συνδέει η Αθηνά.»); it went on "…, or keeps discussing in the same breath. Choose a star to open it." The legend's "Size: how often it comes up" («Μέγεθος: πόσο συχνά εμφανίζεται») and each idea's "Mentioned {n} times in Athena’s talks" / "Weight in Athena’s teaching (estimated)" line are removed at the client's request.
 
+On 6 November 2026, at the client's request, 37 ideas gain a picture of the art Athena refers to (the cave, Dionysus, the Muses and so on), in the idea's note on the map and on its step on the path. Each has a caption, new wording in English and Greek, for example “Jan Saenredam after Cornelis van Haarlem, The Cave of Plato, 1604” / «Γιαν Σάνρενταμ κατά τον Κορνέλις φαν Χάαρλεμ, Το σπήλαιο του Πλάτωνα, 1604». All the captions are in `src/data/nostos-art.json` (`title_en`, `title_el`); where a licence asks for credit, the photographer and licence follow the caption as the file's page gives them. The list, with sources and licences, is `tasks/nostos-art.md`. The lessons and Review now open on a page of their own; it uses the existing words, with no new ones.
+
 ## Ancient Greek (11 October 2026)
 
 The whole site also exists in Ancient Greek under `/grc/`, as a machine-drafted translation in `src/data/grc/` that Athena has not read. It is kept out of search engines. The translator's notes on word choices (for example τὸ μὴ δύο εἶναι for "non-duality") are in the session report of that day.

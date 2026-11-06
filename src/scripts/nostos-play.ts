@@ -1055,11 +1055,12 @@ const dueList = (p: Progress) =>
 /** What a set of steps needs: their chapters' files, the ideas, and the material for decoys */
 async function stepsFor(ids: string[]) {
   const wanted = [...new Set(ids.map((u) => chapterOf.get(u)).filter((ci) => ci !== undefined))] as number[];
-  const [concepts, parts, ety] = await Promise.all([
+  const [concepts, parts, ety, , pictures] = await Promise.all([
     feed<Concept[]>('concepts'),
     Promise.all(wanted.map((ci) => feed<Record<string, Step>>(`path-${outline[ci].id}`))),
     feed<any[]>('etymologies'),
     feed('talks').then((t) => Object.assign(talkNames, t)),
+    feed<Record<string, Picture>>('art').catch(() => ({}) as Record<string, Picture>),
   ]);
   const all: Record<string, Step> = Object.assign({}, ...parts);
   const ideas = new Map(concepts.map((c) => [c.id, c]));
@@ -1067,6 +1068,7 @@ async function stepsFor(ids: string[]) {
   return {
     concepts,
     idea: (id: string) => ideas.get(id),
+    picture: (id: string) => pictures[id] as Picture | undefined,
     step: (u: string): Step | undefined => (u.startsWith('c') ? (ideas.has(u.slice(1)) ? { k: 'c', concept: ideas.get(u.slice(1)) } : undefined) : all[u]),
     images: list.filter((x) => x.k === 'i').map((x) => x.meaning as string),
     readings: list.filter((x) => x.k === 'm').flatMap((x) => x.beats.map((b: any) => b.reading as string)),
@@ -1074,6 +1076,25 @@ async function stepsFor(ids: string[]) {
   };
 }
 type Material = Awaited<ReturnType<typeof stepsFor>>;
+type Picture = { src: string; w: number; h: number; en: string; el: string; page: string; credit: { text: string; licenceUrl?: string } | null };
+/** A picture of the art Athena refers to (src/lib/nostos-art.ts): its caption links to its page, and
+ *  the credit follows where the licence asks for one */
+function picture(p?: Picture) {
+  if (!p) return null;
+  const caption = document.documentElement.lang.startsWith('en') ? p.en : p.el;
+  const img = h('img', { src: p.src, width: p.w, height: p.h, alt: caption, loading: 'lazy', decoding: 'async' });
+  return h(
+    'figure',
+    { class: 'nart' },
+    img,
+    h(
+      'figcaption',
+      null,
+      h('a', { href: p.page, target: '_blank', rel: 'noopener' }, caption),
+      p.credit ? h('span', { class: 'nart__credit' }, ' · ', p.credit.licenceUrl ? h('a', { href: p.credit.licenceUrl, target: '_blank', rel: 'noopener' }, p.credit.text) : p.credit.text) : null,
+    ),
+  );
+}
 
 /** One step, to learn (first time on the path) or to recall (Review). Reading steps call answered(null)
  *  when the visitor moves on; the rest call answered(right or not) when they answer. */
@@ -1105,6 +1126,7 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
             c.translit ? h('p', { class: 'ntranslit', lang: 'grc-Latn' }, c.translit) : null,
             h('h3', { class: 'nsubject', lang: 'en' }, c.label),
             h('p', { class: 'nsmall' }, W.groups[c.group] ?? ''),
+            picture(M.picture(c.id)),
             h('p', { class: 'nidea__take', lang: 'en' }, c.take),
             toMap,
           ),

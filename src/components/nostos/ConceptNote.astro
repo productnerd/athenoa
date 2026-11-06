@@ -4,7 +4,9 @@
 // that opens beside the map when a star is chosen (the map's script copies it there).
 //
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
+import { Image } from 'astro:assets';
 import { nostosUi } from '../../data/nostos/ui';
+import { artFor, credit } from '../../lib/nostos-art';
 import {
   conceptById,
   groupById,
@@ -19,12 +21,17 @@ interface Props {
   concept: Concept;
 }
 const { concept: c } = Astro.props;
-const ui = nostosUi[mainLocale(getLocale(Astro.url))];
+const lang = mainLocale(getLocale(Astro.url));
+const ui = nostosUi[lang];
 const t = ui.note;
 const group = groupById(c.group);
 const roots = rootsFor(c).slice(0, 2);
 const links = c.links.filter((l) => conceptById(l.to)).slice(0, 8);
 const places = c.talks.slice(0, 7);
+// a picture of the art Athena refers to, where there is one (src/lib/nostos-art.ts)
+const art = artFor(c.id);
+const caption = art && (lang === 'en' ? art.title_en : art.title_el);
+const owed = art && credit(art);
 ---
 
 <div class="cnote" data-concept={c.id}>
@@ -32,6 +39,28 @@ const places = c.talks.slice(0, 7);
   {c.greek && <p class="cnote__greek" lang="grc">{c.greek}</p>}
   <h3 class="cnote__label">{c.label}</h3>
   {c.translit && <p class="cnote__translit" lang="grc-Latn">{c.translit}</p>}
+  {
+    art && (
+      <figure class="cnote__art">
+        <Image src={art.image} alt={caption!} widths={[360, 720, 1080]} sizes="(min-width: 62rem) 24rem, 92vw" />
+        <figcaption>
+          <a href={art.page_url} target="_blank" rel="noopener">{caption}</a>
+          {owed && (
+            <span>
+              {' · '}
+              {owed.licenceUrl ? (
+                <a href={owed.licenceUrl} target="_blank" rel="noopener">
+                  {owed.text}
+                </a>
+              ) : (
+                owed.text
+              )}
+            </span>
+          )}
+        </figcaption>
+      </figure>
+    )
+  }
 
   <h4 class="cnote__h">{t.take}</h4>
   <p lang="en">{c.take}</p>
@@ -142,6 +171,27 @@ const places = c.talks.slice(0, 7);
   .cnote__translit {
     font-style: italic;
     color: var(--ink-soft);
+  }
+  /* the picture, whole (never cropped), on soft hand-cut corners */
+  .cnote__art {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0.7rem 0 0.2rem !important;
+  }
+  .cnote__art img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 20rem;
+    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+  }
+  .cnote__art figcaption {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .cnote__art figcaption a {
+    color: inherit;
   }
   .cnote__h {
     margin-top: 0.9rem !important;
