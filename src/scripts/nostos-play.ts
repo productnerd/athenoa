@@ -1484,7 +1484,7 @@ async function walk(ci: number, li: number) {
   const chapter = outline[ci];
   const ids = chapter.lessons[li];
   // the address names the lesson, so a reload comes back to it; Continue goes on from here
-  if (pageMode) history.replaceState(history.state, '', `${pathHref}?c=${ci}&l=${li}`);
+  if (pageMode) history.replaceState(history.state, '', `${pathHref}?c=${ci}&l=${li}${lessonDone(load(), ids) ? '&again' : ''}`);
   const p0 = load();
   if (p0.at?.[0] !== ci || p0.at?.[1] !== li) save({ ...p0, at: [ci, li] });
   const A = openArena(chapterName(ci), chapterPlace(ci));
@@ -1850,7 +1850,9 @@ function setup() {
         }, wait);
       });
     if (params.has('review')) ready(review());
-    else if (params.has('c') && outline[c]?.lessons[l]) ready(walk(c, l));
+    // a lesson already walked, opened again by reloading the page (not chosen to walk again): on to the
+    // lesson that is waiting, so a reload never sends you back over what you have done
+    else if (params.has('c') && outline[c]?.lessons[l] && (params.has('again') || !lessonDone(load(), outline[c].lessons[l]))) ready(walk(c, l));
     else if (at) ready(walk(at.ci, at.li));
     else {
       ready();
@@ -1904,7 +1906,9 @@ function setup() {
         return;
       }
       const stone = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-node]');
-      if (stone && !stone.disabled) navigate(`${pathHref}?c=${stone.dataset.c}&l=${stone.dataset.l}`);
+      // a walked stone is walked again on purpose (again); the current one goes on from where it was left
+      if (stone && !stone.disabled)
+        navigate(`${pathHref}?c=${stone.dataset.c}&l=${stone.dataset.l}${stone.classList.contains('is-done') ? '&again' : ''}`);
     },
     on,
   );
