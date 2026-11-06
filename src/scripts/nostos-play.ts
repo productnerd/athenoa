@@ -8,6 +8,7 @@
 //
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
 import { navigate } from 'astro:transitions/client';
+import { playSound } from './sound';
 import { award, load, save, today, type Progress } from './nostos-progress';
 import { explainWrong, hasKey, markAnswer, noteAnswer } from './nostos-tutor';
 
@@ -1737,15 +1738,39 @@ function setup() {
   chapterOf.clear();
   outline.forEach((c, ci) => c.lessons.forEach((l) => l.forEach((u) => chapterOf.set(u, ci))));
 
-  // the path page: straight into the lesson asked for (?c=&l=), Review (?review), or the next lesson
+  // the path page: straight into the lesson asked for (?c=&l=), Review (?review), or the next lesson,
+  // behind the loading screen, which fades away once it is ready (and has been read: a few seconds)
   if (pageMode) {
     const params = new URLSearchParams(location.search);
     const [c, l] = [Number(params.get('c')), Number(params.get('l'))];
     const at = here(load());
-    if (params.has('review')) review();
-    else if (params.has('c') && outline[c]?.lessons[l]) walk(c, l);
-    else if (at) walk(at.ci, at.li);
+    const loader = document.querySelector<HTMLElement>('[data-load]');
+    const began = performance.now();
+    if (loader) {
+      const quotes = JSON.parse(document.querySelector('[data-quotes]')?.textContent ?? '[]') as string[];
+      const quote = loader.querySelector('[data-load-quote]');
+      if (quote && quotes.length) quote.textContent = quotes[Math.floor(Math.random() * quotes.length)];
+      requestAnimationFrame(() => requestAnimationFrame(() => loader.classList.add('is-on')));
+      // a breath of wind as it opens, the sea while it waits, a lyre as the lesson appears
+      playSound('/audio/wind.mp3', 0.035);
+      window.setTimeout(() => playSound('/audio/sea.mp3', 0.04, { after: 1.8, over: 1.4 }), 300);
+    }
+    const ready = (task: Promise<unknown> | void) =>
+      Promise.resolve(task).finally(() => {
+        if (!loader) return;
+        const calm = !document.documentElement.classList.contains('motion');
+        const wait = calm ? 600 : Math.max(0, 2900 - (performance.now() - began));
+        window.setTimeout(() => {
+          loader.classList.add('is-leaving');
+          playSound('/audio/lyre.mp3', 0.03);
+          window.setTimeout(() => (loader.hidden = true), 650);
+        }, wait);
+      });
+    if (params.has('review')) ready(review());
+    else if (params.has('c') && outline[c]?.lessons[l]) ready(walk(c, l));
+    else if (at) ready(walk(at.ci, at.li));
     else {
+      ready();
       const A = openArena(W.path.title, '');
       A.progress(1);
       A.stage.replaceChildren(

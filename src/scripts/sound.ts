@@ -63,8 +63,9 @@ export function preloadSounds(...files: string[]) {
   if (ctx) files.forEach((file) => load(ctx, file).catch(() => {}));
 }
 
-/** Plays a short sound once, at `volume` (0 to 1). Silent while the browser holds sound back. */
-export async function playSound(file: string, volume: number) {
+/** Plays a short sound once, at `volume` (0 to 1). Silent while the browser holds sound back. With
+ *  `fade`, it fades in over a moment and fades out from `fade.after` seconds over `fade.over`. */
+export async function playSound(file: string, volume: number, fade?: { after: number; over: number }) {
   const ctx = make();
   if (!ctx) return;
   try {
@@ -78,6 +79,14 @@ export async function playSound(file: string, volume: number) {
     source.buffer = buffer;
     const gain = ctx.createGain();
     gain.gain.value = volume;
+    if (fade) {
+      const now = ctx.currentTime;
+      gain.gain.setValueAtTime(0, now);
+      gain.gain.linearRampToValueAtTime(volume, now + 0.6);
+      gain.gain.setValueAtTime(volume, now + fade.after);
+      gain.gain.linearRampToValueAtTime(0, now + fade.after + fade.over);
+      source.stop(now + fade.after + fade.over + 0.05);
+    }
     source.connect(gain);
     gain.connect(ctx.destination);
     source.start();

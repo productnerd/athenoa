@@ -8,6 +8,7 @@
 import Base from '../../layouts/Base.astro';
 import { nostosUi } from '../../data/nostos/ui';
 import { pathOutline } from '../../lib/nostos-path';
+import { lines } from '../../lib/nostos';
 import { starShapes } from '../../lib/nostos-shapes';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -17,9 +18,25 @@ const ui = nostosUi[mainLocale(locale)];
 const t = ui.play;
 const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
 const tt = t.tutor;
+// Athena's lines, for the loading screen (one chosen at random each time)
+const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
 ---
 
 <Base title={`${t.path.title} · Nostos | ATHENOA`} description={t.metaDescription} noindex header={false} footer={false}>
+  {/* the loading screen, on entering the learning flow: shown from the start, so the page never flashes
+      before it; the script fills in a line and fades it away once the lesson is ready */}
+  <div class="nload" data-load role="status" aria-live="polite">
+    <figure class="nload__quote">
+      <blockquote class="hand hand--l" lang="en" data-load-quote></blockquote>
+      <figcaption>{t.path.loadBy}</figcaption>
+    </figure>
+    <div class="nload__stones" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <p class="nload__label">{t.path.loading}</p>
+  </div>
+  <script type="application/json" data-quotes set:html={JSON.stringify(quotes)} />
+
   <div
     class="npage"
     data-nplay
@@ -116,6 +133,99 @@ const tt = t.tutor;
 <style>
   .npage {
     min-height: 100dvh;
+  }
+  /* ---------- the loading screen ---------- */
+  .nload {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-m);
+    padding: var(--space-l) max(var(--gutter), env(safe-area-inset-right, 0px)) var(--space-l) max(var(--gutter), env(safe-area-inset-left, 0px));
+    text-align: center;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    transition: opacity 0.6s var(--ease-in-out);
+  }
+  .nload[hidden] {
+    display: none;
+  }
+  .nload.is-leaving {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .nload__quote {
+    max-width: 36rem;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(0.6rem);
+    transition:
+      opacity 0.9s var(--ease-out) 0.15s,
+      transform 0.9s var(--ease-out) 0.15s;
+  }
+  .nload.is-on .nload__quote {
+    opacity: 1;
+    transform: none;
+  }
+  .nload__quote blockquote {
+    margin: 0;
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+  /* (Athena's lines are in English: on the Greek pages too, the English hand) */
+  .nload__quote blockquote:lang(en) {
+    font-family: 'ATH Hand', var(--font-hand);
+  }
+  .nload__quote figcaption {
+    margin-top: 0.8rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  /* stepping stones lighting one after another, as on the path */
+  .nload__stones {
+    display: flex;
+    gap: 0.7rem;
+  }
+  .nload__stones span {
+    width: 0.9rem;
+    height: 0.9rem;
+    background: var(--creme-deep);
+    border: 1.5px solid color-mix(in srgb, var(--blue) 35%, transparent);
+    border-radius: 52% 48% 55% 45% / 47% 55% 45% 53%;
+  }
+  .nload__stones span:nth-child(2n) {
+    border-radius: 45% 55% 48% 52% / 55% 45% 53% 47%;
+  }
+  :global(html.motion) .nload__stones span {
+    animation: nload-stone 1.8s var(--ease-in-out) infinite;
+  }
+  .nload__stones span:nth-child(2) { animation-delay: 0.18s; }
+  .nload__stones span:nth-child(3) { animation-delay: 0.36s; }
+  .nload__stones span:nth-child(4) { animation-delay: 0.54s; }
+  .nload__stones span:nth-child(5) { animation-delay: 0.72s; }
+  @keyframes nload-stone {
+    0%,
+    60%,
+    100% {
+      background: var(--creme-deep);
+      transform: none;
+    }
+    25% {
+      background: var(--blue);
+      transform: translateY(-0.25rem);
+    }
+  }
+  .nload__label {
+    margin: 0;
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
   }
   /* the map: under the lesson on narrow screens, the width of the window a little short of each edge.
      It comes up behind the Next button to just under the explanation, and fades in from its top edge

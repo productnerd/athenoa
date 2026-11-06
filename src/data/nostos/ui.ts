@@ -75,6 +75,9 @@ export const nostosUi = {
         go: 'Continue',
         doneAll: 'You have walked the whole path. Review keeps it alive.',
         across: 'Across Athena’s talks',
+        // NEW WORDING, proposed (6 November 2026): the loading screen on entering the learning flow
+        loading: 'Loading',
+        loadBy: 'Athena Potari',
         // NEW WORDING, proposed (6 November 2026): before skipping ahead on the path
         skip: {
           start: 'Start this chapter',
@@ -457,6 +460,8 @@ export const nostosUi = {
         go: 'Συνέχεια',
         doneAll: 'Περπατήσατε όλο το μονοπάτι. Η επανάληψη το κρατά ζωντανό.',
         across: 'Σε όλες τις ομιλίες της Αθηνάς',
+        loading: 'Φόρτωση',
+        loadBy: 'Αθηνά Ποτάρη',
         skip: {
           start: 'Ξεκινήστε αυτό το κεφάλαιο',
           title: 'Να πάτε σε αυτό το κεφάλαιο;',

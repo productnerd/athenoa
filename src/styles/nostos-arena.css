@@ -857,3 +857,14 @@ html[data-theme='dark'] .nconnect__idea {
   font-weight: 600;
   color: var(--ink-strong);
 }
+
+/* each step fades in as it comes (client direction): softly, and only with motion on */
+html.motion .narena__stage > * {
+  animation: nstep-in 0.4s var(--ease-out) both;
+}
+@keyframes nstep-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.35rem);
+  }
+}
