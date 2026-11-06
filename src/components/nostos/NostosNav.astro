@@ -9,9 +9,11 @@ import { barePath, getLocale, mainLocale, pathIn } from '../../lib/locale';
 const locale = getLocale(Astro.url);
 const t = nostosUi[mainLocale(locale)].entry.sub;
 const here = barePath(Astro.url.pathname).replace(/\/+$/, '/') ;
-// Learn first (client direction, 6 November 2026)
+// Learn first (client direction, 6 November 2026); then the practical guide (client direction, the same
+// day), which is in English only, so every language links to the English page
 const items = [
   { href: '/nostos/play/', label: t.play },
+  { href: '/nostos/guide/', label: t.guide, english: true },
   { href: '/nostos/', label: t.map },
   { href: '/nostos/bookshelf/', label: t.shelf },
   { href: '/nostos/sources/', label: t.sources },
@@ -27,7 +29,9 @@ const items = [
           {here === item.href ? (
             <span class="nnav__here" aria-current="page">{item.label}</span>
           ) : (
-            <a href={pathIn(locale, item.href)}>{item.label}</a>
+            <a href={item.english ? item.href : pathIn(locale, item.href)} hreflang={item.english && locale !== 'en' ? 'en' : undefined}>
+              {item.label}
+            </a>
           )}
         </li>
       ))

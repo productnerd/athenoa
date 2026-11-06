@@ -143,6 +143,10 @@ Each idea in "All the ideas", under the map, has a dot, faint to bright by how c
 
 At Maria's request each of the guide's seven phases is set beside the world's religions and schools: fifteen traditions, each with its own small drawn symbol and a key (Jewish, Christian, Islam, Sufi, Hindu, Buddhist, Sikh, Zoroastrian, Daoist, Confucian, Zen, Shinto, Akan, Stoic, modern philosophy), eight or nine parallels a phase, a strip of six maps that run through all seven (the Ten Ox-herding Pictures, Attar's seven valleys, Teresa of Ávila's Interior Castle, the Kabbalah's Tree of Life, Nietzsche's three metamorphoses, the hero's journey), and one public-domain picture for each phase and the strip. Each phase now ends with a gate: four or five behaviours to tick (kept in the visitor's browser only), each new to its phase, with a line that they are ordinary behaviours, not marks of awakening. Each parallel's link to its phase shows on hover or tap. ALL NEW WORDING, proposed, in src/data/nostos-guide.ts (`echoes`, `maps`, `echoNote`). These parallels are the draft's own, not from Athena's talks, and the page says so; the five that Athena draws herself, or that quote her, link to her talk (Epictetus, Jung's archetype, Advaita and yoga, the bodhisattva, Nietzsche's "good premises").
 
+## The practical guide in the Nostos menu (6 November 2026)
+
+At Maria's request the guide joins the Nostos menu, after Learn. NEW WORDING, proposed: "Practical Guide" / «Πρακτικός οδηγός» (Maria's words for it). The guide is in English only, so the Greek menu links to the English page.
+
 ## The practical guide: no first thirty days (6 November 2026)
 
 At Maria's request the guide's last section, "Your first thirty days" (four weeks: Begin, Watch, Subtract, Widen), is removed, with its entry in the page's contents. Athena's closing line ("Follow love, and love will set you free.") stays at the foot of the page.

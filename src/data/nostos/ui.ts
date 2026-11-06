@@ -393,7 +393,8 @@ export const nostosUi = {
     // and the small menu that joins the four Nostos pages
     entry: {
       nav: 'Nostos',
-      sub: { label: 'Nostos', map: 'The Map', play: 'Learn', shelf: 'Bookshelf', sources: 'Talks & Articles' },
+      // guide: NEW WORDING, proposed (6 November 2026)
+      sub: { label: 'Nostos', map: 'The Map', play: 'Learn', guide: 'Practical Guide', shelf: 'Bookshelf', sources: 'Talks & Articles' },
       home: {
         title: 'Nostos',
         line: 'Study Athena’s teaching by doing: a map of the ideas, short activities drawn from the talks, and the books behind them.',
@@ -770,7 +771,7 @@ export const nostosUi = {
     },
     entry: {
       nav: 'Νόστος',
-      sub: { label: 'Νόστος', map: 'Ο χάρτης', play: 'Μάθηση', shelf: 'Βιβλιοθήκη', sources: 'Ομιλίες & άρθρα' },
+      sub: { label: 'Νόστος', map: 'Ο χάρτης', play: 'Μάθηση', guide: 'Πρακτικός οδηγός', shelf: 'Βιβλιοθήκη', sources: 'Ομιλίες & άρθρα' },
       home: {
         title: 'Νόστος',
         line: 'Μελετήστε τη διδασκαλία της Αθηνάς κάνοντας: ένας χάρτης των ιδεών, σύντομες δραστηριότητες από τις ομιλίες, και τα βιβλία πίσω από αυτές.',
