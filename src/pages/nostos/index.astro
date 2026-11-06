@@ -7,10 +7,14 @@ import NostosNav from '../../components/nostos/NostosNav.astro';
 import StarMap from '../../components/nostos/StarMap.astro';
 import ConceptNote from '../../components/nostos/ConceptNote.astro';
 import { nostosUi } from '../../data/nostos/ui';
+import Illustration from '../../components/Illustration.astro';
 import { concepts, groups, meta } from '../../lib/nostos';
-import { getLocale, mainLocale } from '../../lib/locale';
+import { pathOutline } from '../../lib/nostos-path';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 
-const ui = nostosUi[mainLocale(getLocale(Astro.url))];
+const locale = getLocale(Astro.url);
+const ui = nostosUi[mainLocale(locale)];
+const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 const t = ui.map;
 const byTheme = groups.map((g) => ({
   group: g,
@@ -45,6 +49,20 @@ const byTheme = groups.map((g) => ({
         </form>
       </header>
       <StarMap />
+    </div>
+  </section>
+
+  {/* the way into Learn, right under the map (client request, 6 November 2026; wording proposed) */}
+  <section class="section nostos-cta" aria-labelledby="nostos-cta-title">
+    <div class="wrap">
+      <div class="nostos-cta__sheet box on-blue" data-reveal>
+        <Illustration name="ladder" class="nostos-cta__mark" note={false} />
+        <div class="nostos-cta__text">
+          <h2 class="t-2" id="nostos-cta-title">{t.cta.title}</h2>
+          <p>{t.cta.line.replace('{l}', String(lessons))}</p>
+        </div>
+        <a class="btn" href={pathIn(locale, '/nostos/play/')}>{t.cta.go}</a>
+      </div>
     </div>
   </section>
 
@@ -117,6 +135,35 @@ const byTheme = groups.map((g) => ({
     .nostos-intro {
       max-width: 46rem;
     }
+  }
+  /* the way into Learn: a Greek-blue sheet, as on Home */
+  .nostos-cta {
+    padding-block: var(--space-m) 0;
+  }
+  .nostos-cta__sheet {
+    --box-r: var(--r-soft-2);
+    display: grid;
+    gap: var(--space-m);
+    align-items: center;
+  }
+  @media (min-width: 52rem) {
+    .nostos-cta__sheet {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      column-gap: var(--space-l);
+    }
+  }
+  .nostos-cta__sheet :global(.nostos-cta__mark) {
+    width: clamp(4rem, 3rem + 4vw, 6.5rem);
+    color: var(--creme-light);
+    --paper: var(--blue);
+  }
+  .nostos-cta__text {
+    display: grid;
+    gap: var(--space-xs);
+    max-width: 44rem;
+  }
+  .nostos-cta__text > * {
+    margin: 0;
   }
   /* search, under the intro; it needs the map's script, so without it it is not shown */
   .nostos-find {
@@ -211,7 +258,7 @@ const byTheme = groups.map((g) => ({
 
 <style is:global>
   /* ?embed: only the map (and a chosen star's note), none of the page around it */
-  html.nmap-embed :is(.header, .footer, .nnav-bar, .nostos-head, .nostos-list, .music, .cookies, .cnote__actions) {
+  html.nmap-embed :is(.header, .footer, .nnav-bar, .nostos-head, .nostos-cta, .nostos-list, .music, .cookies, .cnote__actions) {
     display: none !important;
   }
   html.nmap-embed {

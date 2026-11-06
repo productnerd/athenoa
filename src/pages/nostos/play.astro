@@ -111,7 +111,7 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
               <p class="nplay-review__note">{t.review.empty}</p>
               <div class="nplay-today__btns">
                 <button type="button" class="btn" data-review disabled>{t.review.go}</button>
-                <button type="button" class="btn btn--ghost" data-surprise>{t.surprise}</button>
+                {nostosFlags.activities && <button type="button" class="btn btn--ghost" data-surprise>{t.surprise}</button>}
               </div>
             </div>
             {
@@ -133,6 +133,7 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
     </section>
 
     {
+      nostosFlags.activities &&
       (Object.keys(acts) as (keyof typeof acts)[]).map((key) => (
         <section class="section nplay-sec" aria-labelledby={`nplay-${key}`}>
           <div class="wrap">

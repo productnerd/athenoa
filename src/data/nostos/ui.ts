@@ -30,6 +30,12 @@ export const nostosUi = {
       listTitle: 'All the ideas',
       listIntro: 'The same ideas, listed by theme.',
       openOnMap: 'Show on the map',
+      // NEW WORDING, proposed (6 November 2026): under the map, the way into Learn. {n}: ideas, {l}: lessons
+      cta: {
+        title: 'Learn every idea, one step at a time',
+        line: 'Every star on this map, in {l} short lessons, in the order Athena teaches them: the Greek words, the myths, the books behind them and questions to try yourself. A few minutes a day, and what you learn comes back just before you would forget it.',
+        go: 'Start learning',
+      },
     },
     note: {
       close: 'Close',
@@ -280,7 +286,7 @@ export const nostosUi = {
     // and the small menu that joins the four Nostos pages
     entry: {
       nav: 'Nostos',
-      sub: { label: 'Nostos', map: 'The map', play: 'Play', shelf: 'Bookshelf', sources: 'Talks & Articles' },
+      sub: { label: 'Nostos', map: 'The map', play: 'Learn', shelf: 'Bookshelf', sources: 'Talks & Articles' },
       home: {
         title: 'Nostos',
         line: 'Study Athena’s teaching by doing: a map of the ideas, short activities drawn from the talks, and the books behind them.',
@@ -318,6 +324,12 @@ export const nostosUi = {
       listTitle: 'Όλες οι ιδέες',
       listIntro: 'Οι ίδιες ιδέες, ανά θέμα.',
       openOnMap: 'Στον χάρτη',
+      // ΝΕΑ ΔΙΑΤΥΠΩΣΗ, προτεινόμενη (6 Νοεμβρίου 2026)
+      cta: {
+        title: 'Μάθετε κάθε ιδέα, ένα βήμα τη φορά',
+        line: 'Κάθε αστέρι αυτού του χάρτη, σε {l} σύντομα μαθήματα, με τη σειρά που τα διδάσκει η Αθηνά: οι ελληνικές λέξεις, οι μύθοι, τα βιβλία πίσω τους και ερωτήσεις για να δοκιμάσετε τον εαυτό σας. Λίγα λεπτά τη μέρα, και ό,τι μαθαίνετε επιστρέφει λίγο πριν το ξεχάσετε. Το περιεχόμενο είναι στα αγγλικά.',
+        go: 'Ξεκινήστε τη μάθηση',
+      },
     },
     note: {
       close: 'Κλείσιμο',
@@ -551,7 +563,7 @@ export const nostosUi = {
     },
     entry: {
       nav: 'Νόστος',
-      sub: { label: 'Νόστος', map: 'Ο χάρτης', play: 'Δραστηριότητες', shelf: 'Βιβλιοθήκη', sources: 'Ομιλίες & άρθρα' },
+      sub: { label: 'Νόστος', map: 'Ο χάρτης', play: 'Μάθηση', shelf: 'Βιβλιοθήκη', sources: 'Ομιλίες & άρθρα' },
       home: {
         title: 'Νόστος',
         line: 'Μελετήστε τη διδασκαλία της Αθηνάς κάνοντας: ένας χάρτης των ιδεών, σύντομες δραστηριότητες από τις ομιλίες, και τα βιβλία πίσω από αυτές.',

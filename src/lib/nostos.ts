@@ -187,7 +187,9 @@ export interface Star {
 
 /** The two activities that need Claude (Socratic sparring, Teach it back) stay hidden until Maria
  *  decides on the server function they need (tasks/nostos.md, "Claude-powered activities"). */
-export const nostosFlags = { claude: false };
+// activities: the separate activities on the Learn page (cards, quiz, ladders and the rest), hidden for
+// now so the page is one learning path (client direction, 6 November 2026); their code stays
+export const nostosFlags = { claude: false, activities: false };
 
 // ---------- The data ----------
 

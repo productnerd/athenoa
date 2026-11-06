@@ -9,9 +9,10 @@ import { barePath, getLocale, mainLocale, pathIn } from '../../lib/locale';
 const locale = getLocale(Astro.url);
 const t = nostosUi[mainLocale(locale)].entry.sub;
 const here = barePath(Astro.url.pathname).replace(/\/+$/, '/') ;
+// Learn first (client direction, 6 November 2026)
 const items = [
-  { href: '/nostos/', label: t.map },
   { href: '/nostos/play/', label: t.play },
+  { href: '/nostos/', label: t.map },
   { href: '/nostos/bookshelf/', label: t.shelf },
   { href: '/nostos/sources/', label: t.sources },
 ];
