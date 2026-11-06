@@ -52,20 +52,6 @@ const byTheme = groups.map((g) => ({
     </div>
   </section>
 
-  {/* the way into Learn, right under the map (client request, 6 November 2026; wording proposed) */}
-  <section class="section nostos-cta" aria-labelledby="nostos-cta-title">
-    <div class="wrap">
-      <div class="nostos-cta__sheet box on-blue" data-reveal>
-        <Illustration name="ladder" class="nostos-cta__mark" note={false} />
-        <div class="nostos-cta__text">
-          <h2 class="t-2" id="nostos-cta-title">{t.cta.title}</h2>
-          <p>{t.cta.line.replace('{l}', String(lessons))}</p>
-        </div>
-        <a class="btn" href={pathIn(locale, '/nostos/play/')}>{t.cta.go}</a>
-      </div>
-    </div>
-  </section>
-
   <section class="section nostos-list" aria-labelledby="nostos-list-title">
     <div class="wrap">
       <h2 class="t-2" id="nostos-list-title">{t.listTitle}</h2>
@@ -95,6 +81,23 @@ const byTheme = groups.map((g) => ({
           </div>
         ))
       }
+    </div>
+  </section>
+
+  {/* the way into Learn, at the foot of the page (client direction, 6 November 2026): the words, the
+      button under them, and Diotima's ladder large and faint across the whole sheet */}
+  <section class="section nostos-cta" aria-labelledby="nostos-cta-title">
+    <div class="wrap">
+      <div class="nostos-cta__sheet box on-blue" data-reveal>
+        <span class="nostos-cta__art" aria-hidden="true">
+          <Illustration name="ladder" note={false} />
+        </span>
+        <div class="nostos-cta__text">
+          <h2 class="t-2" id="nostos-cta-title">{t.cta.title}</h2>
+          <p>{t.cta.line.replace('{l}', String(lessons))}</p>
+          <a class="btn" href={pathIn(locale, '/nostos/play/')}>{t.cta.go}</a>
+        </div>
+      </div>
     </div>
   </section>
 </Base>
@@ -138,29 +141,38 @@ const byTheme = groups.map((g) => ({
   }
   /* the way into Learn: a Greek-blue sheet, as on Home */
   .nostos-cta {
-    padding-block: var(--space-m) 0;
+    padding-block: var(--space-l) 0;
   }
   .nostos-cta__sheet {
     --box-r: var(--r-soft-2);
-    display: grid;
-    gap: var(--space-m);
-    align-items: center;
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
   }
-  @media (min-width: 52rem) {
-    .nostos-cta__sheet {
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      column-gap: var(--space-l);
-    }
+  /* the ladder, large and faint, cropped by the sheet */
+  .nostos-cta__art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
   }
-  .nostos-cta__sheet :global(.nostos-cta__mark) {
-    width: clamp(4rem, 3rem + 4vw, 6.5rem);
-    color: var(--creme-light);
-    --paper: var(--blue);
+  .nostos-cta__art :global(svg) {
+    position: absolute;
+    right: -4%;
+    top: 50%;
+    width: auto;
+    height: 170%;
+    translate: 0 -46%;
+    color: var(--ink);
+    --paper: transparent;
+    opacity: 0.2;
   }
   .nostos-cta__text {
+    position: relative;
     display: grid;
-    gap: var(--space-xs);
-    max-width: 44rem;
+    gap: var(--space-s);
+    justify-items: start;
+    max-width: 40rem;
   }
   .nostos-cta__text > * {
     margin: 0;

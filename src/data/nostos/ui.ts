@@ -83,9 +83,7 @@ export const nostosUi = {
           go: 'Skip ahead',
           stay: 'Stay here',
         },
-        // NEW WORDING, proposed (6 November 2026): above each stage's first chapter
         rail: 'The stages of the journey',
-        stageN: 'Stage {i} of {n}',
         // NEW WORDING (6 November 2026, approved the same day): the nine stages of the arc, one per place on the
         // journey home (src/data/nostos-arc.json)
         stages: {
@@ -243,6 +241,35 @@ export const nostosUi = {
         badge: 'AI',
         intro:
           'An AI tutor that teaches from Athena’s talks and ideas. It sees the step you are on and what you have answered, and remembers your conversations. It is not Athena herself.',
+        // NEW WORDING, proposed (6 November 2026): what the tutor offers, and the "about you" it can use
+        offers: [
+          'Answers your questions on any idea, as you go',
+          'Gives practical advice for living what you learn',
+          'Finds examples from your own life and interests',
+          'Explains why an answer was right, and why yours was not',
+          'Reads your written answers and says what to add',
+          'Remembers what you have talked about',
+        ],
+        personal: 'All of it shaped to you: what you tell it about yourself, what you have learnt, and where you are on the path.',
+        aboutLabel: 'About you (optional)',
+        aboutHint: 'Who you are, what you do, what you care about and are curious about, how you like to learn. As long as you like.',
+        aboutPlaceholder: 'I am a teacher in Thessaloniki, new to Plato, drawn to the myths…',
+        promptTitle: 'Let your own AI write it',
+        promptLine: 'Paste this into the AI you use most (Claude, ChatGPT or another). It knows you from your conversations; paste its answer above.',
+        prompt:
+          'I am about to study ancient Greek philosophy, the teaching of Dr Athena Potari, with an AI tutor. From what you know of me from our conversations, write a profile of me for that tutor, 150 to 400 words, in the first person and in plain words: who I am, my work and daily life, what I care about and am curious about, my background in philosophy, spirituality or religion, how I like to learn (examples, stories, practice, theory), and what I am working through in my life that this study might help with. Leave out anything private I would not want to share.',
+        copy: 'Copy the prompt',
+        copied: 'Copied',
+        start: 'Start with the tutor',
+        keyKept: 'Your key is saved. Leave this empty to keep it.',
+        aboutYou: 'About you',
+        saved: 'Saved.',
+        whyNot: 'Why not yours',
+        whyNotThinking: 'The tutor is looking at your choice…',
+        otherIdea: 'That is Athena’s meaning of “{label}”.',
+        otherLink: 'That is how Athena connects “{a}” and “{b}”.',
+        otherImage: 'That is what “{image}” means.',
+        otherEnd: '“{label}”: {take}',
         keyTitle: 'Add your Claude API key',
         keyLine:
           'The tutor and the written questions run on your own Anthropic API key. It is kept only in this browser and sent only to Anthropic. What you use is billed to your Anthropic account.',
@@ -335,8 +362,6 @@ export const nostosUi = {
       metaDescription:
         'The long-form talks, interviews, podcasts and writings of Dr Athena Potari that Nostos is drawn from, each with the ideas it holds.',
       title: 'Talks & Articles',
-      // {t}: talks; {w}: writings
-      intro: '{t} talks, interviews and podcasts, in Greek and English, and {w} articles by Athena. Everything in Nostos is drawn from them.',
       talks: 'Talks',
       talksSub: 'video and audio',
       writings: 'Articles',
@@ -440,7 +465,6 @@ export const nostosUi = {
           stay: 'Μείνετε εδώ',
         },
         rail: 'Τα στάδια του ταξιδιού',
-        stageN: 'Στάδιο {i} από {n}',
         stages: {
           call: 'Το κάλεσμα',
           soul: 'Η ψυχή',
@@ -587,6 +611,34 @@ export const nostosUi = {
         badge: 'ΤΝ',
         intro:
           'Ένας βοηθός τεχνητής νοημοσύνης που διδάσκει από τις ομιλίες και τις ιδέες της Αθηνάς. Βλέπει το βήμα όπου βρίσκεστε και τι έχετε απαντήσει, και θυμάται τις συζητήσεις σας. Δεν είναι η ίδια η Αθηνά.',
+        offers: [
+          'Απαντά στις ερωτήσεις σας για κάθε ιδέα, καθώς προχωράτε',
+          'Δίνει πρακτικές συμβουλές για να ζήσετε όσα μαθαίνετε',
+          'Βρίσκει παραδείγματα από τη δική σας ζωή και τα ενδιαφέροντά σας',
+          'Εξηγεί γιατί μια απάντηση ήταν σωστή, και γιατί η δική σας όχι',
+          'Διαβάζει τις γραπτές απαντήσεις σας και λέει τι να προσθέσετε',
+          'Θυμάται όσα έχετε συζητήσει',
+        ],
+        personal: 'Όλα προσαρμοσμένα σε εσάς: σε όσα του πείτε για τον εαυτό σας, σε όσα έχετε μάθει, και στο σημείο του μονοπατιού όπου βρίσκεστε.',
+        aboutLabel: 'Για εσάς (προαιρετικό)',
+        aboutHint: 'Ποιος είστε, τι κάνετε, τι σας νοιάζει και τι σας κινεί την περιέργεια, πώς σας αρέσει να μαθαίνετε. Όσο εκτενώς θέλετε.',
+        aboutPlaceholder: 'Είμαι εκπαιδευτικός στη Θεσσαλονίκη, νέα στον Πλάτωνα, με έλκουν οι μύθοι…',
+        promptTitle: 'Αφήστε τη δική σας ΤΝ να το γράψει',
+        promptLine: 'Επικολλήστε αυτό στην ΤΝ που χρησιμοποιείτε περισσότερο (Claude, ChatGPT ή άλλη). Σας γνωρίζει από τις συζητήσεις σας· επικολλήστε την απάντησή της παραπάνω.',
+        prompt:
+          'Ετοιμάζομαι να μελετήσω αρχαία ελληνική φιλοσοφία, τη διδασκαλία της Δρ. Αθηνάς Ποτάρη, με έναν βοηθό τεχνητής νοημοσύνης. Από όσα ξέρεις για μένα από τις συζητήσεις μας, γράψε ένα προφίλ μου για αυτόν τον βοηθό, 150 έως 400 λέξεις, σε πρώτο πρόσωπο και με απλά λόγια: ποιος είμαι, η δουλειά και η καθημερινότητά μου, τι με νοιάζει και τι μου κινεί την περιέργεια, το υπόβαθρό μου στη φιλοσοφία, την πνευματικότητα ή τη θρησκεία, πώς μου αρέσει να μαθαίνω (παραδείγματα, ιστορίες, πράξη, θεωρία), και τι περνάω στη ζωή μου που αυτή η μελέτη θα μπορούσε να βοηθήσει. Άφησε έξω ό,τι προσωπικό δεν θα ήθελα να μοιραστώ.',
+        copy: 'Αντιγραφή του κειμένου',
+        copied: 'Αντιγράφηκε',
+        start: 'Ξεκινήστε με τον βοηθό',
+        keyKept: 'Το κλειδί σας είναι αποθηκευμένο. Αφήστε το κενό για να το κρατήσετε.',
+        aboutYou: 'Για εσάς',
+        saved: 'Αποθηκεύτηκε.',
+        whyNot: 'Γιατί όχι η δική σας',
+        whyNotThinking: 'Ο βοηθός εξετάζει την επιλογή σας…',
+        otherIdea: 'Αυτό είναι το νόημα που δίνει η Αθηνά στο «{label}».',
+        otherLink: 'Έτσι συνδέει η Αθηνά το «{a}» με το «{b}».',
+        otherImage: 'Αυτό σημαίνει το «{image}».',
+        otherEnd: '«{label}»: {take}',
         keyTitle: 'Προσθέστε το κλειδί σας για το Claude API',
         keyLine:
           'Ο βοηθός και οι γραπτές ερωτήσεις λειτουργούν με το δικό σας κλειδί Anthropic API. Φυλάσσεται μόνο σε αυτόν τον φυλλομετρητή και στέλνεται μόνο στην Anthropic. Ό,τι χρησιμοποιείτε χρεώνεται στον λογαριασμό σας στην Anthropic.',
@@ -674,7 +726,6 @@ export const nostosUi = {
       metaDescription:
         'Οι μεγάλες ομιλίες, συνεντεύξεις, εκπομπές και τα κείμενα της Δρ. Αθηνάς Ποτάρη από τα οποία προέρχεται ο Νόστος, το καθένα με τις ιδέες που περιέχει.',
       title: 'Ομιλίες & άρθρα',
-      intro: '{t} ομιλίες, συνεντεύξεις και εκπομπές, στα ελληνικά και στα αγγλικά, και {w} άρθρα της Αθηνάς. Από αυτά προέρχεται όλο το υλικό του Νόστου.',
       talks: 'Ομιλίες',
       talksSub: 'βίντεο και ήχος',
       writings: 'Άρθρα',

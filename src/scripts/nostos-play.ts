@@ -9,7 +9,7 @@
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
 import { navigate } from 'astro:transitions/client';
 import { award, load, save, today, type Progress } from './nostos-progress';
-import { hasKey, markAnswer, noteAnswer } from './nostos-tutor';
+import { explainWrong, hasKey, markAnswer, noteAnswer } from './nostos-tutor';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Words = Record<string, any>;
@@ -233,6 +233,7 @@ function choose(
   answered: (ok: boolean) => void,
   next: () => void,
   explain?: Node | null,
+  whyNot?: WhyNot,
 ) {
   const options = shuffle([right, ...wrongs]);
   const box = h('div', { class: 'nopts', role: 'group' });
@@ -254,7 +255,17 @@ function choose(
       }
       answered(ok);
       const go = h('button', { type: 'button', class: 'btn', onclick: next }, W.arena.next);
-      stage.append(explain ?? '', h('div', { class: 'nrow' }, go));
+      // a wrong choice: why it is not Athena's answer, from what the choice itself is (another idea's
+      // meaning, another link's reason...), or from the tutor (with the visitor's key)
+      const why = !ok && whyNot ? whyNot(text) : null;
+      const whyBox = why ? h('div', { class: 'nwhynot' }, h('p', { class: 'nwhynot__h' }, W.tutor.whyNot)) : null;
+      if (whyBox && typeof why === 'string') whyBox.append(h('p', null, why));
+      else if (whyBox && why) {
+        const line = h('p', { class: 'nsmall' }, W.tutor.whyNotThinking);
+        whyBox.append(line);
+        (why as Promise<string>).then((t) => line.replaceWith(h('p', null, t))).catch(() => whyBox.remove());
+      }
+      stage.append(whyBox ?? '', explain ?? '', h('div', { class: 'nrow' }, go));
       go.focus({ preventScroll: true });
     });
     box.append(button);
@@ -262,6 +273,9 @@ function choose(
   stage.append(prompt, box);
   (box.firstElementChild as HTMLElement)?.focus({ preventScroll: true });
 }
+
+/** Why a wrong choice is wrong: a line at once, a promise of one from the tutor, or nothing */
+type WhyNot = (chosen: string) => string | Promise<string> | null;
 
 // ---------- the activities ----------
 const INTERVALS = [0, 1, 3, 7, 16, 35];
@@ -1065,17 +1079,17 @@ const chapterPlace = (ci: number) => {
 const met = (p: Progress, u: string) => p.path?.[u] !== undefined;
 const lessonDone = (p: Progress, lesson: string[]) => lesson.every((u) => met(p, u));
 /** the first lesson with a step not met yet */
-/** Where the visitor is: the first lesson not yet walked after the furthest one they have begun (they may
- *  have skipped ahead: client direction, 6 November 2026), else the first not walked anywhere */
+/** Where the visitor is: the first lesson not yet walked from the one they last began (they may have
+ *  started a chapter out of order, from its card: client direction, 6 November 2026), else from the
+ *  furthest they have begun, else the first not walked anywhere */
 function here(p: Progress) {
   const all = outline.flatMap((c, ci) => c.lessons.map((lesson, li) => ({ ci, li, lesson })));
-  let furthest = -1;
-  all.forEach((x, k) => x.lesson.some((u) => met(p, u)) && (furthest = k));
   const open = (x: (typeof all)[number]) => !lessonDone(p, x.lesson);
-  const next = all.slice(Math.max(0, furthest)).find(open) ?? all.find(open);
+  let from = p.at && outline[p.at[0]]?.lessons[p.at[1]] ? all.findIndex((x) => x.ci === p.at![0] && x.li === p.at![1]) : -1;
+  if (from < 0) all.forEach((x, k) => x.lesson.some((u) => met(p, u)) && (from = k));
+  const next = all.slice(Math.max(0, from)).find(open) ?? all.find(open);
   return next ? { ci: next.ci, li: next.li } : null;
 }
-const flatIndex = (ci: number, li: number) => outline.slice(0, ci).reduce((n, c) => n + c.lessons.length, 0) + li;
 /** the steps due in Review: the least remembered and the longest waiting first */
 const dueList = (p: Progress) =>
   Object.entries(p.path ?? {})
@@ -1102,6 +1116,7 @@ async function stepsFor(ids: string[]) {
     picture: (id: string) => pictures[id] as Picture | undefined,
     step: (u: string): Step | undefined => (u.startsWith('c') ? (ideas.has(u.slice(1)) ? { k: 'c', concept: ideas.get(u.slice(1)) } : undefined) : all[u]),
     images: list.filter((x) => x.k === 'i').map((x) => x.meaning as string),
+    imageOf: new Map(list.filter((x) => x.k === 'i').map((x) => [x.meaning as string, x.image as string])),
     readings: list.filter((x) => x.k === 'm').flatMap((x) => x.beats.map((b: any) => b.reading as string)),
     parts: ety.flatMap((e: any) => e.parts) as { part: string; meaning: string }[],
   };
@@ -1176,14 +1191,17 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
       }
       const near = M.concepts.filter((x) => x.id !== c.id && x.take);
       const same = near.filter((x) => x.group === c.group);
-      const others = pick(same.length >= 2 ? same : near, 2).map((x) => clip(x.take, 200));
+      const chosen = pick(same.length >= 2 ? same : near, 2);
+      const owner = new Map(chosen.map((x) => [clip(x.take, 200), x.label]));
       return choose(
         stage,
         h('div', null, head, c.greek ? greek(c.greek, 'nbig') : null, h('h3', { class: 'nsubject', lang: 'en' }, c.label), h('p', { class: 'nsmall' }, W.path.meaning)),
         clip(c.take, 200),
-        others,
+        [...owner.keys()],
         answered,
         next,
+        null,
+        (text) => (owner.has(text) ? fill(W.tutor.otherIdea, { label: owner.get(text)! }) : null),
       );
     }
     case 'q':
@@ -1195,6 +1213,7 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         answered,
         next,
         h('div', { class: 'nexplain' }, s.explain ? h('p', { lang: 'en' }, s.explain) : null, from),
+        hasKey() ? (text) => explainWrong(feedBase, s.q, s.a, text, s.explain ?? '') : undefined,
       );
     case 'tf': {
       const after = h('div');
@@ -1238,7 +1257,9 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         2,
       );
       if (others.length < 2) return read(h('p', { class: 'nprompt nprompt--big', lang: 'en' }, s.image), h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, s.meaning), from));
-      return choose(stage, h('div', null, head, h('p', { class: 'nprompt nprompt--big', lang: 'en' }, s.image, unsure(s))), s.meaning, others, answered, next, from);
+      return choose(stage, h('div', null, head, h('p', { class: 'nprompt nprompt--big', lang: 'en' }, s.image, unsure(s))), s.meaning, others, answered, next, from, (text) =>
+        M.imageOf.has(text) ? fill(W.tutor.otherImage, { image: M.imageOf.get(text)! }) : null,
+      );
     }
     case 'm': {
       const beats: { beat: string; reading: string }[] = s.beats;
@@ -1290,6 +1311,12 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
       const name = (c: Concept) => (c.greek ? `${c.label} · ${c.greek}` : c.label);
       const answer = h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, `“${s.why}”`), h('p', { lang: 'en' }, `${fresh.label} · ${known.label}`));
       const alts = ((s.alts ?? []) as string[]).filter((x) => x !== s.bare);
+      const altOf = new Map(((s.alts ?? []) as string[]).map((x, k) => [x, (s.altsOf ?? [])[k] as [string, string] | undefined]));
+      const whyLink: WhyNot = (text) => {
+        const pair = altOf.get(text);
+        const [a, b] = pair ? [M.idea(pair[0]), M.idea(pair[1])] : [];
+        return a && b ? fill(W.tutor.otherLink, { a: a.label, b: b.label }) : null;
+      };
       const others = pick((s.not as string[]).map(M.idea).filter((c): c is Concept => !!c), 3);
       const how = alts.length >= 2 && (mode === 'learn' || Math.random() < 0.5 || others.length < 3);
       if (how) {
@@ -1318,6 +1345,7 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
           answered,
           next,
           answer,
+          whyLink,
         );
       }
       if (others.length < 3) return read(h('p', { class: 'nprompt', lang: 'en' }, `“${s.why}”`), answer);
@@ -1336,6 +1364,10 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         answered,
         next,
         answer,
+        (text) => {
+          const c = others.find((x) => name(x) === text);
+          return c ? fill(W.tutor.otherEnd, { label: c.label, take: clip(c.take, 160) }) : null;
+        },
       );
     }
     case 'p':
@@ -1428,8 +1460,10 @@ function meet(u: string, kind: string, ok: boolean | null) {
 async function walk(ci: number, li: number) {
   const chapter = outline[ci];
   const ids = chapter.lessons[li];
-  // the address names the lesson, so a reload comes back to it
+  // the address names the lesson, so a reload comes back to it; Continue goes on from here
   if (pageMode) history.replaceState(history.state, '', `${pathHref}?c=${ci}&l=${li}`);
+  const p0 = load();
+  if (p0.at?.[0] !== ci || p0.at?.[1] !== li) save({ ...p0, at: [ci, li] });
   const A = openArena(chapterName(ci), chapterPlace(ci));
   A.stage.replaceChildren(h('p', { class: 'nsmall' }, '…'));
   try {
@@ -1603,10 +1637,8 @@ function refresh(root: HTMLElement) {
       const now = !!at && at.ci === ci && at.li === li;
       stone.classList.toggle('is-done', done);
       stone.classList.toggle('is-here', now);
-      // a stone further on is not chosen directly (a skip is by chapter, from its card); one passed over
-      // by a skip stays open to come back to
-      const ahead = !done && !now && (!at || flatIndex(ci, li) > flatIndex(at.ci, at.li));
-      stone.disabled = ahead;
+      // only the stone you are on and those walked can be chosen; any other chapter is begun from its card
+      stone.disabled = !done && !now;
       if (now) stone.setAttribute('aria-current', 'step');
       else stone.removeAttribute('aria-current');
       const go = stone.querySelector<HTMLElement>('[data-node-go]');
@@ -1622,13 +1654,21 @@ function refresh(root: HTMLElement) {
       // a chapter not yet begun and further on than where you are: it can be skipped to, from its card
       const ci = Number(section.dataset.ch);
       const skip = section.querySelector<HTMLElement>('[data-skip-ch]');
-      if (skip) skip.hidden = !(at && flatIndex(ci, 0) > flatIndex(at.ci, at.li) && !c.lessons.some((l) => l.some((u) => met(p, u))));
+      // every chapter but the one you are in, and not yet walked to its end, can be begun from its card
+      if (skip) skip.hidden = !at || at.ci === ci || c.lessons.every((l) => lessonDone(p, l));
       const walked = c.lessons.filter((l) => lessonDone(p, l)).length;
       section.querySelector<HTMLElement>('[data-ch-fill]')?.style.setProperty('--f', String(walked / c.lessons.length));
       const count = section.querySelector<HTMLElement>('[data-ch-count]');
       // (nothing said while none is walked: the empty bar says it)
       if (count) count.textContent = walked ? fill(W.path.overall, { done: walked, n: c.lessons.length }) : '';
     });
+  }
+  // the pinned button: Begin, then Continue; gone once everything is walked
+  const goButton = root.querySelector<HTMLElement>('[data-path-go]');
+  if (goButton) {
+    goButton.hidden = !here(p);
+    const label = goButton.querySelector('[data-path-go-label]');
+    if (label) label.textContent = Object.keys(p.path ?? {}).length ? W.path.go : W.path.begin;
   }
   // the rail: a stage whose lessons are all walked is marked
   root.querySelectorAll<HTMLElement>('[data-rail]').forEach((m) => {
@@ -1735,6 +1775,14 @@ function setup() {
   });
   // the path and Review open their own page
   root.querySelector('[data-review]')?.addEventListener('click', () => navigate(`${pathHref}?review`), on);
+  root.querySelector('[data-path-go]')?.addEventListener(
+    'click',
+    () => {
+      const at = here(load());
+      if (at) navigate(`${pathHref}?c=${at.ci}&l=${at.li}`);
+    },
+    on,
+  );
   // a stone on the journey: that lesson, on the path page
   root.querySelector('[data-journey]')?.addEventListener(
     'click',

@@ -367,16 +367,19 @@ function connection(e: (typeof herLinks)[number], fresh: string, known: string):
   const near = [...(linksOf.get(fresh) ?? []), ...(linksOf.get(known) ?? [])].filter((x) => x !== e);
   const far = herLinks.filter((x) => x !== e && !near.includes(x)).sort((x, y) => hash(key + x.a + x.b).localeCompare(hash(key + y.a + y.b)));
   const seen = new Set<string>();
-  const alts = [...near.sort((x, y) => hash(key + x.a + x.b).localeCompare(hash(key + y.a + y.b))), ...far]
-    .map((x) => blank(x.why!, x.a, x.b))
-    .filter((w) => w.length > 12 && !seen.has(w) && (seen.add(w), true))
+  const picked = [...near.sort((x, y) => hash(key + x.a + x.b).localeCompare(hash(key + y.a + y.b))), ...far]
+    .map((x) => ({ text: blank(x.why!, x.a, x.b), of: [x.a, x.b] }))
+    .filter((w) => w.text.length > 12 && !seen.has(w.text) && (seen.add(w.text), true))
     .slice(0, 3);
+  const alts = picked.map((w) => w.text);
+  // (whose reason each one is, to say so when it is chosen)
+  const altsOf = picked.map((w) => w.of);
   let u = `k${hash(key)}`;
   while (taken.has(u)) u += 'x';
   taken.add(u);
   return {
     u,
-    step: { k: 'k', a: fresh, b: known, why: e.why, ask: blank(e.why!, known), bare: blank(e.why!, fresh, known), alts, not },
+    step: { k: 'k', a: fresh, b: known, why: e.why, ask: blank(e.why!, known), bare: blank(e.why!, fresh, known), alts, altsOf, not },
     at: -1,
     text: '',
   };

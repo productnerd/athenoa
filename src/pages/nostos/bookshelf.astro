@@ -131,6 +131,7 @@ const place = (k: number) =>
                         <span class="nroad__n">{k + 1}</span>
                         <Illustration name={b!.symbol} class="nroad__mark" note={false} />
                         <span class="nroad__title" lang={b!.w.greek_title ? 'grc' : 'en'}>{b!.w.greek_title ?? b!.w.title}</span>
+                        <span class="nroad__by" lang="en">{b!.w.author.split(/[;,]/)[0]}</span>
                       </span>
                     </button>
                     <span class="nroad__name" lang="en">{b!.w.title}</span>
@@ -150,11 +151,17 @@ const place = (k: number) =>
       books.map((b) => (
         <template data-book-body={b.w.id} data-paper={b.paper}>
           <BookBody work={b.w} />
+          {/* the cover as on the path: the Greek title (the English only where there is no Greek), and
+              its author; a long title is set smaller, so it stays on the cover */}
           <div data-cover>
             <Illustration name={b.symbol} class="nbook3d__mark" note={false} />
             <p class="nbook3d__author">{b.w.author}</p>
-            <p class="nbook3d__title" lang="en">{b.w.title}</p>
-            {b.w.greek_title && <p class="nbook3d__greek" lang="grc">{b.w.greek_title}</p>}
+            <p
+              class:list={['nbook3d__title', (b.w.greek_title ?? b.w.title).length > 22 && 'is-long', (b.w.greek_title ?? b.w.title).length > 40 && 'is-longer']}
+              lang={b.w.greek_title ? 'grc' : 'en'}
+            >
+              {b.w.greek_title ?? b.w.title}
+            </p>
           </div>
         </template>
       ))
@@ -624,7 +631,7 @@ const place = (k: number) =>
   .nroad__cover {
     inset: 0;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
     justify-items: center;
     align-items: center;
     padding: calc(var(--bw) * 0.09) calc(var(--bw) * 0.08) calc(var(--bw) * 0.1);
@@ -655,9 +662,20 @@ const place = (k: number) =>
     opacity: 0.85;
   }
   .nroad__cover :global(.nroad__mark) {
+    display: grid;
+    place-items: center;
     width: 62%;
+    height: 100%;
+    min-height: 0;
     color: var(--ci);
     --paper: var(--c);
+  }
+  /* (a tall drawing is shrunk into its row, so it never pushes the title onto the author) */
+  .nroad__cover :global(.nroad__mark svg) {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(var(--bh) * 0.4);
   }
   .nroad__title {
     font-family: var(--font-title);
@@ -672,6 +690,16 @@ const place = (k: number) =>
   .nroad__title:lang(grc) {
     font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
     font-size: calc(var(--bw) * 0.14);
+  }
+  /* the author, small, at the foot of the cover */
+  .nroad__by {
+    font-size: calc(var(--bw) * 0.085);
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
   }
   .nroad__name {
     max-width: 15rem;
@@ -855,6 +883,20 @@ const place = (k: number) =>
     font-size: var(--step-3);
     line-height: 1;
     letter-spacing: var(--title-tracking);
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+  .nbook3d__title:lang(grc) {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-weight: 500;
+    line-height: 1.08;
+  }
+  .nbook3d__title.is-long {
+    font-size: var(--step-2);
+  }
+  .nbook3d__title.is-longer {
+    font-size: var(--step-1);
   }
   .nbook3d__greek {
     font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;

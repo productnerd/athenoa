@@ -49,18 +49,33 @@ const tt = t.tutor;
         </button>
       </header>
       <div class="ntutor__body" data-tutor-key>
-        <p class="ntutor__strong">{tt.keyTitle}</p>
-        <p class="small">{tt.intro}</p>
-        <p class="small">{tt.keyLine}</p>
+        {/* what it offers, all of it shaped to the visitor */}
+        <ul class="ntutor__offers" data-tutor-offers>
+          {tt.offers.map((o) => <li>{o}</li>)}
+        </ul>
+        <p class="small" data-tutor-offers>{tt.personal}</p>
+        <p class="small" data-tutor-offers>{tt.intro}</p>
+        {/* one step: the key, and (if they like) who they are */}
         <form class="ntutor__keyform" data-tutor-keyform autocomplete="off">
           <label for="ntutor-key">{tt.keyLabel}</label>
           <input id="ntutor-key" type="password" spellcheck="false" placeholder="sk-ant-…" data-tutor-keyinput />
-          <button type="submit" class="btn">{tt.keySave}</button>
+          <p class="small" data-tutor-keykept hidden>{tt.keyKept}</p>
+          <p class="small">
+            <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">{tt.keyGet}</a>
+          </p>
+          <label for="ntutor-about">{tt.aboutLabel}</label>
+          <p class="small ntutor__hint">{tt.aboutHint}</p>
+          <textarea id="ntutor-about" rows="6" placeholder={tt.aboutPlaceholder} data-tutor-about></textarea>
+          <details class="ntutor__prompt">
+            <summary>{tt.promptTitle}</summary>
+            <p class="small">{tt.promptLine}</p>
+            <p class="ntutor__prompttext" data-tutor-prompt>{tt.prompt}</p>
+            <button type="button" class="ntutor__link" data-tutor-copy>{tt.copy}</button>
+          </details>
+          <p class="small ntutor__hint">{tt.keyLine}</p>
+          <button type="submit" class="btn">{tt.start}</button>
         </form>
         <p class="small ntutor__note" data-tutor-keynote aria-live="polite"></p>
-        <p class="small">
-          <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">{tt.keyGet}</a>
-        </p>
       </div>
       <div class="ntutor__chat" data-tutor-chat hidden>
         <ol class="ntutor__log" data-tutor-log aria-live="polite"></ol>
@@ -70,6 +85,7 @@ const tt = t.tutor;
           <button type="submit" class="btn">{tt.send}</button>
         </form>
         <div class="ntutor__foot">
+          <button type="button" class="ntutor__link" data-tutor-edit>{tt.aboutYou}</button>
           <button type="button" class="ntutor__link" data-tutor-forget>{tt.forget}</button>
           <button type="button" class="ntutor__link" data-tutor-remove>{tt.keyRemove}</button>
         </div>
@@ -252,6 +268,70 @@ const tt = t.tutor;
     display: grid;
     gap: 0.4rem;
     justify-items: start;
+  }
+  .ntutor__keyform > * {
+    margin: 0;
+  }
+  .ntutor__keyform label {
+    margin-top: 0.4rem;
+    font-weight: 600;
+  }
+  .ntutor__keyform textarea {
+    width: 100%;
+    padding: 0.6em 0.9em;
+    font: inherit;
+    font-size: var(--step--1);
+    line-height: 1.45;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+    resize: vertical;
+  }
+  .ntutor__hint {
+    color: var(--ink-soft);
+  }
+  .ntutor__offers {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--step--1);
+  }
+  .ntutor__offers li {
+    position: relative;
+    padding-left: 1.3rem;
+  }
+  /* each benefit on a small star, as on the map */
+  .ntutor__offers li::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 0.42em;
+    width: 0.55rem;
+    height: 0.55rem;
+    background: var(--blue);
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  }
+  .ntutor__prompt {
+    width: 100%;
+    font-size: var(--step--1);
+  }
+  .ntutor__prompt summary {
+    color: var(--ink-strong);
+    cursor: pointer;
+  }
+  .ntutor__prompt > * + * {
+    margin-top: 0.4rem;
+  }
+  .ntutor__prompttext {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    background: var(--creme-deep);
+    border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
+    user-select: all;
   }
   .ntutor__keyform label {
     font-size: var(--step--1);

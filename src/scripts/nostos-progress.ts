@@ -19,6 +19,8 @@ export interface Progress {
   threads?: Record<string, string>;
   /** the path: step id -> 1 once read, or [box, due] for a step that comes back in Review */
   path?: Record<string, 1 | [number, string]>;
+  /** the lesson last begun on the path: [chapter, lesson] (where Continue goes on from) */
+  at?: [number, number];
   v: 1;
 }
 
