@@ -965,16 +965,12 @@ html.motion .narena__stage > * {
 }
 /* the stage's symbol, above it all */
 .ntelos__art {
-  display: block;
-  width: clamp(4.5rem, 3.5rem + 4vw, 7rem);
+  display: grid;
+  justify-items: center;
   margin-bottom: 0.4rem;
-  color: var(--ink-strong);
 }
-.ntelos__art svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: 8rem;
+.ntelos__art:empty {
+  display: none;
 }
 .ntelos__word {
   font-size: clamp(4.5rem, 3rem + 7vw, 8.5rem);

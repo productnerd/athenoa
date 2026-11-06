@@ -1,0 +1,79 @@
+---
+// Nostos: a stage's milestone, as the Greeks marked their roads: a stele with the stage's number carved
+// at the top in Greek numerals and its symbol on its face. On the Learn page at the start of each
+// stage, and at the top of the loading screen and of a lesson's telos.
+import Illustration from '../Illustration.astro';
+import { stageArt } from '../../lib/nostos-stages';
+
+interface Props {
+  stage: string;
+  numeral: string;
+  /** small: for the loading screen and the telos */
+  size?: 'large' | 'small';
+}
+const { stage, numeral, size = 'large' } = Astro.props;
+---
+
+<div class:list={['nstele', size === 'small' && 'nstele--small']} aria-hidden="true">
+  <svg class="nstele__stone" viewBox="0 0 160 240" preserveAspectRatio="none" focusable="false">
+    <path class="nstele__fill" d="M33 226 37 52Q39 30 80 24Q121 30 123 52L127 226Z" />
+    <path d="M33 226 37 52Q39 30 80 24Q121 30 123 52L127 226M20 226H140V238H20ZM38 64Q80 58 122 64" />
+  </svg>
+  <span class="nstele__num" lang="grc">{numeral}</span>
+  {stageArt[stage] && <Illustration name={stageArt[stage]} class="nstele__art" note={false} />}
+</div>
+
+<style>
+  .nstele {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    width: clamp(8rem, 6rem + 6vw, 10.5rem);
+    aspect-ratio: 160 / 240;
+    color: var(--ink-strong);
+  }
+  .nstele--small {
+    width: clamp(6rem, 5rem + 3vw, 7.75rem);
+  }
+  .nstele__stone {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .nstele__stone path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .nstele__stone .nstele__fill {
+    fill: var(--paper);
+    stroke: none;
+  }
+  .nstele__num {
+    position: relative;
+    margin-top: 14%;
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-1);
+    letter-spacing: 0.04em;
+  }
+  .nstele--small .nstele__num {
+    font-size: var(--step-0);
+  }
+  .nstele :global(.nstele__art) {
+    position: relative;
+    width: 58%;
+    margin-top: 10%;
+    color: currentColor;
+  }
+  .nstele :global(.nstele__art svg) {
+    width: 100%;
+    height: auto;
+    max-height: 9rem;
+  }
+</style>

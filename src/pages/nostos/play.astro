@@ -20,7 +20,8 @@ import {
   sequences,
 } from '../../lib/nostos';
 import { askedTotal, pathOutline } from '../../lib/nostos-path';
-import { stageArt } from '../../lib/nostos-stages';
+import { numerals, stageArt } from '../../lib/nostos-stages';
+import StageStele from '../../components/nostos/StageStele.astro';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
 
@@ -143,7 +144,6 @@ const placeIn = (ci: number) => {
 const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
 // each stage's own drawing (the site's symbols), on its milestone and faint across its chapters' cards,
 // and its number in Greek numerals, carved on the milestone (client direction, 6 November 2026)
-const numerals = ['Α΄', 'Β΄', 'Γ΄', 'Δ΄', 'Ε΄', 'ΣΤ΄', 'Ζ΄', 'Η΄', 'Θ΄', 'Ι΄'];
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -186,14 +186,7 @@ const numerals = ['Α΄', 'Β΄', 'Γ΄', 'Δ΄', 'Ε΄', 'ΣΤ΄', 'Ζ΄', 'Η�
               <header class:list={['njstage', ci === 0 && 'is-first']} id={`stage-${c.stage}`}>
                 {/* a milestone, as the Greeks marked their roads: the stage's drawing on its face, its
                     number carved at the top */}
-                <div class="njstage__stele" aria-hidden="true">
-                  <svg class="njstage__stone" viewBox="0 0 160 240" preserveAspectRatio="none" focusable="false">
-                    <path class="njstage__fill" d="M33 226 37 52Q39 30 80 24Q121 30 123 52L127 226Z" />
-                    <path d="M33 226 37 52Q39 30 80 24Q121 30 123 52L127 226M20 226H140V238H20ZM38 64Q80 58 122 64" />
-                  </svg>
-                  <span class="njstage__num" lang="grc">{numerals[stageIds.indexOf(c.stage!)]}</span>
-                  {stageArt[c.stage!] && <Illustration name={stageArt[c.stage!]} class="njstage__art" note={false} />}
-                </div>
+                <StageStele stage={c.stage!} numeral={numerals[stageIds.indexOf(c.stage!)]} />
                 <h2 class="njstage__title">{stageName(c.stage!)}</h2>
                 {stageAbout(c.stage!) && <p class="njstage__about">{stageAbout(c.stage!)}</p>}
               </header>
@@ -594,51 +587,8 @@ const numerals = ['Α΄', 'Β΄', 'Γ΄', 'Δ΄', 'Ε΄', 'ΣΤ΄', 'Ζ΄', 'Η�
   .njstage.is-first {
     margin-top: var(--space-l);
   }
-  .njstage__stele {
-    position: relative;
-    display: grid;
-    justify-items: center;
-    width: clamp(8rem, 6rem + 6vw, 10.5rem);
-    aspect-ratio: 160 / 240;
+  .njstage > :global(.nstele) {
     margin-bottom: 0.6rem;
-    color: var(--ink-strong);
-  }
-  .njstage__stone {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  .njstage__stone path {
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2.4;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    vector-effect: non-scaling-stroke;
-  }
-  .njstage__stone .njstage__fill {
-    fill: var(--paper);
-    stroke: none;
-  }
-  .njstage__num {
-    position: relative;
-    margin-top: 14%;
-    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
-    font-size: var(--step-1);
-    letter-spacing: 0.04em;
-  }
-  .njstage__stele :global(.njstage__art) {
-    position: relative;
-    width: 58%;
-    margin-top: 10%;
-    color: currentColor;
-  }
-  .njstage__stele :global(.njstage__art svg) {
-    width: 100%;
-    height: auto;
-    max-height: 9rem;
   }
   /* the stage's drawing, faint and large across each of its chapters' cards, cropped by the card */
   .njch__art {

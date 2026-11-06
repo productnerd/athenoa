@@ -1541,7 +1541,7 @@ function walked(A: Arena, ci: number, li: number, fresh: boolean, M?: Material) 
   const chapter = outline[ci];
   const last = li === chapter.lessons.length - 1;
   const at = here(load());
-  if (pageMode) return telos(ci, li, at, M);
+  if (pageMode) return telos(ci, li, at);
   A.stage.replaceChildren(
     h(
       'div',
@@ -1563,16 +1563,10 @@ function walked(A: Arena, ci: number, li: number, fresh: boolean, M?: Material) 
 }
 
 /** The end of a lesson on the path page: a screen of its own over the lesson (client direction) */
-function telos(ci: number, li: number, at: { ci: number; li: number } | null, M?: Material) {
+function telos(ci: number, li: number, at: { ci: number; li: number } | null) {
   hideMap();
   const p = load();
   const chapter = outline[ci];
-  const last = li === chapter.lessons.length - 1;
-  // the ideas met in this lesson, by their Greek where they have it
-  const ideas = chapter.lessons[li]
-    .filter((u) => u.startsWith('c'))
-    .map((u) => M?.idea(u.slice(1)))
-    .filter((c): c is Concept => !!c);
   const close = (then: () => void) => {
     screen.classList.add('is-leaving');
     window.setTimeout(() => {
@@ -1580,9 +1574,9 @@ function telos(ci: number, li: number, at: { ci: number; li: number } | null, M?
       then();
     }, 450);
   };
-  // the stage's own symbol, at the head (client direction)
+  // the stage's milestone, at the head (client direction)
   const art = h('span', { class: 'ntelos__art', 'aria-hidden': 'true' });
-  const tpl = document.querySelector<HTMLTemplateElement>(`template[data-stage-art="${chapter.stage ?? ''}"]`);
+  const tpl = document.querySelector<HTMLTemplateElement>(`template[data-stage-stele="${chapter.stage ?? ''}"]`);
   if (tpl) art.append(tpl.content.cloneNode(true));
   const stones = h(
     'ol',
@@ -1599,13 +1593,6 @@ function telos(ci: number, li: number, at: { ci: number; li: number } | null, M?
       h('p', { class: 'ntelos__place', id: 'ntelos-word' }, fill(W.path.lessonDone, { i: li + 1, n: chapter.lessons.length })),
       greek(W.arena.end, 'ntelos__word'),
       stones,
-      ideas.length
-        ? h(
-            'ul',
-            { class: 'ntelos__ideas' },
-            ...ideas.map((c) => h('li', null, c.greek ? greek(c.greek) : null, h('span', { lang: 'en' }, c.label))),
-          )
-        : null,
       at ? null : h('p', { class: 'ntelos__msg' }, W.path.doneAll),
       h(
         'div',
@@ -1829,6 +1816,10 @@ function setup() {
     const loader = document.querySelector<HTMLElement>('[data-load]');
     const began = performance.now();
     if (loader) {
+      // the milestone of the stage being entered
+      const entering = params.has('c') && outline[c] ? c : (at?.ci ?? -1);
+      const stele = document.querySelector<HTMLTemplateElement>(`template[data-stage-stele="${outline[entering]?.stage ?? ''}"]`);
+      if (stele) loader.querySelector('[data-load-stele]')?.append(stele.content.cloneNode(true));
       const quotes = JSON.parse(document.querySelector('[data-quotes]')?.textContent ?? '[]') as string[];
       const quote = loader.querySelector('[data-load-quote]');
       if (quote && quotes.length) quote.textContent = quotes[Math.floor(Math.random() * quotes.length)];

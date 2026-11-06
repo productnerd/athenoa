@@ -9,8 +9,8 @@ import Base from '../../layouts/Base.astro';
 import { nostosUi } from '../../data/nostos/ui';
 import { pathOutline } from '../../lib/nostos-path';
 import { lines } from '../../lib/nostos';
-import { stageArt } from '../../lib/nostos-stages';
-import Illustration from '../../components/Illustration.astro';
+import StageStele from '../../components/nostos/StageStele.astro';
+import { numerals } from '../../lib/nostos-stages';
 import { starShapes } from '../../lib/nostos-shapes';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -28,6 +28,7 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
   {/* the loading screen, on entering the learning flow: shown from the start, so the page never flashes
       before it; the script fills in a line and fades it away once the lesson is ready */}
   <div class="nload" data-load role="status" aria-live="polite">
+    <div class="nload__stele" data-load-stele></div>
     <figure class="nload__quote">
       <blockquote class="hand hand--l" lang="en" data-load-quote></blockquote>
       <figcaption>{t.path.loadBy}</figcaption>
@@ -42,10 +43,10 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
     <p class="visually-hidden">{t.path.loading}</p>
   </div>
   <script type="application/json" data-quotes set:html={JSON.stringify(quotes)} />
-  {/* the stages' symbols, for the head of a lesson's telos */}
-  {Object.entries(stageArt).map(([stage, art]) => (
-    <template data-stage-art={stage}>
-      <Illustration name={art} note={false} />
+  {/* each stage's milestone, for the top of the loading screen and of a lesson's telos */}
+  {[...new Set(pathOutline.map((c) => c.stage).filter((x): x is string => !!x))].map((stage, k) => (
+    <template data-stage-stele={stage}>
+      <StageStele stage={stage} numeral={numerals[k]} size="small" />
     </template>
   ))}
 
@@ -169,6 +170,16 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
   .nload.is-leaving {
     opacity: 0;
     pointer-events: none;
+  }
+  .nload__stele:empty {
+    display: none;
+  }
+  .nload__stele {
+    opacity: 0;
+    transition: opacity 0.9s var(--ease-out);
+  }
+  .nload.is-on .nload__stele {
+    opacity: 1;
   }
   .nload__quote {
     max-width: 36rem;
