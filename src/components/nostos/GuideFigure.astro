@@ -59,8 +59,11 @@ const by = credit && [credit.artist, credit.title, credit.date].filter((x) => x 
   .ng-fig {
     margin: 0;
   }
+  /* the frame hugs the picture, which is shown whole (never cropped), at most 30rem tall */
   .ng-fig__frame {
     position: relative;
+    width: fit-content;
+    max-width: 100%;
     overflow: hidden;
     border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
     background: var(--creme-deep);
@@ -75,10 +78,10 @@ const by = credit && [credit.artist, credit.title, credit.date].filter((x) => x 
   }
   .ng-fig__btn :global(img) {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
-    max-height: 26rem;
-    object-fit: cover;
+    max-height: 30rem;
   }
   .ng-fig__btn:focus-visible {
     outline: none;

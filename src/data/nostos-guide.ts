@@ -896,7 +896,7 @@ export const echoes: Record<string, { image?: EchoImage; items: Echo[] }> = {
     image: {
       id: 'yogi',
       kind: 'hindu',
-      name: 'A yogi in meditation',
+      name: 'King Mandhata seated as a yogi',
       link: 'The yogi sits as the witness, watching body, breath and thought without being them: the goal of Patanjali and of Advaita alike. Athena’s “know the knower”; Athena sets Greek philosophy, lived as practice, beside yoga.',
     },
     items: [
