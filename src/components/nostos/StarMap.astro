@@ -10,7 +10,7 @@
 // exploring only: every activity, "Find the link" among them, is on the play page (client direction,
 // 4 November 2026).
 //
-// The stars are drawn straight onto the page, almost the full width of the window, in the page's own
+// The stars are drawn straight onto the page, the full width of the window, in the page's own
 // inks: blue on paper by day, crème on night blue by night (client direction, 4 November 2026: no
 // separate panel around them).
 //
@@ -96,7 +96,10 @@ const playHref = pathIn(locale, '/nostos/play/');
       <Illustration name="portal-b-stars-3" class="nmap__field nmap__field--far" note={false} />
     </div>
 
-    <div class="nmap__view" data-view>
+    {/* the map, and the note beside it: the note is outside the map's faded edges, which would
+        otherwise cut it off (the sheet on phones showed only down to the map's foot) */}
+    <div class="nmap__stage">
+    <div class="nmap__view" data-view style={`--map-ratio: ${mw} / ${mh}`}>
       <div class="nmap__world" data-world>
         <svg
           class="nmap__svg"
@@ -165,7 +168,8 @@ const playHref = pathIn(locale, '/nostos/play/');
           </g>
         </svg>
       </div>
-        <aside class="nmap__note box" data-note hidden aria-label="" tabindex="-1">
+    </div>
+      <aside class="nmap__note box" data-note hidden aria-label="" tabindex="-1">
         <button type="button" class="nmap__close" data-close aria-label={ui.note.close}>
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
             <path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path>
@@ -289,15 +293,43 @@ const playHref = pathIn(locale, '/nostos/play/');
       k = nk;
       apply(glide);
     };
+    // the part of the map a star can be seen in, on the screen: inside the window, below the sticky
+    // menus, and clear of the note (beside the map on wide screens, a sheet from the foot on phones).
+    // dy: as it will be once the page has scrolled down by that much
+    const clearArea = (dy = 0) => {
+      const box = view.getBoundingClientRect();
+      const top = box.top - dy;
+      const menus = Math.max(0, ...Array.from(document.querySelectorAll('.header, .nnav-bar'), (el) => el.getBoundingClientRect().bottom));
+      let [l, t, r, b] = [box.left, Math.max(top, menus), box.right, Math.min(top + box.height, window.innerHeight)];
+      if (!note.hidden) {
+        const n = note.getBoundingClientRect();
+        if (getComputedStyle(note).position === 'fixed') b = Math.min(b, n.top);
+        else r = Math.min(r, n.left);
+      }
+      return { left: box.left, top, menus, l, t, r, b };
+    };
+    // move the map so a star is in that part, if it is not already (always: for search and links), so
+    // the note never hides it (client direction, 6 November 2026)
+    const bring = (id: string, always = false, glide = true) => {
+      let a = clearArea();
+      // too little of the map left in sight (above the sheet, or under the fold): the page scrolls first
+      if (a.b - a.t < Math.min(220, window.innerHeight * 0.3)) {
+        const dy = a.top - a.menus;
+        window.scrollBy({ top: dy, behavior: reduced() ? 'auto' : 'smooth' });
+        a = clearArea(dy);
+      }
+      const [sx, sy] = screenOf(id);
+      const x = a.left + sx;
+      const y = a.top + sy;
+      const m = 40;
+      if (!always && x > a.l + m && x < a.r - m && y > a.t + m && y < a.b - m) return;
+      tx += (a.l + a.r) / 2 - x;
+      ty += (a.t + a.b) / 2 - y;
+      apply(glide);
+    };
     const centreOn = (id: string, glide = true) => {
       k = Math.max(k, 1.5);
-      const [sx, sy] = screenOf(id);
-      // leave room for the note on the right on wide screens, and for the sheet at the foot on phones
-      // (inside a lesson there is no note: the star goes to the middle)
-      const wide = window.innerWidth >= 960 && !embed;
-      tx += (wide ? W * 0.36 : W / 2) - sx;
-      ty += (wide || embed ? H / 2 : H * 0.32) - sy;
-      apply(glide);
+      bring(id, true, glide);
     };
     measure();
     labels();
@@ -461,6 +493,7 @@ const playHref = pathIn(locale, '/nostos/play/');
       if (!id) return closeNote();
       openNote(id);
       if (focus) centreOn(id);
+      else bring(id);
     };
     root.querySelector('[data-close]')!.addEventListener('click', () => select(null), on);
     document.addEventListener(
@@ -477,8 +510,20 @@ const playHref = pathIn(locale, '/nostos/play/');
         const link = (event.target as Element).closest<HTMLElement>('[data-goto]');
         if (!link || !byId.has(link.dataset.goto!)) return;
         event.preventDefault();
-        if (!root.contains(link)) root.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
-        select(link.dataset.goto!, true);
+        const id = link.dataset.goto!;
+        if (root.contains(link)) return select(id, true);
+        // from the list under the map: up to the map first, then the star (measured once the page is still)
+        chosen = id;
+        paint(id);
+        root.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'start' });
+        let done = false;
+        const then = () => {
+          if (done || chosen !== id) return;
+          done = true;
+          select(id, true);
+        };
+        window.addEventListener('scrollend', then, { once: true, signal: ac.signal });
+        window.setTimeout(then, 1000);
       },
       on,
     );
@@ -579,9 +624,8 @@ const playHref = pathIn(locale, '/nostos/play/');
     --g-thinkers: #bd6424;
     --g-gods: #77307f;
     position: relative;
-    width: calc(100vw - 2 * var(--map-edge));
-    margin-left: calc(50% - 50vw + var(--map-edge));
-    --map-edge: clamp(0.6rem, 0.2rem + 1.4vw, 1.6rem);
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
   }
   .nmap__sky {
     position: relative;
@@ -624,15 +668,26 @@ const playHref = pathIn(locale, '/nostos/play/');
       color var(--dur-1) var(--hover-delay);
   }
   /* ---------- the map ---------- */
+  .nmap__stage {
+    position: relative;
+    min-width: 0;
+  }
+  /* as wide as the window and as tall as the map is at that width, so the furthest ideas reach the
+     window's edges (client direction, 6 November 2026); never shorter than a phone's view of it */
   .nmap__view {
     position: relative;
-    height: clamp(26rem, 74vh, 52rem);
+    width: 100%;
+    /* (min-width 0: or the least height would widen it, through its shape, past the window on phones) */
+    min-width: 0;
+    aspect-ratio: var(--map-ratio);
+    min-height: 26rem;
     overflow: hidden;
-    /* the stars fade out towards every edge, so the map has no hard border (client direction) */
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent),
+    /* the stars fade out towards every edge, so the map has no hard border (client direction): only
+       a narrow band at the sides, where the furthest stars sit */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 2.5%, #000 97.5%, transparent),
       linear-gradient(to bottom, transparent, #000 9%, #000 88%, transparent);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent),
+    mask-image: linear-gradient(to right, transparent, #000 2.5%, #000 97.5%, transparent),
       linear-gradient(to bottom, transparent, #000 9%, #000 88%, transparent);
     mask-composite: intersect;
     touch-action: none;
@@ -861,7 +916,8 @@ const playHref = pathIn(locale, '/nostos/play/');
     position: fixed;
     inset: auto 0.5rem 0.5rem;
     z-index: 60;
-    max-height: 72dvh;
+    /* a little over half the screen, so the chosen star stays in sight above it (it scrolls inside) */
+    max-height: 56dvh;
     padding: 0;
     color: var(--ink);
   }

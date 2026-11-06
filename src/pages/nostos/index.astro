@@ -8,7 +8,7 @@ import StarMap from '../../components/nostos/StarMap.astro';
 import ConceptNote from '../../components/nostos/ConceptNote.astro';
 import { nostosUi } from '../../data/nostos/ui';
 import Illustration from '../../components/Illustration.astro';
-import { concepts, groups, meta } from '../../lib/nostos';
+import { concepts, groups, meta, stars } from '../../lib/nostos';
 import { pathOutline } from '../../lib/nostos-path';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 
@@ -16,6 +16,11 @@ const locale = getLocale(Astro.url);
 const ui = nostosUi[mainLocale(locale)];
 const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
 const t = ui.map;
+// each idea's dot in the list, faint to bright by how central it is: the measure behind the size of
+// its star (client direction, 6 November 2026), from the least central idea (faintest) to the most
+const central = new Map(stars.map((s) => [s.id, s.c]));
+const [cLow, cHigh] = [Math.min(...central.values()), Math.max(...central.values())];
+const glow = (id: string) => (((central.get(id) ?? cLow) - cLow) / (cHigh - cLow || 1)).toFixed(3);
 const byTheme = groups.map((g) => ({
   group: g,
   label: ui.groups[g.id as keyof typeof ui.groups] ?? g.label,
@@ -65,6 +70,7 @@ const byTheme = groups.map((g) => ({
                 <li id={`c-${c.id}`}>
                   <details>
                     <summary>
+                      <span class="nostos-list__dot" style={`--b: ${glow(c.id)}`} aria-hidden="true"></span>
                       <span class="nostos-list__label">{c.label}</span>
                       {c.greek && <span class="nostos-list__greek" lang="grc">{c.greek}</span>}
                     </summary>
@@ -232,6 +238,12 @@ const byTheme = groups.map((g) => ({
       align-items: start;
     }
   }
+  /* three on wider screens: desktops and tablets held sideways (client direction, 6 November 2026) */
+  @media (min-width: 64rem) {
+    .nostos-list__items {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
   .nostos-list__items summary {
     display: flex;
     flex-wrap: wrap;
@@ -244,6 +256,17 @@ const byTheme = groups.map((g) => ({
   }
   .nostos-list__items summary::-webkit-details-marker {
     display: none;
+  }
+  .nostos-list__dot {
+    flex: none;
+    align-self: center;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: -0.2rem;
+    border-radius: 50%;
+    background: var(--ink-strong);
+    opacity: calc(0.1 + 0.9 * var(--b));
+    box-shadow: 0 0 calc(var(--b) * 0.7rem) calc(var(--b) * 0.1rem) color-mix(in srgb, var(--ink-strong) 55%, transparent);
   }
   .nostos-list__label {
     font-weight: 560;
@@ -281,6 +304,8 @@ const byTheme = groups.map((g) => ({
   }
   /* inside a lesson the stars fade out towards all four edges, so the map has no hard border */
   html.nmap-embed .nmap__view {
+    aspect-ratio: auto;
+    height: clamp(26rem, 74vh, 52rem);
     -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
       linear-gradient(to bottom, transparent, #000 12%, #000 84%, transparent);
     -webkit-mask-composite: source-in;

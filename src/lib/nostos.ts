@@ -181,6 +181,8 @@ export interface Star {
   x: number;
   y: number;
   r: number;
+  /** how central the idea is, 0 to 1: how many ideas Athena links it to and how often it comes up */
+  c: number;
 }
 
 // ---------- Switches ----------
@@ -343,10 +345,10 @@ if (missing.length) {
 export const mapViewBox = layout.viewBox;
 export const stars: Star[] = concepts.map((c, i) => {
   const at = layout.stars[c.id];
-  if (at) return { id: c.id, x: at[0], y: at[1], r: at[2] };
+  if (at) return { id: c.id, x: at[0], y: at[1], r: at[2], c: at[3] ?? 0 };
   const g = groups.findIndex((group) => group.id === c.group);
   const a = (g / groups.length) * Math.PI * 2 - Math.PI / 2;
-  return { id: c.id, x: Math.cos(a) * 540 + (i % 5) * 12, y: Math.sin(a) * 300, r: 6 };
+  return { id: c.id, x: Math.cos(a) * 540 + (i % 5) * 12, y: Math.sin(a) * 300, r: 6, c: 0 };
 });
 /** Each star's three strongest links, the lines the map shows by default */
 export const coreLinks = layout.core.filter(([a, b]) => conceptMap.has(a) && conceptMap.has(b));

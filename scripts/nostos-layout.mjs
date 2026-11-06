@@ -83,6 +83,15 @@ const sim = forceSimulation(nodes)
 // Run until the layout settles (the default cooling reaches its floor after about 300 ticks)
 for (let i = 0; i < 600; i++) sim.tick();
 
+// The sky is made wide, about as wide as a screen, so that at the full width of the window the furthest
+// ideas reach its edges and the whole map is still in sight (client direction, 6 November 2026): the
+// places are spread sideways only, the stars keep their sizes
+const wide = 1.8;
+const spanX = Math.max(...nodes.map((n) => n.x + n.r)) - Math.min(...nodes.map((n) => n.x - n.r));
+const spanY = Math.max(...nodes.map((n) => n.y + n.r)) - Math.min(...nodes.map((n) => n.y - n.r));
+const stretch = Math.max(1, (wide * spanY) / spanX);
+for (const n of nodes) n.x *= stretch;
+
 // The box around every star with its label room, for the map's viewBox
 const pad = 40;
 const minX = Math.min(...nodes.map((n) => n.x - n.r)) - pad;
@@ -100,7 +109,8 @@ const out = {
     .digest('hex')
     .slice(0, 12),
   viewBox: [r1(minX), r1(minY), r1(maxX - minX), r1(maxY - minY)],
-  stars: Object.fromEntries(nodes.map((n) => [n.id, [r1(n.x), r1(n.y), r1(n.r)]])),
+  // each star: its place, its radius, and how central the idea is (0 to 1, the measure behind the radius)
+  stars: Object.fromEntries(nodes.map((n) => [n.id, [r1(n.x), r1(n.y), r1(n.r), Math.round((scores.get(n.id) / top) * 1000) / 1000]])),
   core: [...core].map((l) => [l.a, l.b]),
 };
 writeFileSync(new URL('../src/data/nostos-layout.json', import.meta.url), JSON.stringify(out) + '\n');

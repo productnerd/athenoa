@@ -30,7 +30,8 @@ export const nostosUi = {
       themes: 'Themes',
       // the readable list under the map (and the whole page without JavaScript)
       listTitle: 'All the ideas',
-      listIntro: 'The same ideas, listed by theme.',
+      // NEW WORDING, proposed (6 November 2026): the dot beside each idea
+      listIntro: 'The same ideas, listed by theme. The brighter the dot, the more central the idea is to Athena’s teaching.',
       openOnMap: 'Show on the map',
       // NEW WORDING (6 November 2026, approved the same day): under the map, the way into Learn. {n}: ideas, {l}: lessons
       cta: {
@@ -431,7 +432,7 @@ export const nostosUi = {
       noMatch: 'Δεν υπάρχει ακόμη αστέρι με αυτό το όνομα',
       themes: 'Θέματα',
       listTitle: 'Όλες οι ιδέες',
-      listIntro: 'Οι ίδιες ιδέες, ανά θέμα.',
+      listIntro: 'Οι ίδιες ιδέες, ανά θέμα. Όσο πιο φωτεινή η κουκκίδα, τόσο πιο κεντρική είναι η ιδέα στη διδασκαλία της Αθηνάς.',
       openOnMap: 'Στον χάρτη',
       // ΝΕΑ ΔΙΑΤΥΠΩΣΗ, προτεινόμενη (6 Νοεμβρίου 2026)
       cta: {
