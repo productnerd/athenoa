@@ -5,7 +5,7 @@
 //
 // Settings are the prototype's (reference/nostos-prototype/app.js, buildGraph), except the radius: it is
 // a function of how connected an idea is and how often it is used (client direction, 6 November 2026),
-// 5 to 36 on a soft curve: its links on the map (two thirds) and its mentions in the talks (one third;
+// 3 to 48 on a steep curve: its links on the map (two thirds) and its mentions in the talks (one third;
 // where a count was only estimated from the weight, the links alone); each link scored as her own link 0.6 +
 // npmi x 2.2 + log1p(co) x 0.18 + (weight a + weight b) / 18; the three strongest per star pull the
 // layout; each theme is anchored on an ellipse 540 by 300 so themes form regions; charge
@@ -39,7 +39,8 @@ const centrality = (c) => {
 };
 const scores = new Map(concepts.map((c) => [c.id, centrality(c)]));
 const top = Math.max(...scores.values());
-const radius = (id) => 5 + Math.pow(scores.get(id) / top, 1.35) * 31;
+// a steep curve over a wide range, so the central ideas stand out and the small ones stay small
+const radius = (id) => 3 + Math.pow(scores.get(id) / top, 2.2) * 45;
 
 const nodes = concepts.map((c) => ({ id: c.id, group: c.group, r: radius(c.id) }));
 const node = new Map(nodes.map((n) => [n.id, n]));
