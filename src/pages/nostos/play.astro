@@ -140,6 +140,21 @@ const placeIn = (ci: number) => {
   return { i: same.indexOf(pathOutline[ci]) + 1, n: same.length };
 };
 const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
+// each stage's own drawing (the site's symbols), on its milestone and faint across its chapters' cards,
+// and its number in Greek numerals, carved on the milestone (client direction, 6 November 2026)
+const stageArt: Record<string, string> = {
+  call: 'torch',
+  soul: 'butterfly',
+  goodlife: 'olive-branch',
+  eros: 'ladder',
+  delphi: 'tripod',
+  cave: 'cave-sun',
+  cosmos: 'monad',
+  mysteries: 'wheat',
+  return: 'sea-boat',
+};
+const numerals = ['Α΄', 'Β΄', 'Γ΄', 'Δ΄', 'Ε΄', 'ΣΤ΄', 'Ζ΄', 'Η΄', 'Θ΄', 'Ι΄'];
+const firstOf = (st: string) => pathOutline.findIndex((c) => c.stage === st);
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -177,15 +192,30 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
     <div class="njourney" data-journey>
       {
         pathOutline.map((c, ci) => (
-          <section class="njch" data-ch={ci} data-ch-scene={scenes.length ? sceneFor(ci) : undefined} aria-labelledby={`njch-${ci}`}>
+          <section class="njch" data-ch={ci} data-ch-stage={c.stage} data-ch-scene={scenes.length ? sceneFor(ci) : undefined} aria-labelledby={`njch-${ci}`}>
             {staged && opensStage(ci) && (
-              <header class="njstage">
+              <header class:list={['njstage', ci === 0 && 'is-first']} id={`stage-${c.stage}`}>
+                {/* a milestone, as the Greeks marked their roads: the stage's drawing on its face, its
+                    number carved at the top */}
+                <div class="njstage__stele" aria-hidden="true">
+                  <svg class="njstage__stone" viewBox="0 0 160 240" preserveAspectRatio="none" focusable="false">
+                    <path class="njstage__fill" d="M33 226 37 52Q39 30 80 24Q121 30 123 52L127 226Z" />
+                    <path d="M33 226 37 52Q39 30 80 24Q121 30 123 52L127 226M20 226H140V238H20ZM38 64Q80 58 122 64" />
+                  </svg>
+                  <span class="njstage__num" lang="grc">{numerals[stageIds.indexOf(c.stage!)]}</span>
+                  {stageArt[c.stage!] && <Illustration name={stageArt[c.stage!]} class="njstage__art" note={false} />}
+                </div>
                 <p class="njstage__n">{fill(t.path.stageN, { i: stageIds.indexOf(c.stage!) + 1, n: stageIds.length })}</p>
                 <h2 class="njstage__title">{stageName(c.stage!)}</h2>
                 {stageAbout(c.stage!) && <p class="njstage__about">{stageAbout(c.stage!)}</p>}
               </header>
             )}
             <header class="njch__banner box on-blue" style={`--box-r:${cuts[ci % cuts.length]}`}>
+              {c.stage && stageArt[c.stage] && (
+                <span class="njch__art" aria-hidden="true">
+                  <Illustration name={stageArt[c.stage]} note={false} />
+                </span>
+              )}
               <p class="njch__n">{fill(t.path.chapter, placeIn(ci))}</p>
               <h2 class="njch__title" id={`njch-${ci}`} lang={!c.stage && c.title ? 'en' : undefined}>
                 {chapterTitle(c)}
@@ -230,6 +260,25 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
         ))
       }
     </div>
+
+    {/* the stages at a glance: one mark each, the one you are in filled, those walked ticked; a mark
+        leads to its stage (a stage further on asks first, as a chapter does) */}
+    {
+      staged && (
+        <nav class="njrail" aria-label={t.path.rail}>
+          <ol>
+            {stageIds.map((st, k) => (
+              <li>
+                <button type="button" class="njrail__mark" data-rail={st} data-rail-ch={firstOf(st)} title={stageName(st)}>
+                  <span class="njrail__num" lang="grc">{numerals[k]}</span>
+                  <span class="visually-hidden">{stageName(st)}</span>
+                </button>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
 
     {/* Review and the ascent, a button away (client direction, 6 November 2026) */}
     <div class="nfloat">
@@ -397,11 +446,14 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
     if (!layer) return;
     const show = (id: string | null) =>
       layer.querySelectorAll<SVGElement>('[data-scene]').forEach((sc) => sc.classList.toggle('is-on', sc.dataset.scene === id));
+    const mark = (stage: string | null) =>
+      document.querySelectorAll<HTMLElement>('[data-rail]').forEach((m) => m.classList.toggle('is-here', m.dataset.rail === stage));
     const inView = new Set<HTMLElement>();
     watch = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => (e.isIntersecting ? inView.add(e.target as HTMLElement) : inView.delete(e.target as HTMLElement)));
         show([...inView][0]?.dataset.chScene ?? null);
+        mark([...inView][0]?.dataset.chStage ?? null);
       },
       { rootMargin: '-50% 0px -50% 0px' },
     );
@@ -525,7 +577,8 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
     line-height: 1.45;
     color: var(--ink);
   }
-  /* a stage of the arc: a heading on the page, with its line, before its first chapter */
+  /* a stage of the arc: after a pause (half a screen of open trail), a milestone with the stage's
+     drawing, its number, its name and its line, before its first chapter */
   .njstage {
     position: relative;
     z-index: 1;
@@ -533,8 +586,144 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
     justify-items: center;
     gap: 0.4rem;
     width: min(100% - 2 * var(--gutter), 40rem);
-    margin: var(--space-xl) auto var(--space-s);
+    margin: 50vh auto var(--space-s);
     text-align: center;
+  }
+  .njstage.is-first {
+    margin-top: var(--space-l);
+  }
+  .njstage__stele {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    width: clamp(8rem, 6rem + 6vw, 10.5rem);
+    aspect-ratio: 160 / 240;
+    margin-bottom: 0.6rem;
+    color: var(--ink-strong);
+  }
+  .njstage__stone {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .njstage__stone path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .njstage__stone .njstage__fill {
+    fill: var(--paper);
+    stroke: none;
+  }
+  .njstage__num {
+    position: relative;
+    margin-top: 14%;
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-1);
+    letter-spacing: 0.04em;
+  }
+  .njstage__stele :global(.njstage__art) {
+    position: relative;
+    width: 58%;
+    margin-top: 10%;
+    color: currentColor;
+  }
+  .njstage__stele :global(.njstage__art svg) {
+    width: 100%;
+    height: auto;
+    max-height: 9rem;
+  }
+  /* the stage's drawing, faint and large across each of its chapters' cards, cropped by the card */
+  .njch__art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .njch__art :global(svg) {
+    position: absolute;
+    right: -6%;
+    top: 50%;
+    width: auto;
+    height: 190%;
+    translate: 0 -50%;
+    color: var(--ink);
+    --paper: transparent;
+    opacity: 0.12;
+  }
+  /* the stages at a glance, at the left; a row at the foot on phones */
+  .njrail {
+    position: fixed;
+    left: calc(0.9rem + env(safe-area-inset-left, 0px));
+    top: 50%;
+    z-index: 30;
+    translate: 0 -50%;
+  }
+  .njrail ol {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .njrail__mark {
+    display: grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    padding: 0;
+    font: inherit;
+    color: var(--ink-soft);
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    border: 1.5px solid color-mix(in srgb, var(--blue) 26%, transparent);
+    border-radius: 52% 48% 50% 50% / 50% 52% 48% 50%;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-2) var(--ease-out),
+      color var(--dur-2) var(--ease-out);
+  }
+  .njrail__num {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: 0.82rem;
+  }
+  .njrail__mark.is-done {
+    color: var(--ink-strong);
+    border-color: var(--blue);
+  }
+  .njrail__mark.is-here {
+    color: var(--creme-light);
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+  .njrail__mark:hover {
+    border-color: var(--blue);
+  }
+  @media (max-width: 47.99rem) {
+    .njrail {
+      left: 50%;
+      top: auto;
+      bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+      translate: -50% 0;
+    }
+    .njrail ol {
+      grid-auto-flow: column;
+      gap: 0.3rem;
+    }
+    .njrail__mark {
+      width: 0.75rem;
+      height: 0.75rem;
+      pointer-events: none;
+    }
+    .njrail__num {
+      display: none;
+    }
   }
   .njstage > * {
     margin: 0;

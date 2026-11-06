@@ -84,6 +84,7 @@ export const nostosUi = {
           stay: 'Stay here',
         },
         // NEW WORDING, proposed (6 November 2026): above each stage's first chapter
+        rail: 'The stages of the journey',
         stageN: 'Stage {i} of {n}',
         // NEW WORDING (6 November 2026, approved the same day): the nine stages of the arc, one per place on the
         // journey home (src/data/nostos-arc.json)
@@ -438,6 +439,7 @@ export const nostosUi = {
           go: 'Προχωρήστε',
           stay: 'Μείνετε εδώ',
         },
+        rail: 'Τα στάδια του ταξιδιού',
         stageN: 'Στάδιο {i} από {n}',
         stages: {
           call: 'Το κάλεσμα',

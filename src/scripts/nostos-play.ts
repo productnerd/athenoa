@@ -1630,6 +1630,11 @@ function refresh(root: HTMLElement) {
       if (count) count.textContent = walked ? fill(W.path.overall, { done: walked, n: c.lessons.length }) : '';
     });
   }
+  // the rail: a stage whose lessons are all walked is marked
+  root.querySelectorAll<HTMLElement>('[data-rail]').forEach((m) => {
+    const of = outline.filter((c) => c.stage === m.dataset.rail);
+    m.classList.toggle('is-done', of.length > 0 && of.every((c) => c.lessons.every((l) => lessonDone(p, l))));
+  });
   const due = dueList(p).length;
   const badge = root.querySelector<HTMLElement>('[data-review-badge]');
   if (badge) {
@@ -1746,6 +1751,25 @@ function setup() {
       if (stone && !stone.disabled) navigate(`${pathHref}?c=${stone.dataset.c}&l=${stone.dataset.l}`);
     },
     on,
+  );
+  root.querySelectorAll<HTMLButtonElement>('[data-rail]').forEach((m) =>
+    m.addEventListener(
+      'click',
+      () => {
+        const ci = Number(m.dataset.railCh);
+        const skip = root.querySelector<HTMLElement>(`[data-ch="${ci}"] [data-skip-ch]`);
+        const ask = root.querySelector<HTMLDialogElement>('[data-pop="skip"]');
+        // a stage further on asks first, as its first chapter would; otherwise it is scrolled to
+        if (skip && !skip.hidden && ask) {
+          ask.dataset.to = `${pathHref}?c=${ci}&l=0`;
+          ask.showModal();
+        } else {
+          const calm = !document.documentElement.classList.contains('motion');
+          document.getElementById(`stage-${m.dataset.rail}`)?.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
+        }
+      },
+      on,
+    ),
   );
   root.querySelector('[data-skip-go]')?.addEventListener(
     'click',

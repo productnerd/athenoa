@@ -44,7 +44,7 @@ const hash = (text: string) => {
   return (h >>> 0).toString(36);
 };
 
-type Entry = { u: string; step: Step; at: number; text: string; main?: string; talk?: string };
+type Entry = { u: string; step: Step; at: number; text: string; main?: string; raw?: string; rawMain?: string; talk?: string };
 const entries: Entry[] = [];
 const taken = new Set<string>();
 // `main` is what the item is about (its question, title or word), without its explanation
@@ -52,7 +52,7 @@ function add(kind: StepKind, key: string, step: Omit<Step, 'k'>, text: string, t
   let u = `${kind}${hash(key)}`;
   while (taken.has(u)) u += 'x';
   taken.add(u);
-  entries.push({ u, step: { k: kind, ...step }, at, text: plain(text), main: main ? plain(main) : undefined, talk });
+  entries.push({ u, step: { k: kind, ...step }, at, text: plain(text), main: main ? plain(main) : undefined, raw: text, rawMain: main, talk });
 }
 // where an item falls in its talk, 0 to 1: its timestamp, or its place among the items of its kind
 const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
@@ -209,8 +209,27 @@ function arcRoutes(a: Arc): RouteOf[] {
   for (const c of concepts)
     if (!stageOf.has(c.id)) stageOf.set(c.id, Math.max(0, a.stages.findIndex((st) => st.id === byTheme[c.group]))), rank.set(c.id, r++);
   const pos = (id: string) => stageOf.get(id)! * 10000 + rank.get(id)!;
-  const found = concepts.map((c) => ({ id: c.id, words: spokenOf(c) }));
-  const about = (text: string) => found.filter((f) => f.words.some((w) => w.test(text))).map((f) => f.id);
+  // what an item is about: the ideas it names, by any of their names (the label and the words inside its
+  // brackets, each half of an "x and y" label, the Greek and its spelling split at "/"); a few names that
+  // are everyday words ("one", "the Good") count only with their capital, as Athena's terms
+  const capital = new Set(['one', 'good', 'now', 'being', 'self', 'nothing', 'same', 'other', 'all']);
+  const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const namesOf = (c: (typeof concepts)[number]) => {
+    const label = c.label.replace(/^the\s+/i, '');
+    const inside = [...label.matchAll(/\(([^)]*)\)/g)].map((m) => m[1]);
+    const outer = label.replace(/\s*\(.*?\)/g, '');
+    const halves = /\s+and\s+/i.test(outer) ? outer.split(/\s+and\s+/i).map((w) => w.replace(/^the\s+/i, '')) : [];
+    return [outer, ...halves, ...inside, ...(c.greek ?? '').split('/'), ...(c.translit ?? '').split('/')]
+      .map((w) => w.trim())
+      .filter((w) => w.length > 2);
+  };
+  const found = concepts.map((c) => {
+    const names = namesOf(c);
+    const loose = names.filter((w) => !capital.has(w.toLowerCase())).map((w) => new RegExp(`(?<!\\p{L})${esc(plain(w))}(?!\\p{L})`, 'u'));
+    const exact = names.filter((w) => capital.has(w.toLowerCase())).map((w) => new RegExp(`(?<!\\p{L})${esc(w.charAt(0).toUpperCase() + w.slice(1))}(?!\\p{L})`, 'u'));
+    return { id: c.id, test: (text: string, raw: string) => loose.some((w) => w.test(text)) || exact.some((w) => w.test(raw)) };
+  });
+  const about = (text: string, raw: string) => found.filter((f) => f.test(text, raw)).map((f) => f.id);
   // a talk's stage, for an item that names no idea: where most of what the talk teaches is taught
   const talkStage = new Map<string, number>();
   for (const t of order) {
@@ -218,13 +237,19 @@ function arcRoutes(a: Arc): RouteOf[] {
     concepts.filter((c) => c.talks.some((x) => x.id === t)).forEach((c) => votes.set(stageOf.get(c.id)!, (votes.get(stageOf.get(c.id)!) ?? 0) + c.weight));
     talkStage.set(t, [...votes].sort((x, y) => y[1] - x[1])[0]?.[0] ?? 0);
   }
-  // each item follows the last of the ideas it is about (its main text first, else its whole text)
+  // each item goes with the most particular of the ideas it is about (the one fewest items name), so a
+  // common idea like the soul does not gather hundreds of steps; its main text first, else its whole text
+  const named = entries.map((e) => {
+    const inMain = e.main ? about(e.main, e.rawMain ?? '') : [];
+    return { e, ids: inMain.length ? inMain : about(e.text, e.raw ?? '') };
+  });
+  const often = new Map<string, number>();
+  named.forEach(({ ids }) => ids.forEach((id) => often.set(id, (often.get(id) ?? 0) + 1)));
   const anchored = new Map<string, Entry[]>();
   const loose = new Map<number, Entry[]>();
-  for (const e of entries) {
-    const ids = (e.main && about(e.main).length ? about(e.main) : about(e.text)).sort((x, y) => pos(x) - pos(y));
-    const last = ids[ids.length - 1];
-    if (last) anchored.set(last, [...(anchored.get(last) ?? []), e]);
+  for (const { e, ids } of named) {
+    const anchor = ids.sort((x, y) => (often.get(x)! - often.get(y)!) || pos(y) - pos(x))[0];
+    if (anchor) anchored.set(anchor, [...(anchored.get(anchor) ?? []), e]);
     else {
       const si = e.talk ? talkStage.get(e.talk) ?? 0 : 0;
       loose.set(si, [...(loose.get(si) ?? []), e]);
@@ -241,10 +266,11 @@ function arcRoutes(a: Arc): RouteOf[] {
   };
   const NOW_ITEMS = 5;
   const LATER = 3;
-  // one chapter's route: each idea, then what it brings, the rest of it coming back a few steps at a time
-  const walk = (ideas: string[]) => {
+  // one chapter's route: each idea, then what it brings, the rest of it (and the chapter's share of the
+  // stage's items that name no idea) coming back a few steps at a time
+  const walk = (ideas: string[], extra: Entry[] = []) => {
     const route: Entry[] = [];
-    const later: Entry[] = [];
+    const later: Entry[] = [...extra];
     for (const id of ideas) {
       introduced.add(id);
       route.push({ u: `c${id}`, step: { k: 'c', id }, at: -1, text: '' });
@@ -265,19 +291,21 @@ function arcRoutes(a: Arc): RouteOf[] {
     const rest = ideas.filter((id) => !grouped.has(id));
     if (!groups.length) groups.push({ ch: { id: st.id, title_en: '', title_el: '', ideas: [] }, ideas: [] });
     groups[groups.length - 1].ideas.push(...rest);
-    const out: RouteOf[] = groups
-      .filter((g) => g.ideas.length)
-      .map(({ ch, ideas: list }) => ({
+    // the stage's items that name no idea, shared out among its chapters by their size
+    const kept = groups.filter((g) => g.ideas.length);
+    const spare = mixed(loose.get(si) ?? []);
+    const share = kept.map(() => [] as Entry[]);
+    spare.forEach((e, k) => share[Math.floor((k / Math.max(1, spare.length)) * kept.length)].push(e));
+    const out: RouteOf[] = kept
+      .map(({ ch, ideas: list }, gi) => ({
         id: ch.id,
         title: ch.title_en,
         stage: st.id,
         scene: st.scene,
         names: ch.title_en ? { en: ch.title_en, el: ch.title_el || ch.title_en } : undefined,
         about: ch.about_en ? { en: ch.about_en, el: ch.about_el || ch.about_en } : undefined,
-        route: walk(list),
+        route: walk(list, share[gi]),
       }));
-    // what names no idea, from the talks most at home here, closes the stage
-    out[out.length - 1]?.route.push(...mixed(loose.get(si) ?? []));
     return out;
   });
 }
@@ -373,15 +401,26 @@ const placedRoutes = routes.map((r) => {
       out.push(...fresh.slice(0, NOW));
       waiting.push(...fresh.slice(NOW));
       since = 0;
-    } else if (e.step.k !== 'k' && waiting.length && ++since >= GAP) {
-      out.push(waiting.shift()!);
+    } else if (e.step.k !== 'k' && waiting.length && ++since >= (waiting.length > 15 ? 1 : GAP)) {
+      // (when many are waiting, they come a little faster, two at most)
+      out.push(...waiting.splice(0, waiting.length > 40 ? 2 : 1));
       since = 0;
     }
   }
   return { ...r, route: out };
 });
-// what is still waiting at the very end closes the last chapter
-placedRoutes[placedRoutes.length - 1].route.push(...waiting.splice(0));
+// what is still waiting at the very end is spread through the last chapter, never two in a row more
+{
+  const last = placedRoutes[placedRoutes.length - 1].route;
+  const left = waiting.splice(0);
+  const gap = Math.max(1, Math.floor(last.length / Math.max(1, left.length)));
+  // each after both of its ideas, where they are introduced in this chapter
+  const spots = left.map((e, k) => {
+    const after = Math.max(-1, ...[e.step.a, e.step.b].map((x) => last.findIndex((y) => y.u === `c${x}`)));
+    return { e, at: Math.min(last.length, Math.max((k + 1) * gap, after + 1)) };
+  });
+  spots.sort((x, y) => y.at - x.at).forEach(({ e, at }) => last.splice(at, 0, e));
+}
 
 // lessons of about eight steps, as even as they come
 function chapter(r: (typeof placedRoutes)[number]): Chapter {
