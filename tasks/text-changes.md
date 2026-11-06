@@ -131,7 +131,7 @@ Under Athena's letter on Home: her photograph (the library portrait, moved from 
 
 ## Why not yours (6 November 2026)
 
-Under a wrong answer, NEW WORDING proposed (`ui.ts`, `play.tutor`): "“{part}” ({meaning}) is not one of its roots.", "“{gloss}” is what Athena says of {right}, not of {wrong}, which is “{other}”.", "In Athena’s teaching this is true." / "… false.", "“{step}” comes at step {right}, not at step {at}."; Greek «… δεν είναι μία από τις ρίζες της.», «… λέει η Αθηνά για το {right}, όχι για το {wrong}, που είναι «{other}».», «Στη διδασκαλία της Αθηνάς αυτό είναι σωστό / λάθος.», «… έρχεται στο βήμα {right}, όχι στο {at}.». For the quiz, a line written for each wrong option (`src/data/nostos-whynot.json`, being written, for Athena to review like the rest of the content).
+Under a wrong answer, NEW WORDING proposed (`ui.ts`, `play.tutor`): "“{part}” ({meaning}) is not one of its roots.", "“{gloss}” is what Athena says of {right}, not of {wrong}, which is “{other}”.", "In Athena’s teaching this is true." / "… false.", "“{step}” comes at step {right}, not at step {at}."; Greek «… δεν είναι μία από τις ρίζες της.», «… λέει η Αθηνά για το {right}, όχι για το {wrong}, που είναι «{other}».», «Στη διδασκαλία της Αθηνάς αυτό είναι σωστό / λάθος.», «… έρχεται στο βήμα {right}, όχι στο {at}.». For the quiz, a line written for each of its 1,374 wrong options (`src/data/nostos-whynot.json`), from Athena's own explanations and ideas, for Athena to review like the rest of the content.
 
 ## Live courses, and Nostos as one's own journey (6 November 2026)
 
