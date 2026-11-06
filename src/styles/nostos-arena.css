@@ -871,8 +871,11 @@ html.motion .narena__stage > * {
 
 /* ---------- the path page: a smaller title, a pill for a new idea, Next at the bottom right ---------- */
 .narena--page .narena__title {
-  font-size: var(--step-2);
-  line-height: 1.05;
+  /* smaller and quieter (client direction): a heading for the step, not the page's headline */
+  font-size: var(--step-1);
+  line-height: 1.15;
+  color: var(--ink);
+  opacity: 0.85;
 }
 .nkind--pill {
   justify-self: start;
@@ -892,9 +895,140 @@ html.motion .narena__stage > * {
 /* the buttons that move on sit at the bottom right of the step, with room above them */
 .narena__stage > .nrow:last-child {
   justify-content: flex-end;
-  margin-top: var(--space-m);
-  margin-bottom: var(--space-s);
+  margin-top: 2.75rem;
+  margin-bottom: 3rem;
+}
+/* (and the page leaves room under it, clear of the tutor's button in the corner) */
+.narena--page {
+  padding-bottom: calc(var(--space-xl) + 2rem);
 }
 .narena__stage > .nrow--centre:last-child {
   justify-content: center;
 }
+
+/* ---------- the end of a lesson: telos, a screen of its own ---------- */
+.ntelos {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: var(--space-l) max(var(--gutter), env(safe-area-inset-right, 0px)) var(--space-l) max(var(--gutter), env(safe-area-inset-left, 0px));
+  overflow-y: auto;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image: var(--grain);
+  background-size: 400px 400px;
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-in-out);
+}
+.ntelos.is-on {
+  opacity: 1;
+}
+.ntelos.is-leaving {
+  opacity: 0;
+}
+.ntelos__in {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  max-width: 34rem;
+  text-align: center;
+}
+.ntelos__in > * {
+  margin: 0;
+}
+/* a soft light behind the word */
+.ntelos__in::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 2.5rem;
+  z-index: -1;
+  width: min(80vw, 32rem);
+  aspect-ratio: 1;
+  translate: -50% -30%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--blue-light) 55%, transparent), transparent);
+  opacity: 0.6;
+}
+.ntelos__place {
+  font-size: var(--step--1);
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+}
+.ntelos__word {
+  font-size: clamp(4.5rem, 3rem + 7vw, 8.5rem);
+  font-style: italic;
+  line-height: 0.95;
+  color: var(--ink-strong);
+}
+html.motion .ntelos.is-on .ntelos__word {
+  animation: ntelos-rise 1.1s var(--ease-out) 0.1s both;
+}
+@keyframes ntelos-rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.8rem) scale(0.97);
+  }
+}
+.ntelos__msg {
+  font-size: var(--step-1);
+}
+.ntelos__msg--strong {
+  font-family: var(--font-title);
+  font-weight: var(--title-weight);
+  color: var(--ink-strong);
+}
+/* the chapter's lessons, those walked filled */
+.ntelos__stones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ntelos__stones li {
+  width: 0.85rem;
+  height: 0.85rem;
+  border: 1.5px solid color-mix(in srgb, var(--blue) 40%, transparent);
+  border-radius: 52% 48% 55% 45% / 47% 55% 45% 53%;
+}
+.ntelos__stones li.is-done {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+/* the ideas met in it */
+.ntelos__ideas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 0.6rem;
+  margin: 0.3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.ntelos__ideas li {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem 0.35rem;
+  font-size: var(--step--1);
+  background: var(--creme-deep);
+  border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
+}
+.ntelos__ideas .ng {
+  font-size: 1.05em;
+  color: var(--ink-strong);
+}
+.ntelos__ways {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: var(--space-m);
+}
+

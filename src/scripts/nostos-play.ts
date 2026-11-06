@@ -1504,13 +1504,13 @@ async function walk(ci: number, li: number) {
     const show = () => {
       if (i >= ids.length) {
         const own = fresh && pageMode && !wrote && hasKey() ? ownWords() : null;
-        if (!own) return walked(A, ci, li, fresh);
+        if (!own) return walked(A, ci, li, fresh, M);
         wrote = true;
         hideMap();
         A.progress(1);
         A.stage.replaceChildren();
         return written(A.stage, h('p', { class: 'nsmall nkind' }, W.tutor.own.kind), own.question, own.reference, writtenPoints, () =>
-          walked(A, ci, li, fresh),
+          walked(A, ci, li, fresh, M),
         );
       }
       A.progress(i / ids.length);
@@ -1532,12 +1532,13 @@ async function walk(ci: number, li: number) {
   }
 }
 
-function walked(A: Arena, ci: number, li: number, fresh: boolean) {
+function walked(A: Arena, ci: number, li: number, fresh: boolean, M?: Material) {
   A.progress(1);
   if (fresh) earn(10);
   const chapter = outline[ci];
   const last = li === chapter.lessons.length - 1;
   const at = here(load());
+  if (pageMode) return telos(ci, li, at, M);
   A.stage.replaceChildren(
     h(
       'div',
@@ -1556,6 +1557,62 @@ function walked(A: Arena, ci: number, li: number, fresh: boolean) {
     ),
   );
   (A.stage.querySelector('.btn') as HTMLElement)?.focus();
+}
+
+/** The end of a lesson on the path page: a screen of its own over the lesson (client direction) */
+function telos(ci: number, li: number, at: { ci: number; li: number } | null, M?: Material) {
+  hideMap();
+  const p = load();
+  const chapter = outline[ci];
+  const last = li === chapter.lessons.length - 1;
+  // the ideas met in this lesson, by their Greek where they have it
+  const ideas = chapter.lessons[li]
+    .filter((u) => u.startsWith('c'))
+    .map((u) => M?.idea(u.slice(1)))
+    .filter((c): c is Concept => !!c);
+  const close = (then: () => void) => {
+    screen.classList.add('is-leaving');
+    window.setTimeout(() => {
+      screen.remove();
+      then();
+    }, 450);
+  };
+  const stones = h(
+    'ol',
+    { class: 'ntelos__stones', 'aria-hidden': 'true' },
+    ...chapter.lessons.map((lesson, k) => h('li', { class: lessonDone(p, lesson) ? 'is-done' : k === li ? 'is-done' : '' })),
+  );
+  const screen = h(
+    'div',
+    { class: 'ntelos', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'ntelos-word' },
+    h(
+      'div',
+      { class: 'ntelos__in' },
+      h('p', { class: 'ntelos__place' }, chapterPlace(ci)),
+      greek(W.arena.end, 'ntelos__word'),
+      h('p', { class: 'ntelos__msg', id: 'ntelos-word' }, fill(W.path.lessonDone, { i: li + 1, n: chapter.lessons.length })),
+      last ? h('p', { class: 'ntelos__msg ntelos__msg--strong' }, fill(W.path.chapterDone, { title: chapterName(ci) })) : null,
+      stones,
+      ideas.length
+        ? h(
+            'ul',
+            { class: 'ntelos__ideas' },
+            ...ideas.map((c) => h('li', null, c.greek ? greek(c.greek) : null, h('span', { lang: 'en' }, c.label))),
+          )
+        : null,
+      at ? null : h('p', { class: 'ntelos__msg' }, W.path.doneAll),
+      h(
+        'div',
+        { class: 'ntelos__ways' },
+        at ? h('button', { type: 'button', class: 'btn', onclick: () => close(() => walk(at.ci, at.li)) }, W.path.next) : null,
+        h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => close(leave) }, W.path.back),
+      ),
+    ),
+  );
+  document.body.append(screen);
+  requestAnimationFrame(() => requestAnimationFrame(() => screen.classList.add('is-on')));
+  playSound('/audio/arrive.mp3', 0.04);
+  (screen.querySelector('.btn') as HTMLElement)?.focus({ preventScroll: true });
 }
 
 // ---------- Review: what the path has covered, a little before it would be forgotten ----------
