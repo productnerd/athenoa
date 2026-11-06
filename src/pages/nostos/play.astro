@@ -209,7 +209,11 @@ const firstOf = (st: string) => pathOutline.findIndex((c) => c.stage === st);
                 {stageAbout(c.stage!) && <p class="njstage__about">{stageAbout(c.stage!)}</p>}
               </header>
             )}
-            <header class="njch__banner box on-blue" style={`--box-r:${cuts[ci % cuts.length]}`}>
+            {/* the stages take the dark blue and the light blue in turn, so each new stage reads as one */}
+            <header
+              class:list={['njch__banner box', c.stage && stageIds.indexOf(c.stage) % 2 ? 'on-blue-light' : 'on-blue']}
+              style={`--box-r:${cuts[ci % cuts.length]}`}
+            >
               {c.stage && stageArt[c.stage] && (
                 <span class="njch__art" aria-hidden="true">
                   <Illustration name={stageArt[c.stage]} note={false} />
@@ -908,10 +912,13 @@ const firstOf = (st: string) => pathOutline.findIndex((c) => c.stage === st);
     cursor: pointer;
   }
   /* a chapter further on: start it from its card (it asks first) */
+  /* (inside the card, where every child's margin is zeroed: so it is named with the card) */
+  .njch__banner > .njch__skip {
+    margin-top: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
   .njch__skip {
     justify-self: start;
-    margin-top: 1.5rem;
-    margin-bottom: 0.35rem;
     padding: 0.35rem 0.95rem;
     font: inherit;
     font-size: var(--step--1);
