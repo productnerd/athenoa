@@ -151,8 +151,24 @@ function route(talk: string | undefined, list: Entry[]): Entry[] {
   return out;
 }
 
+// A chapter's title is its talk's, without Athena's name: everything here is hers (client direction,
+// 6 November 2026). "Dr Athena D. Potari on Plato and Non-Duality" becomes "Plato and Non-Duality",
+// "The Art of Living - Dr Athena Potari" becomes "The Art of Living". Talks & Articles keeps the titles
+// as published.
+const NAME = String.raw`(?:Dr\.?\s+)?Athena(?:\s+(?:D\.|Despina|Despoina))?\s+Potari`;
+const chapterTitle = (title: string) => {
+  const t = title
+    .replace(new RegExp(`^${NAME}\\s*:\\s*`), '')
+    .replace(new RegExp(`^${NAME}\\s+on\\s+her\\s+`), 'The ')
+    .replace(new RegExp(`^${NAME}\\s+on\\s+`), '')
+    .replace(new RegExp(`\\s*[-–—]\\s*${NAME}\\s*$`), '')
+    .replace(new RegExp(`\\s+with\\s+${NAME}`), '')
+    .trim();
+  return t.charAt(0).toUpperCase() + t.slice(1);
+};
+
 const routes = [
-  ...order.map((id) => ({ id, title: talkName(id), talk: id as string | undefined, route: route(id, entries.filter((e) => e.talk === id)) })),
+  ...order.map((id) => ({ id, title: chapterTitle(talkName(id)), talk: id as string | undefined, route: route(id, entries.filter((e) => e.talk === id)) })),
   // what no talk claims (and any idea not met yet) closes the path
   { id: 'across', title: '', talk: undefined, route: route(undefined, entries.filter((e) => !e.talk || !order.includes(e.talk))) },
 ];

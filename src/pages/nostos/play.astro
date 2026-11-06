@@ -80,7 +80,8 @@ const scenes = Object.entries(raw)
   .sort(([a], [b]) => a.localeCompare(b, 'en', { numeric: true }))
   .map(([file, svg], k) => {
     const open = svg.match(/<svg\b([^>]*)>/)!;
-    const attrs = open[1].replace(/\s(xmlns(:\w+)?|viewBox|width|height)="[^"]*"/g, '');
+    // (the line weight is left to the page, so phones can have it heavier)
+    const attrs = open[1].replace(/\s(xmlns(:\w+)?|viewBox|width|height|stroke-width)="[^"]*"/g, '');
     const inner = svg.slice(open.index! + open[0].length, svg.lastIndexOf('</svg>'));
     return { id: k, viewBox: open[1].match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 1600 1000', attrs, inner, name: file };
   });
@@ -112,7 +113,7 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
       scenes.length > 0 && (
         <div class="njscenes" aria-hidden="true" data-scenes>
           {scenes.map((sc) => (
-            <svg class="njscene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax meet" focusable="false" data-scene={sc.id}>
+            <svg class="njscene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax meet" focusable="false" data-scene={sc.id} data-place={sc.name.match(/journey-\d+-([a-z]+)/)?.[1]}>
               <use href={`#njenv-${sc.id}`} />
             </svg>
           ))}
@@ -372,11 +373,30 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     bottom: 0;
     width: 100%;
     height: 100%;
+    stroke-width: 2.6;
     opacity: 0;
-    transition: opacity 1.4s var(--ease-in-out);
+    /* hidden once faded, so only the place in view (and the one leaving) is drawn */
+    visibility: hidden;
+    transition:
+      opacity 1.4s var(--ease-in-out),
+      visibility 0s linear 1.4s;
   }
   .njscene.is-on {
     opacity: 0.3;
+    visibility: visible;
+    transition:
+      opacity 1.4s var(--ease-in-out),
+      visibility 0s;
+  }
+  /* the cave is the busiest at the sides: a little fainter */
+  .njscene.is-on[data-place='cave'] {
+    opacity: 0.25;
+  }
+  /* on phones the drawing is small: a heavier line keeps it from turning to hairlines */
+  @media (max-width: 37.5rem) {
+    .njscene {
+      stroke-width: 4;
+    }
   }
   :global(html:not(.motion)) .njscene {
     transition: none;
