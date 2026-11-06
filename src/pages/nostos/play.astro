@@ -106,17 +106,23 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
         scroll down, a chapter (a talk) at a time. Each chapter's banner stays at the top while it is
         walked, so the title is always the chapter you are in; behind it, the chapter's place on the
         journey home (scenes in src/assets/illustrations/journey-*.svg). */}
+    {/* the places on the way home: one still layer behind the journey, each place fading into the
+        next as the chapters change (a place can stay for several chapters; client direction) */}
+    {
+      scenes.length > 0 && (
+        <div class="njscenes" aria-hidden="true" data-scenes>
+          {scenes.map((sc) => (
+            <svg class="njscene" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax meet" focusable="false" data-scene={sc.id}>
+              <use href={`#njenv-${sc.id}`} />
+            </svg>
+          ))}
+        </div>
+      )
+    }
     <div class="njourney" data-journey>
       {
         pathOutline.map((c, ci) => (
-          <section class="njch" data-ch={ci} aria-labelledby={`njch-${ci}`}>
-            {scenes.length > 0 && (
-              <div class="njch__scene" aria-hidden="true">
-                <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMax meet" focusable="false">
-                  <use href={`#njenv-${sceneFor(ci)}`} />
-                </svg>
-              </div>
-            )}
+          <section class="njch" data-ch={ci} data-ch-scene={scenes.length ? sceneFor(ci) : undefined} aria-labelledby={`njch-${ci}`}>
             <header class="njch__banner">
               <p class="njch__n">{fill(t.path.chapter, { i: ci + 1, n: pathOutline.length })}</p>
               <h2 class="njch__title" id={`njch-${ci}`} lang={c.title ? 'en' : undefined}>
@@ -303,6 +309,27 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
 
 <script>
   import '../../scripts/nostos-play';
+
+  // the journey's places: whichever chapter crosses the middle of the window shows its place; a place
+  // shared by several chapters stays as it is, and past the journey (at the foot) none shows
+  let watch: IntersectionObserver | undefined;
+  document.addEventListener('astro:page-load', () => {
+    watch?.disconnect();
+    const layer = document.querySelector<HTMLElement>('[data-scenes]');
+    if (!layer) return;
+    const show = (id: string | null) =>
+      layer.querySelectorAll<SVGElement>('[data-scene]').forEach((sc) => sc.classList.toggle('is-on', sc.dataset.scene === id));
+    const inView = new Set<HTMLElement>();
+    watch = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => (e.isIntersecting ? inView.add(e.target as HTMLElement) : inView.delete(e.target as HTMLElement)));
+        show([...inView][0]?.dataset.chScene ?? null);
+      },
+      { rootMargin: '-50% 0px -50% 0px' },
+    );
+    document.querySelectorAll<HTMLElement>('[data-ch-scene]').forEach((section) => watch!.observe(section));
+  });
+  document.addEventListener('astro:before-swap', () => watch?.disconnect());
 </script>
 
 <style>
@@ -330,23 +357,33 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     position: relative;
     padding-bottom: var(--space-l);
   }
-  /* the chapter's place on the journey: it stays behind while the chapter is walked, and the next
-     one rises in after it */
-  .njch__scene {
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    margin-bottom: -100vh;
+  /* the place on the journey: still, behind everything, the width and height of the window; the one
+     for the chapter in the middle of the screen fades in, the last one fades out */
+  .njscenes {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
     color: var(--ink);
-    opacity: 0.3;
   }
-  .njch__scene svg {
+  .njscene {
     position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
     height: 100%;
+    opacity: 0;
+    transition: opacity 1.4s var(--ease-in-out);
+  }
+  .njscene.is-on {
+    opacity: 0.3;
+  }
+  :global(html:not(.motion)) .njscene {
+    transition: none;
+  }
+  .njourney {
+    position: relative;
+    z-index: 1;
   }
   /* the chapter's banner: the page's title while the chapter is in view */
   .njch__banner {
@@ -603,6 +640,9 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     background: var(--blue);
     border: 2px solid var(--paper);
     border-radius: 0.8rem;
+  }
+  .nfloat__badge[hidden] {
+    display: none;
   }
   @media (max-width: 30rem) {
     .nfloat__btn span:not(.nfloat__badge) {

@@ -9,6 +9,7 @@
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
 import { navigate } from 'astro:transitions/client';
 import { award, load, save, today, type Progress } from './nostos-progress';
+import { hasKey, markAnswer, noteAnswer } from './nostos-tutor';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Words = Record<string, any>;
@@ -1325,6 +1326,16 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         s.why ? h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, s.why), from) : from,
       );
     case 'w':
+      // with the visitor's API key, a question to carry is answered in writing and marked
+      if (pageMode && hasKey())
+        return written(
+          stage,
+          head,
+          s.q,
+          `A reflective question Athena asks her students to carry${s.why ? ` (${s.why})` : ''}. There is no single right answer: judge how deeply and honestly the student engages, and how well it fits Athena's teaching.`,
+          (verdict) => (writtenPoints(verdict), answered(null)),
+          next,
+        );
       return read(h('p', { class: 'ncarry__q', lang: 'en' }, s.q, unsure(s)), from);
     case 'l':
       return read(h('blockquote', { class: 'hand hand--m nline', lang: 'en' }, s.text), from);
@@ -1342,9 +1353,54 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
 }
 
 /** The first time a step is met on the path: read steps are kept as met, the rest go into Review */
+/** Tell the tutor what was just answered (src/scripts/nostos-tutor.ts): the step as on screen, the choice */
+function logAnswer(kind: string, ok: boolean | null) {
+  const stage = document.querySelector<HTMLElement>('.narena__stage');
+  if (ok === null || !stage) return;
+  const chosen = stage.querySelector(ok ? '.nopt.is-right .nopt__text' : '.nopt.is-wrong .nopt__text')?.textContent ?? undefined;
+  noteAnswer({ kind: W.path.kinds?.[kind] ?? kind, prompt: stage.innerText.replace(/\n+/g, ' · '), chosen, ok });
+}
+
+/** A written answer, marked by the tutor against Athena's teaching (only with the visitor's API key) */
+function written(stage: HTMLElement, head: Node, question: string, reference: string, done: (verdict: string | null) => void, next: () => void) {
+  const T = W.tutor.own;
+  const box = h('textarea', { class: 'nwrite', rows: 5, placeholder: T.placeholder, 'aria-label': question }) as HTMLTextAreaElement;
+  const check = h('button', { type: 'button', class: 'btn' }, T.check) as HTMLButtonElement;
+  const skip = h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => (done(null), next()) }, T.skip);
+  const out = h('div', { class: 'nfeedback', 'aria-live': 'polite' });
+  const row = h('div', { class: 'nrow' }, check, skip);
+  check.addEventListener('click', async () => {
+    const answer = box.value.trim();
+    if (answer.length < 3) return box.focus();
+    check.disabled = true;
+    box.readOnly = true;
+    out.replaceChildren(h('p', { class: 'nsmall' }, T.checking));
+    try {
+      const marked = await markAnswer(feedBase, question, reference, answer);
+      out.replaceChildren(
+        h('p', { class: `nfeedback__verdict is-${marked.verdict}` }, T.verdicts[marked.verdict] ?? ''),
+        h('p', null, marked.feedback),
+        marked.missing ? h('p', { class: 'nsmall' }, `${T.missed}: ${marked.missing}`) : null,
+      );
+      noteAnswer({ kind: T.kind, prompt: question, chosen: answer.slice(0, 300), verdict: marked.verdict });
+      done(marked.verdict);
+    } catch {
+      out.replaceChildren(h('p', { class: 'nsmall' }, W.tutor.error));
+      done(null);
+    }
+    const go = h('button', { type: 'button', class: 'btn', onclick: next }, W.arena.next);
+    row.replaceChildren(go);
+    go.focus({ preventScroll: true });
+  });
+  stage.append(head, h('p', { class: 'nprompt' }, question), box, out, row);
+  box.focus({ preventScroll: true });
+}
+const writtenPoints = (verdict: string | null) => verdict && earn(verdict === 'close' ? 8 : verdict === 'partly' ? 4 : 2);
+
 function meet(u: string, kind: string, ok: boolean | null) {
   const p = load();
   if (met(p, u)) return;
+  logAnswer(kind, ok);
   p.path = { ...(p.path ?? {}), [u]: ok === null ? 1 : ok ? [1, addDays(INTERVALS[1])] : [0, today()] };
   save(p);
   earn(ok === null ? 2 : kind === 'c' ? 5 : ok ? 8 : 0);
@@ -1361,8 +1417,29 @@ async function walk(ci: number, li: number) {
     const M = await stepsFor(ids);
     const fresh = !lessonDone(load(), ids);
     let i = fresh ? ids.findIndex((u) => !met(load(), u)) : 0;
+    let wrote = false;
+    // with the visitor's API key, a new lesson ends with one question in their own words: the
+    // lesson's weightiest new idea, or else one of its connections
+    const ownWords = () => {
+      const ideas = ids.filter((u) => u.startsWith('c')).map((u) => M.idea(u.slice(1))).filter((c): c is Concept => !!c);
+      const idea = ideas.sort((a, b) => b.weight - a.weight)[0];
+      if (idea) return { question: fill(W.tutor.own.idea, { label: idea.label }), reference: idea.take };
+      const link = ids.map((u) => M.step(u)).find((st) => st?.k === 'k');
+      const [a, b] = [M.idea(link?.a), M.idea(link?.b)];
+      return link && a && b ? { question: fill(W.tutor.own.link, { a: a.label, b: b.label }), reference: link.why } : null;
+    };
     const show = () => {
-      if (i >= ids.length) return walked(A, ci, li, fresh);
+      if (i >= ids.length) {
+        const own = fresh && pageMode && !wrote && hasKey() ? ownWords() : null;
+        if (!own) return walked(A, ci, li, fresh);
+        wrote = true;
+        hideMap();
+        A.progress(1);
+        A.stage.replaceChildren();
+        return written(A.stage, h('p', { class: 'nsmall nkind' }, W.tutor.own.kind), own.question, own.reference, writtenPoints, () =>
+          walked(A, ci, li, fresh),
+        );
+      }
       A.progress(i / ids.length);
       A.score(fill(W.path.lesson, { i: li + 1, n: chapter.lessons.length }));
       const u = ids[i];
@@ -1444,6 +1521,7 @@ async function review() {
         'recall',
         M,
         (ok) => {
+          logAnswer(M.step(u)!.k, ok);
           const p = load();
           const was = p.path?.[u];
           const box = Array.isArray(was) ? was[0] : 0;
@@ -1606,7 +1684,8 @@ function setup() {
     document.addEventListener(
       'keydown',
       (event) => {
-        if (event.key === 'Escape') leave();
+        // (not while writing: the tutor's box or a written answer; the tutor's Escape is its own)
+        if (event.key === 'Escape' && !(event.target as Element).closest?.('[data-tutor], textarea, input')) leave();
       },
       on,
     );

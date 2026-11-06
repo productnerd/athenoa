@@ -788,3 +788,47 @@ html[data-theme='dark'] .nconnect__idea {
   stroke: none;
   fill: currentColor;
 }
+
+/* a written answer (with the visitor's API key) and the tutor's marking of it */
+.nwrite {
+  width: 100%;
+  padding: 0.8em 1em;
+  font: inherit;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--creme-light);
+  border: 1.5px solid var(--line);
+  border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+  resize: vertical;
+}
+.nwrite:focus-visible {
+  outline: 2px solid var(--ink-strong);
+  outline-offset: 2px;
+}
+.nfeedback {
+  display: grid;
+  gap: 0.4rem;
+}
+.nfeedback:empty {
+  display: none;
+}
+.nfeedback > * {
+  margin: 0;
+}
+.nfeedback__verdict {
+  justify-self: start;
+  padding: 0.2rem 0.8rem;
+  font-size: var(--step--1);
+  font-weight: 600;
+  border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
+  background: var(--creme-deep);
+  color: var(--ink-strong);
+}
+.nfeedback__verdict.is-close {
+  background: var(--blue);
+  color: var(--creme-light);
+}
+.nfeedback__verdict.is-partly {
+  background: var(--blue-light);
+  color: var(--blue-deep);
+}

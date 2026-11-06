@@ -12,6 +12,7 @@
     "prebuild": "node scripts/nostos-layout.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "1.6.0",
     "@astrojs/sitemap": "^3.7.4",
     "@fontsource-variable/eb-garamond": "^5.3.0",
     "@fontsource-variable/noto-serif-display": "^5.3.0",
