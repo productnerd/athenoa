@@ -131,7 +131,7 @@ Under Athena's letter on Home: her photograph (the library portrait, moved from 
 
 ## The Bookshelf's covers (6 November 2026)
 
-While the books' covers are being chosen, the Bookshelf has a switch under its intro, NEW WORDING proposed: "Covers" with "Drawn", "First editions" and "Editions of 1900 to 1930"; Greek «Εξώφυλλα»: «Ζωγραφιστά», «Πρώτες εκδόσεις», «Εκδόσεις 1900 έως 1930». It goes once the covers are chosen. An open book names its cover's picture inside: "On the cover:" / «Στο εξώφυλλο:» followed by the edition's caption from src/data/nostos-editions.json (NEW WORDING, English and Greek), with the library's credit where it asks for one.
+While the books' covers are being chosen, the Bookshelf has a switch under its intro, NEW WORDING proposed: "Covers" with "Drawn", "First editions" and "Editions of 1900 to 1930"; Greek «Εξώφυλλα»: «Ζωγραφιστά», «Πρώτες εκδόσεις», «Εκδόσεις 1900 έως 1930». It goes once the covers are chosen. An open book names its cover's picture inside: "On the cover:" / «Στο εξώφυλλο:» followed by the edition's caption from src/data/nostos-editions.json (NEW WORDING, English and Greek), with the library's credit where it asks for one. Approved by the client the same day (the switch, "On the cover:" and the first editions' captions).
 
 ## The list's dots (6 November 2026)
 

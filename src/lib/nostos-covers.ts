@@ -2,7 +2,8 @@
 // Two sets: a page from each book's first printed edition (src/data/nostos-editions.json, researched and
 // licence-checked in tasks/nostos-editions.md), and a front cover of an edition from 1900 to 1930
 // (src/data/nostos-vintage.json, tasks/nostos-vintage.md), once it is there. The files are in
-// src/assets/nostos-covers/<set>/, cropped and shrunk to 900px. Captions are NEW WORDING.
+// src/assets/nostos-covers/<set>/, cropped and shrunk to 900px. Captions are NEW WORDING (the first
+// editions' approved by the client, 6 November 2026).
 import type { ImageMetadata } from 'astro';
 import first from '../data/nostos-editions.json';
 
