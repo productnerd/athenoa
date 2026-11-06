@@ -86,7 +86,7 @@ const playHref = pathIn(locale, '/nostos/play/');
 <div
   class="nmap"
   data-nmap
-  data-play={playHref}
+  data-play-href={playHref}
   data-claude={nostosFlags.claude ? 'on' : undefined}
   data-words={JSON.stringify({ note: ui.note, noMatch: t.noMatch })}
 >
@@ -416,13 +416,13 @@ const playHref = pathIn(locale, '/nostos/play/');
       });
       const quiz = document.createElement('a');
       quiz.className = 'btn btn--ghost';
-      quiz.href = `${root.dataset.play}?quiz=${encodeURIComponent(id)}`;
+      quiz.href = `${root.dataset.playHref}?quiz=${encodeURIComponent(id)}`;
       quiz.textContent = words.note.quiz;
       row.append(knownBtn, quiz);
       if (root.dataset.claude === 'on') {
         const spar = document.createElement('a');
         spar.className = 'btn btn--ghost';
-        spar.href = `${root.dataset.play}?spar=${encodeURIComponent(id)}`;
+        spar.href = `${root.dataset.playHref}?spar=${encodeURIComponent(id)}`;
         spar.textContent = words.note.spar;
         row.append(spar);
       }

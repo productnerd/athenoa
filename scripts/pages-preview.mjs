@@ -58,6 +58,12 @@ for (const file of files) {
     // public files and built chunks named as strings
     text = text.replace(/(["'`])(\/(?:audio|textures|_astro)\/[^"'`]*)\1/g, (m, q, url) => `${q}${fix(url)}${q}`);
     if (text !== before) changed++;
+  } else if (/\.json$/.test(file)) {
+    // data the pages fetch (Nostos: the pictures' web files)
+    text = readFileSync(file, 'utf8');
+    const before = text;
+    text = text.replace(/"(\/_astro\/[^"]*)"/g, (m, url) => `"${fix(url)}"`);
+    if (text !== before) changed++;
   } else continue;
   writeFileSync(file, text);
 }
