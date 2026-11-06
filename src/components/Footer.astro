@@ -30,7 +30,8 @@ interface Props {
   scene?: Scene;
 }
 
-const { site } = content(getLocale(Astro.url));
+const locale = getLocale(Astro.url);
+const { site } = content(locale);
 const path = Astro.url.pathname.replace(/^\/el(?=\/)/, '');
 // Nostos is also read in Ancient Greek (/grc/nostos/), so its pages are found with either prefix taken off
 const nostos = /^\/nostos(\/|$)/.test(barePath(Astro.url.pathname));
@@ -135,7 +136,7 @@ const custom = Object.entries(images).find(([file]) =>
     }
   </div>
 
-  <p class="footer__legal" lang="el">{site.copyright}</p>
+  <p class="footer__legal" lang={locale === 'en' ? 'en' : 'el'}>{site.copyright}</p>
 </footer>
 
 <script>

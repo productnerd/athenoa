@@ -87,6 +87,18 @@ export const nostosUi = {
           mysteries: 'Myths and Mysteries',
           return: 'The Return Home',
         },
+        // NEW WORDING, proposed (6 November 2026): a line under each stage's banner
+        about: {
+          call: 'What philosophy is for Athena: a way of life that wakes you up, beginning with “know thyself”.',
+          soul: 'What the soul is, its parts and powers, and how it remembers what it already knows.',
+          goodlife: 'Virtue, justice and freedom: how to live well, alone and together in the polis.',
+          eros: 'Love as a path: Diotima’s ladder, from one beautiful body to beauty itself.',
+          delphi: 'Apollo’s oracle, the steps of awakening, and the music that brings the soul into harmony.',
+          cave: 'Plato’s allegory: the shadows we take for real, the turn, and the way up to the light.',
+          cosmos: 'The cosmos as order: the Logos, the ever-living fire, number, and the One in all things.',
+          mysteries: 'Myths as symbols, the gods as powers of the soul, and the mysteries of death and second birth.',
+          return: 'Odysseus comes home: the work after the return, and living the One in daily life.',
+        },
         kinds: {
           c: 'A new idea',
           q: 'A question',
@@ -418,6 +430,17 @@ export const nostosUi = {
           cosmos: 'Ο κόσμος και το Ένα',
           mysteries: 'Μύθοι και μυστήρια',
           return: 'Η επιστροφή',
+        },
+        about: {
+          call: 'Τι είναι η φιλοσοφία για την Αθηνά: ένας τρόπος ζωής που σε ξυπνά, με αρχή το «γνῶθι σαυτόν».',
+          soul: 'Τι είναι η ψυχή, τα μέρη και οι δυνάμεις της, και πώς θυμάται όσα ήδη γνωρίζει.',
+          goodlife: 'Αρετή, δικαιοσύνη και ελευθερία: πώς ζει κανείς καλά, μόνος και μαζί με τους άλλους στην πόλη.',
+          eros: 'Ο έρωτας ως δρόμος: η σκάλα της Διοτίμας, από ένα ωραίο σώμα ως το ίδιο το κάλλος.',
+          delphi: 'Το μαντείο του Απόλλωνα, τα βήματα της αφύπνισης, και η μουσική που φέρνει την ψυχή σε αρμονία.',
+          cave: 'Η αλληγορία του Πλάτωνα: οι σκιές που θεωρούμε αληθινές, η στροφή, και η άνοδος προς το φως.',
+          cosmos: 'Ο κόσμος ως τάξη: ο Λόγος, το ἀείζωον πῦρ, ο αριθμός, και το Ένα μέσα σε όλα.',
+          mysteries: 'Οι μύθοι ως σύμβολα, οι θεοί ως δυνάμεις της ψυχής, και τα μυστήρια του θανάτου και της δεύτερης γέννησης.',
+          return: 'Ο Οδυσσέας επιστρέφει σπίτι: το έργο μετά την επιστροφή, και το Ένα μέσα στην καθημερινή ζωή.',
         },
         kinds: {
           c: 'Μια νέα ιδέα',

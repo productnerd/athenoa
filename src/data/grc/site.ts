@@ -5,7 +5,7 @@ import { nostosUi } from '../nostos/ui';
 export const site = {
   name: 'ATHENOA',
   // The live footer signs off in Greek capitals. Left as it is.
-  copyright: '© ΑΘΕΝΟΑ ΑΚΑΔΗΜΙΑ',
+  copyright: '© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ',
   url: 'https://www.athenoa.com',
   locale: 'grc',
   // "Who We Are" from the old footer. No longer shown there; kept for descriptions and machine-readable summaries.
