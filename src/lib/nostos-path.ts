@@ -427,6 +427,8 @@ const placedRoutes = routes.map((r) => {
 
 // lessons of about eight steps, as even as they come
 function chapter(r: (typeof placedRoutes)[number]): Chapter {
+  // a practice to try closes its chapter: what was learnt, then something to do with it (client direction)
+  r = { ...r, route: [...r.route.filter((e) => e.step.k !== 'p'), ...r.route.filter((e) => e.step.k === 'p')] };
   const count = Math.max(1, Math.round(r.route.length / LESSON));
   const lessons = Array.from({ length: count }, (_, j) =>
     r.route.slice(Math.round((j * r.route.length) / count), Math.round(((j + 1) * r.route.length) / count)).map((e) => e.u),

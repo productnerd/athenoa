@@ -9,6 +9,8 @@ import Base from '../../layouts/Base.astro';
 import { nostosUi } from '../../data/nostos/ui';
 import { pathOutline } from '../../lib/nostos-path';
 import { lines } from '../../lib/nostos';
+import { stageArt } from '../../lib/nostos-stages';
+import Illustration from '../../components/Illustration.astro';
 import { starShapes } from '../../lib/nostos-shapes';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -40,6 +42,12 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
     <p class="visually-hidden">{t.path.loading}</p>
   </div>
   <script type="application/json" data-quotes set:html={JSON.stringify(quotes)} />
+  {/* the stages' symbols, for the head of a lesson's telos */}
+  {Object.entries(stageArt).map(([stage, art]) => (
+    <template data-stage-art={stage}>
+      <Illustration name={art} note={false} />
+    </template>
+  ))}
 
   <div
     class="npage"

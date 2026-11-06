@@ -1182,7 +1182,7 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
     return h('div', { class: 'nrow' }, button);
   };
   const read = (...body: Child[]) => {
-    stage.append(head, ...body, go(null));
+    stage.append(head, ...(body.filter(Boolean) as (Node | string)[]), go(null));
     (stage.querySelector('.nrow .btn') as HTMLElement)?.focus({ preventScroll: true });
   };
   const from = talkRef(s.talk, s.t);
@@ -1577,6 +1577,10 @@ function telos(ci: number, li: number, at: { ci: number; li: number } | null, M?
       then();
     }, 450);
   };
+  // the stage's own symbol, at the head (client direction)
+  const art = h('span', { class: 'ntelos__art', 'aria-hidden': 'true' });
+  const tpl = document.querySelector<HTMLTemplateElement>(`template[data-stage-art="${chapter.stage ?? ''}"]`);
+  if (tpl) art.append(tpl.content.cloneNode(true));
   const stones = h(
     'ol',
     { class: 'ntelos__stones', 'aria-hidden': 'true' },
@@ -1588,10 +1592,9 @@ function telos(ci: number, li: number, at: { ci: number; li: number } | null, M?
     h(
       'div',
       { class: 'ntelos__in' },
-      h('p', { class: 'ntelos__place' }, chapterPlace(ci)),
+      art,
+      h('p', { class: 'ntelos__place', id: 'ntelos-word' }, fill(W.path.lessonDone, { i: li + 1, n: chapter.lessons.length })),
       greek(W.arena.end, 'ntelos__word'),
-      h('p', { class: 'ntelos__msg', id: 'ntelos-word' }, fill(W.path.lessonDone, { i: li + 1, n: chapter.lessons.length })),
-      last ? h('p', { class: 'ntelos__msg ntelos__msg--strong' }, fill(W.path.chapterDone, { title: chapterName(ci) })) : null,
       stones,
       ideas.length
         ? h(
