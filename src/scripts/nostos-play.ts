@@ -1111,6 +1111,18 @@ function picture(p?: Picture) {
   );
 }
 
+/** An idea's mark on the map (its theme's star shape, in its colour), drawn from the page's symbols */
+function starMark(group: string) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'nstarmark');
+  svg.setAttribute('viewBox', '-1.5 -1.5 3 3');
+  svg.setAttribute('aria-hidden', 'true');
+  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  use.setAttribute('href', `#nsh-${group}`);
+  svg.append(use);
+  return svg;
+}
+
 /** One step, to learn (first time on the path) or to recall (Review). Reading steps call answered(null)
  *  when the visitor moves on; the rest call answered(right or not) when they answer. */
 function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material, answered: (ok: boolean | null) => void, next: () => void) {
@@ -1258,13 +1270,9 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
       const fresh = M.idea(s.a);
       const known = M.idea(s.b);
       if (!fresh || !known) return read(h('p', { class: 'nprompt', lang: 'en' }, `“${s.why}”`));
-      if (mode === 'learn' && pageMode) showMap(fresh.id);
+      // (no map beside a connection: each card carries its idea's mark from the map instead)
       const name = (c: Concept) => (c.greek ? `${c.label} · ${c.greek}` : c.label);
-      const star = (c: Concept) =>
-        pageMode
-          ? h('button', { type: 'button', class: 'nlinkish', onclick: () => showMap(c.id) }, c.label)
-          : h('a', { href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, c.label);
-      const answer = h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, `“${s.why}”`), h('p', { lang: 'en' }, star(fresh), ' · ', star(known)));
+      const answer = h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, `“${s.why}”`), h('p', { lang: 'en' }, `${fresh.label} · ${known.label}`));
       const alts = ((s.alts ?? []) as string[]).filter((x) => x !== s.bare);
       const others = pick((s.not as string[]).map(M.idea).filter((c): c is Concept => !!c), 3);
       const how = alts.length >= 2 && (mode === 'learn' || Math.random() < 0.5 || others.length < 3);
@@ -1272,7 +1280,8 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         const side = (c: Concept, isNew: boolean) =>
           h(
             'span',
-            { class: `nconnect__idea${isNew ? ' is-new' : ''}` },
+            { class: `nconnect__idea${isNew ? ' is-new' : ''}`, 'data-g': c.group },
+            starMark(c.group),
             c.greek ? h('span', { class: 'ng nconnect__greek', lang: 'grc' }, c.greek) : null,
             h('span', { class: 'nconnect__label', lang: 'en' }, c.label),
           );
@@ -1283,7 +1292,6 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
             null,
             head,
             h('div', { class: 'nconnect' }, side(fresh, true), h('span', { class: 'nconnect__line', 'aria-hidden': 'true' }), side(known, false)),
-            h('p', { class: 'nsmall' }, W.path.connect),
           ),
           s.bare,
           alts.slice(0, 3),

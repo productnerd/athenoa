@@ -90,8 +90,6 @@ export const nostosUi = {
           x: 'From the bookshelf',
         },
         meaning: 'Which is Athena’s meaning?',
-        // NEW WORDING, proposed (6 November 2026): a connection between two ideas already met
-        connect: 'You know both. How does Athena connect them?',
         lessonDone: 'Lesson {i} of {n} walked.',
         chapterDone: 'Chapter walked: {title}.',
         next: 'Next lesson',
@@ -375,7 +373,6 @@ export const nostosUi = {
           x: 'Από τη βιβλιοθήκη',
         },
         meaning: 'Ποιο είναι το νόημα της Αθηνάς;',
-        connect: 'Τα γνωρίζετε και τα δύο. Πώς τα συνδέει η Αθηνά;',
         lessonDone: 'Ολοκληρώσατε το μάθημα {i} από {n}.',
         chapterDone: 'Ολοκληρώσατε το κεφάλαιο: {title}.',
         next: 'Επόμενο μάθημα',

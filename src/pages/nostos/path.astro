@@ -8,6 +8,7 @@
 import Base from '../../layouts/Base.astro';
 import { nostosUi } from '../../data/nostos/ui';
 import { pathOutline } from '../../lib/nostos-path';
+import { starShapes } from '../../lib/nostos-shapes';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
 
@@ -35,6 +36,10 @@ const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
   </div>
 </Base>
 
+{/* the map's star shapes, for the marks on a connection's two cards */}
+<svg class="visually-hidden" aria-hidden="true" focusable="false">
+  {Object.entries(starShapes).map(([g, shape]) => <symbol id={`nsh-${g}`} viewBox="-1.5 -1.5 3 3" overflow="visible" set:html={shape} />)}
+</svg>
 <script type="application/json" data-nplay-words set:html={JSON.stringify(words)} />
 <script type="application/json" data-npath set:html={JSON.stringify(pathOutline)} />
 

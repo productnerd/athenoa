@@ -708,18 +708,6 @@ ul.nsteps li::before {
   top: 0;
   right: 0;
 }
-/* a link-like button inside a step (an idea's name that shows it on the map beside the lesson) */
-.nlinkish {
-  padding: 0;
-  font: inherit;
-  color: var(--ink-strong);
-  background: none;
-  border: 0;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.2em;
-  cursor: pointer;
-}
 /* a connection: the idea just met and the one met before, joined like two cells by a line */
 .nconnect {
   display: grid;
@@ -762,4 +750,41 @@ html.motion .nconnect__line {
   from {
     transform: scaleX(0);
   }
+}
+
+/* an idea's mark from the map, in its theme's pigment (the same seven as the map's stars) */
+.nconnect__idea {
+  --g-path: #a07208;
+  --g-soul: #2238c3;
+  --g-ethics: #587626;
+  --g-cosmos: #b3352d;
+  --g-ways: #18766c;
+  --g-thinkers: #bd6424;
+  --g-gods: #77307f;
+}
+html[data-theme='dark'] .nconnect__idea {
+  --g-path: #f0c75e;
+  --g-soul: #a9b9ff;
+  --g-ethics: #b9d27a;
+  --g-cosmos: #f28a80;
+  --g-ways: #80d4c6;
+  --g-thinkers: #f5b07a;
+  --g-gods: #d8a6e4;
+}
+.nconnect__idea[data-g='path'] { --gc: var(--g-path); }
+.nconnect__idea[data-g='soul'] { --gc: var(--g-soul); }
+.nconnect__idea[data-g='ethics'] { --gc: var(--g-ethics); }
+.nconnect__idea[data-g='cosmos'] { --gc: var(--g-cosmos); }
+.nconnect__idea[data-g='ways'] { --gc: var(--g-ways); }
+.nconnect__idea[data-g='thinkers'] { --gc: var(--g-thinkers); }
+.nconnect__idea[data-g='gods'] { --gc: var(--g-gods); }
+.nstarmark {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin-bottom: 0.2rem;
+  color: var(--gc, currentColor);
+  overflow: visible;
+  /* (the step's line drawings set a stroke that would round the star's points) */
+  stroke: none;
+  fill: currentColor;
 }
