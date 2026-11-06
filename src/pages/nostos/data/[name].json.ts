@@ -19,8 +19,6 @@ import {
 } from '../../../lib/nostos';
 import { chapters } from '../../../lib/nostos-path';
 
-const clip = (text: string, n: number) => (text.length > n ? `${text.slice(0, n - 1).replace(/\s+\S*$/, '')}…` : text);
-
 const feeds = {
   // the ideas, slim: what cards, match and threads need, and the words quiz looks for
   concepts: () =>
@@ -32,7 +30,8 @@ const feeds = {
       group: c.group,
       weight: c.weight,
       freq: c.freq,
-      take: clip(c.take ?? '', 420),
+      // whole: the path's idea steps show all of it, the activities shorten it where they need to
+      take: c.take ?? '',
     })),
   talks: () => Object.fromEntries(talks.map((t) => [t.id, talkName(t.id)])),
   // the links she makes herself, where she says why: [idea, other idea, her reason]

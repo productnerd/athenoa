@@ -1,0 +1,64 @@
+---
+// Nostos, the path: one lesson at a time, on a page of its own that fills the window (client direction,
+// 6 November 2026: not a popup). Begin, Continue and the stones on the play page come here; so does
+// Review (?review). ?c=<chapter>&l=<lesson> opens one lesson; with neither, the next one waiting.
+// "See it on the map" opens the map under the lesson with that star chosen. The steps themselves are
+// made by src/scripts/nostos-play.ts, as in the play page's dialog.
+// Not in the sitemap and noindex until launch. THE CONTENT IS NEW WORDING for Athena to review.
+import Base from '../../layouts/Base.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import { pathOutline } from '../../lib/nostos-path';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+import '../../styles/nostos-arena.css';
+
+const locale = getLocale(Astro.url);
+const ui = nostosUi[mainLocale(locale)];
+const t = ui.play;
+const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
+---
+
+<Base title={`${t.path.title} · Nostos | ATHENOA`} description={t.metaDescription} noindex header={false} footer={false}>
+  <div
+    class="npage"
+    data-nplay
+    data-path-page
+    data-feed-src="/nostos/data/"
+    data-map-href={pathIn(locale, '/nostos/')}
+    data-play-href={pathIn(locale, '/nostos/play/')}
+  >
+    <div class="narena narena--page" data-arena aria-labelledby="narena-title">
+      <div class="narena__sheet"></div>
+    </div>
+    <section class="npage__map" data-path-map hidden>
+      <iframe title={ui.map.mapLabel} data-path-frame></iframe>
+    </section>
+  </div>
+</Base>
+
+<script type="application/json" data-nplay-words set:html={JSON.stringify(words)} />
+<script type="application/json" data-npath set:html={JSON.stringify(pathOutline)} />
+
+<script>
+  import '../../scripts/nostos-play';
+</script>
+
+<style>
+  .npage {
+    min-height: 100dvh;
+  }
+  /* the map under the lesson, the width of the window, a little short of each edge */
+  .npage__map {
+    padding: 0 clamp(0.6rem, 0.2rem + 1.4vw, 1.6rem) var(--space-l);
+  }
+  .npage__map[hidden] {
+    display: none;
+  }
+  .npage__map iframe {
+    display: block;
+    width: 100%;
+    height: min(88dvh, 54rem);
+    border: 0;
+    border-radius: 2rem 1.6rem 2.2rem 1.8rem / 1.8rem 2.2rem 1.6rem 2rem;
+    background: var(--paper);
+  }
+</style>

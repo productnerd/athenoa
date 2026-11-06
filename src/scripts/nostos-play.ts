@@ -7,6 +7,7 @@
 // until Maria decides on the server function they need.
 //
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
+import { navigate } from 'astro:transitions/client';
 import { award, load, save, today, type Progress } from './nostos-progress';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -17,6 +18,10 @@ type Arena = { stage: HTMLElement; progress: (f: number) => void; score: (s: str
 let W: Words = {};
 let feedBase = '/nostos/data/';
 let mapBase = '/nostos/';
+// the path and Review run on a page of their own (src/pages/nostos/path.astro); the activities in a dialog
+let pageMode = false;
+let playHref = '/nostos/play/';
+let pathHref = '/nostos/path/';
 const feeds = new Map<string, Promise<any>>();
 const feed = <T = any>(name: string): Promise<T> => {
   if (!feeds.has(name)) {
@@ -114,6 +119,27 @@ const played = (id: string) => {
 // ---------- the arena: one dialog for every activity ----------
 let dialog: HTMLDialogElement;
 let cleanup: (() => void) | null = null;
+/** Close: the dialog on the play page; back to the play page from the path page */
+const leave = () => (pageMode ? navigate(playHref) : dialog.close());
+
+// ---------- the map under a lesson (path page): that star chosen, in the map page itself ----------
+const mapPanel = () => document.querySelector<HTMLElement>('[data-path-map]');
+function showMap(id: string) {
+  const panel = mapPanel();
+  const frame = panel?.querySelector<HTMLIFrameElement>('[data-path-frame]');
+  if (!panel || !frame) return;
+  const src = `${mapBase}?embed&star=${encodeURIComponent(id)}`;
+  if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
+  // over the map its own cursor takes over: this page's one is put away, not left at the edge
+  frame.onpointerenter = () => document.querySelector('[data-cursor]')?.classList.remove('is-here');
+  panel.hidden = false;
+  const calm = !document.documentElement.classList.contains('motion');
+  requestAnimationFrame(() => panel.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' }));
+}
+function hideMap() {
+  const panel = mapPanel();
+  if (panel) panel.hidden = true;
+}
 const talkNames: Record<string, string> = {};
 const talkRef = (id?: string, t?: string | number) =>
   id && talkNames[id]
@@ -132,7 +158,7 @@ function openArena(title: string, section: string): Arena {
   const bar = h('span', { class: 'narena__fill' });
   const score = h('span', { class: 'narena__score' });
   liveNote = h('span', { class: 'narena__note', 'aria-live': 'polite' });
-  const close = h('button', { type: 'button', class: 'narena__close', 'aria-label': W.arena.close, onclick: () => dialog.close() });
+  const close = h('button', { type: 'button', class: 'narena__close', 'aria-label': W.arena.close, onclick: leave });
   close.innerHTML =
     '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path></svg>';
   const sheet = dialog.querySelector('.narena__sheet')!;
@@ -148,8 +174,13 @@ function openArena(title: string, section: string): Arena {
     ),
     stage,
   );
-  if (!dialog.open) dialog.showModal();
-  dialog.scrollTop = 0;
+  if (pageMode) {
+    hideMap();
+    window.scrollTo(0, 0);
+  } else {
+    if (!dialog.open) dialog.showModal();
+    dialog.scrollTop = 0;
+  }
   const barBox = sheet.querySelector<HTMLElement>('.narena__bar')!;
   return {
     stage,
@@ -170,7 +201,7 @@ function finish(A: Arena, id: string, message: string, extra?: Node | null) {
       'div',
       { class: 'nrow nrow--centre' },
       h('button', { type: 'button', class: 'btn', onclick: () => start(id) }, W.arena.again),
-      h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => dialog.close() }, W.arena.back),
+      h('button', { type: 'button', class: 'btn btn--ghost', onclick: leave }, W.arena.back),
     ),
   );
   (A.stage.querySelector('.btn') as HTMLElement)?.focus();
@@ -1060,7 +1091,10 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
   switch (s.k) {
     case 'c': {
       const c: Concept = s.concept;
-      const toMap = h('a', { class: 'nsmall', href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, W.path.onMap);
+      // on the path page the map opens under the lesson; elsewhere this is a link to the map page
+      const toMap = pageMode
+        ? h('button', { type: 'button', class: 'nsmall nmaplink', onclick: () => showMap(c.id) }, W.path.onMap)
+        : h('a', { class: 'nsmall', href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, W.path.onMap);
       if (mode === 'learn') {
         stage.append(
           head,
@@ -1243,6 +1277,8 @@ function meet(u: string, kind: string, ok: boolean | null) {
 async function walk(ci: number, li: number) {
   const chapter = outline[ci];
   const ids = chapter.lessons[li];
+  // the address names the lesson, so a reload comes back to it
+  if (pageMode) history.replaceState(history.state, '', `${pathHref}?c=${ci}&l=${li}`);
   const A = openArena(chapterName(ci), `${W.path.title} · ${fill(W.path.chapter, { i: ci + 1, n: outline.length })}`);
   A.stage.replaceChildren(h('p', { class: 'nsmall' }, '…'));
   try {
@@ -1260,6 +1296,7 @@ async function walk(ci: number, li: number) {
         show();
       };
       if (!s) return meet(u, '', null), onward();
+      hideMap();
       A.stage.replaceChildren();
       ask(A.stage, s, 'learn', M, (ok) => meet(u, s.k, ok), onward);
     };
@@ -1289,7 +1326,7 @@ function walked(A: Arena, ci: number, li: number, fresh: boolean) {
       'div',
       { class: 'nrow nrow--centre' },
       at ? h('button', { type: 'button', class: 'btn', onclick: () => walk(at.ci, at.li) }, W.path.next) : null,
-      h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => dialog.close() }, W.path.back),
+      h('button', { type: 'button', class: 'btn btn--ghost', onclick: leave }, W.path.back),
     ),
   );
   (A.stage.querySelector('.btn') as HTMLElement)?.focus();
@@ -1308,7 +1345,7 @@ async function review() {
         'div',
         { class: 'nrow nrow--centre' },
         at ? h('button', { type: 'button', class: 'btn', onclick: () => walk(at.ci, at.li) }, W.path.go) : null,
-        h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => dialog.close() }, W.path.back),
+        h('button', { type: 'button', class: 'btn btn--ghost', onclick: leave }, W.path.back),
       ),
     );
     (A.stage.querySelector('.btn') as HTMLElement)?.focus();
@@ -1327,6 +1364,7 @@ async function review() {
       A.progress(i / queue.length);
       A.score(`${right} · ${Math.min(i + 1, n)} / ${n}`);
       const u = queue[i];
+      hideMap();
       A.stage.replaceChildren();
       ask(
         A.stage,
@@ -1474,34 +1512,61 @@ function setup() {
   feedBase = root.dataset.feedSrc ?? feedBase;
   mapBase = root.dataset.mapHref ?? mapBase;
   dialog = root.querySelector<HTMLDialogElement>('[data-arena]')!;
+  pageMode = 'pathPage' in root.dataset;
+  playHref = root.dataset.playHref ?? playHref;
+  pathHref = root.dataset.pathHref ?? pathHref;
   const ac = new AbortController();
   const on = { signal: ac.signal };
+  const path = document.querySelector('[data-npath]');
+  outline = JSON.parse(path?.textContent ?? '[]');
+  chapterOf.clear();
+  outline.forEach((c, ci) => c.lessons.forEach((l) => l.forEach((u) => chapterOf.set(u, ci))));
+
+  // the path page: straight into the lesson asked for (?c=&l=), Review (?review), or the next lesson
+  if (pageMode) {
+    const params = new URLSearchParams(location.search);
+    const [c, l] = [Number(params.get('c')), Number(params.get('l'))];
+    const at = here(load());
+    if (params.has('review')) review();
+    else if (params.has('c') && outline[c]?.lessons[l]) walk(c, l);
+    else if (at) walk(at.ci, at.li);
+    else {
+      const A = openArena(W.path.title, '');
+      A.progress(1);
+      A.stage.replaceChildren(
+        h('div', { class: 'nend' }, greek(W.arena.end, 'nend__word'), h('p', { class: 'nend__msg' }, W.path.doneAll)),
+        h('div', { class: 'nrow nrow--centre' }, h('button', { type: 'button', class: 'btn', onclick: leave }, W.path.back)),
+      );
+    }
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key === 'Escape') leave();
+      },
+      on,
+    );
+    stopPage = () => {
+      ac.abort();
+      cleanup?.();
+    };
+    return;
+  }
   document.documentElement.classList.add('nostos-play-live');
 
   root.querySelectorAll<HTMLButtonElement>('[data-act]').forEach((b) => {
     b.disabled = false;
     b.addEventListener('click', () => start(b.dataset.act!), on);
   });
-  const path = document.querySelector('[data-npath]');
-  outline = JSON.parse(path?.textContent ?? '[]');
-  chapterOf.clear();
-  outline.forEach((c, ci) => c.lessons.forEach((l) => l.forEach((u) => chapterOf.set(u, ci))));
-  root.querySelector('[data-review]')?.addEventListener('click', review, on);
-  root.querySelector('[data-path-go]')?.addEventListener(
-    'click',
-    () => {
-      const at = here(load());
-      if (at) walk(at.ci, at.li);
-    },
-    on,
-  );
+  // the path and Review open their own page
+  root.querySelector('[data-review]')?.addEventListener('click', () => navigate(`${pathHref}?review`), on);
+  root.querySelector('[data-path-go]')?.addEventListener('click', () => navigate(pathHref), on);
   root.querySelector('[data-path-stones]')?.addEventListener(
     'click',
     (event) => {
       const stone = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-lesson]');
       const at = here(load());
       const ci = at ? at.ci : outline.length - 1;
-      if (stone && !stone.disabled) walk(ci, Number(stone.dataset.lesson));
+      if (stone && !stone.disabled) navigate(`${pathHref}?c=${ci}&l=${stone.dataset.lesson}`);
     },
     on,
   );

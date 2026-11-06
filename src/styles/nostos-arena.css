@@ -1,0 +1,723 @@
+/* Nostos: the activity sheet and every step in it (made by src/scripts/nostos-play.ts), shared by the
+   play page, where it is a dialog, and the path page, where it fills the window. */
+/* ---------- the activity sheet (made by src/scripts/nostos-play.ts) ---------- */
+.narena {
+  width: min(100% - 1rem, 46rem);
+  max-width: none;
+  max-height: calc(100dvh - 1rem);
+  margin: auto;
+  padding: 0.5rem;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  overflow: hidden auto;
+  overscroll-behavior: contain;
+}
+.narena::backdrop {
+  background: color-mix(in srgb, var(--blue-deep, #071260) 36%, transparent);
+  backdrop-filter: blur(10px);
+}
+html:has(dialog.narena[open]) {
+  overflow: hidden;
+  scrollbar-gutter: stable;
+}
+html.motion .narena[open] {
+  transition:
+    opacity var(--dur-1) var(--ease-soft),
+    transform var(--dur-2) var(--ease-out);
+}
+@starting-style {
+  html.motion .narena[open] {
+    opacity: 0;
+    transform: translate3d(0, 1.2rem, 0) scale(0.97);
+  }
+}
+.narena__sheet {
+  --box-r: 2.5rem 3.3rem 2.3rem 3rem / 3.1rem 2.4rem 3.3rem 2.5rem;
+  display: grid;
+  gap: 1.1rem;
+  padding: 1.6rem clamp(1.2rem, 0.8rem + 2.4vw, 2.4rem) clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
+}
+.narena__close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.85rem;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  color: var(--ink-strong);
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-1) var(--hover-delay),
+    color var(--dur-1) var(--hover-delay);
+}
+.narena__close:hover {
+  color: var(--creme-light);
+  background: var(--ink-strong);
+}
+.narena__close path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+}
+.narena__head {
+  display: grid;
+  gap: 0.25rem;
+  padding-right: 3rem;
+}
+.narena__head > * {
+  margin: 0;
+}
+.narena__section,
+.narena__meta,
+.nsmall {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.nsmall {
+  margin: 0;
+}
+.narena__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1rem;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.narena__note {
+  color: var(--ink-strong);
+  opacity: 0;
+}
+.narena__note.is-on {
+  opacity: 1;
+}
+html.motion .narena__note.is-on {
+  animation: narena-note 2.4s var(--ease-out) forwards;
+}
+@keyframes narena-note {
+  0% {
+    opacity: 0;
+  }
+  12%,
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.narena__bar {
+  height: 4px;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+  background: var(--line);
+  overflow: hidden;
+}
+.narena__fill {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--ink-strong);
+  transition: width var(--dur-2) var(--ease-out);
+}
+.narena__stage {
+  display: grid;
+  gap: 1rem;
+}
+.narena__stage > p {
+  margin: 0;
+}
+.ng {
+  font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+}
+.nprompt {
+  margin: 0;
+  font-size: var(--step-1);
+  line-height: 1.35;
+  color: var(--ink-strong);
+}
+.nprompt--big {
+  font-size: var(--step-1);
+}
+.nprompt--centre {
+  text-align: center;
+}
+.nsubject {
+  margin: 0;
+  font-family: var(--font-title);
+  font-weight: var(--title-weight);
+  font-size: var(--step-2);
+  line-height: 1.1;
+  color: var(--ink-strong);
+}
+.nrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+}
+.nrow--centre {
+  justify-content: center;
+}
+.nrow--between {
+  justify-content: space-between;
+}
+.nrow--tight {
+  gap: 0.4rem;
+}
+.ntimer {
+  font-family: var(--font-title);
+  font-size: var(--step-1);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--ink-strong);
+}
+
+/* options: paper strips; after the answer the right one is inked, a wrong choice is struck through */
+.nopts {
+  display: grid;
+  gap: 0.55rem;
+}
+.nopt {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.85rem 1.15rem;
+  font: inherit;
+  line-height: 1.4;
+  text-align: left;
+  color: var(--ink);
+  background: var(--creme);
+  border: 1.5px solid var(--line);
+  border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-1) var(--hover-delay),
+    background-color var(--dur-1) var(--hover-delay);
+}
+.nopt:not(:disabled):hover {
+  border-color: var(--ink-strong);
+}
+.nopt:disabled {
+  cursor: default;
+}
+.nopt.is-right {
+  color: var(--creme-light);
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.nopt.is-wrong {
+  border-style: dashed;
+  color: var(--ink-soft);
+}
+.nopt.is-wrong .nopt__text,
+.nopt.is-wrong > span:not(.nmark-wrap) {
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.nopt.is-other {
+  opacity: 0.55;
+}
+.nmark-wrap {
+  flex: none;
+  display: inline-flex;
+  align-self: center;
+}
+.nmark {
+  width: 1.05em;
+  height: 1.05em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ntwo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+.nopt--two {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 1.1rem;
+  text-align: center;
+}
+.nopt--two .ng {
+  font-size: var(--step-2);
+  line-height: 1;
+}
+.nexplain {
+  display: grid;
+  gap: 0.4rem;
+  padding-top: 0.8rem;
+  border-top: 1.5px dashed var(--line);
+}
+.nexplain p {
+  margin: 0;
+}
+.nfrom {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.nfrom a {
+  color: inherit;
+}
+.nstatus {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.nunsure {
+  display: inline-block;
+  width: 0.5em;
+  height: 0.5em;
+  margin-left: 0.4em;
+  vertical-align: 0.15em;
+  border: 1.5px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.55;
+}
+
+/* tiles: for matching, ladders and roots */
+.ntiles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ntile {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0.6rem 0.95rem;
+  font: inherit;
+  font-size: var(--step-0);
+  line-height: 1.3;
+  text-align: left;
+  color: var(--ink);
+  background: var(--creme);
+  border: 1.5px solid var(--line);
+  border-radius: 1.2rem 0.9rem 1.3rem 1rem / 1rem 1.3rem 0.9rem 1.2rem;
+  cursor: pointer;
+  transition:
+    border-color var(--dur-1) var(--hover-delay),
+    opacity var(--dur-1);
+}
+.ntile:not(:disabled):hover {
+  border-color: var(--ink-strong);
+}
+.ntile.is-sel {
+  border-color: var(--ink-strong);
+  border-width: 2px;
+  background: color-mix(in srgb, var(--blue-light) 45%, var(--creme));
+}
+.ntile.is-done {
+  color: var(--ink-soft);
+  opacity: 0.6;
+  cursor: default;
+}
+.ntile.is-used {
+  opacity: 0.35;
+  cursor: default;
+}
+.ntile.is-miss {
+  border-style: dashed;
+}
+.ntile--still {
+  cursor: default;
+}
+.ntile .ng {
+  font-size: var(--step-1);
+}
+.ngloss {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+}
+.nmatch {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: 0.8rem;
+}
+.nmatch__col {
+  display: grid;
+  gap: 0.5rem;
+  align-content: start;
+}
+.nmatch__col .ntile {
+  width: 100%;
+}
+.nmatch__hint:empty {
+  display: none;
+}
+
+/* the flip card */
+.nflip {
+  display: block;
+  width: 100%;
+  min-height: 19rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  perspective: 1400px;
+}
+.nflip__in {
+  position: relative;
+  display: grid;
+  min-height: 19rem;
+  transform-style: preserve-3d;
+}
+html.motion .nflip__in {
+  transition: transform 0.6s var(--ease-in-out);
+}
+.nflip.is-on .nflip__in {
+  transform: rotateY(180deg);
+}
+.nflip__face {
+  grid-area: 1 / 1;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.6rem;
+  padding: 1.6rem 1.4rem;
+  text-align: center;
+  border-radius: var(--r-soft);
+  background: var(--blue-light);
+  color: var(--blue-deep);
+  backface-visibility: hidden;
+}
+.nflip__back {
+  transform: rotateY(180deg);
+  background: var(--creme-deep);
+  color: var(--ink);
+}
+.nflip__greek {
+  font-size: var(--step-4);
+  line-height: 1;
+  color: var(--blue);
+}
+.nflip__translit {
+  font-style: italic;
+}
+.nflip__label {
+  font-family: var(--font-title);
+  font-size: var(--step-2);
+  line-height: 1.1;
+  color: var(--ink-strong);
+}
+.nflip__take {
+  max-width: 34rem;
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+
+/* Diotima's kind of ladder for the stages: two rails, a rung for each step, filled from the foot */
+.nladder-wrap {
+  display: grid;
+  gap: 1rem;
+}
+/* (ol.nladder: the site's list reset, ol[class], would otherwise take its padding away) */
+ol.nladder {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  margin: 0;
+  padding: 0.4rem 1.6rem;
+  list-style: none;
+}
+.nladder::before,
+.nladder::after {
+  content: '';
+  position: absolute;
+  top: -0.5rem;
+  bottom: -0.5rem;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--ink-strong);
+  opacity: 0.6;
+}
+.nladder::before {
+  left: 0.5rem;
+}
+.nladder::after {
+  right: 0.5rem;
+}
+.nladder__rung {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  min-height: 3.4rem;
+  padding: 0.3rem 0 0.5rem;
+}
+.nladder__rung::after {
+  content: '';
+  position: absolute;
+  left: -1.1rem;
+  right: -1.1rem;
+  bottom: 0;
+  z-index: -1;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ink-strong);
+  opacity: 0.6;
+}
+.ntile--rung {
+  max-width: 100%;
+}
+.nladder__rung.is-right .ntile {
+  color: var(--creme-light);
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.nladder__rung.is-wrong .ntile {
+  border-style: dashed;
+  color: var(--ink-soft);
+}
+
+/* roots */
+.nbig {
+  display: block;
+  font-size: var(--step-4);
+  line-height: 1;
+  text-align: center;
+  color: var(--ink-strong);
+}
+.ntranslit {
+  margin: 0;
+  font-style: italic;
+  text-align: center;
+  color: var(--ink-soft);
+}
+.nslot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3.2rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1.5px dashed var(--line);
+}
+
+/* the fork: two arms of a Υ */
+.nfork {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 3.5rem;
+  position: relative;
+}
+.nfork__arm {
+  justify-content: center;
+  text-align: center;
+}
+.nfork__arm .ng {
+  font-size: var(--step-1);
+}
+.nfork__y {
+  grid-column: 1 / -1;
+  height: 3.2rem;
+  margin-top: -0.2rem;
+}
+.nfork__y svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: var(--ink-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+.nfork__y path {
+  vector-effect: non-scaling-stroke;
+}
+
+/* threads */
+.nthread__idea {
+  display: grid;
+  gap: 0.35rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: var(--r-soft-2);
+  background: var(--creme-deep);
+}
+.nthread__idea p,
+.nthread__lead {
+  margin: 0;
+}
+.nthread__greek {
+  font-size: var(--step-2);
+  line-height: 1;
+  color: var(--ink-strong);
+}
+.nthread__text {
+  width: 100%;
+  padding: 0.8em 1.1em;
+  font: inherit;
+  color: var(--blue-deep);
+  background: var(--creme-light);
+  border: 1.5px solid var(--line);
+  border-radius: 1.6rem 1.9rem 1.5rem 2rem / 1.9rem 1.5rem 2rem 1.6rem;
+}
+.nchip {
+  display: inline-flex;
+  padding: 0.35rem 0.85rem;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--ink-strong);
+  text-decoration: none;
+  background: none;
+  border: 1.5px solid var(--line);
+  border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+  cursor: pointer;
+  transition: border-color var(--dur-1) var(--hover-delay);
+}
+.nchip:hover {
+  border-color: currentColor;
+}
+
+/* askesis */
+ul.nsteps {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+}
+ul.nsteps li {
+  position: relative;
+  padding-left: 1.3rem;
+}
+/* a small pebble for each step: the order is the practice's, not numbered */
+ul.nsteps li::before {
+  content: '';
+  position: absolute;
+  left: 0.15rem;
+  top: 0.62em;
+  width: 0.45em;
+  height: 0.4em;
+  border-radius: 58% 42% 52% 48% / 48% 56% 44% 52%;
+  background: var(--ink-strong);
+  opacity: 0.7;
+}
+.ncarry {
+  display: grid;
+  gap: 0.3rem;
+  padding: 1.1rem 1.3rem;
+  border-radius: var(--r-soft);
+  background: var(--blue-light);
+  color: var(--blue-deep);
+}
+.ncarry p {
+  margin: 0;
+}
+.ncarry__q {
+  font-size: var(--step-1);
+  line-height: 1.35;
+}
+.nall {
+  display: grid;
+  gap: 0.4rem;
+}
+.nall__item summary {
+  padding: 0.5rem 0;
+  font-weight: 560;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+.nall__item .nsteps {
+  margin: 0.5rem 0;
+}
+
+/* the end of a round */
+.nend {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: center;
+  padding: 1rem 0;
+  text-align: center;
+}
+.nend__word {
+  font-size: var(--step-4);
+  font-style: italic;
+  line-height: 1;
+  color: var(--ink-strong);
+}
+.nend__msg {
+  max-width: 30rem;
+  margin: 0;
+  font-size: var(--step-1);
+}
+
+/* the path: a new idea, a passage, one of her lines */
+.nkind {
+  margin: 0 0 0.2rem;
+  letter-spacing: 0.02em;
+}
+.nidea {
+  display: grid;
+  gap: 0.45rem;
+  justify-items: center;
+  text-align: center;
+}
+.nidea > * {
+  margin: 0;
+}
+.nidea__take {
+  max-width: 36rem;
+  text-align: left;
+  line-height: 1.55;
+}
+.npass {
+  margin: 0;
+  padding-left: 1rem;
+  border-left: 2px solid var(--blue-light);
+  font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+  font-size: var(--step-0);
+  line-height: 1.55;
+}
+.nline {
+  margin: 0;
+  color: var(--ink-strong);
+}
+/* her words are in English: in the English voice face on every version of the site */
+.nline:lang(en) {
+  font-family: 'ATH Hand', var(--font-hand);
+}
+
+/* ---------- the path page: the same sheet, filling the window instead of a dialog ---------- */
+.narena--page {
+  width: min(100% - 2 * var(--gutter), 46rem);
+  max-height: none;
+  margin: 0 auto;
+  padding: clamp(1rem, 5vh, 3.5rem) 0 var(--space-l);
+  overflow: visible;
+}
+.narena--page .narena__sheet {
+  position: relative;
+  padding: 0;
+}
+.narena--page .narena__close {
+  top: 0;
+  right: 0;
+}
+/* "See it on the map" on the path page: a quiet link that opens the map under the lesson */
+.nmaplink {
+  padding: 0;
+  font: inherit;
+  font-size: var(--step--1);
+  color: var(--ink-strong);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}

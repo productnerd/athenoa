@@ -20,6 +20,10 @@ const byTheme = groups.map((g) => ({
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  {/* ?embed: the map alone, shown under a lesson on the path page (path.astro) */}
+  <script is:inline>
+    if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('nmap-embed');
+  </script>
   <NostosNav />
   <section class="section nostos-top">
     <div class="wrap">
@@ -202,5 +206,18 @@ const byTheme = groups.map((g) => ({
   }
   :global(html.nostos-live) .nostos-list__go {
     display: inline-flex;
+  }
+</style>
+
+<style is:global>
+  /* ?embed: only the map (and a chosen star's note), none of the page around it */
+  html.nmap-embed :is(.header, .footer, .nnav-bar, .nostos-head, .nostos-list, .music, .cookies, .cnote__actions) {
+    display: none !important;
+  }
+  html.nmap-embed {
+    scroll-padding-top: 0;
+  }
+  html.nmap-embed .nostos-top {
+    padding: 0;
   }
 </style>
