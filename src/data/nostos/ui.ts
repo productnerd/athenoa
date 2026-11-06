@@ -14,10 +14,10 @@ export const nostosUi = {
   en: {
     name: 'Nostos',
     map: {
-      metaTitle: 'Nostos: Athena’s idea universe',
+      metaTitle: 'Nostos: Athena’s Idea Universe',
       metaDescription:
         'A map of the ideas Dr Athena Potari teaches: each star an idea, sized by how often it comes up in Athena’s talks, joined to the ideas Athena links it to.',
-      title: 'Athena’s idea universe',
+      title: 'Athena’s Idea Universe',
       // {n}: the number of transcribed talks
       intro:
         'Each star is an idea Athena teaches. Its size is how often it comes up across {n} transcribed talks. Lines join the ideas Athena links.',
