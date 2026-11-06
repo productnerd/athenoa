@@ -256,13 +256,12 @@ export const nostosUi = {
       prev: 'Previous passage',
       next: 'Next passage',
       threads: 'Threads into Athena’s ideas',
-      talks: 'In Athena’s talks',
     },
     sources: {
-      metaTitle: 'Nostos: Athena’s talks and writings',
+      metaTitle: 'Nostos: Athena’s Talks & Articles',
       metaDescription:
         'The long-form talks, interviews, podcasts and writings of Dr Athena Potari that Nostos is drawn from, each with the ideas it holds.',
-      title: 'Talks and writings',
+      title: 'Talks & Articles',
       // {t}: talks; {w}: writings
       intro: '{t} long-form talks, interviews and podcasts, in Greek and English, and {w} of Athena’s writings. Everything in Nostos is drawn from them.',
       talks: 'Talks',
@@ -281,7 +280,7 @@ export const nostosUi = {
     // and the small menu that joins the four Nostos pages
     entry: {
       nav: 'Nostos',
-      sub: { label: 'Nostos', map: 'The map', play: 'Play', shelf: 'Bookshelf', sources: 'Sources' },
+      sub: { label: 'Nostos', map: 'The map', play: 'Play', shelf: 'Bookshelf', sources: 'Talks & Articles' },
       home: {
         title: 'Nostos',
         line: 'Study Athena’s teaching by doing: a map of the ideas, short activities drawn from the talks, and the books behind them.',
@@ -531,13 +530,12 @@ export const nostosUi = {
       prev: 'Προηγούμενο απόσπασμα',
       next: 'Επόμενο απόσπασμα',
       threads: 'Νήματα προς τις ιδέες της Αθηνάς',
-      talks: 'Στις ομιλίες της Αθηνάς',
     },
     sources: {
-      metaTitle: 'Νόστος: οι ομιλίες και τα κείμενα της Αθηνάς',
+      metaTitle: 'Νόστος: ομιλίες και άρθρα της Αθηνάς',
       metaDescription:
         'Οι μεγάλες ομιλίες, συνεντεύξεις, εκπομπές και τα κείμενα της Δρ. Αθηνάς Ποτάρη από τα οποία προέρχεται ο Νόστος, το καθένα με τις ιδέες που περιέχει.',
-      title: 'Ομιλίες και κείμενα',
+      title: 'Ομιλίες & άρθρα',
       intro: '{t} μεγάλες ομιλίες, συνεντεύξεις και εκπομπές, στα ελληνικά και στα αγγλικά, και {w} κείμενα της Αθηνάς. Από αυτά προέρχεται όλο το υλικό του Νόστου.',
       talks: 'Ομιλίες',
       talksSub: 'βίντεο και ήχος',
@@ -553,7 +551,7 @@ export const nostosUi = {
     },
     entry: {
       nav: 'Νόστος',
-      sub: { label: 'Νόστος', map: 'Ο χάρτης', play: 'Δραστηριότητες', shelf: 'Βιβλιοθήκη', sources: 'Πηγές' },
+      sub: { label: 'Νόστος', map: 'Ο χάρτης', play: 'Δραστηριότητες', shelf: 'Βιβλιοθήκη', sources: 'Ομιλίες & άρθρα' },
       home: {
         title: 'Νόστος',
         line: 'Μελετήστε τη διδασκαλία της Αθηνάς κάνοντας: ένας χάρτης των ιδεών, σύντομες δραστηριότητες από τις ομιλίες, και τα βιβλία πίσω από αυτές.',

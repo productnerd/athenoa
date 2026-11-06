@@ -7,7 +7,7 @@
 // THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts). The
 // passages are original Greek with public-domain translations published before 1929, as given.
 import { nostosUi } from '../../data/nostos/ui';
-import { conceptById, conceptsForWork, talkName, talksForWork, talkUrl, type Work } from '../../lib/nostos';
+import { conceptById, conceptsForWork, talkUrl, type Work } from '../../lib/nostos';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 
 interface Props {
@@ -20,7 +20,6 @@ const fill = (text: string, values: Record<string, string | number>) =>
   text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
 const weight = Math.max(1, Math.min(5, Math.round(w.weight ?? 3)));
 const ideas = conceptsForWork(w);
-const heard = talksForWork(w);
 const map = pathIn(locale, '/nostos/');
 ---
 
@@ -108,22 +107,6 @@ const map = pathIn(locale, '/nostos/');
               </a>
             ))}
           </p>
-        </>
-      )
-    }
-    {
-      heard.length > 0 && (
-        <>
-          <p class="nbook__h" lang={locale === 'en' ? 'en' : 'el'}>{t.talks}</p>
-          <ul class="nbook__talks">
-            {heard.map((id) => (
-              <li>
-                <a href={talkUrl(id)} target="_blank" rel="noopener">
-                  {talkName(id)}
-                </a>
-              </li>
-            ))}
-          </ul>
         </>
       )
     }
@@ -276,16 +259,5 @@ const map = pathIn(locale, '/nostos/');
   }
   .nbook__chip:hover {
     border-color: currentColor;
-  }
-  .nbook__talks {
-    display: grid;
-    gap: 0.3rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: var(--step--1);
-  }
-  .nbook__talks a {
-    color: var(--ink);
   }
 </style>

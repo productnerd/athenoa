@@ -162,6 +162,12 @@ const { ui } = content(getLocale(Astro.url));
       broken = true;
       render();
     });
+    // a talk starting in the page (Nostos sources) quiets the music, without changing the choice kept
+    window.addEventListener('athenoa:quiet', () => {
+      cancelAnimationFrame(ramp);
+      audio.pause();
+      render();
+    });
 
     // The invite: shown a moment after arrival if the browser is still holding sound back, gone with
     // the first press (which starts everything). The page stays usable throughout: it is only a note.

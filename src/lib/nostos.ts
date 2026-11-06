@@ -322,12 +322,6 @@ export function conceptsForWork(w: Work) {
   return [...ids].sort((a, b) => (conceptMap.get(b)!.freq || 0) - (conceptMap.get(a)!.freq || 0)).slice(0, 10);
 }
 
-/** The talks a book comes up in: its own list and those its passages are read in */
-export const talksForWork = (w: Work) =>
-  [...new Set([...((w.talks ?? []) as (string | TalkRef)[]).map((t) => (typeof t === 'string' ? t : t.id)), ...w.excerpts.map((e) => e.talk)])].filter(
-    (id): id is string => !!id && talkMap.has(id),
-  );
-
 // ---------- The map (positions from the build-time layout) ----------
 
 const layout = layoutJson as {
