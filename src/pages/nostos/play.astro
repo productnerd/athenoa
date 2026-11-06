@@ -82,7 +82,6 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
       <div class="wrap">
         <header class="nostos-head">
           <h1 class="t-1" data-split>{t.title}</h1>
-          <p class="lead nostos-intro" data-reveal>{t.intro}</p>
         </header>
 
         <div class="nplay-today" data-reveal>
@@ -252,8 +251,7 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
     margin: 0;
   }
   @media (max-width: 61.99rem) {
-    .nostos-head h1,
-    .nostos-intro {
+    .nostos-head h1 {
       max-width: 46rem;
     }
   }
@@ -263,12 +261,9 @@ const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
       column-gap: var(--space-xl);
       align-items: end;
     }
+    /* (no introduction beside it any more: the title takes the width) */
     .nostos-head h1 {
-      grid-column: 1;
-    }
-    .nostos-intro {
-      grid-column: 2;
-      grid-row: 1;
+      grid-column: 1 / -1;
     }
   }
 

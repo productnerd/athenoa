@@ -58,8 +58,6 @@ export const nostosUi = {
       metaDescription:
         'Short rounds drawn from Dr Athena Potari’s talks: cards, an oracle, ladders of Athena’s stages, myths, Greek roots, and a practice for the day.',
       title: 'Learn from Athena by doing',
-      intro:
-        'Short rounds, real content from Athena’s talks, and every right answer moves you a step up Diotima’s ladder.',
       noScript: 'The activities need JavaScript. All of Athena’s ideas are also on the map page.',
       mapLink: 'Open the map',
       failed: 'This did not load. Close it and try again.',
@@ -352,8 +350,6 @@ export const nostosUi = {
       metaDescription:
         'Σύντομοι γύροι από τις ομιλίες της Δρ. Αθηνάς Ποτάρη: κάρτες, ένα μαντείο, σκάλες με τα στάδια της Αθηνάς, μύθοι, ελληνικές ρίζες και μια άσκηση για τη μέρα.',
       title: 'Μάθετε από την Αθηνά κάνοντας',
-      intro:
-        'Σύντομοι γύροι, αληθινό υλικό από τις ομιλίες της Αθηνάς, και κάθε σωστή απάντηση σας ανεβάζει ένα σκαλί στη σκάλα της Διοτίμας. Το περιεχόμενο είναι στα αγγλικά.',
       noScript: 'Οι δραστηριότητες χρειάζονται JavaScript. Όλες οι ιδέες της Αθηνάς βρίσκονται και στη σελίδα του χάρτη.',
       mapLink: 'Άνοιγμα του χάρτη',
       failed: 'Δεν φορτώθηκε. Κλείστε και δοκιμάστε ξανά.',
