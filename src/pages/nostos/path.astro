@@ -46,8 +46,17 @@ const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
   .npage {
     min-height: 100dvh;
   }
-  /* the map: under the lesson on narrow screens, the width of the window a little short of each edge */
+  /* the map: under the lesson on narrow screens, the width of the window a little short of each edge.
+     It comes up behind the Next button to just under the explanation, and fades in from its top edge
+     (client direction, 6 November 2026), so there is no hard edge between lesson and map */
+  :global(.narena--page) {
+    position: relative;
+    z-index: 2;
+  }
   .npage__map {
+    position: relative;
+    z-index: 1;
+    margin-top: calc(-1 * (var(--space-l) + 5rem));
     padding: 0 clamp(0.6rem, 0.2rem + 1.4vw, 1.6rem) var(--space-l);
   }
   .npage__map[hidden] {
@@ -56,10 +65,12 @@ const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
   .npage__map iframe {
     display: block;
     width: 100%;
-    height: min(58dvh, 34rem);
+    height: min(62dvh, 36rem);
     border: 0;
-    border-radius: 2rem 1.6rem 2.2rem 1.8rem / 1.8rem 2.2rem 1.6rem 2rem;
     background: var(--paper);
+    /* faded in from the top, where it meets the lesson (the map inside fades at its own edges) */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%);
+    mask-image: linear-gradient(to bottom, transparent, #000 30%);
   }
   /* on wide screens, beside the lesson, the height of the window */
   @media (min-width: 75rem) {
@@ -77,10 +88,14 @@ const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
     .npage.has-map .npage__map {
       position: sticky;
       top: 0;
+      margin-top: 0;
       padding: 1rem clamp(0.6rem, 0.2rem + 1.4vw, 1.6rem) 1rem 0;
     }
+    /* beside the lesson only the map's own soft edges */
     .npage.has-map .npage__map iframe {
       height: calc(100dvh - 2rem);
+      -webkit-mask-image: none;
+      mask-image: none;
     }
   }
 </style>

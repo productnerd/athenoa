@@ -153,8 +153,11 @@ function hideMap() {
   document.querySelector('.npage')?.classList.remove('has-map');
 }
 const talkNames: Record<string, string> = {};
+// The line under an answer naming the talk it comes from ("In Athena's talk …") is not shown for now
+// (client direction, 6 November 2026); set this to true to bring it back everywhere at once.
+const showSources = false;
 const talkRef = (id?: string, t?: string | number) =>
-  id && talkNames[id]
+  showSources && id && talkNames[id]
     ? h(
         'p',
         { class: 'nfrom' },
@@ -1108,6 +1111,22 @@ function picture(p?: Picture) {
   );
 }
 
+/** An idea's name taken out of a sentence (its label, its Greek, its spelling, and the stems of its
+ *  longer words, so "immanent" goes with "Immanence"), for a question that must not answer itself */
+const unnamed = new Set(['the', 'and', 'of', 'as', 'in', 'to', 'its', 'his', 'her', 'their', 'with', 'from']);
+function blankName(text: string, c: Concept) {
+  const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const whole = [c.label.replace(/\s*\(.*?\)/g, ''), ...(c.label.match(/\(([^)]*)\)/)?.slice(1) ?? []), c.greek, c.translit]
+    .filter((w): w is string => !!w && w.trim().length > 2)
+    .map((w) => new RegExp(`(?<!\\p{L})${esc(w.trim())}(?!\\p{L})`, 'giu'));
+  const stems = c.label
+    .replace(/[()]/g, ' ')
+    .split(/[\s,·/–-]+/)
+    .filter((w) => w.length >= 5 && !unnamed.has(w.toLowerCase()))
+    .map((w) => new RegExp(`(?<!\\p{L})${esc(w.slice(0, Math.max(5, w.length - 3)))}\\p{L}*`, 'giu'));
+  return [...whole, ...stems].reduce((out, re) => out.replace(re, '___'), text);
+}
+
 /** One step, to learn (first time on the path) or to recall (Review). Reading steps call answered(null)
  *  when the visitor moves on; the rest call answered(right or not) when they answer. */
 function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material, answered: (ok: boolean | null) => void, next: () => void) {
@@ -1247,14 +1266,20 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
       return beat();
     }
     case 'k': {
-      // one of her links: given her reason, find the idea at the other end (either end, in Review)
+      // one of her links: given her reason, find the idea at the other end (either end, in Review).
+      // Where her reason names that idea, it is blanked out, so the question does not answer itself
+      // (client note, 6 November 2026); the whole phrase comes back with the answer
       const flip = mode === 'recall' && Math.random() < 0.5;
       const from = M.idea(flip ? s.b : s.a);
       const to = M.idea(flip ? s.a : s.b);
       const others = pick((s.not as string[]).map(M.idea).filter((c): c is Concept => !!c), 3);
       if (!from || !to || others.length < 3) return read(h('p', { class: 'nprompt', lang: 'en' }, `“${s.why}”`));
       const name = (c: Concept) => (c.greek ? `${c.label} · ${c.greek}` : c.label);
-      const star = (c: Concept) => h('a', { href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, c.label);
+      const star = (c: Concept) =>
+        pageMode
+          ? h('button', { type: 'button', class: 'nlinkish', onclick: () => showMap(c.id) }, c.label)
+          : h('a', { href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, c.label);
+      const asked = blankName(s.why, to);
       return choose(
         stage,
         h(
@@ -1262,14 +1287,19 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
           null,
           head,
           h('p', { class: 'nsmall' }, fill(W.links.ask, { label: from.label })),
-          h('p', { class: 'nprompt nprompt--big', lang: 'en' }, `“${s.why}”`),
+          h('p', { class: 'nprompt nprompt--big', lang: 'en' }, `“${asked}”`),
           h('p', { class: 'nsmall' }, W.links.choose),
         ),
         name(to),
         others.map(name),
         answered,
         next,
-        h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, star(from), ' · ', star(to))),
+        h(
+          'div',
+          { class: 'nexplain' },
+          asked !== s.why ? h('p', { lang: 'en' }, `“${s.why}”`) : null,
+          h('p', { lang: 'en' }, star(from), ' · ', star(to)),
+        ),
       );
     }
     case 'p':

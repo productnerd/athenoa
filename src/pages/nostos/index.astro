@@ -267,4 +267,13 @@ const byTheme = groups.map((g) => ({
   html.nmap-embed .nostos-top {
     padding: 0;
   }
+  /* inside a lesson the stars fade out towards all four edges, so the map has no hard border */
+  html.nmap-embed .nmap__view {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 84%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 84%, transparent);
+    mask-composite: intersect;
+  }
 </style>

@@ -708,3 +708,15 @@ ul.nsteps li::before {
   top: 0;
   right: 0;
 }
+/* a link-like button inside a step (an idea's name that shows it on the map beside the lesson) */
+.nlinkish {
+  padding: 0;
+  font: inherit;
+  color: var(--ink-strong);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+}
