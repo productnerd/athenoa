@@ -96,7 +96,8 @@ How to teach:
 - Help the student think: ask one good question back when it serves them, in the Socratic way Athena admires.
 - Use Greek terms in Greek script with their meaning, as Athena does.
 - Each message from the student begins with a <where> note: the step on their screen now, the chapter and lesson, and their recent answers. Use it to help with what is in front of them. If they are in the middle of a question and have not answered it yet, help them think it through but do not give away the answer.
-- Reply in the language the student writes in (Greek or English).`;
+- Reply in the language the student writes in (Greek or English).
+- Write for a small chat window: short paragraphs, **bold** only for a key term or two, a short list only when you are listing. No tables, no long headings.`;
 
 async function system(feedBase: string, notes: string): Promise<Anthropic.Beta.BetaTextBlockParam[]> {
   const blocks: Anthropic.Beta.BetaTextBlockParam[] = [
@@ -215,6 +216,68 @@ The student's choice: ${chosen}`,
     .trim();
 }
 
+/** A reply as written: paragraphs, **bold** and *italic*, `code`, lists, small headings and quotes,
+ *  built as elements (never as HTML from the reply, so nothing in it can run) */
+function setText(into: HTMLElement, text: string) {
+  const inline = (line: string, to: HTMLElement) => {
+    const parts = line.split(/(\*\*[^*]+\*\*|__[^_]+__|\*[^*\s][^*]*\*|_[^_\s][^_]*_|`[^`]+`)/g);
+    for (const part of parts) {
+      if (!part) continue;
+      const wrap = (tag: string, inner: string) => {
+        const el = document.createElement(tag);
+        el.textContent = inner;
+        to.append(el);
+      };
+      if (/^(\*\*|__).+(\*\*|__)$/.test(part)) wrap('strong', part.slice(2, -2));
+      else if (/^`.+`$/.test(part)) wrap('code', part.slice(1, -1));
+      else if (/^[*_].+[*_]$/.test(part)) wrap('em', part.slice(1, -1));
+      else to.append(part);
+    }
+  };
+  const nodes: HTMLElement[] = [];
+  let list: HTMLElement | null = null;
+  let para: HTMLElement | null = null;
+  for (const raw of text.replace(/\r/g, '').split('\n')) {
+    const line = raw.trimEnd();
+    const bullet = line.match(/^\s*[-*•]\s+(.*)$/);
+    const number = line.match(/^\s*\d+[.)]\s+(.*)$/);
+    const head = line.match(/^\s*#{1,6}\s+(.*)$/);
+    const quote = line.match(/^\s*>\s?(.*)$/);
+    if (!line.trim()) {
+      list = null;
+      para = null;
+      continue;
+    }
+    if (bullet || number) {
+      const tag = bullet ? 'ul' : 'ol';
+      if (!list || list.tagName.toLowerCase() !== tag) {
+        list = document.createElement(tag);
+        nodes.push(list);
+      }
+      const li = document.createElement('li');
+      inline((bullet ?? number)![1], li);
+      list.append(li);
+      para = null;
+      continue;
+    }
+    list = null;
+    if (head || quote) {
+      const el = document.createElement(head ? 'h4' : 'blockquote');
+      inline((head ?? quote)![1], el);
+      nodes.push(el);
+      para = null;
+      continue;
+    }
+    if (para) para.append(document.createElement('br'));
+    else {
+      para = document.createElement('p');
+      nodes.push(para);
+    }
+    inline(line, para);
+  }
+  into.replaceChildren(...nodes);
+}
+
 // ---------- the chat panel ----------
 let stop: (() => void) | undefined;
 function setup() {
@@ -247,12 +310,15 @@ function setup() {
   const bubble = (who: 'you' | 'tutor', text: string) => {
     const li = document.createElement('li');
     li.className = `ntutor__msg ntutor__msg--${who}`;
-    const p = document.createElement('p');
-    p.textContent = text;
-    li.append(p);
+    const box = document.createElement('div');
+    box.className = 'ntutor__bubble';
+    // the visitor's words as typed; the tutor's set as written
+    if (who === 'you') box.textContent = text;
+    else setText(box, text);
+    li.append(box);
     list.append(li);
     list.scrollTop = list.scrollHeight;
-    return p;
+    return box;
   };
   const textOf = (content: Message['content']) =>
     typeof content === 'string'
@@ -300,7 +366,14 @@ function setup() {
     },
     on,
   );
-  $('[data-tutor-close]').addEventListener('click', () => toggle(false), on);
+  $('[data-tutor-close]').addEventListener(
+    'click',
+    () => {
+      toggle(false);
+      opener.focus();
+    },
+    on,
+  );
 
   keyForm.addEventListener(
     'submit',
@@ -427,14 +500,23 @@ function setup() {
           messages: [...chat.messages, asked],
         });
         let text = '';
+        let drawing = false;
         stream.on('text', (delta) => {
           if (!text) out.parentElement!.classList.remove('is-waiting');
           text += delta;
-          out.textContent = text;
-          list.scrollTop = list.scrollHeight;
+          // set as it comes, once a frame at most
+          if (!drawing) {
+            drawing = true;
+            requestAnimationFrame(() => {
+              drawing = false;
+              setText(out, text);
+              list.scrollTop = list.scrollHeight;
+            });
+          }
         });
         const message = await stream.finalMessage();
         if (message.stop_reason === 'refusal' && !text) out.textContent = W.declined;
+        else setText(out, text);
         // kept whole, as the API returned it, so the next request carries it unchanged
         chat.messages.push(asked, { role: 'assistant', content: message.content as Anthropic.Beta.BetaContentBlockParam[] });
         write(CHAT, chat);

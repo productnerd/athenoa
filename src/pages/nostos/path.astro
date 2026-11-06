@@ -326,8 +326,9 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
   .ntutor__open:hover {
     transform: translateY(-2px);
   }
+  /* open, the panel takes the button's place in the corner (client direction); its × closes it */
   .ntutor.is-open .ntutor__open {
-    background: var(--blue-deep);
+    display: none;
   }
   .ntutor__open svg,
   .ntutor__x svg {
@@ -352,7 +353,7 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
     width: min(24rem, calc(100vw - 2rem));
-    height: min(34rem, calc(100dvh - 6.5rem));
+    height: min(36rem, calc(100dvh - 2rem));
     color: var(--ink);
     background-color: var(--creme-light);
     background-image: var(--grain);
@@ -528,25 +529,71 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
     overflow: auto;
     list-style: none;
   }
-  .ntutor__msg p {
-    margin: 0;
-    padding: 0.6rem 0.85rem;
+  /* the messages are made by the script: their styles are global, under the log */
+  .ntutor__log :global(.ntutor__msg) {
+    display: flex;
+  }
+  .ntutor__log :global(.ntutor__bubble) {
+    display: grid;
+    gap: 0.55rem;
+    max-width: 100%;
+    padding: 0.65rem 0.9rem 0.7rem;
     font-size: var(--step--1);
-    line-height: 1.5;
-    white-space: pre-wrap;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
     border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
   }
-  .ntutor__msg--tutor p {
-    background: var(--creme-deep);
-    margin-right: 1.5rem;
+  .ntutor__log :global(.ntutor__bubble > *) {
+    margin: 0;
   }
-  .ntutor__msg--you p {
+  .ntutor__log :global(.ntutor__msg--tutor .ntutor__bubble) {
+    margin-right: 1.2rem;
+    color: var(--ink);
+    background: var(--creme-deep);
+  }
+  .ntutor__log :global(.ntutor__msg--you) {
+    justify-content: flex-end;
+  }
+  .ntutor__log :global(.ntutor__msg--you .ntutor__bubble) {
     margin-left: 2rem;
     color: var(--creme-light);
     background: var(--blue);
+    white-space: pre-wrap;
   }
-  .ntutor__msg.is-waiting p {
+  :global(html[data-theme='dark']) .ntutor__log :global(.ntutor__msg--you .ntutor__bubble) {
+    color: var(--blue-deep);
+    background: var(--blue-light);
+  }
+  .ntutor__log :global(.ntutor__msg.is-waiting .ntutor__bubble) {
     color: var(--ink-soft);
+    font-style: italic;
+  }
+  .ntutor__log :global(.ntutor__bubble strong) {
+    font-weight: 650;
+    color: var(--ink-strong);
+  }
+  .ntutor__log :global(.ntutor__bubble h4) {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-0);
+    line-height: 1.2;
+    color: var(--ink-strong);
+  }
+  .ntutor__log :global(.ntutor__bubble ul),
+  .ntutor__log :global(.ntutor__bubble ol) {
+    display: grid;
+    gap: 0.3rem;
+    padding-left: 1.2rem;
+  }
+  .ntutor__log :global(.ntutor__bubble code) {
+    font-size: 0.92em;
+    padding: 0 0.25em;
+    border-radius: 0.3em;
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+  .ntutor__log :global(.ntutor__bubble blockquote) {
+    padding-left: 0.7rem;
+    border-left: 2px solid var(--line);
     font-style: italic;
   }
   .ntutor__form {
