@@ -1916,17 +1916,9 @@ function setup() {
     m.addEventListener(
       'click',
       () => {
-        const ci = Number(m.dataset.railCh);
-        const skip = root.querySelector<HTMLElement>(`[data-ch="${ci}"] [data-skip-ch]`);
-        const ask = root.querySelector<HTMLDialogElement>('[data-pop="skip"]');
-        // a stage further on asks first, as its first chapter would; otherwise it is scrolled to
-        if (skip && !skip.hidden && ask) {
-          ask.dataset.to = `${pathHref}?c=${ci}&l=0`;
-          ask.showModal();
-        } else {
-          const calm = !document.documentElement.classList.contains('motion');
-          document.getElementById(`stage-${m.dataset.rail}`)?.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
-        }
+        // only scrolls to the stage (client direction): skipping is from a chapter's own card
+        const calm = !document.documentElement.classList.contains('motion');
+        document.getElementById(`stage-${m.dataset.rail}`)?.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' });
       },
       on,
     ),

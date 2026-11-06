@@ -144,7 +144,6 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
 // each stage's own drawing (the site's symbols), on its milestone and faint across its chapters' cards,
 // and its number in Greek numerals, carved on the milestone (client direction, 6 November 2026)
 const numerals = ['Α΄', 'Β΄', 'Γ΄', 'Δ΄', 'Ε΄', 'ΣΤ΄', 'Ζ΄', 'Η΄', 'Θ΄', 'Ι΄'];
-const firstOf = (st: string) => pathOutline.findIndex((c) => c.stage === st);
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -255,14 +254,14 @@ const firstOf = (st: string) => pathOutline.findIndex((c) => c.stage === st);
     </div>
 
     {/* the stages at a glance: one mark each, the one you are in filled, those walked ticked; a mark
-        leads to its stage (a stage further on asks first, as a chapter does) */}
+        scrolls to its stage */}
     {
       staged && (
         <nav class="njrail" aria-label={t.path.rail}>
           <ol>
             {stageIds.map((st, k) => (
               <li>
-                <button type="button" class="njrail__mark" data-rail={st} data-rail-ch={firstOf(st)} title={stageName(st)}>
+                <button type="button" class="njrail__mark" data-rail={st} title={stageName(st)}>
                   <span class="njrail__num" lang="grc">{numerals[k]}</span>
                   <span class="visually-hidden">{stageName(st)}</span>
                 </button>
