@@ -10,7 +10,7 @@ import { talkUrl } from '../../lib/nostos';
 import GuideEcho from '../../components/nostos/GuideEcho.astro';
 import GuideFigure from '../../components/nostos/GuideFigure.astro';
 import GuideSymbol from '../../components/nostos/GuideSymbol.astro';
-import { intro, words, phases, habits, meditations, day, hard, love, work, traps, start, closing, talkShort, echoes, echoNote, maps, kinds, gates, gateNote } from '../../data/nostos-guide';
+import { intro, words, phases, habits, meditations, day, hard, love, work, traps, closing, talkShort, echoes, echoNote, maps, kinds, gates, gateNote } from '../../data/nostos-guide';
 import type { Src } from '../../data/nostos-guide';
 
 const srcUrl = (s: Src) => talkUrl(s[0], s[1]);
@@ -46,7 +46,6 @@ const toc = [
   { href: '#ng-love', label: love.title },
   { href: '#ng-work', label: work.title },
   { href: '#ng-traps', label: traps.title },
-  { href: '#ng-start', label: start.title },
 ];
 ---
 
@@ -352,21 +351,9 @@ const toc = [
     </div>
   </section>
 
-  {/* 9. the first month */}
-  <section class="section ng-sec" id="ng-start" aria-labelledby="ng-start-h">
+  {/* Athena's last word (the first thirty days are gone: client direction, 6 November 2026) */}
+  <section class="section ng-end">
     <div class="wrap">
-      <h2 class="t-2" id="ng-start-h">{start.title}</h2>
-      <p class="ng-intro">{start.intro}</p>
-      <ol class="ng-weeks" role="list">
-        {start.weeks.map((w) => (
-          <li class="ng-week">
-            <p class="ng-week__label">{w.label}</p>
-            <p class="ng-week__name">{w.name}</p>
-            <ul class="ng-dots">{w.items.map((x) => <li>{x}</li>)}</ul>
-          </li>
-        ))}
-      </ol>
-      <p class="ng-after">{start.after}</p>
       <figure class="ng-line ng-line--big ng-line--end">
         <blockquote><p>{closing.line.text}</p></blockquote>
         <figcaption>Athena · <a href={srcUrl(closing.line.src)} target="_blank" rel="noopener">{srcLabel(closing.line.src)}</a></figcaption>
@@ -1020,44 +1007,6 @@ const toc = [
     color: var(--blue);
   }
 
-  /* the first month */
-  .ng-weeks {
-    display: grid;
-    gap: 0.9rem;
-    margin: var(--space-m) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  @media (min-width: 44rem) {
-    .ng-weeks {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-  @media (min-width: 72rem) {
-    .ng-weeks {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-  .ng-week {
-    padding: 1.2rem 1.3rem;
-    border: 1.5px solid var(--line);
-    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
-  }
-  .ng-week > p {
-    margin: 0;
-  }
-  .ng-week__label {
-    font-size: var(--step--1);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-  }
-  .ng-week__name {
-    margin-bottom: 0.6rem !important;
-    font-family: var(--font-title);
-    font-size: var(--step-2);
-    color: var(--ink-strong);
-  }
   .ng-line--end {
     margin-top: var(--space-xl);
   }

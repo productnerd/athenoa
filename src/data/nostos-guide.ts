@@ -4,7 +4,7 @@
 // NEW WORDING, proposed, all of it. Every step is drawn from the practices, stages, distinctions and
 // lines in src/data/nostos/ (themselves drawn from 27 of Athena's talks, for Athena to review), and
 // each `src` names the talk it comes from: [YouTube id, time if known]. The seven phases, the order,
-// the times of day, the minutes, the sample day and the 30 days are an arrangement made for this
+// the times of day, the minutes and the sample day are an arrangement made for this
 // draft, not Athena's own.
 
 export type Src = [talk: string, t?: string];
@@ -705,18 +705,6 @@ export const traps = {
 };
 
 /* ------------------------------------------------------------------------------------------------ */
-
-export const start = {
-  title: 'Your first thirty days',
-  intro: 'If all of this is too much, start here: one new habit a week, each one kept as you add the next.',
-  weeks: [
-    { label: 'Week 1', name: 'Begin', items: ['Buy a notebook. On the first page, the adolescent questions; on the second, your intention, dated.', 'One minute of gratitude each morning.', 'Eyes open, eyes closed: five minutes a day.'] },
-    { label: 'Week 2', name: 'Watch', items: ['Add the evening review: what did I desire, what did I feel, what mood did I carry?', 'During the day, whenever you remember, name how your mind is working.'] },
-    { label: 'Week 3', name: 'Subtract', items: ['Choose one old habit. Say «No» to it, and plant one «Yes» in its place.', 'Greet “my dear One” in every irritation.'] },
-    { label: 'Week 4', name: 'Widen', items: ['The Ares audit, every night.', 'One evening alone, without the phone.', 'One real conversation about something that matters.', 'One act for someone outside your own circle.'] },
-  ],
-  after: 'On day thirty, re-read what you wrote on day one. Keep what took root. Then go deeper rather than wider: one key, lived.',
-};
 
 export const closing = {
   line: { text: 'Follow love, and love will set you free.', src: ['xLQXoDX7i94', '20:03'] as Src },
