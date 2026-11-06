@@ -91,7 +91,7 @@
   "a": "cave",
   "b": "plato",
   "her": true,
-  "co": 41,
+  "co": 42,
   "npmi": 0.16,
   "why": "She calls it the heart of the Republic"
  },
@@ -211,7 +211,7 @@
   "a": "paideia",
   "b": "politics",
   "her": true,
-  "co": 27,
+  "co": 29,
   "npmi": 0.2,
   "why": "It is the gate between individual and whole that powers want to control."
  },
@@ -235,7 +235,7 @@
   "a": "courage",
   "b": "paideia",
   "her": true,
-  "co": 5,
+  "co": 6,
   "npmi": 0.24,
   "why": "Paideia keeps the soul in γενναιότητα against resignation."
  },
@@ -267,7 +267,7 @@
   "a": "ethics",
   "b": "paideia",
   "her": true,
-  "co": 9,
+  "co": 10,
   "npmi": 0.19,
   "why": "Plato's Academy taught ethics as self-moulding"
  },
@@ -563,7 +563,7 @@
   "a": "eros",
   "b": "good",
   "her": true,
-  "co": 11,
+  "co": 13,
   "npmi": 0.27,
   "why": "Eros is the heat of the Good and the way of approach."
  },
@@ -627,7 +627,7 @@
   "a": "cave",
   "b": "good",
   "her": true,
-  "co": 23,
+  "co": 24,
   "npmi": 0.28,
   "why": "The freed prisoner sees that the Good caused everything, even below"
  },
@@ -747,7 +747,7 @@
   "a": "aristotle",
   "b": "eudaimonia",
   "her": true,
-  "co": 19,
+  "co": 20,
   "npmi": 0.36,
   "why": "Aristotle: a natural human tendency toward eudaimonia."
  },
@@ -1019,7 +1019,7 @@
   "a": "plato",
   "b": "socrates",
   "her": true,
-  "co": 54,
+  "co": 58,
   "npmi": 0.13,
   "why": "Plato's Socrates is the midwife-teacher."
  },
@@ -1043,7 +1043,7 @@
   "a": "plato",
   "b": "politics",
   "her": true,
-  "co": 58,
+  "co": 60,
   "npmi": 0.15,
   "why": "Plato's polis mirrors the soul."
  },
@@ -1243,7 +1243,7 @@
   "a": "eros",
   "b": "love",
   "her": true,
-  "co": 16,
+  "co": 19,
   "npmi": 0.24,
   "why": "Eros drives toward union, agape is its fullness"
  },
@@ -1395,7 +1395,7 @@
   "a": "harmony",
   "b": "justice",
   "her": true,
-  "co": 6,
+  "co": 7,
   "npmi": 0.29,
   "why": "Justice is balance and harmonisation of opposites."
  },
@@ -1571,7 +1571,7 @@
   "a": "nous",
   "b": "oneness",
   "her": true,
-  "co": 5,
+  "co": 6,
   "npmi": 0.11,
   "why": "It is the One's first emanation"
  },
@@ -1659,7 +1659,7 @@
   "a": "cosmos",
   "b": "logos",
   "her": true,
-  "co": 36,
+  "co": 37,
   "npmi": 0.14,
   "why": "The cosmos is ἔλλογος, endowed with logos."
  },
@@ -1747,7 +1747,7 @@
   "a": "light",
   "b": "truth",
   "her": true,
-  "co": 22,
+  "co": 25,
   "npmi": 0.15,
   "why": "Truth is the immaterial light in the soul's sun simile."
  },
@@ -1771,7 +1771,7 @@
   "a": "truth",
   "b": "wisdom",
   "her": true,
-  "co": 48,
+  "co": 49,
   "npmi": 0.16,
   "why": "Living truth as awareness is σοφία."
  },
@@ -1803,7 +1803,7 @@
   "a": "socrates",
   "b": "truth",
   "her": true,
-  "co": 45,
+  "co": 46,
   "npmi": 0.24,
   "why": "His definition of the philosopher"
  },
@@ -2291,7 +2291,7 @@
   "a": "body",
   "b": "soul",
   "her": true,
-  "co": 63,
+  "co": 66,
   "npmi": 0.2,
   "why": "The soul embraces the body."
  },
@@ -2363,7 +2363,7 @@
   "a": "self",
   "b": "soul",
   "her": true,
-  "co": 62,
+  "co": 67,
   "npmi": 0.12,
   "why": "The soul is the middle level of the self"
  },
@@ -2451,7 +2451,7 @@
   "a": "darkness",
   "b": "soul",
   "her": true,
-  "co": 20,
+  "co": 22,
   "npmi": 0.17,
   "why": "The passions are its dark regions."
  },
@@ -2579,7 +2579,7 @@
   "a": "oneness",
   "b": "self",
   "her": true,
-  "co": 34,
+  "co": 35,
   "npmi": 0.16,
   "why": "The One is the true self."
  },
@@ -2603,7 +2603,7 @@
   "a": "delphi",
   "b": "knowthyself",
   "her": true,
-  "co": 6,
+  "co": 7,
   "npmi": 0.31,
   "why": "It is the Delphic maxim."
  },
@@ -2611,7 +2611,7 @@
   "a": "apollo",
   "b": "knowthyself",
   "her": true,
-  "co": 8,
+  "co": 9,
   "npmi": 0.23,
   "why": "Apollo calls us to it."
  },
@@ -2627,7 +2627,7 @@
   "a": "knowthyself",
   "b": "self",
   "her": true,
-  "co": 18,
+  "co": 19,
   "npmi": 0.29,
   "why": "It asks who plays all the roles."
  },
@@ -3075,7 +3075,7 @@
   "a": "philosophy",
   "b": "wisdom",
   "her": true,
-  "co": 78,
+  "co": 81,
   "npmi": 0.36,
   "why": "It is love of wisdom lived."
  },
@@ -3107,7 +3107,7 @@
   "a": "philosophy",
   "b": "science",
   "her": true,
-  "co": 47,
+  "co": 49,
   "npmi": 0.15,
   "why": "For the Greeks philosophy was science and a path of awakening"
  },
@@ -3139,7 +3139,7 @@
   "a": "philosophy",
   "b": "spirituality",
   "her": true,
-  "co": 61,
+  "co": 65,
   "npmi": 0.17,
   "why": "Philosophy is a spiritual path in its original meaning"
  },
@@ -3195,7 +3195,7 @@
   "a": "dialectic",
   "b": "philosophy",
   "her": true,
-  "co": 34,
+  "co": 35,
   "npmi": 0.12,
   "why": "Philosophy is shared dialogue."
  },
@@ -3443,7 +3443,7 @@
   "a": "aristotle",
   "b": "paideia",
   "her": true,
-  "co": 13,
+  "co": 14,
   "npmi": 0.22,
   "why": "Alexander's teacher, giver of the good life"
  },
@@ -3883,7 +3883,7 @@
   "a": "body",
   "b": "senses",
   "her": true,
-  "co": 34,
+  "co": 36,
   "npmi": 0.15,
   "why": "The body is the doorway of sensation"
  },
@@ -3987,7 +3987,7 @@
   "a": "cave",
   "b": "freedom",
   "her": true,
-  "co": 32,
+  "co": 33,
   "npmi": 0.29,
   "why": "Freedom is leaving the cave."
  },
@@ -4019,7 +4019,7 @@
   "a": "awakening",
   "b": "freedom",
   "her": true,
-  "co": 32,
+  "co": 33,
   "npmi": 0.19,
   "why": "Awakening is the discovery of divine freedom"
  },
@@ -4619,7 +4619,7 @@
   "a": "apollo",
   "b": "delphi",
   "her": true,
-  "co": 10,
+  "co": 12,
   "npmi": 0.38,
   "why": "He calls us at Delphi."
  },
@@ -5187,7 +5187,7 @@
   "a": "divine",
   "b": "mysteries",
   "her": true,
-  "co": 22,
+  "co": 23,
   "npmi": 0.25,
   "why": "The mysteriac approach lives the god as the One."
  },
@@ -5419,7 +5419,7 @@
   "a": "cosmos",
   "b": "plotinus",
   "her": true,
-  "co": 18,
+  "co": 19,
   "npmi": 0.15,
   "why": "Plotinus' σύμπας"
  },
@@ -5707,7 +5707,7 @@
   "a": "politics",
   "b": "science",
   "her": true,
-  "co": 31,
+  "co": 32,
   "npmi": 0.16,
   "why": "Science became a means of power."
  },
@@ -5715,7 +5715,7 @@
   "a": "hellenism",
   "b": "science",
   "her": true,
-  "co": 30,
+  "co": 31,
   "npmi": 0.12,
   "why": "Science as spiritual path is Hellenism's gift"
  },
@@ -5811,7 +5811,7 @@
   "a": "eros",
   "b": "self",
   "her": true,
-  "co": 13,
+  "co": 17,
   "npmi": 0.17,
   "why": "Eros first shapes our relation to ourselves."
  },
@@ -5971,7 +5971,7 @@
   "a": "orpheus",
   "b": "pythagoras",
   "her": true,
-  "co": 8,
+  "co": 9,
   "npmi": 0.21,
   "why": "He reformed the degenerated Orphic current"
  },
@@ -6371,7 +6371,7 @@
   "a": "hellenism",
   "b": "spirituality",
   "her": true,
-  "co": 41,
+  "co": 43,
   "npmi": 0.17,
   "why": "A secular spiritual path"
  },
@@ -6435,7 +6435,7 @@
   "a": "hellenism",
   "b": "knowthyself",
   "her": true,
-  "co": 14,
+  "co": 15,
   "npmi": 0.18,
   "why": "Ask who it is that is Greek."
  },
@@ -6627,7 +6627,7 @@
   "a": "east",
   "b": "spirituality",
   "her": true,
-  "co": 19,
+  "co": 21,
   "npmi": 0.24,
   "why": "Eastern devotion versus Hellenic secular path"
  },
@@ -7523,7 +7523,7 @@
   "a": "language",
   "b": "logos",
   "her": true,
-  "co": 17,
+  "co": 19,
   "npmi": 0.16,
   "why": "Word and consciousness"
  },
@@ -8379,7 +8379,7 @@
   "a": "awakening",
   "b": "enlightenment",
   "her": true,
-  "co": 15,
+  "co": 16,
   "npmi": 0.24,
   "why": "Used almost as a synonym."
  },
@@ -8408,10 +8408,362 @@
   "why": "Buddhists call it the luminous void."
  },
  {
+  "a": "freedom",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "In the All no one can be caged, so love's nature is freedom."
+ },
+ {
+  "a": "acceptance",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To accept is to begin to love and to understand."
+ },
+ {
+  "a": "acceptance",
+  "b": "ares",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Fighting what we do not accept keeps us entangled in it."
+ },
+ {
+  "a": "aphrodite",
+  "b": "ares",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love and war are a couple, in a sense the same thing."
+ },
+ {
+  "a": "hermes",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The self is not thought, which runs like winged Hermes."
+ },
+ {
+  "a": "henosis",
+  "b": "plotinus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "For Plotinus, as for Socrates, the aim is union, beyond knowing."
+ },
+ {
+  "a": "henosis",
+  "b": "mysteries",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Union lies beyond knowledge, which is why the ancients called it mystery."
+ },
+ {
+  "a": "divine",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "There was no philosophy without God."
+ },
+ {
+  "a": "aphairesis",
+  "b": "oneness",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "When everything is taken away, the All (ἅπαν) remains."
+ },
+ {
+  "a": "language",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Greek encodes concepts and so helps us philosophise."
+ },
+ {
+  "a": "hellenism",
+  "b": "language",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The key to the Greek way of seeing is the language."
+ },
+ {
+  "a": "consciousness",
+  "b": "socrates",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Socrates is a stream of consciousness one can tune into through the texts."
+ },
+ {
+  "a": "love",
+  "b": "pythagoras",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "His friendship, 'a friend is another I', is the model of love."
+ },
+ {
+  "a": "aristotle",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Friendship as one soul in two bodies shows love as not two."
+ },
+ {
+  "a": "eternity",
+  "b": "love",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love works in eternity, so in what we love we lose the sense of time."
+ },
+ {
+  "a": "oneness",
+  "b": "wisdom",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Feeling the unity of all brings overview (ἐποπτεία), the knowledge of what happens."
+ },
+ {
+  "a": "eros",
+  "b": "orpheus",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "For the Orphics the first to spring from the egg is Phanes, Eros."
+ },
+ {
+  "a": "freedom",
+  "b": "suffering",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Pain presses until it becomes a gate of liberation."
+ },
+ {
+  "a": "philosophy",
+  "b": "politics",
+  "her": true,
+  "co": 58,
+  "npmi": 0.13,
+  "why": "A philosopher cannot but serve the common good."
+ },
+ {
+  "a": "disidentification",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "All we take for the self, thoughts, feelings, desires, our image, is the non-self."
+ },
+ {
+  "a": "knowthyself",
+  "b": "plutarch",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plutarch says the maxim came from Apollo himself, not from a human."
+ },
+ {
+  "a": "apollo",
+  "b": "philosophy",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Apollo is the god of light, of dialectic and of philosophy."
+ },
+ {
+  "a": "desire",
+  "b": "soul",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "We are soul and nous too, so material plenty cannot fill us."
+ },
+ {
+  "a": "eros",
+  "b": "hero",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Hero comes from eros, which lights the heroic path."
+ },
+ {
+  "a": "exaiphnes",
+  "b": "hero",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The sudden push starts the passage from human to heroic consciousness."
+ },
+ {
+  "a": "athenagoddess",
+  "b": "hero",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The goddess of heroes guides them all."
+ },
+ {
+  "a": "courage",
+  "b": "hero",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "ἀνδρεία, going against the current, is the strength of the hero."
+ },
+ {
+  "a": "consciousness",
+  "b": "hero",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Plato treats the heroic as a stage of human consciousness."
+ },
+ {
+  "a": "ego",
+  "b": "hero",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Theseus must reach the centre of the labyrinth and kill the Minotaur, the ego."
+ },
+ {
+  "a": "hero",
+  "b": "illusion",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The hero goes against currents of illusion from upbringing, programming, fate or society."
+ },
+ {
+  "a": "hero",
+  "b": "knowthyself",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To know thyself is an ἆθλος that never ends."
+ },
+ {
+  "a": "delphi",
+  "b": "hero",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "At Delphi a stadium stands above the temple: training beside every temple."
+ },
+ {
+  "a": "hero",
+  "b": "peace",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "After the ἆθλος comes the prize: fullness, peace and love."
+ },
+ {
+  "a": "love",
+  "b": "oikeionergon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Love as the axis of life shows each soul its own work."
+ },
+ {
+  "a": "eudaimonia",
+  "b": "oikeionergon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It comes when the soul fulfils its own work."
+ },
+ {
+  "a": "eternity",
+  "b": "oikeionergon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "In one's own work one loses the sense of time."
+ },
+ {
+  "a": "freedom",
+  "b": "oikeionergon",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Follow love, and love will set you free."
+ },
+ {
+  "a": "oikeionergon",
+  "b": "self",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "To find it, come to your centre and listen to your heart."
+ },
+ {
+  "a": "pistis",
+  "b": "science",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "No experiment begins without first believing it possible."
+ },
+ {
+  "a": "agnoia",
+  "b": "pistis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Faith is the interval between ignorance and knowledge."
+ },
+ {
+  "a": "pistis",
+  "b": "republic",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "The Republic's theory of knowledge holds faith as a stage."
+ },
+ {
+  "a": "anamnesis",
+  "b": "pistis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "Faith in the good is the voice of Mnemosyne within us."
+ },
+ {
+  "a": "good",
+  "b": "pistis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "It believes because it already knows our nature is the Good."
+ },
+ {
+  "a": "henosis",
+  "b": "pistis",
+  "her": true,
+  "co": 0,
+  "npmi": 0,
+  "why": "There one no longer believes but witnesses."
+ },
+ {
   "a": "hellenism",
   "b": "logos",
   "her": false,
-  "co": 33,
+  "co": 35,
   "npmi": 0.19,
   "why": ""
  },
@@ -8427,7 +8779,7 @@
   "a": "love",
   "b": "wisdom",
   "her": false,
-  "co": 47,
+  "co": 49,
   "npmi": 0.15,
   "why": ""
  },
@@ -8435,7 +8787,7 @@
   "a": "love",
   "b": "mysteries",
   "her": false,
-  "co": 38,
+  "co": 39,
   "npmi": 0.15,
   "why": ""
  },
@@ -8467,7 +8819,7 @@
   "a": "divine",
   "b": "nature",
   "her": false,
-  "co": 22,
+  "co": 24,
   "npmi": 0.56,
   "why": ""
  },
@@ -8475,7 +8827,7 @@
   "a": "hellenism",
   "b": "philosophy",
   "her": false,
-  "co": 60,
+  "co": 64,
   "npmi": 0.18,
   "why": ""
  },
@@ -8483,7 +8835,7 @@
   "a": "senses",
   "b": "spirituality",
   "her": false,
-  "co": 34,
+  "co": 37,
   "npmi": 0.11,
   "why": ""
  },
@@ -8491,7 +8843,7 @@
   "a": "logos",
   "b": "soul",
   "her": false,
-  "co": 46,
+  "co": 48,
   "npmi": 0.1,
   "why": ""
  },
@@ -8499,7 +8851,7 @@
   "a": "cosmos",
   "b": "soul",
   "her": false,
-  "co": 78,
+  "co": 82,
   "npmi": 0.22,
   "why": ""
  },
@@ -8507,7 +8859,7 @@
   "a": "soul",
   "b": "symbol",
   "her": false,
-  "co": 44,
+  "co": 46,
   "npmi": 0.15,
   "why": ""
  },
@@ -8515,7 +8867,7 @@
   "a": "plato",
   "b": "soul",
   "her": false,
-  "co": 93,
+  "co": 96,
   "npmi": 0.11,
   "why": ""
  },
@@ -8523,7 +8875,7 @@
   "a": "nature",
   "b": "nonduality",
   "her": false,
-  "co": 12,
+  "co": 13,
   "npmi": 0.41,
   "why": ""
  },
@@ -8544,18 +8896,10 @@
   "why": ""
  },
  {
-  "a": "philosophy",
-  "b": "politics",
-  "her": false,
-  "co": 55,
-  "npmi": 0.13,
-  "why": ""
- },
- {
   "a": "paideia",
   "b": "spirituality",
   "her": false,
-  "co": 27,
+  "co": 30,
   "npmi": 0.17,
   "why": ""
  },
@@ -8571,7 +8915,7 @@
   "a": "language",
   "b": "senses",
   "her": false,
-  "co": 17,
+  "co": 19,
   "npmi": 0.1,
   "why": ""
  },
@@ -8579,7 +8923,7 @@
   "a": "plato",
   "b": "senses",
   "her": false,
-  "co": 49,
+  "co": 51,
   "npmi": 0.07,
   "why": ""
  },
@@ -8587,7 +8931,7 @@
   "a": "awakening",
   "b": "plato",
   "her": false,
-  "co": 46,
+  "co": 48,
   "npmi": 0.12,
   "why": ""
  },
@@ -8595,7 +8939,7 @@
   "a": "awakening",
   "b": "socrates",
   "her": false,
-  "co": 31,
+  "co": 32,
   "npmi": 0.2,
   "why": ""
  },
@@ -8603,7 +8947,7 @@
   "a": "body",
   "b": "consciousness",
   "her": false,
-  "co": 48,
+  "co": 49,
   "npmi": 0.11,
   "why": ""
  },
@@ -8635,7 +8979,7 @@
   "a": "love",
   "b": "plato",
   "her": false,
-  "co": 63,
+  "co": 68,
   "npmi": 0.11,
   "why": ""
  },
@@ -8643,7 +8987,7 @@
   "a": "beauty",
   "b": "plato",
   "her": false,
-  "co": 74,
+  "co": 75,
   "npmi": 0.19,
   "why": ""
  },
@@ -8659,7 +9003,7 @@
   "a": "apollo",
   "b": "beauty",
   "her": false,
-  "co": 23,
+  "co": 24,
   "npmi": 0.16,
   "why": ""
  },
@@ -8667,7 +9011,7 @@
   "a": "body",
   "b": "truth",
   "her": false,
-  "co": 44,
+  "co": 46,
   "npmi": 0.19,
   "why": ""
  },
@@ -8675,7 +9019,7 @@
   "a": "fire",
   "b": "plato",
   "her": false,
-  "co": 27,
+  "co": 29,
   "npmi": 0.13,
   "why": ""
  },
@@ -8683,7 +9027,7 @@
   "a": "apollo",
   "b": "fire",
   "her": false,
-  "co": 11,
+  "co": 12,
   "npmi": 0.23,
   "why": ""
  },
@@ -8691,7 +9035,7 @@
   "a": "body",
   "b": "light",
   "her": false,
-  "co": 19,
+  "co": 22,
   "npmi": 0.15,
   "why": ""
  },
@@ -8699,7 +9043,7 @@
   "a": "light",
   "b": "nature",
   "her": false,
-  "co": 12,
+  "co": 14,
   "npmi": 0.24,
   "why": ""
  },
@@ -8707,7 +9051,7 @@
   "a": "divine",
   "b": "light",
   "her": false,
-  "co": 12,
+  "co": 16,
   "npmi": 0.21,
   "why": ""
  },
@@ -8715,7 +9059,7 @@
   "a": "light",
   "b": "mysteries",
   "her": false,
-  "co": 18,
+  "co": 19,
   "npmi": 0.15,
   "why": ""
  },
@@ -8723,7 +9067,7 @@
   "a": "body",
   "b": "socrates",
   "her": false,
-  "co": 33,
+  "co": 35,
   "npmi": 0.13,
   "why": ""
  },
@@ -8731,7 +9075,7 @@
   "a": "east",
   "b": "nature",
   "her": false,
-  "co": 10,
+  "co": 11,
   "npmi": 0.27,
   "why": ""
  },
@@ -8739,7 +9083,7 @@
   "a": "desire",
   "b": "philosophy",
   "her": false,
-  "co": 24,
+  "co": 25,
   "npmi": 0.11,
   "why": ""
  },
@@ -8747,7 +9091,7 @@
   "a": "divine",
   "b": "east",
   "her": false,
-  "co": 14,
+  "co": 16,
   "npmi": 0.39,
   "why": ""
  },
@@ -8755,7 +9099,7 @@
   "a": "divine",
   "b": "pythagoras",
   "her": false,
-  "co": 15,
+  "co": 16,
   "npmi": 0.29,
   "why": ""
  },
@@ -8779,7 +9123,7 @@
   "a": "apollo",
   "b": "self",
   "her": false,
-  "co": 21,
+  "co": 23,
   "npmi": 0.18,
   "why": ""
  },
@@ -8787,7 +9131,7 @@
   "a": "consciousness",
   "b": "cosmos",
   "her": false,
-  "co": 60,
+  "co": 61,
   "npmi": 0.11,
   "why": ""
  },
@@ -8795,7 +9139,7 @@
   "a": "cosmos",
   "b": "truth",
   "her": false,
-  "co": 50,
+  "co": 52,
   "npmi": 0.14,
   "why": ""
  },
@@ -8803,7 +9147,7 @@
   "a": "cosmos",
   "b": "wisdom",
   "her": false,
-  "co": 51,
+  "co": 54,
   "npmi": 0.15,
   "why": ""
  },
@@ -8819,7 +9163,7 @@
   "a": "harmony",
   "b": "plato",
   "her": false,
-  "co": 14,
+  "co": 15,
   "npmi": 0.11,
   "why": ""
  },
@@ -8827,7 +9171,7 @@
   "a": "divine",
   "b": "enlightenment",
   "her": false,
-  "co": 12,
+  "co": 14,
   "npmi": 0.32,
   "why": ""
  },
@@ -8835,7 +9179,7 @@
   "a": "enlightenment",
   "b": "spirituality",
   "her": false,
-  "co": 17,
+  "co": 18,
   "npmi": 0.19,
   "why": ""
  },
@@ -8859,7 +9203,7 @@
   "a": "consciousness",
   "b": "hellenism",
   "her": false,
-  "co": 50,
+  "co": 52,
   "npmi": 0.1,
   "why": ""
  },
@@ -8867,7 +9211,7 @@
   "a": "dialectic",
   "b": "hellenism",
   "her": false,
-  "co": 25,
+  "co": 26,
   "npmi": 0.17,
   "why": ""
  },
@@ -8899,7 +9243,7 @@
   "a": "beauty",
   "b": "soul",
   "her": false,
-  "co": 72,
+  "co": 73,
   "npmi": 0.13,
   "why": ""
  },
@@ -8907,7 +9251,7 @@
   "a": "soul",
   "b": "truth",
   "her": false,
-  "co": 71,
+  "co": 73,
   "npmi": 0.18,
   "why": ""
  },
@@ -8915,7 +9259,7 @@
   "a": "ethics",
   "b": "philosophy",
   "her": false,
-  "co": 18,
+  "co": 19,
   "npmi": 0.14,
   "why": ""
  },
@@ -8923,7 +9267,7 @@
   "a": "ethics",
   "b": "spirituality",
   "her": false,
-  "co": 13,
+  "co": 14,
   "npmi": 0.16,
   "why": ""
  },
@@ -8931,7 +9275,7 @@
   "a": "cave",
   "b": "plotinus",
   "her": false,
-  "co": 13,
+  "co": 14,
   "npmi": 0.24,
   "why": ""
  },
@@ -8947,7 +9291,7 @@
   "a": "dialectic",
   "b": "self",
   "her": false,
-  "co": 23,
+  "co": 24,
   "npmi": 0.11,
   "why": ""
  },
@@ -8971,7 +9315,7 @@
   "a": "freedom",
   "b": "good",
   "her": false,
-  "co": 29,
+  "co": 32,
   "npmi": 0.23,
   "why": ""
  },
@@ -8995,7 +9339,7 @@
   "a": "language",
   "b": "socrates",
   "her": false,
-  "co": 17,
+  "co": 20,
   "npmi": 0.1,
   "why": ""
  },
@@ -9043,7 +9387,7 @@
   "a": "enlightenment",
   "b": "science",
   "her": false,
-  "co": 14,
+  "co": 15,
   "npmi": 0.2,
   "why": ""
  },
@@ -9067,7 +9411,7 @@
   "a": "courage",
   "b": "science",
   "her": false,
-  "co": 5,
+  "co": 6,
   "npmi": 0.17,
   "why": ""
  },
@@ -9075,7 +9419,7 @@
   "a": "courage",
   "b": "plato",
   "her": false,
-  "co": 8,
+  "co": 9,
   "npmi": 0.12,
   "why": ""
  },
@@ -9083,7 +9427,7 @@
   "a": "cosmos",
   "b": "hellenism",
   "her": false,
-  "co": 49,
+  "co": 52,
   "npmi": 0.2,
   "why": ""
  },
@@ -9099,7 +9443,7 @@
   "a": "nous",
   "b": "spirituality",
   "her": false,
-  "co": 8,
+  "co": 10,
   "npmi": 0.2,
   "why": ""
  },
@@ -9107,7 +9451,7 @@
   "a": "east",
   "b": "nous",
   "her": false,
-  "co": 5,
+  "co": 6,
   "npmi": 0.34,
   "why": ""
  },
@@ -9131,7 +9475,7 @@
   "a": "freedom",
   "b": "soul",
   "her": false,
-  "co": 55,
+  "co": 58,
   "npmi": 0.09,
   "why": ""
  },
@@ -9139,7 +9483,7 @@
   "a": "nous",
   "b": "paideia",
   "her": false,
-  "co": 5,
+  "co": 7,
   "npmi": 0.19,
   "why": ""
  },
@@ -9147,7 +9491,7 @@
   "a": "divine",
   "b": "nous",
   "her": false,
-  "co": 5,
+  "co": 7,
   "npmi": 0.26,
   "why": ""
  },
@@ -9155,7 +9499,7 @@
   "a": "good",
   "b": "self",
   "her": false,
-  "co": 26,
+  "co": 30,
   "npmi": 0.13,
   "why": ""
  },
@@ -9163,7 +9507,7 @@
   "a": "dialectic",
   "b": "paideia",
   "her": false,
-  "co": 16,
+  "co": 17,
   "npmi": 0.16,
   "why": ""
  },
@@ -9171,7 +9515,7 @@
   "a": "aristotle",
   "b": "hellenism",
   "her": false,
-  "co": 20,
+  "co": 21,
   "npmi": 0.23,
   "why": ""
  },
@@ -9211,7 +9555,7 @@
   "a": "darkness",
   "b": "good",
   "her": false,
-  "co": 9,
+  "co": 11,
   "npmi": 0.19,
   "why": ""
  },
@@ -9219,7 +9563,7 @@
   "a": "cosmos",
   "b": "good",
   "her": false,
-  "co": 32,
+  "co": 34,
   "npmi": 0.17,
   "why": ""
  },
@@ -9307,7 +9651,7 @@
   "a": "delphi",
   "b": "self",
   "her": false,
-  "co": 12,
+  "co": 14,
   "npmi": 0.17,
   "why": ""
  },
@@ -9315,7 +9659,7 @@
   "a": "apollo",
   "b": "darkness",
   "her": false,
-  "co": 9,
+  "co": 10,
   "npmi": 0.31,
   "why": ""
  },
@@ -9395,7 +9739,7 @@
   "a": "cosmos",
   "b": "odyssey",
   "her": false,
-  "co": 11,
+  "co": 12,
   "npmi": 0.13,
   "why": ""
  },
@@ -9451,7 +9795,7 @@
   "a": "language",
   "b": "odyssey",
   "her": false,
-  "co": 5,
+  "co": 6,
   "npmi": 0.13,
   "why": ""
  },

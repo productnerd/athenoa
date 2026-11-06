@@ -3044,5 +3044,206 @@
   "reading": "Plato's puppeteers; she hears the same word in today's spiritual wonder-mongering, and finds the true wonder-maker in the mind.",
   "status": "standard",
   "talk": "AAWZRTOINyA"
+ },
+ {
+  "word": "πληρώνω",
+  "translit": "plērṓnō",
+  "parts": [
+   {
+    "part": "πλήρης",
+    "meaning": "full"
+   }
+  ],
+  "reading": "However much we are paid (πληρωνόμαστε), money cannot fill us (πληρωθούμε): fullness is inner.",
+  "status": "standard",
+  "talk": "xLQXoDX7i94",
+  "t": "3:44"
+ },
+ {
+  "word": "σκοτώνω",
+  "translit": "skotṓnō",
+  "parts": [
+   {
+    "part": "σκότος",
+    "meaning": "darkness"
+   }
+  ],
+  "reading": "To kill is to bring darkness: consumerism darkens the mind and starves it of light, knowledge and love.",
+  "status": "standard",
+  "talk": "xLQXoDX7i94",
+  "t": "4:13"
+ },
+ {
+  "word": "κοινότητα",
+  "translit": "koinótēta",
+  "parts": [
+   {
+    "part": "κοινόν",
+    "meaning": "what is common"
+   }
+  ],
+  "reading": "To belong to a community we must share something: ways of thinking, values, ideals, ethos. Walking the same street is not enough.",
+  "status": "standard",
+  "talk": "xLQXoDX7i94",
+  "t": "5:23"
+ },
+ {
+  "word": "παράγγελμα",
+  "translit": "parángelma",
+  "parts": [
+   {
+    "part": "παρά",
+    "meaning": "beside, from"
+   },
+   {
+    "part": "ἀγγέλλω",
+    "meaning": "to announce"
+   }
+  ],
+  "reading": "The Delphic maxims are precepts: the god announces a guidance, a path.",
+  "status": "standard",
+  "talk": "xLQXoDX7i94",
+  "t": "7:14"
+ },
+ {
+  "word": "ἥρως",
+  "translit": "hḗrōs",
+  "parts": [
+   {
+    "part": "ἔρως",
+    "meaning": "eros"
+   }
+  ],
+  "reading": "Without eros one cannot follow the heroic path.",
+  "status": "hers",
+  "talk": "xLQXoDX7i94",
+  "t": "12:51"
+ },
+ {
+  "word": "ἀγάπη",
+  "translit": "agápē",
+  "parts": [
+   {
+    "part": "ἄγω",
+    "meaning": "I lead"
+   },
+   {
+    "part": "εἰς τὸ ἅπαν",
+    "meaning": "into the All"
+   }
+  ],
+  "reading": "Through a Platonic key: love leads into the All, the universe, the harmony of the whole. Ἄγω is active, as in ἡγέτης and παιδαγωγός, so love is not passive.",
+  "status": "hers",
+  "talk": "xLQXoDX7i94",
+  "t": "22:14"
+ },
+ {
+  "word": "ὅλον",
+  "translit": "hólon",
+  "parts": [
+   {
+    "part": "Ο … Ο",
+    "meaning": "two omicrons, two circles"
+   }
+  ],
+  "reading": "The whole is the sphere Pythagoras speaks of: to be completed is to become spherical and harmonious.",
+  "status": "hers",
+  "talk": "xLQXoDX7i94",
+  "t": "22:30"
+ },
+ {
+  "word": "ἀνδρεία",
+  "translit": "andreía",
+  "parts": [
+   {
+    "part": "ἀντί",
+    "meaning": "against"
+   },
+   {
+    "part": "ῥέω / ῥεῦμα",
+    "meaning": "to flow / current"
+   }
+  ],
+  "reading": "Courage is going against the current: Socrates says the currents of injustice and illusion in the world are many.",
+  "status": "hers",
+  "talk": "xLQXoDX7i94",
+  "t": "23:10"
+ },
+ {
+  "word": "ἔπαθλον",
+  "translit": "épathlon",
+  "parts": [
+   {
+    "part": "ἐπί",
+    "meaning": "upon, after"
+   },
+   {
+    "part": "ἆθλον",
+    "meaning": "the labour, the contest"
+   }
+  ],
+  "reading": "After the labour comes the prize: completion, fullness, peace and love.",
+  "status": "standard",
+  "talk": "xLQXoDX7i94",
+  "t": "23:47"
+ },
+ {
+  "word": "πόνος",
+  "translit": "pónos",
+  "parts": [
+   {
+    "part": "π",
+    "meaning": "the sound of pressing, as in πιέζω"
+   },
+   {
+    "part": "ν",
+    "meaning": "unclear in the captions, perhaps νοῦς"
+   }
+  ],
+  "reading": "Pain presses and pushes, activating us; when nothing else moves us, providence presses, and pain becomes a gate of liberation. The captions are garbled here.",
+  "status": "hers",
+  "talk": "xLQXoDX7i94",
+  "t": "29:50",
+  "uncertain": true
+ },
+ {
+  "word": "ἀποδοχή",
+  "translit": "apodochḗ",
+  "parts": [
+   {
+    "part": "ἀπό",
+    "meaning": "from"
+   },
+   {
+    "part": "δοχή / δέχομαι",
+    "meaning": "receiving / to receive"
+   }
+  ],
+  "reading": "To accept you must receive it and make room for it; to forgive it (συγχωρώ) and give it room near you is already love.",
+  "status": "standard",
+  "talk": "xLQXoDX7i94",
+  "t": "30:51"
+ },
+ {
+  "word": "πίστη / πίστωση / ἐπιστήμη",
+  "translit": "pístē / pístōsē / epistḗmē",
+  "parts": [
+   {
+    "part": "πιστεύω",
+    "meaning": "I believe"
+   },
+   {
+    "part": "πίστωση",
+    "meaning": "credit"
+   },
+   {
+    "part": "ἐπι-στήμη",
+    "meaning": "science, with πίστη inside"
+   }
+  ],
+  "reading": "To believe is to give credit that something may be so, and faith sits inside the word for science: no experiment begins without it.",
+  "status": "hers",
+  "talk": "xLQXoDX7i94",
+  "t": "33:33"
  }
 ]

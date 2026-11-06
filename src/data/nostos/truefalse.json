@@ -1434,5 +1434,82 @@
   "true": false,
   "explain": "It is a study of the concept of power, with Aristotle's dunamis as one axis.",
   "talk": "w_dphil_power"
+ },
+ {
+  "s": "Athena says the Delphic maxim was given by Apollo himself, not by a human, citing Plutarch.",
+  "true": true,
+  "explain": "Plutarch was a philosopher and a priest at Delphi.",
+  "talk": "xLQXoDX7i94",
+  "t": "6:36"
+ },
+ {
+  "s": "Athena says the self is our thoughts, since thinking is what we most are.",
+  "true": false,
+  "explain": "Thought passes and I remain: the self is not thought.",
+  "talk": "xLQXoDX7i94",
+  "t": "10:26"
+ },
+ {
+  "s": "For Athena, self-knowledge is a marathon that never ends.",
+  "true": true,
+  "explain": "Athena quotes γηράσκω ἀεὶ διδασκόμενος, 'I grow old ever learning'.",
+  "talk": "xLQXoDX7i94",
+  "t": "12:24"
+ },
+ {
+  "s": "Athena says the ancient schools began from the gymnasium.",
+  "true": true,
+  "explain": "Training the body is the easiest way to grasp that the soul must train too.",
+  "talk": "xLQXoDX7i94",
+  "t": "14:58"
+ },
+ {
+  "s": "For Athena, love is only an emotion.",
+  "true": false,
+  "explain": "It is also a choice and a state, and for the philosophers the essence of the universe.",
+  "talk": "xLQXoDX7i94",
+  "t": "15:59"
+ },
+ {
+  "s": "Athena advises a young person to study whatever will make money.",
+  "true": false,
+  "explain": "Athena's answer: come to your centre and ask what you love to do.",
+  "talk": "xLQXoDX7i94",
+  "t": "18:42"
+ },
+ {
+  "s": "Athena says Aristotle puts the question 'what is it?' at the beginning of philosophy.",
+  "true": true,
+  "explain": "Define each term, or one word will cover different states.",
+  "talk": "xLQXoDX7i94",
+  "t": "20:31"
+ },
+ {
+  "s": "Athena says acceptance means putting up with something while boiling inside.",
+  "true": false,
+  "explain": "That is not acceptance; to accept is to receive, make room and understand.",
+  "talk": "xLQXoDX7i94",
+  "t": "30:51"
+ },
+ {
+  "s": "For Athena, accepting something can still mean leaving it.",
+  "true": true,
+  "explain": "Freed from the fight, one decides with discernment what to do.",
+  "talk": "xLQXoDX7i94",
+  "t": "32:33"
+ },
+ {
+  "s": "Athena calls faith an obstacle to knowledge.",
+  "true": false,
+  "explain": "It is a necessary step between ignorance and knowledge.",
+  "talk": "xLQXoDX7i94",
+  "t": "33:06"
+ },
+ {
+  "s": "Athena says that at the summit one no longer believes in God but witnesses it.",
+  "true": true,
+  "explain": "Faith leads, and its fruit is the experience itself.",
+  "talk": "xLQXoDX7i94",
+  "t": "35:58"
  }
 ]
