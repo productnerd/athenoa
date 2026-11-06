@@ -682,20 +682,27 @@ const playHref = pathIn(locale, '/nostos/play/');
     aspect-ratio: var(--map-ratio);
     min-height: 26rem;
     overflow: hidden;
-    /* the stars fade out towards every edge, so the map has no hard border (client direction): only
-       a narrow band at the sides, where the furthest stars sit */
-    -webkit-mask-image: linear-gradient(to right, transparent, #000 2.5%, #000 97.5%, transparent),
-      linear-gradient(to bottom, transparent, #000 9%, #000 88%, transparent);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to right, transparent, #000 2.5%, #000 97.5%, transparent),
-      linear-gradient(to bottom, transparent, #000 9%, #000 88%, transparent);
-    mask-composite: intersect;
     touch-action: none;
     cursor: grab;
     user-select: none;
   }
   .nmap__view.is-dragging {
     cursor: grabbing;
+  }
+  /* the stars fade out towards every edge, so the map has no hard border (client direction): the page's
+     own paper laid over the edges (a narrow band at the sides, where the furthest stars sit). Painted,
+     not a mask: a mask would be drawn again on every frame of the sky's slow turn */
+  .nmap__view::after {
+    --fade-x: 2.5%;
+    --fade-y: 9%;
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      linear-gradient(to right, var(--creme), transparent var(--fade-x), transparent calc(100% - var(--fade-x)), var(--creme)),
+      linear-gradient(to bottom, var(--creme), transparent var(--fade-y), transparent calc(100% - var(--fade-y) - 3%), var(--creme));
   }
   .nmap__world {
     position: absolute;

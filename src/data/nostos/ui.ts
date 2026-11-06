@@ -367,6 +367,10 @@ export const nostosUi = {
       prev: 'Previous passage',
       next: 'Next passage',
       threads: 'Threads into Athena’s ideas',
+      // NEW WORDING, proposed (6 November 2026): a switch to choose the books' covers by, while they are
+      // being chosen (it goes once they are), and the line in an open book naming its cover
+      covers: { label: 'Covers', drawn: 'Drawn', first: 'First editions', vintage: 'Editions of 1900 to 1930' },
+      onCover: 'On the cover:',
     },
     sources: {
       metaTitle: 'Nostos: Athena’s Talks & Articles',
@@ -745,6 +749,9 @@ export const nostosUi = {
       prev: 'Προηγούμενο απόσπασμα',
       next: 'Επόμενο απόσπασμα',
       threads: 'Νήματα προς τις ιδέες της Αθηνάς',
+      // ΝΕΑ ΔΙΑΤΥΠΩΣΗ, προτεινόμενη (6 Νοεμβρίου 2026)
+      covers: { label: 'Εξώφυλλα', drawn: 'Ζωγραφιστά', first: 'Πρώτες εκδόσεις', vintage: 'Εκδόσεις 1900 έως 1930' },
+      onCover: 'Στο εξώφυλλο:',
     },
     sources: {
       metaTitle: 'Νόστος: ομιλίες και άρθρα της Αθηνάς',
