@@ -122,23 +122,35 @@ let cleanup: (() => void) | null = null;
 /** Close: the dialog on the play page; back to the play page from the path page */
 const leave = () => (pageMode ? navigate(playHref) : dialog.close());
 
-// ---------- the map under a lesson (path page): that star chosen, in the map page itself ----------
+// ---------- the map beside a lesson (path page): shown with every new idea, that star chosen ----------
+// (client direction, 6 November 2026). The map page is loaded once, in a frame, as the map alone
+// (?embed: no note beside it); each idea after that is sent to it, so it moves to its star without
+// loading again.
 const mapPanel = () => document.querySelector<HTMLElement>('[data-path-map]');
+let mapReady = false;
+let mapWanted = '';
 function showMap(id: string) {
   const panel = mapPanel();
   const frame = panel?.querySelector<HTMLIFrameElement>('[data-path-frame]');
   if (!panel || !frame) return;
-  const src = `${mapBase}?embed&star=${encodeURIComponent(id)}`;
-  if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
+  mapWanted = id;
+  if (!frame.getAttribute('src')) {
+    mapReady = false;
+    frame.addEventListener('load', () => {
+      mapReady = true;
+      frame.contentWindow?.postMessage({ nostosStar: mapWanted }, location.origin);
+    });
+    frame.setAttribute('src', `${mapBase}?embed&star=${encodeURIComponent(id)}`);
+  } else if (mapReady) frame.contentWindow?.postMessage({ nostosStar: id }, location.origin);
   // over the map its own cursor takes over: this page's one is put away, not left at the edge
   frame.onpointerenter = () => document.querySelector('[data-cursor]')?.classList.remove('is-here');
   panel.hidden = false;
-  const calm = !document.documentElement.classList.contains('motion');
-  requestAnimationFrame(() => panel.scrollIntoView({ behavior: calm ? 'auto' : 'smooth', block: 'start' }));
+  document.querySelector('.npage')?.classList.add('has-map');
 }
 function hideMap() {
   const panel = mapPanel();
   if (panel) panel.hidden = true;
+  document.querySelector('.npage')?.classList.remove('has-map');
 }
 const talkNames: Record<string, string> = {};
 const talkRef = (id?: string, t?: string | number) =>
@@ -1112,11 +1124,9 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
   switch (s.k) {
     case 'c': {
       const c: Concept = s.concept;
-      // on the path page the map opens under the lesson; elsewhere this is a link to the map page
-      const toMap = pageMode
-        ? h('button', { type: 'button', class: 'nsmall nmaplink', onclick: () => showMap(c.id) }, W.path.onMap)
-        : h('a', { class: 'nsmall', href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, W.path.onMap);
       if (mode === 'learn') {
+        // a new idea: the map shows where it sits
+        if (pageMode) showMap(c.id);
         stage.append(
           head,
           h(
@@ -1128,7 +1138,6 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
             h('p', { class: 'nsmall' }, W.groups[c.group] ?? ''),
             picture(M.picture(c.id)),
             h('p', { class: 'nidea__take', lang: 'en' }, c.take),
-            toMap,
           ),
           go(true),
         );
@@ -1144,7 +1153,6 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
         others,
         answered,
         next,
-        h('div', { class: 'nexplain' }, toMap),
       );
     }
     case 'q':

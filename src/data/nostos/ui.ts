@@ -95,7 +95,6 @@ export const nostosUi = {
         next: 'Next lesson',
         back: 'Back to the path',
         watch: 'Watch the talk',
-        onMap: 'See it on the map',
       },
       // Review: what the path has covered, coming back a little before it would be forgotten
       review: {
@@ -379,7 +378,6 @@ export const nostosUi = {
         next: 'Επόμενο μάθημα',
         back: 'Πίσω στο μονοπάτι',
         watch: 'Δείτε την ομιλία',
-        onMap: 'Δείτε το στον χάρτη',
       },
       review: {
         title: 'Επανάληψη',

@@ -585,14 +585,23 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+  /* what is due today, as a notification on the button's corner */
   .nfloat__badge {
-    min-width: 1.5rem;
-    padding: 0.05rem 0.4rem;
-    font-size: 0.8rem;
+    position: absolute;
+    top: -0.55rem;
+    right: -0.45rem;
+    min-width: 1.6rem;
+    height: 1.6rem;
+    padding: 0 0.42rem;
+    display: grid;
+    place-items: center;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1;
     font-variant-numeric: lining-nums tabular-nums;
-    text-align: center;
     color: var(--creme-light);
     background: var(--blue);
+    border: 2px solid var(--paper);
     border-radius: 0.8rem;
   }
   @media (max-width: 30rem) {

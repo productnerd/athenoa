@@ -245,6 +245,7 @@ const playHref = pathIn(locale, '/nostos/play/');
     const ac = new AbortController();
     const on = { signal: ac.signal } as AddEventListenerOptions;
     const reduced = () => !document.documentElement.classList.contains('motion');
+    const embed = document.documentElement.classList.contains('nmap-embed');
 
     root.classList.add('is-live');
     document.documentElement.classList.add('nostos-live');
@@ -306,9 +307,10 @@ const playHref = pathIn(locale, '/nostos/play/');
       k = Math.max(k, 1.5);
       const [sx, sy] = screenOf(id);
       // leave room for the note on the right on wide screens, and for the sheet at the foot on phones
-      const wide = window.innerWidth >= 960;
+      // (inside a lesson there is no note: the star goes to the middle)
+      const wide = window.innerWidth >= 960 && !embed;
       tx += (wide ? W * 0.36 : W / 2) - sx;
-      ty += (wide ? H / 2 : H * 0.32) - sy;
+      ty += (wide || embed ? H / 2 : H * 0.32) - sy;
       apply(glide);
     };
     measure();
@@ -498,10 +500,26 @@ const playHref = pathIn(locale, '/nostos/play/');
     window.addEventListener('nostos:progress', markKnown, on);
     // a link from elsewhere in Nostos to one star: /nostos/?star=<id>
     const asked = new URLSearchParams(location.search).get('star');
+    // shown inside a lesson (?embed): the star is only lit and centred, with no note beside it, and the
+    // lesson sends the next idea's star by message
+    const show = (id: string) => {
+      chosen = id;
+      paint(id);
+      centreOn(id);
+    };
     if (asked && byId.has(asked)) {
       root.scrollIntoView({ block: 'start' });
-      window.setTimeout(() => select(asked, true), 60);
+      window.setTimeout(() => (embed ? show(asked) : select(asked, true)), 60);
     }
+    if (embed)
+      window.addEventListener(
+        'message',
+        (event) => {
+          const id = event.origin === location.origin ? event.data?.nostosStar : null;
+          if (typeof id === 'string' && byId.has(id)) show(id);
+        },
+        on,
+      );
 
     // ---------- lines and themes ----------
     const hidden = new Set<string>();
