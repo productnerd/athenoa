@@ -25,7 +25,7 @@ const covers = Object.fromEntries(
         .map((e) => {
           const image = files[`../assets/nostos-covers/${set}/${e.work}.jpg`]?.default;
           // a credit where the library asks for one (public domain otherwise needs none)
-          const credit = /^public domain$/i.test(e.attribution) ? null : e.attribution.replace(/^public domain;\s*suggested credit:\s*/i, '');
+          const credit = /^public domain\.?$/i.test(e.attribution) ? null : e.attribution.replace(/^public domain[.;]\s*(suggested credit:\s*)?/i, '');
           return image ? ([e.work, { image, caption: { en: e.title_en, el: e.title_el }, credit }] as const) : null;
         })
         .filter((x) => x !== null),

@@ -46,3 +46,12 @@ Research only: nothing has been downloaded. This is the list to approve from. Th
 - **Parmenides**: `library.json` has Parmenides' poem, so that is what I found. If Plato's dialogue *Parmenides* was meant, Commons has its 1513 first page too (public domain, 1.2 MB).
 - **Plato pages**: the Commons pages say only "editio princeps, Venice 1513" and do not name the library whose copy was scanned. The printer (Aldus with Andrea Torresani) comes from another copy's Internet Archive record.
 - **Other options seen and not chosen**: a CC BY-SA photo of the Bodmer Odyssey open at Book XIII, the return to Ithaca (a display-case photo of a spread); two BnF pages of the 1488 Homer, public domain on Commons but credited "© BnF" by the BnF, so unclear; a CC BY-SA photo of the 1513 Plato title page from the Biblioteca de Murcia.
+
+## Replaced on 6 November 2026, at the client's wish
+
+The covers of the eight Plato dialogues (the Aldine 1513 pages on Commons) and of the Pythagorean book (the 1495 Lascaris page) looked bleached white, "like a PDF". They are now pages on warm paper from later editions, in `src/data/nostos-editions.json` (each note names the page it replaced):
+
+- **Plato, all eight:** Henri Estienne's Platonis opera (Geneva, 1578), the edition whose page numbers Plato is still cited by. The first page of each dialogue, with its headpiece and the Greek and Latin side by side. It is John Adams's own copy at the Boston Public Library, scanned in colour on the Internet Archive. The record says "not in copyright" without a licence mark. The Republic's strip of the facing page is cropped off; the Phaedo, Cratylus and Meno start at their headpieces.
+- **Pythagorean:** Iamblichus, De vita Pythagorica, ed. Küster (Amsterdam, 1707), the first page of the Life. It has a Public Domain Mark, but it was uploaded by a private user who does not name the library. The Wellcome Collection's Hierocles (Paris, 1583, Public Domain Mark) is the alternative if a library's own licence is wanted.
+
+So the switch's "First editions" now reads "Early editions" (proposed).
