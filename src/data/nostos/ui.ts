@@ -75,10 +75,10 @@ export const nostosUi = {
         go: 'Continue',
         doneAll: 'You have walked the whole path. Review keeps it alive.',
         across: 'Across Athena’s talks',
-        // NEW WORDING, proposed (6 November 2026): the loading screen on entering the learning flow
+        // NEW WORDING (6 November 2026, approved the same day): the loading screen on entering the learning flow
         loading: 'Loading',
         loadBy: 'Athena Potari',
-        // NEW WORDING, proposed (6 November 2026): before skipping ahead on the path
+        // NEW WORDING (6 November 2026, approved the same day): before skipping ahead on the path
         skip: {
           start: 'Start this chapter',
           title: 'Skip to this chapter?',
@@ -244,7 +244,7 @@ export const nostosUi = {
         badge: 'AI',
         intro:
           'An AI tutor that teaches from Athena’s talks and ideas. It sees the step you are on and what you have answered, and remembers your conversations. It is not Athena herself.',
-        // NEW WORDING, proposed (6 November 2026): what the tutor offers, and the "about you" it can use
+        // NEW WORDING (6 November 2026, approved the same day): what the tutor offers, and the "about you" it can use
         offers: [
           'Answers your questions on any idea, as you go',
           'Gives practical advice for living what you learn',

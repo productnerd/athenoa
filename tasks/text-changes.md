@@ -127,7 +127,7 @@ At the client's wording, the line at the foot of every page puts the academy fir
 
 ## Nostos (from 4 November 2026, branch nostos)
 
-**Approved by Maria on 6 November 2026** ("text-changes look good"): all the Nostos wording logged below, English and Greek, up to that day. The study content itself (the ideas, questions and the rest, generated from the talks) is still for Athena to review, and Athena has not yet seen the interface wording either.
+**Approved by Maria on 6 November 2026** ("text-changes look good", and later the same day "approve"): all the Nostos wording logged below, English and Greek, including the tutor, the stage and chapter names of the arc (`src/data/nostos-arc.json`), skipping ahead and the loading screen. The study content itself (the ideas, questions and the rest, generated from the talks) is still for Athena to review, and Athena has not yet seen the interface wording either.
 
 All of the Nostos interface wording is new and lives in `src/data/nostos/ui.ts` (English and Greek; the Ancient Greek draft uses the Greek). Its study content (src/data/nostos/*.json) is generated from her talks and is for Athena to review. The interface names Athena wherever it would have said "her" or "she" (client direction, 4 November 2026). Outside Nostos itself, three places gain new words:
 
