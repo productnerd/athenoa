@@ -36,7 +36,7 @@ const isHere = (href: string) => trim(barePath(href)) === trim(path);
                   for text marked as modern Greek, so the Ancient Greek labels are marked that way here. */}
               <a
                 href={item.href}
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
+                aria-current={isCurrent('section' in item && item.section ? item.section : item.href) ? 'page' : undefined}
                 data-here={isHere(item.href) ? '' : undefined}
                 lang={locale === 'grc' ? 'el' : undefined}
               >

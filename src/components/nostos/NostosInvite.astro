@@ -8,16 +8,35 @@ import { nostosUi } from '../../data/nostos/ui';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 
 interface Props {
-  variant?: 'home' | 'course';
+  /** home: a sheet on Home; course: a line on a course page; journey: a sheet at the foot of the courses
+   *  page, Nostos as the journey one takes on one's own */
+  variant?: 'home' | 'course' | 'journey';
 }
 const { variant = 'home' } = Astro.props;
 const locale = getLocale(Astro.url);
 const t = nostosUi[mainLocale(locale)].entry;
-const href = pathIn(locale, '/nostos/');
+// into Learn, Nostos's first page (client direction, 6 November 2026)
+const href = pathIn(locale, '/nostos/play/');
 ---
 
 {
-  variant === 'home' ? (
+  variant === 'journey' ? (
+    <section class="section ninvite ninvite--journey" aria-labelledby="ninvite-journey">
+      <div class="wrap">
+        <div class="ninvite__sheet box on-blue" data-reveal>
+          <span class="ninvite__art" aria-hidden="true">
+            <Illustration name="sea-boat" note={false} />
+          </span>
+          <div class="ninvite__text">
+            <p class="ninvite__kicker">{t.journey.kicker}</p>
+            <h2 class="t-2" id="ninvite-journey">{t.journey.title}</h2>
+            <p>{t.journey.line}</p>
+            <a class="btn" href={href}>{t.journey.cta}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : variant === 'home' ? (
     <section class="section ninvite" aria-labelledby="ninvite-title">
       <div class="wrap">
         <div class="ninvite__sheet box on-blue" data-reveal>
@@ -92,5 +111,48 @@ const href = pathIn(locale, '/nostos/');
   .ninvite-line a {
     color: var(--ink-strong);
     font-weight: 560;
+  }
+  /* the journey of one's own, at the foot of the courses page: the words and the button stacked, the boat
+     large and faint across the sheet */
+  .ninvite--journey {
+    padding-block: var(--space-xl) 0;
+  }
+  .ninvite--journey .ninvite__sheet {
+    display: block;
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  }
+  .ninvite__art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .ninvite__art :global(svg) {
+    position: absolute;
+    right: -6%;
+    bottom: -12%;
+    width: auto;
+    height: 120%;
+    color: var(--ink);
+    --paper: transparent;
+    opacity: 0.2;
+  }
+  .ninvite--journey .ninvite__text {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+    max-width: 40rem;
+  }
+  .ninvite--journey .ninvite__text > * {
+    margin: 0;
+  }
+  .ninvite__kicker {
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
   }
 </style>

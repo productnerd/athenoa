@@ -387,6 +387,13 @@ export const nostosUi = {
         line: 'Study Athena’s teaching by doing: a map of the ideas, short activities drawn from the talks, and the books behind them.',
         cta: 'Enter Nostos',
       },
+      // NEW WORDING, proposed (6 November 2026): at the foot of the courses page
+      journey: {
+        kicker: 'Nostos',
+        title: 'Or walk the path on your own',
+        line: 'Nostos is Athena’s teaching as a journey you take at your own pace: nine stages, from the first call of philosophy to the return home, in short lessons, with the map of Athena’s ideas and the books behind them.',
+        cta: 'Begin the journey',
+      },
       course: {
         line: 'The ideas of this course, and the rest of Athena’s teaching, to explore and practise in Nostos.',
         cta: 'Open Nostos',
@@ -750,6 +757,12 @@ export const nostosUi = {
         title: 'Νόστος',
         line: 'Μελετήστε τη διδασκαλία της Αθηνάς κάνοντας: ένας χάρτης των ιδεών, σύντομες δραστηριότητες από τις ομιλίες, και τα βιβλία πίσω από αυτές.',
         cta: 'Είσοδος στον Νόστο',
+      },
+      journey: {
+        kicker: 'Νόστος',
+        title: 'Ή διανύστε το μονοπάτι μόνοι σας',
+        line: 'Ο Νόστος είναι η διδασκαλία της Αθηνάς ως ένα ταξίδι στον δικό σας ρυθμό: εννέα στάδια, από το πρώτο κάλεσμα της φιλοσοφίας ως την επιστροφή, σε σύντομα μαθήματα, με τον χάρτη των ιδεών της Αθηνάς και τα βιβλία πίσω από αυτές.',
+        cta: 'Ξεκινήστε το ταξίδι',
       },
       course: {
         line: 'Οι ιδέες αυτού του μαθήματος, και όλη η διδασκαλία της Αθηνάς, για να τις εξερευνήσετε και να τις ασκήσετε στον Νόστο.',

@@ -121,6 +121,10 @@ A small line under the button, new (client request):
 | --- | --- | --- |
 | We will notify you once the enrolments are open. | Θα σας ειδοποιήσουμε μόλις ανοίξουν οι εγγραφές. | Ἀγγελοῦμεν ὑμῖν ὅταν αἱ ἐγγραφαὶ ἀνοιχθῶσιν. |
 
+## Live courses, and Nostos as one's own journey (6 November 2026)
+
+At the client's wording the menu's "Courses" is "Live Courses", and so is the courses page's own title (Greek «Ζωντανά μαθήματα»; Ancient Greek draft «Ζῶντα μαθήματα», unchecked). The menu's Nostos, the Home sheet and the line on each course page now open Learn rather than the map. The courses page ends on Nostos, NEW WORDING proposed: "Nostos" · "Or walk the path on your own" · "Nostos is Athena’s teaching as a journey you take at your own pace: nine stages, from the first call of philosophy to the return home, in short lessons, with the map of Athena’s ideas and the books behind them." · "Begin the journey"; Greek «Ή διανύστε το μονοπάτι μόνοι σας» · «Ο Νόστος είναι η διδασκαλία της Αθηνάς ως ένα ταξίδι στον δικό σας ρυθμό: …» · «Ξεκινήστε το ταξίδι».
+
 ## Footer copyright (6 November 2026)
 
 At the client's wording, the line at the foot of every page puts the academy first: «© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ» in Greek and in the Ancient Greek draft, and "© ATHENOA ACADEMY" in English (all three were «© ΑΘΕΝΟΑ ΑΚΑΔΗΜΙΑ»).

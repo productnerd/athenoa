@@ -26,9 +26,9 @@ export const site = {
   home: { label: 'Αρχική', href: '/el/' },
   nav: [
     { label: 'Σχετικά με τη Δρ. Αθηνά', href: '/el/about-athena/' },
-    { label: 'Μαθήματα', href: '/el/courses/' },
+    { label: 'Ζωντανά μαθήματα', href: '/el/courses/' },
     // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos
-    { label: nostosUi.el.entry.nav, href: '/el/nostos/' },
+    { label: nostosUi.el.entry.nav, href: '/el/nostos/play/', section: '/el/nostos/' },
   ],
   footer: {
     linksTitle: 'Εσωτερικοί Σύνδεσμοι',

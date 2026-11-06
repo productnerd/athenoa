@@ -28,9 +28,9 @@ export const site = {
   home: { label: 'Οἴκαδε', href: '/grc/' },
   nav: [
     { label: 'Περὶ τῆς διδασκάλου Ἀθηνᾶς', href: '/grc/about-athena/' },
-    { label: 'Μαθήματα', href: '/grc/courses/' },
+    { label: 'Ζῶντα μαθήματα', href: '/grc/courses/' },
     // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos
-    { label: nostosUi.el.entry.nav, href: '/grc/nostos/' },
+    { label: nostosUi.el.entry.nav, href: '/grc/nostos/play/', section: '/grc/nostos/' },
   ],
   footer: {
     linksTitle: 'Οἱ ἔνδον σύνδεσμοι',

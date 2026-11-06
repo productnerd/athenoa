@@ -25,9 +25,9 @@ export const site = {
   home: { label: 'Home', href: '/' },
   nav: [
     { label: 'About Dr. Athena', href: '/about-athena/' },
-    { label: 'Courses', href: '/courses/' },
+    { label: 'Live Courses', href: '/courses/' },
     // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos
-    { label: nostosUi.en.entry.nav, href: '/nostos/' },
+    { label: nostosUi.en.entry.nav, href: '/nostos/play/', section: '/nostos/' },
   ],
   footer: {
     linksTitle: 'Internal Links',

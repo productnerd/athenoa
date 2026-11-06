@@ -668,8 +668,15 @@ const firstOf = (st: string) => pathOutline.findIndex((c) => c.stage === st);
     height: 190%;
     translate: 0 -50%;
     color: var(--ink);
-    --paper: transparent;
-    opacity: 0.2;
+    /* filled rather than outlined (client direction): every shape takes the ink, and the lines are so
+       heavy they merge into masses, like a cut-out */
+    --paper: currentColor;
+    --blue-light: currentColor;
+    stroke-width: 9;
+    opacity: 0.16;
+  }
+  .njch__art :global(svg *) {
+    stroke-width: inherit;
   }
   /* the stages at a glance, at the left; a row at the foot on phones */
   .njrail {

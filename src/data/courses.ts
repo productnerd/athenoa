@@ -218,7 +218,7 @@ export const registrationTab = {
 // New interface wording for the courses page and the enrol flow. None of this exists on the live site,
 // so it is kept in one place for Athena to review.
 export const coursesPage = {
-  title: 'Courses',
+  title: 'Live Courses',
   // The live Courses page uses this line as its description.
   description: 'Study at the Modern Platonic Academy & Remember Who You Really Are',
   ui: {
