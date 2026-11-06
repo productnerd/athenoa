@@ -1753,13 +1753,14 @@ function setup() {
       requestAnimationFrame(() => requestAnimationFrame(() => loader.classList.add('is-on')));
       // a breath of wind as it opens, the sea while it waits, a lyre as the lesson appears
       playSound('/audio/wind.mp3', 0.035);
-      window.setTimeout(() => playSound('/audio/sea.mp3', 0.04, { after: 1.8, over: 1.4 }), 300);
+      window.setTimeout(() => playSound('/audio/sea.mp3', 0.04, { after: 3.6, over: 1.8 }), 300);
     }
     const ready = (task: Promise<unknown> | void) =>
       Promise.resolve(task).finally(() => {
         if (!loader) return;
         const calm = !document.documentElement.classList.contains('motion');
-        const wait = calm ? 600 : Math.max(0, 2900 - (performance.now() - began));
+        // (held a little over five seconds, longer than the loading itself, so the line can be taken in)
+        const wait = calm ? 600 : Math.max(0, 5200 - (performance.now() - began));
         window.setTimeout(() => {
           loader.classList.add('is-leaving');
           playSound('/audio/lyre.mp3', 0.03);
