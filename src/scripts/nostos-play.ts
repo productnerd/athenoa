@@ -1456,8 +1456,11 @@ function written(stage: HTMLElement, head: Node, question: string, reference: st
       noteAnswer({ kind: T.kind, prompt: question, chosen: answer.slice(0, 300), verdict: marked.verdict });
       done(marked.verdict);
     } catch {
+      // the answer stays, to try again (or skip)
       out.replaceChildren(h('p', { class: 'nsmall' }, W.tutor.error));
-      done(null);
+      check.disabled = false;
+      box.readOnly = false;
+      return;
     }
     const go = h('button', { type: 'button', class: 'btn', onclick: next }, W.arena.next);
     row.replaceChildren(go);

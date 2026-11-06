@@ -402,6 +402,9 @@ const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
     border-radius: 1.3rem 1.1rem 1.4rem 1rem / 1.1rem 1.4rem 1rem 1.3rem;
     cursor: pointer;
   }
+  .ntutor__body[hidden] {
+    display: none;
+  }
   .ntutor__body {
     display: grid;
     align-content: start;

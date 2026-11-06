@@ -14,5 +14,8 @@ export default defineConfig({
     }),
   ],
   devToolbar: { enabled: false },
+  // the Anthropic SDK is loaded only when the tutor is used; prepared with the rest in development, so
+  // the dev server never serves a stale copy of it
+  vite: { optimizeDeps: { include: ['@anthropic-ai/sdk', '@anthropic-ai/sdk/helpers/json-schema'] } },
   server: { port: 4321 },
 });

@@ -439,12 +439,14 @@ function setup() {
         chat.messages.push(asked, { role: 'assistant', content: message.content as Anthropic.Beta.BetaContentBlockParam[] });
         write(CHAT, chat);
       } catch (error) {
-        const { default: Sdk } = await import('@anthropic-ai/sdk');
+        // (told apart by the status the SDK's errors carry, so this never needs the SDK itself, which
+        // may be what failed to load)
         out.parentElement!.classList.remove('is-waiting');
-        if (error instanceof Sdk.AuthenticationError || error instanceof Sdk.PermissionDeniedError) {
+        const status = (error as { status?: number })?.status;
+        if (status === 401 || status === 403) {
           out.textContent = W.keyBad;
           keyNote.textContent = W.keyBad;
-        } else if (error instanceof Sdk.RateLimitError) out.textContent = W.busy;
+        } else if (status === 429) out.textContent = W.busy;
         else out.textContent = W.error;
       } finally {
         busy = false;
