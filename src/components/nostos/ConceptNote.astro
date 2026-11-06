@@ -1,0 +1,304 @@
+---
+// Nostos: everything about one idea, as a paper note (tasks/nostos.md, Star map). The same markup
+// serves the readable list under the map (where it is the whole page without JavaScript) and the note
+// that opens beside the map when a star is chosen (the map's script copies it there).
+//
+// THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
+import { Image } from 'astro:assets';
+import { nostosUi } from '../../data/nostos/ui';
+import { artFor, credit } from '../../lib/nostos-art';
+import {
+  conceptById,
+  groupById,
+  rootsFor,
+  talkName,
+  talkUrl,
+  type Concept,
+} from '../../lib/nostos';
+import { getLocale, mainLocale } from '../../lib/locale';
+
+interface Props {
+  concept: Concept;
+}
+const { concept: c } = Astro.props;
+const lang = mainLocale(getLocale(Astro.url));
+const ui = nostosUi[lang];
+const t = ui.note;
+const group = groupById(c.group);
+const roots = rootsFor(c).slice(0, 2);
+const links = c.links.filter((l) => conceptById(l.to)).slice(0, 8);
+const places = c.talks.slice(0, 7);
+// a picture of the art Athena refers to, where there is one (src/lib/nostos-art.ts)
+const art = artFor(c.id);
+const caption = art && (lang === 'en' ? art.title_en : art.title_el);
+const owed = art && credit(art);
+---
+
+<div class="cnote" data-concept={c.id}>
+  <p class="cnote__theme">{ui.groups[c.group as keyof typeof ui.groups] ?? group?.label}</p>
+  {c.greek && <p class="cnote__greek" lang="grc">{c.greek}</p>}
+  <h3 class="cnote__label">{c.label}</h3>
+  {c.translit && <p class="cnote__translit" lang="grc-Latn">{c.translit}</p>}
+  {
+    art && (
+      <figure class="cnote__art">
+        <Image src={art.image} alt={caption!} widths={[360, 720, 1080]} sizes="(min-width: 62rem) 24rem, 92vw" />
+        <figcaption>
+          <a href={art.page_url} target="_blank" rel="noopener">{caption}</a>
+          {owed && (
+            <span>
+              {' · '}
+              {owed.licenceUrl ? (
+                <a href={owed.licenceUrl} target="_blank" rel="noopener">
+                  {owed.text}
+                </a>
+              ) : (
+                owed.text
+              )}
+            </span>
+          )}
+        </figcaption>
+      </figure>
+    )
+  }
+
+  <h4 class="cnote__h">{t.take}</h4>
+  <p lang="en">{c.take}</p>
+  {
+    (c.more ?? []).map((m) => (
+      <details class="cnote__more">
+        <summary>{t.more}</summary>
+        <p lang="en">{m}</p>
+      </details>
+    ))
+  }
+
+  {
+    roots.length > 0 && (
+      <>
+        <h4 class="cnote__h">{t.roots}</h4>
+        {roots.map((e) => (
+          <div class="cnote__root">
+            <p class="cnote__parts" lang="grc">
+              {e.parts.map((p, i) => (
+                <>
+                  {i > 0 && ' + '}
+                  <span>{p.part}</span> <span class="cnote__gloss" lang="en">({p.meaning})</span>
+                </>
+              ))}
+            </p>
+            <p lang="en">
+              {e.reading}{' '}
+              <span class="cnote__status">{t.status[e.status as keyof typeof t.status] ?? e.status}</span>
+              {e.uncertain && (
+                <span class="cnote__unsure" title={t.uncertain}>
+                  <span class="visually-hidden">{t.uncertain}</span>
+                </span>
+              )}
+            </p>
+          </div>
+        ))}
+      </>
+    )
+  }
+
+  {
+    links.length > 0 && (
+      <>
+        <h4 class="cnote__h">{t.links}</h4>
+        <ul class="cnote__links" role="list">
+          {links.map((l) => (
+            <li>
+              <a href={`#c-${l.to}`} data-goto={l.to}>
+                {conceptById(l.to)!.label}
+              </a>
+              {l.why && <p lang="en">{l.why}</p>}
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+
+  {
+    places.length > 0 && (
+      <>
+        <h4 class="cnote__h">{t.talks}</h4>
+        <ul class="cnote__talks" role="list">
+          {places.map((p) => (
+            <li>
+              <a href={talkUrl(p.id, p.t)} target="_blank" rel="noopener" lang="en">
+                {p.t ? <span class="cnote__time">{p.t}</span> : null}
+                {p.note && <span>{p.note}</span>}
+                <span class="cnote__talk">{talkName(p.id)}</span>
+                <span class="visually-hidden"> ({t.opensYoutube})</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )
+  }
+</div>
+
+<style>
+  /* A paper note, set like the head of a dictionary entry: the Greek word large, then its spelling */
+  .cnote {
+    display: grid;
+    gap: 0.35rem;
+  }
+  .cnote > :global(*) {
+    margin: 0;
+  }
+  .cnote__theme {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .cnote__greek {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-3);
+    line-height: 1.05;
+    color: var(--ink-strong);
+  }
+  .cnote__label {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1.1;
+    letter-spacing: var(--title-tracking);
+    color: var(--ink-strong);
+  }
+  .cnote__translit {
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  /* the picture, whole (never cropped), on soft hand-cut corners */
+  .cnote__art {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0.7rem 0 0.2rem !important;
+  }
+  .cnote__art img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 20rem;
+    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+  }
+  .cnote__art figcaption {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .cnote__art figcaption a {
+    color: inherit;
+  }
+  .cnote__h {
+    margin-top: 0.9rem !important;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .cnote__more summary {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .cnote__more p {
+    margin: 0.3rem 0 0;
+  }
+  .cnote__root {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .cnote__parts {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-0);
+    color: var(--ink-strong);
+  }
+  .cnote__parts p,
+  .cnote__root p {
+    margin: 0;
+  }
+  .cnote__gloss {
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .cnote__status {
+    font-size: var(--step--1);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  .cnote__status::before {
+    content: '· ';
+  }
+  /* reconstructed from unclear captions: a small open ring, explained on hover and to screen readers */
+  .cnote__unsure {
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    margin-left: 0.35em;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+    opacity: 0.6;
+  }
+  .cnote__links,
+  .cnote__talks {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* the linked ideas side by side wherever there is room for two, so the note stays short */
+  .cnote__links {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
+    column-gap: var(--space-m);
+  }
+  .cnote__links p {
+    margin: 0.1rem 0 0;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .cnote__links a {
+    color: var(--ink-strong);
+    font-weight: 560;
+  }
+  .cnote__talks a {
+    display: grid;
+    gap: 0.1rem;
+    color: inherit;
+    text-decoration: none;
+  }
+  .cnote__talks a:hover span:not(.cnote__time) {
+    text-decoration: underline;
+  }
+  .cnote__time {
+    font-size: var(--step--1);
+    font-variant-numeric: tabular-nums lining-nums;
+    color: var(--ink-strong);
+  }
+  .cnote__talk {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  /* the visitor's own link (Threads), set apart on a light-blue pebble */
+  .cnote :global(.cnote__yours) {
+    margin-top: 0.5rem;
+    padding: 0.2rem 1rem 0.8rem;
+    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+  }
+  .cnote :global(.cnote__yours p) {
+    margin: 0;
+  }
+  .cnote :global(.cnote__actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 1rem;
+  }
+</style>

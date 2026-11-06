@@ -1,0 +1,88 @@
+---
+// Lab page (not published, removed before launch): a plain check of Nostos step 1, the data loader
+// (src/lib/nostos.ts) and the build-time star map layout (src/data/nostos-layout.json). It draws the
+// positions exactly as the layout file gives them, with no script, and prints a few look-ups.
+// The content is NEW WORDING generated from her talks, for Athena to review (see src/lib/nostos.ts).
+import Base from '../../layouts/Base.astro';
+import {
+  concepts,
+  conceptById,
+  coreLinks,
+  edges,
+  edgesFor,
+  groups,
+  itemsForTalk,
+  mapViewBox,
+  rootsFor,
+  stars,
+  talks,
+  writings,
+} from '../../lib/nostos';
+import { getLocale } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const star = new Map(stars.map((s) => [s.id, s]));
+const shade = Object.fromEntries(groups.map((g, i) => [g.id, ['var(--creme)', 'var(--blue-light)'][i % 2]]));
+const cave = conceptById('cave')!;
+const talk = talks[0];
+const fromTalk = itemsForTalk(talk.id);
+const biggest = stars
+  .slice()
+  .sort((a, b) => b.r - a.r)
+  .slice(0, 34)
+  .map((s) => s.id);
+---
+
+<Base title="Nostos layout check" description="Lab page" noindex>
+  <section class="section">
+    <div class="wrap stack" style="--stack: var(--space-m)">
+      <h1 class="t-2">Nostos, step 1 ({locale})</h1>
+      <p>
+        {concepts.length} concepts, {edges.length} links, {coreLinks.length} core links, {talks.length} talks, {writings.length} writings. Positions from the build-time layout; this page runs no script.
+      </p>
+      <div class="panel panel--big on-blue-deep" style="padding: 1rem">
+        <svg viewBox={mapViewBox.join(' ')} style="width: 100%; height: auto; display: block" role="img" aria-label="Star map layout">
+          <g stroke="var(--blue-light)" stroke-width="0.8" opacity="0.45">
+            {
+              coreLinks.map(([a, b]) => {
+                const s = star.get(a)!;
+                const t = star.get(b)!;
+                return <line x1={s.x} y1={s.y} x2={t.x} y2={t.y} />;
+              })
+            }
+          </g>
+          <g>
+            {
+              stars.map((s) => (
+                <circle cx={s.x} cy={s.y} r={s.r} fill={shade[conceptById(s.id)!.group]} />
+              ))
+            }
+          </g>
+          <g fill="var(--creme)" font-size="13" text-anchor="middle">
+            {
+              biggest.map((id) => {
+                const s = star.get(id)!;
+                return (
+                  <text x={s.x} y={s.y + s.r + 14}>
+                    {conceptById(id)!.label}
+                  </text>
+                );
+              })
+            }
+          </g>
+        </svg>
+      </div>
+      <h2 class="t-3">Look-ups</h2>
+      <ul>
+        <li>conceptById('cave'): {cave.label}, <span lang="grc">{cave.greek}</span> ({cave.translit}), {cave.freq} mentions, {cave.talks.length} talks</li>
+        <li>edgesFor('cave'), strongest five: {edgesFor('cave').slice(0, 5).map((e) => `${conceptById(e.other)?.label}${e.her ? ' (her link)' : ''}`).join(', ')}</li>
+        <li>rootsFor(cave): {rootsFor(cave).map((e) => e.word).join(', ') || 'none'}</li>
+        <li>
+          itemsForTalk('{talk.id}', {talk.en}): {fromTalk.concepts.length} concepts, {fromTalk.quiz.length} quiz,
+          {fromTalk.truefalse.length} true/false, {fromTalk.sequences.length} sequences, {fromTalk.myths.length} myths,
+          {fromTalk.etymologies.length} roots, {fromTalk.practices.length} practices
+        </li>
+      </ul>
+    </div>
+  </section>
+</Base>

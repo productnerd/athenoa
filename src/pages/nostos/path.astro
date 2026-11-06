@@ -1,0 +1,563 @@
+---
+// Nostos, the path: one lesson at a time, on a page of its own that fills the window (client direction,
+// 6 November 2026: not a popup). Begin, Continue and the stones on the play page come here; so does
+// Review (?review). ?c=<chapter>&l=<lesson> opens one lesson; with neither, the next one waiting.
+// Each new idea shows the map with its star chosen: beside the lesson on wide screens, under it on
+// narrow ones. The steps themselves are made by src/scripts/nostos-play.ts, as in the play page's dialog.
+// Not in the sitemap and noindex until launch. THE CONTENT IS NEW WORDING for Athena to review.
+import Base from '../../layouts/Base.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import { pathOutline } from '../../lib/nostos-path';
+import { lines } from '../../lib/nostos';
+import { starShapes } from '../../lib/nostos-shapes';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+import '../../styles/nostos-arena.css';
+
+const locale = getLocale(Astro.url);
+const ui = nostosUi[mainLocale(locale)];
+const t = ui.play;
+const words = { ...t, groups: ui.groups, uncertain: ui.note.uncertain };
+const tt = t.tutor;
+// Athena's lines, for the loading screen (one chosen at random each time)
+const quotes = lines.map((l) => l.text).filter((x) => x && x.length < 220);
+---
+
+<Base title={`${t.path.title} · Nostos | ATHENOA`} description={t.metaDescription} noindex header={false} footer={false}>
+  {/* the loading screen, on entering the learning flow: shown from the start, so the page never flashes
+      before it; the script fills in a line and fades it away once the lesson is ready */}
+  <div class="nload" data-load role="status" aria-live="polite">
+    <figure class="nload__quote">
+      <blockquote class="hand hand--l" lang="en" data-load-quote></blockquote>
+      <figcaption>{t.path.loadBy}</figcaption>
+    </figure>
+    <div class="nload__stones" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <p class="nload__label">{t.path.loading}</p>
+  </div>
+  <script type="application/json" data-quotes set:html={JSON.stringify(quotes)} />
+
+  <div
+    class="npage"
+    data-nplay
+    data-path-page
+    data-feed-src="/nostos/data/"
+    data-map-href={pathIn(locale, '/nostos/')}
+    data-play-href={pathIn(locale, '/nostos/play/')}
+  >
+    <div class="narena narena--page" data-arena aria-labelledby="narena-title">
+      <div class="narena__sheet"></div>
+    </div>
+    <section class="npage__map" data-path-map hidden>
+      <iframe title={ui.map.mapLabel} data-path-frame></iframe>
+    </section>
+  </div>
+
+  {/* The AI tutor, pinned at the foot of the learning flow (src/scripts/nostos-tutor.ts). Shown once
+      the script runs; it needs the visitor's own Anthropic API key, pasted in its panel. */}
+  <div class="ntutor" data-tutor hidden>
+    <section class="ntutor__panel" data-tutor-panel hidden aria-labelledby="ntutor-title">
+      <header class="ntutor__head">
+        <h2 class="ntutor__title" id="ntutor-title">{tt.title} <span class="ntutor__badge">{tt.badge}</span></h2>
+        <button type="button" class="ntutor__x" data-tutor-close aria-label={tt.close}>
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+            <path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path>
+          </svg>
+        </button>
+      </header>
+      <div class="ntutor__body" data-tutor-key>
+        {/* what it offers, all of it shaped to the visitor */}
+        <ul class="ntutor__offers" data-tutor-offers>
+          {tt.offers.map((o) => <li>{o}</li>)}
+        </ul>
+        <p class="small" data-tutor-offers>{tt.personal}</p>
+        <p class="small" data-tutor-offers>{tt.intro}</p>
+        {/* one step: the key, and (if they like) who they are */}
+        <form class="ntutor__keyform" data-tutor-keyform autocomplete="off">
+          <label for="ntutor-key">{tt.keyLabel}</label>
+          <input id="ntutor-key" type="password" spellcheck="false" placeholder="sk-ant-…" data-tutor-keyinput />
+          <p class="small" data-tutor-keykept hidden>{tt.keyKept}</p>
+          <p class="small">
+            <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">{tt.keyGet}</a>
+          </p>
+          <label for="ntutor-about">{tt.aboutLabel}</label>
+          <p class="small ntutor__hint">{tt.aboutHint}</p>
+          <textarea id="ntutor-about" rows="6" placeholder={tt.aboutPlaceholder} data-tutor-about></textarea>
+          <details class="ntutor__prompt">
+            <summary>{tt.promptTitle}</summary>
+            <p class="small">{tt.promptLine}</p>
+            <p class="ntutor__prompttext" data-tutor-prompt>{tt.prompt}</p>
+            <button type="button" class="ntutor__link" data-tutor-copy>{tt.copy}</button>
+          </details>
+          <p class="small ntutor__hint">{tt.keyLine}</p>
+          <button type="submit" class="btn">{tt.start}</button>
+        </form>
+        <p class="small ntutor__note" data-tutor-keynote aria-live="polite"></p>
+      </div>
+      <div class="ntutor__chat" data-tutor-chat hidden>
+        <ol class="ntutor__log" data-tutor-log aria-live="polite"></ol>
+        <form class="ntutor__form" data-tutor-form>
+          <label class="visually-hidden" for="ntutor-input">{tt.placeholder}</label>
+          <textarea id="ntutor-input" rows="2" placeholder={tt.placeholder} data-tutor-input></textarea>
+          <button type="submit" class="btn">{tt.send}</button>
+        </form>
+        <div class="ntutor__foot">
+          <button type="button" class="ntutor__link" data-tutor-edit>{tt.aboutYou}</button>
+          <button type="button" class="ntutor__link" data-tutor-forget>{tt.forget}</button>
+          <button type="button" class="ntutor__link" data-tutor-remove>{tt.keyRemove}</button>
+        </div>
+      </div>
+    </section>
+    <button type="button" class="ntutor__open" data-tutor-open aria-expanded="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path d="M4.5 6.5c0-1.4 1.1-2.5 2.5-2.5h10c1.4 0 2.5 1.1 2.5 2.5v7c0 1.4-1.1 2.5-2.5 2.5h-6.4L7 19.6V16a2.5 2.5 0 0 1-2.5-2.5v-7Z" />
+        <path d="M8.5 9.2h7M8.5 12h4.5" />
+      </svg>
+      <span>{tt.open}</span>
+    </button>
+  </div>
+</Base>
+
+{/* the map's star shapes, for the marks on a connection's two cards */}
+<svg class="visually-hidden" aria-hidden="true" focusable="false">
+  {Object.entries(starShapes).map(([g, shape]) => <symbol id={`nsh-${g}`} viewBox="-1.5 -1.5 3 3" overflow="visible" set:html={shape} />)}
+</svg>
+<script type="application/json" data-nplay-words set:html={JSON.stringify(words)} />
+<script type="application/json" data-npath set:html={JSON.stringify(pathOutline)} />
+
+<script>
+  import '../../scripts/nostos-play';
+  import '../../scripts/nostos-tutor';
+</script>
+
+<style>
+  .npage {
+    min-height: 100dvh;
+  }
+  /* ---------- the loading screen ---------- */
+  .nload {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: var(--space-m);
+    padding: var(--space-l) max(var(--gutter), env(safe-area-inset-right, 0px)) var(--space-l) max(var(--gutter), env(safe-area-inset-left, 0px));
+    text-align: center;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    transition: opacity 0.6s var(--ease-in-out);
+  }
+  .nload[hidden] {
+    display: none;
+  }
+  .nload.is-leaving {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .nload__quote {
+    max-width: 36rem;
+    margin: 0;
+    opacity: 0;
+    transform: translateY(0.6rem);
+    transition:
+      opacity 0.9s var(--ease-out) 0.15s,
+      transform 0.9s var(--ease-out) 0.15s;
+  }
+  .nload.is-on .nload__quote {
+    opacity: 1;
+    transform: none;
+  }
+  .nload__quote blockquote {
+    margin: 0;
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+  /* (Athena's lines are in English: on the Greek pages too, the English hand) */
+  .nload__quote blockquote:lang(en) {
+    font-family: 'ATH Hand', var(--font-hand);
+  }
+  .nload__quote figcaption {
+    margin-top: 0.8rem;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  /* stepping stones lighting one after another, as on the path */
+  .nload__stones {
+    display: flex;
+    gap: 0.7rem;
+  }
+  .nload__stones span {
+    width: 0.9rem;
+    height: 0.9rem;
+    background: var(--creme-deep);
+    border: 1.5px solid color-mix(in srgb, var(--blue) 35%, transparent);
+    border-radius: 52% 48% 55% 45% / 47% 55% 45% 53%;
+  }
+  .nload__stones span:nth-child(2n) {
+    border-radius: 45% 55% 48% 52% / 55% 45% 53% 47%;
+  }
+  :global(html.motion) .nload__stones span {
+    animation: nload-stone 1.8s var(--ease-in-out) infinite;
+  }
+  .nload__stones span:nth-child(2) { animation-delay: 0.18s; }
+  .nload__stones span:nth-child(3) { animation-delay: 0.36s; }
+  .nload__stones span:nth-child(4) { animation-delay: 0.54s; }
+  .nload__stones span:nth-child(5) { animation-delay: 0.72s; }
+  @keyframes nload-stone {
+    0%,
+    60%,
+    100% {
+      background: var(--creme-deep);
+      transform: none;
+    }
+    25% {
+      background: var(--blue);
+      transform: translateY(-0.25rem);
+    }
+  }
+  .nload__label {
+    margin: 0;
+    font-size: var(--step--1);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  /* the map: under the lesson on narrow screens, the width of the window a little short of each edge.
+     It comes up behind the Next button to just under the explanation, and fades in from its top edge
+     (client direction, 6 November 2026), so there is no hard edge between lesson and map */
+  :global(.narena--page) {
+    position: relative;
+    z-index: 2;
+  }
+  .npage__map {
+    position: relative;
+    z-index: 1;
+    margin-top: calc(-1 * (var(--space-l) + 5rem));
+    padding: 0 clamp(0.6rem, 0.2rem + 1.4vw, 1.6rem) var(--space-l);
+  }
+  .npage__map[hidden] {
+    display: none;
+  }
+  .npage__map iframe {
+    display: block;
+    width: 100%;
+    height: min(62dvh, 36rem);
+    border: 0;
+    background: var(--paper);
+    /* faded in from the top, where it meets the lesson (the map inside fades at its own edges) */
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 30%);
+    mask-image: linear-gradient(to bottom, transparent, #000 30%);
+  }
+  /* ---------- the tutor: a button at the foot, right; its panel opens above it ---------- */
+  .ntutor {
+    position: fixed;
+    right: calc(1rem + env(safe-area-inset-right, 0px));
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 55;
+    display: grid;
+    justify-items: end;
+    gap: 0.6rem;
+  }
+  .ntutor[hidden] {
+    display: none;
+  }
+  .ntutor__open {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.5rem 1.1rem 0.5rem 0.85rem;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--creme-light);
+    background: var(--blue);
+    border: 0;
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+    cursor: pointer;
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+  .ntutor__open:hover {
+    transform: translateY(-2px);
+  }
+  .ntutor.is-open .ntutor__open {
+    background: var(--blue-deep);
+  }
+  .ntutor__open svg,
+  .ntutor__x svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  @media (max-width: 30rem) {
+    .ntutor__open span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+  }
+  .ntutor__panel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    width: min(24rem, calc(100vw - 2rem));
+    height: min(34rem, calc(100dvh - 6.5rem));
+    color: var(--ink);
+    background-color: var(--creme-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border: 1.5px solid color-mix(in srgb, var(--blue) 24%, transparent);
+    border-radius: 1.8rem 1.5rem 1.9rem 1.6rem / 1.6rem 1.9rem 1.5rem 1.8rem;
+    overflow: hidden;
+  }
+  .ntutor__panel[hidden] {
+    display: none;
+  }
+  .ntutor__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.8rem 0.9rem 0.6rem 1.2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .ntutor__title {
+    margin: 0;
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    color: var(--ink-strong);
+  }
+  .ntutor__badge {
+    margin-left: 0.3rem;
+    padding: 0.05rem 0.45rem;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    vertical-align: middle;
+    color: var(--blue-deep);
+    background: var(--blue-light);
+    border-radius: 0.6rem;
+  }
+  .ntutor__x {
+    display: grid;
+    place-items: center;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0;
+    color: var(--ink-strong);
+    background: none;
+    border: 1.5px solid var(--line);
+    border-radius: 1.3rem 1.1rem 1.4rem 1rem / 1.1rem 1.4rem 1rem 1.3rem;
+    cursor: pointer;
+  }
+  .ntutor__body {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: 1rem 1.2rem 1.2rem;
+    overflow: auto;
+  }
+  .ntutor__body > * {
+    margin: 0;
+  }
+  .ntutor__strong {
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .ntutor__keyform {
+    display: grid;
+    gap: 0.4rem;
+    justify-items: start;
+  }
+  .ntutor__keyform > * {
+    margin: 0;
+  }
+  .ntutor__keyform label {
+    margin-top: 0.4rem;
+    font-weight: 600;
+  }
+  .ntutor__keyform textarea {
+    width: 100%;
+    padding: 0.6em 0.9em;
+    font: inherit;
+    font-size: var(--step--1);
+    line-height: 1.45;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+    resize: vertical;
+  }
+  .ntutor__hint {
+    color: var(--ink-soft);
+  }
+  .ntutor__offers {
+    display: grid;
+    gap: 0.35rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--step--1);
+  }
+  .ntutor__offers li {
+    position: relative;
+    padding-left: 1.3rem;
+  }
+  /* each benefit on a small star, as on the map */
+  .ntutor__offers li::before {
+    content: '';
+    position: absolute;
+    left: 0.15rem;
+    top: 0.42em;
+    width: 0.55rem;
+    height: 0.55rem;
+    background: var(--blue);
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+  }
+  .ntutor__prompt {
+    width: 100%;
+    font-size: var(--step--1);
+  }
+  .ntutor__prompt summary {
+    color: var(--ink-strong);
+    cursor: pointer;
+  }
+  .ntutor__prompt > * + * {
+    margin-top: 0.4rem;
+  }
+  .ntutor__prompttext {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    background: var(--creme-deep);
+    border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
+    user-select: all;
+  }
+  .ntutor__keyform label {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .ntutor__keyform input,
+  .ntutor__form textarea {
+    width: 100%;
+    padding: 0.6em 0.9em;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--ink);
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+  }
+  .ntutor__keyform input:focus-visible,
+  .ntutor__form textarea:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 1px;
+  }
+  .ntutor__note:empty {
+    display: none;
+  }
+  .ntutor__chat {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+    min-height: 0;
+  }
+  .ntutor__chat[hidden] {
+    display: none;
+  }
+  .ntutor__log {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 1rem 1rem 0.6rem;
+    overflow: auto;
+    list-style: none;
+  }
+  .ntutor__msg p {
+    margin: 0;
+    padding: 0.6rem 0.85rem;
+    font-size: var(--step--1);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+  }
+  .ntutor__msg--tutor p {
+    background: var(--creme-deep);
+    margin-right: 1.5rem;
+  }
+  .ntutor__msg--you p {
+    margin-left: 2rem;
+    color: var(--creme-light);
+    background: var(--blue);
+  }
+  .ntutor__msg.is-waiting p {
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .ntutor__form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    border-top: 1px solid var(--line);
+  }
+  .ntutor__form textarea {
+    resize: none;
+  }
+  .ntutor__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.4rem 1rem;
+    padding: 0 1rem 0.7rem;
+  }
+  .ntutor__link {
+    padding: 0;
+    font: inherit;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  /* on wide screens, beside the lesson, the height of the window */
+  @media (min-width: 75rem) {
+    .npage.has-map {
+      display: grid;
+      grid-template-columns: minmax(0, 46rem) minmax(0, 1fr);
+      align-items: start;
+      gap: var(--space-m);
+      padding-left: var(--gutter);
+    }
+    .npage.has-map :global(.narena--page) {
+      width: 100%;
+      margin: 0;
+    }
+    .npage.has-map .npage__map {
+      position: sticky;
+      top: 0;
+      margin-top: 0;
+      padding: 1rem clamp(0.6rem, 0.2rem + 1.4vw, 1.6rem) 1rem 0;
+    }
+    /* beside the lesson only the map's own soft edges */
+    .npage.has-map .npage__map iframe {
+      height: calc(100dvh - 2rem);
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+</style>

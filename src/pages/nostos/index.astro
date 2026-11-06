@@ -1,0 +1,291 @@
+---
+// Nostos, the front door: the star map of her ideas, then the same ideas as a readable list (which is
+// the whole page without JavaScript). Not in the sitemap and marked noindex until launch
+// (tasks/nostos.md, step 8). THE CONTENT IS NEW WORDING for Athena to review (src/lib/nostos.ts).
+import Base from '../../layouts/Base.astro';
+import NostosNav from '../../components/nostos/NostosNav.astro';
+import StarMap from '../../components/nostos/StarMap.astro';
+import ConceptNote from '../../components/nostos/ConceptNote.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import Illustration from '../../components/Illustration.astro';
+import { concepts, groups, meta } from '../../lib/nostos';
+import { pathOutline } from '../../lib/nostos-path';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const ui = nostosUi[mainLocale(locale)];
+const lessons = pathOutline.reduce((n, c) => n + c.lessons.length, 0);
+const t = ui.map;
+const byTheme = groups.map((g) => ({
+  group: g,
+  label: ui.groups[g.id as keyof typeof ui.groups] ?? g.label,
+  items: concepts.filter((c) => c.group === g.id).sort((a, b) => b.freq - a.freq),
+}));
+---
+
+<Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  {/* ?embed: the map alone, shown under a lesson on the path page (path.astro) */}
+  <script is:inline>
+    if (new URLSearchParams(location.search).has('embed')) document.documentElement.classList.add('nmap-embed');
+  </script>
+  <NostosNav />
+  <section class="section nostos-top">
+    <div class="wrap">
+      <header class="nostos-head">
+        <h1 class="t-1" data-split>{t.title}</h1>
+        <p class="lead nostos-intro" data-reveal>{t.intro.replace('{n}', String(meta.transcribedTalks))}</p>
+        <form class="nostos-find" role="search" onsubmit="return false">
+          <label class="visually-hidden" for="nmap-q">{t.search}</label>
+          <input
+            class="nostos-find__input"
+            id="nmap-q"
+            type="search"
+            placeholder={t.searchPlaceholder}
+            autocomplete="off"
+            spellcheck="false"
+            data-search
+          />
+          <p class="nostos-find__status" aria-live="polite" data-status></p>
+        </form>
+      </header>
+      <StarMap />
+    </div>
+  </section>
+
+  <section class="section nostos-list" aria-labelledby="nostos-list-title">
+    <div class="wrap">
+      <h2 class="t-2" id="nostos-list-title">{t.listTitle}</h2>
+      <p class="nostos-list__intro">{t.listIntro}</p>
+      {
+        byTheme.map(({ group, label, items }) => (
+          <div class="nostos-list__theme">
+            <h3 class="t-3">{label}</h3>
+            <ul class="nostos-list__items">
+              {items.map((c) => (
+                <li id={`c-${c.id}`}>
+                  <details>
+                    <summary>
+                      <span class="nostos-list__label">{c.label}</span>
+                      {c.greek && <span class="nostos-list__greek" lang="grc">{c.greek}</span>}
+                    </summary>
+                    <div class="nostos-list__body">
+                      <ConceptNote concept={c} />
+                      <button type="button" class="btn btn--ghost nostos-list__go" data-goto={c.id}>
+                        {t.openOnMap}
+                      </button>
+                    </div>
+                  </details>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  {/* the way into Learn, at the foot of the page (client direction, 6 November 2026): the words, the
+      button under them, and Diotima's ladder large and faint across the whole sheet */}
+  <section class="section nostos-cta" aria-labelledby="nostos-cta-title">
+    <div class="wrap">
+      <div class="nostos-cta__sheet box on-blue" data-reveal>
+        <span class="nostos-cta__art" aria-hidden="true">
+          <Illustration name="ladder" note={false} />
+        </span>
+        <div class="nostos-cta__text">
+          <h2 class="t-2" id="nostos-cta-title">{t.cta.title}</h2>
+          <p>{t.cta.line.replace('{l}', String(lessons))}</p>
+          <a class="btn" href={pathIn(locale, '/nostos/play/')}>{t.cta.go}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nostos-top {
+    padding-top: calc(var(--space-s) * 2);
+  }
+  .nostos-head {
+    display: grid;
+    gap: var(--space-s);
+    margin-bottom: var(--space-l);
+  }
+  /* on wide screens the words stand beside the title, so the map is in sight at once */
+  @media (min-width: 62rem) {
+    .nostos-head {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: var(--space-xl);
+      align-items: end;
+    }
+    .nostos-head h1 {
+      grid-column: 1;
+    }
+    .nostos-intro {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: end;
+    }
+    .nostos-find {
+      grid-column: 2;
+    }
+  }
+  .nostos-head > * {
+    margin: 0;
+  }
+  @media (max-width: 61.99rem) {
+    .nostos-head h1,
+    .nostos-intro {
+      max-width: 46rem;
+    }
+  }
+  /* the way into Learn: a Greek-blue sheet, as on Home */
+  .nostos-cta {
+    padding-block: var(--space-l) 0;
+  }
+  .nostos-cta__sheet {
+    --box-r: var(--r-soft-2);
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  }
+  /* the ladder, large and faint, cropped by the sheet */
+  .nostos-cta__art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .nostos-cta__art :global(svg) {
+    position: absolute;
+    right: -4%;
+    top: 50%;
+    width: auto;
+    height: 170%;
+    translate: 0 -46%;
+    color: var(--ink);
+    --paper: transparent;
+    opacity: 0.2;
+  }
+  .nostos-cta__text {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+    max-width: 40rem;
+  }
+  .nostos-cta__text > * {
+    margin: 0;
+  }
+  /* search, under the intro; it needs the map's script, so without it it is not shown */
+  .nostos-find {
+    display: none;
+    gap: 0.4rem;
+  }
+  :global(html.nostos-live) .nostos-find {
+    display: grid;
+  }
+  .nostos-find__input {
+    width: 100%;
+    max-width: 22rem;
+    padding: 0.6em 1.05em;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--ink);
+    background: var(--creme-light);
+    border: 1.5px solid var(--line);
+    border-radius: 1.5rem 1.1rem 1.6rem 1.2rem / 1.2rem 1.6rem 1.1rem 1.5rem;
+  }
+  .nostos-find__input::placeholder {
+    color: var(--ink-soft);
+  }
+  .nostos-find__input:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 2px;
+  }
+  .nostos-find__status {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+  .nostos-find__status:empty {
+    display: none;
+  }
+  .nostos-list__intro {
+    margin: var(--space-2xs) 0 var(--space-l);
+    color: var(--ink-soft);
+  }
+  .nostos-list__theme + .nostos-list__theme {
+    margin-top: var(--space-l);
+  }
+  .nostos-list__items {
+    display: grid;
+    gap: 0.1rem;
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 48rem) {
+    .nostos-list__items {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: var(--space-l);
+      align-items: start;
+    }
+  }
+  .nostos-list__items summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.2rem 0.7rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    list-style: none;
+  }
+  .nostos-list__items summary::-webkit-details-marker {
+    display: none;
+  }
+  .nostos-list__label {
+    font-weight: 560;
+    color: var(--ink-strong);
+  }
+  .nostos-list__greek {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    color: var(--ink-soft);
+  }
+  .nostos-list__body {
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-s) 0 var(--space-m);
+    justify-items: start;
+  }
+  /* "show on the map" needs the map's script */
+  .nostos-list__go {
+    display: none;
+  }
+  :global(html.nostos-live) .nostos-list__go {
+    display: inline-flex;
+  }
+</style>
+
+<style is:global>
+  /* ?embed: only the map (and a chosen star's note), none of the page around it */
+  html.nmap-embed :is(.header, .footer, .nnav-bar, .nostos-head, .nostos-cta, .nostos-list, .music, .cookies, .nmap__note) {
+    display: none !important;
+  }
+  html.nmap-embed {
+    scroll-padding-top: 0;
+  }
+  html.nmap-embed .nostos-top {
+    padding: 0;
+  }
+  /* inside a lesson the stars fade out towards all four edges, so the map has no hard border */
+  html.nmap-embed .nmap__view {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 84%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent, #000 12%, #000 84%, transparent);
+    mask-composite: intersect;
+  }
+</style>

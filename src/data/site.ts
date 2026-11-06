@@ -1,8 +1,10 @@
 // Site-wide facts. Copy here is taken from the live site (athenoa.academy, October 2026).
+import { nostosUi } from './nostos/ui';
+
 export const site = {
   name: 'ATHENOA',
   // The live footer signs off in Greek capitals.
-  copyright: '© ΑΘΕΝΟΑ ΑΚΑΔΗΜΙΑ',
+  copyright: '© ATHENOA ACADEMY',
   url: 'https://www.athenoa.com',
   locale: 'en',
   // "Who We Are" from the old footer. No longer shown there; kept for descriptions and machine-readable summaries.
@@ -23,7 +25,9 @@ export const site = {
   home: { label: 'Home', href: '/' },
   nav: [
     { label: 'About Dr. Athena', href: '/about-athena/' },
-    { label: 'Courses', href: '/courses/' },
+    { label: 'Live Courses', href: '/courses/' },
+    // NEW WORDING, proposed for Maria's approval (src/data/nostos/ui.ts): the way into Nostos
+    { label: nostosUi.en.entry.nav, href: '/nostos/play/', section: '/nostos/' },
   ],
   footer: {
     linksTitle: 'Internal Links',

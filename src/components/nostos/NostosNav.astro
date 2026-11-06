@@ -1,0 +1,112 @@
+---
+// Nostos: the small menu that joins its four pages (the map, play, the bookshelf, sources), at the head
+// of each, at the right. It stays in sight as the page scrolls, just under the site's header, on a
+// paper pill once the page has moved (client direction, 5 November 2026). The page you are on is
+// marked and is not a link. Wording proposed (src/data/nostos/ui.ts).
+import { nostosUi } from '../../data/nostos/ui';
+import { barePath, getLocale, mainLocale, pathIn } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const t = nostosUi[mainLocale(locale)].entry.sub;
+const here = barePath(Astro.url.pathname).replace(/\/+$/, '/') ;
+// Learn first (client direction, 6 November 2026)
+const items = [
+  { href: '/nostos/play/', label: t.play },
+  { href: '/nostos/', label: t.map },
+  { href: '/nostos/bookshelf/', label: t.shelf },
+  { href: '/nostos/sources/', label: t.sources },
+];
+---
+
+<div class="nnav-bar">
+<nav class="nnav wrap" aria-label={t.label}>
+  <ul>
+    {
+      items.map((item) => (
+        <li>
+          {here === item.href ? (
+            <span class="nnav__here" aria-current="page">{item.label}</span>
+          ) : (
+            <a href={pathIn(locale, item.href)}>{item.label}</a>
+          )}
+        </li>
+      ))
+    }
+  </ul>
+</nav>
+</div>
+
+<script>
+  // how tall the menu is (it wraps on phones), for what stays in sight under it (the Learn page's
+  // chapter banners)
+  let watch: ResizeObserver | undefined;
+  document.addEventListener('astro:page-load', () => {
+    watch?.disconnect();
+    const nav = document.querySelector<HTMLElement>('.nnav-bar .nnav');
+    if (!nav) return;
+    watch = new ResizeObserver(() => document.documentElement.style.setProperty('--nnav-h', `${nav.offsetHeight}px`));
+    watch.observe(nav);
+  });
+</script>
+
+<style>
+  /* first in the page (a child of main), so it can stay in sight all the way down */
+  .nnav-bar {
+    position: sticky;
+    top: calc(var(--header-h) + 0.35rem);
+    z-index: 40;
+    margin-top: var(--space-l);
+    pointer-events: none;
+  }
+  /* anchors land below the header and this menu, not under them */
+  :global(html:has(.nnav-bar)) {
+    scroll-padding-top: calc(var(--header-h) + 3.5rem);
+  }
+  .nnav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 0.3rem 1.2rem;
+    font-size: var(--step--1);
+  }
+  .nnav ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.2rem 0.4rem;
+    margin: 0;
+    padding: 0.2rem;
+    list-style: none;
+    pointer-events: auto;
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+    border: 1.5px solid transparent;
+    transition:
+      background-color var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out);
+  }
+  /* once the page has scrolled (the site's header says so), a paper pill like the header's own, so
+     the page passing under it does not show through */
+  :global(.header.is-scrolled ~ main) .nnav ul {
+    background-color: color-mix(in srgb, var(--creme-light) 95%, transparent);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    border-color: color-mix(in srgb, var(--blue) 16%, transparent);
+  }
+  .nnav a,
+  .nnav__here {
+    display: inline-block;
+    padding: 0.3rem 0.8rem;
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+    color: var(--ink-strong);
+    text-decoration: none;
+    transition: background-color var(--dur-1) var(--hover-delay);
+  }
+  .nnav a:hover {
+    background: color-mix(in srgb, var(--blue-light) 40%, transparent);
+  }
+  .nnav__here {
+    background: var(--blue-light);
+    color: var(--blue-deep);
+  }
+</style>

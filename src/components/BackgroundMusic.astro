@@ -82,7 +82,8 @@ const { ui } = content(getLocale(Astro.url));
 
   function setup() {
     const root = document.querySelector<HTMLElement>('[data-music]');
-    if (!root || root.dataset.ready) return;
+    // a page shown inside another (the Nostos map under a lesson) leaves the music to the page around it
+    if (!root || root.dataset.ready || window.self !== window.top) return;
     root.dataset.ready = 'true';
     const audio = root.querySelector<HTMLAudioElement>('[data-music-audio]')!;
     const button = root.querySelector<HTMLButtonElement>('[data-music-toggle]')!;
@@ -159,6 +160,12 @@ const { ui } = content(getLocale(Astro.url));
     });
     audio.addEventListener('error', () => {
       broken = true;
+      render();
+    });
+    // a talk starting in the page (Nostos sources) quiets the music, without changing the choice kept
+    window.addEventListener('athenoa:quiet', () => {
+      cancelAnimationFrame(ramp);
+      audio.pause();
       render();
     });
 

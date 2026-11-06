@@ -1,0 +1,324 @@
+---
+// Nostos, sources (tasks/nostos.md, step 5): the talks and writings everything in Nostos is drawn
+// from, as two lists. Each item links to the ideas it holds on the map and out to the original page.
+// Each talk plays in the page (client request, 6 November 2026): its YouTube picture stands in until it
+// is pressed, and only then is the player loaded, from youtube-nocookie.com. Without JavaScript the
+// picture is a link to YouTube. Not in the sitemap and noindex until launch.
+// THE CONTENT IS NEW WORDING generated from her talks, for Athena to review (src/lib/nostos.ts).
+import Base from '../../layouts/Base.astro';
+import NostosNav from '../../components/nostos/NostosNav.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import { concepts, conceptById, talks, talkUrl, writings } from '../../lib/nostos';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const ui = nostosUi[mainLocale(locale)];
+const t = ui.sources;
+const map = pathIn(locale, '/nostos/');
+
+// the ideas each talk holds, most mentioned first
+const ideasIn = new Map<string, string[]>();
+for (const c of concepts) for (const ref of c.talks) {
+  const list = ideasIn.get(ref.id) ?? [];
+  if (!list.includes(c.id)) list.push(c.id);
+  ideasIn.set(ref.id, list);
+}
+const top = (ids: string[]) =>
+  ids
+    .filter((id) => conceptById(id))
+    .sort((a, b) => conceptById(b)!.freq - conceptById(a)!.freq)
+    .slice(0, 8);
+const langOf = (lang?: string) => (lang === 'el' ? t.lang.el : t.lang.en);
+---
+
+<Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  <NostosNav />
+  {/* (its title and introduction are no longer shown, at the client's request: the title is kept for
+      screen readers) */}
+  <h1 class="visually-hidden">{t.title}</h1>
+
+  <section class="section nsrc" aria-labelledby="nsrc-talks">
+    <div class="wrap">
+      <h2 class="t-2 nsrc__h" id="nsrc-talks">{t.talks} <span class="nsrc__sub">{t.talksSub}</span></h2>
+      <ul class="nsrc__list" role="list">
+        {
+          talks.map((talk) => {
+            const ideas = top(ideasIn.get(talk.id) ?? []);
+            return (
+              <li class="nsrc__item">
+                <div class="nsrc__main">
+                  <h3 class="nsrc__title" lang={talk.lang === 'el' ? 'el' : 'en'}>{talk.title}</h3>
+                  {talk.lang === 'el' && talk.en && <p class="nsrc__en" lang="en">{talk.en.replace(/^#\s*/, '')}</p>}
+                  <p class="nsrc__meta">{talk.channel}</p>
+                  {ideas.length > 0 && (
+                    <p class="nsrc__ideas" aria-label={t.ideas}>
+                      {ideas.map((id) => (
+                        <a class="nsrc__chip" href={`${map}?star=${encodeURIComponent(id)}`} lang="en">
+                          {conceptById(id)!.label}
+                        </a>
+                      ))}
+                    </p>
+                  )}
+                </div>
+                <div class="nsrc__side nsrc__side--video">
+                  <a class="nsrc__video" href={talkUrl(talk.id)} target="_blank" rel="noopener" data-video={talk.id} aria-label={`${t.watch}: ${talk.en?.replace(/^#\s*/, '') || talk.title}`}>
+                    <img src={`https://i.ytimg.com/vi/${talk.id}/hqdefault.jpg`} alt="" width="480" height="360" loading="lazy" decoding="async" />
+                    <span class="nsrc__play" aria-hidden="true">
+                      <svg viewBox="0 0 48 48" focusable="false">
+                        <path d="M24 3.5c11.6-.3 20.8 9.3 20.5 20.6-.3 11.2-9.6 20.3-20.8 20.4C12.5 44.6 3.4 35.3 3.5 24 3.6 12.8 12.7 3.8 24 3.5Z" />
+                        <path d="M19.2 15.6c.1 5.6 0 11.3-.2 16.9 4.9-2.6 9.6-5.4 14.2-8.4-4.5-3-9.1-5.9-14-8.5Z" />
+                      </svg>
+                    </span>
+                  </a>
+                  <span class="nsrc__meta">
+                    {talk.dur} · {langOf(talk.lang)}
+                  </span>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section nsrc" aria-labelledby="nsrc-writings">
+    <div class="wrap">
+      <h2 class="t-2 nsrc__h" id="nsrc-writings">{t.writings} <span class="nsrc__sub">{t.writingsSub}</span></h2>
+      <ul class="nsrc__list" role="list">
+        {
+          writings.map((w) => {
+            const ideas = top(w.concepts ?? []);
+            return (
+              <li class="nsrc__item">
+                <div class="nsrc__main">
+                  <h3 class="nsrc__title" lang={w.lang === 'el' ? 'el' : 'en'}>{w.title}</h3>
+                  {w.title_en && w.title_en !== w.title && <p class="nsrc__en" lang="en">{w.title_en}</p>}
+                  <p class="nsrc__meta">{[w.venue, w.year].filter(Boolean).join(' · ')}</p>
+                  {w.summary && <p class="nsrc__summary" lang="en">{w.summary}</p>}
+                  {(w.key_ideas ?? []).length > 0 && (
+                    <details class="nsrc__more">
+                      <summary>{t.keyIdeas}</summary>
+                      <ul lang="en">
+                        {w.key_ideas!.map((k) => (
+                          <li>{k}</li>
+                        ))}
+                      </ul>
+                    </details>
+                  )}
+                  {ideas.length > 0 && (
+                    <p class="nsrc__ideas" aria-label={t.ideas}>
+                      {ideas.map((id) => (
+                        <a class="nsrc__chip" href={`${map}?star=${encodeURIComponent(id)}`} lang="en">
+                          {conceptById(id)!.label}
+                        </a>
+                      ))}
+                    </p>
+                  )}
+                </div>
+                <div class="nsrc__side">
+                  <span class="nsrc__meta">
+                    {t.kind[w.kind as keyof typeof t.kind] ?? w.kind} · {langOf(w.lang)}
+                  </span>
+                  {w.url && (
+                    <a class="btn btn--ghost nsrc__go" href={w.url} target="_blank" rel="noopener">
+                      {w.readable === false ? t.view : t.read}
+                    </a>
+                  )}
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // A talk's picture, pressed: the player takes its place and starts; another talk started puts the
+  // first one back to its picture. The site's music steps aside while a talk plays.
+  function setup() {
+    const open = new Map<HTMLElement, HTMLAnchorElement>();
+    document.querySelectorAll<HTMLAnchorElement>('[data-video]').forEach((link) =>
+      link.addEventListener('click', (event) => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        open.forEach((picture, frame) => frame.replaceWith(picture));
+        open.clear();
+        const frame = document.createElement('div');
+        frame.className = 'nsrc__frame';
+        const player = document.createElement('iframe');
+        player.src = `https://www.youtube-nocookie.com/embed/${link.dataset.video}?autoplay=1&rel=0`;
+        player.title = link.getAttribute('aria-label') ?? '';
+        player.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+        player.allowFullscreen = true;
+        frame.append(player);
+        link.replaceWith(frame);
+        open.set(frame, link);
+        window.dispatchEvent(new CustomEvent('athenoa:quiet'));
+      }),
+    );
+  }
+  document.addEventListener('astro:page-load', setup);
+</script>
+
+<style>
+  .nsrc__h {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem 1rem;
+    margin: 0 0 var(--space-m);
+  }
+  .nsrc__sub {
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    letter-spacing: 0;
+    color: var(--ink-soft);
+  }
+  .nsrc__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nsrc__item {
+    display: grid;
+    gap: 0.8rem 2rem;
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--line);
+  }
+  @media (min-width: 48rem) {
+    .nsrc__item {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: start;
+    }
+  }
+  .nsrc__main {
+    display: grid;
+    gap: 0.35rem;
+  }
+  .nsrc__main > * {
+    margin: 0;
+  }
+  .nsrc__title {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-1);
+    line-height: 1.15;
+    color: var(--ink-strong);
+  }
+  .nsrc__en,
+  .nsrc__meta {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nsrc__summary {
+    max-width: var(--measure);
+  }
+  .nsrc__more summary {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .nsrc__more ul {
+    max-width: var(--measure);
+    margin: 0.4rem 0 0;
+    padding-left: 1.2rem;
+  }
+  .nsrc__ideas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-top: 0.4rem !important;
+  }
+  .nsrc__chip {
+    display: inline-flex;
+    padding: 0.25rem 0.75rem;
+    font-size: var(--step--1);
+    color: var(--ink-strong);
+    text-decoration: none;
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+    transition: border-color var(--dur-1) var(--hover-delay);
+  }
+  .nsrc__chip:hover {
+    border-color: currentColor;
+  }
+  .nsrc__side {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem 1rem;
+  }
+  @media (min-width: 48rem) {
+    .nsrc__side {
+      flex-direction: column;
+      align-items: flex-end;
+      text-align: right;
+    }
+  }
+  /* the talk's player: YouTube's picture until pressed, then the player in its place */
+  @media (min-width: 48rem) {
+    .nsrc__item:has(.nsrc__side--video) {
+      grid-template-columns: minmax(0, 1fr) minmax(16rem, 24rem);
+    }
+    .nsrc__side--video {
+      align-items: stretch;
+      text-align: left;
+    }
+  }
+  .nsrc__video,
+  .nsrc__side :global(.nsrc__frame) {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+    background: var(--blue-deep);
+  }
+  .nsrc__video img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .nsrc__video:hover img {
+    transform: scale(1.025);
+  }
+  .nsrc__play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--creme-light);
+  }
+  .nsrc__play svg {
+    width: 4rem;
+    height: 4rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .nsrc__play path:first-child {
+    fill: color-mix(in srgb, var(--blue-deep) 55%, transparent);
+  }
+  .nsrc__video:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 3px;
+  }
+  .nsrc__side :global(.nsrc__frame iframe) {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .nsrc__go {
+    min-height: 2.6rem;
+    padding-inline: 1.2em;
+    font-size: var(--step--1);
+  }
+</style>

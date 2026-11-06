@@ -1,0 +1,931 @@
+[
+  {
+    "id": "socrates-david",
+    "concepts": [
+      "socrates",
+      "meletethanatou",
+      "death"
+    ],
+    "myths": [
+      "socrates-death"
+    ],
+    "images": [],
+    "title_en": "Jacques-Louis David, The Death of Socrates, 1787",
+    "title_el": "Ζακ-Λουί Νταβίντ, Ο θάνατος του Σωκράτη, 1787",
+    "artist": "Jacques-Louis David",
+    "date": "1787",
+    "collection": "The Metropolitan Museum of Art, New York (31.45)",
+    "licence": "CC0 1.0 (Metropolitan Museum of Art Open Access)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:The_Death_of_Socrates_MET_DP-13139-001.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/ed/The_Death_of_Socrates_MET_DP-13139-001.jpg",
+    "width": 4000,
+    "height": 2663,
+    "bytes": 1833927,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/The_Death_of_Socrates_MET_DP-13139-001.jpg/1920px-The_Death_of_Socrates_MET_DP-13139-001.jpg",
+    "why": "Socrates (socrates) is in the first talk on the path; Athena tells his calm death (socrates-death) as philosophy's practice of dying (meletethanatou, Phaedo 64a on the bookshelf)."
+  },
+  {
+    "id": "diotima-mantineia",
+    "concepts": [
+      "diotima"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Votive relief from Mantineia, perhaps Diotima, 420–410 BC",
+    "title_el": "Αναθηματικό ανάγλυφο από τη Μαντίνεια, ίσως η Διοτίμα, 420–410 π.Χ.",
+    "artist": "Unknown Greek sculptor",
+    "date": "420–410 BC",
+    "collection": "National Archaeological Museum, Athens (226)",
+    "licence": "CC BY-SA 4.0 (photograph); the relief itself is public domain",
+    "attribution": "Yair Haklai, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), via Wikimedia Commons",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Relief_Diotima_Mantineia_Arcadia_National_Archaeological_Museum_of_Athens,_420-410_BC.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Relief_Diotima_Mantineia_Arcadia_National_Archaeological_Museum_of_Athens%2C_420-410_BC.jpg",
+    "width": 1786,
+    "height": 3119,
+    "bytes": 2510244,
+    "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Relief_Diotima_Mantineia_Arcadia_National_Archaeological_Museum_of_Athens%2C_420-410_BC.jpg",
+    "why": "Diotima (diotima, weight 5, first talk) teaches Socrates the ladder of eros that Nostos uses for progress; this seer from Mantineia, Diotima's city, is traditionally taken to be Diotima, which is not certain."
+  },
+  {
+    "id": "muse-helicon",
+    "concepts": [
+      "music"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Achilles Painter, A Muse playing the lyre on Mount Helicon, white-ground lekythos, 440–430 BC",
+    "title_el": "Ζωγράφος του Αχιλλέα, Μούσα που παίζει λύρα στον Ελικώνα, λευκή λήκυθος, 440–430 π.Χ.",
+    "artist": "Achilles Painter",
+    "date": "440–430 BC",
+    "collection": "Staatliche Antikensammlungen, Munich (Schoen 80)",
+    "licence": "Public domain (released by the photographer, Bibi Saint-Pol: PD-self)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Mousai_Helikon_Staatliche_Antikensammlungen_Schoen80_n1.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/6/63/Mousai_Helikon_Staatliche_Antikensammlungen_Schoen80_n1.jpg",
+    "width": 2010,
+    "height": 2926,
+    "bytes": 4074228,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Mousai_Helikon_Staatliche_Antikensammlungen_Schoen80_n1.jpg/1920px-Mousai_Helikon_Staatliche_Antikensammlungen_Schoen80_n1.jpg",
+    "why": "Music and the Muses (music, weight 5) come up in the first talk; for Athena music is Apollo's fourth power, the art of harmonising opposites."
+  },
+  {
+    "id": "dionysus-exekias",
+    "concepts": [
+      "dionysus"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Exekias, Dionysus sailing among dolphins, Attic black-figure kylix, c. 530 BC",
+    "title_el": "Εξηκίας, Ο Διόνυσος ταξιδεύει ανάμεσα σε δελφίνια, αττική μελανόμορφη κύλικα, περ. 530 π.Χ.",
+    "artist": "Exekias",
+    "date": "c. 530 BC",
+    "collection": "Staatliche Antikensammlungen, Munich (inv. 2044)",
+    "licence": "Public domain (released by the photographer, Bibi Saint-Pol: PD-self)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Exekias_Dionysos_Staatliche_Antikensammlungen_2044_n2.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Exekias_Dionysos_Staatliche_Antikensammlungen_2044_n2.jpg",
+    "width": 1974,
+    "height": 1866,
+    "bytes": 1813543,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Exekias_Dionysos_Staatliche_Antikensammlungen_2044_n2.jpg/1920px-Exekias_Dionysos_Staatliche_Antikensammlungen_2044_n2.jpg",
+    "why": "Dionysus (dionysus) comes up in the first talk on the path: Athena reads him as the god incarnate who leads festivals and plays (myth apollodionysus), and returns to him with the Titans and the mirror."
+  },
+  {
+    "id": "hestia-giustiniani",
+    "concepts": [
+      "hestia"
+    ],
+    "myths": [
+      "hestia_olympus",
+      "hestialamp"
+    ],
+    "images": [],
+    "title_en": "The so-called Hestia Giustiniani, Roman copy (117–138 AD) of a Greek original of c. 470–460 BC",
+    "title_el": "Η λεγόμενη Εστία Τζουστινιάνι, ρωμαϊκό αντίγραφο (117–138 μ.Χ.) ελληνικού πρωτοτύπου του περ. 470–460 π.Χ.",
+    "artist": "Unknown",
+    "date": "117–138 AD, after an original of c. 470–460 BC",
+    "collection": "Torlonia Collection, Rome (MT 490)",
+    "licence": "CC BY 4.0 (photograph); the statue itself is public domain",
+    "attribution": "Marie-Lan Taÿ Pamart, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), via Wikimedia Commons",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Hestia_Giustiniani_Torlonia_Collection_MT490.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Hestia_Giustiniani_Torlonia_Collection_MT490.jpg",
+    "width": 4140,
+    "height": 7361,
+    "bytes": 4601681,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Hestia_Giustiniani_Torlonia_Collection_MT490.jpg/1920px-Hestia_Giustiniani_Torlonia_Collection_MT490.jpg",
+    "why": "Hestia (hestia, first talk) is for Athena the one god who never leaves the centre, the sacred fire at the centre of the heart (myths hestia_olympus, hestialamp). \"So-called\": the statue is only traditionally named Hestia."
+  },
+  {
+    "id": "nativity-daphni",
+    "concepts": [
+      "christianity"
+    ],
+    "myths": [
+      "nativity"
+    ],
+    "images": [],
+    "title_en": "The Nativity, mosaic in the Daphni Monastery, late 11th century",
+    "title_el": "Η Γέννηση του Χριστού, ψηφιδωτό της Μονής Δαφνίου, τέλη 11ου αι.",
+    "artist": "Unknown Byzantine mosaicists",
+    "date": "late 11th century",
+    "collection": "Daphni Monastery, Attica",
+    "licence": "CC BY 4.0 (photograph); the mosaic itself is public domain",
+    "attribution": "Jacob Freeland, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), via Wikimedia Commons",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Dafni_Monastery_mosaic_of_Christ%27s_birth.JPG",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Dafni_Monastery_mosaic_of_Christ%27s_birth.JPG",
+    "width": 3648,
+    "height": 2736,
+    "bytes": 3324252,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Dafni_Monastery_mosaic_of_Christ%27s_birth.JPG/1920px-Dafni_Monastery_mosaic_of_Christ%27s_birth.JPG",
+    "why": "Athena decodes the Nativity (christianity; myth nativity): the child born in a cave, laid in a manger with two animals by it. This Greek mosaic near Athens shows the cave."
+  },
+  {
+    "id": "theatre-of-dionysus",
+    "concepts": [
+      "dionysus",
+      "divineplay"
+    ],
+    "myths": [
+      "theatre"
+    ],
+    "images": [
+      "Life as a theatre, each person an actor",
+      "Life as a video game or living dream; Dionysian theatre"
+    ],
+    "title_en": "The Theatre of Dionysus on the south slope of the Acropolis, photograph by Jebulon, 2015",
+    "title_el": "Το θέατρο του Διονύσου στη νότια κλιτύ της Ακρόπολης, φωτογραφία του Jebulon, 2015",
+    "artist": "Photograph by Jebulon",
+    "date": "Photograph 2015",
+    "collection": "Theatre of Dionysus, Athens",
+    "licence": "CC0 1.0 (released by the photographer; tourists removed by retouching)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Theatre_of_Dionysus_Acropolis_Athens_Greece.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Theatre_of_Dionysus_Acropolis_Athens_Greece.jpg",
+    "width": 4592,
+    "height": 3056,
+    "bytes": 14811177,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e0/Theatre_of_Dionysus_Acropolis_Athens_Greece.jpg/1920px-Theatre_of_Dionysus_Acropolis_Athens_Greece.jpg",
+    "why": "Athena reads life as Dionysus' theatre: each of us is given a role, a costume and a name, and the spectator wakes to the spectacle (myth theatre; divineplay)."
+  },
+  {
+    "id": "artemision-bronze",
+    "concepts": [
+      "zeus",
+      "poseidon"
+    ],
+    "myths": [
+      "poseidontrident"
+    ],
+    "images": [],
+    "title_en": "Zeus or Poseidon, bronze from Cape Artemision, c. 460 BC",
+    "title_el": "Ο Δίας ή ο Ποσειδώνας του Αρτεμισίου, χάλκινο άγαλμα, περ. 460 π.Χ.",
+    "artist": "Unknown Greek sculptor",
+    "date": "c. 460 BC",
+    "collection": "National Archaeological Museum, Athens (X 15161)",
+    "licence": "CC0 1.0 (released by the photographer, Jebulon)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Bronze_Zeus_or_Poseidon_NAMA_X_15161_Athens_Greece.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Bronze_Zeus_or_Poseidon_NAMA_X_15161_Athens_Greece.jpg",
+    "width": 3150,
+    "height": 3150,
+    "bytes": 2060574,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Bronze_Zeus_or_Poseidon_NAMA_X_15161_Athens_Greece.jpg/1920px-Bronze_Zeus_or_Poseidon_NAMA_X_15161_Athens_Greece.jpg",
+    "why": "Zeus (zeus) is in the first talk on the path and Poseidon has his trident (myth poseidontrident); scholars still disagree which god this is, which is why it is offered for both."
+  },
+  {
+    "id": "apollo-delphi-kylix",
+    "concepts": [
+      "apollo",
+      "music"
+    ],
+    "myths": [],
+    "images": [
+      "The soul as a lyre Apollo plays; virtues as notes"
+    ],
+    "title_en": "Apollo with his kithara pours a libation, white-ground kylix from Delphi, 480–470 BC",
+    "title_el": "Ο Απόλλων σπένδει κρατώντας την κιθάρα του, λευκή κύλικα από τους Δελφούς, 480–470 π.Χ.",
+    "artist": "Attributed to the Pistoxenos Painter (or the Berlin Painter, or Onesimos)",
+    "date": "480–470 BC",
+    "collection": "Archaeological Museum of Delphi (inv. 8140)",
+    "licence": "CC BY-SA 4.0 (photograph); the vase itself is public domain",
+    "attribution": "Zde, CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/), via Wikimedia Commons",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Kylix_with_Apollo,_AM_of_Delphi_8140,_201391x.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Kylix_with_Apollo%2C_AM_of_Delphi_8140%2C_201391x.jpg",
+    "width": 3342,
+    "height": 3343,
+    "bytes": 9010333,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Kylix_with_Apollo%2C_AM_of_Delphi_8140%2C_201391x.jpg/1920px-Kylix_with_Apollo%2C_AM_of_Delphi_8140%2C_201391x.jpg",
+    "why": "Apollo (apollo, weight 5) is Delphi's god and the subject of Athena's five steps of awakening; Athena calls the soul a lyre Apollo plays. Found at Delphi itself."
+  },
+  {
+    "id": "plato-silanion",
+    "concepts": [
+      "plato",
+      "republic"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Plato, Roman copy of the portrait by Silanion (c. 370 BC)",
+    "title_el": "Ο Πλάτων, ρωμαϊκό αντίγραφο του πορτρέτου του Σιλανίωνα (περ. 370 π.Χ.)",
+    "artist": "After Silanion",
+    "date": "Roman copy of an original of c. 370 BC",
+    "collection": "Musei Capitolini, Centrale Montemartini, Rome (MC 1377)",
+    "licence": "CC BY 2.5 (photograph); the bust itself is public domain",
+    "attribution": "© Marie-Lan Nguyen / Wikimedia Commons, CC BY 2.5 (https://creativecommons.org/licenses/by/2.5/)",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Plato_Silanion_Musei_Capitolini_MC1377.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/88/Plato_Silanion_Musei_Capitolini_MC1377.jpg",
+    "width": 2400,
+    "height": 3600,
+    "bytes": 5148315,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Plato_Silanion_Musei_Capitolini_MC1377.jpg/1920px-Plato_Silanion_Musei_Capitolini_MC1377.jpg",
+    "why": "Plato (plato, weight 5) is the thinker Athena returns to most; the portrait type was made for his Academy in Athens."
+  },
+  {
+    "id": "plotinus-ostia",
+    "concepts": [
+      "plotinus"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Head thought to be Plotinus, from Ostia, 3rd century AD",
+    "title_el": "Κεφαλή που θεωρείται ότι εικονίζει τον Πλωτίνο, από την Όστια, 3ος αι. μ.Χ.",
+    "artist": "Unknown Roman sculptor",
+    "date": "3rd century AD",
+    "collection": "Museo Ostiense, Ostia Antica (inv. 1386)",
+    "licence": "CC BY 3.0 (photograph); the head itself is public domain",
+    "attribution": "Sailko, CC BY 3.0 (https://creativecommons.org/licenses/by/3.0/), via Wikimedia Commons",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Head_of_Plotinus,_Museo_Ostiense_inv.JPG",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/bd/Head_of_Plotinus%2C_Museo_Ostiense_inv.JPG",
+    "width": 2224,
+    "height": 3425,
+    "bytes": 1166232,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Head_of_Plotinus%2C_Museo_Ostiense_inv.JPG/1920px-Head_of_Plotinus%2C_Museo_Ostiense_inv.JPG",
+    "why": "Plotinus (plotinus, weight 5) is Athena's guide to the One and the flight \"to the dear fatherland\" (Ennead I.6.8 on the bookshelf). The Commons page itself says the identification is plausible but not proven."
+  },
+  {
+    "id": "school-of-athens",
+    "concepts": [
+      "philosophy",
+      "plato",
+      "aristotle"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Raphael, The School of Athens, 1509–1511",
+    "title_el": "Ραφαήλ, Η Σχολή των Αθηνών, 1509–1511",
+    "artist": "Raphael (Raffaello Sanzio)",
+    "date": "1509–1511",
+    "collection": "Stanza della Segnatura, Vatican Palace",
+    "licence": "Public domain (PD-Art)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg",
+    "width": 3820,
+    "height": 2964,
+    "bytes": 2468838,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/49/%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg/1920px-%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg",
+    "why": "Philosophy (philosophy) is the third most frequent idea in Athena's teaching; the fresco gathers the Greek thinkers around Plato and Aristotle."
+  },
+  {
+    "id": "gyges-ring",
+    "concepts": [
+      "justice"
+    ],
+    "myths": [
+      "gyges"
+    ],
+    "images": [],
+    "title_en": "After Hans Weiditz, Gyges finds the ring in a bronze horse, woodcut from a German Cicero, Augsburg, 1531",
+    "title_el": "Κατά σχέδιο του Χανς Βάιντιτς, Ο Γύγης βρίσκει το δαχτυλίδι μέσα σε χάλκινο άλογο, ξυλογραφία από γερμανική έκδοση του Κικέρωνα, Άουγκσμπουργκ, 1531",
+    "artist": "Anonymous woodcutter after a design by Hans Weiditz (II); published by Heinrich Steiner",
+    "date": "1514–1531 (used in the 1531 edition)",
+    "collection": "Rijksmuseum, Amsterdam (RP-P-1874-11-138-1)",
+    "licence": "CC0 1.0 (Rijksmuseum)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Gyges_vindt_de_ring_in_een_bronzen_paard,_RP-P-1874-11-138-1.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/f/f4/Gyges_vindt_de_ring_in_een_bronzen_paard%2C_RP-P-1874-11-138-1.jpg",
+    "width": 2056,
+    "height": 1380,
+    "bytes": 472192,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Gyges_vindt_de_ring_in_een_bronzen_paard%2C_RP-P-1874-11-138-1.jpg/1920px-Gyges_vindt_de_ring_in_een_bronzen_paard%2C_RP-P-1874-11-138-1.jpg",
+    "why": "Athena tells the Ring of Gyges as power without limits that cannot last (myth gyges), next to Athena's reading of justice as balance held from the middle (justice)."
+  },
+  {
+    "id": "apollo-python",
+    "concepts": [
+      "apollo",
+      "delphi",
+      "katharsis"
+    ],
+    "myths": [
+      "python",
+      "python-slaying"
+    ],
+    "images": [],
+    "title_en": "Workshop of Hendrick Goltzius, Apollo kills the Python, engraving, 1589",
+    "title_el": "Εργαστήριο του Χέντρικ Χόλτσιους, Ο Απόλλων σκοτώνει τον Πύθωνα, χαλκογραφία, 1589",
+    "artist": "Workshop of Hendrick Goltzius, after his design; verses by Franco Estius",
+    "date": "1589",
+    "collection": "Rijksmuseum, Amsterdam (RP-P-1882-A-6355)",
+    "licence": "CC0 1.0 (Rijksmuseum)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Apollo_doodt_de_reuzenslang_Python_Ovidius%27_Metamorfosen_(serietitel),_RP-P-1882-A-6355.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/53/Apollo_doodt_de_reuzenslang_Python_Ovidius%27_Metamorfosen_%28serietitel%29%2C_RP-P-1882-A-6355.jpg",
+    "width": 6384,
+    "height": 4674,
+    "bytes": 7494102,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Apollo_doodt_de_reuzenslang_Python_Ovidius%27_Metamorfosen_%28serietitel%29%2C_RP-P-1882-A-6355.jpg/1920px-Apollo_doodt_de_reuzenslang_Python_Ovidius%27_Metamorfosen_%28serietitel%29%2C_RP-P-1882-A-6355.jpg",
+    "why": "Apollo slays the Python to found Delphi, which Athena reads as the power that dissolves what is rotten and stagnant in us: \"we are the oracle of Delphi\" (myths python, python-slaying; apollo, delphi, katharsis)."
+  },
+  {
+    "id": "delphi-temple",
+    "concepts": [
+      "delphi",
+      "knowthyself",
+      "delphice"
+    ],
+    "myths": [
+      "apollo_delphi",
+      "delphicinscriptions"
+    ],
+    "images": [
+      "Delphi's entrance as a riddle instead of a welcome",
+      "A three-part temple"
+    ],
+    "title_en": "The Temple of Apollo at Delphi (4th century BC), photograph by Jebulon, 2018",
+    "title_el": "Ο ναός του Απόλλωνα στους Δελφούς (4ος αι. π.Χ.), φωτογραφία του Jebulon, 2018",
+    "artist": "Photograph by Jebulon",
+    "date": "Temple 4th century BC; photograph 2018",
+    "collection": "Sanctuary of Apollo, Delphi",
+    "licence": "CC0 1.0 (released by the photographer)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Delphes,_Gr%C3%A8ce._Temple_d%27Apollon._Six_colonnes.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Delphes%2C_Gr%C3%A8ce._Temple_d%27Apollon._Six_colonnes.jpg",
+    "width": 6000,
+    "height": 4000,
+    "bytes": 27930072,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b6/Delphes%2C_Gr%C3%A8ce._Temple_d%27Apollon._Six_colonnes.jpg/1920px-Delphes%2C_Gr%C3%A8ce._Temple_d%27Apollon._Six_colonnes.jpg",
+    "why": "\"Know thyself\" was inscribed at this temple; Athena reads the Delphic inscriptions and the E as a riddle at the entrance (knowthyself, delphice; myths delphicinscriptions, apollo_delphi)."
+  },
+  {
+    "id": "karagiozis",
+    "concepts": [
+      "divineplay",
+      "illusion"
+    ],
+    "myths": [
+      "karagiozis"
+    ],
+    "images": [
+      "Karagiozis shadow theatre"
+    ],
+    "title_en": "A Karagiozis shadow puppet, Athens, photograph by Aeleftherios, 2008",
+    "title_el": "Φιγούρα του Καραγκιόζη από το θέατρο σκιών, Αθήνα, φωτογραφία του Aeleftherios, 2008",
+    "artist": "Photograph by Aeleftherios",
+    "date": "2008",
+    "collection": "Photographed in Athens",
+    "licence": "CC BY-SA 3.0, or GFDL, at the reuser's choice",
+    "attribution": "Aeleftherios, CC BY-SA 3.0 (https://creativecommons.org/licenses/by-sa/3.0/), via Wikimedia Commons",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Karaghiozis1.JPG",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Karaghiozis1.JPG",
+    "width": 1728,
+    "height": 2304,
+    "bytes": 627643,
+    "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Karaghiozis1.JPG",
+    "why": "Athena compares the play of shadows to Karagiozis: the awakened watch the shadow play while remembering \"I am not this\" (divineplay; myth karagiozis)."
+  },
+  {
+    "id": "heracles-crossroads",
+    "concepts": [
+      "arete",
+      "noandyes"
+    ],
+    "myths": [
+      "heracles-crossroads"
+    ],
+    "images": [],
+    "title_en": "Annibale Carracci, The Choice of Heracles, 1596",
+    "title_el": "Αννίμπαλε Καράτσι, Η επιλογή του Ηρακλή, 1596",
+    "artist": "Annibale Carracci",
+    "date": "1596",
+    "collection": "Museo di Capodimonte, Naples (Q 365)",
+    "licence": "Public domain (PD-Art)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Annibale_Carracci_-_The_Choice_of_Heracles_-_WGA4416.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/37/Annibale_Carracci_-_The_Choice_of_Heracles_-_WGA4416.jpg",
+    "width": 3465,
+    "height": 2464,
+    "bytes": 1902099,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Annibale_Carracci_-_The_Choice_of_Heracles_-_WGA4416.jpg/1920px-Annibale_Carracci_-_The_Choice_of_Heracles_-_WGA4416.jpg",
+    "why": "Athena uses Heracles at the fork between Virtue and Vice: like him, we choose ἀρετή or vice at every moment (arete, noandyes; myth heracles-crossroads)."
+  },
+  {
+    "id": "odysseus-suitors",
+    "concepts": [
+      "ithaca",
+      "odyssey"
+    ],
+    "myths": [
+      "odyssey-suitors"
+    ],
+    "images": [
+      "The suitors courting Penelope"
+    ],
+    "title_en": "Penelope Painter, Odysseus kills the suitors, Attic red-figure skyphos, c. 440 BC",
+    "title_el": "Ζωγράφος της Πηνελόπης, Ο Οδυσσέας σκοτώνει τους μνηστήρες, αττικός ερυθρόμορφος σκύφος, περ. 440 π.Χ.",
+    "artist": "Penelope Painter",
+    "date": "c. 440 BC",
+    "collection": "Antikensammlung, Altes Museum, Berlin",
+    "licence": "CC0 1.0 (released by the photographer, Gary Todd, on Flickr; Flickr review passed)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Attic_Red-figure_Skyphos_depicting_the_slaughter_of_the_suitors_of_Penelope_by_Odysseus,_by_the_Penelope_Painter,_c._440_BC_(28123411913).jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Attic_Red-figure_Skyphos_depicting_the_slaughter_of_the_suitors_of_Penelope_by_Odysseus%2C_by_the_Penelope_Painter%2C_c._440_BC_%2828123411913%29.jpg",
+    "width": 5184,
+    "height": 3456,
+    "bytes": 2513614,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5e/Attic_Red-figure_Skyphos_depicting_the_slaughter_of_the_suitors_of_Penelope_by_Odysseus%2C_by_the_Penelope_Painter%2C_c._440_BC_%2828123411913%29.jpg/1920px-Attic_Red-figure_Skyphos_depicting_the_slaughter_of_the_suitors_of_Penelope_by_Odysseus%2C_by_the_Penelope_Painter%2C_c._440_BC_%2828123411913%29.jpg",
+    "why": "For Athena, clearing the suitors from Ithaca takes longer than the voyage home (odyssey-suitors; Odyssey 22 on the bookshelf): the inner work after the return."
+  },
+  {
+    "id": "pythagoras-gaffurio",
+    "concepts": [
+      "pythagoras",
+      "harmony",
+      "music"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Pythagoras with bells, glasses, a monochord and pipes, woodcut from Franchino Gaffurio's Theorica musicae, 1492",
+    "title_el": "Ο Πυθαγόρας με καμπάνες, ποτήρια, μονόχορδο και αυλούς, ξυλογραφία από το Theorica musicae του Φρανκίνο Γκαφούριο, 1492",
+    "artist": "Unknown woodcutter, published by Franchino Gaffurio",
+    "date": "1492",
+    "collection": "Bibliothèque nationale de France, Gallica (bpt6k58171q)",
+    "licence": "Public domain (PD-old-100)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Gaffurio_Pythagoras.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Gaffurio_Pythagoras.png",
+    "width": 2000,
+    "height": 2600,
+    "bytes": 227485,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Gaffurio_Pythagoras.png/1920px-Gaffurio_Pythagoras.png",
+    "why": "Pythagoras (pythagoras, weight 5) gets a whole study cycle from Athena, and harmony (harmony) as number and music runs through it; this is the classic image of Pythagoras finding the ratios of harmony."
+  },
+  {
+    "id": "eros-lysippos",
+    "concepts": [
+      "eros"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Eros stringing his bow, Roman copy after a bronze by Lysippos (338–335 BC)",
+    "title_el": "Ο Έρως τεντώνει το τόξο του, ρωμαϊκό αντίγραφο χάλκινου έργου του Λυσίππου (338–335 π.Χ.)",
+    "artist": "After Lysippos",
+    "date": "Roman copy of an original of 338–335 BC",
+    "collection": "Musei Capitolini, Rome (S 410)",
+    "licence": "CC0 1.0 (released by the photographer, Daderot)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Eros_bending_his_bow,_S_410,_Roman,_marble,_after_the_original_bronze_by_Lysippos,_338-335_BC,_view_1_-_Musei_Capitolini_-_Rome,_Italy_-_DSC05993.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/82/Eros_bending_his_bow%2C_S_410%2C_Roman%2C_marble%2C_after_the_original_bronze_by_Lysippos%2C_338-335_BC%2C_view_1_-_Musei_Capitolini_-_Rome%2C_Italy_-_DSC05993.jpg",
+    "width": 3648,
+    "height": 5472,
+    "bytes": 10655909,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Eros_bending_his_bow%2C_S_410%2C_Roman%2C_marble%2C_after_the_original_bronze_by_Lysippos%2C_338-335_BC%2C_view_1_-_Musei_Capitolini_-_Rome%2C_Italy_-_DSC05993.jpg/1920px-Eros_bending_his_bow%2C_S_410%2C_Roman%2C_marble%2C_after_the_original_bronze_by_Lysippos%2C_338-335_BC%2C_view_1_-_Musei_Capitolini_-_Rome%2C_Italy_-_DSC05993.jpg",
+    "why": "Eros (eros, weight 5) is for Athena a path of awakening and the glue of the universe, with several talks on it."
+  },
+  {
+    "id": "diogenes-gerome",
+    "concepts": [
+      "freedom"
+    ],
+    "myths": [
+      "diogenes",
+      "alexander"
+    ],
+    "images": [],
+    "title_en": "Jean-Léon Gérôme, Diogenes, 1860",
+    "title_el": "Ζαν-Λεόν Ζερόμ, Ο Διογένης, 1860",
+    "artist": "Jean-Léon Gérôme",
+    "date": "1860",
+    "collection": "Walters Art Museum, Baltimore (37.131)",
+    "licence": "Public domain (Walters Art Museum, 2D work)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Jean-L%C3%A9on_G%C3%A9r%C3%B4me_-_Diogenes_-_Walters_37131.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Jean-L%C3%A9on_G%C3%A9r%C3%B4me_-_Diogenes_-_Walters_37131.jpg",
+    "width": 1800,
+    "height": 1322,
+    "bytes": 3197179,
+    "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Jean-L%C3%A9on_G%C3%A9r%C3%B4me_-_Diogenes_-_Walters_37131.jpg",
+    "why": "Athena names Diogenes, with Marcus Aurelius, as proof that freedom is inner (freedom), and tells of the sage who had nothing that Alexander wished to be (myths diogenes, alexander)."
+  },
+  {
+    "id": "eleusinian-relief",
+    "concepts": [
+      "mysteries",
+      "persephone"
+    ],
+    "myths": [
+      "demeterseed",
+      "demeter-seed"
+    ],
+    "images": [
+      "We are Demeter's sacred bread"
+    ],
+    "title_en": "The Great Eleusinian Relief: Demeter, Triptolemos and Persephone, c. 440–430 BC",
+    "title_el": "Το Μεγάλο Ελευσινιακό Ανάγλυφο: Δήμητρα, Τριπτόλεμος και Περσεφόνη, περ. 440–430 π.Χ.",
+    "artist": "Unknown Greek sculptor",
+    "date": "c. 440–430 BC",
+    "collection": "National Archaeological Museum, Athens (126)",
+    "licence": "CC0 1.0 (released by the photographer, Gleb Simonov)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Great_Eleusinian_Relief.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Great_Eleusinian_Relief.jpg",
+    "width": 4964,
+    "height": 6455,
+    "bytes": 21650926,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Great_Eleusinian_Relief.jpg/1920px-Great_Eleusinian_Relief.jpg",
+    "why": "The Mysteries (mysteries) were Eleusis's; Demeter gives the boy Triptolemos the grain, the seed Athena reads as a programme waiting to grow (myths demeterseed, demeter-seed)."
+  },
+  {
+    "id": "cave-saenredam",
+    "concepts": [
+      "cave",
+      "illusion",
+      "eikasia"
+    ],
+    "myths": [
+      "cave_allegory",
+      "cave-artofliving",
+      "cave-womb",
+      "cave-will",
+      "cave-secondbirth"
+    ],
+    "images": [
+      "Bound legs, bound neck, free hands"
+    ],
+    "title_en": "Jan Saenredam after Cornelis van Haarlem, The Cave of Plato, 1604",
+    "title_el": "Γιαν Σάνρενταμ κατά τον Κορνέλις φαν Χάαρλεμ, Το σπήλαιο του Πλάτωνα, 1604",
+    "artist": "Jan Saenredam, after Cornelis Cornelisz van Haarlem",
+    "date": "1604",
+    "collection": "National Gallery of Art, Washington (1983.61.1)",
+    "licence": "CC0 1.0 (National Gallery of Art Open Access)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Jan_Pietersz_Saenredam_after_Cornelis_Cornelisz_van_Haarlem,_Plato%27s_Cave,_1604,_NGA_62542.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/8/85/Jan_Pietersz_Saenredam_after_Cornelis_Cornelisz_van_Haarlem%2C_Plato%27s_Cave%2C_1604%2C_NGA_62542.jpg",
+    "width": 4000,
+    "height": 2998,
+    "bytes": 12612293,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Jan_Pietersz_Saenredam_after_Cornelis_Cornelisz_van_Haarlem%2C_Plato%27s_Cave%2C_1604%2C_NGA_62542.jpg/1920px-Jan_Pietersz_Saenredam_after_Cornelis_Cornelisz_van_Haarlem%2C_Plato%27s_Cave%2C_1604%2C_NGA_62542.jpg",
+    "why": "The Cave (cave) is Athena's favourite allegory, the whole path of awakening in one image; the engraving shows the bound prisoners, the fire and the shadows that myth cave_allegory walks through."
+  },
+  {
+    "id": "heraclitus-terbrugghen",
+    "concepts": [
+      "heraclitus"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Hendrick ter Brugghen, Heraclitus, 1628",
+    "title_el": "Χέντρικ τερ Μπρούγκεν, Ο Ηράκλειτος, 1628",
+    "artist": "Hendrick ter Brugghen",
+    "date": "1628",
+    "collection": "Rijksmuseum, Amsterdam (SK-A-2784)",
+    "licence": "Public domain (Rijksmuseum images are CC0)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Heraclitus_Rijksmuseum_SK-A-2784.jpeg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/74/Heraclitus_Rijksmuseum_SK-A-2784.jpeg",
+    "width": 5224,
+    "height": 6444,
+    "bytes": 4080698,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/74/Heraclitus_Rijksmuseum_SK-A-2784.jpeg/1920px-Heraclitus_Rijksmuseum_SK-A-2784.jpeg",
+    "why": "Heraclitus (heraclitus, weight 5) is for Athena \"the most luminous\" philosopher, read through the ever-living fire and the child Aion. The painter shows the later \"weeping philosopher\" type, which is not Athena's reading."
+  },
+  {
+    "id": "aristotle-altemps",
+    "concepts": [
+      "aristotle"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Aristotle, Roman copy after a bronze by Lysippos",
+    "title_el": "Ο Αριστοτέλης, ρωμαϊκό αντίγραφο χάλκινου έργου του Λυσίππου",
+    "artist": "After Lysippos",
+    "date": "Roman copy of an original made after 330 BC",
+    "collection": "Museo Nazionale Romano, Palazzo Altemps, Rome (Ludovisi Collection, inv. 8575)",
+    "licence": "Public domain (released by the photographer, Jastrow: PD-self)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Aristotle_Altemps_Inv8575.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Aristotle_Altemps_Inv8575.jpg",
+    "width": 1700,
+    "height": 2275,
+    "bytes": 2244558,
+    "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Aristotle_Altemps_Inv8575.jpg",
+    "why": "Aristotle (aristotle, weight 5) appears in Athena's teaching as Alexander's teacher, who gave him εὖ ζῆν, and as the source of Athena's political anthropology (Nicomachean Ethics and Politics on the bookshelf)."
+  },
+  {
+    "id": "odysseus-sirens",
+    "concepts": [
+      "odyssey",
+      "ithaca"
+    ],
+    "myths": [
+      "odysseus-mast"
+    ],
+    "images": [
+      "Odysseus tied to the mast while fortune's wheel turns"
+    ],
+    "title_en": "Siren Painter, Odysseus bound to the mast passes the Sirens, Attic red-figure stamnos, c. 480–470 BC",
+    "title_el": "Ζωγράφος των Σειρήνων, Ο Οδυσσέας δεμένος στο κατάρτι προσπερνά τις Σειρήνες, αττικός ερυθρόμορφος σταμνός, περ. 480–470 π.Χ.",
+    "artist": "Siren Painter",
+    "date": "c. 480–470 BC",
+    "collection": "British Museum, London (GR 1843.11-3.31; Cat. Vases E 440)",
+    "licence": "Public domain (released by the photographer, Jastrow: PD-self)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Odysseus_Sirens_BM_E440_n2.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/99/Odysseus_Sirens_BM_E440_n2.jpg",
+    "width": 2500,
+    "height": 1750,
+    "bytes": 2872450,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Odysseus_Sirens_BM_E440_n2.jpg/1920px-Odysseus_Sirens_BM_E440_n2.jpg",
+    "why": "Athena reads Odysseus asking to be tied to the mast (odysseus-mast; Odyssey 12.160–164 on the bookshelf) as the soul holding its course home to Ithaca (odyssey, ithaca)."
+  },
+  {
+    "id": "charioteer-delphi",
+    "concepts": [
+      "nous",
+      "tripartitesoul"
+    ],
+    "myths": [
+      "phaedrus-chariot"
+    ],
+    "images": [
+      "The desiring part taking the reins of the soul"
+    ],
+    "title_en": "The Charioteer of Delphi, bronze, c. 478–474 BC",
+    "title_el": "Ο Ηνίοχος των Δελφών, χάλκινο άγαλμα, περ. 478–474 π.Χ.",
+    "artist": "Unknown Greek sculptor",
+    "date": "c. 478–474 BC",
+    "collection": "Archaeological Museum of Delphi",
+    "licence": "CC0 1.0 (released by the photographer, Jebulon)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Aurige._Mus%C3%A9e_Delphes._Gr%C3%A8ce.png",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Aurige._Mus%C3%A9e_Delphes._Gr%C3%A8ce.png",
+    "width": 4500,
+    "height": 6500,
+    "bytes": 15095639,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Aurige._Mus%C3%A9e_Delphes._Gr%C3%A8ce.png/1920px-Aurige._Mus%C3%A9e_Delphes._Gr%C3%A8ce.png",
+    "why": "Athena calls nous the charioteer (ἡνίοχος) of the Phaedrus chariot of the soul (nous, tripartitesoul; myth phaedrus-chariot, Phaedrus 246a on the bookshelf). This is the best-known Greek charioteer, not the winged pair of the myth itself."
+  },
+  {
+    "id": "diver-paestum",
+    "concepts": [
+      "heraclitus",
+      "apophatic"
+    ],
+    "myths": [
+      "diotima_dive"
+    ],
+    "images": [
+      "The Delian diver"
+    ],
+    "title_en": "The diver, painted lid of the Tomb of the Diver, Paestum, c. 470 BC",
+    "title_el": "Ο βουτηχτής, ζωγραφισμένο κάλυμμα του Τάφου του Βουτηχτή, Ποσειδωνία, περ. 470 π.Χ.",
+    "artist": "Unknown Greek painter",
+    "date": "c. 470 BC",
+    "collection": "Museo Archeologico Nazionale, Paestum",
+    "licence": "CC BY 4.0 (photograph); the painting itself is public domain",
+    "attribution": "Bernard Gagnon, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/), via Wikimedia Commons",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Tomb_of_the_diver_in_Paestum_01.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Tomb_of_the_diver_in_Paestum_01.jpg",
+    "width": 5389,
+    "height": 3593,
+    "bytes": 8067844,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Tomb_of_the_diver_in_Paestum_01.jpg/1920px-Tomb_of_the_diver_in_Paestum_01.jpg",
+    "why": "Athena speaks of Diotima's plunge into the open sea (diotima_dive) and of the \"Delian diver\" one needs to reach Heraclitus. The Paestum diver is the one Greek painting of such a plunge, a funeral image, not an illustration of either."
+  },
+  {
+    "id": "helios-krater",
+    "concepts": [
+      "sun",
+      "light"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Attributed to the Leningrad Painter, Helios, Attic red-figure column krater, c. 480–470 BC",
+    "title_el": "Ζωγράφος του Λένινγκραντ (απόδοση), Ο θεός Ήλιος, αττικός ερυθρόμορφος κιονωτός κρατήρας, περ. 480–470 π.Χ.",
+    "artist": "Attributed to the Leningrad Painter (Beazley)",
+    "date": "c. 480–470 BC",
+    "collection": "Detroit Institute of Arts (24.120)",
+    "licence": "CC BY 4.0 (photograph); the vase itself is public domain",
+    "attribution": "Mark Landon / Wikimedia Commons, CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Attic_RF_column_krater_-_Helios_(Detroit_Inst_Arts_24.120).jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/2/20/Attic_RF_column_krater_-_Helios_%28Detroit_Inst_Arts_24.120%29.jpg",
+    "width": 3498,
+    "height": 3477,
+    "bytes": 3805461,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Attic_RF_column_krater_-_Helios_%28Detroit_Inst_Arts_24.120%29.jpg/1920px-Attic_RF_column_krater_-_Helios_%28Detroit_Inst_Arts_24.120%29.jpg",
+    "why": "The Sun (sun, weight 5) is Plato's image of the Good that Athena unfolds (myths sun-simile, platosun). Helios is the Greek sun god, not Plato's simile itself."
+  },
+  {
+    "id": "persephone-return",
+    "concepts": [
+      "persephone",
+      "hermes",
+      "mysteries"
+    ],
+    "myths": [
+      "hermes_persephone_2023"
+    ],
+    "images": [],
+    "title_en": "Persephone Painter, The return of Persephone, with Hermes, Hekate and Demeter, Attic bell-krater, c. 440 BC",
+    "title_el": "Ζωγράφος της Περσεφόνης, Η επιστροφή της Περσεφόνης, με τον Ερμή, την Εκάτη και τη Δήμητρα, αττικός κωδωνόσχημος κρατήρας, περ. 440 π.Χ.",
+    "artist": "Persephone Painter",
+    "date": "c. 440 BC",
+    "collection": "The Metropolitan Museum of Art, New York (28.57.23)",
+    "licence": "CC0 1.0 (Metropolitan Museum of Art Open Access)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Terracotta_bell-krater_(bowl_for_mixing_wine_and_water)_MET_DP116943.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Terracotta_bell-krater_%28bowl_for_mixing_wine_and_water%29_MET_DP116943.jpg",
+    "width": 3637,
+    "height": 4000,
+    "bytes": 1351494,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Terracotta_bell-krater_%28bowl_for_mixing_wine_and_water%29_MET_DP116943.jpg/1920px-Terracotta_bell-krater_%28bowl_for_mixing_wine_and_water%29_MET_DP116943.jpg",
+    "why": "Athena tells how Hermes, guide of souls, leads Persephone back up to Demeter in spring, as the freed go back for the others (myth hermes_persephone_2023; persephone, hermes)."
+  },
+  {
+    "id": "aphrodite-goose",
+    "concepts": [
+      "aphrodite"
+    ],
+    "myths": [
+      "two-aphrodites"
+    ],
+    "images": [],
+    "title_en": "Pistoxenos Painter, Aphrodite riding a goose, white-ground kylix, c. 460 BC",
+    "title_el": "Ζωγράφος του Πιστόξενου, Η Αφροδίτη πάνω σε χήνα, λευκή κύλικα, περ. 460 π.Χ.",
+    "artist": "Pistoxenos Painter",
+    "date": "c. 460 BC",
+    "collection": "British Museum, London (GR 1869.10-7.77; Cat. Vases D 2)",
+    "licence": "CC BY 2.5 (photograph); the vase itself is public domain",
+    "attribution": "Marie-Lan Nguyen / Wikimedia Commons, CC BY 2.5 (https://creativecommons.org/licenses/by/2.5/)",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Aphrodite_swan_BM_D2.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Aphrodite_swan_BM_D2.jpg",
+    "width": 2100,
+    "height": 2333,
+    "bytes": 3584163,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Aphrodite_swan_BM_D2.jpg/1920px-Aphrodite_swan_BM_D2.jpg",
+    "why": "Athena distinguishes heavenly Aphrodite (Οὐρανία) from common Aphrodite (myth two-aphrodites); here the goddess rides through the air. (The Commons file name says swan; the bird is usually called a goose.)"
+  },
+  {
+    "id": "pythia-aegeus",
+    "concepts": [
+      "mantike",
+      "delphi"
+    ],
+    "myths": [
+      "pythia-announces"
+    ],
+    "images": [
+      "Laurel-chewing and tripods"
+    ],
+    "title_en": "Kodros Painter, Aegeus consults Themis on the Delphic tripod, Attic red-figure kylix, 440–430 BC",
+    "title_el": "Ζωγράφος του Κόδρου, Ο Αιγέας ζητά χρησμό από τη Θέμιδα στον δελφικό τρίποδα, αττική ερυθρόμορφη κύλικα, 440–430 π.Χ.",
+    "artist": "Kodros Painter",
+    "date": "440–430 BC",
+    "collection": "Antikensammlung, Berlin (F 2538)",
+    "licence": "Public domain (released by the photographer, Bibi Saint-Pol: PD-self)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Themis_Aigeus_Antikensammlung_Berlin_F2538_n2.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Themis_Aigeus_Antikensammlung_Berlin_F2538_n2.jpg",
+    "width": 1767,
+    "height": 1737,
+    "bytes": 1958224,
+    "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/3/32/Themis_Aigeus_Antikensammlung_Berlin_F2538_n2.jpg",
+    "why": "The Delphic oracle on its tripod, painted while it still worked. Athena says mantic knowing is not laurel and tripods (mantike) and tells how the Pythia announced Pythagoras (pythia-announces)."
+  },
+  {
+    "id": "orpheus-thracians",
+    "concepts": [
+      "orpheus",
+      "music"
+    ],
+    "myths": [],
+    "images": [],
+    "title_en": "Painter of London E 497, Orpheus among the Thracians, Attic bell-krater, c. 440 BC",
+    "title_el": "Ζωγράφος του Λονδίνου Ε 497, Ο Ορφέας ανάμεσα στους Θράκες, αττικός κωδωνόσχημος κρατήρας, περ. 440 π.Χ.",
+    "artist": "Painter of London E 497",
+    "date": "c. 440 BC",
+    "collection": "The Metropolitan Museum of Art, New York (24.97.30)",
+    "licence": "CC0 1.0 (Metropolitan Museum of Art Open Access)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Terracotta_bell-krater_(bowl_for_mixing_wine_and_water)_MET_DT5486.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/c/ce/Terracotta_bell-krater_%28bowl_for_mixing_wine_and_water%29_MET_DT5486.jpg",
+    "width": 3811,
+    "height": 3049,
+    "bytes": 1258284,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Terracotta_bell-krater_%28bowl_for_mixing_wine_and_water%29_MET_DT5486.jpg/1920px-Terracotta_bell-krater_%28bowl_for_mixing_wine_and_water%29_MET_DT5486.jpg",
+    "why": "For Athena, Orpheus (orpheus) is the author of the hymn cycle and the carrier of the flowing light (ΟΡΦΕΑΣ read as ΦΟΡΕΑΣ); the vase shows him singing to the lyre."
+  },
+  {
+    "id": "athena-birth",
+    "concepts": [
+      "athenagoddess",
+      "zeus"
+    ],
+    "myths": [
+      "athena-birth"
+    ],
+    "images": [
+      "Athena as the fruiting of Zeus's mind"
+    ],
+    "title_en": "Athena springs from the head of Zeus, Attic black-figure amphora, 550–525 BC",
+    "title_el": "Η Αθηνά γεννιέται από το κεφάλι του Δία, αττικός μελανόμορφος αμφορέας, 550–525 π.Χ.",
+    "artist": "Attributed to Group E",
+    "date": "550–525 BC",
+    "collection": "Musée du Louvre, Paris (F 32)",
+    "licence": "Public domain (released by the photographer, Bibi Saint-Pol: PD-self)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Amphora_birth_Athena_Louvre_F32.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Amphora_birth_Athena_Louvre_F32.jpg",
+    "width": 1866,
+    "height": 1675,
+    "bytes": 1897976,
+    "thumb_url": "https://upload.wikimedia.org/wikipedia/commons/4/42/Amphora_birth_Athena_Louvre_F32.jpg",
+    "why": "Athena reads the goddess born from the head of Zeus as wisdom, the fruiting of mind (athenagoddess; myth athena-birth)."
+  },
+  {
+    "id": "athena-owl-coin",
+    "concepts": [
+      "athenagoddess",
+      "cave"
+    ],
+    "myths": [],
+    "images": [
+      "Athena's owl turning its head"
+    ],
+    "title_en": "Athena's owl on a silver tetradrachm of Athens, 5th century BC",
+    "title_el": "Η γλαύκα της Αθηνάς σε ασημένιο αθηναϊκό τετράδραχμο, 5ος αι. π.Χ.",
+    "artist": "Athenian mint",
+    "date": "5th century BC",
+    "collection": "Cleveland Museum of Art (1941.296)",
+    "licence": "CC0 1.0 (Cleveland Museum of Art Open Access)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Greece,_Athens,_5th_century_BC_-_Tetradrachm-_Owl_(reverse)_-_1941.296.b_-_Cleveland_Museum_of_Art.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/5/5a/Greece%2C_Athens%2C_5th_century_BC_-_Tetradrachm-_Owl_%28reverse%29_-_1941.296.b_-_Cleveland_Museum_of_Art.jpg",
+    "width": 2634,
+    "height": 2736,
+    "bytes": 5857596,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/Greece%2C_Athens%2C_5th_century_BC_-_Tetradrachm-_Owl_%28reverse%29_-_1941.296.b_-_Cleveland_Museum_of_Art.jpg/1920px-Greece%2C_Athens%2C_5th_century_BC_-_Tetradrachm-_Owl_%28reverse%29_-_1941.296.b_-_Cleveland_Museum_of_Art.jpg",
+    "why": "Athena sets the owl's all-round vision, which turns its head and sees the whole, against the cave prisoner's one-way gaze (athenagoddess, cave)."
+  },
+  {
+    "id": "parthenon-church",
+    "concepts": [
+      "beauty",
+      "goldenratio"
+    ],
+    "myths": [],
+    "images": [
+      "The Parthenon as an 'evolution' of the Acropolis hill",
+      "φ in the Acropolis, flowers, shells, the body and galaxies"
+    ],
+    "title_en": "Frederic Edwin Church, The Parthenon, 1871",
+    "title_el": "Φρέντερικ Έντουιν Τσερτς, Ο Παρθενώνας, 1871",
+    "artist": "Frederic Edwin Church",
+    "date": "1871",
+    "collection": "The Metropolitan Museum of Art, New York (15.30.67)",
+    "licence": "CC0 1.0 (Metropolitan Museum of Art Open Access)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:The_Parthenon_MET_DT1540.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/b/b3/The_Parthenon_MET_DT1540.jpg",
+    "width": 3811,
+    "height": 2356,
+    "bytes": 2027398,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/The_Parthenon_MET_DT1540.jpg/1920px-The_Parthenon_MET_DT1540.jpg",
+    "why": "\"The Acropolis is my witness\": Athena calls the Parthenon an evolution of the hill and finds φ in it (beauty, goldenratio)."
+  },
+  {
+    "id": "ares-ludovisi",
+    "concepts": [
+      "ares"
+    ],
+    "myths": [
+      "ares-aphrodite-union"
+    ],
+    "images": [],
+    "title_en": "The Ludovisi Ares, Roman copy of a Greek original of c. 320 BC",
+    "title_el": "Ο Άρης Λουδοβίζι, ρωμαϊκό αντίγραφο ελληνικού πρωτοτύπου του περ. 320 π.Χ.",
+    "artist": "Unknown; restored by Gian Lorenzo Bernini in 1622",
+    "date": "Roman copy of an original of c. 320 BC",
+    "collection": "Museo Nazionale Romano, Palazzo Altemps, Rome (inv. 8602)",
+    "licence": "Public domain (released by the photographer, Marie-Lan Nguyen as Jastrow: PD-self)",
+    "attribution": "Public domain",
+    "page_url": "https://commons.wikimedia.org/wiki/File:Ares_Ludovisi_Altemps_Inv8602.jpg",
+    "file_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/Ares_Ludovisi_Altemps_Inv8602.jpg",
+    "width": 2000,
+    "height": 3008,
+    "bytes": 2680692,
+    "thumb_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Ares_Ludovisi_Altemps_Inv8602.jpg/1920px-Ares_Ludovisi_Altemps_Inv8602.jpg",
+    "why": "Ares (ares, weight 4.5) has a whole talk: Athena reads him as the moment one stands up and acts, and as father, with Aphrodite, of Harmonia and Eros (ares-aphrodite-union)."
+  }
+]

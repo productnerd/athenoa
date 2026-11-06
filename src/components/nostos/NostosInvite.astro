@@ -1,0 +1,158 @@
+---
+// Nostos: the way in from the rest of the site (tasks/nostos.md, step 6). On Home a small Greek-blue
+// sheet (between the light-blue course tabs and the darker blue of Transmission) with a star drawing,
+// a line and a button; on a course page one quiet line. Wording proposed, not approved
+// (src/data/nostos/ui.ts, entry).
+import Illustration from '../Illustration.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+
+interface Props {
+  /** home: a sheet on Home; course: a line on a course page; journey: a sheet at the foot of the courses
+   *  page, Nostos as the journey one takes on one's own */
+  variant?: 'home' | 'course' | 'journey';
+}
+const { variant = 'home' } = Astro.props;
+const locale = getLocale(Astro.url);
+const t = nostosUi[mainLocale(locale)].entry;
+// into Learn, Nostos's first page (client direction, 6 November 2026)
+const href = pathIn(locale, '/nostos/play/');
+---
+
+{
+  variant === 'journey' ? (
+    <section class="section ninvite ninvite--journey" aria-labelledby="ninvite-journey">
+      <div class="wrap">
+        <div class="ninvite__sheet box on-blue" data-reveal>
+          <span class="ninvite__art" aria-hidden="true">
+            <Illustration name="sea-boat" note={false} />
+          </span>
+          <div class="ninvite__text">
+            <p class="ninvite__kicker">{t.journey.kicker}</p>
+            <h2 class="t-2" id="ninvite-journey">{t.journey.title}</h2>
+            <p>{t.journey.line}</p>
+            <a class="btn" href={href}>{t.journey.cta}</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : variant === 'home' ? (
+    <section class="section ninvite" aria-labelledby="ninvite-title">
+      <div class="wrap">
+        <div class="ninvite__sheet box on-blue" data-reveal>
+          <Illustration name="hero-b-star" class="ninvite__star" note={false} />
+          <div class="ninvite__text">
+            <h2 class="t-2" id="ninvite-title">
+              {t.home.title} <span lang="grc">νόστος</span>
+            </h2>
+            <p>{t.home.line}</p>
+          </div>
+          <a class="btn" href={href}>{t.home.cta}</a>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <p class="ninvite-line">
+      <Illustration name="hero-b-star" class="ninvite-line__star" note={false} />
+      <span>
+        {t.course.line} <a href={href}>{t.course.cta}</a>
+      </span>
+    </p>
+  )
+}
+
+<style>
+  .ninvite {
+    padding-block: var(--space-m);
+  }
+  .ninvite__sheet {
+    --box-r: var(--r-soft-2);
+    display: grid;
+    gap: var(--space-m);
+    align-items: center;
+  }
+  @media (min-width: 52rem) {
+    .ninvite__sheet {
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      column-gap: var(--space-l);
+    }
+  }
+  .ninvite__sheet :global(.ninvite__star) {
+    width: clamp(3rem, 2rem + 3vw, 4.6rem);
+    color: var(--creme);
+    --paper: var(--blue);
+  }
+  .ninvite__text h2 {
+    margin: 0 0 0.4rem;
+  }
+  .ninvite__text h2 span {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: 0.55em;
+    font-style: italic;
+    color: var(--blue-light);
+  }
+  .ninvite__text p {
+    max-width: 52ch;
+    margin: 0;
+  }
+  .ninvite-line {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+    gap: 0.8rem;
+    max-width: 52rem;
+    margin: var(--space-l) 0 0;
+    color: var(--ink-soft);
+  }
+  .ninvite-line :global(.ninvite-line__star) {
+    width: 1.6rem;
+    color: var(--ink-strong);
+  }
+  .ninvite-line a {
+    color: var(--ink-strong);
+    font-weight: 560;
+  }
+  /* the journey of one's own, at the foot of the courses page: the words and the button stacked, the boat
+     large and faint across the sheet */
+  .ninvite--journey {
+    padding-block: var(--space-xl) 0;
+  }
+  .ninvite--journey .ninvite__sheet {
+    display: block;
+    padding-block: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+  }
+  .ninvite__art {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .ninvite__art :global(svg) {
+    position: absolute;
+    right: -6%;
+    bottom: -12%;
+    width: auto;
+    height: 120%;
+    color: var(--ink);
+    --paper: transparent;
+    opacity: 0.2;
+  }
+  .ninvite--journey .ninvite__text {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+    max-width: 40rem;
+  }
+  .ninvite--journey .ninvite__text > * {
+    margin: 0;
+  }
+  .ninvite__kicker {
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+</style>

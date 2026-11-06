@@ -1,0 +1,983 @@
+---
+// Nostos, the bookshelf (tasks/nostos.md, Bookshelf): the texts she reads from, as spines on a shelf in
+// the spirit of Stripe Press. A spine eases out under the pointer; chosen, the book comes forward, turns
+// to its cover and opens on its hinge to the inside page. On phones it opens to a single page; with
+// reduced motion it simply shows the open page. The books open with the script only.
+// Not in the sitemap and noindex until launch. THE CONTENT IS NEW WORDING for Athena to review.
+import Base from '../../layouts/Base.astro';
+import NostosNav from '../../components/nostos/NostosNav.astro';
+import Illustration from '../../components/Illustration.astro';
+import BookBody from '../../components/nostos/BookBody.astro';
+import { nostosUi } from '../../data/nostos/ui';
+import { library, shelf } from '../../lib/nostos';
+import { getLocale, mainLocale, pathIn } from '../../lib/locale';
+
+const locale = getLocale(Astro.url);
+const ui = nostosUi[mainLocale(locale)];
+const t = ui.shelf;
+const fill = (text: string, values: Record<string, string | number>) =>
+  text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
+
+// Each book: its paper (the three blues and crème, in turn), its height (how central it is) and width
+// (how many passages), and the symbol on its cover
+const papers = ['blue', 'light', 'deep', 'creme'];
+const symbols: Record<string, string> = {
+  republic: 'cave-sun',
+  symposium: 'ladder',
+  heraclitus: 'bow-lyre',
+  plotinus: 'monad',
+  delphi: 'tripod',
+  timaeus: 'temple',
+  phaedrus: 'cicada',
+  phaedo: 'butterfly',
+  cratylus: 'wheat',
+  theaetetus: 'torch',
+  meno: 'spring-cypress',
+  odyssey: 'olive-branch',
+  orphic_hymns: 'orphic-egg',
+  pythagorean: 'tetractys',
+  nicomachean_ethics: 'laurel',
+  politics: 'temple',
+  proclus: 'monad',
+  parmenides: 'torch',
+};
+const books = shelf.map((w, i) => ({
+  w,
+  paper: papers[i % papers.length],
+  height: 15 + (w.weight ?? 3) * 1.05 + ((i * 37) % 30) / 16,
+  width: 3 + w.excerpts.length * 0.32 + (i % 3) * 0.25,
+  symbol: symbols[w.id] ?? 'laurel',
+}));
+const byId = new Map(books.map((b) => [b.w.id, b]));
+const path = library.reading_path.map((id) => byId.get(id)).filter((b) => b !== undefined);
+// The shelf of spines is hidden for now: the reading path stands in its place (client direction,
+// 6 November 2026). Its markup and styles stay.
+const showShelf = false;
+
+// The reading path as a winding trail (client request, 6 November 2026): the books stand in a grid of
+// 4, 3 or 2 across (by width), the trail runs through them left to right, turns, and comes back, like a
+// board game. For each width: where each book sits, and the trail through them, in a box 100 wide and
+// 100 high per row (stretched to the grid; the book's middle is 34% down its row).
+const trail = (c: number) => {
+  const at = (k: number) => {
+    const r = Math.floor(k / c);
+    const col = r % 2 ? c - 1 - (k % c) : k % c;
+    return { col, r, x: ((col + 0.5) / c) * 100, y: r * 100 + 34 };
+  };
+  let d = `M${at(0).x} ${at(0).y}`;
+  for (let k = 1; k < path.length; k++) {
+    const a = at(k - 1);
+    const b = at(k);
+    if (a.r === b.r) d += ` Q${(a.x + b.x) / 2} ${a.y + (k % 2 ? -10 : 10)} ${b.x} ${b.y}`;
+    else {
+      const reach = (100 / c) * 0.62 * (a.x > 50 ? 1 : -1);
+      d += ` C${a.x + reach} ${a.y + 8} ${b.x + reach} ${b.y - 8} ${b.x} ${b.y}`;
+    }
+  }
+  return { d, rows: Math.ceil(path.length / c), at };
+};
+const trails = { 4: trail(4), 3: trail(3), 2: trail(2) };
+const place = (k: number) =>
+  ([4, 3, 2] as const).map((c) => `--c${c}:${trails[c].at(k).col + 1};--r${c}:${trails[c].at(k).r + 1}`).join(';');
+---
+
+<Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
+  <NostosNav />
+  <div data-nshelf data-words={JSON.stringify({ prev: t.prev, next: t.next, close: t.close })}>
+    <section class="section nshelf-top">
+      <div class="wrap">
+        <header class="nostos-head">
+          <h1 class="t-1" data-split>{t.title}</h1>
+          <p class="lead nostos-intro" data-reveal>{t.intro}</p>
+        </header>
+
+        {showShelf && (
+        <div class="nshelf" role="group" aria-label={t.shelfLabel}>
+          <div class="nshelf__row" data-reveal-group>
+            {
+              books.map((b) => (
+                <button
+                  type="button"
+                  class:list={['nspine', `nspine--${b.paper}`]}
+                  style={`--h:${b.height.toFixed(2)}rem; --w:${b.width.toFixed(2)}rem`}
+                  data-book={b.w.id}
+                  aria-label={fill(t.spine, { title: b.w.title, author: b.w.author })}
+                >
+                  <span class="nspine__author">{b.w.author}</span>
+                  <span class="nspine__title" lang={b.w.greek_title ? 'grc' : 'en'}>{b.w.greek_title ?? b.w.title}</span>
+                </button>
+              ))
+            }
+          </div>
+          <div class="nshelf__ledge" aria-hidden="true"></div>
+        </div>
+        )}
+
+        {
+          path.length > 0 && (
+            <nav class="nroad" aria-label={t.path}>
+              <ol class="nroad__list" style={`--rows4:${trails[4].rows};--rows3:${trails[3].rows};--rows2:${trails[2].rows}`}>
+                {([4, 3, 2] as const).map((c) => (
+                  <svg class={`nroad__line nroad__line--${c}`} viewBox={`0 0 100 ${trails[c].rows * 100}`} preserveAspectRatio="none" aria-hidden="true">
+                    <path d={trails[c].d} />
+                  </svg>
+                ))}
+                {path.map((b, k) => (
+                  <li class="nroad__stop" style={place(k)}>
+                    <button type="button" class="nroad__book" data-book={b!.w.id} data-paper={b!.paper} aria-label={fill(t.spine, { title: b!.w.title, author: b!.w.author })}>
+                      <span class="nroad__spine" aria-hidden="true"></span>
+                      <span class="nroad__pages" aria-hidden="true"></span>
+                      <span class="nroad__cover" aria-hidden="true">
+                        <span class="nroad__n">{k + 1}</span>
+                        <Illustration name={b!.symbol} class="nroad__mark" note={false} />
+                        <span class="nroad__title" lang={b!.w.greek_title ? 'grc' : 'en'}>{b!.w.greek_title ?? b!.w.title}</span>
+                        <span class="nroad__by" lang="en">{b!.w.author.split(/[;,]/)[0]}</span>
+                      </span>
+                    </button>
+                    <span class="nroad__name" lang="en">{b!.w.title}</span>
+                    <span class="nroad__author" lang="en">{b!.w.author}</span>
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )
+        }
+      </div>
+    </section>
+
+    {/* What is inside each book, kept out of sight until its spine is chosen (the list of all the books
+        that once followed the shelf was taken away at the client's wish, 4 November 2026) */}
+    {
+      books.map((b) => (
+        <template data-book-body={b.w.id} data-paper={b.paper}>
+          <BookBody work={b.w} />
+          {/* the cover as on the path: the Greek title (the English only where there is no Greek), and
+              its author; a long title is set smaller, so it stays on the cover */}
+          <div data-cover>
+            <Illustration name={b.symbol} class="nbook3d__mark" note={false} />
+            <p class="nbook3d__author">{b.w.author}</p>
+            <p
+              class:list={['nbook3d__title', (b.w.greek_title ?? b.w.title).length > 22 && 'is-long', (b.w.greek_title ?? b.w.title).length > 40 && 'is-longer']}
+              lang={b.w.greek_title ? 'grc' : 'en'}
+            >
+              {b.w.greek_title ?? b.w.title}
+            </p>
+          </div>
+        </template>
+      ))
+    }
+
+    <dialog class="nstage" data-stage>
+      <button type="button" class="nstage__close" data-stage-close aria-label={t.close}>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+          <path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path>
+        </svg>
+      </button>
+      <div class="nbook3d is-closed" data-book3d>
+        <div class="nbook3d__page" data-page></div>
+        <div class="nbook3d__spine" aria-hidden="true"></div>
+        <div class="nbook3d__cover">
+          <div class="nbook3d__outside" data-outside aria-hidden="true"></div>
+          <div class="nbook3d__inside" data-inside></div>
+        </div>
+      </div>
+    </dialog>
+  </div>
+</Base>
+
+<script>
+  import { load, save } from '../../scripts/nostos-progress';
+  import { playSound, preloadSounds } from '../../scripts/sound';
+
+  // One soft sound as the cover turns: the pages (client request, 6 November 2026; the book sliding off
+  // the shelf and the cover landing were taken out). Synthesised; very quiet, like the site's effects.
+  const OPEN = 0.12;
+
+  let stop: (() => void) | undefined;
+
+  function setup() {
+    stop?.();
+    stop = undefined;
+    const root = document.querySelector<HTMLElement>('[data-nshelf]');
+    if (!root) return;
+    const words = JSON.parse(root.dataset.words ?? '{}');
+    const stage = root.querySelector<HTMLDialogElement>('[data-stage]')!;
+    const book = stage.querySelector<HTMLElement>('[data-book3d]')!;
+    const page = stage.querySelector<HTMLElement>('[data-page]')!;
+    const inside = stage.querySelector<HTMLElement>('[data-inside]')!;
+    const outside = stage.querySelector<HTMLElement>('[data-outside]')!;
+    const ac = new AbortController();
+    const on = { signal: ac.signal };
+    const motion = () => document.documentElement.classList.contains('motion');
+    let timers: number[] = [];
+    const later = (fn: () => void, ms: number) => timers.push(window.setTimeout(fn, ms));
+    const clear = () => {
+      timers.forEach(clearTimeout);
+      timers = [];
+    };
+    root.classList.add('is-live');
+    preloadSounds('/audio/book-open.mp3');
+
+    // one passage at a time, with a way to the others
+    const passages = (n: number) => {
+      const all = Array.from(page.querySelectorAll<HTMLElement>('.npassage'));
+      if (all.length < 2) return;
+      let at = 0;
+      const show = () => all.forEach((p, i) => (p.hidden = i !== at));
+      const row = document.createElement('div');
+      row.className = 'nbook3d__nav';
+      const button = (text: string, step: number) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'btn btn--ghost';
+        b.textContent = text;
+        b.addEventListener('click', () => {
+          at = (at + step + n) % n;
+          show();
+          all[at].scrollIntoView({ block: 'nearest' });
+        });
+        return b;
+      };
+      row.append(button(words.prev, -1), button(words.next, 1));
+      all[all.length - 1].after(row);
+      show();
+    };
+
+    const open = (id: string) => {
+      const template = root.querySelector<HTMLTemplateElement>(`template[data-book-body="${CSS.escape(id)}"]`);
+      if (!template) return;
+      clear();
+      const item = template.content;
+      const body = item.querySelector('.nbook-body')!;
+      // (the inside of the cover is copied to the head of the page too, where phones show it)
+      page.replaceChildren(body.querySelector('.nbook__inside')!.cloneNode(true), body.querySelector('.nbook__page')!.cloneNode(true));
+      inside.replaceChildren(body.querySelector('.nbook__inside')!.cloneNode(true));
+      outside.replaceChildren(...Array.from(item.querySelector('[data-cover]')!.childNodes, (n) => n.cloneNode(true)));
+      passages(item.querySelectorAll('.npassage').length);
+      book.dataset.paper = template.dataset.paper;
+      stage.setAttribute('aria-label', item.querySelector('.nbook__title')?.textContent ?? '');
+      page.scrollTop = 0;
+      inside.scrollTop = 0;
+      stage.classList.remove('is-leaving');
+      book.className = 'nbook3d is-closed';
+      stage.showModal();
+      const progress = load();
+      progress.done.book = (progress.done.book || 0) + 1;
+      save(progress);
+      if (!motion()) {
+        book.className = 'nbook3d is-open';
+        later(() => playSound('/audio/book-open.mp3', OPEN), 120);
+        return;
+      }
+      // off the shelf, round to its cover, then the cover opens on its hinge
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          book.className = 'nbook3d is-front';
+          later(() => {
+            book.className = 'nbook3d is-open';
+            // the cover starts to turn 0.15 s after this, and lands about a second later
+            later(() => playSound('/audio/book-open.mp3', OPEN), 120);
+          }, 750);
+        }),
+      );
+    };
+    const close = () => {
+      if (!stage.open) return;
+      clear();
+      if (!motion()) return stage.close();
+      book.className = 'nbook3d is-closed';
+      stage.classList.add('is-leaving');
+      later(() => stage.close(), 480);
+    };
+
+    root.addEventListener(
+      'click',
+      (event) => {
+        const link = (event.target as Element).closest<HTMLElement>('[data-book]');
+        if (!link) return;
+        event.preventDefault();
+        open(link.dataset.book!);
+      },
+      on,
+    );
+    stage.querySelector('[data-stage-close]')!.addEventListener('click', close, on);
+    stage.addEventListener(
+      'cancel',
+      (event) => {
+        event.preventDefault();
+        close();
+      },
+      on,
+    );
+    stage.addEventListener(
+      'click',
+      (event) => {
+        if (event.target === stage) close();
+      },
+      on,
+    );
+    stage.addEventListener('close', () => stage.classList.remove('is-leaving'), on);
+
+    stop = () => {
+      ac.abort();
+      clear();
+      if (stage.open) stage.close();
+    };
+  }
+
+  document.addEventListener('astro:page-load', setup);
+  document.addEventListener('astro:before-swap', () => stop?.());
+</script>
+
+<style>
+  .nshelf-top {
+    padding-top: calc(var(--space-s) * 2);
+  }
+  .nostos-head {
+    display: grid;
+    gap: var(--space-s);
+    margin-bottom: var(--space-xl);
+  }
+  .nostos-head > * {
+    margin: 0;
+  }
+  @media (max-width: 61.99rem) {
+    .nostos-head h1,
+    .nostos-intro {
+      max-width: 46rem;
+    }
+  }
+  @media (min-width: 62rem) {
+    .nostos-head {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      column-gap: var(--space-xl);
+      align-items: end;
+    }
+    .nostos-head h1 {
+      grid-column: 1;
+    }
+    .nostos-intro {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  /* ---------- the shelf ---------- */
+  .nshelf {
+    position: relative;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-top: 1.6rem;
+    scrollbar-width: thin;
+  }
+  .nshelf__row {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.35rem;
+    width: max-content;
+    margin: 0 auto;
+    padding: 0 1rem;
+    perspective: 1400px;
+  }
+  .nshelf__ledge {
+    position: relative;
+    width: max(100%, var(--shelf-w, 0px));
+    height: 0.9rem;
+    margin-top: -1px;
+    border-radius: 0.5rem 0.7rem 1rem 0.9rem / 0.4rem 0.4rem 0.9rem 1rem;
+    background: var(--blue-deep);
+  }
+  .nspine {
+    --paper: var(--blue);
+    --ink: var(--creme-light);
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: var(--w);
+    height: var(--h);
+    padding: 0.9rem 0 1rem;
+    color: var(--ink);
+    text-decoration: none;
+    font: inherit;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition:
+      translate 0.9s var(--ease-in-out) var(--hover-delay),
+      rotate 0.9s var(--ease-in-out) var(--hover-delay);
+  }
+  /* (the entrance animation sets transition on every revealed element and would drop the two above:
+     both are listed together here, the entrance with its stagger) */
+  :global(html.motion) .nspine[data-reveal] {
+    transition:
+      opacity var(--dur-3) var(--ease-out) calc(var(--i, 0) * 95ms),
+      transform var(--dur-3) var(--ease-out) calc(var(--i, 0) * 95ms),
+      translate 0.9s var(--ease-in-out) var(--hover-delay),
+      rotate 0.9s var(--ease-in-out) var(--hover-delay);
+  }
+  /* the cut-out of the spine, on a layer of its own (the rough edge lives there, never on the words) */
+  .nspine::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 0.7rem 0.6rem 0.25rem 0.3rem / 0.6rem 0.7rem 0.2rem 0.25rem;
+    background: var(--paper);
+    filter: url(#rough-sm);
+  }
+  /* two bands across the spine, as on cloth bindings */
+  .nspine::after {
+    content: '';
+    position: absolute;
+    left: 0.35rem;
+    right: 0.35rem;
+    top: 1.6rem;
+    height: 0.35rem;
+    border-top: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    opacity: 0.4;
+  }
+  .nspine--light {
+    --paper: var(--blue-light);
+    --ink: var(--blue-deep);
+  }
+  .nspine--deep {
+    --paper: var(--blue-deep);
+    --ink: var(--creme);
+  }
+  .nspine--creme {
+    --paper: var(--creme-deep);
+    --ink: var(--blue);
+  }
+  /* Under the pointer a book eases slowly a little out of the row and turns slightly towards you (with translate and
+     rotate: the entrance animation holds transform, and would otherwise cancel the hover) */
+  .nspine:hover,
+  .nspine:focus-visible {
+    translate: 0 -0.55rem;
+    rotate: y -7deg;
+  }
+  .nspine:focus-visible {
+    outline: 2px solid var(--ink-strong, var(--blue));
+    outline-offset: 3px;
+  }
+  .nspine__author,
+  .nspine__title {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .nspine__author {
+    margin-top: 1.4rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+  }
+  .nspine__title {
+    max-height: 70%;
+    font-family: var(--font-title);
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+  .nspine__title:lang(grc) {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: 1.15rem;
+  }
+
+  /* ---------- the reading path: a winding trail, a standing book at each stop ---------- */
+  .nroad {
+    --cols: 2;
+    --rows: var(--rows2);
+    --row: 19rem;
+    --bw: 7.6rem;
+    --bh: calc(var(--bw) * 1.38);
+    --bd: 1.2rem;
+    margin-top: var(--space-l);
+  }
+  @media (min-width: 40rem) {
+    .nroad {
+      --cols: 3;
+      --rows: var(--rows3);
+      --row: 23rem;
+      --bw: 9.6rem;
+      --bd: 1.4rem;
+    }
+  }
+  @media (min-width: 62rem) {
+    .nroad {
+      --cols: 4;
+      --rows: var(--rows4);
+      --row: 27rem;
+      --bw: 11.5rem;
+      --bd: 1.6rem;
+    }
+  }
+  .nroad__list {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    grid-template-rows: repeat(var(--rows), var(--row));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  /* the trail: a line of footsteps (dots), stretched to the grid, its dots kept round */
+  .nroad__line {
+    position: absolute;
+    inset: 0;
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .nroad__line path {
+    fill: none;
+    stroke: var(--blue);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-dasharray: 0.1 11;
+    vector-effect: non-scaling-stroke;
+    opacity: 0.55;
+  }
+  .nroad__line--2 {
+    display: block;
+  }
+  .nroad__stop {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 0.15rem;
+    grid-column: var(--c2);
+    grid-row: var(--r2);
+    padding: calc(var(--row) * 0.34 - var(--bh) / 2) 0.3rem 0;
+    text-align: center;
+  }
+  @media (min-width: 40rem) {
+    .nroad__line--2 {
+      display: none;
+    }
+    .nroad__line--3 {
+      display: block;
+    }
+    .nroad__stop {
+      grid-column: var(--c3);
+      grid-row: var(--r3);
+    }
+  }
+  @media (min-width: 62rem) {
+    .nroad__line--3 {
+      display: none;
+    }
+    .nroad__line--4 {
+      display: block;
+    }
+    .nroad__stop {
+      grid-column: var(--c4);
+      grid-row: var(--r4);
+    }
+  }
+  /* the book: a box with depth, turned a little away; it turns towards you under the pointer */
+  .nroad__book {
+    --c: var(--blue);
+    --ci: var(--creme-light);
+    position: relative;
+    width: var(--bw);
+    height: var(--bh);
+    margin-bottom: 0.6rem;
+    padding: 0;
+    font: inherit;
+    color: var(--ci);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    transform: perspective(48rem) rotateY(28deg) rotateX(4deg);
+    transform-style: preserve-3d;
+    transition: transform 0.9s var(--ease-in-out) var(--hover-delay);
+  }
+  .nroad__book[data-paper='light'] {
+    --c: var(--blue-light);
+    --ci: var(--blue-deep);
+  }
+  .nroad__book[data-paper='deep'] {
+    --c: var(--blue-deep);
+    --ci: var(--creme);
+  }
+  .nroad__book[data-paper='creme'] {
+    --c: var(--creme-deep);
+    --ci: var(--blue);
+  }
+  .nroad__book:hover,
+  .nroad__book:focus-visible {
+    transform: perspective(48rem) rotateY(10deg) rotateX(2deg) translateY(-0.35rem);
+  }
+  .nroad__book:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 6px;
+  }
+  .nroad__cover,
+  .nroad__spine,
+  .nroad__pages {
+    position: absolute;
+    top: 0;
+    height: 100%;
+  }
+  .nroad__cover {
+    inset: 0;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    justify-items: center;
+    align-items: center;
+    padding: calc(var(--bw) * 0.09) calc(var(--bw) * 0.08) calc(var(--bw) * 0.1);
+    background: var(--c);
+    border-radius: 0.2rem 0.7rem 0.6rem 0.2rem / 0.2rem 0.6rem 0.7rem 0.2rem;
+    transform: translateZ(calc(var(--bd) / 2));
+  }
+  .nroad__spine {
+    left: calc(var(--bd) / -2);
+    width: var(--bd);
+    background: color-mix(in srgb, var(--c) 72%, var(--blue-deep));
+    border-radius: 0.3rem 0 0 0.3rem;
+    transform: rotateY(-90deg);
+  }
+  .nroad__pages {
+    right: calc(var(--bd) / -2);
+    top: 3%;
+    height: 94%;
+    width: var(--bd);
+    background-color: var(--creme-light);
+    background-image: repeating-linear-gradient(90deg, transparent 0 2px, color-mix(in srgb, var(--blue) 22%, transparent) 2px 3px);
+    transform: rotateY(90deg);
+  }
+  .nroad__n {
+    justify-self: start;
+    font-size: calc(var(--bw) * 0.11);
+    font-variant-numeric: lining-nums;
+    opacity: 0.85;
+  }
+  .nroad__cover :global(.nroad__mark) {
+    display: grid;
+    place-items: center;
+    width: 62%;
+    height: 100%;
+    min-height: 0;
+    color: var(--ci);
+    --paper: var(--c);
+  }
+  /* (a tall drawing is shrunk into its row, so it never pushes the title onto the author) */
+  .nroad__cover :global(.nroad__mark svg) {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: calc(var(--bh) * 0.4);
+  }
+  .nroad__title {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: calc(var(--bw) * 0.125);
+    line-height: 1.05;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .nroad__title:lang(grc) {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: calc(var(--bw) * 0.14);
+  }
+  /* the author, small, at the foot of the cover */
+  .nroad__by {
+    font-size: calc(var(--bw) * 0.085);
+    letter-spacing: 0.04em;
+    opacity: 0.85;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  .nroad__name {
+    max-width: 15rem;
+    font-size: var(--step--1);
+    line-height: 1.2;
+    color: var(--ink-strong);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .nroad__author {
+    max-width: 15rem;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+</style>
+
+<style is:global>
+  /* ---------- the book, off the shelf ---------- */
+  .nstage {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 1rem;
+    border: 0;
+    background: none;
+    overflow: hidden;
+    perspective: 2200px;
+  }
+  .nstage[open] {
+    display: grid;
+    place-items: center;
+  }
+  .nstage::backdrop {
+    background: color-mix(in srgb, var(--blue-deep, #071260) 55%, transparent);
+  }
+  html:has(dialog.nstage[open]) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+  html.motion .nstage[open] {
+    transition: opacity 0.45s var(--ease-out);
+  }
+  @starting-style {
+    html.motion .nstage[open] {
+      opacity: 0;
+    }
+  }
+  html.motion .nstage.is-leaving {
+    opacity: 0;
+  }
+  .nstage__close {
+    position: fixed;
+    top: max(0.9rem, env(safe-area-inset-top, 0px));
+    right: max(0.9rem, env(safe-area-inset-right, 0px));
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    color: var(--ink-strong);
+    background: var(--creme-light);
+    border: 1.5px solid var(--line);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.2rem / 1.3rem 1.7rem 1.2rem 1.6rem;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--hover-delay),
+      color var(--dur-1) var(--hover-delay);
+  }
+  .nstage__close:hover {
+    color: var(--creme-light);
+    background: var(--ink-strong);
+  }
+  .nstage__close path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+  }
+
+  .nbook3d {
+    --c: var(--blue);
+    --ci: var(--creme-light);
+    position: relative;
+    width: min(52rem, 96vw);
+    height: min(36rem, 84vh);
+    transform-style: preserve-3d;
+  }
+  .nbook3d[data-paper='light'] {
+    --c: var(--blue-light);
+    --ci: var(--blue-deep);
+  }
+  .nbook3d[data-paper='deep'] {
+    --c: var(--blue-deep);
+    --ci: var(--creme);
+  }
+  .nbook3d[data-paper='creme'] {
+    --c: var(--creme-deep);
+    --ci: var(--blue);
+  }
+  html.motion .nbook3d {
+    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  /* seen first from the spine, small, as it leaves the shelf */
+  .nbook3d.is-closed {
+    transform: rotateY(78deg) scale(0.55);
+  }
+  .nbook3d.is-front {
+    transform: translateX(-25%) scale(0.9);
+  }
+  .nbook3d.is-open {
+    transform: none;
+  }
+  .nbook3d__page,
+  .nbook3d__inside {
+    overflow: auto;
+    overscroll-behavior: contain;
+    background-color: var(--creme-light);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    color: var(--ink);
+  }
+  .nbook3d__page {
+    position: absolute;
+    inset: 0 0 0 50%;
+    padding: 1.6rem 1.7rem 1.8rem 2rem;
+    border-radius: 0.4rem 1.6rem 1.4rem 0.4rem / 0.4rem 1.3rem 1.6rem 0.4rem;
+  }
+  .nbook3d__cover {
+    position: absolute;
+    inset: 0 0 0 50%;
+    transform-origin: left center;
+    transform-style: preserve-3d;
+  }
+  html.motion .nbook3d__cover {
+    transition: transform 1.1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.15s;
+  }
+  .nbook3d.is-open .nbook3d__cover {
+    transform: rotateY(-178deg);
+  }
+  .nbook3d__outside,
+  .nbook3d__inside {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .nbook3d__outside {
+    display: grid;
+    align-content: space-between;
+    justify-items: start;
+    gap: 1rem;
+    padding: 2.2rem 2rem;
+    background: var(--c);
+    color: var(--ci);
+    border-radius: 0.4rem 1.6rem 1.4rem 0.4rem / 0.4rem 1.3rem 1.6rem 0.4rem;
+  }
+  .nbook3d__outside p {
+    margin: 0;
+  }
+  .nbook3d__outside .nbook3d__mark {
+    width: clamp(5rem, 4rem + 4vw, 8rem);
+    color: var(--ci);
+    --paper: var(--c);
+  }
+  .nbook3d__author {
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+  }
+  .nbook3d__title {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-3);
+    line-height: 1;
+    letter-spacing: var(--title-tracking);
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
+  }
+  .nbook3d__title:lang(grc) {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-weight: 500;
+    line-height: 1.08;
+  }
+  .nbook3d__title.is-long {
+    font-size: var(--step-2);
+  }
+  .nbook3d__title.is-longer {
+    font-size: var(--step-1);
+  }
+  .nbook3d__greek {
+    font-family: 'EB Garamond Variable', 'EB Garamond', Garamond, serif;
+    font-size: var(--step-1);
+  }
+  .nbook3d__inside {
+    transform: rotateY(180deg);
+    padding: 1.8rem 1.8rem 1.8rem 1.6rem;
+    background-color: var(--creme-deep);
+    border-radius: 1.6rem 0.4rem 0.4rem 1.4rem / 1.3rem 0.4rem 0.4rem 1.6rem;
+  }
+  .nbook3d__spine {
+    position: absolute;
+    inset: 0 auto 0 50%;
+    width: 2.2rem;
+    margin-left: -2.2rem;
+    background: var(--c);
+    filter: brightness(0.8);
+    transform-origin: right;
+    transform: rotateY(-90deg);
+  }
+  .nbook3d.is-open .nbook3d__spine {
+    opacity: 0;
+  }
+  .nbook3d__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 0.8rem;
+  }
+  .nbook3d__page .nbook__page,
+  .nbook3d__inside .nbook__inside {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .nbook3d__page > .nbook__inside {
+    display: none;
+  }
+
+  /* phones: one page; the cover turns away and fades, leaving the page */
+  @media (max-width: 47.99rem) {
+    .nbook3d {
+      height: min(40rem, 86vh);
+    }
+    .nbook3d__page,
+    .nbook3d__cover {
+      inset: 0;
+    }
+    .nbook3d__page {
+      padding: 1.5rem 1.3rem 1.6rem;
+      border-radius: 1.4rem 1.6rem 1.3rem 1.5rem / 1.5rem 1.3rem 1.6rem 1.4rem;
+    }
+    .nbook3d__outside {
+      border-radius: 1.4rem 1.6rem 1.3rem 1.5rem / 1.5rem 1.3rem 1.6rem 1.4rem;
+    }
+    .nbook3d.is-front {
+      transform: scale(0.92);
+    }
+    .nbook3d.is-open .nbook3d__cover {
+      transform: rotateY(-178deg);
+      opacity: 0;
+      pointer-events: none;
+    }
+    html.motion .nbook3d.is-open .nbook3d__cover {
+      transition:
+        transform 1.1s,
+        opacity 0.3s 1s;
+    }
+    .nbook3d__spine {
+      display: none;
+    }
+    /* the inside of the cover joins the page, at its head */
+    .nbook3d__inside {
+      display: none;
+    }
+    .nbook3d__page > .nbook__inside {
+      display: grid;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1.5px dashed var(--line);
+    }
+  }
+</style>
