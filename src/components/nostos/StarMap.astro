@@ -628,6 +628,13 @@ const playHref = pathIn(locale, '/nostos/play/');
     position: relative;
     height: clamp(26rem, 74vh, 52rem);
     overflow: hidden;
+    /* the stars fade out towards every edge, so the map has no hard border (client direction) */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent),
+      linear-gradient(to bottom, transparent, #000 9%, #000 88%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent),
+      linear-gradient(to bottom, transparent, #000 9%, #000 88%, transparent);
+    mask-composite: intersect;
     touch-action: none;
     cursor: grab;
     user-select: none;
@@ -657,7 +664,7 @@ const playHref = pathIn(locale, '/nostos/play/');
   /* the sky turns a little, back and forth, so the map feels alive: a slow sway of the whole layer
      (moved, never redrawn, so it costs next to nothing), and only when motion is on */
   :global(html.motion) .nmap.is-live .nmap__svg {
-    animation: nmap-sway 48s var(--ease-in-out) infinite alternate;
+    animation: nmap-sway 32s var(--ease-in-out) infinite alternate;
   }
   @keyframes nmap-sway {
     from {

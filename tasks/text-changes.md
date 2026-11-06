@@ -129,6 +129,10 @@ Under Athena's letter on Home: her photograph (the library portrait, moved from 
 | --- | --- | --- |
 | Founder of the Philosophical Academy ATHENOA | Ιδρύτρια της Φιλοσοφικής Ακαδημίας ATHENOA | Ἱδρύτρια τῆς Ἀκαδημείας ATHENOA |
 
+## The map's sizes (6 November 2026)
+
+A star's size is now a function of how connected the idea is on the map (two thirds) and how often it comes up in the talks (one third; for an idea whose count was only estimated, its links alone), at the client's request. The map's introduction says so, NEW WORDING proposed: "Each star is an idea Athena teaches. Its size is how connected it is and how often it comes up across {n} talks. Lines join the ideas Athena links."; Greek «… Το μέγεθός του δείχνει πόσο συνδεδεμένη είναι και πόσο συχνά εμφανίζεται σε {n} ομιλίες. …» (was "Its size is how often it comes up across {n} transcribed talks.").
+
 ## Why not yours (6 November 2026)
 
 Under a wrong answer, NEW WORDING proposed (`ui.ts`, `play.tutor`): "“{part}” ({meaning}) is not one of its roots.", "“{gloss}” is what Athena says of {right}, not of {wrong}, which is “{other}”.", "In Athena’s teaching this is true." / "… false.", "“{step}” comes at step {right}, not at step {at}."; Greek «… δεν είναι μία από τις ρίζες της.», «… λέει η Αθηνά για το {right}, όχι για το {wrong}, που είναι «{other}».», «Στη διδασκαλία της Αθηνάς αυτό είναι σωστό / λάθος.», «… έρχεται στο βήμα {right}, όχι στο {at}.». For the quiz, a line written for each of its 1,374 wrong options (`src/data/nostos-whynot.json`), from Athena's own explanations and ideas, for Athena to review like the rest of the content.

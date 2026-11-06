@@ -21,7 +21,8 @@ export const nostosUi = {
       title: 'Athena’s Idea Universe',
       // {n}: the number of transcribed talks
       intro:
-        'Each star is an idea Athena teaches. Its size is how often it comes up across {n} transcribed talks. Lines join the ideas Athena links.',
+        // NEW WORDING, proposed (6 November 2026): the size is now links and mentions together
+        'Each star is an idea Athena teaches. Its size is how connected it is and how often it comes up across {n} talks. Lines join the ideas Athena links.',
       mapLabel: 'Map of the ideas in Athena’s teaching',
       search: 'Find a star',
       searchPlaceholder: 'Find a star: eros, Plato, ψυχή',
@@ -423,7 +424,7 @@ export const nostosUi = {
         'Ένας χάρτης των ιδεών που διδάσκει η Δρ. Αθηνά Ποτάρη: κάθε αστέρι μια ιδέα, όσο μεγάλο όσο συχνά τη συζητά η Αθηνά, ενωμένο με τις ιδέες με τις οποίες η Αθηνά τη συνδέει.',
       title: 'Το σύμπαν των ιδεών της Αθηνάς',
       intro:
-        'Κάθε αστέρι είναι μια ιδέα που διδάσκει η Αθηνά. Το μέγεθός του δείχνει πόσο συχνά εμφανίζεται σε {n} απομαγνητοφωνημένες ομιλίες. Οι γραμμές ενώνουν τις ιδέες που συνδέει η Αθηνά.',
+        'Κάθε αστέρι είναι μια ιδέα που διδάσκει η Αθηνά. Το μέγεθός του δείχνει πόσο συνδεδεμένη είναι και πόσο συχνά εμφανίζεται σε {n} ομιλίες. Οι γραμμές ενώνουν τις ιδέες που συνδέει η Αθηνά.',
       mapLabel: 'Χάρτης των ιδεών της διδασκαλίας της Αθηνάς',
       search: 'Βρείτε ένα αστέρι',
       searchPlaceholder: 'Βρείτε ένα αστέρι: έρως, Πλάτων, ψυχή',

@@ -3,8 +3,10 @@
 // src/data/nostos/ (read-only, another session fills them) and writes src/data/nostos-layout.json:
 // for every star its x, y and radius, and for every star its three strongest links (the "core" lines).
 //
-// Settings are the prototype's (reference/nostos-prototype/app.js, buildGraph): radius from the
-// number of mentions on a square-root scale, 5 to 36; each link scored as her own link 0.6 +
+// Settings are the prototype's (reference/nostos-prototype/app.js, buildGraph), except the radius: it is
+// a function of how connected an idea is and how often it is used (client direction, 6 November 2026),
+// 5 to 36 on a soft curve: its links on the map (two thirds) and its mentions in the talks (one third;
+// where a count was only estimated from the weight, the links alone); each link scored as her own link 0.6 +
 // npmi x 2.2 + log1p(co) x 0.18 + (weight a + weight b) / 18; the three strongest per star pull the
 // layout; each theme is anchored on an ellipse 540 by 300 so themes form regions; charge
 // -120 - r x 14; collide r + 10. d3-force places nodes without randomness, so the same data always
@@ -21,11 +23,25 @@ const edges = read('edges');
 const { groups } = read('meta');
 
 const byId = new Map(concepts.map((c) => [c.id, c]));
-const maxF = Math.max(...concepts.map((c) => c.freq || 1));
-const radius = (freq) => 5 + ((Math.sqrt(Math.max(1, freq)) - 1) / (Math.sqrt(maxF) - 1)) * 31;
 const weight = (id) => byId.get(id)?.weight || 2;
+// how connected each idea is: its links on the map
+const degree = new Map();
+for (const e of edges) if (byId.has(e.a) && byId.has(e.b)) for (const id of [e.a, e.b]) degree.set(id, (degree.get(id) ?? 0) + 1);
+const maxDegree = Math.max(...concepts.map((c) => degree.get(c.id) ?? 0), 1);
+const counted = concepts.filter((c) => !c.est && c.freq);
+const maxLogF = Math.max(...counted.map((c) => Math.log1p(c.freq)), 1);
+const centrality = (c) => {
+  const links = Math.sqrt((degree.get(c.id) ?? 0) / maxDegree);
+  // an estimated count is not a count of use: the links decide alone
+  if (c.est || !c.freq) return links;
+  const mentions = Math.log1p(c.freq) / maxLogF;
+  return (2 / 3) * links + (1 / 3) * mentions;
+};
+const scores = new Map(concepts.map((c) => [c.id, centrality(c)]));
+const top = Math.max(...scores.values());
+const radius = (id) => 5 + Math.pow(scores.get(id) / top, 1.35) * 31;
 
-const nodes = concepts.map((c) => ({ id: c.id, group: c.group, r: radius(c.freq || 1) }));
+const nodes = concepts.map((c) => ({ id: c.id, group: c.group, r: radius(c.id) }));
 const node = new Map(nodes.map((n) => [n.id, n]));
 
 const links = edges
