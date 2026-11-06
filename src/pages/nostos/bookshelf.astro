@@ -155,7 +155,6 @@ const place = (k: number) =>
                       <span class="nroad__spine" aria-hidden="true"></span>
                       <span class="nroad__pages" aria-hidden="true"></span>
                       <span class="nroad__cover" aria-hidden="true">
-                        <span class="nroad__n">{k + 1}</span>
                         <Illustration name={b!.symbol} class="nroad__mark" note={false} />
                         <span class="nroad__title" lang={b!.w.greek_title ? 'grc' : 'en'}>{b!.w.greek_title ?? b!.w.title}</span>
                         <span class="nroad__by" lang="en">{b!.w.author.split(/[;,]/)[0]}</span>
@@ -165,7 +164,7 @@ const place = (k: number) =>
                         })}
                       </span>
                     </button>
-                    <span class="nroad__name" lang="en">{b!.w.title}</span>
+                    <span class="nroad__name" lang="en"><span class="nroad__num">{k + 1}</span> {b!.w.title}</span>
                     <span class="nroad__author" lang="en">{b!.w.author}</span>
                   </li>
                 ))}
@@ -607,7 +606,7 @@ const place = (k: number) =>
   .nroad {
     --cols: 2;
     --rows: var(--rows2);
-    --row: 19rem;
+    --row: 22rem;
     --bw: 7.6rem;
     --bh: calc(var(--bw) * 1.38);
     --bd: 1.2rem;
@@ -617,7 +616,7 @@ const place = (k: number) =>
     .nroad {
       --cols: 3;
       --rows: var(--rows3);
-      --row: 23rem;
+      --row: 27rem;
       --bw: 9.6rem;
       --bd: 1.4rem;
     }
@@ -626,7 +625,7 @@ const place = (k: number) =>
     .nroad {
       --cols: 4;
       --rows: var(--rows4);
-      --row: 27rem;
+      --row: 32rem;
       --bw: 11.5rem;
       --bd: 1.6rem;
     }
@@ -745,7 +744,7 @@ const place = (k: number) =>
   .nroad__cover {
     inset: 0;
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    grid-template-rows: minmax(0, 1fr) auto auto;
     justify-items: center;
     align-items: center;
     padding: calc(var(--bw) * 0.09) calc(var(--bw) * 0.08) calc(var(--bw) * 0.1);
@@ -793,12 +792,6 @@ const place = (k: number) =>
     background-color: var(--creme-light);
     background-image: repeating-linear-gradient(90deg, transparent 0 2px, color-mix(in srgb, var(--blue) 22%, transparent) 2px 3px);
     transform: rotateY(90deg);
-  }
-  .nroad__n {
-    justify-self: start;
-    font-size: calc(var(--bw) * 0.11);
-    font-variant-numeric: lining-nums;
-    opacity: 0.85;
   }
   .nroad__cover :global(.nroad__mark) {
     display: grid;
@@ -858,17 +851,6 @@ const place = (k: number) =>
       inset calc(var(--bw) * 0.06) 0 calc(var(--bw) * 0.08) calc(var(--bw) * -0.05) color-mix(in srgb, var(--blue-deep) 40%, transparent);
     pointer-events: none;
   }
-  /* the book's number stays on top, on a patch of its paper */
-  .nroad__n {
-    position: relative;
-    z-index: 2;
-  }
-  :is([data-covers='first'], [data-covers='vintage']) .nroad__n {
-    padding: 0.05em 0.45em;
-    background: var(--c);
-    border-radius: 1rem 0.8rem 1rem 0.9rem;
-    opacity: 1;
-  }
   /* the author, small, at the foot of the cover */
   .nroad__by {
     font-size: calc(var(--bw) * 0.085);
@@ -878,6 +860,12 @@ const place = (k: number) =>
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+  }
+  /* the book's place on the path, before its name */
+  .nroad__num {
+    margin-right: 0.2em;
+    font-variant-numeric: lining-nums;
+    color: var(--ink-soft);
   }
   .nroad__name {
     max-width: 15rem;
