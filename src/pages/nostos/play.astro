@@ -122,10 +122,24 @@ const split = (title: string): [string, string] => {
   }
   return [title, ''];
 };
-const chapterTitle = (c: (typeof pathOutline)[number]) =>
-  c.stage ? (t.path.stages as Record<string, string>)[c.stage] ?? c.stage : split(c.title)[0] || t.path.across;
-const chapterAbout = (c: (typeof pathOutline)[number]) =>
-  c.stage ? (t.path.about as Record<string, string>)[c.stage] ?? '' : split(c.title)[1];
+// a chapter's name and line: its own (from the arc, in the page's language), else its stage's, else
+// its talk's title cut in two
+const lang = mainLocale(locale) === 'en' ? 'en' : 'el';
+type Ch = (typeof pathOutline)[number];
+const stageName = (id: string) => (t.path.stages as Record<string, string>)[id] ?? id;
+const stageAbout = (id: string) => (t.path.about as Record<string, string>)[id] ?? '';
+const chapterTitle = (c: Ch) => c.names?.[lang] ?? (c.stage ? stageName(c.stage) : split(c.title)[0] || t.path.across);
+const chapterAbout = (c: Ch) => c.about?.[lang] ?? (c.stage && !c.names ? stageAbout(c.stage) : c.stage ? '' : split(c.title)[1]);
+// with stages: each stage opens with its own heading, and its chapters are numbered within it
+const stageIds = [...new Set(pathOutline.map((c) => c.stage).filter((x): x is string => !!x))];
+const opensStage = (ci: number) => !!pathOutline[ci].stage && pathOutline[ci].stage !== pathOutline[ci - 1]?.stage;
+const placeIn = (ci: number) => {
+  const st = pathOutline[ci].stage;
+  if (!st) return { i: ci + 1, n: pathOutline.length };
+  const same = pathOutline.filter((c) => c.stage === st);
+  return { i: same.indexOf(pathOutline[ci]) + 1, n: same.length };
+};
+const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -164,21 +178,28 @@ const chapterAbout = (c: (typeof pathOutline)[number]) =>
       {
         pathOutline.map((c, ci) => (
           <section class="njch" data-ch={ci} data-ch-scene={scenes.length ? sceneFor(ci) : undefined} aria-labelledby={`njch-${ci}`}>
+            {staged && opensStage(ci) && (
+              <header class="njstage">
+                <p class="njstage__n">{fill(t.path.stageN, { i: stageIds.indexOf(c.stage!) + 1, n: stageIds.length })}</p>
+                <h2 class="njstage__title">{stageName(c.stage!)}</h2>
+                {stageAbout(c.stage!) && <p class="njstage__about">{stageAbout(c.stage!)}</p>}
+              </header>
+            )}
             <header class="njch__banner box on-blue" style={`--box-r:${cuts[ci % cuts.length]}`}>
-              <p class="njch__n">{fill(t.path.chapter, { i: ci + 1, n: pathOutline.length })}</p>
+              <p class="njch__n">{fill(t.path.chapter, placeIn(ci))}</p>
               <h2 class="njch__title" id={`njch-${ci}`} lang={!c.stage && c.title ? 'en' : undefined}>
                 {chapterTitle(c)}
               </h2>
+              {chapterAbout(c) && (
+                <p class="njch__about" lang={!c.stage ? 'en' : undefined}>
+                  {chapterAbout(c)}
+                </p>
+              )}
               <div class="njch__bar" aria-hidden="true">
                 <span data-ch-fill />
               </div>
               <p class="njch__count" data-ch-count></p>
             </header>
-            {chapterAbout(c) && (
-              <p class="njch__about" lang={!c.stage ? 'en' : undefined}>
-                {chapterAbout(c)}
-              </p>
-            )}
             <ol class="njch__stones" style={`--rows:${c.lessons.length}`}>
               <svg class="njch__trail" viewBox={`0 0 100 ${c.lessons.length * 100}`} preserveAspectRatio="none" aria-hidden="true">
                 <path d={trail(ci, c.lessons.length)} />
@@ -486,23 +507,44 @@ const chapterAbout = (c: (typeof pathOutline)[number]) =>
       font-size: var(--step-1);
     }
   }
-  /* what the chapter teaches, under its banner, in a line or two */
+  /* what the chapter teaches, in the card under its title (client direction) */
   .njch__about {
-    position: relative;
-    z-index: 1;
-    width: min(100% - 2 * var(--gutter), 34rem);
-    margin: calc(-1 * var(--space-s)) auto var(--space-m);
-    font-size: var(--step-0);
-    line-height: 1.5;
-    text-align: center;
-    text-wrap: balance;
+    font-size: var(--step--1);
+    line-height: 1.45;
     color: var(--ink);
   }
-  /* on a soft patch of paper, so the drawing behind does not cross the words */
-  .njch__about {
-    width: fit-content;
-    max-width: min(100% - 2 * var(--gutter), 34rem);
-    padding: 0.5rem 1.1rem 0.6rem;
+  /* a stage of the arc: a heading on the page, with its line, before its first chapter */
+  .njstage {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+    width: min(100% - 2 * var(--gutter), 40rem);
+    margin: var(--space-xl) auto var(--space-s);
+    text-align: center;
+  }
+  .njstage > * {
+    margin: 0;
+  }
+  .njstage__n {
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    color: var(--ink-soft);
+  }
+  .njstage__title {
+    font-family: var(--font-title);
+    font-weight: var(--title-weight);
+    font-size: var(--step-4);
+    line-height: 1;
+    letter-spacing: var(--title-tracking);
+    text-wrap: balance;
+    color: var(--ink-strong);
+  }
+  .njstage__about {
+    max-width: 30rem;
+    padding: 0.3rem 0.9rem 0.4rem;
+    text-wrap: balance;
     background: color-mix(in srgb, var(--paper) 86%, transparent);
     border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
   }

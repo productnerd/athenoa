@@ -112,7 +112,18 @@ const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
 // ---------- chapters ----------
 /** A chapter: a stage of the arc (`stage`, with the place on the journey it shows, `scene`), or, before
  *  the arc was made, a talk */
-export type Chapter = { id: string; title: string; talk?: string; stage?: string; scene?: string; lessons: string[][]; steps: Record<string, Step> };
+export type Chapter = {
+  id: string;
+  title: string;
+  talk?: string;
+  stage?: string;
+  scene?: string;
+  /** the chapter's own name and line, from the arc, in both languages */
+  names?: { en: string; el: string };
+  about?: { en: string; el: string };
+  lessons: string[][];
+  steps: Record<string, Step>;
+};
 const order = talks.map((t) => t.id);
 const introduced = new Set<string>();
 // an idea is spoken of when its Greek or its name appears as a whole word
@@ -173,14 +184,15 @@ const chapterTitle = (title: string) => {
   return t.charAt(0).toUpperCase() + t.slice(1);
 };
 
-type RouteOf = { id: string; title: string; talk?: string; stage?: string; scene?: string; route: Entry[] };
+type RouteOf = Omit<Chapter, 'lessons' | 'steps'> & { route: Entry[] };
 
 // ---------- the arc (src/data/nostos-arc.json) ----------
 // One considered arc of Athena's teaching in nine stages, each a place on the journey home (client
 // direction, 6 November 2026): every idea is taught in the stage the arc gives it, in the arc's order,
 // and every item (question, myth, root, passage...) follows the last of the ideas it is about, whatever
 // talk it came from. Without the arc, a chapter per talk as before.
-type Arc = { stages: { id: string; scene: string }[]; ideas: Record<string, string[]> };
+type ArcChapter = { id: string; title_en: string; title_el: string; about_en?: string; about_el?: string; ideas: string[] };
+type Arc = { stages: { id: string; scene: string }[]; ideas: Record<string, string[]>; chapters?: Record<string, ArcChapter[]> };
 const arc = Object.values(import.meta.glob<Arc>('../data/nostos-arc.json', { eager: true, import: 'default' }))[0];
 
 function arcRoutes(a: Arc): RouteOf[] {
@@ -229,8 +241,8 @@ function arcRoutes(a: Arc): RouteOf[] {
   };
   const NOW_ITEMS = 5;
   const LATER = 3;
-  return a.stages.map((st, si) => {
-    const ideas = [...stageOf].filter(([, s]) => s === si).map(([id]) => id).sort((x, y) => pos(x) - pos(y));
+  // one chapter's route: each idea, then what it brings, the rest of it coming back a few steps at a time
+  const walk = (ideas: string[]) => {
     const route: Entry[] = [];
     const later: Entry[] = [];
     for (const id of ideas) {
@@ -239,11 +251,34 @@ function arcRoutes(a: Arc): RouteOf[] {
       const own = mixed(anchored.get(id) ?? []);
       route.push(...own.slice(0, NOW_ITEMS));
       later.push(...own.slice(NOW_ITEMS));
-      // what an earlier idea still has to say comes back a few steps at a time
       route.push(...later.splice(0, LATER));
     }
-    route.push(...later.splice(0), ...mixed(loose.get(si) ?? []));
-    return { id: st.id, title: '', stage: st.id, scene: st.scene, route };
+    route.push(...later.splice(0));
+    return route;
+  };
+  return a.stages.flatMap((st, si) => {
+    const ideas = [...stageOf].filter(([, s]) => s === si).map(([id]) => id).sort((x, y) => pos(x) - pos(y));
+    // the stage's chapters (from the arc), each its group of ideas; an idea in none of them (from a talk
+    // added since) joins the last
+    const groups = (a.chapters?.[st.id] ?? []).map((ch) => ({ ch, ideas: ch.ideas.filter((id) => ideas.includes(id)) }));
+    const grouped = new Set(groups.flatMap((g) => g.ideas));
+    const rest = ideas.filter((id) => !grouped.has(id));
+    if (!groups.length) groups.push({ ch: { id: st.id, title_en: '', title_el: '', ideas: [] }, ideas: [] });
+    groups[groups.length - 1].ideas.push(...rest);
+    const out: RouteOf[] = groups
+      .filter((g) => g.ideas.length)
+      .map(({ ch, ideas: list }) => ({
+        id: ch.id,
+        title: ch.title_en,
+        stage: st.id,
+        scene: st.scene,
+        names: ch.title_en ? { en: ch.title_en, el: ch.title_el || ch.title_en } : undefined,
+        about: ch.about_en ? { en: ch.about_en, el: ch.about_el || ch.about_en } : undefined,
+        route: walk(list),
+      }));
+    // what names no idea, from the talks most at home here, closes the stage
+    out[out.length - 1]?.route.push(...mixed(loose.get(si) ?? []));
+    return out;
   });
 }
 
@@ -354,13 +389,22 @@ function chapter(r: (typeof placedRoutes)[number]): Chapter {
   const lessons = Array.from({ length: count }, (_, j) =>
     r.route.slice(Math.round((j * r.route.length) / count), Math.round(((j + 1) * r.route.length) / count)).map((e) => e.u),
   );
-  return { id: r.id, title: r.title, talk: r.talk, stage: r.stage, scene: r.scene, lessons, steps: Object.fromEntries(r.route.filter((e) => e.step.k !== 'c').map((e) => [e.u, e.step])) };
+  return { id: r.id, title: r.title, talk: r.talk, stage: r.stage, scene: r.scene, names: r.names, about: r.about, lessons, steps: Object.fromEntries(r.route.filter((e) => e.step.k !== 'c').map((e) => [e.u, e.step])) };
 }
 
 export const chapters: Chapter[] = placedRoutes.map(chapter).filter((c) => c.lessons.some((l) => l.length));
 
 /** The outline the play page carries: chapters and their lessons as lists of step ids */
-export const pathOutline = chapters.map((c) => ({ id: c.id, title: c.title, talk: c.talk, stage: c.stage, scene: c.scene, lessons: c.lessons }));
+export const pathOutline = chapters.map((c) => ({
+  id: c.id,
+  title: c.title,
+  talk: c.talk,
+  stage: c.stage,
+  scene: c.scene,
+  names: c.names,
+  about: c.about,
+  lessons: c.lessons,
+}));
 /** How many steps come back in Review: every idea and every step that asks something */
 export const askedTotal = chapters.reduce(
   (n, c) => n + c.lessons.flat().filter((u) => u.startsWith('c') || (asked.includes(c.steps[u].k) && !c.steps[u].read)).length,

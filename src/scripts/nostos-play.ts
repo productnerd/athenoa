@@ -1049,10 +1049,19 @@ async function start(id: string, opt: any = {}) {
 
 // ---------- the path: everything, in the order of her talks (src/lib/nostos-path.ts) ----------
 type Step = Record<string, any> & { k: string };
-type Chapter = { id: string; title: string; talk?: string; stage?: string; scene?: string; lessons: string[][] };
+type Chapter = { id: string; title: string; talk?: string; stage?: string; scene?: string; names?: { en: string; el: string }; lessons: string[][] };
 let outline: Chapter[] = [];
 const chapterOf = new Map<string, number>();
-const chapterName = (ci: number) => (outline[ci].stage ? W.path.stages?.[outline[ci].stage!] ?? outline[ci].stage : outline[ci].title || W.path.across);
+const pageLang = () => (document.documentElement.lang.startsWith('en') ? 'en' : 'el');
+const chapterName = (ci: number) =>
+  outline[ci].names?.[pageLang()] ?? (outline[ci].stage ? W.path.stages?.[outline[ci].stage!] ?? outline[ci].stage : outline[ci].title || W.path.across);
+/** "The Cave and the Light · Chapter 2 of 4" with stages; "The path · Chapter 3 of 27" without */
+const chapterPlace = (ci: number) => {
+  const st = outline[ci].stage;
+  if (!st || !outline.some((c) => c.names)) return `${W.path.title} · ${fill(W.path.chapter, { i: ci + 1, n: outline.length })}`;
+  const same = outline.filter((c) => c.stage === st);
+  return `${W.path.stages?.[st] ?? st} · ${fill(W.path.chapter, { i: same.indexOf(outline[ci]) + 1, n: same.length })}`;
+};
 const met = (p: Progress, u: string) => p.path?.[u] !== undefined;
 const lessonDone = (p: Progress, lesson: string[]) => lesson.every((u) => met(p, u));
 /** the first lesson with a step not met yet */
@@ -1411,7 +1420,7 @@ async function walk(ci: number, li: number) {
   const ids = chapter.lessons[li];
   // the address names the lesson, so a reload comes back to it
   if (pageMode) history.replaceState(history.state, '', `${pathHref}?c=${ci}&l=${li}`);
-  const A = openArena(chapterName(ci), `${W.path.title} · ${fill(W.path.chapter, { i: ci + 1, n: outline.length })}`);
+  const A = openArena(chapterName(ci), chapterPlace(ci));
   A.stage.replaceChildren(h('p', { class: 'nsmall' }, '…'));
   try {
     const M = await stepsFor(ids);
