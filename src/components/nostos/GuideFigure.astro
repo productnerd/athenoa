@@ -1,0 +1,162 @@
+---
+// The practical guide (src/pages/nostos/guide.astro): a picture of a parallel from another tradition.
+// Its link to the phase shows over the picture on hover, on keyboard focus, or on a tap (the page's
+// script); the credit is always under it. Pictures in src/assets/nostos-guide/<id>.jpg, credits in
+// src/data/nostos-guide-images.json; without both, nothing is shown.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import GuideSymbol from './GuideSymbol.astro';
+import type { EchoImage } from '../../data/nostos-guide';
+import { kindLabel } from '../../data/nostos-guide';
+
+interface Props {
+  image: EchoImage;
+  uid: string;
+}
+const { image, uid } = Astro.props;
+const list = Array.isArray(image.kind) ? image.kind : [image.kind];
+const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/nostos-guide/*.jpg', { eager: true });
+type Credit = { title?: string; artist?: string; date?: string; attribution?: string; page_url?: string };
+const credits = (Object.values(import.meta.glob<Record<string, Credit>>('../../data/nostos-guide-images.json', { eager: true, import: 'default' }))[0] ?? {}) as Record<string, Credit>;
+const pic = files[`../../assets/nostos-guide/${image.id}.jpg`]?.default;
+const credit = credits[image.id];
+const by = credit && [credit.artist, credit.title, credit.date].filter((x) => x && !/^unknown/i.test(x)).join(', ');
+---
+
+{
+  pic && credit && (
+    <figure class="ng-fig" data-echo>
+      <div class="ng-fig__frame">
+        <button type="button" class="ng-fig__btn" aria-describedby={uid} aria-expanded="false">
+          <Image src={pic} alt={image.name} widths={[360, 640, 960]} sizes="(min-width: 56rem) 24rem, 92vw" />
+        </button>
+        <span class="ng-fig__tip" role="tooltip" id={uid}>
+          <span class="ng-fig__trad">
+            {list.map((k) => (
+              <span class="ng-fig__kind">
+                <GuideSymbol kind={k} />
+                {kindLabel(k)}
+              </span>
+            ))}
+          </span>
+          {image.link}
+        </span>
+      </div>
+      <figcaption>
+        <span class="ng-fig__name">{image.name}</span>
+        {by && (
+          <span class="ng-fig__credit">
+            {credit.page_url ? <a href={credit.page_url} target="_blank" rel="noopener">{by}</a> : by}
+            {credit.attribution && <> · {credit.attribution}</>}
+          </span>
+        )}
+      </figcaption>
+    </figure>
+  )
+}
+
+<style>
+  .ng-fig {
+    margin: 0;
+  }
+  .ng-fig__frame {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+    background: var(--creme-deep);
+  }
+  .ng-fig__btn {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: help;
+  }
+  .ng-fig__btn :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 26rem;
+    object-fit: cover;
+  }
+  .ng-fig__btn:focus-visible {
+    outline: none;
+  }
+  /* the link, rising over the lower part of the picture */
+  .ng-fig__tip {
+    position: absolute;
+    left: 0.6rem;
+    right: 0.6rem;
+    bottom: 0.6rem;
+    padding: 0.85rem 1rem;
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--blue-deep);
+    background: color-mix(in srgb, var(--blue-light) 94%, transparent);
+    border-radius: 1rem 0.9rem 1.1rem 1rem / 1rem 1.1rem 0.9rem 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.4rem);
+    transition:
+      opacity var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out),
+      visibility 0s linear var(--dur-1);
+    pointer-events: none;
+  }
+  .ng-fig__trad {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.8rem;
+    margin-bottom: 0.2rem;
+    font-size: calc(var(--step-0) * 0.72);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .ng-fig__kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .ng-fig__kind :global(.ng-sym) {
+    width: 1.35em;
+    height: 1.35em;
+  }
+  @media (hover: hover) {
+    .ng-fig__frame:hover .ng-fig__tip {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition-delay: 0s;
+    }
+  }
+  .ng-fig.is-open .ng-fig__tip,
+  .ng-fig:has(.ng-fig__btn:focus-visible) .ng-fig__tip {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .ng-fig:has(.ng-fig__btn:focus-visible) .ng-fig__frame {
+    outline: 2px solid var(--blue);
+    outline-offset: 3px;
+  }
+  .ng-fig figcaption {
+    display: grid;
+    gap: 0.15rem;
+    margin-top: 0.55rem;
+  }
+  .ng-fig__name {
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .ng-fig__credit {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .ng-fig__credit a {
+    color: inherit;
+  }
+</style>

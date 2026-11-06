@@ -139,6 +139,14 @@ Then, at the client's direction, the drawn covers were hidden and the switch bec
 
 Each idea in "All the ideas", under the map, has a dot, faint to bright by how central the idea is (the measure behind the size of its star), at the client's request. The list's intro says so, NEW WORDING proposed: "The same ideas, listed by theme. The brighter the dot, the more central the idea is to Athena’s teaching."; Greek «Οι ίδιες ιδέες, ανά θέμα. Όσο πιο φωτεινή η κουκκίδα, τόσο πιο κεντρική είναι η ιδέα στη διδασκαλία της Αθηνάς.» (was "The same ideas, listed by theme." / «Οι ίδιες ιδέες, ανά θέμα.»).
 
+## The practical guide: the same move elsewhere (6 November 2026)
+
+At Maria's request each of the guide's seven phases is set beside the world's religions and schools: fifteen traditions, each with its own small drawn symbol and a key (Jewish, Christian, Islam, Sufi, Hindu, Buddhist, Sikh, Zoroastrian, Daoist, Confucian, Zen, Shinto, Akan, Stoic, modern philosophy), eight or nine parallels a phase, a strip of six maps that run through all seven (the Ten Ox-herding Pictures, Attar's seven valleys, Teresa of Ávila's Interior Castle, the Kabbalah's Tree of Life, Nietzsche's three metamorphoses, the hero's journey), and one public-domain picture for each phase and the strip. Each phase now ends with a gate: four or five behaviours to tick (kept in the visitor's browser only), each new to its phase, with a line that they are ordinary behaviours, not marks of awakening. Each parallel's link to its phase shows on hover or tap. ALL NEW WORDING, proposed, in src/data/nostos-guide.ts (`echoes`, `maps`, `echoNote`). These parallels are the draft's own, not from Athena's talks, and the page says so; the five that Athena draws herself, or that quote her, link to her talk (Epictetus, Jung's archetype, Advaita and yoga, the bodhisattva, Nietzsche's "good premises").
+
+## The map: no "Mark as known" (6 November 2026)
+
+At Maria's request a star's note on the map no longer has the "Mark as known" / «Σημείωση ως γνωστό» button (nor its pressed label "I know this one" / «Το γνωρίζω»). "Quiz me on it" stays.
+
 ## All the ideas, in Learn's stages (6 November 2026)
 
 At Maria's request the list under the map is grouped by Learn's nine stages instead of by theme, each under its stage's drawing (no numeral) with the stage's approved name and line, ideas in the order Learn teaches them. Its introduction, NEW WORDING proposed: "The same ideas, in the stages of Learn. The brighter the dot, the more central the idea is to Athena’s teaching."; Greek «Οι ίδιες ιδέες, στα στάδια της Μάθησης. …» (was "listed by theme" / «ανά θέμα»).

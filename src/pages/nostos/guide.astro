@@ -7,7 +7,10 @@
 import Base from '../../layouts/Base.astro';
 import NostosNav from '../../components/nostos/NostosNav.astro';
 import { talkUrl } from '../../lib/nostos';
-import { intro, words, phases, habits, meditations, day, hard, love, work, traps, start, closing, talkShort } from '../../data/nostos-guide';
+import GuideEcho from '../../components/nostos/GuideEcho.astro';
+import GuideFigure from '../../components/nostos/GuideFigure.astro';
+import GuideSymbol from '../../components/nostos/GuideSymbol.astro';
+import { intro, words, phases, habits, meditations, day, hard, love, work, traps, start, closing, talkShort, echoes, echoNote, maps, kinds, gates, gateNote } from '../../data/nostos-guide';
 import type { Src } from '../../data/nostos-guide';
 
 const srcUrl = (s: Src) => talkUrl(s[0], s[1]);
@@ -32,6 +35,7 @@ work.items.forEach(claim);
 anchors.set('Red boundaries', slug(hard.items[4].when));
 anchors.set('Accept in order to act', slug(hard.items[3].when));
 const idOf = (item: { name: string }) => (owners.has(item) ? anchors.get(item.name) : undefined);
+const fill = (text: string, values: Record<string, string | number>) => text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
 
 const toc = [
   { href: '#ng-words', label: words.title },
@@ -105,16 +109,41 @@ const toc = [
         ))}
       </ol>
 
+      {/* the maps from other places that run through all seven phases (added for this draft) */}
+      <aside class="ng-maps" aria-labelledby="ng-maps-h">
+        <div class="ng-maps__text">
+          <h3 class="t-3" id="ng-maps-h">{maps.title}</h3>
+          <p class="ng-intro">{echoNote.intro} <a class="ng-src" href={srcUrl(echoNote.introSrc)} target="_blank" rel="noopener">{srcLabel(echoNote.introSrc)}</a></p>
+          <p class="ng-added">{echoNote.added}</p>
+          <p class="ng-h4">{echoNote.key}</p>
+          <ul class="ng-key" role="list">
+            {kinds.map((k) => (
+              <li>
+                <GuideSymbol kind={k.id} />
+                {k.label}
+              </li>
+            ))}
+          </ul>
+          <ul class="ng-echoes ng-echoes--maps" role="list">
+            {maps.items.map((e, k) => <GuideEcho echo={e} uid={`ng-map-${k}`} big />)}
+          </ul>
+        </div>
+        <GuideFigure image={maps.image} uid="ng-map-fig" />
+      </aside>
+
       {phases.items.map((p, i) => (
         <article class="ng-phase" id={`ng-phase-${p.id}`} aria-labelledby={`ng-phase-${p.id}-h`}>
-          <header class="ng-phase__head">
-            <span class="ng-phase__n" aria-hidden="true">{i + 1}</span>
-            <div>
-              <p class="ng-phase__greek" lang="grc">{p.greek}</p>
-              <h3 class="t-2 ng-phase__name" id={`ng-phase-${p.id}-h`}><span class="visually-hidden">Phase {i + 1}: </span>{p.name}</h3>
-              <p class="ng-phase__tag">{p.tagline}</p>
-            </div>
-          </header>
+          <div class="ng-phase__top">
+            <header class="ng-phase__head">
+              <span class="ng-phase__n" aria-hidden="true">{i + 1}</span>
+              <div>
+                <p class="ng-phase__greek" lang="grc">{p.greek}</p>
+                <h3 class="t-2 ng-phase__name" id={`ng-phase-${p.id}-h`}><span class="visually-hidden">Phase {i + 1}: </span>{p.name}</h3>
+                <p class="ng-phase__tag">{p.tagline}</p>
+              </div>
+            </header>
+            {echoes[p.id]?.image && <GuideFigure image={echoes[p.id].image!} uid={`ng-fig-${p.id}`} />}
+          </div>
           <div class="ng-phase__body">
             <div class="ng-phase__side">
               <h4 class="ng-h4">What it feels like</h4>
@@ -154,6 +183,36 @@ const toc = [
               </ul>
             </div>
           </div>
+          {echoes[p.id] && (
+            <div class="ng-elsewhere">
+              <h4 class="ng-h4">{echoNote.label} <span class="ng-added">{echoNote.added}</span></h4>
+              <ul class="ng-echoes" role="list">
+                {echoes[p.id].items.map((e, k) => <GuideEcho echo={e} uid={`ng-echo-${p.id}-${k}`} />)}
+              </ul>
+            </div>
+          )}
+          {gates[p.id] && (
+            <div class="ng-gate" data-gate>
+              <div class="ng-gate__head">
+                <h4 class="ng-gate__title">
+                  <span class="ng-gate__label">{gateNote.label}</span>{' '}
+                  {i < phases.items.length - 1 ? fill(gateNote.next, { n: i + 2, name: phases.items[i + 1].name }) : gateNote.last}
+                </h4>
+                <p class="ng-gate__count" data-gate-count data-text={gateNote.count} aria-live="polite"></p>
+              </div>
+              <p class="ng-gate__intro">{gateNote.intro}</p>
+              <ul class="ng-gate__list" role="list">
+                {gates[p.id].map((g, k) => (
+                  <li>
+                    <label>
+                      <input type="checkbox" data-gate-box={`${p.id}-${k}`} />
+                      <span>{g}</span>
+                    </label>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </article>
       ))}
     </div>
@@ -315,6 +374,53 @@ const toc = [
     </div>
   </section>
 </Base>
+
+<script>
+  // a parallel's link to its phase: on hover (CSS), or on a tap or a click, one at a time; Escape or a
+  // tap elsewhere closes it
+  const shut = (keep?: Element | null) =>
+    document.querySelectorAll('[data-echo].is-open').forEach((el) => {
+      if (el === keep) return;
+      el.classList.remove('is-open');
+      el.querySelector('[aria-expanded]')?.setAttribute('aria-expanded', 'false');
+    });
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest?.('.ng-echo__btn, .ng-fig__btn');
+    const host = btn?.closest('[data-echo]') ?? null;
+    shut(host);
+    if (!btn || !host) return;
+    btn.setAttribute('aria-expanded', String(host.classList.toggle('is-open')));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') shut();
+  });
+
+  // the gates: what is ticked is kept in this browser only
+  const KEY = 'nostos-guide-gates';
+  let ticked: string[] = [];
+  try {
+    ticked = JSON.parse(localStorage.getItem(KEY) || '[]');
+  } catch {}
+  const boxes = [...document.querySelectorAll<HTMLInputElement>('[data-gate-box]')];
+  const tally = () =>
+    document.querySelectorAll<HTMLElement>('[data-gate]').forEach((gate) => {
+      const own = [...gate.querySelectorAll<HTMLInputElement>('[data-gate-box]')];
+      const on = own.filter((b) => b.checked).length;
+      const out = gate.querySelector<HTMLElement>('[data-gate-count]');
+      if (out) out.textContent = (out.dataset.text ?? '').replace('{k}', String(on)).replace('{n}', String(own.length));
+      gate.classList.toggle('is-through', on === own.length);
+    });
+  for (const box of boxes) {
+    box.checked = ticked.includes(box.dataset.gateBox!);
+    box.addEventListener('change', () => {
+      try {
+        localStorage.setItem(KEY, JSON.stringify(boxes.filter((b) => b.checked).map((b) => b.dataset.gateBox)));
+      } catch {}
+      tally();
+    });
+  }
+  tally();
+</script>
 
 <style>
   .ng-hero {
@@ -954,5 +1060,172 @@ const toc = [
   }
   .ng-line--end {
     margin-top: var(--space-xl);
+  }
+
+  /* the parallels: a picture beside each phase's name, and the other roads under it */
+  .ng-phase__top {
+    display: grid;
+    gap: var(--space-m) var(--space-xl);
+    align-items: start;
+  }
+  .ng-phase__top > :global(.ng-fig) {
+    max-width: 28rem;
+  }
+  @media (min-width: 56rem) {
+    .ng-phase__top {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+    }
+  }
+  .ng-elsewhere {
+    margin-top: var(--space-l);
+  }
+  .ng-added {
+    margin: 0 0 0.6rem;
+    font-size: var(--step--1);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-soft);
+  }
+  .ng-h4 .ng-added {
+    margin-left: 0.5rem;
+    font-style: italic;
+  }
+  .ng-echoes {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0.4rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 44rem) {
+    .ng-echoes {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 72rem) {
+    .ng-echoes {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .ng-echoes--maps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .ng-maps {
+    display: grid;
+    gap: var(--space-l) var(--space-xl);
+    align-items: start;
+    margin: 0 0 var(--space-l);
+    padding: clamp(1.3rem, 1rem + 2vw, 2.4rem);
+    border: 1.5px dashed var(--line);
+    border-radius: var(--r-soft);
+  }
+  .ng-maps h3 {
+    margin: 0 0 var(--space-s);
+  }
+  .ng-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 1.1rem;
+    margin: 0 0 var(--space-m);
+    padding: 0;
+    list-style: none;
+    font-size: var(--step--1);
+  }
+  .ng-key li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .ng-key :global(.ng-sym) {
+    width: 1.5em;
+    height: 1.5em;
+    color: var(--blue);
+  }
+
+  /* the gate at the end of each phase */
+  .ng-gate {
+    margin-top: var(--space-l);
+    padding: clamp(1.1rem, 0.9rem + 1.2vw, 1.8rem);
+    border: 1.5px dashed var(--line);
+    border-radius: 1.8rem 1.4rem 1.9rem 1.5rem / 1.5rem 1.9rem 1.4rem 1.8rem;
+    transition:
+      background-color var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out);
+  }
+  .ng-gate.is-through {
+    border-style: solid;
+    border-color: var(--blue);
+    background: color-mix(in srgb, var(--blue-light) 55%, transparent);
+  }
+  .ng-gate__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.3rem 1rem;
+  }
+  .ng-gate__title {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    font-weight: var(--title-weight);
+    line-height: 1.2;
+    color: var(--ink-strong);
+  }
+  .ng-gate__label {
+    display: block;
+    margin-bottom: 0.2rem;
+    font-family: var(--font-body);
+    font-size: calc(var(--step-0) * 0.72);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue);
+  }
+  .ng-gate__count {
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .ng-gate__intro {
+    max-width: var(--measure);
+    margin: 0.5rem 0 0.9rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .ng-gate__list {
+    display: grid;
+    gap: 0.55rem 2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 56rem) {
+    .ng-gate__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .ng-gate__list label {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .ng-gate__list input {
+    flex: none;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin: 0.2rem 0 0;
+    accent-color: var(--blue);
+    cursor: pointer;
+  }
+  .ng-gate__list input:checked + span {
+    color: var(--ink-soft);
+  }
+  @media (min-width: 56rem) {
+    .ng-maps {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 24rem);
+    }
   }
 </style>

@@ -262,7 +262,7 @@ export const phases = {
         { name: 'Go down with the hero’s torch', how: 'In the dark season, look for your monsters and passions. Trace their roots in events, family and ancestors. Look at them face to face, without fear, wishing for them to change.', why: 'Simply facing what you find begins the alchemy of catharsis.', src: ['QgYveGlAEhw', '2:06:49'] },
         { name: 'Light or nothing', how: 'At rock bottom, don’t quit. Stay at the height of your soul.', why: 'You are reborn in a way no one could have staged: trauma becomes θαῦμα, wonder.', src: ['QgYveGlAEhw'] },
         { name: 'In the labour', how: 'Surrender, don’t fear, push, and have a good midwife: a teacher or a helper.', why: 'Then the birth into light can happen at its ripe hour.', src: ['MW2u5olwgFc'] },
-        { name: 'Keep on going', how: 'When the path is hard, don’t stop.', why: 'Athena’s advice to her younger self: you will find the way.', src: ['1OBymLpYfTo'] },
+        { name: 'Keep on going', how: 'When the path is hard, don’t stop.', why: 'Athena’s advice to the younger Athena: you will find the way.', src: ['1OBymLpYfTo'] },
       ],
       watch: [
         'Forcing it. Keep practising without scheduling the result: its hour cannot be programmed.',
@@ -523,7 +523,7 @@ export const day = {
 export const hard = {
   title: 'When life hits',
   intro: 'Athena’s teaching is at its most practical in the hard moments. This is what it says to do in some of them.',
-  care: 'None of this replaces medical or psychological care. Athena herself, speaking of depression, says to seek help so you don’t get lost there.',
+  care: 'None of this replaces medical or psychological care. Athena, speaking of depression, says to seek help so you don’t get lost there.',
   items: [
     {
       when: 'When you lose someone or something',
@@ -720,4 +720,278 @@ export const start = {
 
 export const closing = {
   line: { text: 'Follow love, and love will set you free.', src: ['xLQXoDX7i94', '20:03'] as Src },
+};
+
+/* ------------------------------------------------------------------------------------------------ */
+// The same move elsewhere (client request, 6 November 2026): each phase beside the world's religions
+// and schools, each tradition with its own symbol (src/components/nostos/GuideSymbol.astro), and the
+// maps that run through all seven. ADDED FOR THIS DRAFT, NOT FROM ATHENA'S TALKS, except where
+// `athena` names the talk in which Athena draws the parallel (or says what is quoted of her) herself.
+// `link` is the explanation shown on hover. Pictures: src/assets/nostos-guide/<id>.jpg, credits in
+// src/data/nostos-guide-images.json; a picture without its file is simply left out.
+
+export type Kind =
+  | 'jewish' | 'christian' | 'islam' | 'sufi'
+  | 'hindu' | 'buddhist' | 'sikh' | 'zoroastrian'
+  | 'daoist' | 'confucian' | 'zen' | 'shinto'
+  | 'akan' | 'stoic' | 'modern';
+
+/** the traditions, in the order of the key on the page */
+export const kinds: { id: Kind; label: string }[] = [
+  { id: 'jewish', label: 'Jewish' },
+  { id: 'christian', label: 'Christian' },
+  { id: 'islam', label: 'Islam' },
+  { id: 'sufi', label: 'Sufi' },
+  { id: 'hindu', label: 'Hindu' },
+  { id: 'buddhist', label: 'Buddhist' },
+  { id: 'sikh', label: 'Sikh' },
+  { id: 'zoroastrian', label: 'Zoroastrian' },
+  { id: 'daoist', label: 'Daoist' },
+  { id: 'confucian', label: 'Confucian' },
+  { id: 'zen', label: 'Zen' },
+  { id: 'shinto', label: 'Shinto' },
+  { id: 'akan', label: 'Akan (Ghana)' },
+  { id: 'stoic', label: 'Stoic' },
+  { id: 'modern', label: 'Modern philosophy' },
+];
+export const kindLabel = (k: Kind) => kinds.find((x) => x.id === k)?.label ?? k;
+
+export interface Echo {
+  kind: Kind | Kind[];
+  name: string;
+  link: string;
+  athena?: Src;
+}
+export interface EchoImage {
+  id: string;
+  kind: Kind | Kind[];
+  name: string;
+  link: string;
+}
+
+export const echoNote = {
+  label: 'The same move elsewhere',
+  intro: 'Athena holds that truth is one: those who awaken in any tradition live the same state, in the colour of their own culture and place, and Athena asks us to look in our own root first. So each phase is set beside the other roads, with the Greek one as the trunk. Rest on any of them (or tap it) to see the link.',
+  introSrc: ['ax4J8WPxq_c', '7:28'] as Src,
+  added: 'Added for this draft, not from Athena’s talks, unless marked “Athena”.',
+  athena: 'Athena',
+  key: 'The traditions on this page',
+};
+
+export const maps = {
+  title: 'One road, many maps',
+  intro: 'Six maps from other places that run through all seven phases.',
+  image: {
+    id: 'birds',
+    kind: 'sufi',
+    name: 'The birds gather to set out for the Simorgh',
+    link: 'Attar’s birds meet before the journey: the hoopoe tells them of their king, the Simorgh, and most of them make excuses not to go. The itch and the turn, painted in Isfahan around 1600.',
+  } as EchoImage,
+  items: [
+    { kind: 'zen', name: 'The Ten Ox-herding Pictures', link: 'Ten pictures from 12th-century China, painted again and again in Japan: searching for the ox, finding its traces, glimpsing it, catching it, taming it, riding it home, forgetting the ox, forgetting both (an empty circle), returning to the source, and walking into the marketplace. All seven phases, in ten circles.' },
+    { kind: 'sufi', name: 'Attar’s seven valleys', link: 'In The Conference of the Birds, thirty birds cross seven valleys (quest, love, understanding, detachment, unity, wonder, and poverty and annihilation) to find their king, the Simorgh, and discover that “si morgh” means “thirty birds”: themselves. Seven valleys, and a mirror at the end, like “know thyself”.' },
+    { kind: 'christian', name: 'Teresa of Ávila’s Interior Castle', link: 'Teresa pictured the soul as a castle of crystal with seven dwelling places, entered through prayer and self-knowledge, with God at the centre. In the seventh, Teresa insists, Martha and Mary work together: contemplation turns back into action, as in Athena’s return.' },
+    { kind: 'jewish', name: 'The Tree of Life of the Kabbalah', link: 'Kabbalah draws ten sefirot, the powers of the divine, as a tree the soul climbs, from Malkhut, the kingdom we live in, up to Keter, the crown; and the light comes down the same branches. An ascent and a return in one diagram.' },
+    { kind: 'modern', name: 'Nietzsche’s three metamorphoses', link: 'Camel, lion, child: the spirit that carries every “thou shalt”, the lion’s sacred No, the child’s sacred Yes. Beside this page, phases one, three and six. Nietzsche was no friend of Plato (he called Christianity “Platonism for the people”); Athena says he “began from good premises”.', athena: ['HY9w_6CSzm8'] },
+    { kind: 'modern', name: 'The hero’s journey', link: 'Joseph Campbell’s one story under the world’s myths: the call, the threshold, the ordeal, the reward, and the return with the elixir. The Odyssey is one of his sources, and Athena reads it as the soul’s way home.' },
+  ] as Echo[],
+};
+
+export const echoes: Record<string, { image?: EchoImage; items: Echo[] }> = {
+  itch: {
+    image: {
+      id: 'butterfly',
+      kind: 'daoist',
+      name: 'Zhuangzi dreams he is a butterfly',
+      link: 'Zhuangzi dreamt he was a butterfly, and woke not knowing whether he was a man who had dreamt of a butterfly or a butterfly now dreaming it was a man. The same doubt as the Cave: “It seems. But it is not.”',
+    },
+    items: [
+      { kind: 'jewish', name: 'Ecclesiastes: all is vanity', link: '“Vanity of vanities, all is vanity. What profit has a man of all his labour under the sun?” (Ecclesiastes 1:2–3). “This can’t be all”, in the Bible’s own voice.' },
+      { kind: 'christian', name: 'Augustine’s restless heart', link: '“You have made us for yourself, and our heart is restless until it rests in you” (Confessions 1.1). For Augustine the itch is not a fault: it is the soul remembering where it belongs.' },
+      { kind: 'sufi', name: 'Al-Ghazali’s crisis', link: 'In 1095, at the height of his fame in Baghdad, al-Ghazali lost his voice and could not teach. He left everything to look for what he called certainty, and later wrote it all down in Deliverance from Error. Pain as the alarm clock.' },
+      { kind: 'hindu', name: 'Arjuna’s despair', link: 'The Bhagavad Gita’s first chapter is named for Arjuna’s despondency: on the battlefield he drops his bow and cannot go on. Krishna’s teaching begins only there.' },
+      { kind: 'buddhist', name: 'The Buddha’s four sights', link: 'Prince Siddhartha left the palace after seeing an old man, a sick man, a corpse and a wandering ascetic. The shock of suffering starts the search, and the Buddha’s first noble truth begins with it.' },
+      { kind: 'zen', name: 'Ox-herding 1: searching for the ox', link: 'The ten pictures open with a herder looking through the hills for an ox that was never lost. Athena would call it banging on the cave wall: searching outside for what is within.' },
+      { kind: 'modern', name: 'Pascal: the quiet room', link: '“All the unhappiness of men arises from one single fact, that they cannot stay quietly in their own chamber” (Pensées 139). We keep the itch quiet with distraction; Athena asks us to listen to it.' },
+      { kind: 'modern', name: 'Nietzsche’s camel', link: 'The first of Zarathustra’s three metamorphoses: the spirit kneels like a camel and takes on every “thou shalt”, until, fully loaded, it walks out into the desert. The itch is the camel’s weariness.' },
+    ],
+  },
+  turn: {
+    image: {
+      id: 'prodigal',
+      kind: 'christian',
+      name: 'The return of the prodigal son',
+      link: 'In Jesus’ parable the younger son spends everything abroad and ends up feeding pigs; then “he came to himself” (Luke 15:17) and set out for home, and his father ran to meet him. The turn, and a nostos, in one story.',
+    },
+    items: [
+      { kind: 'christian', name: 'Metanoia', link: 'The Gospels’ word for repentance is the Greek metanoia, a change of mind, a turning round (Mark 1:15). Athena’s μεταστροφή, under another Greek name.' },
+      { kind: 'islam', name: 'Tawba, the turning', link: 'The Qur’an’s word for repentance, tawba, means turning back; and one of God’s names is al-Tawwab, the One who turns towards whoever turns. The turn is answered.' },
+      { kind: 'jewish', name: 'Rabbi Zusya’s question', link: 'The Hasidic teacher Zusya said that in the world to come he would not be asked “Why were you not Moses?” but “Why were you not Zusya?” The journey to authenticity: to become who you are, not someone else.' },
+      { kind: 'hindu', name: 'Nachiketas chooses the good', link: 'In the Katha Upanishad, Death offers the boy Nachiketas wealth, long life and pleasure; he refuses and asks what lies beyond death. The text praises choosing the good (shreyas) over the pleasant (preyas): the turn as a choice.' },
+      { kind: 'buddhist', name: 'The Kalama Sutta', link: 'The Buddha tells the Kalamas not to accept a teaching because of tradition, scripture or a teacher’s fame, but to test it in their own experience. Athena’s “answer from experience, not from what someone said”.' },
+      { kind: 'confucian', name: 'Confucius at fifteen', link: '“At fifteen I set my heart on learning” (Analects 2.4) begins Confucius’ own life in stages, which ends at seventy with following his heart without overstepping. The turn is a decision, like Athena’s “I want to know myself”.' },
+      { kind: 'stoic', name: 'Epictetus: what is up to us', link: 'The Handbook opens by dividing everything into what is up to us (our judgements, wishes, choices) and what is not. Turning the attention to the first is the Stoic turn. Athena quotes a later Stoic: nothing happened to me without my free will.', athena: ['cRTJ00zjo1M', '21:23'] },
+      { kind: 'akan', name: 'Sankofa: go back and fetch it', link: 'An Akan proverb and Adinkra symbol from Ghana: it is not wrong to go back for what you forgot. Athena’s “look in your own root first”, from the other side of the world.' },
+      { kind: 'modern', name: 'Heidegger’s authenticity', link: 'For Heidegger we mostly live as “one” lives, doing things the way “they” do. The call of conscience pulls us back to owning our existence. Athena’s turn is the same refusal to live on inherited opinion.' },
+    ],
+  },
+  cleaning: {
+    image: {
+      id: 'lion',
+      kind: 'modern',
+      name: 'Nietzsche’s lion',
+      link: 'In Zarathustra the camel becomes a lion and says a sacred “No” to the dragon called “Thou shalt”. Athena’s «No» to old passions is the same roar, and like Athena, Nietzsche says the lion cannot yet create: that takes the child. (Dürer’s lion stands in for Nietzsche’s.)',
+    },
+    items: [
+      { kind: 'islam', name: 'The greater jihad', link: 'A saying attributed to the Prophet, much loved by Sufis: coming home from battle, “we return from the lesser jihad to the greater jihad”, the struggle with one’s own self (nafs). The cleaning is the harder war.' },
+      { kind: 'sufi', name: 'Muhasaba, the self-accounting', link: '“Take account of yourselves before you are taken to account”, a saying attributed to the caliph Umar. The early Sufi al-Muhasibi was named for this nightly examination of the self. Athena’s evening review.' },
+      { kind: 'christian', name: 'The Desert Fathers’ watchfulness', link: 'The monks of the Egyptian desert practised nepsis, watchfulness over the thoughts as they arrive. Evagrius listed eight such thoughts (gluttony, lust, greed, sadness, anger, listlessness, vainglory, pride), the list that became the seven deadly sins.' },
+      { kind: 'jewish', name: 'Cheshbon ha-nefesh, one trait a week', link: 'In the early 1800s Rabbi Mendel Lefin, borrowing Benjamin Franklin’s method, listed thirteen traits (calm, patience, order, humility…) and worked on one each week, noting slips every evening. Athena’s “replant a habit”, with a timetable.' },
+      { kind: 'hindu', name: 'Patanjali: practice and letting go', link: 'The Yoga Sutras begin with ethical restraints and observances, and still the mind with two things at once: steady practice (abhyasa) and non-attachment (vairagya, 1.12). The same pair as Athena’s habits and «No».' },
+      { kind: 'buddhist', name: 'The Buddha’s right effort', link: 'Abandon unwholesome states, prevent new ones, cultivate wholesome ones, and keep them growing. Athena’s «No» followed by a «Yes», in four moves.' },
+      { kind: 'daoist', name: 'Laozi: every day something is dropped', link: '“In the pursuit of learning, every day something is added. In the pursuit of the Way, every day something is dropped” (Daodejing 48). Catharsis by subtraction.' },
+      { kind: 'shinto', name: 'Misogi', link: 'Shinto purification under a waterfall or in the sea, washing off what clings (kegare) before approaching the kami. Catharsis by water, as Apollo washes.' },
+      { kind: 'stoic', name: 'Seneca’s evening review', link: 'In On Anger, Seneca goes over his whole day each night: what bad habit have I cured today, what fault resisted, in what am I better? Athena’s evening review, almost word for word.' },
+    ],
+  },
+  night: {
+    image: {
+      id: 'jonah',
+      kind: ['jewish', 'christian', 'islam'],
+      name: 'Jonah and the great fish',
+      link: 'Swallowed by the great fish, Jonah prays from the dark and is cast up alive. The story is told in the Hebrew Bible, Jesus recalls it in the Gospels, and the Qur’an gives his prayer “in the darknesses” (21:87). Painted in Iran around 1400. Athena’s long night, nearest the exit.',
+    },
+    items: [
+      { kind: 'christian', name: 'St John of the Cross: the dark night', link: 'The Dark Night of the Soul describes a stretch where prayer goes dry and every comfort fails, which John reads as the work of grace in the dark. Athena’s longest night, nearest the exit.' },
+      { kind: 'jewish', name: 'Forty years in the wilderness', link: 'Between leaving Egypt and entering the land comes a whole generation in the desert, fed with manna one day at a time. The old slavery is behind, the new home not yet in sight: the Hebrew Bible’s long night.' },
+      { kind: 'islam', name: 'With hardship comes ease', link: '“So truly with hardship comes ease; truly with hardship comes ease” (Qur’an 94:5–6). Not after the hardship, the commentators note, but with it, and said twice. Athena’s “light or nothing”.' },
+      { kind: 'hindu', name: 'Ramakrishna’s sword', link: 'Ramakrishna, longing for a vision of the Mother and finding none, seized the sword in the temple to end his life; then, he said, everything dissolved in an ocean of light. Rock bottom and the birth, in one moment.' },
+      { kind: 'buddhist', name: 'Mara’s last assault', link: 'On the night of his awakening the Buddha was assailed by Mara with armies, terrors and temptations. He touched the earth and stayed where he was.' },
+      { kind: 'zen', name: 'Great doubt, great awakening', link: 'The Zen saying: great doubt, great awakening; little doubt, little awakening. The confusion of the long night is not a detour: it is the pressure of the birth.' },
+      { kind: 'stoic', name: 'Marcus: the obstacle becomes the way', link: '“The impediment to action advances action. What stands in the way becomes the way” (Meditations 5.20). Pain as a gate, in an emperor’s private notebook.' },
+      { kind: 'modern', name: 'Jung’s shadow', link: 'Jung’s shadow, the parts of ourselves we disown, is what the hero’s torch goes down to find. Athena calls Jung’s archetype a renaming of the Greek symbol.', athena: ['G9I6oc0TnxI', '4:08'] },
+      { kind: 'modern', name: 'Frankl in the camps', link: 'Viktor Frankl saw in Auschwitz that those who kept a reason to live endured what broke others, and quoted Nietzsche: whoever has a why can bear almost any how. Meaning as the torch in the dark.' },
+    ],
+  },
+  glimpses: {
+    image: {
+      id: 'moon',
+      kind: 'zen',
+      name: 'The finger pointing at the moon',
+      link: 'A Chan and Zen saying: the teaching is a finger pointing at the moon, so don’t mistake the finger for the moon. Athena’s apophatic test asks the same: am I still seeing “something”?',
+    },
+    items: [
+      { kind: 'christian', name: 'Peter on Mount Tabor', link: 'When Jesus is transfigured in light, Peter wants to build three tents and stay (Mark 9:5); instead they go back down the mountain. The Orthodox Church calls it the uncreated light, and its monks warn against seeking visions (prelest, delusion). Steady the flash; don’t move into it.' },
+      { kind: 'christian', name: 'The Cloud of Unknowing', link: 'A 14th-century English guide: God cannot be grasped by thought, only reached by love, so every idea, even a holy one, must be put under a “cloud of forgetting”. Athena’s apophatic test.' },
+      { kind: 'jewish', name: 'Jacob wakes from the ladder', link: 'After his dream of angels on a ladder, Jacob says: “Surely the Lord is in this place, and I knew it not” (Genesis 28:16). A glimpse that changes how an ordinary place looks.' },
+      { kind: 'sufi', name: 'Hal and maqam', link: 'Sufis tell a hal, a passing state that comes and goes as a gift, from a maqam, a station that is earned and lasts. Athena’s flashes, and the stable way of life that must hold them.' },
+      { kind: 'sikh', name: 'Guru Nanak in the river', link: 'Nanak went to bathe in the river Bein and was not seen for three days. He came back saying “There is no Hindu, there is no Musalman”, and spent his life teaching it. A glimpse that became a life’s work.' },
+      { kind: 'hindu', name: 'Patanjali: the powers are obstacles', link: 'The Yoga Sutras list the special powers practice can bring, then warn that they are obstacles on the way (3.37). Experiences are stages, not goals.' },
+      { kind: 'daoist', name: 'The Dao that can be told', link: '“The Dao that can be told is not the eternal Dao” (Daodejing 1). As soon as you name what you glimpsed, it is no longer it.' },
+      { kind: 'zen', name: 'Makyō', link: 'Zen teachers call the lights, visions and raptures of meditation makyō: harmless, often pleasant, and not it. Athena’s “enjoy it without mistaking it”.' },
+      { kind: 'modern', name: 'William James on mystical states', link: 'In The Varieties of Religious Experience, James marks mystical states as brief and passive, yet carrying authority for the one who has them. A glimpse, not yet a home.' },
+    ],
+  },
+  settling: {
+    image: {
+      id: 'yogi',
+      kind: 'hindu',
+      name: 'A yogi in meditation',
+      link: 'The yogi sits as the witness, watching body, breath and thought without being them: the goal of Patanjali and of Advaita alike. Athena’s “know the knower”; Athena sets Greek philosophy, lived as practice, beside yoga.',
+    },
+    items: [
+      { kind: 'hindu', name: 'The witness, and “Who am I?”', link: 'Advaita Vedanta’s sakshi is the awareness that sees thoughts and body without being them, and Ramana Maharshi taught one practice to find it: ask “Who am I?” and trace the thought of “I” to its source. Athena’s know-the-knower, almost question for question.', athena: ['ax4J8WPxq_c', '7:28'] },
+      { kind: 'buddhist', name: 'The parable of the raft', link: 'The Buddha compares his teaching to a raft for crossing a river, to be left on the bank once you are across (Majjhima Nikaya 22). Athena’s car at the foot of the mountain.' },
+      { kind: 'christian', name: 'Meister Eckhart’s eye', link: '“The eye with which I see God is the same eye with which God sees me” (Sermon 12). Know the knower, in a Dominican friar’s sermon.' },
+      { kind: 'christian', name: 'Theosis', link: 'The Eastern Church names the goal of life θέωσις, becoming one with God: “God became man so that man might become god” (Athanasius). Athena uses the same Greek word for where a change of seeing leads.', athena: ['zfeWFBTNZIo', '45:53'] },
+      { kind: 'islam', name: 'The soul at peace', link: '“O soul at peace, return to your Lord, well pleased and well pleasing” (Qur’an 89:27–28). The Qur’an names three states of the self: the one that commands to evil, the one that reproaches itself, and the one at peace, an-nafs al-mutma’inna.' },
+      { kind: 'sufi', name: 'Die before you die', link: 'A saying Sufis attribute to the Prophet. Its fruit, they say, is fana, the passing away of the separate self, and then baqa, abiding in God. Athena’s death of the illusory self and rebirth into Being.' },
+      { kind: 'jewish', name: 'Be still, and know', link: '“Be still, and know that I am God” (Psalm 46:10). Knowing, here, comes from stillness, not from more information.' },
+      { kind: 'daoist', name: 'Zhuangzi: the fasting of the mind', link: 'In the Zhuangzi, Confucius teaches “fasting of the mind”: listen not with the ears, not even with the mind, but with the breath of life, which is empty and waits on all things. Athena’s meditation into emptiness.' },
+      { kind: 'modern', name: 'Nietzsche’s child', link: 'The third metamorphosis: the child is “innocence and forgetting, a new beginning, a game… a sacred Yes”. Athena’s εὐθυμία, life as divine play; both go back to Heraclitus’ child at play.' },
+    ],
+  },
+  return: {
+    image: {
+      id: 'ox10',
+      kind: 'zen',
+      name: 'Ox-herding 10: into the marketplace',
+      link: 'The last picture: the herder, now a big-bellied, laughing wanderer, walks into town with open hands, “entering the marketplace with helping hands”. Athena: the journey ends with a return, not a fairy tale.',
+    },
+    items: [
+      { kind: 'christian', name: 'Brother Lawrence in the kitchen', link: 'A 17th-century Carmelite cook who said that in the noise and clatter of his kitchen he possessed God as calmly as on his knees at the altar (The Practice of the Presence of God). Athena’s One in the tax office.' },
+      { kind: 'modern', name: 'Kierkegaard’s knight of faith', link: 'In Fear and Trembling, Kierkegaard pictures the knight of faith and is startled: he looks just like a tax collector, and enjoys his Sunday dinner. No outward sign at all, as Athena says of the awakened.' },
+      { kind: 'jewish', name: 'Tikkun olam', link: 'Repairing the world. In the Kabbalah of Isaac Luria, each good act lifts sparks of divine light scattered in the world back to their source. The return as repair.' },
+      { kind: 'sufi', name: 'Solitude in the crowd', link: 'Khalwat dar anjuman, one of the principles of the Naqshbandi Sufis: be alone with God inwardly while living among people outwardly. Athena’s return, in four words.' },
+      { kind: 'buddhist', name: 'The bodhisattva', link: 'The one who could leave, and stays, vowing to free all beings. Athena draws this parallel: the Greek teacher dedicated to all beings mirrors the bodhisattva.', athena: ['ax4J8WPxq_c', '32:07'] },
+      { kind: 'hindu', name: 'The Gita: the act, not its fruits', link: 'Krishna to Arjuna: your right is to the action, never to its fruits (2.47). Athena’s “play the role, don’t become it” and “re-centre your goals”.' },
+      { kind: 'sikh', name: 'Seva and the langar', link: 'Selfless service, and the free kitchen of every gurdwara, where anyone, of any caste or faith, sits on the floor in the same row and eats the same food. Athena’s “not I, but we”, served daily.' },
+      { kind: 'zoroastrian', name: 'Good thoughts, good words, good deeds', link: 'Humata, hukhta, hvarshta: Zarathustra’s three-fold ethics. Athena’s love in four registers (a good word, a good thought, a feeling of love, help in action) is nearly the same list.' },
+      { kind: 'confucian', name: 'The Great Learning', link: 'Cultivate yourself, then set your family in order, then govern the state, then bring peace to all under heaven. The same widening as Athena’s love in stages.' },
+    ],
+  },
+};
+
+/* ------------------------------------------------------------------------------------------------ */
+// The gate at the end of each phase (client request, 6 November 2026): the behaviours that show a phase
+// has done its work, each new to its phase (none repeated from the phases before). Ticked boxes are kept
+// in the visitor's own browser only. NEW WORDING, proposed.
+
+export const gateNote = {
+  label: 'The gate',
+  next: 'Before phase {n}: {name}',
+  last: 'And round again',
+  intro: 'Signs that this phase has done its work: ordinary behaviours, not marks of awakening, which Athena says have no outward signs. Tick what is true of you; the page remembers it in this browser only.',
+  count: '{k} of {n}',
+};
+
+export const gates: Record<string, string[]> = {
+  itch: [
+    'You can name what isn’t working in your life, at least to yourself, without blaming anyone for it.',
+    'You no longer expect the next purchase, trip or relationship to fix it.',
+    'Your big questions are written down, and you are content to leave them open for now.',
+    'You can say “I don’t know” about the things that matter without feeling small.',
+  ],
+  turn: [
+    'You have chosen one teaching and one practice, and stayed with them for at least a season.',
+    'Your intention is written down and dated.',
+    'You practise on most days, even briefly, whether you feel like it or not.',
+    'You have at least one person, or a group, to walk with.',
+    'You can hear a new idea without rushing to agree or to argue.',
+  ],
+  cleaning: [
+    'You notice a reaction while it is happening, not only hours later.',
+    'One old habit has gone, and a new one has held in its place for a month or more.',
+    'You know your usual passions, where anger, envy or fear take you, and what sets them off.',
+    'You review your day most evenings, without punishing yourself.',
+    'You choose what you eat, watch and listen to, instead of taking whatever comes.',
+  ],
+  night: [
+    'You have come through a hard stretch without dropping the practice.',
+    'You can let people think you a little strange without arguing your case.',
+    'You have looked at one family or personal pattern at its root, and not looked away.',
+    'You have asked for help when you needed it.',
+    'You no longer judge the practice by whether it seems to be “working”.',
+  ],
+  glimpses: [
+    'You have had moments when the separation thinned, and you built no story or identity on them.',
+    'You no longer chase special states in meditation.',
+    'You have one direction, and have stopped collecting new methods.',
+    'After an opening you rest, and then go on with your day.',
+    'You can tell a passing high from a lasting change in how you live.',
+  ],
+  settling: [
+    'Bad news still reaches you, and you come back to your centre in minutes or hours, not days.',
+    'You can rest as the one who is aware with your eyes open, in the middle of things.',
+    'What others do or don’t do no longer decides your mood.',
+    'You no longer need to know more before you can live what you know.',
+    'There is more play in you, and less defending.',
+  ],
+  return: [
+    'Meetings, cooking and admin get the same presence as your practice.',
+    'You give time and skill, regularly, to something beyond your own circle.',
+    'You play your roles fully, and can put them down at the end of the day.',
+    'You speak of any of this only when it helps someone, simply, and never to rank yourself.',
+    'When the next crisis comes, you meet it as a beginning.',
+  ],
 };

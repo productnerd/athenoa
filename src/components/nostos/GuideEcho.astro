@@ -1,0 +1,159 @@
+---
+// The practical guide (src/pages/nostos/guide.astro): one parallel from another tradition. Its link to
+// the phase shows on hover, on keyboard focus, or on a tap (the page's script); a parallel Athena draws
+// herself carries a link to her talk.
+import GuideSymbol from './GuideSymbol.astro';
+import { talkUrl } from '../../lib/nostos';
+import type { Echo } from '../../data/nostos-guide';
+import { echoNote, kindLabel, talkShort } from '../../data/nostos-guide';
+
+interface Props {
+  echo: Echo;
+  uid: string;
+  big?: boolean;
+}
+const { echo, uid, big = false } = Astro.props;
+const list = Array.isArray(echo.kind) ? echo.kind : [echo.kind];
+---
+
+<li class:list={['ng-echo', big && 'ng-echo--big']} data-echo>
+  <button type="button" class="ng-echo__btn" aria-describedby={uid} aria-expanded="false">
+    <span class="ng-echo__trad">
+      {list.map((k) => (
+        <span class="ng-echo__kind">
+          <GuideSymbol kind={k} />
+          {kindLabel(k)}
+        </span>
+      ))}
+    </span>
+    <span class="ng-echo__name">{echo.name}</span>
+  </button>
+  {
+    echo.athena && (
+      <a class="ng-echo__athena" href={talkUrl(echo.athena[0], echo.athena[1])} target="_blank" rel="noopener" title={talkShort[echo.athena[0]]}>
+        ↗ {echoNote.athena}
+      </a>
+    )
+  }
+  <span class="ng-echo__tip" role="tooltip" id={uid}>{echo.link}</span>
+</li>
+
+<style>
+  .ng-echo {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    padding: 0.75rem 0.95rem 0.8rem;
+    border: 1.5px solid var(--line);
+    border-radius: 1.2rem 1rem 1.3rem 1.1rem / 1.1rem 1.3rem 1rem 1.2rem;
+    transition: border-color var(--dur-1) var(--hover-delay);
+  }
+  .ng-echo__btn {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: help;
+  }
+  .ng-echo__btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+  .ng-echo__trad {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.8rem;
+    font-size: calc(var(--step-0) * 0.72);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .ng-echo__kind {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .ng-echo__kind :global(.ng-sym) {
+    width: 1.35em;
+    height: 1.35em;
+    color: var(--blue);
+  }
+  .ng-echo__name {
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink-strong);
+    text-decoration: underline dotted color-mix(in srgb, var(--blue) 55%, transparent);
+    text-underline-offset: 0.22em;
+  }
+  .ng-echo--big .ng-echo__name {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    font-weight: var(--title-weight);
+  }
+  .ng-echo__athena {
+    position: relative;
+    z-index: 1;
+    font-size: var(--step--1);
+    color: var(--blue);
+    text-decoration: none;
+  }
+  .ng-echo__athena:hover {
+    text-decoration: underline;
+  }
+  /* the link, under the card, over whatever follows it */
+  .ng-echo__tip {
+    position: absolute;
+    z-index: 6;
+    top: calc(100% + 0.35rem);
+    left: -1px;
+    right: -1px;
+    padding: 0.85rem 1rem;
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--blue-deep);
+    background: var(--blue-light);
+    border-radius: 1rem 0.9rem 1.1rem 1rem / 1rem 1.1rem 0.9rem 1rem;
+    box-shadow: 0 0.6rem 1.6rem -0.6rem color-mix(in srgb, var(--blue-deep) 45%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.25rem);
+    transition:
+      opacity var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out),
+      visibility 0s linear var(--dur-1);
+    pointer-events: none;
+  }
+  @media (hover: hover) {
+    .ng-echo:hover {
+      border-color: var(--blue);
+    }
+    .ng-echo:hover .ng-echo__tip {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition-delay: 0s;
+    }
+  }
+  .ng-echo.is-open,
+  .ng-echo:has(.ng-echo__btn:focus-visible) {
+    border-color: var(--blue);
+  }
+  .ng-echo.is-open .ng-echo__tip,
+  .ng-echo:has(.ng-echo__btn:focus-visible) .ng-echo__tip {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .ng-echo__btn:focus-visible {
+    outline: none;
+  }
+</style>
