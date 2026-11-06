@@ -101,7 +101,15 @@ const scenes = Object.entries(raw)
     const inner = svg.slice(open.index! + open[0].length, svg.lastIndexOf('</svg>'));
     return { id: k, viewBox: open[1].match(/viewBox="([^"]+)"/)?.[1] ?? '0 0 1600 1000', attrs, inner, name: file };
   });
-const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Math.floor((ci * scenes.length) / pathOutline.length)) : 0);
+// a stage of the arc shows its own place (the cave in the cave, client direction); talks, before the arc,
+// took the places in turn
+const sceneFor = (ci: number) => {
+  const named = pathOutline[ci].scene && scenes.findIndex((sc) => sc.name.includes(`-${pathOutline[ci].scene}.`));
+  if (typeof named === 'number' && named >= 0) return named;
+  return scenes.length ? Math.min(scenes.length - 1, Math.floor((ci * scenes.length) / pathOutline.length)) : 0;
+};
+const chapterTitle = (c: (typeof pathOutline)[number]) =>
+  c.stage ? (t.path.stages as Record<string, string>)[c.stage] ?? c.stage : c.title || t.path.across;
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -142,8 +150,8 @@ const sceneFor = (ci: number) => (scenes.length ? Math.min(scenes.length - 1, Ma
           <section class="njch" data-ch={ci} data-ch-scene={scenes.length ? sceneFor(ci) : undefined} aria-labelledby={`njch-${ci}`}>
             <header class="njch__banner box on-blue" style={`--box-r:${cuts[ci % cuts.length]}`}>
               <p class="njch__n">{fill(t.path.chapter, { i: ci + 1, n: pathOutline.length })}</p>
-              <h2 class="njch__title" id={`njch-${ci}`} lang={c.title ? 'en' : undefined}>
-                {c.title || t.path.across}
+              <h2 class="njch__title" id={`njch-${ci}`} lang={!c.stage && c.title ? 'en' : undefined}>
+                {chapterTitle(c)}
               </h2>
               <div class="njch__bar" aria-hidden="true">
                 <span data-ch-fill />

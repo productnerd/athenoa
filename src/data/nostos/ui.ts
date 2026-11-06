@@ -74,6 +74,19 @@ export const nostosUi = {
         go: 'Continue',
         doneAll: 'You have walked the whole path. Review keeps it alive.',
         across: 'Across Athena’s talks',
+        // NEW WORDING, proposed (6 November 2026): the nine stages of the arc, one per place on the
+        // journey home (src/data/nostos-arc.json)
+        stages: {
+          call: 'The Call',
+          soul: 'The Soul',
+          goodlife: 'The Good Life',
+          eros: 'The Ascent of Eros',
+          delphi: 'Apollo and Delphi',
+          cave: 'The Cave and the Light',
+          cosmos: 'The Cosmos and the One',
+          mysteries: 'Myths and Mysteries',
+          return: 'The Return Home',
+        },
         kinds: {
           c: 'A new idea',
           q: 'A question',
@@ -395,6 +408,17 @@ export const nostosUi = {
         go: 'Συνέχεια',
         doneAll: 'Περπατήσατε όλο το μονοπάτι. Η επανάληψη το κρατά ζωντανό.',
         across: 'Σε όλες τις ομιλίες της Αθηνάς',
+        stages: {
+          call: 'Το κάλεσμα',
+          soul: 'Η ψυχή',
+          goodlife: 'Η καλή ζωή',
+          eros: 'Η άνοδος του Έρωτα',
+          delphi: 'Ο Απόλλων και οι Δελφοί',
+          cave: 'Το σπήλαιο και το φως',
+          cosmos: 'Ο κόσμος και το Ένα',
+          mysteries: 'Μύθοι και μυστήρια',
+          return: 'Η επιστροφή',
+        },
         kinds: {
           c: 'Μια νέα ιδέα',
           q: 'Μια ερώτηση',

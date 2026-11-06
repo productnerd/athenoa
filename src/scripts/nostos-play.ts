@@ -1049,10 +1049,10 @@ async function start(id: string, opt: any = {}) {
 
 // ---------- the path: everything, in the order of her talks (src/lib/nostos-path.ts) ----------
 type Step = Record<string, any> & { k: string };
-type Chapter = { id: string; title: string; talk?: string; lessons: string[][] };
+type Chapter = { id: string; title: string; talk?: string; stage?: string; scene?: string; lessons: string[][] };
 let outline: Chapter[] = [];
 const chapterOf = new Map<string, number>();
-const chapterName = (ci: number) => outline[ci].title || W.path.across;
+const chapterName = (ci: number) => (outline[ci].stage ? W.path.stages?.[outline[ci].stage!] ?? outline[ci].stage : outline[ci].title || W.path.across);
 const met = (p: Progress, u: string) => p.path?.[u] !== undefined;
 const lessonDone = (p: Progress, lesson: string[]) => lesson.every((u) => met(p, u));
 /** the first lesson with a step not met yet */

@@ -44,14 +44,15 @@ const hash = (text: string) => {
   return (h >>> 0).toString(36);
 };
 
-type Entry = { u: string; step: Step; at: number; text: string; talk?: string };
+type Entry = { u: string; step: Step; at: number; text: string; main?: string; talk?: string };
 const entries: Entry[] = [];
 const taken = new Set<string>();
-function add(kind: StepKind, key: string, step: Omit<Step, 'k'>, text: string, talk?: string, at = -1) {
+// `main` is what the item is about (its question, title or word), without its explanation
+function add(kind: StepKind, key: string, step: Omit<Step, 'k'>, text: string, talk?: string, at = -1, main?: string) {
   let u = `${kind}${hash(key)}`;
   while (taken.has(u)) u += 'x';
   taken.add(u);
-  entries.push({ u, step: { k: kind, ...step }, at, text: plain(text), talk });
+  entries.push({ u, step: { k: kind, ...step }, at, text: plain(text), main: main ? plain(main) : undefined, talk });
 }
 // where an item falls in its talk, 0 to 1: its timestamp, or its place among the items of its kind
 const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
@@ -71,23 +72,23 @@ const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
 
 {
   let at = place(quiz);
-  for (const x of quiz) add('q', x.q, { ...x }, `${x.q} ${x.a} ${x.explain ?? ''}`, x.talk, at(x));
+  for (const x of quiz) add('q', x.q, { ...x }, `${x.q} ${x.a} ${x.explain ?? ''}`, x.talk, at(x), `${x.q} ${x.a}`);
   at = place(truefalse);
-  for (const x of truefalse) add('tf', x.s, { ...x }, `${x.s} ${x.explain ?? ''}`, x.talk, at(x));
+  for (const x of truefalse) add('tf', x.s, { ...x }, `${x.s} ${x.explain ?? ''}`, x.talk, at(x), x.s);
   at = place(sequences);
-  for (const x of sequences) add('s', x.id || x.title, { ...x }, `${x.title} ${x.steps.join(' ')}`, x.talk, at(x));
+  for (const x of sequences) add('s', x.id || x.title, { ...x }, `${x.title} ${x.steps.join(' ')}`, x.talk, at(x), x.title);
   at = place(myths);
-  for (const x of myths) add('m', x.id || x.title, { ...x }, `${x.title} ${x.beats.map((b) => b.beat).join(' ')}`, x.talk, at(x));
+  for (const x of myths) add('m', x.id || x.title, { ...x }, `${x.title} ${x.beats.map((b) => b.beat).join(' ')}`, x.talk, at(x), x.title);
   at = place(etymologies);
-  for (const x of etymologies) add('e', x.word, { ...x }, `${x.word} ${x.reading}`, x.talk, at(x));
+  for (const x of etymologies) add('e', x.word, { ...x }, `${x.word} ${x.reading}`, x.talk, at(x), `${x.word} ${x.translit ?? ''}`);
   // a distinction without both glosses cannot be asked: it is read instead
   at = place(distinctions);
   for (const x of distinctions)
-    add('d', `${x.a}|${x.b}`, { ...x, read: !(x.a_gloss && x.b_gloss) || undefined }, `${x.a} ${x.b} ${x.point ?? ''}`, x.talk, at(x));
+    add('d', `${x.a}|${x.b}`, { ...x, read: !(x.a_gloss && x.b_gloss) || undefined }, `${x.a} ${x.b} ${x.point ?? ''}`, x.talk, at(x), `${x.a} ${x.b}`);
   at = place(images);
-  for (const x of images) add('i', x.image, { ...x }, `${x.image} ${x.meaning}`, x.talk, at(x));
+  for (const x of images) add('i', x.image, { ...x }, `${x.image} ${x.meaning}`, x.talk, at(x), x.image);
   at = place(practices);
-  for (const x of practices) add('p', x.title, { ...x }, `${x.title} ${x.why ?? ''}`, x.talk, at(x));
+  for (const x of practices) add('p', x.title, { ...x }, `${x.title} ${x.why ?? ''}`, x.talk, at(x), x.title);
   at = place(questions);
   for (const x of questions) add('w', x.q, { ...x }, x.q, x.talk, at(x));
   at = place(lines);
@@ -103,14 +104,25 @@ const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
         `${e.label ?? ''} ${e.her_reading ?? ''}`,
         e.talk,
         at(e),
+        `${e.work} ${e.label ?? ''}`,
       );
   }
 }
 
 // ---------- chapters ----------
-export type Chapter = { id: string; title: string; talk?: string; lessons: string[][]; steps: Record<string, Step> };
+/** A chapter: a stage of the arc (`stage`, with the place on the journey it shows, `scene`), or, before
+ *  the arc was made, a talk */
+export type Chapter = { id: string; title: string; talk?: string; stage?: string; scene?: string; lessons: string[][]; steps: Record<string, Step> };
 const order = talks.map((t) => t.id);
 const introduced = new Set<string>();
+// an idea is spoken of when its Greek or its name appears as a whole word
+function spokenOf(c: (typeof concepts)[number]) {
+  return [c.greek, c.label.replace(/^the\s+/i, '').replace(/\s*\(.*?\)/g, '')]
+    .filter(Boolean)
+    .map((w) => plain(w!).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .filter((w) => w.length > 2)
+    .map((w) => new RegExp(`(?<!\\p{L})${w}(?!\\p{L})`, 'u'));
+}
 
 // One chapter's route, before the connections: its items in the order of the talk, each idea
 // introduced just before the first item that speaks of it
@@ -119,13 +131,7 @@ function route(talk: string | undefined, list: Entry[]): Entry[] {
   // the ideas this chapter introduces: those that come up in this talk and in no earlier one
   const ideas = concepts.filter((c) => !introduced.has(c.id) && (talk ? c.talks.some((r) => r.id === talk) : true));
   ideas.forEach((c) => introduced.add(c.id));
-  // an idea is spoken of when its Greek or its name appears as a whole word
-  const words = (c: (typeof concepts)[number]) =>
-    [c.greek, c.label.replace(/^the\s+/i, '').replace(/\s*\(.*?\)/g, '')]
-      .filter(Boolean)
-      .map((w) => plain(w!).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-      .filter((w) => w.length > 2)
-      .map((w) => new RegExp(`(?<!\\p{L})${w}(?!\\p{L})`, 'u'));
+  const words = spokenOf;
   // where each idea is introduced: just before the first item that speaks of it, else at the moment
   // the talk reaches it, else spread through the chapter; never more ideas in a row than the chapter
   // needs, so a lesson is not a list of new words
@@ -167,11 +173,87 @@ const chapterTitle = (title: string) => {
   return t.charAt(0).toUpperCase() + t.slice(1);
 };
 
-const routes = [
-  ...order.map((id) => ({ id, title: chapterTitle(talkName(id)), talk: id as string | undefined, route: route(id, entries.filter((e) => e.talk === id)) })),
-  // what no talk claims (and any idea not met yet) closes the path
-  { id: 'across', title: '', talk: undefined, route: route(undefined, entries.filter((e) => !e.talk || !order.includes(e.talk))) },
-];
+type RouteOf = { id: string; title: string; talk?: string; stage?: string; scene?: string; route: Entry[] };
+
+// ---------- the arc (src/data/nostos-arc.json) ----------
+// One considered arc of Athena's teaching in nine stages, each a place on the journey home (client
+// direction, 6 November 2026): every idea is taught in the stage the arc gives it, in the arc's order,
+// and every item (question, myth, root, passage...) follows the last of the ideas it is about, whatever
+// talk it came from. Without the arc, a chapter per talk as before.
+type Arc = { stages: { id: string; scene: string }[]; ideas: Record<string, string[]> };
+const arc = Object.values(import.meta.glob<Arc>('../data/nostos-arc.json', { eager: true, import: 'default' }))[0];
+
+function arcRoutes(a: Arc): RouteOf[] {
+  const stageOf = new Map<string, number>();
+  const rank = new Map<string, number>();
+  let r = 0;
+  a.stages.forEach((st, si) =>
+    (a.ideas[st.id] ?? []).forEach((id) => {
+      if (conceptById(id) && !stageOf.has(id)) stageOf.set(id, si), rank.set(id, r++);
+    }),
+  );
+  // an idea the arc does not name yet (from a talk added since) joins the stage of its theme, at its end
+  const byTheme: Record<string, string> = { path: 'call', soul: 'soul', ethics: 'goodlife', cosmos: 'cosmos', ways: 'call', thinkers: 'call', gods: 'mysteries' };
+  for (const c of concepts)
+    if (!stageOf.has(c.id)) stageOf.set(c.id, Math.max(0, a.stages.findIndex((st) => st.id === byTheme[c.group]))), rank.set(c.id, r++);
+  const pos = (id: string) => stageOf.get(id)! * 10000 + rank.get(id)!;
+  const found = concepts.map((c) => ({ id: c.id, words: spokenOf(c) }));
+  const about = (text: string) => found.filter((f) => f.words.some((w) => w.test(text))).map((f) => f.id);
+  // a talk's stage, for an item that names no idea: where most of what the talk teaches is taught
+  const talkStage = new Map<string, number>();
+  for (const t of order) {
+    const votes = new Map<number, number>();
+    concepts.filter((c) => c.talks.some((x) => x.id === t)).forEach((c) => votes.set(stageOf.get(c.id)!, (votes.get(stageOf.get(c.id)!) ?? 0) + c.weight));
+    talkStage.set(t, [...votes].sort((x, y) => y[1] - x[1])[0]?.[0] ?? 0);
+  }
+  // each item follows the last of the ideas it is about (its main text first, else its whole text)
+  const anchored = new Map<string, Entry[]>();
+  const loose = new Map<number, Entry[]>();
+  for (const e of entries) {
+    const ids = (e.main && about(e.main).length ? about(e.main) : about(e.text)).sort((x, y) => pos(x) - pos(y));
+    const last = ids[ids.length - 1];
+    if (last) anchored.set(last, [...(anchored.get(last) ?? []), e]);
+    else {
+      const si = e.talk ? talkStage.get(e.talk) ?? 0 : 0;
+      loose.set(si, [...(loose.get(si) ?? []), e]);
+    }
+  }
+  // the kinds taken in turn, so a run of steps on one idea is not all questions
+  const mixed = (list: Entry[]) => {
+    const byKind = new Map<string, Entry[]>();
+    list.sort((x, y) => x.at - y.at).forEach((e) => byKind.set(e.step.k, [...(byKind.get(e.step.k) ?? []), e]));
+    const out: Entry[] = [];
+    const queues = [...byKind.values()];
+    while (queues.some((q) => q.length)) queues.forEach((q) => q.length && out.push(q.shift()!));
+    return out;
+  };
+  const NOW_ITEMS = 5;
+  const LATER = 3;
+  return a.stages.map((st, si) => {
+    const ideas = [...stageOf].filter(([, s]) => s === si).map(([id]) => id).sort((x, y) => pos(x) - pos(y));
+    const route: Entry[] = [];
+    const later: Entry[] = [];
+    for (const id of ideas) {
+      introduced.add(id);
+      route.push({ u: `c${id}`, step: { k: 'c', id }, at: -1, text: '' });
+      const own = mixed(anchored.get(id) ?? []);
+      route.push(...own.slice(0, NOW_ITEMS));
+      later.push(...own.slice(NOW_ITEMS));
+      // what an earlier idea still has to say comes back a few steps at a time
+      route.push(...later.splice(0, LATER));
+    }
+    route.push(...later.splice(0), ...mixed(loose.get(si) ?? []));
+    return { id: st.id, title: '', stage: st.id, scene: st.scene, route };
+  });
+}
+
+const routes: RouteOf[] = arc
+  ? arcRoutes(arc)
+  : [
+      ...order.map((id) => ({ id, title: chapterTitle(talkName(id)), talk: id as string | undefined, route: route(id, entries.filter((e) => e.talk === id)) })),
+      // what no talk claims (and any idea not met yet) closes the path
+      { id: 'across', title: '', talk: undefined, route: route(undefined, entries.filter((e) => !e.talk || !order.includes(e.talk))) },
+    ];
 
 // ---------- connections ----------
 // Athena's links, where she says why. Each is met as soon as both of its ideas are known: the moment the
@@ -272,13 +354,13 @@ function chapter(r: (typeof placedRoutes)[number]): Chapter {
   const lessons = Array.from({ length: count }, (_, j) =>
     r.route.slice(Math.round((j * r.route.length) / count), Math.round(((j + 1) * r.route.length) / count)).map((e) => e.u),
   );
-  return { id: r.id, title: r.title, talk: r.talk, lessons, steps: Object.fromEntries(r.route.filter((e) => e.step.k !== 'c').map((e) => [e.u, e.step])) };
+  return { id: r.id, title: r.title, talk: r.talk, stage: r.stage, scene: r.scene, lessons, steps: Object.fromEntries(r.route.filter((e) => e.step.k !== 'c').map((e) => [e.u, e.step])) };
 }
 
 export const chapters: Chapter[] = placedRoutes.map(chapter).filter((c) => c.lessons.some((l) => l.length));
 
 /** The outline the play page carries: chapters and their lessons as lists of step ids */
-export const pathOutline = chapters.map((c) => ({ id: c.id, title: c.title, talk: c.talk, lessons: c.lessons }));
+export const pathOutline = chapters.map((c) => ({ id: c.id, title: c.title, talk: c.talk, stage: c.stage, scene: c.scene, lessons: c.lessons }));
 /** How many steps come back in Review: every idea and every step that asks something */
 export const askedTotal = chapters.reduce(
   (n, c) => n + c.lessons.flat().filter((u) => u.startsWith('c') || (asked.includes(c.steps[u].k) && !c.steps[u].read)).length,
