@@ -139,6 +139,10 @@ Then, at the client's direction, the drawn covers were hidden and the switch bec
 
 Each idea in "All the ideas", under the map, has a dot, faint to bright by how central the idea is (the measure behind the size of its star), at the client's request. The list's intro says so, NEW WORDING proposed: "The same ideas, listed by theme. The brighter the dot, the more central the idea is to Athena’s teaching."; Greek «Οι ίδιες ιδέες, ανά θέμα. Όσο πιο φωτεινή η κουκκίδα, τόσο πιο κεντρική είναι η ιδέα στη διδασκαλία της Αθηνάς.» (was "The same ideas, listed by theme." / «Οι ίδιες ιδέες, ανά θέμα.»).
 
+## The practical guide (6 November 2026)
+
+A new private page, /nostos/guide/ ("Living it: a down-to-earth guide to Athena's teaching"), at Maria's request: "a super practical down to earth real life guide" to the teaching, with phases of ascent, daily habits, things to watch out for and a day in the life. English only, not in the Nostos menu or the sitemap, noindex. ALL OF IT IS NEW WORDING, proposed, kept in src/data/nostos-guide.ts: ten key words in plain terms, seven phases (the itch, the turn, the cleaning, the long night, glimpses, settling, the return), daily, weekly and yearly habits, five meditations written out, a sample day, ten hard moments, love, work, traps, and a first thirty days. Every step is drawn from the practices, stages, distinctions and lines already in Nostos and links to its talk; the arrangement, the times and the sample day are the draft's own, not Athena's.
+
 ## The map's sizes (6 November 2026)
 
 A star's size is now a function of how connected the idea is on the map (two thirds) and how often it comes up in the talks (one third; for an idea whose count was only estimated, its links alone), at the client's request. The map's introduction says so, NEW WORDING proposed: "Each star is an idea Athena teaches. Its size is how connected it is and how often it comes up across {n} talks. Lines join the ideas Athena links."; Greek «… Το μέγεθός του δείχνει πόσο συνδεδεμένη είναι και πόσο συχνά εμφανίζεται σε {n} ομιλίες. …» (was "Its size is how often it comes up across {n} transcribed talks.").

@@ -1,0 +1,958 @@
+---
+// Nostos, the practical guide (client request, 6 November 2026): a private working page for Maria, a
+// down-to-earth guide that turns Athena's teaching into phases, habits, a sample day, what to do when
+// life hits, love, work, traps and a first month. English only, not in the Nostos menu, not in the
+// sitemap, noindex. ALL ITS WORDING IS NEW AND PROPOSED: it lives in src/data/nostos-guide.ts, where
+// every step names the talk it comes from.
+import Base from '../../layouts/Base.astro';
+import NostosNav from '../../components/nostos/NostosNav.astro';
+import { talkUrl } from '../../lib/nostos';
+import { intro, words, phases, habits, meditations, day, hard, love, work, traps, start, closing, talkShort } from '../../data/nostos-guide';
+import type { Src } from '../../data/nostos-guide';
+
+const srcUrl = (s: Src) => talkUrl(s[0], s[1]);
+const srcLabel = (s: Src) => `${talkShort[s[0]] ?? 'Talk'}${s[1] ? ` · ${s[1]}` : ''}`;
+const slug = (s: string) =>
+  'ng-' + s.toLowerCase().normalize('NFD').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-+|-+$/g, '');
+
+// each step named in the sample day links to where it is explained: the first step of that name owns the anchor
+const anchors = new Map<string, string>();
+const owners = new WeakSet<object>();
+const claim = (item: { name: string }) => {
+  if (anchors.has(item.name)) return;
+  anchors.set(item.name, slug(item.name));
+  owners.add(item);
+};
+phases.items.forEach((p) => p.do.forEach(claim));
+habits.groups.forEach((g) => g.items.forEach(claim));
+meditations.items.forEach(claim);
+love.items.forEach(claim);
+work.items.forEach(claim);
+// two moves of the day are explained in "When life hits"
+anchors.set('Red boundaries', slug(hard.items[4].when));
+anchors.set('Accept in order to act', slug(hard.items[3].when));
+const idOf = (item: { name: string }) => (owners.has(item) ? anchors.get(item.name) : undefined);
+
+const toc = [
+  { href: '#ng-words', label: words.title },
+  { href: '#ng-phases', label: phases.title },
+  { href: '#ng-habits', label: habits.title },
+  { href: '#ng-day', label: day.title },
+  { href: '#ng-hard', label: hard.title },
+  { href: '#ng-love', label: love.title },
+  { href: '#ng-work', label: work.title },
+  { href: '#ng-traps', label: traps.title },
+  { href: '#ng-start', label: start.title },
+];
+---
+
+<Base title={`${intro.title}: a practical guide | ATHENOA`} description={intro.sub} noindex>
+  <NostosNav />
+
+  <header class="section ng-hero">
+    <div class="wrap">
+      <p class="ng-eyebrow">{intro.eyebrow}</p>
+      <h1 class="t-1 ng-hero__title">{intro.title}</h1>
+      <p class="ng-hero__sub">{intro.sub}</p>
+      <p class="ng-hero__lead">{intro.lead}</p>
+      <figure class="ng-line ng-line--big">
+        <blockquote><p>{intro.line.text}</p></blockquote>
+        <figcaption>Athena · <a href={srcUrl(intro.line.src)} target="_blank" rel="noopener">{srcLabel(intro.line.src)}</a></figcaption>
+      </figure>
+      <p class="ng-draft">{intro.note}</p>
+      <nav class="ng-toc" aria-label="On this page">
+        <ol>
+          {toc.map((t, i) => <li><a href={t.href}><span class="ng-toc__n">{i + 1}</span>{t.label}</a></li>)}
+        </ol>
+      </nav>
+    </div>
+  </header>
+
+  {/* 1. the big words */}
+  <section class="section ng-sec" id="ng-words" aria-labelledby="ng-words-h">
+    <div class="wrap">
+      <h2 class="t-2" id="ng-words-h">{words.title}</h2>
+      <p class="ng-intro">{words.intro}</p>
+      <ul class="ng-words" role="list">
+        {words.items.map((w) => (
+          <li class="ng-word">
+            <p class="ng-word__greek" lang="grc">{w.greek}</p>
+            <p class="ng-word__latin">{w.latin}</p>
+            <p class="ng-word__means">{w.means}</p>
+            <p class="ng-word__tuesday"><span>On a Tuesday</span>{w.tuesday}</p>
+            <a class="ng-src" href={srcUrl(w.src)} target="_blank" rel="noopener">{srcLabel(w.src)}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* 2. the phases */}
+  <section class="section ng-sec" id="ng-phases" aria-labelledby="ng-phases-h">
+    <div class="wrap">
+      <h2 class="t-2" id="ng-phases-h">{phases.title}</h2>
+      {phases.intro.map((p) => <p class="ng-intro">{p}</p>)}
+      {/* the six steps climb, and the seventh comes back down to the ground */}
+      <ol class="ng-stair" aria-label="The seven phases">
+        {phases.items.map((p, i) => (
+          <li class="ng-stair__step" style={`--lvl: ${i < 6 ? i + 1 : 0}`} data-return={i === 6 ? '' : undefined}>
+            <a href={`#ng-phase-${p.id}`}>
+              <span class="ng-stair__n">{i + 1}</span>
+              <span class="ng-stair__name">{p.name}</span>
+              <span class="ng-stair__greek" lang="grc">{p.greek}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+
+      {phases.items.map((p, i) => (
+        <article class="ng-phase" id={`ng-phase-${p.id}`} aria-labelledby={`ng-phase-${p.id}-h`}>
+          <header class="ng-phase__head">
+            <span class="ng-phase__n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <p class="ng-phase__greek" lang="grc">{p.greek}</p>
+              <h3 class="t-2 ng-phase__name" id={`ng-phase-${p.id}-h`}><span class="visually-hidden">Phase {i + 1}: </span>{p.name}</h3>
+              <p class="ng-phase__tag">{p.tagline}</p>
+            </div>
+          </header>
+          <div class="ng-phase__body">
+            <div class="ng-phase__side">
+              <h4 class="ng-h4">What it feels like</h4>
+              <ul class="ng-dots">{p.feels.map((f) => <li>{f}</li>)}</ul>
+              <h4 class="ng-h4">What shifts</h4>
+              <p class="ng-shift">{p.shift}</p>
+            </div>
+            <div class="ng-phase__main">
+              <h4 class="ng-h4">What to do</h4>
+              <ol class="ng-steps">
+                {p.do.map((s) => (
+                  <li class="ng-step" id={idOf(s)}>
+                    <p class="ng-step__name">{s.name}</p>
+                    <p class="ng-step__how">{s.how}</p>
+                    {s.why && <p class="ng-step__why">{s.why}</p>}
+                    {s.src && <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener">{srcLabel(s.src)}</a>}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+          <div class="ng-phase__foot">
+            <div class="ng-watch">
+              <h4 class="ng-h4">Watch out for</h4>
+              <ul class="ng-dots">{p.watch.map((w) => <li>{w}</li>)}</ul>
+            </div>
+            <div class="ng-ladders">
+              <h4 class="ng-h4">In Athena’s ladders</h4>
+              <ul role="list">
+                {p.ladders.map((l) => (
+                  <li>
+                    <span class="ng-ladders__name">{l.ladder}</span>
+                    <span>{l.rung}</span>
+                    <a class="ng-src" href={srcUrl(l.src)} target="_blank" rel="noopener">{srcLabel(l.src)}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {/* 3. habits, with the meditations written out */}
+  <section class="section ng-sec" id="ng-habits" aria-labelledby="ng-habits-h">
+    <div class="wrap">
+      <h2 class="t-2" id="ng-habits-h">{habits.title}</h2>
+      <p class="ng-intro">{habits.intro} <a class="ng-src" href={srcUrl(habits.introSrc)} target="_blank" rel="noopener">{srcLabel(habits.introSrc)}</a></p>
+      {habits.groups.map((g) => (
+        <div class="ng-group">
+          <h3 class="t-3 ng-group__h">{g.label}</h3>
+          <ul class="ng-cards" role="list">
+            {g.items.map((s) => (
+              <li class="ng-step ng-card" id={idOf(s)}>
+                <p class="ng-step__name">{s.name}</p>
+                <p class="ng-step__how">{s.how}</p>
+                {s.why && <p class="ng-step__why">{s.why}</p>}
+                {s.src && <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener">{srcLabel(s.src)}</a>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <div class="ng-meds">
+        <h3 class="t-3 ng-group__h">{meditations.title}</h3>
+        <p class="ng-intro">{meditations.intro}</p>
+        <ul class="ng-meds__list" role="list">
+          {meditations.items.map((m) => (
+            <li class="ng-med" id={idOf(m)}>
+              <p class="ng-med__name">{m.name}</p>
+              <p class="ng-med__mins">{m.mins}</p>
+              <ol>{m.steps.map((s) => <li>{s}</li>)}</ol>
+              <a class="ng-src" href={srcUrl(m.src)} target="_blank" rel="noopener">{srcLabel(m.src)}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {/* 4. a sample day */}
+  <section class="section ng-sec" id="ng-day" aria-labelledby="ng-day-h">
+    <div class="wrap">
+      <h2 class="t-2" id="ng-day-h">{day.title}</h2>
+      {day.intro.map((p) => <p class="ng-intro">{p}</p>)}
+      <ol class="ng-day" role="list">
+        {day.items.map((d) => (
+          <li class="ng-day__item">
+            <time class="ng-day__time">{d.time}</time>
+            <div class="ng-day__body">
+              <p>{d.text}</p>
+              <p class="ng-day__uses">
+                {d.uses.map((u) => (anchors.has(u) ? <a href={`#${anchors.get(u)}`}>{u}</a> : <span>{u}</span>))}
+              </p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="ng-after">{day.after} <a class="ng-src" href={srcUrl(day.afterSrc)} target="_blank" rel="noopener">{srcLabel(day.afterSrc)}</a></p>
+    </div>
+  </section>
+
+  {/* 5. hard moments */}
+  <section class="section ng-sec" id="ng-hard" aria-labelledby="ng-hard-h">
+    <div class="wrap">
+      <h2 class="t-2" id="ng-hard-h">{hard.title}</h2>
+      <p class="ng-intro">{hard.intro}</p>
+      <p class="ng-care">{hard.care}</p>
+      <ul class="ng-cards ng-cards--wide" role="list">
+        {hard.items.map((h) => (
+          <li class="ng-card ng-hard" id={slug(h.when)}>
+            <p class="ng-hard__when">{h.when}</p>
+            <ol>{h.steps.map((s) => <li>{s}</li>)}</ol>
+            {h.line && (
+              <p class="ng-hard__line">
+                “{h.line.text}” <a class="ng-src" href={srcUrl(h.line.src)} target="_blank" rel="noopener">{srcLabel(h.line.src)}</a>
+              </p>
+            )}
+            <a class="ng-src" href={srcUrl(h.src)} target="_blank" rel="noopener">{srcLabel(h.src)}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* 6 and 7. love; work */}
+  {[
+    { id: 'ng-love', part: love },
+    { id: 'ng-work', part: work },
+  ].map(({ id, part }) => (
+    <section class="section ng-sec" id={id} aria-labelledby={`${id}-h`}>
+      <div class="wrap">
+        <h2 class="t-2" id={`${id}-h`}>{part.title}</h2>
+        <p class="ng-intro">{part.intro} <a class="ng-src" href={srcUrl(part.introSrc)} target="_blank" rel="noopener">{srcLabel(part.introSrc)}</a></p>
+        <ul class="ng-cards" role="list">
+          {part.items.map((s) => (
+            <li class="ng-step ng-card" id={idOf(s)}>
+              <p class="ng-step__name">{s.name}</p>
+              <p class="ng-step__how">{s.how}</p>
+              {s.why && <p class="ng-step__why">{s.why}</p>}
+              {s.src && <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener">{srcLabel(s.src)}</a>}
+            </li>
+          ))}
+        </ul>
+        <figure class="ng-line">
+          <blockquote><p>{part.line.text}</p></blockquote>
+          <figcaption>Athena · <a href={srcUrl(part.line.src)} target="_blank" rel="noopener">{srcLabel(part.line.src)}</a></figcaption>
+        </figure>
+      </div>
+    </section>
+  ))}
+
+  {/* 8. traps */}
+  <section class="section ng-sec" id="ng-traps" aria-labelledby="ng-traps-h">
+    <div class="wrap">
+      <h2 class="t-2" id="ng-traps-h">{traps.title}</h2>
+      <p class="ng-intro">{traps.intro}</p>
+      <div class="ng-traps">
+        {traps.groups.map((g) => (
+          <div class="ng-traps__group">
+            <h3 class="t-3 ng-group__h">{g.label}</h3>
+            <ul role="list">
+              {g.items.map((t) => (
+                <li class="ng-trap">
+                  <p class="ng-trap__trap">{t.trap}</p>
+                  <p class="ng-trap__instead"><span>Instead</span>{t.instead}</p>
+                  <a class="ng-src" href={srcUrl(t.src)} target="_blank" rel="noopener">{srcLabel(t.src)}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* 9. the first month */}
+  <section class="section ng-sec" id="ng-start" aria-labelledby="ng-start-h">
+    <div class="wrap">
+      <h2 class="t-2" id="ng-start-h">{start.title}</h2>
+      <p class="ng-intro">{start.intro}</p>
+      <ol class="ng-weeks" role="list">
+        {start.weeks.map((w) => (
+          <li class="ng-week">
+            <p class="ng-week__label">{w.label}</p>
+            <p class="ng-week__name">{w.name}</p>
+            <ul class="ng-dots">{w.items.map((x) => <li>{x}</li>)}</ul>
+          </li>
+        ))}
+      </ol>
+      <p class="ng-after">{start.after}</p>
+      <figure class="ng-line ng-line--big ng-line--end">
+        <blockquote><p>{closing.line.text}</p></blockquote>
+        <figcaption>Athena · <a href={srcUrl(closing.line.src)} target="_blank" rel="noopener">{srcLabel(closing.line.src)}</a></figcaption>
+      </figure>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ng-hero {
+    padding-bottom: var(--space-l);
+  }
+  .ng-eyebrow {
+    margin: 0 0 0.6rem;
+    font-size: calc(var(--step-0) * 0.8);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .ng-hero__title {
+    margin: 0;
+  }
+  .ng-hero__sub {
+    margin: 0.4rem 0 0;
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.15;
+    color: var(--ink-strong);
+  }
+  .ng-hero__lead {
+    max-width: var(--measure);
+    margin: var(--space-m) 0 0;
+    font-size: var(--step-1);
+    line-height: 1.4;
+  }
+  .ng-draft {
+    max-width: var(--measure);
+    margin: var(--space-m) 0 0;
+    padding: 0.9rem 1.2rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    border: 1.5px dashed var(--line);
+    border-radius: 1.2rem 1rem 1.3rem 1.1rem / 1.1rem 1.3rem 1rem 1.2rem;
+  }
+  .ng-toc ol {
+    display: grid;
+    gap: 0.2rem 2rem;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 40rem) {
+    .ng-toc ol {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 48rem;
+    }
+  }
+  @media (min-width: 64rem) {
+    .ng-toc ol {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: none;
+    }
+  }
+  .ng-toc a {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    padding: 0.45rem 0;
+    color: var(--ink-strong);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .ng-toc a:hover {
+    color: var(--blue);
+  }
+  .ng-toc__n {
+    min-width: 1.2rem;
+    font-family: var(--font-title);
+    color: var(--ink-soft);
+  }
+
+  /* sections */
+  .ng-sec {
+    border-top: 1px solid var(--line);
+  }
+  .ng-sec h2 {
+    margin: 0 0 var(--space-s);
+  }
+  .ng-intro {
+    max-width: var(--measure);
+    margin: 0 0 0.9rem;
+  }
+  .ng-h4 {
+    margin: 1.2rem 0 0.5rem;
+    font-family: var(--font-body);
+    font-size: calc(var(--step-0) * 0.78);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .ng-h4:first-child {
+    margin-top: 0;
+  }
+  .ng-dots {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ng-dots li {
+    position: relative;
+    padding-left: 1.3em;
+  }
+  .ng-dots li + li {
+    margin-top: 0.45em;
+  }
+  .ng-dots li::before {
+    content: '';
+    position: absolute;
+    left: 0.15em;
+    top: 0.6em;
+    width: 0.45em;
+    height: 0.45em;
+    border-radius: 50%;
+    background: var(--blue);
+    opacity: 0.6;
+  }
+  .ng-src {
+    display: inline-block;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .ng-src::before {
+    content: '↗ ';
+  }
+  .ng-src:hover {
+    color: var(--blue);
+    border-bottom-color: currentColor;
+  }
+
+  /* quotes */
+  .ng-line {
+    max-width: 40rem;
+    margin: var(--space-l) 0 0;
+  }
+  .ng-line blockquote {
+    margin: 0;
+  }
+  .ng-line blockquote p {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.2;
+    color: var(--blue-deep);
+  }
+  .ng-line blockquote p::before {
+    content: '“';
+  }
+  .ng-line blockquote p::after {
+    content: '”';
+  }
+  .ng-line--big blockquote p {
+    font-size: var(--step-3);
+  }
+  .ng-line figcaption {
+    margin-top: 0.5rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .ng-line figcaption a {
+    color: inherit;
+  }
+
+  /* the big words */
+  .ng-words {
+    display: grid;
+    gap: 1rem;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 44rem) {
+    .ng-words {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 72rem) {
+    .ng-words {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .ng-word,
+  .ng-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.2rem 1.3rem 1.1rem;
+    background: color-mix(in srgb, var(--creme-light) 70%, transparent);
+    border: 1.5px solid var(--line);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+  }
+  .ng-word > *,
+  .ng-card > * {
+    margin: 0;
+  }
+  .ng-word .ng-src,
+  .ng-card > .ng-src {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+  .ng-word__greek {
+    font-family: var(--font-title);
+    font-size: var(--step-3);
+    line-height: 1;
+    color: var(--ink-strong);
+  }
+  .ng-word__latin {
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .ng-word__tuesday {
+    padding: 0.7rem 0.9rem;
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
+  }
+  .ng-word__tuesday span,
+  .ng-trap__instead span {
+    display: block;
+    margin-bottom: 0.15rem;
+    font-size: calc(var(--step-0) * 0.72);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  /* the stair: six steps up, the seventh back on the ground */
+  .ng-stair {
+    display: grid;
+    gap: 0.4rem;
+    margin: var(--space-l) 0 var(--space-xl);
+    padding: 0;
+    list-style: none;
+  }
+  .ng-stair__step a {
+    display: grid;
+    grid-template-columns: 1.6rem 1fr auto;
+    align-items: baseline;
+    gap: 0.6rem;
+    margin-left: calc(var(--lvl) * 0.9rem);
+    padding: 0.7rem 1rem;
+    color: var(--ink-strong);
+    text-decoration: none;
+    background: color-mix(in srgb, var(--blue-light) calc(20% + var(--lvl) * 12%), transparent);
+    border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
+  }
+  .ng-stair__step[data-return] a {
+    border: 1.5px dashed var(--line);
+    background: transparent;
+  }
+  .ng-stair__n {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    color: var(--blue);
+  }
+  .ng-stair__name {
+    font-weight: 600;
+  }
+  .ng-stair__greek {
+    font-family: var(--font-title);
+    color: var(--ink-soft);
+  }
+  @media (min-width: 56rem) {
+    .ng-stair {
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      align-items: end;
+      gap: 0.5rem;
+    }
+    .ng-stair__step a {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.2rem;
+      min-height: calc(6.8rem + var(--lvl) * 1.9rem);
+      margin-left: 0;
+      padding: 0.8rem 0.9rem;
+      border-radius: 1.1rem 0.9rem 0.3rem 0.3rem;
+    }
+    .ng-stair__step[data-return] a {
+      border-radius: 1.1rem;
+    }
+    .ng-stair__step[data-return] .ng-stair__n::after {
+      content: ' ↩';
+    }
+  }
+  .ng-stair__step a:hover .ng-stair__name {
+    color: var(--blue);
+  }
+
+  /* a phase */
+  .ng-phase {
+    padding: var(--space-l) 0;
+    border-top: 1px solid var(--line);
+  }
+  .ng-phase__head {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+  }
+  .ng-phase__n {
+    flex: none;
+    font-family: var(--font-title);
+    font-size: clamp(3.5rem, 2.5rem + 4vw, 6rem);
+    line-height: 0.85;
+    color: var(--blue);
+    opacity: 0.55;
+  }
+  .ng-phase__head p,
+  .ng-phase__head h3 {
+    margin: 0;
+  }
+  .ng-phase__greek {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    color: var(--ink-soft);
+  }
+  .ng-phase__tag {
+    max-width: 40ch;
+    margin-top: 0.3rem !important;
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+  .ng-phase__body {
+    display: grid;
+    gap: var(--space-m) var(--space-xl);
+    margin-top: var(--space-m);
+  }
+  .ng-phase__foot {
+    display: grid;
+    gap: var(--space-m) var(--space-xl);
+    margin-top: var(--space-m);
+    padding-top: var(--space-s);
+  }
+  @media (min-width: 56rem) {
+    .ng-phase__body,
+    .ng-phase__foot {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+    }
+  }
+  .ng-shift {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.25;
+    color: var(--blue-deep);
+  }
+  .ng-steps {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: ng-step;
+  }
+  .ng-steps > .ng-step {
+    position: relative;
+    padding-left: 2.2rem;
+    counter-increment: ng-step;
+  }
+  .ng-steps > .ng-step::before {
+    content: counter(ng-step);
+    position: absolute;
+    left: 0;
+    top: 0.05rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: grid;
+    place-items: center;
+    font-size: var(--step--1);
+    color: var(--blue-deep);
+    background: var(--blue-light);
+    border-radius: 50%;
+  }
+  .ng-step > * {
+    margin: 0;
+  }
+  .ng-step > * + * {
+    margin-top: 0.3rem;
+  }
+  .ng-step__name {
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .ng-step__why {
+    font-size: var(--step--1);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  .ng-watch {
+    padding: 1rem 1.2rem;
+    background: color-mix(in srgb, var(--sand) 18%, transparent);
+    border-radius: 1.3rem 1.1rem 1.4rem 1.2rem / 1.2rem 1.4rem 1.1rem 1.3rem;
+  }
+  .ng-ladders ul {
+    display: grid;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ng-ladders li {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.1rem 0.6rem;
+    align-items: baseline;
+  }
+  .ng-ladders__name {
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .ng-ladders__name::after {
+    content: ':';
+  }
+
+  /* habits, love, work */
+  .ng-group {
+    margin-top: var(--space-l);
+  }
+  .ng-group__h {
+    margin: 0 0 var(--space-s);
+  }
+  .ng-cards {
+    display: grid;
+    gap: 0.9rem;
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 44rem) {
+    .ng-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 72rem) {
+    .ng-cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .ng-cards--wide {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .ng-meds {
+    margin-top: var(--space-xl);
+    padding: clamp(1.3rem, 1rem + 2vw, 2.4rem);
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    border-radius: var(--r-soft);
+  }
+  .ng-meds .ng-group__h,
+  .ng-meds .ng-src {
+    color: inherit;
+  }
+  .ng-meds__list {
+    display: grid;
+    gap: 1.4rem 2.4rem;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 56rem) {
+    .ng-meds__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .ng-med > * {
+    margin: 0;
+  }
+  .ng-med__name {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+  }
+  .ng-med__mins {
+    font-size: var(--step--1);
+    opacity: 0.8;
+  }
+  .ng-med ol,
+  .ng-hard ol {
+    margin: 0.6rem 0 0.6rem;
+    padding-left: 1.3rem;
+  }
+  .ng-med ol li + li,
+  .ng-hard ol li + li {
+    margin-top: 0.35rem;
+  }
+
+  /* the day */
+  .ng-day {
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ng-day__item {
+    display: grid;
+    grid-template-columns: 4.2rem minmax(0, 1fr);
+    gap: 1rem;
+  }
+  .ng-day__time {
+    padding-top: 0.15rem;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.1;
+    color: var(--blue);
+  }
+  .ng-day__body {
+    max-width: var(--measure);
+    padding: 0 0 1.5rem 1.2rem;
+    border-left: 1.5px solid var(--line);
+  }
+  .ng-day__body p {
+    margin: 0;
+  }
+  .ng-day__uses {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.5rem !important;
+  }
+  .ng-day__uses a,
+  .ng-day__uses span {
+    padding: 0.15rem 0.65rem;
+    font-size: var(--step--1);
+    color: var(--ink-strong);
+    text-decoration: none;
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+  }
+  .ng-day__uses a:hover {
+    border-color: var(--blue);
+  }
+  .ng-after {
+    max-width: var(--measure);
+    margin: var(--space-m) 0 0;
+    font-size: var(--step-1);
+    line-height: 1.4;
+  }
+
+  /* hard moments */
+  .ng-care {
+    max-width: var(--measure);
+    margin: 0;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .ng-hard__when {
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.2;
+    color: var(--ink-strong);
+  }
+  .ng-hard__line {
+    font-family: var(--font-title);
+    color: var(--blue-deep);
+  }
+  .ng-hard__line .ng-src {
+    font-family: var(--font-body);
+  }
+
+  /* traps */
+  .ng-traps {
+    display: grid;
+    gap: var(--space-l) var(--space-xl);
+    margin-top: var(--space-m);
+  }
+  @media (min-width: 56rem) {
+    .ng-traps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .ng-traps ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ng-trap {
+    padding: 0.9rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .ng-trap > * {
+    margin: 0;
+  }
+  .ng-trap > * + * {
+    margin-top: 0.35rem;
+  }
+  .ng-trap__trap {
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .ng-trap__instead span {
+    color: var(--blue);
+  }
+
+  /* the first month */
+  .ng-weeks {
+    display: grid;
+    gap: 0.9rem;
+    margin: var(--space-m) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 44rem) {
+    .ng-weeks {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 72rem) {
+    .ng-weeks {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .ng-week {
+    padding: 1.2rem 1.3rem;
+    border: 1.5px solid var(--line);
+    border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+  }
+  .ng-week > p {
+    margin: 0;
+  }
+  .ng-week__label {
+    font-size: var(--step--1);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .ng-week__name {
+    margin-bottom: 0.6rem !important;
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    color: var(--ink-strong);
+  }
+  .ng-line--end {
+    margin-top: var(--space-xl);
+  }
+</style>
