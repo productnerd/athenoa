@@ -1,8 +1,9 @@
 // Nostos: the words of its interface (labels, buttons, short instructions), in English and Greek.
 //
-// ALL OF THIS IS NEW WORDING, PROPOSED FOR MARIA'S APPROVAL (2026-11-04). Nothing here is from the
-// live site. Much of the English is the prototype's (reference/nostos-prototype); the Greek is a
-// draft translation of it. Change freely once approved; until then treat every line as a proposal.
+// ALL OF THIS IS NEW WORDING, APPROVED BY MARIA ON 6 NOVEMBER 2026 (as logged in tasks/text-changes.md
+// that day). Nothing here is from the live site. Much of the English is the prototype's
+// (reference/nostos-prototype); the Greek is a draft translation of it. Wording added after that day
+// is marked as proposed where it is added, until it is approved in turn.
 //
 // This is the one file in src/data/nostos/ that is not generated content: the .json files beside it
 // come from another session and must not be edited here.
@@ -30,7 +31,7 @@ export const nostosUi = {
       listTitle: 'All the ideas',
       listIntro: 'The same ideas, listed by theme.',
       openOnMap: 'Show on the map',
-      // NEW WORDING, proposed (6 November 2026): under the map, the way into Learn. {n}: ideas, {l}: lessons
+      // NEW WORDING (6 November 2026, approved the same day): under the map, the way into Learn. {n}: ideas, {l}: lessons
       cta: {
         title: 'Learn every idea, one step at a time',
         line: 'Every star on this map, in {l} short lessons, in the order Athena teaches them: the Greek words, the myths, the books behind them and questions to try yourself. A few minutes a day, and what you learn comes back just before you would forget it.',
@@ -74,7 +75,7 @@ export const nostosUi = {
         go: 'Continue',
         doneAll: 'You have walked the whole path. Review keeps it alive.',
         across: 'Across Athena’s talks',
-        // NEW WORDING, proposed (6 November 2026): the nine stages of the arc, one per place on the
+        // NEW WORDING (6 November 2026, approved the same day): the nine stages of the arc, one per place on the
         // journey home (src/data/nostos-arc.json)
         stages: {
           call: 'The Call',
@@ -87,7 +88,7 @@ export const nostosUi = {
           mysteries: 'Myths and Mysteries',
           return: 'The Return Home',
         },
-        // NEW WORDING, proposed (6 November 2026): a line under each stage's banner
+        // NEW WORDING (6 November 2026, approved the same day): a line under each stage's banner
         about: {
           call: 'What philosophy is for Athena: a way of life that wakes you up, beginning with “know thyself”.',
           soul: 'What the soul is, its parts and powers, and how it remembers what it already knows.',
@@ -223,7 +224,7 @@ export const nostosUi = {
         all: 'See all practices',
         allTitle: 'All the practices',
       },
-      // NEW WORDING, proposed (6 November 2026): the AI tutor in the learning flow, and the written
+      // NEW WORDING (6 November 2026, approved the same day): the AI tutor in the learning flow, and the written
       // questions it marks. Both run on the visitor's own Anthropic API key.
       tutor: {
         open: 'Ask the tutor',

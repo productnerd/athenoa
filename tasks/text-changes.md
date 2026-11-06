@@ -125,7 +125,9 @@ A small line under the button, new (client request):
 
 At the client's wording, the line at the foot of every page puts the academy first: «© ΑΚΑΔΗΜΙΑ ΑΘΕΝΟΑ» in Greek and in the Ancient Greek draft, and "© ATHENOA ACADEMY" in English (all three were «© ΑΘΕΝΟΑ ΑΚΑΔΗΜΙΑ»).
 
-## Nostos (from 4 November 2026, branch nostos, proposed and not yet approved)
+## Nostos (from 4 November 2026, branch nostos)
+
+**Approved by Maria on 6 November 2026** ("text-changes look good"): all the Nostos wording logged below, English and Greek, up to that day. The study content itself (the ideas, questions and the rest, generated from the talks) is still for Athena to review, and Athena has not yet seen the interface wording either.
 
 All of the Nostos interface wording is new and lives in `src/data/nostos/ui.ts` (English and Greek; the Ancient Greek draft uses the Greek). Its study content (src/data/nostos/*.json) is generated from her talks and is for Athena to review. The interface names Athena wherever it would have said "her" or "she" (client direction, 4 November 2026). Outside Nostos itself, three places gain new words:
 
