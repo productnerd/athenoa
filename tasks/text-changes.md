@@ -139,6 +139,10 @@ Then, at the client's direction, the drawn covers were hidden and the switch bec
 
 Each idea in "All the ideas", under the map, has a dot, faint to bright by how central the idea is (the measure behind the size of its star), at the client's request. The list's intro says so, NEW WORDING proposed: "The same ideas, listed by theme. The brighter the dot, the more central the idea is to Athena’s teaching."; Greek «Οι ίδιες ιδέες, ανά θέμα. Όσο πιο φωτεινή η κουκκίδα, τόσο πιο κεντρική είναι η ιδέα στη διδασκαλία της Αθηνάς.» (was "The same ideas, listed by theme." / «Οι ίδιες ιδέες, ανά θέμα.»).
 
+## All the ideas, in Learn's stages (6 November 2026)
+
+At Maria's request the list under the map is grouped by Learn's nine stages instead of by theme, each under its stage's drawing (no numeral) with the stage's approved name and line, ideas in the order Learn teaches them. Its introduction, NEW WORDING proposed: "The same ideas, in the stages of Learn. The brighter the dot, the more central the idea is to Athena’s teaching."; Greek «Οι ίδιες ιδέες, στα στάδια της Μάθησης. …» (was "listed by theme" / «ανά θέμα»).
+
 ## The practical guide (6 November 2026)
 
 A new private page, /nostos/guide/ ("Living it: a down-to-earth guide to Athena's teaching"), at Maria's request: "a super practical down to earth real life guide" to the teaching, with phases of ascent, daily habits, things to watch out for and a day in the life. English only, not in the Nostos menu or the sitemap, noindex. ALL OF IT IS NEW WORDING, proposed, kept in src/data/nostos-guide.ts: ten key words in plain terms, seven phases (the itch, the turn, the cleaning, the long night, glimpses, settling, the return), daily, weekly and yearly habits, five meditations written out, a sample day, ten hard moments, love, work, traps, and a first thirty days. Every step is drawn from the practices, stages, distinctions and lines already in Nostos and links to its talk; the arrangement, the times and the sample day are the draft's own, not Athena's.

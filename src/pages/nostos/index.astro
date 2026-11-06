@@ -8,8 +8,9 @@ import StarMap from '../../components/nostos/StarMap.astro';
 import ConceptNote from '../../components/nostos/ConceptNote.astro';
 import { nostosUi } from '../../data/nostos/ui';
 import Illustration from '../../components/Illustration.astro';
-import { concepts, groups, meta, stars } from '../../lib/nostos';
+import { conceptById, concepts, groups, meta, stars } from '../../lib/nostos';
 import { pathOutline } from '../../lib/nostos-path';
+import { stageArt } from '../../lib/nostos-stages';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 
 const locale = getLocale(Astro.url);
@@ -21,11 +22,26 @@ const t = ui.map;
 const central = new Map(stars.map((s) => [s.id, s.c]));
 const [cLow, cHigh] = [Math.min(...central.values()), Math.max(...central.values())];
 const glow = (id: string) => (((central.get(id) ?? cLow) - cLow) / (cHigh - cLow || 1)).toFixed(3);
-const byTheme = groups.map((g) => ({
-  group: g,
-  label: ui.groups[g.id as keyof typeof ui.groups] ?? g.label,
-  items: concepts.filter((c) => c.group === g.id).sort((a, b) => b.freq - a.freq),
-}));
+// the list in Learn's stages, each under its own drawing (without the numeral of its milestone) and in
+// the order Learn teaches them (client direction, 6 November 2026); by theme if there is no arc
+type Arc = { stages: { id: string }[]; ideas: Record<string, string[]> };
+const arc = Object.values(import.meta.glob<Arc>('../../data/nostos-arc.json', { eager: true, import: 'default' }))[0];
+const stageWords = ui.play.path as { stages: Record<string, string>; about: Record<string, string> };
+const sections = arc
+  ? arc.stages.map((st) => ({
+      key: st.id,
+      label: stageWords.stages[st.id] ?? st.id,
+      about: stageWords.about[st.id],
+      art: stageArt[st.id],
+      items: (arc.ideas[st.id] ?? []).map((id) => conceptById(id)).filter((c) => !!c),
+    }))
+  : groups.map((g) => ({
+      key: g.id,
+      label: ui.groups[g.id as keyof typeof ui.groups] ?? g.label,
+      about: undefined,
+      art: undefined,
+      items: concepts.filter((c) => c.group === g.id).sort((a, b) => b.freq - a.freq),
+    }));
 ---
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
@@ -62,9 +78,19 @@ const byTheme = groups.map((g) => ({
       <h2 class="t-2" id="nostos-list-title">{t.listTitle}</h2>
       <p class="nostos-list__intro">{t.listIntro}</p>
       {
-        byTheme.map(({ group, label, items }) => (
-          <div class="nostos-list__theme">
-            <h3 class="t-3">{label}</h3>
+        sections.map(({ key, label, about, art, items }) => (
+          <div class="nostos-list__theme" data-stage={key}>
+            <header class="nostos-list__head">
+              {art && (
+                <span class="nostos-list__art" aria-hidden="true">
+                  <Illustration name={art} note={false} />
+                </span>
+              )}
+              <div>
+                <h3 class="t-3">{label}</h3>
+                {about && <p class="nostos-list__about">{about}</p>}
+              </div>
+            </header>
             <ul class="nostos-list__items">
               {items.map((c) => (
                 <li id={`c-${c.id}`}>
@@ -223,6 +249,34 @@ const byTheme = groups.map((g) => ({
   }
   .nostos-list__theme + .nostos-list__theme {
     margin-top: var(--space-l);
+  }
+  /* a stage's drawing beside its name, as on Learn's milestones (without the numeral) */
+  .nostos-list__head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .nostos-list__head h3,
+  .nostos-list__about {
+    margin: 0;
+  }
+  .nostos-list__about {
+    max-width: var(--measure);
+    margin-top: 0.25rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  /* a square for every drawing, so tall ones (the torch) and wide ones (the boat) read the same size */
+  .nostos-list__art {
+    flex: none;
+    width: clamp(4rem, 3.2rem + 2vw, 5.25rem);
+    aspect-ratio: 1;
+    color: var(--ink-strong);
+  }
+  .nostos-list__art :global(svg) {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
   .nostos-list__items {
     display: grid;
