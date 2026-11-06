@@ -832,3 +832,11 @@ html[data-theme='dark'] .nconnect__idea {
   background: var(--blue-light);
   color: var(--blue-deep);
 }
+/* an idea passed over by skipping ahead: its meaning, small, under its name */
+.nconnect__take {
+  margin-top: 0.3rem;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}

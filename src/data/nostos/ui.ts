@@ -75,6 +75,14 @@ export const nostosUi = {
         go: 'Continue',
         doneAll: 'You have walked the whole path. Review keeps it alive.',
         across: 'Across Athena’s talks',
+        // NEW WORDING, proposed (6 November 2026): before skipping ahead on the path
+        skip: {
+          start: 'Start this chapter',
+          title: 'Skip to this chapter?',
+          line: 'These chapters were made to be walked in order, as one journey: each builds on what came before. You can skip ahead, and come back to what you passed at any time.',
+          go: 'Skip ahead',
+          stay: 'Stay here',
+        },
         // NEW WORDING, proposed (6 November 2026): above each stage's first chapter
         stageN: 'Stage {i} of {n}',
         // NEW WORDING (6 November 2026, approved the same day): the nine stages of the arc, one per place on the
@@ -423,6 +431,13 @@ export const nostosUi = {
         go: 'Συνέχεια',
         doneAll: 'Περπατήσατε όλο το μονοπάτι. Η επανάληψη το κρατά ζωντανό.',
         across: 'Σε όλες τις ομιλίες της Αθηνάς',
+        skip: {
+          start: 'Ξεκινήστε αυτό το κεφάλαιο',
+          title: 'Να πάτε σε αυτό το κεφάλαιο;',
+          line: 'Τα κεφάλαια αυτά φτιάχτηκαν για να τα διανύσετε με τη σειρά, ως ένα ταξίδι: το καθένα χτίζει πάνω στα προηγούμενα. Μπορείτε να προχωρήσετε, και να επιστρέψετε σε όσα προσπεράσατε όποτε θέλετε.',
+          go: 'Προχωρήστε',
+          stay: 'Μείνετε εδώ',
+        },
         stageN: 'Στάδιο {i} από {n}',
         stages: {
           call: 'Το κάλεσμα',

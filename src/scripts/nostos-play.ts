@@ -1065,11 +1065,17 @@ const chapterPlace = (ci: number) => {
 const met = (p: Progress, u: string) => p.path?.[u] !== undefined;
 const lessonDone = (p: Progress, lesson: string[]) => lesson.every((u) => met(p, u));
 /** the first lesson with a step not met yet */
+/** Where the visitor is: the first lesson not yet walked after the furthest one they have begun (they may
+ *  have skipped ahead: client direction, 6 November 2026), else the first not walked anywhere */
 function here(p: Progress) {
-  for (let ci = 0; ci < outline.length; ci++)
-    for (let li = 0; li < outline[ci].lessons.length; li++) if (!lessonDone(p, outline[ci].lessons[li])) return { ci, li };
-  return null;
+  const all = outline.flatMap((c, ci) => c.lessons.map((lesson, li) => ({ ci, li, lesson })));
+  let furthest = -1;
+  all.forEach((x, k) => x.lesson.some((u) => met(p, u)) && (furthest = k));
+  const open = (x: (typeof all)[number]) => !lessonDone(p, x.lesson);
+  const next = all.slice(Math.max(0, furthest)).find(open) ?? all.find(open);
+  return next ? { ci: next.ci, li: next.li } : null;
 }
+const flatIndex = (ci: number, li: number) => outline.slice(0, ci).reduce((n, c) => n + c.lessons.length, 0) + li;
 /** the steps due in Review: the least remembered and the longest waiting first */
 const dueList = (p: Progress) =>
   Object.entries(p.path ?? {})
@@ -1287,13 +1293,17 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
       const others = pick((s.not as string[]).map(M.idea).filter((c): c is Concept => !!c), 3);
       const how = alts.length >= 2 && (mode === 'learn' || Math.random() < 0.5 || others.length < 3);
       if (how) {
-        const side = (c: Concept, isNew: boolean) =>
+        // (an idea passed over by skipping ahead is assumed known; its meaning is given in a line)
+        const unmet = (c: Concept) => !isNew(c) && !met(load(), `c${c.id}`);
+        const isNew = (c: Concept) => c === fresh;
+        const side = (c: Concept, fresh: boolean) =>
           h(
             'span',
-            { class: `nconnect__idea${isNew ? ' is-new' : ''}`, 'data-g': c.group },
+            { class: `nconnect__idea${fresh ? ' is-new' : ''}`, 'data-g': c.group },
             starMark(c.group),
             c.greek ? h('span', { class: 'ng nconnect__greek', lang: 'grc' }, c.greek) : null,
             h('span', { class: 'nconnect__label', lang: 'en' }, c.label),
+            unmet(c) ? h('span', { class: 'nconnect__take', lang: 'en' }, clip(c.take, 130)) : null,
           );
         return choose(
           stage,
@@ -1593,7 +1603,10 @@ function refresh(root: HTMLElement) {
       const now = !!at && at.ci === ci && at.li === li;
       stone.classList.toggle('is-done', done);
       stone.classList.toggle('is-here', now);
-      stone.disabled = !done && !now;
+      // a stone further on is not chosen directly (a skip is by chapter, from its card); one passed over
+      // by a skip stays open to come back to
+      const ahead = !done && !now && (!at || flatIndex(ci, li) > flatIndex(at.ci, at.li));
+      stone.disabled = ahead;
       if (now) stone.setAttribute('aria-current', 'step');
       else stone.removeAttribute('aria-current');
       const go = stone.querySelector<HTMLElement>('[data-node-go]');
@@ -1606,6 +1619,10 @@ function refresh(root: HTMLElement) {
     });
     root.querySelectorAll<HTMLElement>('[data-ch]').forEach((section) => {
       const c = outline[Number(section.dataset.ch)];
+      // a chapter not yet begun and further on than where you are: it can be skipped to, from its card
+      const ci = Number(section.dataset.ch);
+      const skip = section.querySelector<HTMLElement>('[data-skip-ch]');
+      if (skip) skip.hidden = !(at && flatIndex(ci, 0) > flatIndex(at.ci, at.li) && !c.lessons.some((l) => l.some((u) => met(p, u))));
       const walked = c.lessons.filter((l) => lessonDone(p, l)).length;
       section.querySelector<HTMLElement>('[data-ch-fill]')?.style.setProperty('--f', String(walked / c.lessons.length));
       const count = section.querySelector<HTMLElement>('[data-ch-count]');
@@ -1717,11 +1734,29 @@ function setup() {
   root.querySelector('[data-journey]')?.addEventListener(
     'click',
     (event) => {
+      // skipping to a chapter further on: the path was made to be walked in order, so ask first
+      const skip = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-skip-ch]');
+      const ask = root.querySelector<HTMLDialogElement>('[data-pop="skip"]');
+      if (skip && ask) {
+        ask.dataset.to = `${pathHref}?c=${skip.dataset.skipCh}&l=0`;
+        ask.showModal();
+        return;
+      }
       const stone = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-node]');
       if (stone && !stone.disabled) navigate(`${pathHref}?c=${stone.dataset.c}&l=${stone.dataset.l}`);
     },
     on,
   );
+  root.querySelector('[data-skip-go]')?.addEventListener(
+    'click',
+    () => {
+      const ask = root.querySelector<HTMLDialogElement>('[data-pop="skip"]')!;
+      ask.close();
+      if (ask.dataset.to) navigate(ask.dataset.to);
+    },
+    on,
+  );
+  root.querySelector('[data-skip-stay]')?.addEventListener('click', () => root.querySelector<HTMLDialogElement>('[data-pop="skip"]')?.close(), on);
   // Review and the ascent open as popups from their floating buttons
   root.querySelectorAll<HTMLElement>('[data-pop-open]').forEach((button) =>
     button.addEventListener('click', () => root.querySelector<HTMLDialogElement>(`[data-pop="${button.dataset.popOpen}"]`)?.showModal(), on),

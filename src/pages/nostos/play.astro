@@ -199,6 +199,7 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
                 <span data-ch-fill />
               </div>
               <p class="njch__count" data-ch-count></p>
+              <button type="button" class="njch__skip" data-skip-ch={ci} hidden>{t.path.skip.start}</button>
             </header>
             <ol class="njch__stones" style={`--rows:${c.lessons.length}`}>
               <svg class="njch__trail" viewBox={`0 0 100 ${c.lessons.length * 100}`} preserveAspectRatio="none" aria-hidden="true">
@@ -246,6 +247,17 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
         <span>{t.ascent.title}</span>
       </button>
     </div>
+
+    <dialog class="npop" data-pop="skip" aria-labelledby="npop-skip">
+      <div class="npop__sheet box on-blue-light">
+        <h2 class="t-3" id="npop-skip">{t.path.skip.title}</h2>
+        <p>{t.path.skip.line}</p>
+        <div class="nplay-today__btns">
+          <button type="button" class="btn" data-skip-go>{t.path.skip.go}</button>
+          <button type="button" class="btn btn--ghost" data-skip-stay>{t.path.skip.stay}</button>
+        </div>
+      </div>
+    </dialog>
 
     <dialog class="npop" data-pop="review" aria-labelledby="npop-review">
       <div class="npop__sheet box on-blue-light">
@@ -683,8 +695,31 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
       opacity: 0.1;
     }
   }
-  .nnode:is(.is-done, .is-here):hover {
+  .nnode:not(:disabled):hover {
     transform: translateY(-3px);
+  }
+  .nnode:not(:disabled) {
+    cursor: pointer;
+  }
+  /* a chapter further on: start it from its card (it asks first) */
+  .njch__skip {
+    justify-self: start;
+    margin-top: 0.2rem;
+    padding: 0.35rem 0.95rem;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--ink-strong);
+    background: none;
+    border: 1.5px solid currentColor;
+    border-radius: 1.1rem 0.9rem 1.2rem 1rem / 1rem 1.2rem 0.9rem 1.1rem;
+    cursor: pointer;
+    transition: background-color var(--dur-1) var(--hover-delay);
+  }
+  .njch__skip:hover {
+    background: color-mix(in srgb, currentColor 14%, transparent);
+  }
+  .njch__skip[hidden] {
+    display: none;
   }
   .nnode:focus-visible {
     outline: 2px solid var(--ink-strong);
@@ -823,6 +858,11 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
   .npop__sheet > :is(h2, p) {
     margin: 0;
     padding-right: 3rem;
+  }
+  .nplay-today__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
   }
   .npop__line {
     font-family: var(--font-title);
