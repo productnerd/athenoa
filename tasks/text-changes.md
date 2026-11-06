@@ -133,6 +133,7 @@ Under Athena's letter on Home: her photograph (the library portrait, moved from 
 
 While the books' covers are being chosen, the Bookshelf has a switch under its intro, NEW WORDING proposed: "Covers" with "Drawn", "First editions" and "Editions of 1900 to 1930"; Greek «Εξώφυλλα»: «Ζωγραφιστά», «Πρώτες εκδόσεις», «Εκδόσεις 1900 έως 1930». It goes once the covers are chosen. An open book names its cover's picture inside: "On the cover:" / «Στο εξώφυλλο:» followed by the edition's caption from src/data/nostos-editions.json (NEW WORDING, English and Greek), with the library's credit where it asks for one. Approved by the client the same day (the switch, "On the cover:" and the first editions' captions).
 Later the same day nine covers became later printings on warmer paper (Estienne's Plato of 1578, Küster's Iamblichus of 1707), with new captions (NEW WORDING, proposed), so the switch's "First editions" / «Πρώτες εκδόσεις» reads "Early editions" / «Πρώιμες εκδόσεις» (proposed). The editions of 1900 to 1930 came in too, with their captions (NEW WORDING, proposed).
+Then, at the client's direction, the drawn covers were hidden and the switch became a toggle between "Early editions" / «Πρώιμες εκδόσεις» and "Art Nouveau" / «Αρ νουβό» (NEW WORDING, proposed; it was "Editions of 1900 to 1930" / «Εκδόσεις 1900 έως 1930»); "Drawn" / «Ζωγραφιστά» is gone.
 
 ## The list's dots (6 November 2026)
 

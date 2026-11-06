@@ -369,8 +369,9 @@ export const nostosUi = {
       threads: 'Threads into Athena’s ideas',
       // NEW WORDING (6 November 2026, approved the same day): a switch to choose the books' covers by, while they are
       // being chosen (it goes once they are), and the line in an open book naming its cover
-      // ("First editions" until nine became later printings on warmer paper: "Early editions", proposed)
-      covers: { label: 'Covers', drawn: 'Drawn', first: 'Early editions', vintage: 'Editions of 1900 to 1930' },
+      // ("First editions" until nine became later printings on warmer paper: "Early editions", proposed;
+      // the drawn covers are hidden, and the editions of 1900 to 1930 are "Art Nouveau", proposed)
+      covers: { label: 'Covers', first: 'Early editions', vintage: 'Art Nouveau' },
       onCover: 'On the cover:',
     },
     sources: {
@@ -751,7 +752,7 @@ export const nostosUi = {
       next: 'Επόμενο απόσπασμα',
       threads: 'Νήματα προς τις ιδέες της Αθηνάς',
       // ΝΕΑ ΔΙΑΤΥΠΩΣΗ (6 Νοεμβρίου 2026, εγκρίθηκε την ίδια μέρα)
-      covers: { label: 'Εξώφυλλα', drawn: 'Ζωγραφιστά', first: 'Πρώιμες εκδόσεις', vintage: 'Εκδόσεις 1900 έως 1930' },
+      covers: { label: 'Εξώφυλλα', first: 'Πρώιμες εκδόσεις', vintage: 'Αρ νουβό' },
       onCover: 'Στο εξώφυλλο:',
     },
     sources: {

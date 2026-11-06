@@ -100,22 +100,23 @@ const place = (k: number) =>
 
 <Base title={`${t.metaTitle} | ATHENOA`} description={t.metaDescription} noindex>
   <NostosNav />
-  <div data-nshelf data-words={JSON.stringify({ prev: t.prev, next: t.next, close: t.close })}>
+  <div data-nshelf data-covers="first" data-words={JSON.stringify({ prev: t.prev, next: t.next, close: t.close })}>
     <section class="section nshelf-top">
       <div class="wrap">
         <header class="nostos-head">
           <h1 class="t-1" data-split>{t.title}</h1>
           <p class="lead nostos-intro" data-reveal>{t.intro}</p>
-          {/* while the covers are being chosen: drawn, a first edition's page, or an edition of 1900 to 1930 */}
-          <div class="ncovers" role="group" aria-label={t.covers.label} data-covers-switch>
-            <span class="ncovers__label">{t.covers.label}</span>
-            <button type="button" class="ncovers__opt" data-covers-opt="drawn" aria-pressed="false">{t.covers.drawn}</button>
-            {coverSets.map((set) => (
-              <button type="button" class="ncovers__opt" data-covers-opt={set} aria-pressed="false" disabled={!coverSetsReady.includes(set)}>
-                {t.covers[set]}
+          {/* while the covers are being chosen: a switch, like a real one, between an early edition's page
+              and an edition of 1900 to 1930 (the drawn covers are hidden: client direction, 6 November 2026) */}
+          {coverSetsReady.length > 1 && (
+            <div class="ncovers" data-covers-switch>
+              <button type="button" class="ncovers__side" data-covers-opt="first">{t.covers.first}</button>
+              <button type="button" class="ntoggle" role="switch" aria-checked="false" aria-label={`${t.covers.label}: ${t.covers.vintage}`} data-covers-toggle>
+                <span class="ntoggle__knob" aria-hidden="true"></span>
               </button>
-            ))}
-          </div>
+              <button type="button" class="ncovers__side" data-covers-opt="vintage">{t.covers.vintage}</button>
+            </div>
+          )}
         </header>
 
         {showShelf && (
@@ -265,22 +266,26 @@ const place = (k: number) =>
     root.classList.add('is-live');
     preloadSounds('/audio/book-open.mp3');
 
-    // the covers: drawn, or one of the sets of pictures (remembered in this browser while they are chosen)
-    const opts = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-covers-opt]'));
+    // the covers: an early edition's page, or an edition of 1900 to 1930, by the switch (remembered in
+    // this browser while they are chosen)
+    const toggle = root.querySelector<HTMLButtonElement>('[data-covers-toggle]');
     const choose = (set: string) => {
       root.dataset.covers = set;
-      opts.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.coversOpt === set)));
+      toggle?.setAttribute('aria-checked', String(set === 'vintage'));
+      root.querySelectorAll<HTMLElement>('[data-covers-opt]').forEach((b) => b.classList.toggle('is-on', b.dataset.coversOpt === set));
       try {
         localStorage.setItem('nostos-covers', set);
       } catch {}
     };
-    let kept: string | null = null;
-    try {
-      kept = localStorage.getItem('nostos-covers');
-    } catch {}
-    const ready = opts.filter((b) => !b.disabled).map((b) => b.dataset.coversOpt!);
-    choose(kept && ready.includes(kept) ? kept : ready.includes('first') ? 'first' : 'drawn');
-    opts.forEach((b) => b.addEventListener('click', () => choose(b.dataset.coversOpt!), on));
+    if (toggle) {
+      let kept: string | null = null;
+      try {
+        kept = localStorage.getItem('nostos-covers');
+      } catch {}
+      choose(kept === 'vintage' ? 'vintage' : 'first');
+      toggle.addEventListener('click', () => choose(root.dataset.covers === 'vintage' ? 'first' : 'vintage'), on);
+      root.querySelectorAll<HTMLElement>('[data-covers-opt]').forEach((b) => b.addEventListener('click', () => choose(b.dataset.coversOpt!), on));
+    }
 
     // one passage at a time, with a way to the others
     const passages = (n: number) => {
@@ -445,34 +450,70 @@ const place = (k: number) =>
   .is-live .ncovers {
     display: flex;
   }
-  .ncovers__label {
-    margin-right: 0.3rem;
-    font-size: var(--step--1);
-    color: var(--ink-soft);
-  }
-  .ncovers__opt {
-    padding: 0.42em 0.95em;
+  /* the two names either side of the switch; the one shown is in full ink */
+  .ncovers__side {
+    padding: 0.2em 0.1em;
     font: inherit;
     font-size: var(--step--1);
     line-height: 1.2;
-    color: var(--ink);
+    color: var(--ink-soft);
     background: none;
-    border: 1.5px solid var(--line);
-    border-radius: 1.2rem 0.9rem 1.3rem 1rem / 1rem 1.3rem 0.9rem 1.2rem;
+    border: 0;
     cursor: pointer;
-    transition:
-      background-color var(--dur-1) var(--hover-delay),
-      color var(--dur-1) var(--hover-delay);
+    transition: color var(--dur-1) var(--hover-delay);
   }
-  .ncovers__opt:hover:not(:disabled),
-  .ncovers__opt[aria-pressed='true'] {
-    color: var(--creme-light);
-    background: var(--ink-strong);
-    border-color: var(--ink-strong);
+  .ncovers__side:hover,
+  .ncovers__side.is-on {
+    color: var(--ink-strong);
   }
-  .ncovers__opt:disabled {
-    opacity: 0.45;
-    cursor: default;
+  /* the switch, like a real one: a sunken track and a raised knob that slides across it */
+  .ntoggle {
+    position: relative;
+    flex: none;
+    width: 3.7rem;
+    height: 2rem;
+    margin: 0 0.35rem;
+    padding: 0;
+    border: 1.5px solid color-mix(in srgb, var(--blue-deep) 30%, transparent);
+    border-radius: 1.2rem;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--creme-deep) 80%, var(--blue-deep)), var(--creme-deep));
+    box-shadow:
+      inset 0 2px 4px rgb(20 16 40 / 0.35),
+      inset 0 -1px 0 rgb(255 255 255 / 0.35),
+      0 1px 0 rgb(255 255 255 / 0.5);
+    cursor: pointer;
+    transition: background-color var(--dur-2) var(--ease-out);
+  }
+  .ntoggle[aria-checked='true'] {
+    background: linear-gradient(to bottom, var(--blue-deep), var(--blue));
+  }
+  .ntoggle__knob {
+    position: absolute;
+    top: 0.16rem;
+    left: 0.18rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #fffdf6, var(--creme-light) 45%, color-mix(in srgb, var(--creme-deep) 70%, var(--blue-deep)) 100%);
+    box-shadow:
+      0 2px 3px rgb(20 16 40 / 0.4),
+      0 0 0 1px rgb(20 16 40 / 0.12),
+      inset 0 -2px 2px rgb(20 16 40 / 0.12);
+    transition: transform 0.38s cubic-bezier(0.3, 1.35, 0.5, 1);
+  }
+  /* (its grip: two little ridges) */
+  .ntoggle__knob::after {
+    content: '';
+    position: absolute;
+    inset: 32% 38%;
+    border-inline: 1.5px solid rgb(20 16 40 / 0.18);
+  }
+  .ntoggle[aria-checked='true'] .ntoggle__knob {
+    transform: translateX(1.7rem);
+  }
+  .ntoggle:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 3px;
   }
 
   /* ---------- the shelf ---------- */
