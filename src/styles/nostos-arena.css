@@ -720,3 +720,46 @@ ul.nsteps li::before {
   text-underline-offset: 0.2em;
   cursor: pointer;
 }
+/* a connection: the idea just met and the one met before, joined like two cells by a line */
+.nconnect {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(2.5rem, 5rem) minmax(0, 1fr);
+  align-items: center;
+  margin: 0.4rem 0 0.2rem;
+}
+.nconnect__idea {
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  padding: 0.9rem 0.8rem;
+  text-align: center;
+  background: var(--creme-deep);
+  border: 1.5px solid color-mix(in srgb, var(--blue) 30%, transparent);
+  border-radius: 1.6rem 1.3rem 1.7rem 1.4rem / 1.4rem 1.7rem 1.3rem 1.6rem;
+}
+.nconnect__idea.is-new {
+  background: var(--blue-light);
+  color: var(--blue-deep);
+  border-color: var(--blue);
+}
+.nconnect__greek {
+  font-size: var(--step-2);
+  line-height: 1.05;
+}
+.nconnect__label {
+  font-size: var(--step--1);
+  line-height: 1.2;
+}
+.nconnect__line {
+  height: 2px;
+  background: var(--blue);
+  transform-origin: left center;
+}
+html.motion .nconnect__line {
+  animation: nconnect-draw 0.9s var(--ease-out) 0.25s both;
+}
+@keyframes nconnect-draw {
+  from {
+    transform: scaleX(0);
+  }
+}

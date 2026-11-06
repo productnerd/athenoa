@@ -1111,22 +1111,6 @@ function picture(p?: Picture) {
   );
 }
 
-/** An idea's name taken out of a sentence (its label, its Greek, its spelling, and the stems of its
- *  longer words, so "immanent" goes with "Immanence"), for a question that must not answer itself */
-const unnamed = new Set(['the', 'and', 'of', 'as', 'in', 'to', 'its', 'his', 'her', 'their', 'with', 'from']);
-function blankName(text: string, c: Concept) {
-  const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const whole = [c.label.replace(/\s*\(.*?\)/g, ''), ...(c.label.match(/\(([^)]*)\)/)?.slice(1) ?? []), c.greek, c.translit]
-    .filter((w): w is string => !!w && w.trim().length > 2)
-    .map((w) => new RegExp(`(?<!\\p{L})${esc(w.trim())}(?!\\p{L})`, 'giu'));
-  const stems = c.label
-    .replace(/[()]/g, ' ')
-    .split(/[\s,·/–-]+/)
-    .filter((w) => w.length >= 5 && !unnamed.has(w.toLowerCase()))
-    .map((w) => new RegExp(`(?<!\\p{L})${esc(w.slice(0, Math.max(5, w.length - 3)))}\\p{L}*`, 'giu'));
-  return [...whole, ...stems].reduce((out, re) => out.replace(re, '___'), text);
-}
-
 /** One step, to learn (first time on the path) or to recall (Review). Reading steps call answered(null)
  *  when the visitor moves on; the rest call answered(right or not) when they answer. */
 function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material, answered: (ok: boolean | null) => void, next: () => void) {
@@ -1266,40 +1250,64 @@ function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material,
       return beat();
     }
     case 'k': {
-      // one of her links: given her reason, find the idea at the other end (either end, in Review).
-      // Where her reason names that idea, it is blanked out, so the question does not answer itself
-      // (client note, 6 November 2026); the whole phrase comes back with the answer
-      const flip = mode === 'recall' && Math.random() < 0.5;
-      const from = M.idea(flip ? s.b : s.a);
-      const to = M.idea(flip ? s.a : s.b);
-      const others = pick((s.not as string[]).map(M.idea).filter((c): c is Concept => !!c), 3);
-      if (!from || !to || others.length < 3) return read(h('p', { class: 'nprompt', lang: 'en' }, `“${s.why}”`));
+      // A connection (src/lib/nostos-path.ts): one of Athena's links, met the moment its second idea is
+      // known. First time (and every other time in Review): both ideas side by side, and "how does
+      // Athena connect them?", her reason among three others, every name blanked so the link itself is
+      // what is asked. Otherwise: given the idea just met and her reason (the other name blanked),
+      // which idea is at the other end?
+      const fresh = M.idea(s.a);
+      const known = M.idea(s.b);
+      if (!fresh || !known) return read(h('p', { class: 'nprompt', lang: 'en' }, `“${s.why}”`));
+      if (mode === 'learn' && pageMode) showMap(fresh.id);
       const name = (c: Concept) => (c.greek ? `${c.label} · ${c.greek}` : c.label);
       const star = (c: Concept) =>
         pageMode
           ? h('button', { type: 'button', class: 'nlinkish', onclick: () => showMap(c.id) }, c.label)
           : h('a', { href: `${mapBase}?star=${encodeURIComponent(c.id)}` }, c.label);
-      const asked = blankName(s.why, to);
+      const answer = h('div', { class: 'nexplain' }, h('p', { lang: 'en' }, `“${s.why}”`), h('p', { lang: 'en' }, star(fresh), ' · ', star(known)));
+      const alts = ((s.alts ?? []) as string[]).filter((x) => x !== s.bare);
+      const others = pick((s.not as string[]).map(M.idea).filter((c): c is Concept => !!c), 3);
+      const how = alts.length >= 2 && (mode === 'learn' || Math.random() < 0.5 || others.length < 3);
+      if (how) {
+        const side = (c: Concept, isNew: boolean) =>
+          h(
+            'span',
+            { class: `nconnect__idea${isNew ? ' is-new' : ''}` },
+            c.greek ? h('span', { class: 'ng nconnect__greek', lang: 'grc' }, c.greek) : null,
+            h('span', { class: 'nconnect__label', lang: 'en' }, c.label),
+          );
+        return choose(
+          stage,
+          h(
+            'div',
+            null,
+            head,
+            h('div', { class: 'nconnect' }, side(fresh, true), h('span', { class: 'nconnect__line', 'aria-hidden': 'true' }), side(known, false)),
+            h('p', { class: 'nsmall' }, W.path.connect),
+          ),
+          s.bare,
+          alts.slice(0, 3),
+          answered,
+          next,
+          answer,
+        );
+      }
+      if (others.length < 3) return read(h('p', { class: 'nprompt', lang: 'en' }, `“${s.why}”`), answer);
       return choose(
         stage,
         h(
           'div',
           null,
           head,
-          h('p', { class: 'nsmall' }, fill(W.links.ask, { label: from.label })),
-          h('p', { class: 'nprompt nprompt--big', lang: 'en' }, `“${asked}”`),
+          h('p', { class: 'nsmall' }, fill(W.links.ask, { label: fresh.label })),
+          h('p', { class: 'nprompt nprompt--big', lang: 'en' }, `“${s.ask}”`),
           h('p', { class: 'nsmall' }, W.links.choose),
         ),
-        name(to),
+        name(known),
         others.map(name),
         answered,
         next,
-        h(
-          'div',
-          { class: 'nexplain' },
-          asked !== s.why ? h('p', { lang: 'en' }, `“${s.why}”`) : null,
-          h('p', { lang: 'en' }, star(from), ' · ', star(to)),
-        ),
+        answer,
       );
     }
     case 'p':

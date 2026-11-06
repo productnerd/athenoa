@@ -28,8 +28,8 @@ import {
 } from './nostos';
 
 /** c idea · q question · tf true or false · s order · m myth · e roots · d distinction · i image
- *  k one of her links between two ideas · p practice · w question to carry · l her line
- *  x bookshelf passage */
+ *  k a connection: one of Athena's links between two ideas, met as soon as both are known
+ *  p practice · w question to carry · l her line · x bookshelf passage */
 export type StepKind = 'c' | 'q' | 'tf' | 's' | 'm' | 'e' | 'd' | 'i' | 'k' | 'p' | 'w' | 'l' | 'x';
 export type Step = { k: StepKind; [field: string]: unknown };
 /** the kinds that come back in Review (the rest are read, not asked) */
@@ -111,43 +111,10 @@ const place = <T extends { talk?: string; t?: string | number }>(list: T[]) => {
 export type Chapter = { id: string; title: string; talk?: string; lessons: string[][]; steps: Record<string, Step> };
 const order = talks.map((t) => t.id);
 const introduced = new Set<string>();
-// the chapter that introduces each idea: the first talk, in path order, where it comes up
-const introAt = new Map(concepts.map((c) => [c.id, order.findIndex((id) => c.talks.some((r) => r.id === id))]));
-introAt.forEach((ci, id) => ci < 0 && introAt.set(id, order.length));
 
-// Her links, where she says why (the same ones as Find the link). Each goes to a chapter whose talk
-// speaks of both ideas, once both have been introduced, choosing the chapter that has the fewest
-// links for its size, so no talk is swamped; with no such talk, to the chapter of the later idea.
-const herLinks = edges.filter((e) => e.her && e.why && e.why.length > 12 && conceptById(e.a) && conceptById(e.b));
-const tied = new Map<string, Set<string>>();
-for (const e of herLinks) {
-  tied.set(e.a, (tied.get(e.a) ?? new Set()).add(e.b));
-  tied.set(e.b, (tied.get(e.b) ?? new Set()).add(e.a));
-}
-const linksIn = new Map<number, Entry[]>();
-const sizeOf = (ci: number) => (ci < order.length ? entries.filter((e) => e.talk === order[ci]).length : 60) + 1;
-for (const e of herLinks) {
-  const from = Math.max(introAt.get(e.a)!, introAt.get(e.b)!);
-  const talksOf = (id: string) => new Set(conceptById(id)!.talks.map((r) => r.id));
-  const ta = talksOf(e.a);
-  const tb = talksOf(e.b);
-  const both = order.map((id, ci) => ci).filter((ci) => ci >= from && ta.has(order[ci]) && tb.has(order[ci]));
-  const load = (ci: number) => (linksIn.get(ci)?.length ?? 0) / sizeOf(ci);
-  const ci = both.length ? both.reduce((best, x) => (load(x) < load(best) ? x : best)) : from;
-  // decoys for the question: ideas she links to neither end, a few to choose from
-  const key = `${e.a}|${e.b}`;
-  const not = concepts
-    .filter((c) => c.weight >= 2 && c.id !== e.a && c.id !== e.b && !tied.get(e.a)?.has(c.id) && !tied.get(e.b)?.has(c.id))
-    .map((c) => c.id)
-    .sort((x, y) => hash(key + x).localeCompare(hash(key + y)))
-    .slice(0, 5);
-  let u = `k${hash(key)}`;
-  while (taken.has(u)) u += 'x';
-  taken.add(u);
-  linksIn.set(ci, [...(linksIn.get(ci) ?? []), { u, step: { k: 'k', a: e.a, b: e.b, why: e.why, not }, at: -1, text: '' }]);
-}
-
-function chapter(id: string, title: string, list: Entry[], talk?: string, links: Entry[] = []): Chapter {
+// One chapter's route, before the connections: its items in the order of the talk, each idea
+// introduced just before the first item that speaks of it
+function route(talk: string | undefined, list: Entry[]): Entry[] {
   list.sort((a, b) => a.at - b.at);
   // the ideas this chapter introduces: those that come up in this talk and in no earlier one
   const ideas = concepts.filter((c) => !introduced.has(c.id) && (talk ? c.talks.some((r) => r.id === talk) : true));
@@ -178,28 +145,121 @@ function chapter(id: string, title: string, list: Entry[], talk?: string, links:
       const at = Math.min(Math.max(spot.at, Math.floor(k / most)), Math.max(0, list.length - 1));
       before.set(at, [...(before.get(at) ?? []), { u: `c${spot.c.id}`, step: { k: 'c', id: spot.c.id }, at: -1, text: '' }]);
     });
-  const route: Entry[] = [];
-  list.forEach((e, n) => route.push(...(before.get(n) ?? []), e));
-  if (!list.length) route.push(...(before.get(0) ?? []));
-  // her links, spread through the chapter, each after both of its ideas have been introduced
-  const placed = links.map((l, k) => {
-    const after = Math.max(...[l.step.a, l.step.b].map((x) => route.findIndex((e) => e.u === `c${x}`)));
-    return { l, at: Math.max(after + 1, Math.round(((k + 0.5) / links.length) * route.length)) };
-  });
-  placed.sort((x, y) => y.at - x.at).forEach(({ l, at }) => route.splice(Math.min(at, route.length), 0, l));
-  // lessons of about eight steps, as even as they come
-  const count = Math.max(1, Math.round(route.length / LESSON));
-  const lessons = Array.from({ length: count }, (_, j) =>
-    route.slice(Math.round((j * route.length) / count), Math.round(((j + 1) * route.length) / count)).map((e) => e.u),
-  );
-  return { id, title, talk, lessons, steps: Object.fromEntries(route.filter((e) => e.step.k !== 'c').map((e) => [e.u, e.step])) };
+  const out: Entry[] = [];
+  list.forEach((e, n) => out.push(...(before.get(n) ?? []), e));
+  if (!list.length) out.push(...(before.get(0) ?? []));
+  return out;
 }
 
-export const chapters: Chapter[] = [
-  ...order.map((id, ci) => chapter(id, talkName(id), entries.filter((e) => e.talk === id), id, linksIn.get(ci))),
+const routes = [
+  ...order.map((id) => ({ id, title: talkName(id), talk: id as string | undefined, route: route(id, entries.filter((e) => e.talk === id)) })),
   // what no talk claims (and any idea not met yet) closes the path
-  chapter('across', '', entries.filter((e) => !e.talk || !order.includes(e.talk)), undefined, linksIn.get(order.length)),
-].filter((c) => c.lessons.some((l) => l.length));
+  { id: 'across', title: '', talk: undefined, route: route(undefined, entries.filter((e) => !e.talk || !order.includes(e.talk))) },
+];
+
+// ---------- connections ----------
+// Athena's links, where she says why. Each is met as soon as both of its ideas are known: the moment the
+// second one is introduced, it is tested against the first (client direction, 6 November 2026), so
+// what is learnt is tied to what was learnt before. Up to two come straight after the new idea; any
+// more wait and come one every couple of steps after it, so a well-linked idea late on the path does
+// not bring a wall of them at once. The further along, the more of them there are: the graph of what
+// is known grows denser.
+const herLinks = edges.filter((e) => e.her && e.why && e.why.length > 12 && conceptById(e.a) && conceptById(e.b));
+const tied = new Map<string, Set<string>>();
+const linksOf = new Map<string, typeof herLinks>();
+for (const e of herLinks) {
+  tied.set(e.a, (tied.get(e.a) ?? new Set()).add(e.b));
+  tied.set(e.b, (tied.get(e.b) ?? new Set()).add(e.a));
+  linksOf.set(e.a, [...(linksOf.get(e.a) ?? []), e]);
+  linksOf.set(e.b, [...(linksOf.get(e.b) ?? []), e]);
+}
+// an idea's name taken out of a sentence (its label, its Greek, its spelling, and the stems of its
+// longer words, so "immanent" goes with "Immanence"): a question must not answer itself
+const unnamed = new Set(['the', 'and', 'of', 'as', 'in', 'to', 'its', 'his', 'her', 'their', 'with', 'from']);
+const esc = (w: string) => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function blank(text: string, ...ids: string[]) {
+  return ids.reduce((out, id) => {
+    const c = conceptById(id);
+    if (!c) return out;
+    const whole = [c.label.replace(/\s*\(.*?\)/g, ''), ...(c.label.match(/\(([^)]*)\)/)?.slice(1) ?? []), c.greek, c.translit]
+      .filter((w): w is string => !!w && w.trim().length > 2)
+      .map((w) => new RegExp(`(?<!\\p{L})${esc(w.trim())}(?!\\p{L})`, 'giu'));
+    const stems = c.label
+      .replace(/[()]/g, ' ')
+      .split(/[\s,·/–-]+/)
+      .filter((w) => w.length >= 5 && !unnamed.has(w.toLowerCase()))
+      .map((w) => new RegExp(`(?<!\\p{L})${esc(w.slice(0, Math.max(5, w.length - 3)))}\\p{L}*`, 'giu'));
+    return [...whole, ...stems].reduce((t, re) => t.replace(re, '___'), out);
+  }, text);
+}
+// the step for one link, `fresh` the idea just met, `known` the one met before
+function connection(e: (typeof herLinks)[number], fresh: string, known: string): Entry {
+  const key = `${e.a}|${e.b}`;
+  // other ideas Athena links to neither end, for "which idea is at the other end?" (in Review)
+  const not = concepts
+    .filter((c) => c.weight >= 2 && c.id !== e.a && c.id !== e.b && !tied.get(e.a)?.has(c.id) && !tied.get(e.b)?.has(c.id))
+    .map((c) => c.id)
+    .sort((x, y) => hash(key + x).localeCompare(hash(key + y)))
+    .slice(0, 5);
+  // other reasons, for "how does Athena connect them?": first from the two ideas' other links, so
+  // they sound alike, then from anywhere; every name blanked, the right reason's too
+  const near = [...(linksOf.get(fresh) ?? []), ...(linksOf.get(known) ?? [])].filter((x) => x !== e);
+  const far = herLinks.filter((x) => x !== e && !near.includes(x)).sort((x, y) => hash(key + x.a + x.b).localeCompare(hash(key + y.a + y.b)));
+  const seen = new Set<string>();
+  const alts = [...near.sort((x, y) => hash(key + x.a + x.b).localeCompare(hash(key + y.a + y.b))), ...far]
+    .map((x) => blank(x.why!, x.a, x.b))
+    .filter((w) => w.length > 12 && !seen.has(w) && (seen.add(w), true))
+    .slice(0, 3);
+  let u = `k${hash(key)}`;
+  while (taken.has(u)) u += 'x';
+  taken.add(u);
+  return {
+    u,
+    step: { k: 'k', a: fresh, b: known, why: e.why, ask: blank(e.why!, known), bare: blank(e.why!, fresh, known), alts, not },
+    at: -1,
+    text: '',
+  };
+}
+const NOW = 2;
+const GAP = 2;
+const known = new Set<string>();
+const waiting: Entry[] = [];
+const placedRoutes = routes.map((r) => {
+  const out: Entry[] = [];
+  let since = 0;
+  for (const e of r.route) {
+    out.push(e);
+    if (e.step.k === 'c') {
+      const id = e.step.id as string;
+      const fresh = (linksOf.get(id) ?? [])
+        .map((x) => ({ x, other: x.a === id ? x.b : x.a }))
+        .filter(({ other }) => known.has(other))
+        .sort((p, q) => conceptById(q.other)!.weight - conceptById(p.other)!.weight)
+        .map(({ x, other }) => connection(x, id, other));
+      known.add(id);
+      out.push(...fresh.slice(0, NOW));
+      waiting.push(...fresh.slice(NOW));
+      since = 0;
+    } else if (e.step.k !== 'k' && waiting.length && ++since >= GAP) {
+      out.push(waiting.shift()!);
+      since = 0;
+    }
+  }
+  return { ...r, route: out };
+});
+// what is still waiting at the very end closes the last chapter
+placedRoutes[placedRoutes.length - 1].route.push(...waiting.splice(0));
+
+// lessons of about eight steps, as even as they come
+function chapter(r: (typeof placedRoutes)[number]): Chapter {
+  const count = Math.max(1, Math.round(r.route.length / LESSON));
+  const lessons = Array.from({ length: count }, (_, j) =>
+    r.route.slice(Math.round((j * r.route.length) / count), Math.round(((j + 1) * r.route.length) / count)).map((e) => e.u),
+  );
+  return { id: r.id, title: r.title, talk: r.talk, lessons, steps: Object.fromEntries(r.route.filter((e) => e.step.k !== 'c').map((e) => [e.u, e.step])) };
+}
+
+export const chapters: Chapter[] = placedRoutes.map(chapter).filter((c) => c.lessons.some((l) => l.length));
 
 /** The outline the play page carries: chapters and their lessons as lists of step ids */
 export const pathOutline = chapters.map((c) => ({ id: c.id, title: c.title, talk: c.talk, lessons: c.lessons }));
