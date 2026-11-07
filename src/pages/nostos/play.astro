@@ -21,6 +21,7 @@ import {
 } from '../../lib/nostos';
 import { askedTotal, pathOutline } from '../../lib/nostos-path';
 import { numerals, stageArt } from '../../lib/nostos-stages';
+import { minutesOf, reflectionAfter } from '../../lib/nostos-reflections';
 import StageStele from '../../components/nostos/StageStele.astro';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -241,6 +242,35 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
                 </li>
               ))}
             </ol>
+            {/* a reflection after this chapter (client request, 7 November 2026): a hand mirror, not a
+                pebble, its title beside it, and what it looks at and teaches on hover (src/lib/nostos-reflections.ts) */}
+            {(() => {
+              const rf = reflectionAfter(c.id);
+              if (!rf) return null;
+              return (
+                <div class="njref" data-ref-stone={rf.id} data-ch-after={ci}>
+                  <a class="njref__mirror" href={`/nostos/reflect/${rf.id}/`} aria-describedby={`njref-${rf.id}`} tabindex="-1" aria-hidden="true">
+                    <svg viewBox="0 0 64 88" focusable="false">
+                      <path class="njref__handle" d="M27 58h10l-1.5 22.5q-3.5 3-7 0Z" />
+                      <circle class="njref__disc" cx="32" cy="31" r="26" />
+                      <path class="njref__glint" d="M18 24q4-10 14-12" />
+                      <path class="njref__tick" d="M22 32c2.4 1.8 4.4 4 6 6.4 3.2-5.6 6.8-10.4 11-14.6" />
+                    </svg>
+                  </a>
+                  <div class="njref__text">
+                    <p class="njref__kicker">{t.reflect.stone} · {fill(t.reflect.minutes, { m: minutesOf(rf) })}</p>
+                    <a class="njref__title" href={`/nostos/reflect/${rf.id}/`} lang="en" aria-describedby={`njref-${rf.id}`}>
+                      {rf.title}
+                    </a>
+                    <div class="njref__tip" id={`njref-${rf.id}`} role="tooltip">
+                      <p lang="en"><strong>{t.reflect.looks}:</strong> {rf.looks}</p>
+                      <p lang="en"><strong>{t.reflect.learn}:</strong> {rf.learn}</p>
+                      <p class="njref__state" data-ref-state data-ahead={fill(t.reflect.ahead, { i: placeIn(ci).i })} data-done={t.reflect.done}></p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
           </section>
         ))
       }
@@ -856,6 +886,160 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
   }
   .nnode:not(:disabled) {
     cursor: pointer;
+  }
+
+  /* a reflection: a bronze hand mirror on the trail, its name beside it, what it looks at on hover */
+  .njref {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: min(100% - 2 * var(--gutter), 30rem);
+    margin: 0.8rem auto 0;
+  }
+  .njref__mirror {
+    flex: none;
+    display: block;
+    width: 4.4rem;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .njref__text {
+    flex: 0 1 16rem;
+    min-width: 0;
+  }
+  .njref__mirror svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .njref__disc,
+  .njref__handle {
+    fill: color-mix(in srgb, var(--sand) 75%, var(--creme-light));
+    stroke: var(--ink-strong);
+    stroke-width: 2;
+  }
+  .njref__glint {
+    fill: none;
+    stroke: var(--creme-light);
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.9;
+  }
+  .njref__tick {
+    display: none;
+    fill: none;
+    stroke: var(--creme-light);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .njref.is-done .njref__disc {
+    fill: var(--blue);
+    stroke: var(--blue);
+  }
+  .njref.is-done .njref__tick {
+    display: block;
+  }
+  .njref.is-done .njref__glint {
+    display: none;
+  }
+  .njref.is-ahead .njref__mirror {
+    opacity: 0.55;
+  }
+  /* (above the next chapter's banner while its note is open) */
+  .njref:hover,
+  .njref:focus-within {
+    z-index: 4;
+  }
+  .njref:hover .njref__mirror,
+  .njref:focus-within .njref__mirror {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+  .njref__text > p {
+    margin: 0;
+  }
+  .njref__kicker {
+    font-size: calc(var(--step-0) * 0.72);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .njref__title {
+    display: inline-block;
+    margin-top: 0.15rem;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.15;
+    color: var(--ink-strong);
+    text-decoration: none;
+  }
+  .njref__title:hover {
+    color: var(--blue);
+  }
+  .njref__tip {
+    position: absolute;
+    z-index: 5;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    translate: -50% 0;
+    width: min(22rem, 100%);
+    padding: 0.9rem 1.05rem;
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--blue-deep);
+    background: var(--blue-light);
+    border-radius: 1rem 0.9rem 1.1rem 1rem / 1rem 1.1rem 0.9rem 1rem;
+    box-shadow: 0 0.6rem 1.6rem -0.6rem color-mix(in srgb, var(--blue-deep) 45%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.25rem);
+    transition:
+      opacity var(--dur-1) var(--ease-out),
+      transform var(--dur-1) var(--ease-out),
+      visibility 0s linear var(--dur-1);
+    pointer-events: none;
+  }
+  .njref__tip p {
+    margin: 0;
+  }
+  .njref__tip p + p {
+    margin-top: 0.35rem;
+  }
+  .njref__state:empty {
+    display: none;
+  }
+  .njref__state {
+    font-style: italic;
+  }
+  .njref:hover .njref__tip,
+  .njref:focus-within .njref__tip {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+  /* on touch screens there is no hover: what it looks at shows under its name, small */
+  @media (hover: none) {
+    .njref__tip {
+      position: static;
+      translate: none;
+      width: auto;
+      margin-top: 0.4rem;
+      padding: 0;
+      color: var(--ink-soft);
+      background: none;
+      box-shadow: none;
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+    }
+    .njref__tip p:nth-child(2) {
+      display: none;
+    }
   }
   /* a chapter further on: start it from its card (it asks first) */
   /* (inside the card, where every child's margin is zeroed: so it is named with the card) */

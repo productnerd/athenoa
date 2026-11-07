@@ -1,0 +1,676 @@
+---
+// Nostos, a reflection (client request, 7 November 2026): a short exercise about oneself, every two or
+// three chapters of Learn. One item at a time, then the grouping the answers fall into (scored here, in
+// the browser), and, with the visitor's own Anthropic key, Claude's reading of the answers, no longer
+// than an A4 page and printable. Content: src/data/nostos-reflections/ (src/lib/nostos-reflections.ts);
+// the flow: src/scripts/nostos-reflect.ts. English only for now (the Greek Learn links here too). Not in
+// the sitemap and noindex until launch. THE WORDING IS NEW, proposed.
+import Base from '../../../layouts/Base.astro';
+import NostosNav from '../../../components/nostos/NostosNav.astro';
+import Illustration from '../../../components/Illustration.astro';
+import { nostosUi } from '../../../data/nostos/ui';
+import { concepts } from '../../../lib/nostos';
+import { minutesOf, reflections, type Reflection } from '../../../lib/nostos-reflections';
+import { pathOutline } from '../../../lib/nostos-path';
+import { stageArt } from '../../../lib/nostos-stages';
+
+export function getStaticPaths() {
+  return reflections.map((r) => ({ params: { id: r.id }, props: { r } }));
+}
+const { r } = Astro.props as { r: Reflection };
+const ui = nostosUi.en;
+const t = ui.play.reflect;
+const fill = (text: string, values: Record<string, string | number>) => text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
+// the stage of the chapter it follows, for its drawing
+const chapter = pathOutline.find((c) => c.id === r.after);
+const art = chapter?.stage ? stageArt[chapter.stage] : undefined;
+// what the script needs: the reflection, the names of every idea (for links to the map), the words
+const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
+const titles = Object.fromEntries(reflections.map((x) => [x.id, x.title]));
+const data = { r: { ...r, later: undefined }, labels, titles, words: t };
+---
+
+<Base title={`${r.title} · Reflection | ATHENOA`} description={r.line} noindex>
+  <NostosNav />
+  <section class="section nref" data-reflect data-feed-src="/nostos/data/" data-map-href="/nostos/" data-learn-href="/nostos/play/">
+    <div class="wrap wrap--narrow">
+      <header class="nref__head">
+        {art && (
+          <span class="nref__art" aria-hidden="true">
+            <Illustration name={art} note={false} />
+          </span>
+        )}
+        <p class="nref__kicker">{fill(t.kicker, { n: r.n, total: reflections.length })} · {fill(t.minutes, { m: minutesOf(r) })}</p>
+        <h1 class="t-1 nref__title">{r.title}</h1>
+        <p class="nref__line">{r.line}</p>
+      </header>
+
+      {/* the start: what it is, then Begin (also shown again, with the last result, on a retake) */}
+      <div class="nref__card" data-ref-start>
+        <p class="nref__intro">{r.intro}</p>
+        <p class="nref__last" data-ref-last hidden></p>
+        <p class="nref__note">{t.note}</p>
+        <button type="button" class="btn" data-ref-begin>{t.begin}</button>
+      </div>
+
+      {/* one item at a time */}
+      <div class="nref__card nref__card--item" data-ref-flow hidden>
+        <div class="nref__bar" aria-hidden="true"><span data-ref-fill></span></div>
+        <p class="nref__step" data-ref-step aria-live="polite"></p>
+        <div data-ref-item></div>
+        <div class="nref__nav">
+          <button type="button" class="btn btn--ghost" data-ref-back>{t.back}</button>
+          <button type="button" class="btn" data-ref-next disabled>{t.next}</button>
+        </div>
+      </div>
+
+      {/* the result: the grouping, how the answers fall, and the reading */}
+      <article class="nref__result" data-ref-result hidden aria-live="polite">
+        <p class="nref__kicker">{t.resultKicker}</p>
+        <h2 class="t-2 nref__type" data-ref-type></h2>
+        <p class="nref__short" data-ref-short></p>
+        <p class="nref__about" data-ref-about></p>
+        <p class="nref__ideas" data-ref-ideas></p>
+        <div class="nref__profile">
+          <h3 class="nref__h">{t.profile}</h3>
+          <ul data-ref-profile role="list"></ul>
+        </div>
+        <p class="nref__last" data-ref-was hidden></p>
+
+        <section class="nref__reading" data-ref-reading hidden aria-labelledby="nref-reading-h">
+          <h3 class="nref__h" id="nref-reading-h">{t.readingTitle}</h3>
+          <div data-ref-reading-body></div>
+          <p class="nref__by">{t.readingBy}</p>
+        </section>
+
+        <form class="nref__key" data-ref-key hidden autocomplete="off">
+          <h3 class="nref__h">{t.keyTitle}</h3>
+          <p>{t.keyText}</p>
+          <label for="nref-key">{t.keyLabel}</label>
+          <input id="nref-key" type="password" spellcheck="false" placeholder="sk-ant-…" data-ref-keyinput />
+          <button type="submit" class="btn">{t.keySave}</button>
+        </form>
+
+        <div class="nref__actions">
+          <button type="button" class="btn btn--ghost" data-ref-print>{t.print}</button>
+          <button type="button" class="btn btn--ghost" data-ref-again>{t.again}</button>
+          <a class="btn btn--quiet" href="/nostos/play/">{t.toLearn}</a>
+        </div>
+      </article>
+    </div>
+  </section>
+  <script type="application/json" data-ref-data set:html={JSON.stringify(data)} />
+</Base>
+
+<script>
+  import { start } from '../../../scripts/nostos-reflect';
+  document.addEventListener('astro:page-load', start);
+</script>
+
+<style>
+  .nref__head {
+    position: relative;
+    margin-bottom: var(--space-m);
+  }
+  .nref__art {
+    display: block;
+    width: 4.5rem;
+    height: 4.5rem;
+    margin-bottom: 0.6rem;
+    color: var(--ink-strong);
+  }
+  .nref__art :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+  .nref__kicker {
+    margin: 0 0 0.4rem;
+    font-size: calc(var(--step-0) * 0.78);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .nref__title {
+    margin: 0;
+  }
+  .nref__line {
+    margin: 0.4rem 0 0;
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.2;
+    color: var(--ink-strong);
+  }
+  .nref__card {
+    padding: clamp(1.3rem, 1rem + 2vw, 2.4rem);
+    background: color-mix(in srgb, var(--creme-light) 75%, transparent);
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-soft);
+  }
+  .nref__card > * {
+    margin: 0;
+  }
+  .nref__card > * + * {
+    margin-top: var(--space-s);
+  }
+  .nref__intro {
+    font-size: var(--step-1);
+    line-height: 1.45;
+  }
+  .nref__note,
+  .nref__by {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nref__last {
+    font-size: var(--step--1);
+    color: var(--blue);
+  }
+  .nref__bar {
+    height: 0.35rem;
+    background: color-mix(in srgb, var(--blue) 14%, transparent);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  .nref__bar span {
+    display: block;
+    height: 100%;
+    width: calc(var(--f, 0) * 100%);
+    background: var(--blue);
+    border-radius: inherit;
+    transition: width var(--dur-2) var(--ease-out);
+  }
+  .nref__step {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nref__nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: var(--space-s);
+  }
+  .nref__nav [data-ref-back][hidden] {
+    display: inline-flex;
+    visibility: hidden;
+  }
+
+  /* the result */
+  .nref__result > * {
+    margin: 0;
+  }
+  .nref__type {
+    margin-top: 0.2rem !important;
+  }
+  .nref__short {
+    margin-top: 0.3rem !important;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    color: var(--blue-deep);
+  }
+  .nref__about {
+    max-width: var(--measure);
+    margin-top: var(--space-s) !important;
+  }
+  .nref__ideas {
+    margin-top: 0.6rem !important;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nref__ideas :global(a) {
+    color: var(--blue);
+  }
+  .nref__h {
+    margin: 0 0 0.6rem;
+    font-family: var(--font-body);
+    font-size: calc(var(--step-0) * 0.78);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .nref__profile {
+    margin-top: var(--space-m) !important;
+  }
+  .nref__profile ul {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nref__profile :global(li) {
+    display: grid;
+    grid-template-columns: minmax(8rem, 15rem) minmax(0, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+    font-size: var(--step--1);
+  }
+  .nref__profile :global(.is-top) {
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+  .nref__profile :global(.nref__pbar) {
+    height: 0.6rem;
+    background: color-mix(in srgb, var(--blue) 12%, transparent);
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+  .nref__profile :global(.nref__pbar span) {
+    display: block;
+    height: 100%;
+    width: calc(var(--v) * 100%);
+    background: var(--blue);
+    border-radius: inherit;
+  }
+  .nref__reading,
+  .nref__key {
+    margin-top: var(--space-l) !important;
+    padding: clamp(1.2rem, 1rem + 1.6vw, 2rem);
+    background: var(--blue-light);
+    color: var(--blue-deep);
+    border-radius: var(--r-soft-2);
+  }
+  .nref__reading .nref__h,
+  .nref__key .nref__h {
+    color: inherit;
+    opacity: 0.8;
+  }
+  .nref__key > * {
+    margin: 0;
+  }
+  .nref__key > * + * {
+    margin-top: 0.7rem;
+  }
+  .nref__key label {
+    display: block;
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+  .nref__key input {
+    width: 100%;
+    max-width: 26rem;
+    padding: 0.6rem 0.9rem;
+    font: inherit;
+    color: var(--ink);
+    background: var(--creme-light);
+    border: 1.5px solid var(--line);
+    border-radius: 0.9rem;
+  }
+  .nref__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: var(--space-l) !important;
+  }
+
+  /* the result alone, on one A4 page: the reflection's name, the grouping and the reading (the bars,
+     the drawing and the buttons stay on screen) */
+  @media print {
+    @page {
+      size: A4;
+      margin: 14mm 16mm;
+    }
+    :global(.header),
+    :global(.footer),
+    :global(.nnav-bar),
+    :global(.music),
+    :global(.cookies),
+    :global(.site-tools),
+    .nref__art,
+    .nref__line,
+    .nref__actions,
+    .nref__key,
+    .nref__profile,
+    .nref__ideas,
+    .nref__by,
+    [data-ref-start],
+    [data-ref-flow] {
+      display: none !important;
+    }
+    :global(html),
+    :global(body) {
+      background: #fff !important;
+      font-size: 9.5pt !important;
+    }
+    .nref {
+      padding: 0 !important;
+    }
+    .nref :global(.wrap) {
+      width: 100%;
+    }
+    .nref__head {
+      margin-bottom: 0.4rem;
+    }
+    .nref__title {
+      font-size: 13pt;
+    }
+    .nref__type {
+      font-size: 20pt;
+    }
+    .nref__short {
+      font-size: 11pt;
+    }
+    .nref__about {
+      margin-top: 0.4rem !important;
+    }
+    .nref__reading {
+      background: none;
+      padding: 0;
+      margin-top: 0.8rem !important;
+      color: var(--ink);
+    }
+    .nref__reading :global(.nref__rhead) {
+      font-size: 14pt;
+    }
+  }
+</style>
+
+<style is:global>
+  /* the items (built by src/scripts/nostos-reflect.ts) */
+  .nref__prompt {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.2;
+    color: var(--ink-strong);
+  }
+  .nref__hint {
+    margin: 0.4rem 0 0;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nref__opts {
+    display: grid;
+    gap: 0.5rem;
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nref__opt {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    width: 100%;
+    padding: 0.8rem 1.1rem;
+    font: inherit;
+    line-height: 1.4;
+    text-align: left;
+    color: var(--ink);
+    background: var(--creme);
+    border: 1.5px solid var(--line);
+    border-radius: 1.4rem 1.1rem 1.5rem 1.2rem / 1.2rem 1.5rem 1.1rem 1.4rem;
+    cursor: pointer;
+    transition:
+      border-color var(--dur-1) var(--hover-delay),
+      background-color var(--dur-1) var(--hover-delay);
+  }
+  .nref__opt:hover {
+    border-color: var(--ink-strong);
+  }
+  .nref__opt.is-on {
+    color: var(--creme-light);
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+  .nref__opt.is-off {
+    opacity: 0.5;
+  }
+  .nref__badge {
+    flex: none;
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: var(--step--1);
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+  }
+  /* a ladder: its rungs from the bottom up */
+  .nref__opts--ladder {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0;
+    border-left: 2px solid var(--line);
+    border-right: 2px solid var(--line);
+    padding: 0.4rem 0.6rem;
+  }
+  .nref__opts--ladder li + li {
+    margin-bottom: 0.45rem;
+  }
+  /* a five-point line */
+  .nref__scale {
+    margin-top: var(--space-m);
+  }
+  .nref__dots {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 0.4rem;
+  }
+  .nref__dots::before {
+    content: '';
+    position: absolute;
+    left: 0.9rem;
+    right: 0.9rem;
+    top: 50%;
+    height: 2px;
+    background: var(--line);
+  }
+  .nref__dot {
+    position: relative;
+    width: 1.8rem;
+    height: 1.8rem;
+    padding: 0;
+    background: var(--creme);
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .nref__dot:nth-child(2),
+  .nref__dot:nth-child(4) {
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-top: 0.2rem;
+  }
+  .nref__dot:nth-child(3) {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.35rem;
+  }
+  .nref__dot.is-on {
+    background: var(--blue);
+  }
+  .nref__ends {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 0.6rem;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nref__ends span:last-child {
+    text-align: right;
+  }
+  /* this or that */
+  .nref__pairs {
+    display: grid;
+    gap: 0.5rem;
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nref__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .nref__pair .nref__opt {
+    justify-content: center;
+    text-align: center;
+  }
+  /* points to share */
+  .nref__pts {
+    display: grid;
+    gap: 0.5rem;
+    margin: var(--space-s) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nref__pt {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.4rem 1rem;
+    align-items: center;
+    padding: 0.6rem 0.8rem 0.6rem 1.1rem;
+    border: 1.5px solid var(--line);
+    border-radius: 1.2rem;
+  }
+  .nref__ptctl {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .nref__ptctl button {
+    width: 2rem;
+    height: 2rem;
+    font: inherit;
+    font-size: var(--step-1);
+    line-height: 1;
+    color: var(--ink-strong);
+    background: var(--creme);
+    border: 1.5px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  .nref__ptctl button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .nref__ptn {
+    min-width: 1.6rem;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    text-align: center;
+    color: var(--blue);
+  }
+  .nref__ptdots {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 0.2rem;
+  }
+  .nref__ptdots i {
+    width: 0.5rem;
+    height: 0.5rem;
+    background: var(--blue);
+    border-radius: 50%;
+  }
+  .nref__left {
+    margin: 0.7rem 0 0;
+    font-size: var(--step--1);
+    color: var(--blue);
+  }
+  .nref__write {
+    width: 100%;
+    min-height: 8.5rem;
+    margin-top: var(--space-s);
+    padding: 0.9rem 1.1rem;
+    font: inherit;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--creme);
+    border: 1.5px solid var(--line);
+    border-radius: 1.2rem;
+    resize: vertical;
+  }
+  .nref__write:focus {
+    outline: 2px solid var(--blue);
+    outline-offset: 1px;
+  }
+  .nref__linkbtn {
+    margin-top: 0.7rem;
+    padding: 0;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--blue);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  /* the reading */
+  .nref__rhead {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.2;
+  }
+  .nref__rbody p {
+    margin: 0.7rem 0 0;
+    max-width: var(--measure);
+  }
+  .nref__rlist {
+    margin: 0.6rem 0 0;
+    padding-left: 1.2rem;
+    list-style: disc;
+  }
+  .nref__rlist li + li {
+    margin-top: 0.4rem;
+  }
+  .nref__rgrid {
+    display: grid;
+    gap: 0.8rem 2rem;
+    margin-top: 1rem;
+  }
+  @media (min-width: 44rem) {
+    .nref__rgrid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .nref__rgrid h4,
+  .nref__rsub {
+    margin: 1rem 0 0.2rem;
+    font-size: calc(var(--step-0) * 0.75);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.8;
+  }
+  .nref__rgrid h4 {
+    margin-top: 0;
+  }
+  .nref__rgrid p {
+    margin: 0;
+  }
+  .nref__rathena {
+    margin: 0.4rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nref__rathena li + li {
+    margin-top: 0.4rem;
+  }
+  .nref__rathena a {
+    font-weight: 600;
+    color: inherit;
+  }
+  .nref__wait {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 0;
+  }
+  .nref__wait::before {
+    content: '';
+    width: 0.9rem;
+    height: 0.9rem;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: nref-spin 0.9s linear infinite;
+  }
+  @keyframes nref-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+</style>

@@ -185,6 +185,105 @@ Give a verdict: "close" if it captures Athena's meaning, "partly" if it has part
   return response.parsed_output as Marked;
 }
 
+/** A reflection's personal reading (src/lib/nostos-reflections.ts): an analysis of the learner's
+ *  answers in Athena's terms, no longer than an A4 page. Analysis only: no plan or advice (a later
+ *  phase). */
+export type Reading = {
+  headline: string;
+  portrait: string;
+  patterns: string[];
+  strength: string;
+  shadow: string;
+  athena: { concept: string; why: string }[];
+};
+export async function readReflection(
+  feedBase: string,
+  input: {
+    title: string;
+    intro: string;
+    focus: string;
+    types: { name: string; about: string }[];
+    result: string;
+    profile: string;
+    answers: string;
+    earlier: string;
+    concepts: string[];
+    today: string;
+  },
+): Promise<Reading> {
+  const api = await getClient();
+  const { jsonSchemaOutputFormat } = await import('@anthropic-ai/sdk/helpers/json-schema');
+  const chat = read<Chat>(CHAT, { messages: [], notes: '' });
+  const response = await api.beta.messages.parse({
+    model: MODEL,
+    max_tokens: 16000,
+    betas: ['server-side-fallback-2026-07-01'],
+    fallbacks: 'default',
+    output_config: {
+      effort: 'medium',
+      format: jsonSchemaOutputFormat({
+        type: 'object',
+        properties: {
+          headline: { type: 'string' },
+          portrait: { type: 'string' },
+          patterns: { type: 'array', items: { type: 'string' } },
+          strength: { type: 'string' },
+          shadow: { type: 'string' },
+          athena: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: { concept: { type: 'string', enum: input.concepts }, why: { type: 'string' } },
+              required: ['concept', 'why'],
+              additionalProperties: false,
+            },
+          },
+        },
+        required: ['headline', 'portrait', 'patterns', 'strength', 'shadow', 'athena'],
+        additionalProperties: false,
+      }),
+    },
+    system: await system(feedBase, chat.notes),
+    messages: [
+      {
+        role: 'user',
+        content: `A student has just completed a reflection in Nostos. Write their personal reading: an analysis of their answers in the light of Athena's teaching.
+
+The reflection: ${input.title}
+What it is: ${input.intro}
+How to read it: ${input.focus}
+
+Its groupings:
+${input.types.map((t) => `- ${t.name}: ${t.about}`).join('\n')}
+
+The student's grouping, scored from their answers: ${input.result}
+Their scores across the groupings: ${input.profile}
+${input.earlier ? `\nTheir earlier reflections (oldest first):\n${input.earlier}\n` : ''}
+Their answers, the written ones in their own words:
+<answers>
+${input.answers}
+</answers>
+
+Today is ${input.today}.
+
+Write to the student ("you"), warmly, plainly and specifically, in the language of their written answers, in British spelling. Ground everything in their answers: quote their own words (briefly, in quotation marks) at least twice, and say which answer shows what. Read the grouping as the page scored it, but nuance it where their written answers point elsewhere. This is a reflection, not a psychological test: no diagnosis, no clinical words, no flattery.
+
+This is an analysis only. Give no plan, practice, advice, exercises or next steps: those come later, separately.
+
+- "headline": the reading in a few words (under 12), in Athena's terms.
+- "portrait": two short paragraphs, 120 to 180 words in all.
+- "patterns": three things their answers show, one or two sentences each.
+- "strength": one or two sentences.
+- "shadow": one or two sentences: the tension or blind spot, said kindly.
+- "athena": two or three of Athena's ideas that throw light on their answers, each with one sentence on why (concept ids from the list you are given only).
+Altogether no more than about 450 words, so it fits on one A4 page. Never put words in Athena's mouth; you are an AI reading their answers through her ideas.`,
+      },
+    ],
+  });
+  if (response.stop_reason === 'refusal' || !response.parsed_output) throw new Error('declined');
+  return response.parsed_output as Reading;
+}
+
 /** Why a wrong choice is wrong, in a sentence or two, as the tutor would say it */
 export async function explainWrong(feedBase: string, question: string, right: string, chosen: string, explain: string) {
   const api = await getClient();

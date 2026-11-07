@@ -1,0 +1,325 @@
+{
+  "id": "charioteer",
+  "n": 3,
+  "after": "soul-self",
+  "title": "The charioteer",
+  "line": "Which part of your soul holds the reins?",
+  "intro": "Plato pictures the soul as a chariot: a driver and two horses, one eager and fiery, one heavy with appetite. Athena reads them as three powers of the soul: desire, the spirited heart, and reason. This reflection looks at which of them moves first in you when life presses. It is a mirror, not a test.",
+  "concepts": [
+    "tripartitesoul",
+    "soul",
+    "self",
+    "desire",
+    "courage"
+  ],
+  "types": [
+    {
+      "id": "black-horse",
+      "name": "The appetite leads",
+      "short": "Desire sets the pace",
+      "about": "In you the desiring part (τὸ ἐπιθυμητικόν) is quickest to move: comfort, pleasure, the next thing. Athena reads desire as sacred in its motive: behind every craving the soul is looking for the fullness of the Good. It only goes astray when it believes that fullness lies in one more possession or one more helping.",
+      "concepts": [
+        "desire",
+        "tripartitesoul"
+      ]
+    },
+    {
+      "id": "thymos",
+      "name": "The spirited horse at the reins",
+      "short": "The heart moves first",
+      "about": "The spirited part (τὸ θυμοειδές), which Athena equates with the heart and the emotions, leads you: pride, hurt, enthusiasm, courage. It is the horse that gives the chariot its fire, and the one that bolts when it is stung.",
+      "concepts": [
+        "courage",
+        "tripartitesoul"
+      ]
+    },
+    {
+      "id": "charioteer",
+      "name": "The charioteer holds the reins",
+      "short": "Reason decides",
+      "about": "Reason (τὸ λογιστικόν) holds the reins: you weigh, decide and mostly follow through. In Plato's picture that is the right order, with the spirited horse as reason's ally. Athena adds that even the driver is a power of the soul, not the self who watches all three.",
+      "concepts": [
+        "phronesis",
+        "nous"
+      ]
+    },
+    {
+      "id": "tug",
+      "name": "Horses pulling apart",
+      "short": "Much energy goes into the pull",
+      "about": "Your horses pull different ways, and a good part of your energy goes into the pull itself: deciding and undoing, wanting and refusing. Plato describes this very struggle in the Phaedrus, and Athena calls seeing it clearly the first, 'extremely therapeutic' stage of self-knowledge.",
+      "concepts": [
+        "tripartitesoul",
+        "selfobservation"
+      ]
+    },
+    {
+      "id": "asleep",
+      "name": "The charioteer asleep",
+      "short": "Habit steers",
+      "about": "Nobody quite holds the reins: habit, circumstance and other people's expectations steer, and the day runs itself. In Athena's terms this is βίος rather than ζωή: life lived mechanically, by instinct and routine, rather than lit by understanding.",
+      "concepts": [
+        "euzen",
+        "selfobservation"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "A deadline tomorrow, and friends ask you out tonight. What moves first in you?",
+      "options": [
+        {
+          "text": "I'm already picturing the evening",
+          "to": {
+            "black-horse": 2
+          }
+        },
+        {
+          "text": "A flash of irritation, or pride that I'll manage both",
+          "to": {
+            "thymos": 2
+          }
+        },
+        {
+          "text": "I weigh it up and decide",
+          "to": {
+            "charioteer": 2
+          }
+        },
+        {
+          "text": "I say yes, then no, and feel bad either way",
+          "to": {
+            "tug": 2
+          }
+        },
+        {
+          "text": "Neither happens: I end up scrolling",
+          "to": {
+            "asleep": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "Someone criticises your work in front of others. What happens in you?",
+      "options": [
+        {
+          "text": "My face goes hot and I answer back",
+          "to": {
+            "thymos": 2
+          }
+        },
+        {
+          "text": "I want comfort: food, my phone, anything",
+          "to": {
+            "black-horse": 2
+          }
+        },
+        {
+          "text": "I ask what exactly they mean",
+          "to": {
+            "charioteer": 2
+          }
+        },
+        {
+          "text": "I nod, then argue with them in my head for days",
+          "to": {
+            "tug": 2,
+            "thymos": 1
+          }
+        },
+        {
+          "text": "I go flat and carry on as if nothing happened",
+          "to": {
+            "asleep": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "pairs",
+      "id": "q3",
+      "prompt": "Quickly: which is more like you?",
+      "pairs": [
+        {
+          "a": "Treats",
+          "aTo": {
+            "black-horse": 1
+          },
+          "b": "Achievements",
+          "bTo": {
+            "thymos": 1
+          }
+        },
+        {
+          "a": "I decide with my gut",
+          "aTo": {
+            "thymos": 1
+          },
+          "b": "I decide with a list",
+          "bTo": {
+            "charioteer": 1
+          }
+        },
+        {
+          "a": "Plans I keep",
+          "aTo": {
+            "charioteer": 1
+          },
+          "b": "Plans that drift",
+          "bTo": {
+            "asleep": 1
+          }
+        },
+        {
+          "a": "Craving visits me more",
+          "aTo": {
+            "black-horse": 1
+          },
+          "b": "Anger visits me more",
+          "bTo": {
+            "thymos": 1
+          }
+        },
+        {
+          "a": "I know what I want",
+          "aTo": {
+            "charioteer": 1
+          },
+          "b": "I want several things at once",
+          "bTo": {
+            "tug": 1
+          }
+        },
+        {
+          "a": "Comfort",
+          "aTo": {
+            "black-horse": 1
+          },
+          "b": "Honour",
+          "bTo": {
+            "thymos": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "When I decide something, I do it.",
+      "left": "Hardly ever",
+      "right": "Almost always",
+      "to": {
+        "charioteer": 2,
+        "tug": -1,
+        "asleep": -1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q5",
+      "prompt": "My days run on habit more than on choice.",
+      "left": "Not at all",
+      "right": "Very much",
+      "to": {
+        "asleep": 2,
+        "charioteer": -1
+      }
+    },
+    {
+      "kind": "points",
+      "id": "q6",
+      "prompt": "Think of the last seven days. Share ten points among what really drove your choices.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Pleasure, comfort, appetite",
+          "to": "black-horse"
+        },
+        {
+          "text": "Feelings: pride, hurt, enthusiasm, anger",
+          "to": "thymos"
+        },
+        {
+          "text": "What I had reasoned was right",
+          "to": "charioteer"
+        },
+        {
+          "text": "Habit, and what others expected",
+          "to": "asleep"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe one moment this week when you did what you had decided not to do, or did not do what you had decided. What pulled you?",
+      "hint": "A small moment is best: a second helping, a sharp reply, an evening lost.",
+      "placeholder": "I'd decided to go to bed early, but…"
+    },
+    {
+      "kind": "multi",
+      "id": "q7",
+      "prompt": "Which of these do you know well from the inside? Choose up to two.",
+      "max": 2,
+      "options": [
+        {
+          "text": "The pull of one more",
+          "to": {
+            "black-horse": 1
+          }
+        },
+        {
+          "text": "The heat before a sharp reply",
+          "to": {
+            "thymos": 1
+          }
+        },
+        {
+          "text": "The cool voice that knows better",
+          "to": {
+            "charioteer": 1
+          }
+        },
+        {
+          "text": "Arguing with myself",
+          "to": {
+            "tug": 1
+          }
+        },
+        {
+          "text": "Looking up and finding the day gone",
+          "to": {
+            "asleep": 1
+          }
+        },
+        {
+          "text": "Courage when it counts",
+          "to": {
+            "thymos": 1,
+            "charioteer": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Now the opposite: when did your horses last pull the same way? A time when what you wanted, what you felt and what you knew all agreed.",
+      "hint": "It can be as simple as a walk, a piece of work or a conversation.",
+      "placeholder": "Last spring, when I…"
+    }
+  ],
+  "looks": "Which part of your soul leads under pressure: appetite, the spirited heart (anger, pride, enthusiasm) or reason.",
+  "learn": "Plato’s three-part soul, seen in your own decisions: virtue as the parts working together, not one suppressing the others.",
+  "later": {
+    "plan": "A map of your three trigger situations, and a practice for the part that leads. Appetite: “ask a craving what it wants”. Spirit: three breaths before replying, and the evening Ares audit. Reason asleep: a five-minute evening review.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read which part moves first under pressure, and how the three relate: an ally, a fight, or nobody driving. The top score matters less than the pattern across the two scenarios, the points and the learner's two moments. Athena treats the three parts as powers of the soul, not the self, and equates the spirited part with the heart and the emotions. Never moralise desire: for Athena it is sacred in its motive, seeking the fullness of the Good. Quote the learner's own words from both moments, and name what made the horses agree in the second.",
+  "reads": []
+}

@@ -1719,6 +1719,22 @@ function refresh(root: HTMLElement) {
         go.dataset.side = x > 0.15 ? 'left' : 'right';
       }
     });
+    // the reflections (src/lib/nostos-reflections.ts): taken (a result is kept in this browser), or still
+    // ahead of where you are (its chapter not walked to its end); they can be taken at any time
+    let taken: Record<string, unknown[]> = {};
+    try {
+      taken = JSON.parse(localStorage.getItem('nostos-reflections-v1') || '{}');
+    } catch {
+      // storage switched off: none shows as taken
+    }
+    root.querySelectorAll<HTMLElement>('[data-ref-stone]').forEach((stone) => {
+      const done = !!taken[stone.dataset.refStone!]?.length;
+      const walked = outline[Number(stone.dataset.chAfter)]?.lessons.every((l) => lessonDone(p, l));
+      stone.classList.toggle('is-done', done);
+      stone.classList.toggle('is-ahead', !done && !walked);
+      const state = stone.querySelector<HTMLElement>('[data-ref-state]');
+      if (state) state.textContent = done ? state.dataset.done ?? '' : walked ? '' : state.dataset.ahead ?? '';
+    });
     root.querySelectorAll<HTMLElement>('[data-ch]').forEach((section) => {
       const c = outline[Number(section.dataset.ch)];
       // a chapter not yet begun and further on than where you are: it can be skipped to, from its card
