@@ -548,8 +548,9 @@ const rowsOf = (ci: number): Row[] =>
       opacity 1.4s var(--ease-in-out),
       visibility 0s linear 1.4s;
   }
+  /* (a little stronger: client direction, 7 November 2026) */
   .njscene.is-on {
-    opacity: 0.3;
+    opacity: 0.42;
     visibility: visible;
     transition:
       opacity 1.4s var(--ease-in-out),
@@ -557,7 +558,7 @@ const rowsOf = (ci: number): Row[] =>
   }
   /* the cave is the busiest at the sides: a little fainter */
   .njscene.is-on[data-place='cave'] {
-    opacity: 0.25;
+    opacity: 0.35;
   }
   /* on phones the drawing is small: a heavier line keeps it from turning to hairlines */
   @media (max-width: 37.5rem) {
