@@ -657,10 +657,6 @@ ul.nsteps li::before {
 }
 
 /* the path: a new idea, a passage, one of her lines */
-.nkind {
-  margin: 0 0 0.2rem;
-  letter-spacing: 0.02em;
-}
 .nidea {
   display: grid;
   gap: 0.45rem;
@@ -876,21 +872,6 @@ html.motion .narena__stage > * {
   line-height: 1.15;
   color: var(--ink);
   opacity: 0.85;
-}
-.nkind--pill {
-  justify-self: start;
-  width: fit-content;
-  margin-bottom: 0.5rem;
-  padding: 0.25rem 0.85rem 0.3rem;
-  font-size: 0.82rem;
-  letter-spacing: 0.06em;
-  color: var(--blue-deep);
-  background: var(--blue-light);
-  border-radius: 1rem 0.8rem 1.1rem 0.9rem / 0.9rem 1.1rem 0.8rem 1rem;
-}
-.nidea .nkind--pill,
-.narena__stage > .nkind--pill {
-  justify-self: center;
 }
 /* the buttons that move on sit at the bottom right of the step, with room above and below them: every
    such row in a step, whether it is the step's own or inside what appears after an answer */

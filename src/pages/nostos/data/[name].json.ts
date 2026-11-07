@@ -32,6 +32,8 @@ const feeds = {
       greek: c.greek,
       translit: c.translit,
       group: c.group,
+      // (thinker, deity, idea…: a person is never asked as "what does Athena mean by…?")
+      kind: c.kind,
       weight: c.weight,
       freq: c.freq,
       // whole: the path's idea steps show all of it, the activities shorten it where they need to

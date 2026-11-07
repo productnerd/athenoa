@@ -53,7 +53,7 @@ const keep = (file: keyof Exclude) => {
   return (key: string | undefined) => !out.has(key ?? '');
 };
 
-type Entry = { u: string; step: Step; at: number; text: string; main?: string; raw?: string; rawMain?: string; talk?: string };
+type Entry = { u: string; step: Step; at: number; text: string; main?: string; raw?: string; rawMain?: string; talk?: string; /** a question's answer, as the ideas it names */ ans?: string[] };
 const entries: Entry[] = [];
 const taken = new Set<string>();
 // `main` is what the item is about (its question, title or word), without its explanation
@@ -252,6 +252,8 @@ function arcRoutes(a: Arc): RouteOf[] {
     const inMain = e.main ? about(e.main, e.rawMain ?? '') : [];
     return { e, ids: inMain.length ? inMain : about(e.text, e.raw ?? '') };
   });
+  // the ideas a question's right answer names, so it is never asked where that idea is taught (below)
+  for (const { e } of named) if (e.step.k === 'q' && typeof e.step.a === 'string') e.ans = about(plain(e.step.a), e.step.a);
   const often = new Map<string, number>();
   named.forEach(({ ids }) => ids.forEach((id) => often.set(id, (often.get(id) ?? 0) + 1)));
   const anchored = new Map<string, Entry[]>();
@@ -319,13 +321,29 @@ function arcRoutes(a: Arc): RouteOf[] {
   });
 }
 
-const routes: RouteOf[] = arc
+const built: RouteOf[] = arc
   ? arcRoutes(arc)
   : [
       ...order.map((id) => ({ id, title: chapterTitle(talkName(id)), talk: id as string | undefined, route: route(id, entries.filter((e) => e.talk === id)) })),
       // what no talk claims (and any idea not met yet) closes the path
       { id: 'across', title: '', talk: undefined, route: route(undefined, entries.filter((e) => !e.talk || !order.includes(e.talk))) },
     ];
+
+// A question whose right answer is an idea its own chapter teaches answers itself ("which modern Greek
+// writer…?" in the chapter on Kazantzakis): the answer should never be the lesson's theme (client
+// direction, 7 November 2026). Such a question moves on into the next chapter, a few steps in and spread
+// out, where it is remembered rather than read off the lesson; in the last chapter it leaves the path
+// (it stays in the Oracle quiz).
+const routes: RouteOf[] = built.map((r) => ({ ...r, route: [...r.route] }));
+routes.forEach((r, ci) => {
+  const taught = new Set(r.route.filter((e) => e.step.k === 'c').map((e) => e.step.id as string));
+  const own = (e: Entry) => !!e.ans?.some((id) => taught.has(id));
+  const moved = r.route.filter(own);
+  if (!moved.length) return;
+  r.route = r.route.filter((e) => !own(e));
+  const next = routes[ci + 1]?.route;
+  if (next) moved.forEach((e, k) => next.splice(Math.min(next.length, 3 + k * 4), 0, e));
+});
 
 // ---------- connections ----------
 // Athena's links, where she says why. Each is met as soon as both of its ideas are known: the moment the

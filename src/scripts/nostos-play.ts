@@ -14,7 +14,7 @@ import { explainWrong, hasKey, markAnswer, noteAnswer } from './nostos-tutor';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Words = Record<string, any>;
-type Concept = { id: string; label: string; greek?: string; translit?: string; group: string; weight: number; freq: number; take: string };
+type Concept = { id: string; label: string; greek?: string; translit?: string; group: string; kind?: string; weight: number; freq: number; take: string };
 type Arena = { stage: HTMLElement; progress: (f: number) => void; score: (s: string) => void };
 
 let W: Words = {};
@@ -1196,8 +1196,9 @@ function starMark(group: string) {
 /** One step, to learn (first time on the path) or to recall (Review). Reading steps call answered(null)
  *  when the visitor moves on; the rest call answered(right or not) when they answer. */
 function ask(stage: HTMLElement, s: Step, mode: 'learn' | 'recall', M: Material, answered: (ok: boolean | null) => void, next: () => void) {
-  // what kind of step it is; a new idea's in a pill of its own, the others quietly (client direction)
-  const head = h('p', { class: `nsmall nkind${s.k === 'c' && mode === 'learn' ? ' nkind--pill' : ''}` }, W.path.kinds[s.k] ?? '');
+  // (no label naming the kind of step above it any more: client direction, 7 November 2026. The kinds'
+  // names stay in the wording, for the tutor's notes of what was answered.)
+  const head: Node = document.createTextNode('');
   const go = (ok: boolean | null) => {
     const button = h('button', { type: 'button', class: 'btn', onclick: () => (answered(ok), next()) }, W.arena.next);
     return h('div', { class: 'nrow' }, button);
@@ -1517,9 +1518,13 @@ async function walk(ci: number, li: number) {
     let i = fresh ? ids.findIndex((u) => !met(load(), u)) : 0;
     let wrote = false;
     // with the visitor's API key, a new lesson ends with one question in their own words: the
-    // lesson's weightiest new idea, or else one of its connections
+    // lesson's weightiest new idea, or else one of its connections; never a person ("what does Athena
+    // mean by Plato?" is no question: client direction, 7 November 2026)
     const ownWords = () => {
-      const ideas = ids.filter((u) => u.startsWith('c')).map((u) => M.idea(u.slice(1))).filter((c): c is Concept => !!c);
+      const ideas = ids
+        .filter((u) => u.startsWith('c'))
+        .map((u) => M.idea(u.slice(1)))
+        .filter((c): c is Concept => !!c && c.kind !== 'thinker');
       const idea = ideas.sort((a, b) => b.weight - a.weight)[0];
       if (idea) return { question: fill(W.tutor.own.idea, { label: idea.label }), reference: idea.take };
       const link = ids.map((u) => M.step(u)).find((st) => st?.k === 'k');
@@ -1534,7 +1539,7 @@ async function walk(ci: number, li: number) {
         hideMap();
         A.progress(1);
         A.stage.replaceChildren();
-        return written(A.stage, h('p', { class: 'nsmall nkind' }, W.tutor.own.kind), own.question, own.reference, writtenPoints, () =>
+        return written(A.stage, document.createTextNode(''), own.question, own.reference, writtenPoints, () =>
           walked(A, ci, li, fresh, M),
         );
       }
@@ -1613,8 +1618,9 @@ function telos(ci: number, li: number, at: { ci: number; li: number } | null) {
       { class: 'ntelos__in' },
       art,
       h('p', { class: 'ntelos__place', id: 'ntelos-word' }, fill(W.path.lessonDone, { i: li + 1, n: chapter.lessons.length })),
-      greek(W.arena.end, 'ntelos__word'),
+      // (the chapter's stones under the line that counts them: client direction, 7 November 2026)
       stones,
+      greek(W.arena.end, 'ntelos__word'),
       at ? null : h('p', { class: 'ntelos__msg' }, W.path.doneAll),
       h(
         'div',
