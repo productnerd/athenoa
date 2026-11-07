@@ -143,6 +143,17 @@ Each idea in "All the ideas", under the map, has a dot, faint to bright by how c
 
 At Maria's request each of the guide's seven phases is set beside the world's religions and schools: fifteen traditions, each with its own small drawn symbol and a key (Jewish, Christian, Islam, Sufi, Hindu, Buddhist, Sikh, Zoroastrian, Daoist, Confucian, Zen, Shinto, Akan, Stoic, modern philosophy), eight or nine parallels a phase, a strip of six maps that run through all seven (the Ten Ox-herding Pictures, Attar's seven valleys, Teresa of Ávila's Interior Castle, the Kabbalah's Tree of Life, Nietzsche's three metamorphoses, the hero's journey), and one public-domain picture for each phase and the strip. Each phase now ends with a gate: four or five behaviours to tick (kept in the visitor's browser only), each new to its phase, with a line that they are ordinary behaviours, not marks of awakening. Each parallel's link to its phase shows on hover or tap. ALL NEW WORDING, proposed, in src/data/nostos-guide.ts (`echoes`, `maps`, `echoNote`). These parallels are the draft's own, not from Athena's talks, and the page says so; the five that Athena draws herself, or that quote her, link to her talk (Epictetus, Jung's archetype, Advaita and yoga, the bodhisattva, Nietzsche's "good premises").
 
+## The practical guide: sources as arrows, and a day for the daily habits (7 November 2026)
+
+At Maria's request:
+
+- **Sources:** every source on the guide is now only an arrow (↗) at the right, at the end of its text. The talk's title shows on hover, and a click opens it in a new tab. The quote captions read "Athena ↗" (was "Athena · {talk}").
+- **A day on the path:** "Daily habits" is removed as a section and in the page's contents. "A day on the path" takes its place, holding every daily habit, and its Morning and Evening cards are gone because the day tells them. Under the day come the guide's habits introduction, then "Through the day", "Every week" and "Through the year", and the meditations.
+- **Three new moments in the day**, NEW WORDING, proposed:
+  - 10:15: "Between two emails you notice you have spent ten minutes comparing your numbers with a colleague’s. You name it, without a verdict: “now I am comparing”. Naming it is already a step out of it."
+  - 18:05: "A red light on the way home. One label to put down for the length of it: “the one who always has the answer”. You let it go, and ask what you are beyond it. The light turns green."
+- **Two more habits named on existing moments:** "Sit" (07:00) and "Watch your yeses and noes" (17:00).
+
 ## Nostos reflections: scales for nuance (7 November 2026)
 
 At Maria's request, a question that is a matter of degree is now a scale of 5 or 7 points, NEW WORDING, proposed, in `src/data/nostos-reflections/*.json`. Some scales also name their middle point.

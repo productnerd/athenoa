@@ -27,7 +27,10 @@ const claim = (item: { name: string }) => {
   owners.add(item);
 };
 phases.items.forEach((p) => p.do.forEach(claim));
-habits.groups.forEach((g) => g.items.forEach(claim));
+// (the Morning and Evening habits are told by "A day on the path" instead of shown as cards: Maria,
+// 7 November 2026; their tags in the day are plain words)
+const habitGroups = habits.groups.filter((g) => g.id !== 'morning' && g.id !== 'evening');
+habitGroups.forEach((g) => g.items.forEach(claim));
 meditations.items.forEach(claim);
 love.items.forEach(claim);
 work.items.forEach(claim);
@@ -40,7 +43,6 @@ const fill = (text: string, values: Record<string, string | number>) => text.rep
 const toc = [
   { href: '#ng-words', label: words.title },
   { href: '#ng-phases', label: phases.title },
-  { href: '#ng-habits', label: habits.title },
   { href: '#ng-day', label: day.title },
   { href: '#ng-hard', label: hard.title },
   { href: '#ng-love', label: love.title },
@@ -60,7 +62,7 @@ const toc = [
       <p class="ng-hero__lead">{intro.lead}</p>
       <figure class="ng-line ng-line--big">
         <blockquote><p>{intro.line.text}</p></blockquote>
-        <figcaption>Athena · <a href={srcUrl(intro.line.src)} target="_blank" rel="noopener">{srcLabel(intro.line.src)}</a></figcaption>
+        <figcaption>Athena <a class="ng-src" href={srcUrl(intro.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(intro.line.src)} data-tip={srcLabel(intro.line.src)}>↗</a></figcaption>
       </figure>
       <p class="ng-draft">{intro.note}</p>
       <nav class="ng-toc" aria-label="On this page">
@@ -82,8 +84,7 @@ const toc = [
             <p class="ng-word__greek" lang="grc">{w.greek}</p>
             <p class="ng-word__latin">{w.latin}</p>
             <p class="ng-word__means">{w.means}</p>
-            <p class="ng-word__tuesday"><span>On a Tuesday</span>{w.tuesday}</p>
-            <a class="ng-src" href={srcUrl(w.src)} target="_blank" rel="noopener">{srcLabel(w.src)}</a>
+            <p class="ng-word__tuesday"><span>On a Tuesday</span>{w.tuesday} <a class="ng-src" href={srcUrl(w.src)} target="_blank" rel="noopener" aria-label={srcLabel(w.src)} data-tip={srcLabel(w.src)}>↗</a></p>
           </li>
         ))}
       </ul>
@@ -112,7 +113,7 @@ const toc = [
       <aside class="ng-maps" aria-labelledby="ng-maps-h">
         <div class="ng-maps__text">
           <h3 class="t-3" id="ng-maps-h">{maps.title}</h3>
-          <p class="ng-intro">{echoNote.intro} <a class="ng-src" href={srcUrl(echoNote.introSrc)} target="_blank" rel="noopener">{srcLabel(echoNote.introSrc)}</a></p>
+          <p class="ng-intro">{echoNote.intro} <a class="ng-src" href={srcUrl(echoNote.introSrc)} target="_blank" rel="noopener" aria-label={srcLabel(echoNote.introSrc)} data-tip={srcLabel(echoNote.introSrc)}>↗</a></p>
           <p class="ng-added">{echoNote.added}</p>
           <p class="ng-h4">{echoNote.key}</p>
           <ul class="ng-key" role="list">
@@ -156,9 +157,8 @@ const toc = [
                 {p.do.map((s) => (
                   <li class="ng-step" id={idOf(s)}>
                     <p class="ng-step__name">{s.name}</p>
-                    <p class="ng-step__how">{s.how}</p>
-                    {s.why && <p class="ng-step__why">{s.why}</p>}
-                    {s.src && <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener">{srcLabel(s.src)}</a>}
+                    <p class="ng-step__how">{s.how}{!s.why && s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>
+                    {s.why && <p class="ng-step__why">{s.why}{s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>}
                   </li>
                 ))}
               </ol>
@@ -176,7 +176,7 @@ const toc = [
                   <li>
                     <span class="ng-ladders__name">{l.ladder}</span>
                     <span>{l.rung}</span>
-                    <a class="ng-src" href={srcUrl(l.src)} target="_blank" rel="noopener">{srcLabel(l.src)}</a>
+                    <a class="ng-src" href={srcUrl(l.src)} target="_blank" rel="noopener" aria-label={srcLabel(l.src)} data-tip={srcLabel(l.src)}>↗</a>
                   </li>
                 ))}
               </ul>
@@ -217,45 +217,8 @@ const toc = [
     </div>
   </section>
 
-  {/* 3. habits, with the meditations written out */}
-  <section class="section ng-sec" id="ng-habits" aria-labelledby="ng-habits-h">
-    <div class="wrap">
-      <h2 class="t-2" id="ng-habits-h">{habits.title}</h2>
-      <p class="ng-intro">{habits.intro} <a class="ng-src" href={srcUrl(habits.introSrc)} target="_blank" rel="noopener">{srcLabel(habits.introSrc)}</a></p>
-      {habits.groups.map((g) => (
-        <div class="ng-group">
-          <h3 class="t-3 ng-group__h">{g.label}</h3>
-          <ul class="ng-cards" role="list">
-            {g.items.map((s) => (
-              <li class="ng-step ng-card" id={idOf(s)}>
-                <p class="ng-step__name">{s.name}</p>
-                <p class="ng-step__how">{s.how}</p>
-                {s.why && <p class="ng-step__why">{s.why}</p>}
-                {s.src && <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener">{srcLabel(s.src)}</a>}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-
-      <div class="ng-meds">
-        <h3 class="t-3 ng-group__h">{meditations.title}</h3>
-        <p class="ng-intro">{meditations.intro}</p>
-        <ul class="ng-meds__list" role="list">
-          {meditations.items.map((m) => (
-            <li class="ng-med" id={idOf(m)}>
-              <p class="ng-med__name">{m.name}</p>
-              <p class="ng-med__mins">{m.mins}</p>
-              <ol>{m.steps.map((s) => <li>{s}</li>)}</ol>
-              <a class="ng-src" href={srcUrl(m.src)} target="_blank" rel="noopener">{srcLabel(m.src)}</a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  {/* 4. a sample day */}
+  {/* 3. a day on the path, holding every daily habit (Maria, 7 November 2026: it replaces "Daily habits"),
+      then the habits through the day, every week and through the year, and the meditations written out */}
   <section class="section ng-sec" id="ng-day" aria-labelledby="ng-day-h">
     <div class="wrap">
       <h2 class="t-2" id="ng-day-h">{day.title}</h2>
@@ -273,7 +236,37 @@ const toc = [
           </li>
         ))}
       </ol>
-      <p class="ng-after">{day.after} <a class="ng-src" href={srcUrl(day.afterSrc)} target="_blank" rel="noopener">{srcLabel(day.afterSrc)}</a></p>
+      <p class="ng-after">{day.after} <a class="ng-src" href={srcUrl(day.afterSrc)} target="_blank" rel="noopener" aria-label={srcLabel(day.afterSrc)} data-tip={srcLabel(day.afterSrc)}>↗</a></p>
+
+      <p class="ng-intro ng-intro--habits">{habits.intro} <a class="ng-src" href={srcUrl(habits.introSrc)} target="_blank" rel="noopener" aria-label={srcLabel(habits.introSrc)} data-tip={srcLabel(habits.introSrc)}>↗</a></p>
+      {habitGroups.map((g) => (
+        <div class="ng-group">
+          <h3 class="t-3 ng-group__h">{g.label}</h3>
+          <ul class="ng-cards" role="list">
+            {g.items.map((s) => (
+              <li class="ng-step ng-card" id={idOf(s)}>
+                <p class="ng-step__name">{s.name}</p>
+                <p class="ng-step__how">{s.how}{!s.why && s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>
+                {s.why && <p class="ng-step__why">{s.why}{s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <div class="ng-meds">
+        <h3 class="t-3 ng-group__h">{meditations.title}</h3>
+        <p class="ng-intro">{meditations.intro}</p>
+        <ul class="ng-meds__list" role="list">
+          {meditations.items.map((m) => (
+            <li class="ng-med" id={idOf(m)}>
+              <p class="ng-med__name">{m.name}</p>
+              <p class="ng-med__mins">{m.mins}</p>
+              <ol>{m.steps.map((s, k) => <li>{s}{k === m.steps.length - 1 && <> <a class="ng-src" href={srcUrl(m.src)} target="_blank" rel="noopener" aria-label={srcLabel(m.src)} data-tip={srcLabel(m.src)}>↗</a></>}</li>)}</ol>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -287,13 +280,12 @@ const toc = [
         {hard.items.map((h) => (
           <li class="ng-card ng-hard" id={slug(h.when)}>
             <p class="ng-hard__when">{h.when}</p>
-            <ol>{h.steps.map((s) => <li>{s}</li>)}</ol>
+            <ol>{h.steps.map((s, k) => <li>{s}{k === h.steps.length - 1 && <> <a class="ng-src" href={srcUrl(h.src)} target="_blank" rel="noopener" aria-label={srcLabel(h.src)} data-tip={srcLabel(h.src)}>↗</a></>}</li>)}</ol>
             {h.line && (
               <p class="ng-hard__line">
-                “{h.line.text}” <a class="ng-src" href={srcUrl(h.line.src)} target="_blank" rel="noopener">{srcLabel(h.line.src)}</a>
+                “{h.line.text}” <a class="ng-src" href={srcUrl(h.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(h.line.src)} data-tip={srcLabel(h.line.src)}>↗</a>
               </p>
             )}
-            <a class="ng-src" href={srcUrl(h.src)} target="_blank" rel="noopener">{srcLabel(h.src)}</a>
           </li>
         ))}
       </ul>
@@ -308,20 +300,19 @@ const toc = [
     <section class="section ng-sec" id={id} aria-labelledby={`${id}-h`}>
       <div class="wrap">
         <h2 class="t-2" id={`${id}-h`}>{part.title}</h2>
-        <p class="ng-intro">{part.intro} <a class="ng-src" href={srcUrl(part.introSrc)} target="_blank" rel="noopener">{srcLabel(part.introSrc)}</a></p>
+        <p class="ng-intro">{part.intro} <a class="ng-src" href={srcUrl(part.introSrc)} target="_blank" rel="noopener" aria-label={srcLabel(part.introSrc)} data-tip={srcLabel(part.introSrc)}>↗</a></p>
         <ul class="ng-cards" role="list">
           {part.items.map((s) => (
             <li class="ng-step ng-card" id={idOf(s)}>
               <p class="ng-step__name">{s.name}</p>
-              <p class="ng-step__how">{s.how}</p>
-              {s.why && <p class="ng-step__why">{s.why}</p>}
-              {s.src && <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener">{srcLabel(s.src)}</a>}
+              <p class="ng-step__how">{s.how}{!s.why && s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>
+              {s.why && <p class="ng-step__why">{s.why}{s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>}
             </li>
           ))}
         </ul>
         <figure class="ng-line">
           <blockquote><p>{part.line.text}</p></blockquote>
-          <figcaption>Athena · <a href={srcUrl(part.line.src)} target="_blank" rel="noopener">{srcLabel(part.line.src)}</a></figcaption>
+          <figcaption>Athena <a class="ng-src" href={srcUrl(part.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(part.line.src)} data-tip={srcLabel(part.line.src)}>↗</a></figcaption>
         </figure>
       </div>
     </section>
@@ -340,8 +331,7 @@ const toc = [
               {g.items.map((t) => (
                 <li class="ng-trap">
                   <p class="ng-trap__trap">{t.trap}</p>
-                  <p class="ng-trap__instead"><span>Instead</span>{t.instead}</p>
-                  <a class="ng-src" href={srcUrl(t.src)} target="_blank" rel="noopener">{srcLabel(t.src)}</a>
+                  <p class="ng-trap__instead"><span>Instead</span>{t.instead} <a class="ng-src" href={srcUrl(t.src)} target="_blank" rel="noopener" aria-label={srcLabel(t.src)} data-tip={srcLabel(t.src)}>↗</a></p>
                 </li>
               ))}
             </ul>
@@ -356,7 +346,7 @@ const toc = [
     <div class="wrap">
       <figure class="ng-line ng-line--big ng-line--end">
         <blockquote><p>{closing.line.text}</p></blockquote>
-        <figcaption>Athena · <a href={srcUrl(closing.line.src)} target="_blank" rel="noopener">{srcLabel(closing.line.src)}</a></figcaption>
+        <figcaption>Athena <a class="ng-src" href={srcUrl(closing.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(closing.line.src)} data-tip={srcLabel(closing.line.src)}>↗</a></figcaption>
       </figure>
     </div>
   </section>
@@ -528,19 +518,48 @@ const toc = [
     background: var(--blue);
     opacity: 0.6;
   }
+  /* a source (client direction, 7 November 2026): only an arrow, at the right at the end of its text;
+     its title shows on hover, and a click opens it in a new tab */
   .ng-src {
-    display: inline-block;
-    font-size: var(--step--1);
+    position: relative;
+    float: right;
+    margin-left: 0.6rem;
+    padding: 0 0.15rem;
+    font-family: var(--font-body);
+    font-size: 1.05em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: inherit;
     color: var(--ink-soft);
     text-decoration: none;
-    border-bottom: 1px solid var(--line);
   }
-  .ng-src::before {
-    content: '↗ ';
-  }
-  .ng-src:hover {
+  .ng-src:hover,
+  .ng-src:focus-visible {
     color: var(--blue);
-    border-bottom-color: currentColor;
+  }
+  .ng-src::after {
+    content: attr(data-tip);
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + 0.3rem);
+    z-index: 6;
+    width: max-content;
+    max-width: 16rem;
+    padding: 0.3rem 0.65rem;
+    font-size: var(--step--1);
+    line-height: 1.35;
+    text-align: left;
+    white-space: normal;
+    color: var(--creme-light);
+    background: var(--blue-deep);
+    border-radius: 0.7rem 0.6rem 0.75rem 0.6rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .ng-src:hover::after,
+  .ng-src:focus-visible::after {
+    opacity: 1;
   }
 
   /* quotes */
@@ -575,6 +594,10 @@ const toc = [
   .ng-line figcaption a {
     color: inherit;
   }
+  .ng-line figcaption .ng-src {
+    float: none;
+    margin-left: 0.2rem;
+  }
 
   /* the big words */
   .ng-words {
@@ -607,11 +630,6 @@ const toc = [
   .ng-word > *,
   .ng-card > * {
     margin: 0;
-  }
-  .ng-word .ng-src,
-  .ng-card > .ng-src {
-    margin-top: auto;
-    align-self: flex-start;
   }
   .ng-word__greek {
     font-family: var(--font-title);
@@ -829,6 +847,9 @@ const toc = [
   .ng-ladders__name::after {
     content: ':';
   }
+  .ng-ladders .ng-src {
+    margin-left: auto;
+  }
 
   /* habits, love, work */
   .ng-group {
@@ -944,6 +965,9 @@ const toc = [
   }
   .ng-day__uses a:hover {
     border-color: var(--blue);
+  }
+  .ng-intro--habits {
+    margin-top: var(--space-xl);
   }
   .ng-after {
     max-width: var(--measure);
