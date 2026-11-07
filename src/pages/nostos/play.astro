@@ -22,7 +22,7 @@ import {
 import { askedTotal, pathOutline } from '../../lib/nostos-path';
 import { numerals, stageArt } from '../../lib/nostos-stages';
 import { minutesOf, reflectionSpots, type Reflection } from '../../lib/nostos-reflections';
-import { praxisFor, sizeOf, type Praxis } from '../../lib/nostos-praxis';
+import { praxisSpots, sizeOf, type Praxis } from '../../lib/nostos-praxis';
 import StageStele from '../../components/nostos/StageStele.astro';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -147,16 +147,19 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
 // the reflections stand on the trail between the stones, each after the lesson where the last of its
 // ideas is met (src/lib/nostos-reflections.ts): a chapter's rows are its lessons and those reflections
 const spots = reflectionSpots(pathOutline);
-// and a chapter's practical activity, an olive leaf, closes it (src/lib/nostos-praxis.ts)
-type Row = { lesson: number } | { after: number; r: Reflection } | { praxis: Praxis };
-const rowsOf = (ci: number): Row[] => {
-  const rows: Row[] = pathOutline[ci].lessons.flatMap((_, li) => {
+// and a chapter's practical activity, an olive leaf, stands among its lessons too, never at its end
+// (src/lib/nostos-praxis.ts)
+const leaves = praxisSpots(pathOutline, new Set(spots.keys()));
+type Row = { lesson: number } | { after: number; r: Reflection } | { after: number; praxis: Praxis };
+const rowsOf = (ci: number): Row[] =>
+  pathOutline[ci].lessons.flatMap((_, li) => {
+    const rows: Row[] = [{ lesson: li }];
     const r = spots.get(`${ci}:${li}`);
-    return r ? [{ lesson: li }, { after: li, r }] : [{ lesson: li }];
+    if (r) rows.push({ after: li, r });
+    const px = leaves.get(`${ci}:${li}`);
+    if (px) rows.push({ after: li, praxis: px });
+    return rows;
   });
-  const px = praxisFor(pathOutline[ci].id);
-  return px ? [...rows, { praxis: px }] : rows;
-};
 const pxSize = (px: Praxis) => {
   const z = sizeOf(px);
   return 'minutes' in z ? fill(t.praxis.minutes, { n: z.minutes! }) : 'days' in z ? fill(t.praxis.days, { n: z.days! }) : 'times' in z ? fill(t.praxis.times, { n: z.times! }) : '';
@@ -263,7 +266,7 @@ const pxSize = (px: Praxis) => {
                   /* a practical activity (client request, 7 November 2026): an olive leaf closing the chapter,
                      its title on the free side, what you do and what it trains on hover */
                   <li class="njch__ref njch__px" style={`--x:${sway(ci, k).toFixed(3)}`} data-side={sway(ci, k) > 0.15 ? 'left' : 'right'}>
-                    <div class="njref njpx" data-px-stone={row.praxis.id} data-px-days={row.praxis.days ?? row.praxis.times ?? ''} data-after-c={ci}>
+                    <div class="njref njpx" data-px-stone={row.praxis.id} data-px-days={row.praxis.days ?? row.praxis.times ?? ''} data-after-c={ci} data-after-l={row.after}>
                       <a class="njref__mirror njpx__leaf" href={`/nostos/praxis/${row.praxis.id}/`} tabindex="-1" aria-hidden="true">
                         <svg viewBox="0 0 60 80" focusable="false">
                           <path class="njpx__blade" d="M30 6C46 18 50 44 30 74 10 44 14 18 30 6Z" />
@@ -282,7 +285,7 @@ const pxSize = (px: Praxis) => {
                           <p
                             class="njref__state"
                             data-px-state
-                            data-ahead={fill(t.praxis.ahead, { i: placeIn(ci).i })}
+                            data-ahead={fill(t.praxis.ahead, { l: row.after + 1, i: placeIn(ci).i })}
                             data-going={t.praxis.going}
                             data-done={t.praxis.done}
                           ></p>
@@ -1118,7 +1121,7 @@ const pxSize = (px: Praxis) => {
     left: auto;
     right: 0;
   }
-  /* the leaf closes its chapter: its note opens upwards, clear of the next chapter's banner */
+  /* a leaf's note opens upwards, clear of the stones and banners below it */
   .njch__px .njref__tip {
     top: auto;
     bottom: calc(100% + 0.5rem);

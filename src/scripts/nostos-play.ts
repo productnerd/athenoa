@@ -1771,7 +1771,8 @@ function refresh(root: HTMLElement) {
       const mine = practised[leaf.dataset.pxStone!];
       const done = !!mine?.done;
       const going = !done && !!mine?.started;
-      const walked = outline[Number(leaf.dataset.afterC)]?.lessons.every((l) => lessonDone(p, l));
+      const before = outline[Number(leaf.dataset.afterC)]?.lessons[Number(leaf.dataset.afterL)];
+      const walked = !!before && lessonDone(p, before);
       leaf.classList.toggle('is-done', done);
       leaf.classList.toggle('is-going', going);
       leaf.classList.toggle('is-ahead', !done && !going && !walked);

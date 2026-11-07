@@ -60,8 +60,28 @@ export type Praxis = {
 
 const files = import.meta.glob<Praxis>('../data/nostos-praxis/*.json', { eager: true, import: 'default' });
 export const praxes: Praxis[] = Object.values(files).sort((a, b) => a.n - b.n);
-/** the practical activity at the end of a chapter, if it has one */
-export const praxisFor = (chapter: string) => praxes.find((p) => p.chapter === chapter);
+/** Where each activity stands on the path (client direction, 7 November 2026: scattered, not at the
+ *  chapter's end): inside its own chapter, after the lesson in which the last of its ideas is met, but
+ *  never after the chapter's last lesson; in the middle of the chapter if none of its ideas is met
+ *  there; and never on a spot a reflection already holds (it moves one lesson back, or on). Keyed by
+ *  "chapter index:lesson index" (the lesson it follows). */
+export function praxisSpots(chapters: { id: string; lessons: string[][] }[], taken: Set<string> = new Set()) {
+  const spots = new Map<string, Praxis>();
+  for (const p of praxes) {
+    const ci = chapters.findIndex((c) => c.id === p.chapter);
+    if (ci < 0) continue;
+    const n = chapters[ci].lessons.length;
+    const ideas = new Set(p.concepts.map((id) => `c${id}`));
+    let li = -1;
+    chapters[ci].lessons.forEach((lesson, k) => lesson.some((u) => ideas.has(u)) && (li = k));
+    if (li < 0) li = Math.floor((n - 1) / 2);
+    li = Math.max(0, Math.min(li, n - 2));
+    const free = (k: number) => k >= 0 && k <= Math.max(0, n - 2) && !taken.has(`${ci}:${k}`) && !spots.has(`${ci}:${k}`);
+    if (!free(li)) li = [li - 1, li + 1, li - 2, li + 2].find(free) ?? li;
+    spots.set(`${ci}:${li}`, p);
+  }
+  return spots;
+}
 /** how long it takes, in words: minutes for a meditation, days or times for a challenge */
 export const sizeOf = (p: Praxis) =>
   p.kind === 'meditation' ? { minutes: p.minutes ?? 0 } : p.days ? { days: p.days } : p.times ? { times: p.times } : {};
