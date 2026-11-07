@@ -107,8 +107,7 @@ const announced = home.announcement.courses
   /* ---------- The letter ---------- */
   .letter {
     --box-r: var(--r-soft-2);
-    --pad: clamp(1.9rem, 1.2rem + 3.4vw, 4rem);
-    padding: var(--pad);
+    padding: clamp(1.9rem, 1.2rem + 3.4vw, 4rem);
     padding-bottom: clamp(2.6rem, 1.6rem + 4vw, 4.75rem);
   }
   /* An announcement more than a letter: the hand is set smaller and closer than elsewhere */
@@ -161,26 +160,19 @@ const announced = home.announcement.courses
       column-gap: clamp(1.5rem, 0.5rem + 3vw, 3.5rem);
       align-items: start;
     }
-    /* the photograph larger, and spilling over the sheet's top and right edges, so it sits on the
-       letter less like a stamp and more like a photograph laid on it (client direction, 7 November
-       2026); the name and title stay on the sheet, set to the right under it. The spill stays inside
-       the page's side margin, so nothing is cut off */
     .letter__sign {
-      /* (its drawn ring sits 0.7rem outside the photograph, so 1rem is kept clear of the window's edge) */
-      --bleed: min(clamp(1.25rem, 0.4rem + 2.4vw, 2.75rem), var(--gutter) - 1rem);
       grid-column: 2;
       grid-row: 1 / span 2;
-      align-self: start;
+      align-self: center;
       flex-direction: column;
-      align-items: flex-end;
       gap: 0.9rem;
       max-width: 17rem;
       margin: 0;
-      text-align: right;
+      text-align: center;
     }
+    /* larger (client direction, 7 November 2026) */
     .letter__sign :global(.letter__portrait) {
       width: clamp(11rem, 6rem + 9vw, 16rem);
-      margin: calc(-1 * (var(--pad) + var(--bleed))) calc(-1 * (var(--pad) + var(--bleed))) 0 0;
     }
   }
   /* ---------- The newsletter slip ---------- */
