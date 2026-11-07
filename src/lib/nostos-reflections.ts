@@ -51,5 +51,28 @@ export const minutesOf = (r: Reflection) =>
 const files = import.meta.glob<Reflection>('../data/nostos-reflections/*.json', { eager: true, import: 'default' });
 export const reflections: Reflection[] = Object.values(files).sort((a, b) => a.n - b.n);
 export const reflectionById = (id: string) => reflections.find((r) => r.id === id);
-/** the reflection that follows a chapter, if any */
-export const reflectionAfter = (chapter: string) => reflections.find((r) => r.after === chapter);
+/** Where each reflection stands on the path (client direction, 7 November 2026: part of the path, more
+ *  often between lessons than at a chapter's end): straight after the lesson in which the last of the
+ *  ideas it rests on is met, at the latest at the end of the chapter it was written for; the last one,
+ *  which reads all the others, at the end of that chapter. Keyed by "chapter index:lesson index" (the
+ *  lesson it follows). */
+export function reflectionSpots(chapters: { id: string; lessons: string[][] }[]) {
+  const spots = new Map<string, Reflection>();
+  for (const r of reflections) {
+    const end = chapters.findIndex((c) => c.id === r.after);
+    if (end < 0) continue;
+    let at: [number, number] = [end, chapters[end].lessons.length - 1];
+    const ideas = new Set(r.concepts.map((id) => `c${id}`));
+    let found: [number, number] | null = null;
+    for (let ci = 0; ci <= end; ci++)
+      chapters[ci].lessons.forEach((lesson, li) => {
+        if (lesson.some((u) => ideas.has(u))) found = [ci, li];
+      });
+    // the last reflection reads all the others: it closes the path
+    if (found && r.n !== reflections.length) at = found;
+    // never two on the same spot: the later one moves one lesson on
+    while (spots.has(at.join(':')) && at[1] + 1 < chapters[at[0]].lessons.length) at = [at[0], at[1] + 1];
+    spots.set(at.join(':'), r);
+  }
+  return spots;
+}

@@ -1744,7 +1744,7 @@ function refresh(root: HTMLElement) {
       }
     });
     // the reflections (src/lib/nostos-reflections.ts): taken (a result is kept in this browser), or still
-    // ahead of where you are (its chapter not walked to its end); they can be taken at any time
+    // ahead of where you are (the lesson before it not walked yet); they can be taken at any time
     let taken: Record<string, unknown[]> = {};
     try {
       taken = JSON.parse(localStorage.getItem('nostos-reflections-v1') || '{}');
@@ -1753,7 +1753,8 @@ function refresh(root: HTMLElement) {
     }
     root.querySelectorAll<HTMLElement>('[data-ref-stone]').forEach((stone) => {
       const done = !!taken[stone.dataset.refStone!]?.length;
-      const walked = outline[Number(stone.dataset.chAfter)]?.lessons.every((l) => lessonDone(p, l));
+      const before = outline[Number(stone.dataset.afterC)]?.lessons[Number(stone.dataset.afterL)];
+      const walked = !!before && lessonDone(p, before);
       stone.classList.toggle('is-done', done);
       stone.classList.toggle('is-ahead', !done && !walked);
       const state = stone.querySelector<HTMLElement>('[data-ref-state]');

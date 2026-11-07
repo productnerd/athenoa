@@ -21,7 +21,7 @@ import {
 } from '../../lib/nostos';
 import { askedTotal, pathOutline } from '../../lib/nostos-path';
 import { numerals, stageArt } from '../../lib/nostos-stages';
-import { minutesOf, reflectionAfter } from '../../lib/nostos-reflections';
+import { minutesOf, reflectionSpots, type Reflection } from '../../lib/nostos-reflections';
 import StageStele from '../../components/nostos/StageStele.astro';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -143,6 +143,15 @@ const placeIn = (ci: number) => {
   return { i: same.indexOf(pathOutline[ci]) + 1, n: same.length };
 };
 const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
+// the reflections stand on the trail between the stones, each after the lesson where the last of its
+// ideas is met (src/lib/nostos-reflections.ts): a chapter's rows are its lessons and those reflections
+const spots = reflectionSpots(pathOutline);
+type Row = { lesson: number } | { after: number; r: Reflection };
+const rowsOf = (ci: number): Row[] =>
+  pathOutline[ci].lessons.flatMap((_, li) => {
+    const r = spots.get(`${ci}:${li}`);
+    return r ? [{ lesson: li }, { after: li, r }] : [{ lesson: li }];
+  });
 // each stage's own drawing (the site's symbols), on its milestone and faint across its chapters' cards,
 // and its number in Greek numerals, carved on the milestone (client direction, 6 November 2026)
 ---
@@ -217,60 +226,64 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
               <p class="njch__count" data-ch-count></p>
               <button type="button" class="njch__skip" data-skip-ch={ci} hidden>{t.path.skip.start}</button>
             </header>
-            <ol class="njch__stones" style={`--rows:${c.lessons.length}`}>
-              <svg class="njch__trail" viewBox={`0 0 100 ${c.lessons.length * 100}`} preserveAspectRatio="none" aria-hidden="true">
-                <path d={trail(ci, c.lessons.length)} />
+            <ol class="njch__stones" style={`--rows:${rowsOf(ci).length}`}>
+              <svg class="njch__trail" viewBox={`0 0 100 ${rowsOf(ci).length * 100}`} preserveAspectRatio="none" aria-hidden="true">
+                <path d={trail(ci, rowsOf(ci).length)} />
               </svg>
-              {c.lessons.map((_, li) => (
-                <li style={`--x:${sway(ci, li).toFixed(3)}`}>
-                  <button
-                    type="button"
-                    class="nnode"
-                    style={pebble(ci, li)}
-                    data-node
-                    data-c={ci}
-                    data-l={li}
-                    aria-label={fill(t.path.lesson, { i: li + 1, n: c.lessons.length })}
-                    disabled
-                  >
-                    <span class="nnode__n">{li + 1}</span>
-                    <svg class="nnode__tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                      <path d="M5 12.6c2 1.6 3.6 3.4 5 5.4 2.6-4.6 5.6-8.6 9-12" />
-                    </svg>
-                    <span class="nnode__go" data-node-go />
-                  </button>
-                </li>
-              ))}
-            </ol>
-            {/* a reflection after this chapter (client request, 7 November 2026): a hand mirror, not a
-                pebble, its title beside it, and what it looks at and teaches on hover (src/lib/nostos-reflections.ts) */}
-            {(() => {
-              const rf = reflectionAfter(c.id);
-              if (!rf) return null;
-              return (
-                <div class="njref" data-ref-stone={rf.id} data-ch-after={ci}>
-                  <a class="njref__mirror" href={`/nostos/reflect/${rf.id}/`} aria-describedby={`njref-${rf.id}`} tabindex="-1" aria-hidden="true">
-                    <svg viewBox="0 0 64 88" focusable="false">
-                      <path class="njref__handle" d="M27 58h10l-1.5 22.5q-3.5 3-7 0Z" />
-                      <circle class="njref__disc" cx="32" cy="31" r="26" />
-                      <path class="njref__glint" d="M18 24q4-10 14-12" />
-                      <path class="njref__tick" d="M22 32c2.4 1.8 4.4 4 6 6.4 3.2-5.6 6.8-10.4 11-14.6" />
-                    </svg>
-                  </a>
-                  <div class="njref__text">
-                    <p class="njref__kicker">{t.reflect.stone} · {fill(t.reflect.minutes, { m: minutesOf(rf) })}</p>
-                    <a class="njref__title" href={`/nostos/reflect/${rf.id}/`} lang="en" aria-describedby={`njref-${rf.id}`}>
-                      {rf.title}
-                    </a>
-                    <div class="njref__tip" id={`njref-${rf.id}`} role="tooltip">
-                      <p lang="en"><strong>{t.reflect.looks}:</strong> {rf.looks}</p>
-                      <p lang="en"><strong>{t.reflect.learn}:</strong> {rf.learn}</p>
-                      <p class="njref__state" data-ref-state data-ahead={fill(t.reflect.ahead, { i: placeIn(ci).i })} data-done={t.reflect.done}></p>
+              {rowsOf(ci).map((row, k) =>
+                'lesson' in row ? (
+                  <li style={`--x:${sway(ci, k).toFixed(3)}`}>
+                    <button
+                      type="button"
+                      class="nnode"
+                      style={pebble(ci, row.lesson)}
+                      data-node
+                      data-c={ci}
+                      data-l={row.lesson}
+                      aria-label={fill(t.path.lesson, { i: row.lesson + 1, n: c.lessons.length })}
+                      disabled
+                    >
+                      <span class="nnode__n">{row.lesson + 1}</span>
+                      <svg class="nnode__tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M5 12.6c2 1.6 3.6 3.4 5 5.4 2.6-4.6 5.6-8.6 9-12" />
+                      </svg>
+                      <span class="nnode__go" data-node-go />
+                    </button>
+                  </li>
+                ) : (
+                  /* a reflection (client request, 7 November 2026): a bronze hand mirror on the trail, not a
+                     pebble, its title on the side the trail leaves free, what it looks at and teaches on hover */
+                  <li class="njch__ref" style={`--x:${sway(ci, k).toFixed(3)}`} data-side={sway(ci, k) > 0.15 ? 'left' : 'right'}>
+                    <div class="njref" data-ref-stone={row.r.id} data-after-c={ci} data-after-l={row.after}>
+                      <a class="njref__mirror" href={`/nostos/reflect/${row.r.id}/`} tabindex="-1" aria-hidden="true">
+                        <svg viewBox="0 0 64 88" focusable="false">
+                          <path class="njref__handle" d="M27 58h10l-1.5 22.5q-3.5 3-7 0Z" />
+                          <circle class="njref__disc" cx="32" cy="31" r="26" />
+                          <path class="njref__glint" d="M18 24q4-10 14-12" />
+                          <path class="njref__tick" d="M22 32c2.4 1.8 4.4 4 6 6.4 3.2-5.6 6.8-10.4 11-14.6" />
+                        </svg>
+                      </a>
+                      <div class="njref__text">
+                        <p class="njref__kicker">{t.reflect.stone} · {fill(t.reflect.minutes, { m: minutesOf(row.r) })}</p>
+                        <a class="njref__title" href={`/nostos/reflect/${row.r.id}/`} lang="en" aria-describedby={`njref-${row.r.id}`}>
+                          {row.r.title}
+                        </a>
+                        <div class="njref__tip" id={`njref-${row.r.id}`} role="tooltip">
+                          <p lang="en"><strong>{t.reflect.looks}:</strong> {row.r.looks}</p>
+                          <p lang="en"><strong>{t.reflect.learn}:</strong> {row.r.learn}</p>
+                          <p
+                            class="njref__state"
+                            data-ref-state
+                            data-ahead={fill(t.reflect.ahead, { l: row.after + 1, i: placeIn(ci).i })}
+                            data-done={t.reflect.done}
+                          ></p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })()}
+                  </li>
+                ),
+              )}
+            </ol>
           </section>
         ))
       }
@@ -888,26 +901,36 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
     cursor: pointer;
   }
 
-  /* a reflection: a bronze hand mirror on the trail, its name beside it, what it looks at on hover */
+  /* a reflection: a bronze hand mirror on the trail between the stones, its name on the side the
+     trail leaves free, what it looks at on hover */
   .njref {
     position: relative;
     z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    width: min(100% - 2 * var(--gutter), 30rem);
-    margin: 0.8rem auto 0;
-  }
-  .njref__mirror {
-    flex: none;
     display: block;
-    width: 4.4rem;
-    transition: transform var(--dur-2) var(--ease-out);
   }
   .njref__text {
-    flex: 0 1 16rem;
-    min-width: 0;
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    width: min(16rem, calc(50vw - 4rem));
+  }
+  /* the row with its note open stays above the stones after it */
+  .njch__ref:hover,
+  .njch__ref:focus-within {
+    position: relative;
+    z-index: 6;
+  }
+  .njch__ref[data-side='right'] .njref__text {
+    left: calc(100% + 0.9rem);
+  }
+  .njch__ref[data-side='left'] .njref__text {
+    right: calc(100% + 0.9rem);
+    text-align: right;
+  }
+  .njref__mirror {
+    display: block;
+    width: 4.2rem;
+    transition: transform var(--dur-2) var(--ease-out);
   }
   .njref__mirror svg {
     display: block;
@@ -984,9 +1007,9 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
     position: absolute;
     z-index: 5;
     top: calc(100% + 0.5rem);
-    left: 50%;
-    translate: -50% 0;
-    width: min(22rem, 100%);
+    left: 0;
+    width: min(20rem, calc(100vw - 2 * var(--gutter)));
+    text-align: left;
     padding: 0.9rem 1.05rem;
     font-size: var(--step--1);
     line-height: 1.5;
@@ -1022,22 +1045,14 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
     transform: none;
     transition-delay: 0s;
   }
-  /* on touch screens there is no hover: what it looks at shows under its name, small */
+  .njch__ref[data-side='left'] .njref__tip {
+    left: auto;
+    right: 0;
+  }
+  /* on touch screens there is no hover: the name is enough on the trail, and the reflection's own
+     page says what it looks at */
   @media (hover: none) {
     .njref__tip {
-      position: static;
-      translate: none;
-      width: auto;
-      margin-top: 0.4rem;
-      padding: 0;
-      color: var(--ink-soft);
-      background: none;
-      box-shadow: none;
-      opacity: 1;
-      visibility: visible;
-      transform: none;
-    }
-    .njref__tip p:nth-child(2) {
       display: none;
     }
   }
