@@ -285,7 +285,6 @@ const pxSize = (px: Praxis) => {
                           <p
                             class="njref__state"
                             data-px-state
-                            data-ahead={fill(t.praxis.ahead, { l: row.after + 1, i: placeIn(ci).i })}
                             data-going={t.praxis.going}
                             data-done={t.praxis.done}
                           ></p>
@@ -317,7 +316,6 @@ const pxSize = (px: Praxis) => {
                           <p
                             class="njref__state"
                             data-ref-state
-                            data-ahead={fill(t.reflect.ahead, { l: row.after + 1, i: placeIn(ci).i })}
                             data-done={t.reflect.done}
                           ></p>
                         </div>
@@ -541,6 +539,17 @@ const pxSize = (px: Praxis) => {
     document.querySelectorAll<HTMLElement>('[data-ch-scene]').forEach((section) => watch!.observe(section));
   });
   document.addEventListener('astro:before-swap', () => watch?.disconnect());
+</script>
+
+<script>
+  // a reflection's or a leaf's note opens downwards in the top half of the window, upwards in the
+  // bottom half, so it never slides under the chapter banner held at the top or the next one below
+  const aim = (event: Event) => {
+    const row = (event.target as Element).closest?.<HTMLElement>('.njch__ref');
+    if (row) row.dataset.tip = row.getBoundingClientRect().top < innerHeight / 2 ? 'down' : 'up';
+  };
+  document.addEventListener('pointerover', aim);
+  document.addEventListener('focusin', aim);
 </script>
 
 <style>
@@ -855,8 +864,9 @@ const pxSize = (px: Praxis) => {
     place-items: center;
     transform: translateX(calc(var(--x) * var(--reach)));
   }
+  /* (the stones ahead see-through, so the places drawn behind show: client direction, 7 November 2026) */
   .nnode {
-    --st-bg: var(--creme-deep);
+    --st-bg: color-mix(in srgb, var(--creme-deep) 50%, transparent);
     --st-line: color-mix(in srgb, var(--blue) 30%, transparent);
     --st-w: 2px;
     position: relative;
@@ -1121,8 +1131,8 @@ const pxSize = (px: Praxis) => {
     left: auto;
     right: 0;
   }
-  /* a leaf's note opens upwards, clear of the stones and banners below it */
-  .njch__px .njref__tip {
+  /* a note opens towards the roomier half of the window (set on hover below), clear of the banners */
+  .njch__ref[data-tip='up'] .njref__tip {
     top: auto;
     bottom: calc(100% + 0.5rem);
   }

@@ -1758,7 +1758,8 @@ function refresh(root: HTMLElement) {
       stone.classList.toggle('is-done', done);
       stone.classList.toggle('is-ahead', !done && !walked);
       const state = stone.querySelector<HTMLElement>('[data-ref-state]');
-      if (state) state.textContent = done ? state.dataset.done ?? '' : walked ? '' : state.dataset.ahead ?? '';
+      // (no "best taken after…" in the note: client direction, 7 November 2026; the faded stone says it)
+      if (state) state.textContent = done ? state.dataset.done ?? '' : '';
     });
     // the practical activities (src/lib/nostos-praxis.ts): done, under way (a challenge's day), or ahead
     let practised: Record<string, { started?: string; checks?: unknown[]; done?: string }> = {};
@@ -1783,9 +1784,7 @@ function refresh(root: HTMLElement) {
         ? state.dataset.done ?? ''
         : going && n
           ? (state.dataset.going ?? '').replace('{d}', String(Math.min(n, (mine?.checks?.length ?? 0) + 1))).replace('{n}', String(n))
-          : walked
-            ? ''
-            : state.dataset.ahead ?? '';
+          : '';
     });
     root.querySelectorAll<HTMLElement>('[data-ch]').forEach((section) => {
       const c = outline[Number(section.dataset.ch)];
