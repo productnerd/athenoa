@@ -291,6 +291,24 @@ const addDays = (n: number) => {
   d.setDate(d.getDate() + n);
   return d.toISOString().slice(0, 10);
 };
+// Review is capped and spread out (client direction, 7 November 2026: 61 waiting at once left no time
+// to learn anything new). At most DAILY steps come back a day: a step's next review goes on the first
+// day in a small window after its interval that still has room, and further on if the window is full,
+// so a long session never comes back all at once (the "load balancing" of good spaced-repetition
+// apps). A backlog from days away is worked through DAILY a day, the least remembered first.
+const DAILY = 20;
+function nextReview(p: Progress, box: number) {
+  const count = new Map<string, number>();
+  for (const v of Object.values(p.path ?? {})) if (Array.isArray(v)) count.set(v[1], (count.get(v[1]) ?? 0) + 1);
+  const base = Math.max(1, INTERVALS[box]);
+  // the window: 1 to 3 days for a new step, a quarter of the interval after it for the others
+  const spread = box <= 1 ? 2 : Math.max(1, Math.round(base / 4));
+  let lightest = base;
+  for (let d = base; d <= base + spread; d++) if ((count.get(addDays(d)) ?? 0) < (count.get(addDays(lightest)) ?? 0)) lightest = d;
+  // every day of the window full: the first day after it with room
+  for (let d = lightest; d < base + 120; d++) if ((count.get(addDays(d)) ?? 0) < DAILY) return addDays(d);
+  return addDays(lightest);
+}
 const cardPool = (concepts: Concept[]) => concepts.filter((c) => c.greek && c.take);
 
 async function cards(A: Arena) {
@@ -1106,11 +1124,14 @@ function here(p: Progress) {
   return next ? { ci: next.ci, li: next.li } : null;
 }
 /** the steps due in Review: the least remembered and the longest waiting first */
-const dueList = (p: Progress) =>
+const allDue = (p: Progress) =>
   Object.entries(p.path ?? {})
     .filter((e): e is [string, [number, string]] => Array.isArray(e[1]) && e[1][1] <= today())
     .sort((a, b) => a[1][0] - b[1][0] || a[1][1].localeCompare(b[1][1]))
     .map(([u]) => u);
+/** what is left of today's share of Review (at most DAILY a day) */
+const reviewedToday = (p: Progress) => (p.rev?.[0] === today() ? p.rev[1] : 0);
+const dueList = (p: Progress) => allDue(p).slice(0, Math.max(0, DAILY - reviewedToday(p)));
 
 /** What a set of steps needs: their chapters' files, the ideas, and the material for decoys */
 async function stepsFor(ids: string[]) {
@@ -1475,7 +1496,8 @@ function meet(u: string, kind: string, ok: boolean | null) {
   const p = load();
   if (met(p, u)) return;
   logAnswer(kind, ok);
-  p.path = { ...(p.path ?? {}), [u]: ok === null ? 1 : ok ? [1, addDays(INTERVALS[1])] : [0, today()] };
+  // right: back in a day or three; a slip: back tomorrow (not the same day, so a lesson never fills today's Review)
+  p.path = { ...(p.path ?? {}), [u]: ok === null ? 1 : ok ? [1, nextReview(p, 1)] : [0, addDays(1)] };
   save(p);
   earn(ok === null ? 2 : kind === 'c' ? 5 : ok ? 8 : 0);
 }
@@ -1649,7 +1671,9 @@ async function review() {
           const was = p.path?.[u];
           const box = Array.isArray(was) ? was[0] : 0;
           const up = Math.min(5, box + 1);
-          p.path = { ...(p.path ?? {}), [u]: ok ? [up, addDays(INTERVALS[up])] : [0, addDays(1)] };
+          p.path = { ...(p.path ?? {}), [u]: ok ? [up, nextReview(p, up)] : [0, addDays(1)] };
+          // (a slip asked again in the same round counts once towards today's share)
+          if (!again.has(u)) p.rev = [today(), reviewedToday(p) + 1];
           save(p);
           if (ok && !again.has(u)) {
             right++;

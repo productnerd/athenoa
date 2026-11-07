@@ -21,6 +21,8 @@ export interface Progress {
   path?: Record<string, 1 | [number, string]>;
   /** the lesson last begun on the path: [chapter, lesson] (where Continue goes on from) */
   at?: [number, number];
+  /** steps reviewed today, for Review's daily cap: [day, how many] */
+  rev?: [string, number];
   v: 1;
 }
 
