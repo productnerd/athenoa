@@ -154,10 +154,13 @@ const announced = home.announcement.courses
   }
   /* From tablets up the portrait stands on the right of the letter, the name and title under it */
   @media (min-width: 40rem) {
+    /* (a narrower gap before the photograph and a narrower margin after it, so the words keep their
+       width beside the larger photograph: client direction, 7 November 2026) */
     .letter {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      column-gap: clamp(1.5rem, 0.5rem + 3vw, 3.5rem);
+      column-gap: clamp(1rem, 0.4rem + 1.6vw, 2rem);
+      padding-right: clamp(1.4rem, 0.6rem + 2vw, 2.5rem);
       align-items: start;
     }
     .letter__sign {
@@ -166,7 +169,7 @@ const announced = home.announcement.courses
       align-self: center;
       flex-direction: column;
       gap: 0.9rem;
-      max-width: 17rem;
+      width: min-content;
       margin: 0;
       text-align: center;
     }
@@ -299,6 +302,10 @@ const announced = home.announcement.courses
     }
     .letter__text {
       max-width: 32ch;
+    }
+    /* beside the slip the sheet is narrower, so the photograph grows more gently and the words keep room */
+    .letter__sign :global(.letter__portrait) {
+      width: clamp(9.5rem, 1rem + 15vw, 16rem);
     }
 
     /* One even row: the three cards share a height */
