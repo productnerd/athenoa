@@ -1,0 +1,26 @@
+{
+  "id": "beauty-journal",
+  "chapter": "eros-ladder",
+  "n": 15,
+  "kind": "tool",
+  "tool": "beauty-journal",
+  "title": "A journal of beauty",
+  "line": "Seven days noticing small beautiful things.",
+  "intro": "Diotima’s ladder begins with one beautiful thing and climbs, through souls, the city and the sciences, to Beauty itself (κάλλος). Eros is woken by the beautiful, and Athena’s ways to make yourself lovable all seek it on purpose: old stones, harmonious music, the morning light, taking none of it for granted. For seven days you notice small beautiful things: at least three you photograph, and at least three no camera can hold, such as a voice, a kindness or a scent.",
+  "does": "For seven days, keep small beautiful things: three or more photographed, three or more beyond the camera.",
+  "trains": "Noticing beauty on purpose, the first rung of Diotima’s ladder.",
+  "practices": [
+    86,
+    138
+  ],
+  "concepts": [
+    "beauty",
+    "diotima",
+    "politicaleros"
+  ],
+  "later": "Your photos stay in this browser. In a later phase Claude could look at them with your notes and read your week of beauty as a ladder, through Diotima’s steps.",
+  "days": 7,
+  "photos": 3,
+  "intangibles": 3,
+  "note": "What did you notice, and what did it wake in you?"
+}

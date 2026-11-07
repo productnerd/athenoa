@@ -1,0 +1,70 @@
+{
+  "id": "asleep-audit",
+  "chapter": "call-awakening",
+  "n": 3,
+  "kind": "tool",
+  "tool": "asleep-audit",
+  "title": "Where am I asleep?",
+  "line": "Eight areas of your life: awake or on habit, satisfied or not.",
+  "intro": "Athena separates βίος, mechanical life driven by instinct and routine, from ζωή, conscious life, warmed by fire and lit by νοῦς (consciousness), and says most people do not live, let alone live well. Here you look at eight areas of your life and mark, for each, how awake you are in it and how satisfied. Read any dissatisfaction as Athena reads pain: an alarm clock, calling you to change.",
+  "does": "Mark eight areas of your life on two sliders, then write about the one that itches most.",
+  "trains": "Seeing where you live on habit, and hearing discomfort as a call to wake.",
+  "practices": [
+    2,
+    113,
+    13
+  ],
+  "concepts": [
+    "awakening",
+    "suffering",
+    "krisis",
+    "euzen"
+  ],
+  "later": "Claude could read your map and your two answers together and reply in Athena’s terms.",
+  "areas": [
+    {
+      "id": "work",
+      "name": "Work",
+      "hint": "What you do with most of your hours, paid or not."
+    },
+    {
+      "id": "love",
+      "name": "Love or partnership",
+      "hint": "Your partner, or the wish for one."
+    },
+    {
+      "id": "family",
+      "name": "Family",
+      "hint": "The family you come from, and the one you live with."
+    },
+    {
+      "id": "friendship",
+      "name": "Friendship",
+      "hint": "The people you choose, and how often you are truly with them."
+    },
+    {
+      "id": "body",
+      "name": "Body and health",
+      "hint": "Sleep, food, movement: how you treat your body."
+    },
+    {
+      "id": "money",
+      "name": "Money",
+      "hint": "How you earn it, spend it and worry about it."
+    },
+    {
+      "id": "attention",
+      "name": "Time and attention",
+      "hint": "Where your hours and your eyes go, the phone included."
+    },
+    {
+      "id": "inner",
+      "name": "Inner life",
+      "hint": "Silence, study, meditation or prayer: time with yourself."
+    }
+  ],
+  "questions": [
+    "In the area that itches most, where do you catch yourself thinking “this can’t be all”? Describe one ordinary moment when you feel it.",
+    "If that discomfort is an alarm clock, what is it calling you to change? Name one small step you could take this week."
+  ]
+}

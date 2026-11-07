@@ -1,0 +1,41 @@
+{
+  "id": "chant-on",
+  "chapter": "soul-being",
+  "n": 7,
+  "kind": "meditation",
+  "title": "Ὄν, a chant to start",
+  "line": "Three minutes chanting the Greek word for being.",
+  "intro": "With Parmenides, Athena holds that only what always is, is: τὸ ὄν, being. Athena chants the word itself and hears in its N the primordial vibration, the One becoming being. Three minutes, before any other sit or on its own.",
+  "does": "Chant ὄν slowly for three minutes, then rest in the vibration.",
+  "trains": "A still centre: attention gathered in one sound, then in the silence after it.",
+  "practices": [
+    74
+  ],
+  "concepts": [
+    "being",
+    "parmenides"
+  ],
+  "minutes": 3,
+  "steps": [
+    {
+      "text": "Sit upright and close your eyes. Let two or three breaths go out a little longer than they come in.",
+      "seconds": 30
+    },
+    {
+      "text": "Chant “on”, slowly, on a long out-breath: an open O that closes into N. Breathe in, and chant again, at your own pace.",
+      "seconds": 50
+    },
+    {
+      "text": "Keep chanting, and let your attention rest on the N as it vibrates on the palate.",
+      "seconds": 45
+    },
+    {
+      "text": "Let the sound stop. Rest in the vibration that stays after it, and in the silence it leaves.",
+      "seconds": 40
+    },
+    {
+      "text": "Open your eyes slowly.",
+      "seconds": 15
+    }
+  ]
+}

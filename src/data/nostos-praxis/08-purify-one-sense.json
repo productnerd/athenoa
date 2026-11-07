@@ -1,0 +1,26 @@
+{
+  "id": "purify-one-sense",
+  "chapter": "soul-senses",
+  "n": 8,
+  "kind": "challenge",
+  "title": "Purify one sense",
+  "line": "Seven days choosing what one sense lets in.",
+  "intro": "For Athena, the philosopher purifies the senses rather than renouncing them: purifying means choosing what you let in, moving towards what benefits (ὠφέλιμον) and away from what harms (βλαβερόν). Athena’s test for each contact is three questions: what am I receiving, what satisfies me, what do I lose? For seven days you work with one sense, swapping one input that drags you down for one that lifts you.",
+  "does": "For seven days, swap one input that drags you down for one that lifts you, through one sense.",
+  "trains": "Choosing what reaches the soul, instead of taking whatever comes.",
+  "practices": [
+    49,
+    53,
+    75
+  ],
+  "concepts": [
+    "senses",
+    "katharsis",
+    "fragrance"
+  ],
+  "days": 7,
+  "when": "during the day",
+  "each": "Keep to the sense you chose on day one. Swap one input that drags you down for one that lifts you: for hearing, no background news or television, and one harmonious piece listened to on purpose; for smell, no synthetic perfume or air freshener, and flowers, herbs or incense instead; for sight, no screen in bed, and ten minutes looking at a tree or the sky. With each contact, ask: what am I receiving, what satisfies me, what do I lose? In the evening, note what you took in.",
+  "note": "What did you let in through this sense today, and what did it feed: did it lift you or drag you down?",
+  "end": "After seven days, what has changed in what you reach for, and which swap will you keep?"
+}

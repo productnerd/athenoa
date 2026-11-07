@@ -1,0 +1,19 @@
+{
+  "id": "running-on-opinion",
+  "chapter": "cave-shadows",
+  "n": 20,
+  "kind": "challenge",
+  "title": "Am I running on opinion?",
+  "line": "Five days of catching your views as they speak.",
+  "intro": "Athena places opinion, δόξα, in the deep cave: most people, Athena says with Plato, run through the wonder-worker, “I have a view and I believe it”. For five days, catch your views as they come and ask what they rest on, which is where, in Athena’s words, one begins to leave the cave.",
+  "does": "Three times a day, stop at a view you hold and ask what it rests on.",
+  "trains": "Telling apart what you know from what you simply believe.",
+  "practices": [159],
+  "concepts": ["doxa", "eikasia", "wonderworkers", "selfobservation"],
+  "days": 5,
+  "each": "Three times today, when you hear yourself state a view (about a person, the news, politics, how things should be), stop and ask: am I conjecturing, or holding a view I simply believe? Then ask what it is based on: something I saw and tested, or something I was told, read or feel? No verdicts, only seeing.",
+  "when": "during the day",
+  "note": "One view you caught today, and what it was really based on.",
+  "end": "Of all the views you caught, which did you hold most tightly, and what feeling was guarding it? Athena calls a conviction an opinion clothed in emotion.",
+  "later": "Claude could read the five days’ views together and point out the patterns in them."
+}

@@ -1,0 +1,134 @@
+{
+  "id": "greek-values",
+  "chapter": "call-hellenism",
+  "n": 4,
+  "kind": "tool",
+  "tool": "values-sort",
+  "title": "Your Greek values",
+  "line": "Fifteen Greek values, two at a time: which matter most to you?",
+  "intro": "For Athena, “ancient” is not a date but a quality: a being’s position towards the ἀρχαί, the value principles. Here are fifteen Greek values, each with Athena’s reading of it. Compare them two at a time, and find the five that matter most to you.",
+  "does": "Compare fifteen Greek values two at a time, and find your five.",
+  "trains": "Knowing what you truly value, through the Greek words for it.",
+  "practices": [
+    15,
+    67,
+    88
+  ],
+  "concepts": [
+    "hellenism",
+    "archaios",
+    "language"
+  ],
+  "later": "Claude could read your five with your answers and say what Athena’s teaching adds to each.",
+  "values": [
+    {
+      "greek": "ἀρετή",
+      "translit": "aretḗ",
+      "name": "Virtue",
+      "means": "Athena reads it as “ever-flowing” (ἀεὶ ῥεῖν): the soul’s energy flowing freely, without blockages.",
+      "concept": "arete"
+    },
+    {
+      "greek": "σοφία",
+      "translit": "sophía",
+      "name": "Wisdom",
+      "means": "Living awareness in touch with the here and now, where life itself tells you what is what.",
+      "concept": "wisdom"
+    },
+    {
+      "greek": "φρόνησις",
+      "translit": "phrónēsis",
+      "name": "Practical wisdom",
+      "means": "In Athena’s etymology, understanding of motion and flow: the mind moving rightly with what happens.",
+      "concept": "phronesis"
+    },
+    {
+      "greek": "δικαιοσύνη",
+      "translit": "dikaiosýnē",
+      "name": "Justice",
+      "means": "Not getting your rights but balance held from the middle, each part of the soul doing its own.",
+      "concept": "justice"
+    },
+    {
+      "greek": "ἀνδρεία",
+      "translit": "andreía",
+      "name": "Courage",
+      "means": "Athena reads it as going against the current (ἀντί + ῥέω): the strength to swim against illusion and injustice.",
+      "concept": "courage"
+    },
+    {
+      "greek": "μεσότης",
+      "translit": "mesótēs",
+      "name": "Measure, the mean",
+      "means": "The centre, which Athena calls the hearth of virtue, of divine nature and of eudaimonia.",
+      "concept": "measure"
+    },
+    {
+      "greek": "ἐλευθερία",
+      "translit": "eleuthería",
+      "name": "Freedom",
+      "means": "Not a memory but the present state of your existence; Athena finds eros inside the word.",
+      "concept": "freedom"
+    },
+    {
+      "greek": "εὐδαιμονία",
+      "translit": "eudaimonía",
+      "name": "Lasting fulfilment",
+      "means": "An unshakeable fullness that depends on no condition: your inner flame, the δαίμων, touching its own good nature.",
+      "concept": "eudaimonia"
+    },
+    {
+      "greek": "φιλότης",
+      "translit": "philótēs",
+      "name": "Love that unites",
+      "means": "The force that makes the many into one universe; knowing yourself as it is, for Athena, the cure for separateness.",
+      "concept": "philotes"
+    },
+    {
+      "greek": "ἔρως",
+      "translit": "érōs",
+      "name": "Eros",
+      "means": "A current that carries you towards union and freedom: the beginning of philosophy, never attachment or obsession.",
+      "concept": "eros"
+    },
+    {
+      "greek": "αἰδώς",
+      "translit": "aidṓs",
+      "name": "Healthy shame",
+      "means": "The restraint felt before a wrong act: justice regulating itself within you.",
+      "concept": "shame"
+    },
+    {
+      "greek": "ἀλήθεια",
+      "translit": "alḗtheia",
+      "name": "Truth",
+      "means": "Un-forgetting: a state, not a list of propositions; truth does not come to you, you come to it.",
+      "concept": "truth"
+    },
+    {
+      "greek": "κάλλος",
+      "translit": "kállos",
+      "name": "Beauty",
+      "means": "Where the divine shows its wonder in the visible world, as Greek art’s devotion to symmetry and harmony shows.",
+      "concept": "beauty"
+    },
+    {
+      "greek": "λόγος",
+      "translit": "lógos",
+      "name": "The common logos",
+      "means": "One and common to all (ξυνός): the consciousness that observes, and our power to judge just from unjust.",
+      "concept": "logos"
+    },
+    {
+      "greek": "παιδεία",
+      "translit": "paideía",
+      "name": "Education of the soul",
+      "means": "Not diplomas but the art of turning the soul’s whole eye from outside to inside.",
+      "concept": "paideia"
+    }
+  ],
+  "questions": [
+    "Take the first of your five. Name one choice this week where it decided what you did, and one where something else decided instead.",
+    "Which of your five is least present in how you live now? Name one thing you could do this week to give it room."
+  ]
+}

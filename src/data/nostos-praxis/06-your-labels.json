@@ -1,0 +1,44 @@
+{
+  "id": "your-labels",
+  "chapter": "soul-self",
+  "n": 6,
+  "kind": "make",
+  "title": "Your labels",
+  "line": "The names you go by, and how tightly you hold each.",
+  "intro": "Athena asks us to list the roles we identify with (name, profession, parent, nationality) and to notice how attached we are to each, because labels cramp the divine self. Then, with any label, to ask who is the one who bears it. Here you write your labels, weigh each, and look behind the one you hold most tightly.",
+  "does": "Write your labels, weigh how tightly you hold each, and look behind the tightest.",
+  "trains": "Seeing that you have roles and labels, and are not them.",
+  "practices": [
+    129,
+    162,
+    47
+  ],
+  "concepts": [
+    "self",
+    "ego",
+    "disidentification"
+  ],
+  "prompts": [
+    {
+      "label": "Your labels",
+      "hint": "List the roles and labels you identify with: your name, profession, family roles, nationality, beliefs (left, right, spiritual, Platonist), the part you play among friends. Write as many as come.",
+      "placeholder": "teacher, mother, Greek, the reliable one, vegetarian…"
+    },
+    {
+      "label": "How tightly you hold each",
+      "hint": "Beside each label, a number from 1 (I could put it down tomorrow) to 5 (without it I would not know who I am). Athena says shedding a role hurts in proportion to how much you identify with it.",
+      "placeholder": "teacher 5, Greek 3, the reliable one 4…"
+    },
+    {
+      "label": "Behind the tightest",
+      "hint": "Take the label you hold most tightly and ask, as Athena does of “Greek”: who is the one who bears this label? Write what you find there, before any label.",
+      "placeholder": "Before I am a teacher, I am…"
+    },
+    {
+      "label": "One to hold more lightly",
+      "hint": "Name one label you could hold more lightly this week: still playing the role, even seriously, but without being it.",
+      "placeholder": "At work this week I will play the manager, and remember I am not the role."
+    }
+  ],
+  "end": "Kept. Before you are any of these, Athena says, you are."
+}

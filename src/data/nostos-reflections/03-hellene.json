@@ -1,0 +1,360 @@
+{
+  "id": "hellene",
+  "n": 3,
+  "after": "call-hellenism",
+  "title": "The Hellene in you",
+  "line": "In potential or in actuality: how much of the light do you live?",
+  "intro": "Athena reads 'Hellene' not as a nationality or a seed asleep in the DNA, but as a level of the soul: one who tunes the mind to Ἑλ, the spiritual light, which knows no borders. Many, Athena says, are Hellenes in potential (ἐν δυνάμει) but not in actuality (ἐν ἐνεργείᾳ). This reflection looks at how much of that spirit you live, whatever your background. It is a mirror, not a test.",
+  "concepts": [
+    "hellene",
+    "hellenism",
+    "archaios",
+    "asabove",
+    "language",
+    "noandyes",
+    "idiotes"
+  ],
+  "types": [
+    {
+      "id": "glass",
+      "name": "A heritage behind glass",
+      "short": "Hellenism as a past or a name",
+      "about": "For you the Hellenic is first a heritage: a people, a past, great names and monuments, held with pride if it is yours and with admiration if it is not. Athena's 'ancient' is not a date but a quality: one's standing toward the ἀρχαί, the value principles, and toward the first principle, the Good. In Athena's image pride is like fireworks, lifting the spirits but giving birth to nothing, while gratitude studies and lives what it has received; and a name held as identity becomes another cave: 'Before you exist as Greek, you are.'",
+      "concepts": [
+        "archaios",
+        "hellenism"
+      ]
+    },
+    {
+      "id": "potential",
+      "name": "Hellene in potential",
+      "short": "The seed is there, not yet the flower",
+      "about": "You are drawn to the light the Hellenic spirit points to: you read, listen and wonder, and something in you recognises it. In Athena's terms you are a Hellene ἐν δυνάμει, in potential, as an olive seed already holds the tree: the seed is real, but it shows more in what you love than in how you act. For Athena being a Hellene is an achievement, existential, cultural and spiritual, and the passage from seed to flower is where it is won.",
+      "concepts": [
+        "hellene",
+        "entelecheia"
+      ]
+    },
+    {
+      "id": "private",
+      "name": "Light kept private",
+      "short": "Real inner work, within your own circle",
+      "about": "The light is real in you and you tend it, but mostly for your own peace, your own clarity and the people closest to you. Athena's Hellene cannot look after their own interest alone, because light knows no borders; the ancient Greeks called one who withdrew from the whole an ἰδιώτης, the private person living 'for my own sake'. Athena reads it as a kind of forgetting (λήθη): forgetting that one is one with the others and with everything, and living like a single seashell in the ocean.",
+      "concepts": [
+        "idiotes",
+        "politics"
+      ]
+    },
+    {
+      "id": "no-only",
+      "name": "A «No» without its «Yes»",
+      "short": "A clear refusal, less cultivation",
+      "about": "You know what you refuse, and you have the courage to say it. Athena honours that «No»: every subtraction on the path is a «No», said first within, and the «No» of 28 October 1940 is when, in Athena's reading, Greeks were Hellenes in actuality. But in Athena's words 'a No not accompanied by a Yes is lame': a reaction stays locked to what it opposes. The «Yes» is cultivation, the soil, water and pruning that let the seed of the «No» sprout.",
+      "concepts": [
+        "noandyes",
+        "kalliergeia"
+      ]
+    },
+    {
+      "id": "actuality",
+      "name": "Hellene in actuality",
+      "short": "The light shows in how you act",
+      "about": "What you love in the Hellenic spirit shows in how you live, and it reaches past your own circle into how you treat others and the whole: as within, so without, in the words of Hellenism's second principle. This is what Athena calls being a Hellene ἐν ἐνεργείᾳ, in actuality, as the Greeks of 1940 were when they set aside their own interest and became one with the common logos. Athena adds the caution that holds for every name, this one too: 'Before you exist as Greek, you are.'",
+      "concepts": [
+        "hellene",
+        "asabove"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "rank",
+      "id": "q1",
+      "prompt": "When you think of the ancient Greeks, what comes to you first? Put these in order, most like you first.",
+      "options": [
+        {
+          "text": "Admiration, or pride: what a people, what a past",
+          "to": {
+            "glass": 2
+          }
+        },
+        {
+          "text": "Wonder: I want to read them and understand",
+          "to": {
+            "potential": 2
+          }
+        },
+        {
+          "text": "A refuge: a clear, calm world away from today's noise",
+          "to": {
+            "private": 2
+          }
+        },
+        {
+          "text": "A reproach: look how far we have fallen since",
+          "to": {
+            "no-only": 2
+          }
+        },
+        {
+          "text": "A task: principles to live by, here and now",
+          "to": {
+            "actuality": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "Your neighbours are meeting to help an elderly woman on your street who can no longer manage alone. It falls on the one evening you keep for your own study and quiet. What do you do?",
+      "options": [
+        {
+          "text": "I keep my evening: my inner work is what I truly have to give",
+          "to": {
+            "private": 2
+          }
+        },
+        {
+          "text": "I mean to go, and end up staying with my book",
+          "to": {
+            "potential": 2,
+            "private": 1
+          }
+        },
+        {
+          "text": "I go, and spend half the meeting angry at the council that should be doing this",
+          "to": {
+            "no-only": 2
+          }
+        },
+        {
+          "text": "I go: we look after our own here, it's how I was raised",
+          "to": {
+            "glass": 1,
+            "actuality": 1
+          }
+        },
+        {
+          "text": "I go: for me this is the same work as the reading",
+          "to": {
+            "actuality": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "pairs",
+      "id": "q3",
+      "prompt": "Quickly: which is more like you?",
+      "pairs": [
+        {
+          "a": "Proud of the ancients",
+          "aTo": {
+            "glass": 1
+          },
+          "b": "Grateful to the ancients",
+          "bTo": {
+            "potential": 1
+          }
+        },
+        {
+          "a": "The ancients: a museum",
+          "aTo": {
+            "glass": 1
+          },
+          "b": "The ancients: a workshop",
+          "bTo": {
+            "actuality": 1
+          }
+        },
+        {
+          "a": "Reading about it",
+          "aTo": {
+            "potential": 1
+          },
+          "b": "Practising it alone",
+          "bTo": {
+            "private": 1
+          }
+        },
+        {
+          "a": "My own peace",
+          "aTo": {
+            "private": 1
+          },
+          "b": "The common good",
+          "bTo": {
+            "actuality": 1
+          }
+        },
+        {
+          "a": "I know what I refuse",
+          "aTo": {
+            "no-only": 1
+          },
+          "b": "I know what I'm tending",
+          "bTo": {
+            "actuality": 1
+          }
+        },
+        {
+          "a": "Quick to object",
+          "aTo": {
+            "no-only": 1
+          },
+          "b": "Quick to withdraw",
+          "bTo": {
+            "private": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "When I hear «Hellenic», I think first of a people, a country and its past.",
+      "left": "Not at all",
+      "right": "Very much",
+      "to": {
+        "glass": 2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q5",
+      "prompt": "My inner work stays inside my own life; it rarely reaches anyone else.",
+      "left": "Not like me",
+      "right": "Very like me",
+      "to": {
+        "private": 2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q6",
+      "prompt": "I know clearly what I am against; what I am for is less clear.",
+      "left": "Not like me",
+      "right": "Very like me",
+      "to": {
+        "no-only": 3
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe a time when you acted for something larger than yourself and your own circle, at some cost to you. What made you do it?",
+      "hint": "Small is fine: a word for a stranger, a stand at work, an evening given to a neighbour.",
+      "placeholder": "Last winter, when the woman downstairs…"
+    },
+    {
+      "kind": "multi",
+      "id": "q7",
+      "prompt": "Which of these have you done in the past month? Choose up to three.",
+      "max": 3,
+      "options": [
+        {
+          "text": "Admired the ancients: at a site, in a film, in a conversation",
+          "to": {
+            "glass": 1
+          }
+        },
+        {
+          "text": "Read the ancients themselves, not only books about them",
+          "to": {
+            "potential": 1
+          }
+        },
+        {
+          "text": "Stopped at a Greek word to hear what it holds, as Athena hears Ἑλ, light, in ἐλευθερία, freedom",
+          "to": {
+            "potential": 1
+          }
+        },
+        {
+          "text": "Kept a practice of my own: silence, study, an evening review",
+          "to": {
+            "private": 1
+          }
+        },
+        {
+          "text": "Said a clear «No» to something false, at some cost",
+          "to": {
+            "no-only": 1
+          }
+        },
+        {
+          "text": "Argued, more than once, about what is wrong with the world",
+          "to": {
+            "no-only": 1
+          }
+        },
+        {
+          "text": "Started something good in the place of something I had refused",
+          "to": {
+            "actuality": 1
+          }
+        },
+        {
+          "text": "Gave time or care to people outside my own circle, expecting nothing back",
+          "to": {
+            "actuality": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ladder",
+      "id": "q8",
+      "prompt": "Picture the Hellenic spirit in you as a plant. Where is it now?",
+      "rungs": [
+        {
+          "text": "Not yet sown: a heritage I belong to or admire, more than something I live",
+          "to": {
+            "glass": 3
+          }
+        },
+        {
+          "text": "A seed: I'm drawn to its light, and I read, listen and wonder",
+          "to": {
+            "potential": 3
+          }
+        },
+        {
+          "text": "A first shoot: it has begun to change a few of my choices",
+          "to": {
+            "potential": 2,
+            "actuality": 1
+          }
+        },
+        {
+          "text": "Growing in my own garden: it shapes my days, but mostly within my own life",
+          "to": {
+            "private": 2
+          }
+        },
+        {
+          "text": "In flower: it shows in how I treat others and in what I do for the whole",
+          "to": {
+            "actuality": 3
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Which principle of the ancients do you love most, and where in your week does it not yet show? Give one concrete example.",
+      "hint": "A principle, not a monument: measure, friendship, the common good, courage, truth said plainly.",
+      "placeholder": "I love their sense of measure, but at work on Mondays…"
+    }
+  ],
+  "looks": "How much of the Hellenic spirit you live rather than admire: as a heritage, a seed, a private light, a refusal, or a way of acting for the whole.",
+  "learn": "Athena’s Hellene as a level of the soul, not a nationality, seen in your own life: the step from potential (ἐν δυνάμει) to actuality (ἐν ἐνεργείᾳ).",
+  "later": {
+    "plan": "The step after your type, from Athena's practices. Heritage: from pride to gratitude, one ancient text read whole this month. In potential: one principle you love, lived on purpose once a day for a week. Light kept private: each morning, “what will I do today for the whole, not only my circle?”. A «No» without its «Yes»: after each refusal, one thing planted in its place. In actuality: “who is the one who is Greek?”, so the name does not become a cave.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read how much of the Hellenic spirit the learner lives, never how Greek they are: for Athena 'Hellene' is a level of the soul open to anyone, not an ethnicity or a seed in the DNA, so nothing here may flatter or exclude anyone by origin. Read the answers by Athena's marks of the Hellene: 'ancient' as a standing toward the ἀρχαί rather than a date, the passage from potential (ἐν δυνάμει) to actuality (ἐν ἐνεργείᾳ), light that knows no borders against the private ἰδιώτης, and the «No» completed by a «Yes». The ladder is the learner's own rating: weigh it against the scenario, the month's acts and above all the two written answers, and say plainly where they agree or differ. Quote the learner's own words, the act for something larger in the first answer and the principle loved but not yet lived in the second, and name the distance between them. Be sober with 'Hellene in actuality', since Athena warns that any name, this one too, becomes another cave ('Before you exist as Greek, you are'); treat pride in a heritage as a beginning that gratitude completes, never as a fault, and never use the word 'idiot'. Write an analysis only, with no advice or practices.",
+  "reads": []
+}

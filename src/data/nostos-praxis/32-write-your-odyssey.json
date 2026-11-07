@@ -1,0 +1,37 @@
+{
+  "id": "write-your-odyssey",
+  "chapter": "return-ithaca",
+  "n": 32,
+  "kind": "make",
+  "title": "Write your own Odyssey",
+  "line": "Where you are on the way, and what your Ithaca is.",
+  "intro": "Athena reads the Odyssey as the soul’s journey home, νόστος, and the classics as symbols of that journey. Here you write your own: where you are on the way, what your Ithaca is, what still waits for you there, and how you will let wisdom guide you.",
+  "does": "Write four short parts of your own Odyssey: your station, your Ithaca, your suitors and your guide.",
+  "trains": "Seeing your life as a journey home, and knowing where home is.",
+  "practices": [94],
+  "concepts": ["odyssey", "ithaca", "immanence", "athenagoddess"],
+  "prompts": [
+    {
+      "label": "Where you are",
+      "hint": "Athena reads the stations of the Odyssey as stations of the soul: the storms, where Poseidon soaks the inner flame with the passions; Circe’s and Calypso’s islands, pleasant, beautiful and hard to leave; the Phaeacians, where understanding is high but is not yet home; Ithaca itself, with suitors in the house. Which does your life resemble now, and why?",
+      "placeholder": "Right now I think I am at sea…"
+    },
+    {
+      "label": "Your Ithaca",
+      "hint": "For Athena, Ithaca is the inner centre: fullness, freedom and eudaimonia, and homecoming is returning to what you love. What is yours? Describe it as a place you would recognise.",
+      "placeholder": "My Ithaca is…"
+    },
+    {
+      "label": "Your suitors",
+      "hint": "Odysseus reaches Ithaca halfway through the poem and must still clear his house of the suitors, which Athena reads as our habits, passions, inner voices and old views of the world. Which of them are eating in your house?",
+      "placeholder": "The suitors in my house are…"
+    },
+    {
+      "label": "Your guide",
+      "hint": "In the Odyssey the goddess Athena guides the lost soul home, and stands for philosophy and self-knowledge. What one thing will you do this month to let wisdom guide you: a practice, a book, a question?",
+      "placeholder": "This month I will…"
+    }
+  ],
+  "end": "Odysseus does not return to Ithaca, Athena says: he wakes up in Ithaca, because he was always there.",
+  "later": "Claude could read your Odyssey and answer it in Athena’s terms."
+}

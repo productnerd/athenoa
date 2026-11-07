@@ -1,0 +1,18 @@
+{
+  "id": "die-a-little",
+  "chapter": "mysteries-death",
+  "n": 30,
+  "kind": "challenge",
+  "title": "Die a little",
+  "line": "Seven days, one identification set down for a moment.",
+  "intro": "Plato calls philosophy μελέτη θανάτου, the practice of dying, and Athena stresses that this means not leaving the body but ceasing to take it, and our roles and labels, for oneself. It is daily, one identification at a time, which is why Socrates says both “dying” and “being dead”. For seven days, gently set one down for a moment and see what remains.",
+  "does": "Once a day, set down one role, label or belief for a moment, and see what remains.",
+  "trains": "Knowing that you have roles, beliefs and a body, and are more than them.",
+  "practices": [3],
+  "concepts": ["meletethanatou", "disidentification", "death"],
+  "days": 7,
+  "each": "Once today, pick one identification: a role (parent, colleague, the one who copes), a label (your job, your nationality), a belief about yourself, or an image of your body. Sit quietly for a minute, let it go as if you set it down beside you, and ask: what am I beyond what I seem to be? Then pick it up again, as lightly as you can; nothing is lost.",
+  "when": "during the day",
+  "note": "What did you set down today, and what remained?",
+  "end": "After seven days: what was still there each time something was set down?"
+}

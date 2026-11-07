@@ -1,0 +1,26 @@
+{
+  "id": "winter-descent",
+  "chapter": "cosmos-number",
+  "n": 27,
+  "kind": "ritual",
+  "title": "The winter descent",
+  "line": "On the longest night, go down with the torch, and sow a virtue.",
+  "intro": "For Athena the winter solstice, the longest night, is a privileged gate and not a misfortune: the soul’s deepest dive, the dark night before rebirth, after which the sun climbs again. Athena’s inner work for it is a descent: like Persephone, with the hero’s torch, you face one of your monsters, trace its roots, uproot it and sow a virtue in its place.",
+  "does": "On the solstice evening, by a single light, face one passion, trace its roots and sow a virtue.",
+  "trains": "Facing what lives in the dark without fear, and turning it into virtue.",
+  "practices": [35, 64, 65],
+  "concepts": ["solstice", "darkness", "katharsis"],
+  "date": "winter-solstice",
+  "calendar": true,
+  "steps": [
+    "On the evening of the solstice, keep about an hour free and find a quiet place. Switch off the phone and dim the lights: darkness, Athena says, means introversion, the time to turn inward.",
+    "Light one candle or a small lamp: the hero’s torch. Sit with it for a few minutes, and let yourself go down, as Persephone descends, into what you usually keep out of sight.",
+    "Name one of your monsters: a passion that has ruled you this year (a fear, a rage, a jealousy, an envy, a craving). Look at it face to face, without fear, wishing for its transformation.",
+    "Trace its roots: in which events, which family patterns, perhaps which ancestors did it begin? Write down what you find in your notebook.",
+    "Light it with awareness, and choose what you will sow in its place: a virtue, love, kindness, cooperation or truth. Write it beneath the roots.",
+    "Sit a little longer in the dark around the light. At rock bottom, Athena says, the choice is “light or nothing”; from this night the sun climbs again, and the inner sun is born.",
+    "If you can, tend what you sowed with one small act on each of the four days that follow, up to 25 December: for the Pythagoreans four is establishment, and what was done in the depths is made firm."
+  ],
+  "note": "What did you find in the dark, and what will you sow in its place?",
+  "later": "Claude could fit Athena’s steps to the date and to your note."
+}

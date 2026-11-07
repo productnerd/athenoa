@@ -1,0 +1,547 @@
+---
+// Nostos, a practical activity (client request, 7 November 2026): an olive leaf at the end of a chapter
+// of Learn. The page shows what it is and which of Athena's practices it comes from; the activity itself
+// (a meditation, a challenge, a mission, a piece of writing, a ritual or a small tool) is drawn by
+// src/scripts/nostos-praxis.ts. Content: src/data/nostos-praxis/ (src/lib/nostos-praxis.ts). English
+// only for now. Not in the sitemap and noindex until launch. THE WORDING IS NEW, proposed.
+import Base from '../../../layouts/Base.astro';
+import NostosNav from '../../../components/nostos/NostosNav.astro';
+import { nostosUi } from '../../../data/nostos/ui';
+import { concepts, practices, talkUrl } from '../../../lib/nostos';
+import { praxes, sizeOf, type Praxis } from '../../../lib/nostos-praxis';
+
+export function getStaticPaths() {
+  return praxes.map((p) => ({ params: { id: p.id }, props: { p } }));
+}
+const { p } = Astro.props as { p: Praxis };
+const t = nostosUi.en.play.praxis;
+const fill = (text: string, values: Record<string, string | number>) => text.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? ''));
+const size = sizeOf(p);
+const sizeText = 'minutes' in size ? fill(t.minutes, { n: size.minutes! }) : 'days' in size ? fill(t.days, { n: size.days! }) : 'times' in size ? fill(t.times, { n: size.times! }) : '';
+// the practices it rests on, each with its talk
+const sources = p.practices.map((n) => practices[n - 1]).filter(Boolean);
+const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
+const data = { p: { ...p, later: undefined }, words: t };
+---
+
+<Base title={`${p.title} · Praxis | ATHENOA`} description={p.line} noindex>
+  <NostosNav />
+  <section class="section npx" data-praxis>
+    <div class="wrap wrap--narrow">
+      <header class="npx__head">
+        <svg class="npx__leaf" viewBox="0 0 60 80" aria-hidden="true" focusable="false">
+          <path class="npx__leaf-blade" d="M30 6C46 18 50 44 30 74 10 44 14 18 30 6Z" />
+          <path class="npx__leaf-vein" d="M30 14V70M30 30l-8-6M30 40l9-7M30 50l-8-6M30 58l7-5" />
+        </svg>
+        <p class="npx__kicker">{fill(t.kicker, { i: p.n })} · {t.kinds[p.kind]}{sizeText && ` · ${sizeText}`}</p>
+        <h1 class="t-1 npx__title">{p.title}</h1>
+        <p class="npx__line">{p.line}</p>
+        <p class="npx__intro">{p.intro}</p>
+        <dl class="npx__what">
+          <div><dt>{t.does}</dt><dd>{p.does}</dd></div>
+          <div><dt>{t.trains}</dt><dd>{p.trains}</dd></div>
+        </dl>
+      </header>
+
+      <div class="npx__body" data-px-body></div>
+
+      <footer class="npx__foot">
+        {sources.length > 0 && (
+          <p class="npx__from">
+            {t.from}:{' '}
+            {sources.map((s, k) => (
+              <>
+                {k > 0 && ' · '}
+                <a href={talkUrl(s.talk, s.t)} target="_blank" rel="noopener">{s.title}</a>
+              </>
+            ))}
+          </p>
+        )}
+        {p.concepts.length > 0 && (
+          <p class="npx__from">
+            {p.concepts.map((c, k) => (
+              <>
+                {k > 0 && ' · '}
+                <a href={`/nostos/?star=${encodeURIComponent(c)}`}>{labels[c] ?? c}</a>
+              </>
+            ))}
+          </p>
+        )}
+        <p class="npx__note">{t.note}</p>
+        <a class="btn btn--quiet" href="/nostos/play/">{t.toLearn}</a>
+      </footer>
+    </div>
+  </section>
+  <script type="application/json" data-px-data set:html={JSON.stringify(data)} />
+</Base>
+
+<script>
+  import { start } from '../../../scripts/nostos-praxis';
+  document.addEventListener('astro:page-load', start);
+</script>
+
+<style>
+  .npx__head > * {
+    margin: 0;
+  }
+  .npx__leaf {
+    width: 3.2rem;
+    height: auto;
+    margin-bottom: 0.6rem;
+  }
+  .npx__leaf-blade {
+    fill: color-mix(in srgb, var(--olive, #6f7f3f) 70%, var(--creme-light));
+    stroke: var(--ink-strong);
+    stroke-width: 1.6;
+  }
+  .npx__leaf-vein {
+    fill: none;
+    stroke: var(--ink-strong);
+    stroke-width: 1.3;
+    stroke-linecap: round;
+    opacity: 0.6;
+  }
+  .npx__kicker {
+    font-size: calc(var(--step-0) * 0.78);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .npx__title {
+    margin-top: 0.3rem !important;
+  }
+  .npx__line {
+    margin-top: 0.4rem !important;
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.2;
+    color: var(--ink-strong);
+  }
+  .npx__intro {
+    max-width: var(--measure);
+    margin-top: var(--space-s) !important;
+    font-size: var(--step-1);
+    line-height: 1.45;
+  }
+  .npx__what {
+    display: grid;
+    gap: 0.6rem 2rem;
+    margin-top: var(--space-s) !important;
+  }
+  @media (min-width: 44rem) {
+    .npx__what {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .npx__what dt {
+    font-size: calc(var(--step-0) * 0.75);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .npx__what dd {
+    margin: 0.15rem 0 0;
+  }
+  .npx__body {
+    margin-top: var(--space-l);
+  }
+  .npx__foot {
+    margin-top: var(--space-xl);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--line);
+  }
+  .npx__foot > * {
+    margin: 0 0 0.6rem;
+  }
+  .npx__from,
+  .npx__note {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .npx__from a {
+    color: var(--blue);
+  }
+</style>
+
+<style is:global>
+  /* the activities (built by src/scripts/nostos-praxis.ts); hidden means hidden, buttons included */
+  [data-praxis] [hidden] {
+    display: none !important;
+  }
+  .npx-card {
+    padding: clamp(1.3rem, 1rem + 2vw, 2.4rem);
+    background: color-mix(in srgb, var(--creme-light) 75%, transparent);
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-soft);
+  }
+  .npx-card > * {
+    margin: 0;
+  }
+  .npx-card > * + * {
+    margin-top: var(--space-s);
+  }
+  .npx-h {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: calc(var(--step-0) * 0.78);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .npx-big {
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    line-height: 1.25;
+    color: var(--ink-strong);
+  }
+  .npx-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .npx-soft {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .npx-write {
+    width: 100%;
+    min-height: 5.5rem;
+    padding: 0.8rem 1rem;
+    font: inherit;
+    line-height: 1.5;
+    color: var(--ink);
+    background: var(--creme);
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem;
+    resize: vertical;
+  }
+  .npx-list {
+    margin: 0;
+    padding-left: 1.3rem;
+  }
+  .npx-list li + li {
+    margin-top: 0.4rem;
+  }
+  .npx-check {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .npx-check label {
+    display: flex;
+    gap: 0.7rem;
+    align-items: flex-start;
+    cursor: pointer;
+  }
+  .npx-check input {
+    flex: none;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-top: 0.2rem;
+    accent-color: var(--blue);
+  }
+
+  /* the meditation: the step large, a ring of time round it */
+  .npx-med {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-s);
+    text-align: center;
+  }
+  .npx-ring {
+    position: relative;
+    width: min(15rem, 70vw);
+    aspect-ratio: 1;
+  }
+  .npx-ring svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .npx-ring circle {
+    fill: none;
+    stroke-width: 4;
+  }
+  .npx-ring .npx-ring__track {
+    stroke: color-mix(in srgb, var(--blue) 14%, transparent);
+  }
+  .npx-ring .npx-ring__fill {
+    stroke: var(--blue);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s linear;
+  }
+  .npx-ring__time {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: var(--font-title);
+    font-size: clamp(2.6rem, 2rem + 3vw, 3.6rem);
+    color: var(--ink-strong);
+  }
+  .npx-med__step {
+    min-height: 5.5em;
+    max-width: 34rem;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    line-height: 1.35;
+    color: var(--ink-strong);
+    transition: opacity 0.6s var(--ease-out);
+  }
+  .npx-med__step.is-fading {
+    opacity: 0;
+  }
+  .npx-dots {
+    display: flex;
+    gap: 0.35rem;
+  }
+  .npx-dots i {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--blue) 20%, transparent);
+  }
+  .npx-dots i.is-done {
+    background: var(--blue);
+  }
+  .npx-dots i.is-now {
+    background: var(--blue);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 25%, transparent);
+  }
+  .npx-sound {
+    padding: 0;
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  /* the days of a challenge */
+  .npx-days {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .npx-day {
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    font-family: var(--font-title);
+    color: var(--ink-soft);
+    border: 1.5px solid var(--line);
+    border-radius: 50%;
+  }
+  .npx-day.is-did {
+    color: var(--creme-light);
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+  .npx-day.is-skip {
+    border-style: dashed;
+  }
+  .npx-day.is-today {
+    border-color: var(--blue);
+    border-width: 2.5px;
+    color: var(--blue);
+  }
+  .npx-notes {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: var(--step--1);
+  }
+  .npx-notes li {
+    padding: 0.45rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .npx-notes b {
+    color: var(--ink-strong);
+  }
+
+  /* the asleep audit */
+  .npx-areas {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .npx-area {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0.9rem 1rem;
+    border: 1.5px solid var(--line);
+    border-radius: 1.1rem;
+  }
+  .npx-area p {
+    margin: 0;
+  }
+  .npx-slider {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) 7.5rem;
+    gap: 0.6rem;
+    align-items: center;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .npx-slider span:last-child {
+    text-align: right;
+  }
+  .npx-slider input {
+    width: 100%;
+    accent-color: var(--blue);
+  }
+  @media (max-width: 30rem) {
+    .npx-slider {
+      grid-template-columns: 1fr 1fr;
+    }
+    .npx-slider input {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+  }
+  .npx-plot {
+    position: relative;
+    width: 100%;
+    max-width: 26rem;
+    aspect-ratio: 1;
+    border: 1.5px solid var(--line);
+    border-radius: 1rem;
+    background:
+      linear-gradient(var(--line), var(--line)) 50% 0 / 1px 100% no-repeat,
+      linear-gradient(var(--line), var(--line)) 0 50% / 100% 1px no-repeat;
+  }
+  .npx-plot__dot {
+    position: absolute;
+    translate: -50% -50%;
+    padding: 0.15rem 0.5rem;
+    font-size: var(--step--1);
+    white-space: nowrap;
+    color: var(--creme-light);
+    background: var(--blue);
+    border-radius: 1rem;
+  }
+  .npx-plot__axis {
+    position: absolute;
+    font-size: calc(var(--step-0) * 0.72);
+    color: var(--ink-soft);
+  }
+
+  /* the values: two to choose between, then the order */
+  .npx-pair {
+    display: grid;
+    gap: 0.7rem;
+  }
+  @media (min-width: 40rem) {
+    .npx-pair {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .npx-value {
+    display: grid;
+    gap: 0.3rem;
+    padding: 1rem 1.1rem;
+    font: inherit;
+    text-align: left;
+    color: var(--ink);
+    background: var(--creme);
+    border: 1.5px solid var(--line);
+    border-radius: 1.3rem;
+    cursor: pointer;
+  }
+  .npx-value:hover {
+    border-color: var(--ink-strong);
+  }
+  .npx-value__greek {
+    font-family: var(--font-title);
+    font-size: var(--step-2);
+    color: var(--ink-strong);
+  }
+  .npx-value__name {
+    font-weight: 600;
+  }
+  .npx-order {
+    margin: 0;
+    padding-left: 1.4rem;
+  }
+  .npx-order li + li {
+    margin-top: 0.3rem;
+  }
+  .npx-order li:nth-child(-n + 5) {
+    font-weight: 600;
+    color: var(--ink-strong);
+  }
+
+  /* the journal of beauty */
+  .npx-photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+    gap: 0.7rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .npx-photo {
+    display: grid;
+    gap: 0.4rem;
+  }
+  .npx-photo img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 1rem;
+  }
+  .npx-photo input {
+    width: 100%;
+    padding: 0.4rem 0.6rem;
+    font: inherit;
+    font-size: var(--step--1);
+    background: var(--creme);
+    border: 1.5px solid var(--line);
+    border-radius: 0.8rem;
+  }
+  .npx-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 1.2rem;
+    background: var(--ink-strong);
+  }
+  .npx-video iframe,
+  .npx-video img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+  .npx-video button {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .npx-video button span {
+    padding: 0.7rem 1.4rem;
+    color: var(--creme-light);
+    background: var(--blue);
+    border-radius: 2rem;
+  }
+</style>

@@ -1,0 +1,21 @@
+{
+  "id": "evening-alone",
+  "chapter": "cave-illusion",
+  "n": 21,
+  "kind": "mission",
+  "title": "An evening alone",
+  "line": "A few hours with no phone and no screen, and what comes up.",
+  "intro": "It isn’t loneliness we flee, Athena says, but conscience: alone, without distraction, it starts to speak. Athena sees today’s shadows on the wall in the screens we sit before, the news and the feeds; for one evening, switch them off and listen to what comes up instead.",
+  "does": "Spend one evening of two or three hours alone, with no phone and no screen.",
+  "trains": "Staying with yourself, and hearing the voice of your conscience.",
+  "practices": [23],
+  "concepts": ["selfobservation", "wonderworkers", "shame"],
+  "steps": [
+    "Choose an evening this week and keep two or three hours of it free. Tell anyone who might need you that you will be offline.",
+    "Switch the phone off and put it in another room; leave the television, the laptop and the radio off too. Stay at home, or walk somewhere quiet.",
+    "Do nothing in particular: sit, make tea, look out of the window. When something you have pushed down comes up (a worry, a memory, a regret), don’t push it back: let it come, and look at it.",
+    "Listen for your conscience: what is it telling you? If it gets heavy, it is enough to have noticed it; you can stop there."
+  ],
+  "report": ["What came up, once the screens were off?", "What did your conscience say, and what will you do about it?"],
+  "later": "Claude could answer your report in Athena’s terms."
+}

@@ -1,0 +1,23 @@
+{
+  "id": "ice-cube",
+  "chapter": "cosmos-one",
+  "n": 25,
+  "kind": "meditation",
+  "title": "Melt the ice cube",
+  "line": "Five minutes from a frozen form back to the ocean.",
+  "intro": "Athena reads ψυχή, soul, from ψύχω, to cool: the soul is fiery nous that has cooled, and separate selves are like ice cubes, frozen forms of one field. Separate forms are at war, Athena says, and remembering unity is freedom. For five minutes, you let the ice melt back into the ocean.",
+  "does": "Sit for five minutes and let the image of a separate self melt.",
+  "trains": "Remembering yourself as one field in many forms.",
+  "practices": [40],
+  "concepts": ["oneness", "consciousness", "emanation"],
+  "minutes": 5,
+  "steps": [
+    { "text": "Sit upright and comfortable, close your eyes, and let three slow breaths settle the body.", "seconds": 40 },
+    { "text": "Feel the edges of yourself: where the skin ends, where “I” seems to stop and the room begins. Notice how solid and separate you feel.", "seconds": 45 },
+    { "text": "Picture yourself as Athena’s ice cube: a frozen form, hard-edged, set apart from everything around it.", "seconds": 45 },
+    { "text": "Now let it melt. Feel the edges soften at the hands, the face, the chest, as ice softens into the water it always was.", "seconds": 50 },
+    { "text": "Let the water spread until there is no edge: one field in many forms. The people you love and the people you struggle with are the same water in other shapes.", "seconds": 50 },
+    { "text": "Rest here, the ice cube melted back into the ocean. Nothing to hold apart, nothing to defend.", "seconds": 40 },
+    { "text": "Come back slowly: feel the weight of your body again, a form within the field, and open your eyes.", "seconds": 30 }
+  ]
+}

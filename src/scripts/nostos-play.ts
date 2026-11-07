@@ -1760,6 +1760,32 @@ function refresh(root: HTMLElement) {
       const state = stone.querySelector<HTMLElement>('[data-ref-state]');
       if (state) state.textContent = done ? state.dataset.done ?? '' : walked ? '' : state.dataset.ahead ?? '';
     });
+    // the practical activities (src/lib/nostos-praxis.ts): done, under way (a challenge's day), or ahead
+    let practised: Record<string, { started?: string; checks?: unknown[]; done?: string }> = {};
+    try {
+      practised = JSON.parse(localStorage.getItem('nostos-praxis-v1') || '{}');
+    } catch {
+      // storage switched off: none shows as begun
+    }
+    root.querySelectorAll<HTMLElement>('[data-px-stone]').forEach((leaf) => {
+      const mine = practised[leaf.dataset.pxStone!];
+      const done = !!mine?.done;
+      const going = !done && !!mine?.started;
+      const walked = outline[Number(leaf.dataset.afterC)]?.lessons.every((l) => lessonDone(p, l));
+      leaf.classList.toggle('is-done', done);
+      leaf.classList.toggle('is-going', going);
+      leaf.classList.toggle('is-ahead', !done && !going && !walked);
+      const state = leaf.querySelector<HTMLElement>('[data-px-state]');
+      if (!state) return;
+      const n = Number(leaf.dataset.pxDays || 0);
+      state.textContent = done
+        ? state.dataset.done ?? ''
+        : going && n
+          ? (state.dataset.going ?? '').replace('{d}', String(Math.min(n, (mine?.checks?.length ?? 0) + 1))).replace('{n}', String(n))
+          : walked
+            ? ''
+            : state.dataset.ahead ?? '';
+    });
     root.querySelectorAll<HTMLElement>('[data-ch]').forEach((section) => {
       const c = outline[Number(section.dataset.ch)];
       // a chapter not yet begun and further on than where you are: it can be skipped to, from its card

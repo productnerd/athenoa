@@ -1,0 +1,22 @@
+{
+  "id": "watch-the-cave",
+  "chapter": "cave-turn",
+  "n": 22,
+  "kind": "tool",
+  "title": "Watch Athena on the Cave",
+  "line": "About twenty minutes of Athena’s talk, from the free hands to the first light.",
+  "intro": "In “The Art of Living”, a talk in English of about 25 minutes, Athena walks through the Cave: the prisoners’ free hands, the exit that is not a place, the dazzle of the first light and the one who knows. Start at 3:30, just before the free hands, hold one question while you watch, and write two short answers afterwards.",
+  "does": "Watch about twenty minutes of Athena’s talk on the Cave, then write two short answers.",
+  "trains": "Hearing the turn in Athena’s own words, and finding where it waits in your life.",
+  "practices": [110, 21],
+  "concepts": ["freewill", "metastrophe", "cave", "light"],
+  "tool": "watch-talk",
+  "talk": "UkAPRIOoiRw",
+  "from": "3:30",
+  "before": ["What in the prisoners was never bound, and where is that in you?"],
+  "after": [
+    "Where are you still looking for the exit outside yourself (a new job, a person, a place, one more course)? What would turning inward look like there this week?",
+    "Athena says the turn often comes when we are fed up with the torment of change. What are you fed up with now, and what does your free hand, your will, want to do about it?"
+  ],
+  "later": "Claude could answer your two answers through the talk."
+}

@@ -1,0 +1,29 @@
+{
+  "id": "one-act",
+  "chapter": "goodlife-polis",
+  "n": 13,
+  "kind": "mission",
+  "title": "One act at your own scale",
+  "line": "This week, one thing for your street, building or town.",
+  "intro": "For the Greeks, as Athena reads them, we are political by nature, so “I’m not political” is itself a political stance. Politics starts at your own scale: your street, your building, your town, wherever people reason together. This week you do one act there, and report it in two lines.",
+  "does": "Do one act this week for your street, building or town, and report it in two lines.",
+  "trains": "Taking up your political nature at the scale you can reach.",
+  "practices": [
+    41,
+    149
+  ],
+  "concepts": [
+    "politics",
+    "idiotes",
+    "nature"
+  ],
+  "steps": [
+    "Choose one thing that would make your street, building, village or community a little better and that you can do yourself this week: tidy a shared space, help a neighbour, go to a residents’ or town meeting, start a conversation about something you share.",
+    "Do it, once, in person.",
+    "If you can, leave room for others to reason with you: ask a neighbour what they think, or invite someone along."
+  ],
+  "report": [
+    "What did you do, and for whom?",
+    "What did you notice in yourself as a citizen, a πολίτης, while you did it?"
+  ]
+}

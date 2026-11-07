@@ -1,0 +1,52 @@
+{
+  "id": "three-in-the-body",
+  "chapter": "soul-psyche",
+  "n": 5,
+  "kind": "meditation",
+  "title": "Where the three live",
+  "line": "Eight minutes with desire, the heart and reason, in the body.",
+  "intro": "Athena follows Plato’s three parts of the soul: the desiring part, the spirited part, which Athena equates with the heart and the emotions, and the reasoning part. The Timaeus gives each a seat in the body. In eight minutes you visit each seat, notice what is alive there, and then rest as the one who notices all three.",
+  "does": "Eight minutes visiting desire, the heart and reason where they sit in the body.",
+  "trains": "The first, “extremely therapeutic” stage of self-knowledge: observing the soul’s powers.",
+  "practices": [
+    97,
+    81,
+    127
+  ],
+  "concepts": [
+    "tripartitesoul",
+    "soul",
+    "body"
+  ],
+  "minutes": 8,
+  "steps": [
+    {
+      "text": "Sit upright, feet on the floor, hands resting. Close your eyes and let the breath find its own pace. For now, simply arrive.",
+      "seconds": 60
+    },
+    {
+      "text": "Bring your attention below the solar plexus, to the belly. The Timaeus places the desiring part here. Notice what is alive in it now: hunger, a pull, a wanting, or quiet. Name it, without judging.",
+      "seconds": 90
+    },
+    {
+      "text": "Move up to the chest, around the heart. Athena equates the spirited part with the heart and the emotions. What do you feel there: warmth, tightness, sadness, courage, nothing in particular? Let it be as it is.",
+      "seconds": 90
+    },
+    {
+      "text": "Pass through the neck, which Athena calls the isthmus between heart and head, and come to the head, where Plato seats the reasoning part. Watch the thoughts come and go, without following them.",
+      "seconds": 90
+    },
+    {
+      "text": "Hold all three at once: belly, chest, head. Which is loudest right now, and which is quiet? Do they pull the same way, or apart?",
+      "seconds": 60
+    },
+    {
+      "text": "Athena says these three are powers of the soul, not the soul, as the melody is not the kithara. Rest for a while as the one who notices all three.",
+      "seconds": 60
+    },
+    {
+      "text": "Take a deeper breath, feel your weight on the seat, and open your eyes.",
+      "seconds": 30
+    }
+  ]
+}

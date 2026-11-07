@@ -1,0 +1,33 @@
+{
+  "id": "real-conversation",
+  "chapter": "call-socrates",
+  "n": 2,
+  "kind": "mission",
+  "title": "A real conversation",
+  "line": "Once this week, a conversation on a question that matters.",
+  "intro": "Socrates did his philosophy in conversation, walking the agora, and Athena says of those who gather to study the path: “we are a lesche”, a place where people talk philosophy for the common good. Once this week you meet someone in person on a question that matters, and you ask before you answer, starting, as Socrates did, from not knowing.",
+  "does": "Once this week, meet one person on a question that matters, and ask before you answer.",
+  "trains": "Socratic not-knowing: asking and listening before you hold forth.",
+  "practices": [
+    149,
+    60,
+    170,
+    57
+  ],
+  "concepts": [
+    "dialectic",
+    "socrates",
+    "aporia",
+    "maieutics"
+  ],
+  "steps": [
+    "Choose one person who shares the wish to understand, and one question that matters to you both: what is love, what is a good life, what is freedom, what do we owe each other? Arrange to meet in person this week, over a coffee or on a walk.",
+    "Ask before you answer. Begin with “what do you mean by…?” about the question’s key word, and let them answer fully before you add anything.",
+    "Listen as if you were hearing it for the first time. When you feel the urge to correct or explain, ask one more question instead, and say “I don’t know” wherever it is true."
+  ],
+  "report": [
+    "What was the question, and what did the other person mean by its key word?",
+    "One thing you heard that you had not thought before.",
+    "Where did you want to answer before you had asked?"
+  ]
+}

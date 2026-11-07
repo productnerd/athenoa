@@ -22,6 +22,7 @@ import {
 import { askedTotal, pathOutline } from '../../lib/nostos-path';
 import { numerals, stageArt } from '../../lib/nostos-stages';
 import { minutesOf, reflectionSpots, type Reflection } from '../../lib/nostos-reflections';
+import { praxisFor, sizeOf, type Praxis } from '../../lib/nostos-praxis';
 import StageStele from '../../components/nostos/StageStele.astro';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -146,12 +147,20 @@ const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
 // the reflections stand on the trail between the stones, each after the lesson where the last of its
 // ideas is met (src/lib/nostos-reflections.ts): a chapter's rows are its lessons and those reflections
 const spots = reflectionSpots(pathOutline);
-type Row = { lesson: number } | { after: number; r: Reflection };
-const rowsOf = (ci: number): Row[] =>
-  pathOutline[ci].lessons.flatMap((_, li) => {
+// and a chapter's practical activity, an olive leaf, closes it (src/lib/nostos-praxis.ts)
+type Row = { lesson: number } | { after: number; r: Reflection } | { praxis: Praxis };
+const rowsOf = (ci: number): Row[] => {
+  const rows: Row[] = pathOutline[ci].lessons.flatMap((_, li) => {
     const r = spots.get(`${ci}:${li}`);
     return r ? [{ lesson: li }, { after: li, r }] : [{ lesson: li }];
   });
+  const px = praxisFor(pathOutline[ci].id);
+  return px ? [...rows, { praxis: px }] : rows;
+};
+const pxSize = (px: Praxis) => {
+  const z = sizeOf(px);
+  return 'minutes' in z ? fill(t.praxis.minutes, { n: z.minutes! }) : 'days' in z ? fill(t.praxis.days, { n: z.days! }) : 'times' in z ? fill(t.praxis.times, { n: z.times! }) : '';
+};
 // each stage's own drawing (the site's symbols), on its milestone and faint across its chapters' cards,
 // and its number in Greek numerals, carved on the milestone (client direction, 6 November 2026)
 ---
@@ -249,6 +258,37 @@ const rowsOf = (ci: number): Row[] =>
                       </svg>
                       <span class="nnode__go" data-node-go />
                     </button>
+                  </li>
+                ) : 'praxis' in row ? (
+                  /* a practical activity (client request, 7 November 2026): an olive leaf closing the chapter,
+                     its title on the free side, what you do and what it trains on hover */
+                  <li class="njch__ref njch__px" style={`--x:${sway(ci, k).toFixed(3)}`} data-side={sway(ci, k) > 0.15 ? 'left' : 'right'}>
+                    <div class="njref njpx" data-px-stone={row.praxis.id} data-px-days={row.praxis.days ?? row.praxis.times ?? ''} data-after-c={ci}>
+                      <a class="njref__mirror njpx__leaf" href={`/nostos/praxis/${row.praxis.id}/`} tabindex="-1" aria-hidden="true">
+                        <svg viewBox="0 0 60 80" focusable="false">
+                          <path class="njpx__blade" d="M30 6C46 18 50 44 30 74 10 44 14 18 30 6Z" />
+                          <path class="njpx__vein" d="M30 14V70M30 30l-8-6M30 40l9-7M30 50l-8-6M30 58l7-5" />
+                          <path class="njref__tick njpx__tick" d="M19 40c2.4 1.8 4.4 4 6 6.4 3.2-5.6 6.8-10.4 11-14.6" />
+                        </svg>
+                      </a>
+                      <div class="njref__text">
+                        <p class="njref__kicker">{t.praxis.stone} · {t.praxis.kinds[row.praxis.kind]}{pxSize(row.praxis) && ` · ${pxSize(row.praxis)}`}</p>
+                        <a class="njref__title" href={`/nostos/praxis/${row.praxis.id}/`} lang="en" aria-describedby={`njpx-${row.praxis.id}`}>
+                          {row.praxis.title}
+                        </a>
+                        <div class="njref__tip" id={`njpx-${row.praxis.id}`} role="tooltip">
+                          <p lang="en"><strong>{t.praxis.does}:</strong> {row.praxis.does}</p>
+                          <p lang="en"><strong>{t.praxis.trains}:</strong> {row.praxis.trains}</p>
+                          <p
+                            class="njref__state"
+                            data-px-state
+                            data-ahead={fill(t.praxis.ahead, { i: placeIn(ci).i })}
+                            data-going={t.praxis.going}
+                            data-done={t.praxis.done}
+                          ></p>
+                        </div>
+                      </div>
+                    </div>
                   </li>
                 ) : (
                   /* a reflection (client request, 7 November 2026): a bronze hand mirror on the trail, not a
@@ -960,6 +1000,34 @@ const rowsOf = (ci: number): Row[] =>
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+  .njpx__leaf {
+    width: 3.2rem;
+  }
+  .njpx__blade {
+    fill: color-mix(in srgb, #7d8c4a 62%, var(--creme-light));
+    stroke: var(--ink-strong);
+    stroke-width: 2;
+  }
+  .njpx__vein {
+    fill: none;
+    stroke: var(--ink-strong);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    opacity: 0.55;
+  }
+  .njpx.is-done .njpx__blade {
+    fill: #5e6f2c;
+    stroke: #5e6f2c;
+  }
+  .njpx.is-done .njpx__vein {
+    display: none;
+  }
+  .njpx.is-done .njpx__tick {
+    display: block;
+  }
+  .njpx.is-going .njpx__blade {
+    fill: color-mix(in srgb, #7d8c4a 85%, var(--creme-light));
+  }
   .njref.is-done .njref__disc {
     fill: var(--blue);
     stroke: var(--blue);
@@ -1049,6 +1117,11 @@ const rowsOf = (ci: number): Row[] =>
   .njch__ref[data-side='left'] .njref__tip {
     left: auto;
     right: 0;
+  }
+  /* the leaf closes its chapter: its note opens upwards, clear of the next chapter's banner */
+  .njch__px .njref__tip {
+    top: auto;
+    bottom: calc(100% + 0.5rem);
   }
   /* on touch screens there is no hover: the name is enough on the trail, and the reflection's own
      page says what it looks at */
