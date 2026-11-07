@@ -1,6 +1,6 @@
 {
   "id": "odyssey",
-  "n": 15,
+  "n": 16,
   "after": "return-now",
   "title": "Your Odyssey",
   "line": "Where are you on the way home?",
@@ -261,6 +261,7 @@
   "reads": [
     "socrates-companions",
     "apollo-name",
+    "hellene",
     "charioteer",
     "same-other",
     "virtue-map",

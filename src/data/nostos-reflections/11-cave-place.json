@@ -1,6 +1,6 @@
 {
   "id": "cave-place",
-  "n": 10,
+  "n": 11,
   "after": "cave-sun",
   "title": "Where are you in the cave?",
   "line": "A map of where you might be, never a score.",

@@ -1,6 +1,6 @@
 {
   "id": "cave-inventory",
-  "n": 9,
+  "n": 10,
   "after": "cave-illusion",
   "title": "Your cave inventory",
   "line": "What are you sure of, and what does it rest on?",
