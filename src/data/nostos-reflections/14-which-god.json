@@ -117,30 +117,35 @@
       "options": [
         {
           "text": "I say plainly, there and then, that it was mine",
+          "note": "You stand your ground at once and speak up for what is yours.",
           "to": {
             "ares": 2
           }
         },
         {
           "text": "I keep calm and look for a way to set it right without a war",
+          "note": "You step back, think it through, and look for a wise way to fix it.",
           "to": {
             "athena": 2
           }
         },
         {
           "text": "I play along in the room, and the drama runs in me all evening",
+          "note": "Outwardly you keep the role; inside, strong feelings replay the scene again and again.",
           "to": {
             "dionysus": 2
           }
         },
         {
           "text": "What I mind most is what it does between us",
+          "note": "The hurt to the relationship matters more to you than the credit.",
           "to": {
             "aphrodite": 2
           }
         },
         {
           "text": "I shrug and start on my next, better idea",
+          "note": "Your mind moves on to the next thing it can create.",
           "to": {
             "zeus": 2
           }
@@ -235,33 +240,39 @@
       "kind": "choice",
       "id": "q5",
       "prompt": "A free Sunday with nothing planned. What do you find yourself doing?",
+      "max": 2,
       "options": [
         {
           "text": "Starting a new project, or sketching one out",
+          "note": "Your free time goes to fresh ideas and new beginnings.",
           "to": {
             "zeus": 2
           }
         },
         {
           "text": "Thinking something through: reading, taking stock, planning",
+          "note": "You use the space to step back and see things clearly.",
           "to": {
             "athena": 2
           }
         },
         {
           "text": "Following the mood: friends, music, wherever the day goes",
+          "note": "You let feeling and fun lead, open to whatever the day brings.",
           "to": {
             "dionysus": 2
           }
         },
         {
           "text": "Being with someone I love, or somewhere beautiful",
+          "note": "The day turns towards closeness, tenderness and beauty.",
           "to": {
             "aphrodite": 2
           }
         },
         {
           "text": "Staying home: cooking, tidying, enjoying the quiet",
+          "note": "You come back to your own hearth and the calm of home.",
           "to": {
             "hestia": 2
           }
@@ -287,36 +298,42 @@
       "options": [
         {
           "text": "Time to dream up something new",
+          "note": "Little room for fresh ideas, imagination or new beginnings.",
           "to": {
             "zeus": -1
           }
         },
         {
           "text": "Stepping back to see the whole picture",
+          "note": "Little chance to pause and see your life as a whole.",
           "to": {
             "athena": -1
           }
         },
         {
           "text": "Strength, drive, the courage to say no",
+          "note": "Less energy than you need to push, decide or set limits.",
           "to": {
             "ares": -1
           }
         },
         {
           "text": "A quiet centre, a home that holds me",
+          "note": "Too little steady ground, inside or at home, to come back to.",
           "to": {
             "hestia": -1
           }
         },
         {
           "text": "Play, feeling, letting go",
+          "note": "Too little fun, spontaneity or room for strong feeling.",
           "to": {
             "dionysus": -1
           }
         },
         {
           "text": "Tenderness, beauty, pleasure",
+          "note": "Too little warmth, closeness, or simple delight in beautiful things.",
           "to": {
             "aphrodite": -1
           }

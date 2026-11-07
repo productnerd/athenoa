@@ -9,6 +9,7 @@ import NostosNav from '../../../components/nostos/NostosNav.astro';
 import { nostosUi } from '../../../data/nostos/ui';
 import { concepts, practices, talkUrl } from '../../../lib/nostos';
 import { praxes, sizeOf, type Praxis } from '../../../lib/nostos-praxis';
+import { needOf } from '../../../lib/nostos-spots';
 
 export function getStaticPaths() {
   return praxes.map((p) => ({ params: { id: p.id }, props: { p } }));
@@ -21,7 +22,9 @@ const sizeText = 'minutes' in size ? fill(t.minutes, { n: size.minutes! }) : 'da
 // the practices it rests on, each with its talk
 const sources = p.practices.map((n) => practices[n - 1]).filter(Boolean);
 const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
-const data = { p: { ...p, later: undefined }, words: t };
+// it opens once the lesson before it on the path is walked (client direction, 7 November 2026)
+const need = needOf(p.id);
+const data = { p: { ...p, later: undefined }, words: t, need: need?.ids ?? [] };
 ---
 
 <Base title={`${p.title} · Praxis | ATHENOA`} description={p.line} noindex>
@@ -43,6 +46,13 @@ const data = { p: { ...p, later: undefined }, words: t };
         </dl>
       </header>
 
+      {/* not reached yet on the path: where it opens, and back to Learn */}
+      {need && (
+        <div class="npx-card" data-px-locked hidden>
+          <p class="npx-big">{fill(t.locked, { l: need.lesson, chapter: need.chapter })}</p>
+          <a class="btn" href="/nostos/play/">{t.toLearn}</a>
+        </div>
+      )}
       <div class="npx__body" data-px-body></div>
 
       <footer class="npx__foot">
@@ -189,6 +199,11 @@ const data = { p: { ...p, later: undefined }, words: t };
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ink-soft);
+  }
+  .npx-part {
+    margin-bottom: -0.5rem !important;
+    font-weight: 600;
+    color: var(--blue);
   }
   .npx-big {
     font-family: var(--font-title);

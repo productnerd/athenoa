@@ -72,30 +72,35 @@
       "options": [
         {
           "text": "I'm already picturing the evening",
+          "note": "The wish for pleasure and company speaks first, before any weighing up.",
           "to": {
             "black-horse": 2
           }
         },
         {
           "text": "A flash of irritation, or pride that I'll manage both",
+          "note": "Feeling comes first: annoyance at the clash, or a rush of can-do pride.",
           "to": {
             "thymos": 2
           }
         },
         {
           "text": "I weigh it up and decide",
+          "note": "Your first move is to think it through calmly, then choose.",
           "to": {
             "charioteer": 2
           }
         },
         {
           "text": "I say yes, then no, and feel bad either way",
+          "note": "Different parts of you want different things, and none fully wins.",
           "to": {
             "tug": 2
           }
         },
         {
           "text": "Neither happens: I end up scrolling",
+          "note": "No real choice gets made; the evening drifts away on autopilot.",
           "to": {
             "asleep": 2
           }
@@ -106,27 +111,32 @@
       "kind": "choice",
       "id": "q2",
       "prompt": "Someone criticises your work in front of others. What happens in you?",
+      "max": 2,
       "options": [
         {
           "text": "My face goes hot and I answer back",
+          "note": "Hurt pride flares up and speaks before you can think.",
           "to": {
             "thymos": 2
           }
         },
         {
           "text": "I want comfort: food, my phone, anything",
+          "note": "You reach for something soothing to make the sting go away.",
           "to": {
             "black-horse": 2
           }
         },
         {
           "text": "I ask what exactly they mean",
+          "note": "You stay calm enough to find out what is actually being said.",
           "to": {
             "charioteer": 2
           }
         },
         {
           "text": "I nod, then argue with them in my head for days",
+          "note": "Calm on the outside, while the argument goes on inside long after.",
           "to": {
             "tug": 2,
             "thymos": 1
@@ -134,6 +144,7 @@
         },
         {
           "text": "I go flat and carry on as if nothing happened",
+          "note": "Feeling switches off, and the day rolls on as if untouched.",
           "to": {
             "asleep": 2
           }
@@ -269,36 +280,42 @@
       "options": [
         {
           "text": "The pull of one more",
+          "note": "One more biscuit, episode or scroll, even when you have had enough.",
           "to": {
             "black-horse": 1
           }
         },
         {
           "text": "The heat before a sharp reply",
+          "note": "The rush of anger in the moment before you snap.",
           "to": {
             "thymos": 1
           }
         },
         {
           "text": "The cool voice that knows better",
+          "note": "A calm inner voice that sees clearly what would be wise.",
           "to": {
             "charioteer": 1
           }
         },
         {
           "text": "Arguing with myself",
+          "note": "Two parts of you debating, back and forth, without settling.",
           "to": {
             "tug": 1
           }
         },
         {
           "text": "Looking up and finding the day gone",
+          "note": "Hours pass on habit and screens without you noticing.",
           "to": {
             "asleep": 1
           }
         },
         {
           "text": "Courage when it counts",
+          "note": "Heart and head together, so you act when it matters.",
           "to": {
             "thymos": 1,
             "charioteer": 1

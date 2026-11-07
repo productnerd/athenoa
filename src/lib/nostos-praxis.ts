@@ -34,9 +34,11 @@ export type Praxis = {
   // challenge
   days?: number;
   times?: number;
-  each?: string;
+  /** what to do: one text, or parts, each with its title (client direction, 7 November 2026) */
+  each?: string | { title: string; text: string }[];
   when?: string;
-  note?: string;
+  /** what to note at each check-in: one prompt, or one box per part */
+  note?: string | string[];
   end?: string;
   // mission
   report?: string[];

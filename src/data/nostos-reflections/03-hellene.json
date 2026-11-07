@@ -74,30 +74,35 @@
       "options": [
         {
           "text": "Admiration, or pride: what a people, what a past",
+          "note": "The Greeks as a great people to look up to, or to belong to.",
           "to": {
             "glass": 2
           }
         },
         {
           "text": "Wonder: I want to read them and understand",
+          "note": "Something in their words calls you to read them and understand more.",
           "to": {
             "potential": 2
           }
         },
         {
           "text": "A refuge: a clear, calm world away from today's noise",
+          "note": "Their world is a quiet place you go to rest from modern life.",
           "to": {
             "private": 2
           }
         },
         {
           "text": "A reproach: look how far we have fallen since",
+          "note": "They show you, mostly, what is missing or wrong in today's world.",
           "to": {
             "no-only": 2
           }
         },
         {
           "text": "A task: principles to live by, here and now",
+          "note": "What they taught is something to practise in your own ordinary days.",
           "to": {
             "actuality": 2
           }
@@ -111,12 +116,14 @@
       "options": [
         {
           "text": "I keep my evening: my inner work is what I truly have to give",
+          "note": "Your quiet time feels like the best thing you can offer anyone.",
           "to": {
             "private": 2
           }
         },
         {
           "text": "I mean to go, and end up staying with my book",
+          "note": "The wish to help is there; on the night, the book wins.",
           "to": {
             "potential": 2,
             "private": 1
@@ -124,12 +131,14 @@
         },
         {
           "text": "I go, and spend half the meeting angry at the council that should be doing this",
+          "note": "You turn up, while part of you stays busy with what is wrong.",
           "to": {
             "no-only": 2
           }
         },
         {
           "text": "I go: we look after our own here, it's how I was raised",
+          "note": "You help because it is your family's and your community's way.",
           "to": {
             "glass": 1,
             "actuality": 1
@@ -137,6 +146,7 @@
         },
         {
           "text": "I go: for me this is the same work as the reading",
+          "note": "Helping a neighbour and your inner study feel like one and the same.",
           "to": {
             "actuality": 2
           }
@@ -255,48 +265,56 @@
       "options": [
         {
           "text": "Admired the ancients: at a site, in a film, in a conversation",
+          "note": "A moment of admiring them: ruins, a documentary, a talk over dinner.",
           "to": {
             "glass": 1
           }
         },
         {
           "text": "Read the ancients themselves, not only books about them",
+          "note": "Opened Plato, Homer or another ancient in their own words, even in translation.",
           "to": {
             "potential": 1
           }
         },
         {
           "text": "Stopped at a Greek word to hear what it holds, as Athena hears Ἑλ, light, in ἐλευθερία, freedom",
+          "note": "Paused over an old word to find the meaning hidden inside it.",
           "to": {
             "potential": 1
           }
         },
         {
           "text": "Kept a practice of my own: silence, study, an evening review",
+          "note": "Some regular quiet time of your own, kept going through the month.",
           "to": {
             "private": 1
           }
         },
         {
           "text": "Said a clear «No» to something false, at some cost",
+          "note": "Refused to go along with something untrue, even though it cost you.",
           "to": {
             "no-only": 1
           }
         },
         {
           "text": "Argued, more than once, about what is wrong with the world",
+          "note": "Conversations where you mostly named what is broken around you.",
           "to": {
             "no-only": 1
           }
         },
         {
           "text": "Started something good in the place of something I had refused",
+          "note": "After saying no to something, you began something better in its place.",
           "to": {
             "actuality": 1
           }
         },
         {
           "text": "Gave time or care to people outside my own circle, expecting nothing back",
+          "note": "Helped someone beyond family and friends, simply because it was needed.",
           "to": {
             "actuality": 1
           }
@@ -310,18 +328,21 @@
       "rungs": [
         {
           "text": "Not yet sown: a heritage I belong to or admire, more than something I live",
+          "note": "Something you belong to or admire, not yet part of your days.",
           "to": {
             "glass": 3
           }
         },
         {
           "text": "A seed: I'm drawn to its light, and I read, listen and wonder",
+          "note": "It lives in what you love and read, more than in what you do.",
           "to": {
             "potential": 3
           }
         },
         {
           "text": "A first shoot: it has begun to change a few of my choices",
+          "note": "Here and there it has started to change what you actually do.",
           "to": {
             "potential": 2,
             "actuality": 1
@@ -329,12 +350,14 @@
         },
         {
           "text": "Growing in my own garden: it shapes my days, but mostly within my own life",
+          "note": "It shapes your own habits and peace, less what you do for others.",
           "to": {
             "private": 2
           }
         },
         {
           "text": "In flower: it shows in how I treat others and in what I do for the whole",
+          "note": "Others can see it in how you act, well beyond your own circle.",
           "to": {
             "actuality": 3
           }

@@ -72,30 +72,35 @@
       "options": [
         {
           "text": "I explain why they are wrong",
+          "note": "Your first move is to defend the view you already hold.",
           "to": {
             "euthyphro": 2
           }
         },
         {
           "text": "I want to look it up and see what the best sources say",
+          "note": "You turn outwards, to experts and books, to settle the question.",
           "to": {
             "meno": 2
           }
         },
         {
           "text": "It stings a little; I make a joke and we move on",
+          "note": "Something touches you, and you step lightly away before it goes deeper.",
           "to": {
             "alcibiades": 2
           }
         },
         {
           "text": "I keep turning it over all the way home",
+          "note": "The question stays with you and keeps working in you after the talk.",
           "to": {
             "theaetetus": 2
           }
         },
         {
           "text": "I ask them how they came to see it that way",
+          "note": "You set your own view aside for a moment and get curious about theirs.",
           "to": {
             "aporia": 2
           }
@@ -106,33 +111,39 @@
       "kind": "choice",
       "id": "q2",
       "prompt": "Your teenage niece, out of nowhere, asks you: “What is a good life, really?” What do you do?",
+      "max": 2,
       "options": [
         {
           "text": "Tell her clearly what I believe",
+          "note": "You answer from a view you already hold and feel sure of.",
           "to": {
             "euthyphro": 2
           }
         },
         {
           "text": "Tell her what a book I loved, or a philosopher, says about it",
+          "note": "You pass on someone else's answer, one you have gathered and trust.",
           "to": {
             "meno": 2
           }
         },
         {
           "text": "Give a light answer: it's a big question for a Tuesday",
+          "note": "You sense how big the question is, and turn it gently aside.",
           "to": {
             "alcibiades": 2
           }
         },
         {
           "text": "Realise I've been carrying the same question myself",
+          "note": "The question wakes one that has been quietly growing in you.",
           "to": {
             "theaetetus": 2
           }
         },
         {
           "text": "Say I'm not sure, and ask what she thinks",
+          "note": "You admit not knowing, and leave room for your niece's own thinking.",
           "to": {
             "aporia": 2
           }
@@ -146,30 +157,35 @@
       "options": [
         {
           "text": "Find the reason it was still partly right",
+          "note": "You look for a way to keep some of the old view standing.",
           "to": {
             "euthyphro": 2
           }
         },
         {
           "text": "Look for a better theory to put in its place",
+          "note": "You fill the gap quickly with a new answer from elsewhere.",
           "to": {
             "meno": 2
           }
         },
         {
           "text": "Put it out of mind and get busy",
+          "note": "You move on to tasks and plans, and the question fades.",
           "to": {
             "alcibiades": 2
           }
         },
         {
           "text": "Let it work in me until something new forms",
+          "note": "You live with the gap and let a new understanding grow slowly.",
           "to": {
             "theaetetus": 2
           }
         },
         {
           "text": "Feel lighter: one less thing to defend",
+          "note": "Losing the belief feels like relief rather than defeat.",
           "to": {
             "aporia": 2
           }
@@ -276,36 +292,42 @@
       "options": [
         {
           "text": "The pleasure of having the last word",
+          "note": "That small glow when an argument ends with your point still standing.",
           "to": {
             "euthyphro": 1
           }
         },
         {
           "text": "Saving articles I never quite read",
+          "note": "The pile of things to read later grows faster than the reading.",
           "to": {
             "meno": 1
           }
         },
         {
           "text": "Knowing a lot about something I don't yet live",
+          "note": "You understand an idea well in your head, while your days run differently.",
           "to": {
             "meno": 1
           }
         },
         {
           "text": "Being moved by a talk, and forgetting it by Monday",
+          "note": "Something touches you deeply, then ordinary life carries it away.",
           "to": {
             "alcibiades": 1
           }
         },
         {
           "text": "An idea that wakes me at night",
+          "note": "A question so alive in you that it will not let you rest.",
           "to": {
             "theaetetus": 1
           }
         },
         {
           "text": "The relief of admitting I was wrong",
+          "note": "The ease that comes when you stop defending and simply say so.",
           "to": {
             "aporia": 1
           }

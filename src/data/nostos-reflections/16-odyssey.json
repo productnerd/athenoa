@@ -79,39 +79,46 @@
       "kind": "ladder",
       "id": "q1",
       "prompt": "Picture your life as Odysseus' voyage home. Where are you now?",
+      "max": 2,
       "rungs": [
         {
           "text": "Still at Troy: my days are one battle after another",
+          "note": "Work, worries and other people's demands take nearly all your strength.",
           "to": {
             "troy": 3
           }
         },
         {
           "text": "At sea: I have set out for home, but the waves keep turning me round",
+          "note": "You want a truer life, but moods and events keep throwing you off course.",
           "to": {
             "sea": 3
           }
         },
         {
           "text": "On a pleasant island: comfortable, and I have stopped sailing",
+          "note": "Life is comfortable enough that you have quietly stopped searching.",
           "to": {
             "calypso": 3
           }
         },
         {
           "text": "Among the Phaeacians: I understand a great deal, and I rest in it",
+          "note": "You know a lot about the path, and knowing it has become the resting place.",
           "to": {
             "phaeacians": 3
           }
         },
         {
           "text": "On Ithaca's shore: at moments I am simply home",
+          "note": "At times you feel fully at home in yourself, as if you never left.",
           "to": {
             "shore": 3
           }
         },
         {
           "text": "In the house, facing the suitors one by one",
+          "note": "You are back in your own life, clearing out, one by one, what eats your time and energy.",
           "to": {
             "suitors": 3
           }

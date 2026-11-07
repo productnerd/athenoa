@@ -64,30 +64,35 @@
       "rungs": [
         {
           "text": "Πύθιος, Pythios: I am beginning to ask whether things are really as I was told",
+          "note": "You have started questioning what you were taught, and the old answers fit less well.",
           "to": {
             "healing": 1
           }
         },
         {
           "text": "Δήλιος, Delios: truth reaches me through signs (a book, a coincidence, a stranger's words)",
+          "note": "What you need to hear tends to find you from outside, at the right moment.",
           "to": {
             "seeing": 1
           }
         },
         {
           "text": "Φαναῖος, Phanaios: now and then it shines through directly, for an instant",
+          "note": "Now and then you just know, with nothing in between, and then it fades.",
           "to": {
             "archer": 1
           }
         },
         {
           "text": "Ἰσμήνιος, Ismenios: I know what I have seen, and I am learning to live from it",
+          "note": "What once was a flash is becoming how you actually choose and live each day.",
           "to": {
             "music": 1
           }
         },
         {
           "text": "Λεσχηνόριος, Leschenorios: what I know comes alive in dialogue, shared for the common good",
+          "note": "Your understanding comes alive in talking with others, and you put it to shared use.",
           "to": {
             "music": 1
           }
@@ -125,24 +130,28 @@
       "options": [
         {
           "text": "I put it off while the old worries pile up",
+          "note": "Old fears and habits keep you stuck, so nothing moves and the worry grows.",
           "to": {
             "healing": 2
           }
         },
         {
           "text": "I ask everyone, read everything, and end up more confused",
+          "note": "Other people's opinions drown out the quiet sense of what you already know.",
           "to": {
             "seeing": 2
           }
         },
         {
           "text": "I decide, change my mind, and change it again",
+          "note": "You can choose, but holding one direction long enough to carry it through is hard.",
           "to": {
             "archer": 2
           }
         },
         {
           "text": "I decide alone, then struggle to bring the others with me",
+          "note": "You know your own mind; the hard part is finding common ground with others.",
           "to": {
             "music": 2
           }
@@ -173,24 +182,28 @@
       "options": [
         {
           "text": "Going back to the same habit I promised to drop",
+          "note": "An old habit still has a pull that your good intentions have not yet loosened.",
           "to": {
             "healing": 2
           }
         },
         {
           "text": "Filling it: a podcast, a show, messages",
+          "note": "Quiet feels uncomfortable, so you fill it before you can hear yourself think.",
           "to": {
             "seeing": 2
           }
         },
         {
           "text": "Starting three things and finishing none",
+          "note": "Your attention scatters across many things, and none gets your whole effort.",
           "to": {
             "archer": 2
           }
         },
         {
           "text": "Replaying a disagreement, and what I should have said",
+          "note": "A tension with someone keeps playing in your head long after it happened.",
           "to": {
             "music": 2
           }
@@ -205,48 +218,56 @@
       "options": [
         {
           "text": "Promising myself to drop a habit, and not dropping it",
+          "note": "Wanting to change something, yet finding yourself back in the same groove.",
           "to": {
             "healing": 1
           }
         },
         {
           "text": "Holding a view I have never really examined",
+          "note": "A belief you took on long ago and have simply never questioned.",
           "to": {
             "healing": 1
           }
         },
         {
           "text": "Asking everyone's opinion before I trust my own",
+          "note": "Looking outside for the answer before listening to your own quiet sense.",
           "to": {
             "seeing": 1
           }
         },
         {
           "text": "Reaching for my phone the moment it goes quiet",
+          "note": "Silence feels empty or uneasy, so you fill it straight away.",
           "to": {
             "seeing": 1
           }
         },
         {
           "text": "Starting things and leaving them half done",
+          "note": "Lots of beginnings and few endings, as new things keep pulling you away.",
           "to": {
             "archer": 1
           }
         },
         {
           "text": "Knowing what matters, and spending the day elsewhere",
+          "note": "You know your real priority, but the day gets used up on other things.",
           "to": {
             "archer": 1
           }
         },
         {
           "text": "Avoiding a conversation I need to have",
+          "note": "Something needs saying to someone, and you keep putting off the talk.",
           "to": {
             "music": 1
           }
         },
         {
           "text": "Feeling out of tune with the people around me",
+          "note": "At home, at work or among friends, you feel a little out of step.",
           "to": {
             "music": 1
           }

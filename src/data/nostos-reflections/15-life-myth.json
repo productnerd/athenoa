@@ -73,30 +73,35 @@
       "options": [
         {
           "text": "Something was taken from me: a loss, an ending I did not choose",
+          "note": "It started with losing someone or something, without any say in it.",
           "to": {
             "persephone": 2
           }
         },
         {
           "text": "I came to a fork and had to choose one road",
+          "note": "Two ways opened before you, and the choice was yours to make.",
           "to": {
             "heracles": 2
           }
         },
         {
           "text": "Something happened suddenly: a meeting, a blow, a spark",
+          "note": "Out of the blue, one event changed how you saw everything.",
           "to": {
             "prisoner": 2
           }
         },
         {
           "text": "I was pulled in too many directions until something gave",
+          "note": "Duties and roles stretched you so thin that something finally broke.",
           "to": {
             "dionysus": 2
           }
         },
         {
           "text": "I chose to leave something good that no longer felt like mine",
+          "note": "Life looked fine from outside, yet you knew it was not truly yours.",
           "to": {
             "odysseus": 2
           }
@@ -114,33 +119,39 @@
       "kind": "choice",
       "id": "q2",
       "prompt": "In the middle of it, what was it like?",
+      "max": 2,
       "options": [
         {
           "text": "Like going underground: dark, slow, far from everyone",
+          "note": "A long, low stretch when you felt cut off and in the dark.",
           "to": {
             "persephone": 2
           }
         },
         {
           "text": "Like carrying a decision only I could make",
+          "note": "The weight of a choice nobody else could make for you.",
           "to": {
             "heracles": 2
           }
         },
         {
           "text": "Like waking in a light so bright it hurt",
+          "note": "Suddenly seeing clearly, and the clarity was hard to bear at first.",
           "to": {
             "prisoner": 2
           }
         },
         {
           "text": "Like being torn into pieces by everything I had to be",
+          "note": "So many demands and roles that you lost track of yourself.",
           "to": {
             "dionysus": 2
           }
         },
         {
           "text": "Like being at sea, between a shore I had left and one I could not yet see",
+          "note": "The old life was behind you, and the new one not yet in sight.",
           "to": {
             "odysseus": 2
           }
@@ -179,6 +190,7 @@
       "options": [
         {
           "text": "Someone who walked beside me for a while",
+          "note": "A friend, guide or teacher who stayed close through part of it.",
           "to": {
             "persephone": 1,
             "prisoner": 1
@@ -186,30 +198,35 @@
         },
         {
           "text": "Time, and the slow return of light",
+          "note": "Healing came slowly, as hope and energy gradually came back.",
           "to": {
             "persephone": 1
           }
         },
         {
           "text": "Knowing what I valued, and holding to it",
+          "note": "Your sense of what matters gave you something firm to stand on.",
           "to": {
             "heracles": 1
           }
         },
         {
           "text": "What was left at my core when everything else fell away",
+          "note": "When roles and plans collapsed, something deep in you remained.",
           "to": {
             "dionysus": 2
           }
         },
         {
           "text": "Longing for a life that felt like mine",
+          "note": "A pull towards a life that fits who you really are.",
           "to": {
             "odysseus": 1
           }
         },
         {
           "text": "A decision I would not take back",
+          "note": "Once you had chosen, you kept to it, even when it was hard.",
           "to": {
             "heracles": 1,
             "odysseus": 1
@@ -217,6 +234,7 @@
         },
         {
           "text": "Curiosity about what I had glimpsed",
+          "note": "Something new had shown itself, and you wanted to see more.",
           "to": {
             "prisoner": 1
           }
@@ -230,22 +248,27 @@
       "rungs": [
         {
           "text": "Conceived: something began in me then, but I still cannot name it",
+          "note": "Something started deep down, but you cannot yet put it into words.",
           "to": {}
         },
         {
           "text": "Carried: it is still growing in me, and old veils keep falling away",
+          "note": "It is still quietly growing, and old ways of seeing keep falling away.",
           "to": {}
         },
         {
           "text": "In labour: it still hurts and pushes; it is not over",
+          "note": "It is still painful and pressing, still working its way through you.",
           "to": {}
         },
         {
           "text": "Born, and still tender: I am learning to live from it, and I protect it",
+          "note": "The change has come, but it is new and fragile, so you guard it.",
           "to": {}
         },
         {
           "text": "Grown strong: in full light I can see what it gave me",
+          "note": "It is now part of you, and you can clearly see what it gave you.",
           "to": {}
         }
       ]

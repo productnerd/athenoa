@@ -86,30 +86,35 @@
       "rungs": [
         {
           "text": "Beauty I can see and touch: a face, a body, good food, lovely things",
+          "note": "Love wakes most through the senses: what looks, tastes or feels beautiful.",
           "to": {
             "bodies": 2
           }
         },
         {
           "text": "One person, or a few: the people closest to me",
+          "note": "Your love is given mostly to a small, close circle.",
           "to": {
             "souls": 2
           }
         },
         {
           "text": "Beyond my own: my street or town, its people, how we live together",
+          "note": "Your care reaches the place and people you share daily life with.",
           "to": {
             "city": 2
           }
         },
         {
           "text": "Knowing and making: learning, understanding, a craft or an art",
+          "note": "What lights you up is understanding things, or making something well.",
           "to": {
             "knowing": 2
           }
         },
         {
           "text": "The whole of it: life itself, without picking favourites",
+          "note": "Your love goes out to everything alive, not to one thing more.",
           "to": {
             "whole": 2
           }
@@ -123,30 +128,35 @@
       "options": [
         {
           "text": "Something for the senses: a long lunch, the sea, a beautiful place",
+          "note": "You want to taste, see and feel something lovely.",
           "to": {
             "bodies": 2
           }
         },
         {
           "text": "Time with someone I love",
+          "note": "Being with the people who matter most to you.",
           "to": {
             "souls": 2
           }
         },
         {
           "text": "Something for where I live: the market, a neighbour, a local cause",
+          "note": "Giving the day to your neighbourhood and the people in it.",
           "to": {
             "city": 2
           }
         },
         {
           "text": "A book, a class, my craft or an instrument",
+          "note": "Learning something, or getting better at something you make.",
           "to": {
             "knowing": 2
           }
         },
         {
           "text": "A long walk where I feel part of everything",
+          "note": "Time outdoors when the edges between you and the world soften.",
           "to": {
             "whole": 2
           }
@@ -160,30 +170,35 @@
       "options": [
         {
           "text": "A beautiful face, a body, a lovely room",
+          "note": "Beauty that meets the eye and the senses first.",
           "to": {
             "bodies": 2
           }
         },
         {
           "text": "Someone's kindness or courage",
+          "note": "The beauty of a person's character, seen in what they do.",
           "to": {
             "souls": 2
           }
         },
         {
           "text": "A square full of life, a fair law, a town that works",
+          "note": "The beauty of people living well together.",
           "to": {
             "city": 2
           }
         },
         {
           "text": "An idea that suddenly makes sense, or a thing made with mastery",
+          "note": "The beauty of understanding, or of skilled work done well.",
           "to": {
             "knowing": 2
           }
         },
         {
           "text": "The sea at dusk, the night sky: the whole of it",
+          "note": "Beauty so wide it makes you feel part of everything.",
           "to": {
             "whole": 2
           }
@@ -204,6 +219,7 @@
       "options": [
         {
           "text": "Gladness for them, and the wish to help them go",
+          "note": "Your love takes the side of their freedom from the start.",
           "to": {
             "souls": 1,
             "grip": -1
@@ -211,6 +227,7 @@
         },
         {
           "text": "A pang of loss, then gladness for them",
+          "note": "Missing them comes first, and then you are happy for them.",
           "to": {
             "souls": 1,
             "grip": 1
@@ -218,12 +235,14 @@
         },
         {
           "text": "I find reasons it might not be a good idea",
+          "note": "Part of you hopes they will stay, and looks for reasons.",
           "to": {
             "grip": 2
           }
         },
         {
           "text": "Wonder at how life keeps moving us all on",
+          "note": "You see it as part of life's larger movement, beyond the two of you.",
           "to": {
             "whole": 1
           }

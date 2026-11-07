@@ -59,27 +59,32 @@
       "kind": "choice",
       "id": "q1",
       "prompt": "You check your phone before getting up: bad news, and a tense message from family. How does the rest of the morning go?",
+      "max": 2,
       "options": [
         {
           "text": "It colours the whole morning",
+          "note": "The news and the message set your mood for hours.",
           "to": {
             "other": 2
           }
         },
         {
           "text": "My mind jumps from one to the other, and on to ten other things",
+          "note": "Your attention scatters and keeps racing, and is hard to bring back.",
           "to": {
             "spinning": 2
           }
         },
         {
           "text": "I notice the jolt, take a breath, and the day goes on",
+          "note": "It reaches you, but your centre holds and you carry on.",
           "to": {
             "same": 2
           }
         },
         {
           "text": "I feel it fully, then I'm back with the coffee and the light in the kitchen",
+          "note": "You let the feeling in completely, and still come back to the present.",
           "to": {
             "equinox": 2
           }
@@ -186,12 +191,14 @@
       "rungs": [
         {
           "text": "Days, or I'm not sure I ever quite do",
+          "note": "One upset lands on another before the first has settled.",
           "to": {
             "spinning": 3
           }
         },
         {
           "text": "A day or so",
+          "note": "It stays with you until you have slept on it.",
           "to": {
             "other": 2,
             "spinning": 1
@@ -199,6 +206,7 @@
         },
         {
           "text": "A few hours",
+          "note": "By the afternoon or evening, you feel steady again.",
           "to": {
             "other": 1,
             "equinox": 1
@@ -206,6 +214,7 @@
         },
         {
           "text": "Minutes",
+          "note": "A short wobble, and you are back to your usual self.",
           "to": {
             "same": 2,
             "equinox": 1
@@ -213,6 +222,7 @@
         },
         {
           "text": "I'm moved, but something in me stays still the whole time",
+          "note": "You feel it, yet a calm part of you is never shaken.",
           "to": {
             "equinox": 2,
             "same": 2

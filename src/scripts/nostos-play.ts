@@ -1704,6 +1704,69 @@ async function review() {
 }
 
 // ---------- the page around the activities ----------
+/** a reflection or an activity not reached yet: faded, and its links lead nowhere (client direction,
+ *  7 November 2026: it opens once the lesson before it is walked) */
+function lock(stone: HTMLElement, locked: boolean) {
+  stone.classList.toggle('is-ahead', locked);
+  stone.querySelectorAll('a').forEach((a) => (locked ? a.setAttribute('aria-disabled', 'true') : a.removeAttribute('aria-disabled')));
+}
+type PracticeItem = { type: 'r' | 'p'; id: string; title: string; kind: string; size: string; days?: number; times?: number; challenge?: boolean; c: number; l: number };
+type Practised = Record<string, { started?: string; checks?: { at: string }[]; done?: string }>;
+const dayOf = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+/** "In practice" (client request, 7 November 2026): today's practices and reflections. The challenges
+ *  under way come back each day until they are done (to be checked in, or already checked in today);
+ *  an activity begun but not finished stays; and what the path has just opened (in the chapter you are
+ *  in, or the one before) shows as new until it is begun. The button's badge counts what waits. */
+function practice(root: HTMLElement, p: Progress, taken: Record<string, unknown[]>, practised: Practised) {
+  const list = root.querySelector<HTMLElement>('[data-practice-list]');
+  const data = root.querySelector<HTMLScriptElement>('[data-practice-data]');
+  if (!list || !data) return;
+  const { items, words } = JSON.parse(data.textContent || '{}') as { items: PracticeItem[]; words: Record<string, string> };
+  const today = dayOf();
+  const cur = here(p)?.ci ?? outline.length - 1;
+  const rows: { item: PracticeItem; state: 'due' | 'checked' | 'open' | 'fresh'; meta: string }[] = [];
+  for (const item of items) {
+    const before = outline[item.c]?.lessons[item.l];
+    if (!before || !lessonDone(p, before)) continue;
+    if (item.type === 'r') {
+      if (!taken[item.id]?.length && item.c >= cur - 1) rows.push({ item, state: 'fresh', meta: [item.kind, item.size].filter(Boolean).join(' · ') });
+      continue;
+    }
+    const mine = practised[item.id];
+    if (mine?.done) continue;
+    if (item.challenge && mine?.started) {
+      const checks = mine.checks ?? [];
+      const n = item.days || item.times || 1;
+      const d = item.days ? Math.min(n, Math.round((Date.parse(`${today}T12:00:00`) - Date.parse(`${mine.started}T12:00:00`)) / 86400000) + 1) : Math.min(n, checks.length + 1);
+      const checked = checks.some((x) => x.at.slice(0, 10) === today) && checks.length < n;
+      rows.push({ item, state: checked ? 'checked' : 'due', meta: `${item.kind} · ${fill(item.days ? words.dayOf : words.timesOf, { d, n })}` });
+    } else if (mine) rows.push({ item, state: 'open', meta: [item.kind, item.size].filter(Boolean).join(' · ') });
+    else if (item.c >= cur - 1) rows.push({ item, state: 'fresh', meta: [item.kind, item.size].filter(Boolean).join(' · ') });
+  }
+  const order = { due: 0, open: 1, fresh: 2, checked: 3 };
+  rows.sort((a, b) => order[a.state] - order[b.state]);
+  const hrefOf = (item: PracticeItem) =>
+    root.querySelector<HTMLAnchorElement>(`[data-${item.type === 'r' ? 'ref' : 'px'}-stone="${item.id}"] .njref__title`)?.getAttribute('href') ?? '#';
+  list.replaceChildren(
+    ...rows.map(({ item, state, meta }) =>
+      h(
+        'li',
+        {},
+        h('a', { class: 'nprac__title', href: hrefOf(item), lang: 'en' }, item.title),
+        h('span', { class: 'nprac__meta' }, meta),
+        h('span', { class: `nprac__state is-${state}` }, words[state]),
+      ),
+    ),
+  );
+  const none = root.querySelector<HTMLElement>('[data-practice-none]');
+  if (none) none.hidden = rows.length > 0;
+  const badge = root.querySelector<HTMLElement>('[data-practice-badge]');
+  const waiting = rows.filter((r) => r.state === 'due' || r.state === 'fresh').length;
+  if (badge) {
+    badge.hidden = !waiting;
+    badge.textContent = String(waiting);
+  }
+}
 function refresh(root: HTMLElement) {
   const p = load();
   // under each activity: how often it was played, and the best scores
@@ -1750,7 +1813,8 @@ function refresh(root: HTMLElement) {
       }
     });
     // the reflections (src/lib/nostos-reflections.ts): taken (a result is kept in this browser), or still
-    // ahead of where you are (the lesson before it not walked yet); they can be taken at any time
+    // ahead of where you are (the lesson before it not walked yet), and then locked: it opens once that
+    // lesson is walked (client direction, 7 November 2026: nothing on the path is jumped to)
     let taken: Record<string, unknown[]> = {};
     try {
       taken = JSON.parse(localStorage.getItem('nostos-reflections-v1') || '{}');
@@ -1762,10 +1826,9 @@ function refresh(root: HTMLElement) {
       const before = outline[Number(stone.dataset.afterC)]?.lessons[Number(stone.dataset.afterL)];
       const walked = !!before && lessonDone(p, before);
       stone.classList.toggle('is-done', done);
-      stone.classList.toggle('is-ahead', !done && !walked);
+      lock(stone, !done && !walked);
       const state = stone.querySelector<HTMLElement>('[data-ref-state]');
-      // (no "best taken after…" in the note: client direction, 7 November 2026; the faded stone says it)
-      if (state) state.textContent = done ? state.dataset.done ?? '' : '';
+      if (state) state.textContent = done ? state.dataset.done ?? '' : walked ? '' : state.dataset.locked ?? '';
     });
     // the practical activities (src/lib/nostos-praxis.ts): done, under way (a challenge's day), or ahead
     let practised: Record<string, { started?: string; checks?: unknown[]; done?: string }> = {};
@@ -1782,7 +1845,7 @@ function refresh(root: HTMLElement) {
       const walked = !!before && lessonDone(p, before);
       leaf.classList.toggle('is-done', done);
       leaf.classList.toggle('is-going', going);
-      leaf.classList.toggle('is-ahead', !done && !going && !walked);
+      lock(leaf, !done && !going && !walked);
       const state = leaf.querySelector<HTMLElement>('[data-px-state]');
       if (!state) return;
       const n = Number(leaf.dataset.pxDays || 0);
@@ -1790,8 +1853,11 @@ function refresh(root: HTMLElement) {
         ? state.dataset.done ?? ''
         : going && n
           ? (state.dataset.going ?? '').replace('{d}', String(Math.min(n, (mine?.checks?.length ?? 0) + 1))).replace('{n}', String(n))
-          : '';
+          : walked
+            ? ''
+            : state.dataset.locked ?? '';
     });
+    practice(root, p, taken, practised);
     root.querySelectorAll<HTMLElement>('[data-ch]').forEach((section) => {
       const c = outline[Number(section.dataset.ch)];
       // a chapter not yet begun and further on than where you are: it can be skipped to, from its card
@@ -2005,6 +2071,14 @@ function setup() {
     pop.querySelector('[data-pop-close]')?.addEventListener('click', () => pop.close(), on);
     pop.addEventListener('click', (event) => event.target === pop && pop.close(), on);
   });
+  // a reflection or an activity not reached yet cannot be opened from the trail
+  root.addEventListener(
+    'click',
+    (event) => {
+      if ((event.target as Element).closest?.('a[aria-disabled="true"]')) event.preventDefault();
+    },
+    on,
+  );
   root.querySelector('[data-surprise]')?.addEventListener(
     'click',
     () => start(pick(['ladder', 'myth', 'forge', 'fork', 'links', 'quiz', 'threads'], 1)[0]),

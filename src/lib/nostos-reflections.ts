@@ -15,14 +15,16 @@
 //   (the page already keeps every past result in this browser and shows the last one on a retake).
 
 export type Score = Record<string, number>;
+/** an option; `note` is a short line in plain words under it, so the phrase is easy to recognise */
+type Option = { text: string; to: Score; note?: string };
 export type Item =
-  | { kind: 'choice'; id: string; prompt: string; options: { text: string; to: Score }[] }
-  | { kind: 'ladder'; id: string; prompt: string; rungs: { text: string; to: Score }[] }
+  | { kind: 'choice'; id: string; prompt: string; options: Option[]; max?: number }
+  | { kind: 'ladder'; id: string; prompt: string; rungs: Option[]; max?: number }
   | { kind: 'scale'; id: string; prompt: string; left: string; right: string; to: Score }
   | { kind: 'pairs'; id: string; prompt: string; pairs: { a: string; aTo: Score; b: string; bTo: Score }[] }
-  | { kind: 'rank'; id: string; prompt: string; options: { text: string; to: Score }[] }
+  | { kind: 'rank'; id: string; prompt: string; options: Option[] }
   | { kind: 'points'; id: string; prompt: string; total: number; options: { text: string; to: string }[] }
-  | { kind: 'multi'; id: string; prompt: string; max: number; options: { text: string; to: Score }[] }
+  | { kind: 'multi'; id: string; prompt: string; max: number; options: Option[] }
   | { kind: 'text'; id: string; prompt: string; hint?: string; placeholder?: string };
 
 export type Reflection = {

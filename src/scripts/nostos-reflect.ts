@@ -48,8 +48,12 @@ function score(r: Reflection, answers: Record<string, Answer>): Score {
   for (const it of r.items) {
     const a = answers[it.id];
     if (a === undefined) continue;
-    if (it.kind === 'choice') add(it.options[a as number]?.to);
-    else if (it.kind === 'ladder') add(it.rungs[a as number]?.to);
+    if (it.kind === 'choice' || it.kind === 'ladder') {
+      const opts = it.kind === 'choice' ? it.options : it.rungs;
+      // (where more than one may be chosen, they share the weight of one answer)
+      const picks = Array.isArray(a) ? (a as number[]) : [a as number];
+      picks.forEach((k) => add(opts[k]?.to, 1 / picks.length));
+    }
     else if (it.kind === 'scale') add(it.to, ((a as number) - 3) / 2);
     else if (it.kind === 'pairs') (a as ('a' | 'b')[]).forEach((x, k) => it.pairs[k] && add(x === 'a' ? it.pairs[k].aTo : it.pairs[k].bTo));
     else if (it.kind === 'rank') {
@@ -67,9 +71,11 @@ function said(it: Item, a: Answer | undefined): string {
   if (a === undefined) return '(skipped)';
   switch (it.kind) {
     case 'choice':
-      return it.options[a as number]?.text ?? '';
+      return (Array.isArray(a) ? (a as number[]) : [a as number]).map((k) => it.options[k]?.text ?? '').join('; ');
     case 'ladder':
-      return `${it.rungs[a as number]?.text} (rung ${(a as number) + 1} of ${it.rungs.length}, from the bottom)`;
+      return (Array.isArray(a) ? (a as number[]) : [a as number])
+        .map((k) => `${it.rungs[k]?.text} (rung ${k + 1} of ${it.rungs.length}, from the bottom)`)
+        .join('; ');
     case 'scale':
       return `${a} on a line from 1 ("${it.left}") to 5 ("${it.right}")`;
     case 'pairs':
@@ -86,6 +92,15 @@ function said(it: Item, a: Answer | undefined): string {
 }
 
 // ---------- the page ----------
+/** every step of the lesson it follows met on the Learn path (or storage off: then it is open) */
+const reached = (ids: string[]) => {
+  try {
+    const path = JSON.parse(localStorage.getItem('nostos-progress-v1') || '{}').path ?? {};
+    return ids.every((u) => path[u] !== undefined);
+  } catch {
+    return true;
+  }
+};
 let stop: (() => void) | undefined;
 export function start() {
   stop?.();
@@ -93,12 +108,19 @@ export function start() {
   const root = document.querySelector<HTMLElement>('[data-reflect]');
   const dataNode = document.querySelector('[data-ref-data]');
   if (!root || !dataNode) return;
-  const { r, labels, titles, words: W } = JSON.parse(dataNode.textContent ?? '{}') as {
+  const { r, labels, titles, words: W, need } = JSON.parse(dataNode.textContent ?? '{}') as {
     r: Reflection;
     labels: Record<string, string>;
     titles: Record<string, string>;
     words: Words;
+    need: string[];
   };
+  // not reached yet on the path, and never taken here: it waits (client direction, 7 November 2026)
+  if (!reached(need) && !load()[r.id]?.length) {
+    root.querySelector<HTMLElement>('[data-ref-start]')!.hidden = true;
+    root.querySelector<HTMLElement>('[data-ref-locked]')!.hidden = false;
+    return;
+  }
   const ac = new AbortController();
   stop = () => ac.abort();
   const on = { signal: ac.signal };
@@ -135,7 +157,7 @@ export function start() {
     if (it.kind === 'pairs') return (a as unknown[]).filter((x) => x).length === it.pairs.length;
     if (it.kind === 'rank') return (a as number[]).length === it.options.length;
     if (it.kind === 'points') return (a as number[]).reduce((x, y) => x + y, 0) === it.total;
-    if (it.kind === 'multi') return (a as number[]).length > 0;
+    if (it.kind === 'multi' || Array.isArray(a)) return (a as number[]).length > 0;
     if (it.kind === 'text') return String(a).trim().length >= 3;
     return true;
   };
@@ -144,8 +166,9 @@ export function start() {
     next.disabled = !answered(it);
     next.textContent = i === r.items.length - 1 ? W.finish : W.next;
   };
-  const optButton = (text: string, onTap: () => void, badge?: string) => {
-    const b = h('button', { type: 'button', class: 'nref__opt' }, badge !== undefined ? h('span', { class: 'nref__badge', 'aria-hidden': 'true' }, badge) : null, h('span', {}, text));
+  const optButton = (text: string, onTap: () => void, badge?: string, note?: string) => {
+    const words = note ? h('span', { class: 'nref__optwords' }, h('span', {}, text), h('span', { class: 'nref__optnote' }, note)) : h('span', {}, text);
+    const b = h('button', { type: 'button', class: 'nref__opt' }, badge !== undefined ? h('span', { class: 'nref__badge', 'aria-hidden': 'true' }, badge) : null, words);
     b.addEventListener('click', onTap, on);
     return b;
   };
@@ -163,16 +186,41 @@ export function start() {
     if (it.kind === 'choice' || it.kind === 'ladder') {
       const opts = it.kind === 'choice' ? it.options : it.rungs;
       const list = h('ul', { class: `nref__opts${it.kind === 'ladder' ? ' nref__opts--ladder' : ''}`, role: 'list', 'aria-labelledby': `nref-q-${it.id}` });
-      opts.forEach((o, k) => {
-        const b = optButton(o.text, () => {
-          answers[it.id] = k;
-          list.querySelectorAll('.nref__opt').forEach((x, n) => x.classList.toggle('is-on', n === k));
-          refresh();
+      // more than one may be chosen where the item says so (client direction, 7 November 2026)
+      const max = it.max ?? 1;
+      const chosen = (): number[] => {
+        const a = answers[it.id];
+        return Array.isArray(a) ? (a as number[]) : a === undefined ? [] : [a as number];
+      };
+      const paint = () =>
+        list.querySelectorAll<HTMLElement>('.nref__opt').forEach((x, n) => {
+          x.classList.toggle('is-on', chosen().includes(n));
+          x.classList.toggle('is-off', max > 1 && !chosen().includes(n) && chosen().length >= max);
+          if (max > 1) x.setAttribute('aria-pressed', String(chosen().includes(n)));
         });
-        b.classList.toggle('is-on', answers[it.id] === k);
+      opts.forEach((o, k) => {
+        const b = optButton(
+          o.text,
+          () => {
+            if (max <= 1) answers[it.id] = k;
+            else {
+              const now = chosen().slice();
+              const at = now.indexOf(k);
+              if (at >= 0) now.splice(at, 1);
+              else if (now.length < max) now.push(k);
+              answers[it.id] = now;
+            }
+            paint();
+            refresh();
+          },
+          undefined,
+          o.note,
+        );
         list.append(h('li', {}, b));
       });
+      if (max > 1) hint(fill(W.multiHint, { n: max }));
       itemBox.append(list);
+      paint();
     } else if (it.kind === 'scale') {
       const dots = h('div', { class: 'nref__dots', role: 'radiogroup', 'aria-labelledby': `nref-q-${it.id}` });
       for (let v = 1; v <= 5; v++) {
@@ -238,6 +286,7 @@ export function start() {
                 refresh();
               },
               '',
+              o.note,
             ),
           ),
         ),
@@ -300,13 +349,18 @@ export function start() {
           h(
             'li',
             {},
-            optButton(o.text, () => {
-              const p = chosen.indexOf(k);
-              if (p >= 0) chosen.splice(p, 1);
-              else if (chosen.length < it.max) chosen.push(k);
-              paint();
-              refresh();
-            }),
+            optButton(
+              o.text,
+              () => {
+                const p = chosen.indexOf(k);
+                if (p >= 0) chosen.splice(p, 1);
+                else if (chosen.length < it.max) chosen.push(k);
+                paint();
+                refresh();
+              },
+              undefined,
+              o.note,
+            ),
           ),
         ),
       );

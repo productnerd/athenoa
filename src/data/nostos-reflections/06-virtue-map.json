@@ -73,24 +73,28 @@
       "options": [
         {
           "text": "Say so at once, bluntly, whatever it costs",
+          "note": "You speak up straight away, without waiting for the right moment or words.",
           "to": {
             "courage": 2
           }
         },
         {
           "text": "Say nothing: it isn't worth the trouble",
+          "note": "You keep your view to yourself to avoid friction.",
           "to": {
             "courage": 2
           }
         },
         {
           "text": "Say it clearly and calmly, once, and let them weigh it",
+          "note": "You speak up without force, then leave the decision with them.",
           "to": {
             "flow": 1
           }
         },
         {
           "text": "Agree in the meeting, then complain about it afterwards",
+          "note": "Your real view comes out later, to others, not to the person concerned.",
           "to": {
             "courage": 2,
             "justice": 1
@@ -105,24 +109,28 @@
       "options": [
         {
           "text": "I have more than I meant to, of most of it",
+          "note": "The evening runs past the point where you had planned to stop.",
           "to": {
             "temperance": 2
           }
         },
         {
           "text": "I allow myself very little; I'm strict with pleasure",
+          "note": "You keep pleasures small and tightly rationed, even after a hard week.",
           "to": {
             "temperance": 2
           }
         },
         {
           "text": "I enjoy it, and stop when I've had enough",
+          "note": "Pleasure is welcome, and you sense the moment it is enough.",
           "to": {
             "flow": 1
           }
         },
         {
           "text": "I swing: strict all week, then far too much",
+          "note": "Holding back for days, then letting go all at once.",
           "to": {
             "temperance": 3
           }
@@ -136,24 +144,28 @@
       "options": [
         {
           "text": "Say no, and remind them what they still owe",
+          "note": "You keep a clear count, and make sure it is settled.",
           "to": {
             "justice": 2
           }
         },
         {
           "text": "Lend it again; I don't want things to be awkward",
+          "note": "Keeping the peace matters more to you than what you are owed.",
           "to": {
             "justice": 2
           }
         },
         {
           "text": "Talk honestly about the first loan before I decide",
+          "note": "You bring the unspoken thing into the open, kindly and plainly.",
           "to": {
             "flow": 1
           }
         },
         {
           "text": "Lend it, and quietly hold it against them",
+          "note": "You give, but the debt is noted and sits between you.",
           "to": {
             "justice": 2
           }
@@ -164,27 +176,32 @@
       "kind": "choice",
       "id": "q4",
       "prompt": "A big decision, a move or a job offer, has to be made by Monday. How do you go about it?",
+      "max": 2,
       "options": [
         {
           "text": "Lists and research: I can argue every side and still can't decide",
+          "note": "Your thinking keeps going round, and no answer lands.",
           "to": {
             "wisdom": 2
           }
         },
         {
           "text": "I go with my mood on the day, or with what others think",
+          "note": "The choice is made by how you feel then, or by other voices.",
           "to": {
             "wisdom": 2
           }
         },
         {
           "text": "I think it through, listen to what my heart says, and decide",
+          "note": "Head and heart both get a say, and then you choose.",
           "to": {
             "flow": 1
           }
         },
         {
           "text": "I decide fast and find the reasons afterwards",
+          "note": "You leap first, and explain the choice to yourself later.",
           "to": {
             "wisdom": 1,
             "courage": 1
@@ -199,24 +216,28 @@
       "options": [
         {
           "text": "Wisdom: seeing clearly what matters",
+          "note": "Seeing what matters most, without going round in circles or drifting.",
           "to": {
             "wisdom": 2
           }
         },
         {
           "text": "Courage: acting when it is hard",
+          "note": "Doing the hard thing at the right moment, neither rushing in nor backing away.",
           "to": {
             "courage": 2
           }
         },
         {
           "text": "Temperance: enough, and no more",
+          "note": "Enjoying food, rest and pleasures in the right amount for you.",
           "to": {
             "temperance": 2
           }
         },
         {
           "text": "Justice: fair to others, and to myself",
+          "note": "Giving and taking in balance, without keeping score or giving yourself away.",
           "to": {
             "justice": 2
           }
@@ -231,48 +252,56 @@
       "options": [
         {
           "text": "Taking risks I later regret",
+          "note": "Jumping into things boldly, then wishing you had paused first.",
           "to": {
             "courage": 1
           }
         },
         {
           "text": "Swallowing what I really think",
+          "note": "Keeping quiet when part of you wants to speak.",
           "to": {
             "courage": 1
           }
         },
         {
           "text": "One more: a glass, an episode, a purchase",
+          "note": "Going past enough, a little at a time.",
           "to": {
             "temperance": 1
           }
         },
         {
           "text": "Denying myself even what would do me good",
+          "note": "Saying no to rest, pleasure or help that you actually need.",
           "to": {
             "temperance": 1
           }
         },
         {
           "text": "Keeping score of who owes whom",
+          "note": "A running tally in your head of favours given and returned.",
           "to": {
             "justice": 1
           }
         },
         {
           "text": "Giving until I'm empty",
+          "note": "Looking after everyone else until nothing is left for you.",
           "to": {
             "justice": 1
           }
         },
         {
           "text": "Thinking in circles",
+          "note": "Going over the same question again and again without landing.",
           "to": {
             "wisdom": 1
           }
         },
         {
           "text": "Acting on the mood of the moment",
+          "note": "Letting how you feel right now make the choice.",
           "to": {
             "wisdom": 1
           }

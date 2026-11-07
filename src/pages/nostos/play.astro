@@ -21,8 +21,9 @@ import {
 } from '../../lib/nostos';
 import { askedTotal, pathOutline } from '../../lib/nostos-path';
 import { numerals, stageArt } from '../../lib/nostos-stages';
-import { minutesOf, reflectionSpots, type Reflection } from '../../lib/nostos-reflections';
-import { praxisSpots, sizeOf, type Praxis } from '../../lib/nostos-praxis';
+import { minutesOf, type Reflection } from '../../lib/nostos-reflections';
+import { sizeOf, type Praxis } from '../../lib/nostos-praxis';
+import { pxSpots, refSpots } from '../../lib/nostos-spots';
 import StageStele from '../../components/nostos/StageStele.astro';
 import { getLocale, mainLocale, pathIn } from '../../lib/locale';
 import '../../styles/nostos-arena.css';
@@ -146,10 +147,10 @@ const placeIn = (ci: number) => {
 const staged = stageIds.length > 0 && pathOutline.some((c) => c.names);
 // the reflections stand on the trail between the stones, each after the lesson where the last of its
 // ideas is met (src/lib/nostos-reflections.ts): a chapter's rows are its lessons and those reflections
-const spots = reflectionSpots(pathOutline);
+const spots = refSpots;
 // and a chapter's practical activity, an olive leaf, stands among its lessons too, never at its end
 // (src/lib/nostos-praxis.ts)
-const leaves = praxisSpots(pathOutline, new Set(spots.keys()));
+const leaves = pxSpots;
 type Row = { lesson: number } | { after: number; r: Reflection } | { after: number; praxis: Praxis };
 const rowsOf = (ci: number): Row[] =>
   pathOutline[ci].lessons.flatMap((_, li) => {
@@ -164,6 +165,11 @@ const pxSize = (px: Praxis) => {
   const z = sizeOf(px);
   return 'minutes' in z ? fill(t.praxis.minutes, { n: z.minutes! }) : 'days' in z ? fill(t.praxis.days, { n: z.days! }) : 'times' in z ? fill(t.praxis.times, { n: z.times! }) : '';
 };
+// for "In practice": every reflection and activity, with the lesson it follows
+const practice = [
+  ...[...spots].map(([key, r]) => ({ type: 'r', id: r.id, title: r.title, kind: t.inPractice.reflection, size: fill(t.reflect.minutes, { m: minutesOf(r) }), at: key })),
+  ...[...leaves].map(([key, px]) => ({ type: 'p', id: px.id, title: px.title, kind: t.praxis.kinds[px.kind], size: pxSize(px), days: px.days ?? 0, times: px.times ?? 0, challenge: px.kind === 'challenge', at: key })),
+].map((x) => ({ ...x, c: Number(x.at.split(':')[0]), l: Number(x.at.split(':')[1]) }));
 // each stage's own drawing (the site's symbols), on its milestone and faint across its chapters' cards,
 // and its number in Greek numerals, carved on the milestone (client direction, 6 November 2026)
 ---
@@ -287,6 +293,7 @@ const pxSize = (px: Praxis) => {
                             data-px-state
                             data-going={t.praxis.going}
                             data-done={t.praxis.done}
+                            data-locked={fill(t.praxis.locked, { l: row.after + 1, chapter: chapterTitle(pathOutline[ci]) })}
                           ></p>
                         </div>
                       </div>
@@ -317,6 +324,7 @@ const pxSize = (px: Praxis) => {
                             class="njref__state"
                             data-ref-state
                             data-done={t.reflect.done}
+                            data-locked={fill(t.reflect.locked, { l: row.after + 1, chapter: chapterTitle(pathOutline[ci]) })}
                           ></p>
                         </div>
                       </div>
@@ -358,6 +366,13 @@ const pxSize = (px: Praxis) => {
         </svg>
         <span data-path-go-label>{t.path.begin}</span>
       </button>
+      <button type="button" class="nfloat__btn" data-pop-open="practice">
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 3c4.6 3.4 5.8 10.6 0 18-5.8-7.4-4.6-14.6 0-18ZM12 6v14" />
+        </svg>
+        <span>{t.inPractice.title}</span>
+        <span class="nfloat__badge" data-practice-badge hidden></span>
+      </button>
       <button type="button" class="nfloat__btn" data-pop-open="review">
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
           <path d="M4.5 12a7.5 7.5 0 1 0 2.4-5.5M4.6 3.8l.3 3.6 3.6-.4" />
@@ -383,6 +398,23 @@ const pxSize = (px: Praxis) => {
         </div>
       </div>
     </dialog>
+
+    {/* In practice (client request, 7 November 2026): today's practices and reflections: the challenges
+        under way that still wait for today's check-in, and what the path has just opened */}
+    <dialog class="npop" data-pop="practice" aria-labelledby="npop-practice">
+      <div class="npop__sheet box on-blue-light">
+        <button type="button" class="npop__close" data-pop-close aria-label={t.arena.close}>
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+            <path d="M5 5.4c4.6 4.2 9 8.8 14 13.4M19 5c-4.4 4.8-9.2 9-13.8 14"></path>
+          </svg>
+        </button>
+        <h2 class="t-3" id="npop-practice">{t.inPractice.title}</h2>
+        <ul class="nprac" data-practice-list role="list"></ul>
+        <p class="npop__line" data-practice-none>{t.inPractice.none}</p>
+        <p class="small">{t.inPractice.empty}</p>
+      </div>
+    </dialog>
+    <script type="application/json" data-practice-data set:html={JSON.stringify({ items: practice, words: t.inPractice })} />
 
     <dialog class="npop" data-pop="review" aria-labelledby="npop-review">
       <div class="npop__sheet box on-blue-light">
@@ -1054,6 +1086,14 @@ const pxSize = (px: Praxis) => {
   .njref.is-ahead .njref__mirror {
     opacity: 0.55;
   }
+  /* locked until the lesson before it is walked (client direction, 7 November 2026) */
+  .njref.is-ahead a {
+    cursor: not-allowed;
+  }
+  .njref.is-ahead .njref__title {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
   /* (above the next chapter's banner while its note is open) */
   .njref:hover,
   .njref:focus-within {
@@ -1316,6 +1356,54 @@ const pxSize = (px: Praxis) => {
   .npop__sheet > :is(h2, p) {
     margin: 0;
     padding-right: 3rem;
+  }
+  /* In practice: one row each, its state on the right */
+  .nprac {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0.8rem 0;
+    padding: 0;
+    list-style: none;
+  }
+  .nprac:empty {
+    display: none;
+  }
+  .nprac :global(li) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.2rem 1rem;
+    align-items: center;
+    padding: 0.7rem 0.9rem;
+    background: color-mix(in srgb, var(--creme-light) 70%, transparent);
+    border-radius: 1rem 0.9rem 1.1rem 1rem / 1rem 1.1rem 0.9rem 1rem;
+  }
+  .nprac :global(.nprac__title) {
+    font-weight: 600;
+    color: var(--ink-strong);
+    text-decoration: none;
+  }
+  .nprac :global(.nprac__title:hover) {
+    text-decoration: underline;
+  }
+  .nprac :global(.nprac__meta) {
+    grid-column: 1;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .nprac :global(.nprac__state) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    padding: 0.2rem 0.7rem;
+    font-size: var(--step--1);
+    white-space: nowrap;
+    color: var(--creme-light);
+    background: var(--blue);
+    border-radius: 1rem;
+  }
+  .nprac :global(.nprac__state.is-checked) {
+    color: var(--blue-deep);
+    background: none;
+    border: 1.5px solid var(--line);
   }
   .nplay-today__btns {
     display: flex;

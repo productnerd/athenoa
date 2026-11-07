@@ -13,6 +13,7 @@ import { concepts } from '../../../lib/nostos';
 import { minutesOf, reflections, type Reflection } from '../../../lib/nostos-reflections';
 import { pathOutline } from '../../../lib/nostos-path';
 import { stageArt } from '../../../lib/nostos-stages';
+import { needOf } from '../../../lib/nostos-spots';
 
 export function getStaticPaths() {
   return reflections.map((r) => ({ params: { id: r.id }, props: { r } }));
@@ -27,7 +28,9 @@ const art = chapter?.stage ? stageArt[chapter.stage] : undefined;
 // what the script needs: the reflection, the names of every idea (for links to the map), the words
 const labels = Object.fromEntries(concepts.map((c) => [c.id, c.label]));
 const titles = Object.fromEntries(reflections.map((x) => [x.id, x.title]));
-const data = { r: { ...r, later: undefined }, labels, titles, words: t };
+// it opens once the lesson before it on the path is walked (client direction, 7 November 2026)
+const need = needOf(r.id);
+const data = { r: { ...r, later: undefined }, labels, titles, words: t, need: need?.ids ?? [] };
 ---
 
 <Base title={`${r.title} · Reflection | ATHENOA`} description={r.line} noindex>
@@ -44,6 +47,14 @@ const data = { r: { ...r, later: undefined }, labels, titles, words: t };
         <h1 class="t-1 nref__title">{r.title}</h1>
         <p class="nref__line">{r.line}</p>
       </header>
+
+      {/* not reached yet on the path: where it opens, and back to Learn */}
+      {need && (
+        <div class="nref__card" data-ref-locked hidden>
+          <p class="nref__intro">{fill(t.locked, { l: need.lesson, chapter: need.chapter })}</p>
+          <a class="btn" href="/nostos/play/">{t.toLearn}</a>
+        </div>
+      )}
 
       {/* the start: what it is, then Begin (also shown again, with the last result, on a retake) */}
       <div class="nref__card" data-ref-start>
@@ -414,6 +425,20 @@ const data = { r: { ...r, later: undefined }, labels, titles, words: t };
   }
   .nref__opt.is-off {
     opacity: 0.5;
+  }
+  /* the plain-words note under an option, small (client direction, 7 November 2026) */
+  .nref__optwords {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .nref__optnote {
+    font-size: var(--step--1);
+    line-height: 1.4;
+    color: var(--ink-soft);
+  }
+  .nref__opt.is-on .nref__optnote {
+    color: inherit;
+    opacity: 0.85;
   }
   .nref__badge {
     flex: none;

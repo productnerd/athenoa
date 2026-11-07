@@ -74,6 +74,9 @@ for (const file of files) {
       scoreTo(it.to, where);
     } else if (it.kind !== 'text') for (const o of opts ?? []) scoreTo(o.to, where);
     if (it.kind === 'multi' && !(it.max >= 1)) say(`${where}: no max`);
+    if ((it.kind === 'choice' || it.kind === 'ladder') && it.max !== undefined && !(it.max >= 2 && it.max <= 3)) say(`${where}: max must be 2 or 3`);
+    // a short plain-words note under every option of these kinds (client direction, 7 November 2026)
+    if (['choice', 'ladder', 'rank', 'multi'].includes(it.kind)) for (const o of opts ?? []) if (!o.note) say(`${where}: an option without its note ("${String(o.text).slice(0, 30)}…")`);
   }
   const texts = (r.items ?? []).filter((i) => i.kind === 'text').length;
   if (texts < 2 || texts > 3) say(`${texts} text items (2 to 3)`);

@@ -70,33 +70,39 @@
       "kind": "choice",
       "id": "q1",
       "prompt": "Think of your life these past weeks, not the weather outside. Which is closest?",
+      "max": 2,
       "options": [
         {
           "text": "Something new is starting, and it wants all my energy",
+          "note": "A fresh beginning is pushing through, and it pulls you outward.",
           "to": {
             "spring-equinox": 3
           }
         },
         {
           "text": "Everything is in full swing: busy, bright, a lot going out",
+          "note": "Life is full and outgoing, with your energy poured into the world.",
           "to": {
             "summer-solstice": 3
           }
         },
         {
           "text": "Things are settling or closing; I'm weighing what to keep",
+          "note": "A phase is winding down, and you are sorting what stays and what goes.",
           "to": {
             "autumn-equinox": 3
           }
         },
         {
           "text": "I've turned inward; something hard or hidden has my attention",
+          "note": "You are drawn inside yourself, facing something difficult or not yet clear.",
           "to": {
             "winter-solstice": 3
           }
         },
         {
           "text": "Honestly, every month feels much like the last",
+          "note": "Days follow the same pattern, with little sense of change or season.",
           "to": {
             "no-seasons": 3
           }
@@ -138,24 +144,28 @@
       "options": [
         {
           "text": "The winter solstice: the longest night, the turn inward",
+          "note": "A quiet, inward time of facing what lies hidden in you.",
           "to": {
             "winter-solstice": 2
           }
         },
         {
           "text": "The spring equinox: the light returns, a shoot breaks the soil",
+          "note": "A time of new beginnings, energy rising after a dark stretch.",
           "to": {
             "spring-equinox": 2
           }
         },
         {
           "text": "The summer solstice: the full sun, life at its height",
+          "note": "A full, outward time, busy and bright, with much in bloom.",
           "to": {
             "summer-solstice": 2
           }
         },
         {
           "text": "The autumn equinox: balance, and seeds going into the soil",
+          "note": "A time of taking stock and letting things close, quietly planting what comes next.",
           "to": {
             "autumn-equinox": 2
           }
@@ -186,30 +196,35 @@
       "options": [
         {
           "text": "Look straight away for what it opens up",
+          "note": "You turn quickly towards the new start the ending makes possible.",
           "to": {
             "spring-equinox": 2
           }
         },
         {
           "text": "Keep busy and fill the diary",
+          "note": "You fill the gap with activity and people, staying outward.",
           "to": {
             "summer-solstice": 2
           }
         },
         {
           "text": "Take stock: what it gave me, what to keep",
+          "note": "You pause to weigh up the chapter and gather what was good.",
           "to": {
             "autumn-equinox": 2
           }
         },
         {
           "text": "Go quiet and let myself feel it",
+          "note": "You withdraw for a while and let the loss be felt.",
           "to": {
             "winter-solstice": 2
           }
         },
         {
           "text": "Carry on much as before",
+          "note": "Your routine goes on almost unchanged, and life keeps its usual pace.",
           "to": {
             "no-seasons": 2
           }
@@ -220,33 +235,39 @@
       "kind": "choice",
       "id": "q6",
       "prompt": "And the darkest weeks of the year: how do you usually live them?",
+      "max": 2,
       "options": [
         {
           "text": "I fill them with lights, plans and people",
+          "note": "You meet the dark with brightness, company and things to do.",
           "to": {
             "summer-solstice": 2
           }
         },
         {
           "text": "I look back over the year and weigh it up",
+          "note": "The end of the year becomes a time to take stock.",
           "to": {
             "autumn-equinox": 2
           }
         },
         {
           "text": "I go inward gladly; the stillness suits me",
+          "note": "Short days feel like a welcome invitation to rest and look within.",
           "to": {
             "winter-solstice": 2
           }
         },
         {
           "text": "I count the days until the light comes back",
+          "note": "You wait for longer days and the energy that comes with them.",
           "to": {
             "spring-equinox": 2
           }
         },
         {
           "text": "I hardly notice them; my days stay the same",
+          "note": "Your routine carries on the same, whatever the light outside.",
           "to": {
             "no-seasons": 2
           }

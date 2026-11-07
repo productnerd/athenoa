@@ -13,7 +13,7 @@ import type { Praxis, Step } from '../lib/nostos-praxis';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Words = Record<string, any>;
-type Check = { at: string; did: boolean; note: string };
+type Check = { at: string; did: boolean; note: string; notes?: string[] };
 type Saved = { started?: string; checks?: Check[]; done?: string; answers?: Record<string, any>; notes?: { at: string; text: string }[] };
 const STORE = 'nostos-praxis-v1';
 
@@ -209,6 +209,15 @@ async function shrink(file: File): Promise<Blob> {
 }
 
 // ---------- the page ----------
+/** every step of the lesson it follows met on the Learn path (or storage off: then it is open) */
+const reached = (ids: string[]) => {
+  try {
+    const path = JSON.parse(localStorage.getItem('nostos-progress-v1') || '{}').path ?? {};
+    return ids.every((u) => path[u] !== undefined);
+  } catch {
+    return true;
+  }
+};
 let stop: (() => void) | undefined;
 export function start() {
   stop?.();
@@ -216,8 +225,14 @@ export function start() {
   const root = document.querySelector<HTMLElement>('[data-praxis]');
   const node = document.querySelector('[data-px-data]');
   if (!root || !node) return;
-  const { p, words: W } = JSON.parse(node.textContent ?? '{}') as { p: Praxis; words: Words };
+  const { p, words: W, need } = JSON.parse(node.textContent ?? '{}') as { p: Praxis; words: Words; need: string[] };
   const body = root.querySelector<HTMLElement>('[data-px-body]')!;
+  // not reached yet on the path, and never begun here: it waits (client direction, 7 November 2026)
+  if (!reached(need) && !loadAll()[p.id]) {
+    body.hidden = true;
+    root.querySelector<HTMLElement>('[data-px-locked]')!.hidden = false;
+    return;
+  }
   const cleanups: (() => void)[] = [];
   stop = () => cleanups.splice(0).forEach((f) => f());
 
@@ -407,7 +422,10 @@ export function start() {
     const draw = () => {
       const s = mine();
       box.replaceChildren();
-      box.append(h('p', { class: 'npx-h' }, W.todo), h('p', { class: 'npx-big' }, p.each ?? ''));
+      // what to do: one text, or its parts, each under its own title
+      box.append(h('p', { class: 'npx-h' }, W.todo));
+      if (Array.isArray(p.each)) for (const part of p.each) box.append(h('p', { class: 'npx-part' }, part.title), h('p', { class: 'npx-big' }, part.text));
+      else box.append(h('p', { class: 'npx-big' }, p.each ?? ''));
       if (!s.started) {
         box.append(
           h('button', {
@@ -434,16 +452,22 @@ export function start() {
       });
       box.append(h('ul', { class: 'npx-days', role: 'list' }, ...marks), h('p', { class: 'npx-soft' }, fill(W.count, { n: checks.filter((c) => c.did).length, total: n })));
       if (!over && !checkedToday) {
-        const note = writer('', p.note ?? '');
+        // one box, or one per prompt (a part each)
+        const prompts = Array.isArray(p.note) ? p.note : [p.note ?? ''];
+        const boxes = prompts.map((q) => ({ q, t: writer('', q) }));
+        const check = (did: boolean) => {
+          const notes = boxes.map(({ t }) => t.value.trim());
+          keep((x) => (x.checks = [...(x.checks ?? []), { at: new Date().toISOString(), did, note: notes.filter(Boolean).join(' · '), notes }]));
+          draw();
+        };
         box.append(
           h('p', { class: 'npx-h' }, `${W.checkin} · ${fill(byDays ? W.day : W.time, { d: dayNo })}`),
-          h('p', {}, p.note ?? ''),
-          note,
+          ...boxes.flatMap(({ q, t }) => [h('p', {}, q), t]),
           h(
             'div',
             { class: 'npx-row' },
-            h('button', { type: 'button', class: 'btn', onclick: () => (keep((x) => (x.checks = [...(x.checks ?? []), { at: new Date().toISOString(), did: true, note: note.value.trim() }])), draw()) }, W.did),
-            h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => (keep((x) => (x.checks = [...(x.checks ?? []), { at: new Date().toISOString(), did: false, note: note.value.trim() }])), draw()) }, W.skipped),
+            h('button', { type: 'button', class: 'btn', onclick: () => check(true) }, W.did),
+            h('button', { type: 'button', class: 'btn btn--ghost', onclick: () => check(false) }, W.skipped),
           ),
         );
       } else if (!over) box.append(h('p', { class: 'npx-soft' }, W.saved));
@@ -570,7 +594,7 @@ export function start() {
     body.append(
       card(h('p', { class: 'npx-h' }, W.todo), ...kids, h('ol', { class: 'npx-list' }, ...(p.steps as string[]).map((st) => h('li', {}, st)))),
       h('div', { style: 'height: var(--space-m)' }),
-      card(...questions([{ key: 'note', label: p.note ?? W.noticed }])),
+      card(...questions([{ key: 'note', label: (Array.isArray(p.note) ? p.note[0] : p.note) ?? W.noticed }])),
     );
   }
 
@@ -724,7 +748,8 @@ export function start() {
       file.value = '';
       redraw();
     });
-    const thing = writer('', p.note ?? '');
+    const prompt = (Array.isArray(p.note) ? p.note[0] : p.note) ?? '';
+    const thing = writer('', prompt);
     body.append(
       card(
         counts,
@@ -735,7 +760,7 @@ export function start() {
       h('div', { style: 'height: var(--space-m)' }),
       card(
         h('p', { class: 'npx-h' }, W.addThing),
-        p.note ? h('p', {}, p.note) : null,
+        prompt ? h('p', {}, prompt) : null,
         thing,
         h('button', {
           type: 'button',

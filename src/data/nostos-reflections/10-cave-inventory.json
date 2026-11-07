@@ -81,30 +81,35 @@
       "options": [
         {
           "text": "A story starts at once: they're unhappy with my work",
+          "note": "A small sign becomes a whole story about you before you know it.",
           "to": {
             "shadows": 2
           }
         },
         {
           "text": "Nothing much: managers are like that, everyone knows it",
+          "note": "A common view settles it for you: that is just how managers are.",
           "to": {
             "view": 2
           }
         },
         {
           "text": "I give them the benefit of the doubt until I know more",
+          "note": "You trust that it is probably fine, while staying open to finding out.",
           "to": {
             "credit": 2
           }
         },
         {
           "text": "I look for anything that actually points to my work, and find little",
+          "note": "You check the actual evidence before letting yourself believe anything about it.",
           "to": {
             "reasoned": 2
           }
         },
         {
           "text": "I notice the story starting, and let it stay unknown",
+          "note": "You catch your mind making up a story, and let it pass without deciding.",
           "to": {
             "watcher": 2
           }
@@ -138,42 +143,49 @@
       "options": [
         {
           "text": "The news, my feeds, the people I follow",
+          "note": "Your views come from what you hear and read most often, day after day.",
           "to": {
             "view": 1
           }
         },
         {
           "text": "How I was brought up",
+          "note": "Beliefs you absorbed at home as a child, before you could weigh them.",
           "to": {
             "view": 1
           }
         },
         {
           "text": "Something that once hurt me",
+          "note": "An old hurt that still shapes what you expect from people and life.",
           "to": {
             "shadows": 1
           }
         },
         {
           "text": "Someone I trust, until I can see for myself",
+          "note": "You lean on a trusted person's word for now, ready to check it later.",
           "to": {
             "credit": 1
           }
         },
         {
           "text": "Reading or studying a subject properly",
+          "note": "Taking the time to learn how something really works, in depth.",
           "to": {
             "reasoned": 1
           }
         },
         {
           "text": "Comparing sources, including ones I disagree with",
+          "note": "Hearing the other side too, before you settle on what you think.",
           "to": {
             "reasoned": 1
           }
         },
         {
           "text": "Trying it out in my own life",
+          "note": "Testing an idea in practice, and keeping what holds up.",
           "to": {
             "credit": 1,
             "reasoned": 1
@@ -181,6 +193,7 @@
         },
         {
           "text": "Watching quietly how things actually go",
+          "note": "Observing what really happens, without rushing to a view about it.",
           "to": {
             "watcher": 1
           }
@@ -194,30 +207,35 @@
       "options": [
         {
           "text": "The heat rises, and I argue until I've won",
+          "note": "Your view feels like part of you, so a challenge turns into a fight.",
           "to": {
             "view": 2
           }
         },
         {
           "text": "I suspect they're saying it to get at me",
+          "note": "You read a hidden meaning aimed at you into what was said.",
           "to": {
             "shadows": 2
           }
         },
         {
           "text": "I wonder what they've seen that I haven't, and ask what made them think so",
+          "note": "You allow that they may have a point, and want to hear what it rests on.",
           "to": {
             "credit": 2
           }
         },
         {
           "text": "I ask what they mean by the key word before I answer",
+          "note": "You make sure you are both talking about the same thing before arguing.",
           "to": {
             "reasoned": 2
           }
         },
         {
           "text": "I notice the heat, and what part of me it is protecting",
+          "note": "You feel the anger rise and look at what it is guarding in you.",
           "to": {
             "watcher": 2
           }

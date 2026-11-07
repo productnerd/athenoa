@@ -8,11 +8,29 @@
   "intro": "Athena ends lessons with gratitude: εὐχαριστία, from εὖ, well, and χάρις, grace, activates grace, the incalculable factor that completes eudaimonia together with our own effort. For what is hard, Athena offers a mathematician’s tool: ἔστω, “let it be so”, the word a proof begins with. For seven evenings, close the day with a minute of each.",
   "does": "Each evening, a minute of gratitude, then one thing from the day that you let be.",
   "trains": "Gratitude that opens you to grace, and acceptance that loosens resistance.",
-  "practices": [132, 112],
-  "concepts": ["gratitude", "acceptance"],
+  "practices": [
+    132,
+    112
+  ],
+  "concepts": [
+    "gratitude",
+    "acceptance"
+  ],
   "days": 7,
-  "each": "Take one minute this evening: name what you are grateful for today, and pair it with your effort, as the old proverb says, “with Athena (the goddess), move your hand too”. Then take one thing from the day that you resisted, starting with small ones (a delay, a remark, a plan that fell through), and say ἔστω, “let it be”: as a working hypothesis, let it be perfect and just, happening for a reason you cannot see from partway up the mountain. Then let it go.",
+  "each": [
+    {
+      "title": "Gratitude",
+      "text": "Take one minute this evening and name what you are grateful for today. Pair it with your own effort, as the old proverb says: “with Athena (the goddess), move your hand too”."
+    },
+    {
+      "title": "Let it be",
+      "text": "Then take one thing from the day that you resisted, starting with small ones (a delay, a remark, a plan that fell through), and say ἔστω, “let it be”: as a working hypothesis, let it be perfect and just, happening for a reason you cannot see from partway up the mountain. Then let it go."
+    }
+  ],
   "when": "evening",
-  "note": "What were you grateful for today, and what did you let be?",
+  "note": [
+    "What were you grateful for today?",
+    "What did you let be?"
+  ],
   "end": "After seven evenings: what has gratitude changed in how your days close, and what has become easier to let be?"
 }

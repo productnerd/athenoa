@@ -72,30 +72,35 @@
       "options": [
         {
           "text": "Whether it is good, for me and those around me, in the long run",
+          "note": "You look at what is truly good over the years, for you and others.",
           "to": {
             "aristocracy": 2
           }
         },
         {
           "text": "The title: being recognised at last",
+          "note": "Respect and standing in other people's eyes tip the balance.",
           "to": {
             "timocracy": 2
           }
         },
         {
           "text": "The money, and the security it buys",
+          "note": "Feeling safe and provided for is what tips the balance.",
           "to": {
             "oligarchy": 2
           }
         },
         {
           "text": "How I feel that morning; I'd change my mind twice",
+          "note": "No single thing rules; the mood of the moment does.",
           "to": {
             "democracy": 2
           }
         },
         {
           "text": "Whether it leaves room for the one thing I can't stop wanting",
+          "note": "One thing you cannot let go of decides it for everything else.",
           "to": {
             "tyranny": 2
           }
@@ -106,33 +111,39 @@
       "kind": "choice",
       "id": "q2",
       "prompt": "A Saturday with nothing planned. What usually decides how the day goes?",
+      "max": 2,
       "options": [
         {
           "text": "A few things I've chosen because they matter, done well",
+          "note": "Your day follows what you have understood to be worthwhile.",
           "to": {
             "aristocracy": 2
           }
         },
         {
           "text": "Something that will show: progress, a goal, a win",
+          "note": "You want the day to count, with something to point to by evening.",
           "to": {
             "timocracy": 2
           }
         },
         {
           "text": "Chores, bills and errands that keep things safe and in order",
+          "note": "Getting on top of things, so that you feel secure.",
           "to": {
             "oligarchy": 2
           }
         },
         {
           "text": "Whatever I feel like, one thing after another",
+          "note": "Each wish takes its turn, and the day follows them.",
           "to": {
             "democracy": 2
           }
         },
         {
           "text": "The same place it always goes: the phone, a person, a craving, work",
+          "note": "One pull keeps drawing the hours back to it.",
           "to": {
             "tyranny": 2
           }
@@ -241,30 +252,35 @@
       "options": [
         {
           "text": "What I know is good",
+          "note": "Your considered sense of what is right and worthwhile.",
           "to": {
             "aristocracy": 2
           }
         },
         {
           "text": "What earns respect",
+          "note": "How it will look, and whether others will think well of you.",
           "to": {
             "timocracy": 2
           }
         },
         {
           "text": "What keeps me safe and provided for",
+          "note": "Money, savings, and keeping a cushion against hard times.",
           "to": {
             "oligarchy": 2
           }
         },
         {
           "text": "What I feel like right now",
+          "note": "The wish of the moment, whatever it happens to be.",
           "to": {
             "democracy": 2
           }
         },
         {
           "text": "The one thing I can't stop wanting",
+          "note": "A single craving, worry or person that keeps calling you back.",
           "to": {
             "tyranny": 2
           }

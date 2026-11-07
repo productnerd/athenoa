@@ -63,6 +63,14 @@ Each item has an `id` (unique in its file, such as "q1" or "t1") and a `prompt`.
 - **`multi`**: choose up to `"max"` (2 or 3) of 5 to 8 options. `"options": [{ "text": "...", "to": {...} }]`. About 20 s.
 - **`text`**: free text. `"hint"` (a short line under the prompt) and `"placeholder"` (an example of the kind of answer). No scores; the AI reads it. About 75 s.
 
+## More than one answer (Maria, 7 November 2026)
+
+A `choice` or `ladder` item may take `"max": 2` (or 3) where life is rarely one thing at once (for example "Where are you now?" on the Odyssey): the learner may then pick up to that many, and the picks share the weight of one answer. Keep single choice where one honest answer is the point of the item.
+
+## Notes under the options (Maria, 7 November 2026)
+
+Every option of a `choice`, `ladder`, `rank` or `multi` item carries a `"note"`: one short line in small letters under the option, saying in plain, everyday words what the phrase means, so the learner can recognise it in their own life (for example, under "In the house, facing the suitors one by one": "You are back in your own life, clearing out, one by one, what eats your time and energy."). At most about 15 words; no Greek; no advice; it explains, it does not judge. Pairs and points options do not need one.
+
 ## Timing
 
 The page adds up the item times above, and the total must fall between 120 and 360 seconds. `node scripts/nostos-reflections-check.mjs` checks every file (ids, kinds, concept ids, types, timing, at least two text items).

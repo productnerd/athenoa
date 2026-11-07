@@ -95,48 +95,56 @@
       "options": [
         {
           "text": "The thought 'this can't be all' keeps coming back",
+          "note": "A restless sense that life should hold more than it does right now.",
           "to": {
             "itch": 1
           }
         },
         {
           "text": "I've chosen one teaching or practice, and I'm staying with it",
+          "note": "You have picked a way of looking inward and keep to it.",
           "to": {
             "turn": 1
           }
         },
         {
           "text": "I catch my moods and reactions as they happen, and it isn't always flattering",
+          "note": "You see yourself more honestly in the moment, including the parts you would rather not.",
           "to": {
             "cleaning": 1
           }
         },
         {
           "text": "Old habits flare up just when I'm trying hardest",
+          "note": "The more you work on yourself, the more old patterns seem to surface.",
           "to": {
             "cleaning": 1
           }
         },
         {
           "text": "People close to me think I've changed, perhaps gone a little strange",
+          "note": "Something is shifting in you, and others notice it before you can explain it.",
           "to": {
             "night": 1
           }
         },
         {
           "text": "Moments when everything felt one, and then ordinary life felt flat",
+          "note": "Brief moments of deep connection, then a let-down when normal life returns.",
           "to": {
             "glimpses": 1
           }
         },
         {
           "text": "Bad news still reaches me, but I'm back to myself in hours, not days",
+          "note": "Upsets still come, but you find your balance again much sooner than before.",
           "to": {
             "settling": 1
           }
         },
         {
           "text": "I find I can't work only for myself any more",
+          "note": "Your effort naturally turns towards others and what you can give them.",
           "to": {
             "return": 1
           }
@@ -150,30 +158,35 @@
       "options": [
         {
           "text": "It adds to the feeling that there must be more to life than this",
+          "note": "Setbacks feed a growing sense that the way you live is not enough.",
           "to": {
             "itch": 2
           }
         },
         {
           "text": "I watch my reaction rise, and recognise an old pattern in it",
+          "note": "You see your response as it happens and know where you have met it before.",
           "to": {
             "cleaning": 2
           }
         },
         {
           "text": "It feels like rock bottom, but something in me holds on",
+          "note": "It feels like the lowest point, yet a quiet strength keeps you going.",
           "to": {
             "night": 2
           }
         },
         {
           "text": "It shakes me, and I long for the clarity I once glimpsed",
+          "note": "You remember a moment of real clarity and wish you could get back there.",
           "to": {
             "glimpses": 2
           }
         },
         {
           "text": "I feel it, and it moves the surface more than the depth",
+          "note": "It still hurts, but underneath you stay steady and yourself.",
           "to": {
             "settling": 2
           }
@@ -280,33 +293,39 @@
       "kind": "choice",
       "id": "q5",
       "prompt": "A friend asks what has changed in you this past year. What would you honestly say?",
+      "max": 2,
       "options": [
         {
           "text": "I'm looking for something; I don't know what yet",
+          "note": "A search has begun, even if you cannot yet say what for.",
           "to": {
             "itch": 2
           }
         },
         {
           "text": "I've started a practice, and what I took for real looks less certain",
+          "note": "You have begun looking inward, and old certainties have started to wobble.",
           "to": {
             "turn": 2
           }
         },
         {
           "text": "There have been moments I can't explain, of everything being one",
+          "note": "Rare moments when the gap between you and everything else fell away.",
           "to": {
             "glimpses": 2
           }
         },
         {
           "text": "Less drama: I come back to my centre sooner",
+          "note": "Life still moves you, but you find your calm again more quickly.",
           "to": {
             "settling": 2
           }
         },
         {
           "text": "I care less about my own goals, and more about what I can give",
+          "note": "Your attention has shifted from getting ahead to being of use to others.",
           "to": {
             "return": 2
           }

@@ -73,18 +73,21 @@
       "options": [
         {
           "text": "Pain or loss that made me ask why",
+          "note": "A hurt that left you needing to understand what life is for.",
           "to": {
             "pythios": 1
           }
         },
         {
           "text": "A crisis: things fell apart and the old answers stopped working",
+          "note": "A time when what you had relied on stopped holding you up.",
           "to": {
             "pythios": 1
           }
         },
         {
           "text": "Curiosity: I simply wanted to understand",
+          "note": "No dramatic reason: a plain, steady wish to know how things are.",
           "to": {
             "pythios": 1,
             "ismenios": 1
@@ -92,30 +95,35 @@
         },
         {
           "text": "Signs and coincidences I couldn't ignore",
+          "note": "Things kept lining up in ways that felt like messages meant for you.",
           "to": {
             "delios": 2
           }
         },
         {
           "text": "Love: a person, or something beautiful, that opened me",
+          "note": "Someone or something so beautiful that it opened a door inside you.",
           "to": {
             "phanaios": 1
           }
         },
         {
           "text": "A moment when, for an instant, everything seemed one",
+          "note": "A brief moment when the walls between you and the world fell away.",
           "to": {
             "phanaios": 2
           }
         },
         {
           "text": "My roots: a language, a family, a place",
+          "note": "Where you come from stirred questions about what it really holds.",
           "to": {
             "pythios": 1
           }
         },
         {
           "text": "People: a friend, a group, a conversation that wouldn't end",
+          "note": "Talking with others kept the search alive and drew you further in.",
           "to": {
             "leschenorios": 2
           }
@@ -136,30 +144,35 @@
       "rungs": [
         {
           "text": "Mostly by reading, asking and listening: I'm learning",
+          "note": "Your understanding grows by asking questions and taking in what others know.",
           "to": {
             "pythios": 3
           }
         },
         {
           "text": "Through signs: coincidences, dreams, a line that finds me at the right moment",
+          "note": "Truth comes through something outside you: a dream, a timing, a chance phrase.",
           "to": {
             "delios": 3
           }
         },
         {
           "text": "In rare, direct moments, when for an instant everything is clear",
+          "note": "Now and then, with nothing in between, the fog lifts; then it settles again.",
           "to": {
             "phanaios": 3
           }
         },
         {
           "text": "As a quiet knowing that stays, whatever the day brings",
+          "note": "What you understand no longer comes and goes; it shapes how you are.",
           "to": {
             "ismenios": 3
           }
         },
         {
           "text": "Most of all in dialogue, seeking it together with others",
+          "note": "Truth shows itself most when you think things through with other people.",
           "to": {
             "leschenorios": 3
           }
@@ -173,18 +186,21 @@
       "options": [
         {
           "text": "To a book, a talk, or someone who knows more than I do",
+          "note": "You look for answers from people and sources who have gone further.",
           "to": {
             "pythios": 2
           }
         },
         {
           "text": "To the signs: what is life trying to tell me?",
+          "note": "You read what happens around you as a message about your situation.",
           "to": {
             "delios": 2
           }
         },
         {
           "text": "Inward, in silence, until something becomes clear",
+          "note": "You go quiet and wait for clarity to come from inside.",
           "to": {
             "phanaios": 2,
             "ismenios": 1
@@ -192,12 +208,14 @@
         },
         {
           "text": "To what I already understand: I can see what happened and why",
+          "note": "What you have already learned lets you make sense of it straight away.",
           "to": {
             "ismenios": 2
           }
         },
         {
           "text": "To a friend I can think it through with",
+          "note": "Understanding comes as you talk it over with someone you trust.",
           "to": {
             "leschenorios": 2
           }

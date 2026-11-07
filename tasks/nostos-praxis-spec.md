@@ -38,9 +38,9 @@ A practical activity on the Learn path: an **olive leaf** at the end of its chap
 
 - **meditation**: `"minutes": 8`, `"steps": [{ "text": "...", "seconds": 60 }]`. Each step is one instruction shown while it lasts (and later read aloud). A bell sounds between steps, wind plays softly underneath, and there is a Start and a Skip button. The seconds add up to the minutes. 4 to 9 steps; the first settles, the last returns.
 - **challenge**: `"days": 5`, or `"times": 3` for something done a number of times rather than daily. Also:
-  - `"each"`: what to do each day or each time;
+  - `"each"`: what to do each day or each time; or, for an activity in parts, a list of `{ "title", "text" }`;
   - `"when"`: "morning", "evening" or "during the day";
-  - `"note"`: the one-line prompt to answer at each check-in;
+  - `"note"`: the one-line prompt to answer at each check-in; or a list of prompts, one box each (for example one per part);
   - `"end"`: a closing question after the last day.
 - **mission**: `"steps": ["...", "..."]` (2 to 4 things to do, once) and `"report": ["prompt 1", "prompt 2"]` (two short written answers afterwards).
 - **make**: `"prompts": [{ "label": "...", "hint": "...", "placeholder": "..." }]` (2 to 4 written parts) and `"end"` (one line shown when saved).

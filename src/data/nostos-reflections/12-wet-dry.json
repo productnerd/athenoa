@@ -116,24 +116,28 @@
       "options": [
         {
           "text": "I barely sleep, going over everything that could be wrong",
+          "note": "The worry takes over your night and colours everything until it is resolved.",
           "to": {
             "soaked": 2
           }
         },
         {
           "text": "I worry through the evening, then let it go",
+          "note": "It hangs over you for a while, then lifts by itself.",
           "to": {
             "damp": 2
           }
         },
         {
           "text": "I notice the fear, and see that it's an old one",
+          "note": "You spot the worry and recognise it as a familiar, long-standing fear.",
           "to": {
             "drying": 2
           }
         },
         {
           "text": "A flicker of worry, and then I get on with my evening",
+          "note": "The worry passes through quickly and does not take hold of you.",
           "to": {
             "dry": 2
           }
@@ -154,24 +158,28 @@
       "options": [
         {
           "text": "I'm still telling the story at dinner",
+          "note": "Hours later it is still on your mind and in your conversation.",
           "to": {
             "soaked": 2
           }
         },
         {
           "text": "My heart races, and it takes an hour or so to settle",
+          "note": "Your body stays stirred up for a while before calm comes back.",
           "to": {
             "damp": 2
           }
         },
         {
           "text": "I feel the heat rise, watch it, and it passes",
+          "note": "You notice the anger as it comes, and watching it lets it ease.",
           "to": {
             "drying": 2
           }
         },
         {
           "text": "It flares for a moment, and it's gone",
+          "note": "A quick spark of irritation that burns out almost at once.",
           "to": {
             "dry": 2
           }
@@ -185,24 +193,28 @@
       "options": [
         {
           "text": "Act on it straight away",
+          "note": "The feeling decides for you: you speak or act before thinking.",
           "to": {
             "soaked": 2
           }
         },
         {
           "text": "Distract myself until it passes",
+          "note": "You turn to something else and wait for the feeling to fade.",
           "to": {
             "damp": 2
           }
         },
         {
           "text": "Look at it, and ask where it comes from",
+          "note": "You get curious about the feeling and trace what set it off.",
           "to": {
             "drying": 2
           }
         },
         {
           "text": "Feel it fully, and let it go",
+          "note": "You let the feeling be there without holding on, and it moves through.",
           "to": {
             "dry": 2
           }
