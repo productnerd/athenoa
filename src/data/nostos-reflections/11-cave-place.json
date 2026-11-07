@@ -336,8 +336,10 @@
       "kind": "scale",
       "id": "q6",
       "prompt": "I practise on most days, whether I feel like it or not.",
-      "left": "Not yet",
-      "right": "Almost always",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
       "to": {
         "turn": 1,
         "cleaning": 1,
@@ -348,8 +350,10 @@
       "kind": "scale",
       "id": "q7",
       "prompt": "Meetings, cooking and admin get the same presence from me as my practice.",
-      "left": "Not at all",
-      "right": "Very much",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
       "to": {
         "return": 2,
         "settling": 1

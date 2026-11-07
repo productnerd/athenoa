@@ -71,7 +71,9 @@ for (const file of files) {
       for (const o of opts ?? []) if (!types.has(o.to)) say(`${where}: points to unknown type "${o.to}"`);
     } else if (it.kind === 'scale') {
       if (!it.left || !it.right) say(`${where}: needs left and right`);
-      scoreTo(it.to, where);
+      if (it.steps !== undefined && it.steps !== 5 && it.steps !== 7) say(`${where}: steps must be 5 or 7`);
+      if (!it.to && !it.mid && !it.ends) say(`${where}: scores nothing (to, mid or ends)`);
+      scoreTo(it.to, where), scoreTo(it.mid, where), scoreTo(it.ends, where);
     } else if (it.kind !== 'text') for (const o of opts ?? []) scoreTo(o.to, where);
     if (it.kind === 'multi' && !(it.max >= 1)) say(`${where}: no max`);
     if ((it.kind === 'choice' || it.kind === 'ladder') && it.max !== undefined && !(it.max >= 2 && it.max <= 3)) say(`${where}: max must be 2 or 3`);
@@ -88,7 +90,11 @@ for (const file of files) {
     const add = (to) => to && Object.entries(to).forEach(([k, v]) => v > 0 && reached.add(k));
     if (it.kind === 'pairs') it.pairs.forEach((p) => (add(p.aTo), add(p.bTo)));
     else if (it.kind === 'points') it.options.forEach((o) => reached.add(o.to));
-    else if (it.kind === 'scale') add(it.to);
+    else if (it.kind === 'scale') {
+      add(it.to), add(it.mid), add(it.ends);
+      // the left end scores against `to`: a negative weight is reached from there
+      if (it.to) Object.entries(it.to).forEach(([k, v]) => v < 0 && reached.add(k));
+    }
     else (it.kind === 'ladder' ? it.rungs : it.options ?? []).forEach((o) => add(o.to));
   }
   for (const t of types) if (!reached.has(t)) say(`type "${t}" can never score`);

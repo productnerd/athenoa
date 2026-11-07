@@ -162,7 +162,9 @@
       "kind": "scale",
       "id": "q3",
       "prompt": "It came from outside me rather than from my own choice.",
+      "steps": 7,
       "left": "All my own choice",
+      "middle": "Something of both",
       "right": "Entirely from outside",
       "to": {
         "persephone": 1,
@@ -175,6 +177,7 @@
       "kind": "scale",
       "id": "q4",
       "prompt": "It came all at once rather than slowly.",
+      "steps": 7,
       "left": "Slowly, over a long time",
       "right": "All at once",
       "to": {

@@ -162,8 +162,10 @@
       "kind": "scale",
       "id": "q4",
       "prompt": "When I need an answer, I can stop analysing and let it come.",
-      "left": "Hardly ever",
-      "right": "Easily",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
       "to": {
         "seeing": -2
       }
@@ -278,8 +280,10 @@
       "kind": "scale",
       "id": "q7",
       "prompt": "This past month I have kept to one aim, even when something newer came along.",
-      "left": "Not at all",
-      "right": "Fully",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
       "to": {
         "archer": -2
       }
@@ -288,7 +292,9 @@
       "kind": "scale",
       "id": "q8",
       "prompt": "A disagreement with someone close to me stays with me for days.",
+      "steps": 7,
       "left": "Hardly ever",
+      "middle": "Sometimes",
       "right": "Almost always",
       "to": {
         "music": 2
@@ -298,8 +304,10 @@
       "kind": "scale",
       "id": "q9",
       "prompt": "I keep carrying something (a habit, a routine, an old view) that I know I could put down.",
-      "left": "Not at all",
-      "right": "Very much",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
       "to": {
         "healing": 2
       }

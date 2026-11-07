@@ -42,6 +42,29 @@ const h = <K extends keyof HTMLElementTagNameMap>(tag: K, attrs: Record<string, 
 const dateOf = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
 // ---------- scoring ----------
+/** a point on a line of n points (1 to n), from −1 at the left end to +1 at the right */
+const along = (v: number, n: number) => (v - (n + 1) / 2) / ((n - 1) / 2);
+/** a line of n points to tap (a scale, or a pair): the ends largest, smaller towards the middle unless
+ *  the middle is a named point of its own; `labels` name the two ends and the middle for screen readers */
+function line(n: number, value: number | undefined, labelledBy: string, labels: [string, string, string], named: boolean, pick: (v: number) => void) {
+  const dots = h('div', { class: 'nref__dots', role: 'radiogroup', 'aria-labelledby': labelledBy });
+  for (let v = 1; v <= n; v++) {
+    const x = Math.abs(along(v, n));
+    const size = named && x === 0 ? 1.8 : 1.1 + 0.7 * x;
+    const name = v === 1 ? labels[0] : v === n ? labels[2] : x === 0 && labels[1] ? labels[1] : `${v} of ${n}`;
+    const d = h('button', { type: 'button', class: 'nref__dot', role: 'radio', 'aria-checked': String(value === v), 'aria-label': name, style: `--d:${size.toFixed(2)}rem` });
+    d.classList.toggle('is-on', value === v);
+    d.addEventListener('click', () => {
+      dots.querySelectorAll('.nref__dot').forEach((y, k) => {
+        y.classList.toggle('is-on', k + 1 === v);
+        y.setAttribute('aria-checked', String(k + 1 === v));
+      });
+      pick(v);
+    });
+    dots.append(d);
+  }
+  return dots;
+}
 function score(r: Reflection, answers: Record<string, Answer>): Score {
   const s: Score = Object.fromEntries(r.types.map((t) => [t.id, 0]));
   const add = (to: Score | undefined, f = 1) => to && Object.entries(to).forEach(([k, v]) => k in s && (s[k] += v * f));
@@ -54,8 +77,18 @@ function score(r: Reflection, answers: Record<string, Answer>): Score {
       const picks = Array.isArray(a) ? (a as number[]) : [a as number];
       picks.forEach((k) => add(opts[k]?.to, 1 / picks.length));
     }
-    else if (it.kind === 'scale') add(it.to, ((a as number) - 3) / 2);
-    else if (it.kind === 'pairs') (a as ('a' | 'b')[]).forEach((x, k) => it.pairs[k] && add(x === 'a' ? it.pairs[k].aTo : it.pairs[k].bTo));
+    else if (it.kind === 'scale') {
+      const x = along(a as number, it.steps ?? 5);
+      add(it.to, x);
+      add(it.mid, 1 - Math.abs(x));
+      add(it.ends, Math.abs(x));
+    }
+    // each pair is a five-point line between its two ends: the nearer an end, the more it counts
+    else if (it.kind === 'pairs')
+      (a as (number | 'a' | 'b')[]).forEach((v, k) => {
+        const x = along(v === 'a' ? 1 : v === 'b' ? 5 : (v as number), 5);
+        if (it.pairs[k]) add(it.pairs[k].aTo, (1 - x) / 2), add(it.pairs[k].bTo, (1 + x) / 2);
+      });
     else if (it.kind === 'rank') {
       const order = a as number[];
       order.forEach((o, p) => add(it.options[o]?.to, order.length > 1 ? (order.length - 1 - p) / (order.length - 1) : 1));
@@ -77,9 +110,11 @@ function said(it: Item, a: Answer | undefined): string {
         .map((k) => `${it.rungs[k]?.text} (rung ${k + 1} of ${it.rungs.length}, from the bottom)`)
         .join('; ');
     case 'scale':
-      return `${a} on a line from 1 ("${it.left}") to 5 ("${it.right}")`;
+      return `${a} on a line from 1 ("${it.left}") to ${it.steps ?? 5} ("${it.right}")${it.middle ? `, its middle "${it.middle}"` : ''}`;
     case 'pairs':
-      return (a as ('a' | 'b')[]).map((x, k) => (x === 'a' ? it.pairs[k].a : it.pairs[k].b)).join('; ');
+      return (a as (number | 'a' | 'b')[])
+        .map((v, k) => `${v === 'a' ? 1 : v === 'b' ? 5 : v} of 5 from "${it.pairs[k].a}" (1) to "${it.pairs[k].b}" (5)`)
+        .join('; ');
     case 'rank':
       return (a as number[]).map((o, p) => `${p + 1}. ${it.options[o].text}`).join('; ');
     case 'points':
@@ -154,7 +189,7 @@ export function start() {
   const answered = (it: Item) => {
     const a = answers[it.id];
     if (a === undefined) return false;
-    if (it.kind === 'pairs') return (a as unknown[]).filter((x) => x).length === it.pairs.length;
+    if (it.kind === 'pairs') return (a as unknown[]).filter((x) => x !== undefined && x !== null).length === it.pairs.length;
     if (it.kind === 'rank') return (a as number[]).length === it.options.length;
     if (it.kind === 'points') return (a as number[]).reduce((x, y) => x + y, 0) === it.total;
     if (it.kind === 'multi' || Array.isArray(a)) return (a as number[]).length > 0;
@@ -222,42 +257,30 @@ export function start() {
       itemBox.append(list);
       paint();
     } else if (it.kind === 'scale') {
-      const dots = h('div', { class: 'nref__dots', role: 'radiogroup', 'aria-labelledby': `nref-q-${it.id}` });
-      for (let v = 1; v <= 5; v++) {
-        const d = h('button', { type: 'button', class: 'nref__dot', role: 'radio', 'aria-checked': String(answers[it.id] === v), 'aria-label': `${v} of 5` });
-        d.classList.toggle('is-on', answers[it.id] === v);
-        d.addEventListener(
-          'click',
-          () => {
-            answers[it.id] = v;
-            dots.querySelectorAll('.nref__dot').forEach((x, n) => {
-              x.classList.toggle('is-on', n + 1 === v);
-              x.setAttribute('aria-checked', String(n + 1 === v));
-            });
-            refresh();
-          },
-          on,
-        );
-        dots.append(d);
-      }
-      itemBox.append(h('div', { class: 'nref__scale' }, dots, h('p', { class: 'nref__ends' }, h('span', {}, it.left), h('span', {}, it.right))));
+      const n = it.steps ?? 5;
+      itemBox.append(
+        h(
+          'div',
+          { class: 'nref__scale' },
+          line(n, answers[it.id] as number | undefined, `nref-q-${it.id}`, [it.left, it.middle ?? '', it.right], !!it.middle, (v) => ((answers[it.id] = v), refresh())),
+          h('p', { class: `nref__ends${it.middle ? ' nref__ends--mid' : ''}` }, h('span', {}, it.left), it.middle ? h('span', {}, it.middle) : null, h('span', {}, it.right)),
+        ),
+      );
       hint(W.scaleHint);
     } else if (it.kind === 'pairs') {
-      const picks = (answers[it.id] as ('a' | 'b')[] | undefined) ?? new Array(it.pairs.length);
+      const picks = (answers[it.id] as (number | 'a' | 'b')[] | undefined) ?? new Array(it.pairs.length);
       answers[it.id] = picks;
       const list = h('ul', { class: 'nref__pairs', role: 'list' });
       it.pairs.forEach((p, k) => {
-        const row = h('li', { class: 'nref__pair' });
-        (['a', 'b'] as const).forEach((side) => {
-          const b = optButton(side === 'a' ? p.a : p.b, () => {
-            picks[k] = side;
-            row.querySelectorAll('.nref__opt').forEach((x, n) => x.classList.toggle('is-on', (n === 0 ? 'a' : 'b') === side));
-            refresh();
-          });
-          b.classList.toggle('is-on', picks[k] === side);
-          row.append(b);
-        });
-        list.append(row);
+        const v = picks[k] === 'a' ? 1 : picks[k] === 'b' ? 5 : (picks[k] as number | undefined);
+        list.append(
+          h(
+            'li',
+            { class: 'nref__pair' },
+            h('p', { class: 'nref__ends', id: `nref-p-${it.id}-${k}` }, h('span', {}, p.a), h('span', {}, p.b)),
+            line(5, v, `nref-p-${it.id}-${k}`, [p.a, '', p.b], false, (x) => ((picks[k] = x), refresh())),
+          ),
+        );
       });
       hint(W.pairsHint);
       itemBox.append(list);

@@ -67,144 +67,106 @@
   ],
   "items": [
     {
-      "kind": "choice",
+      "kind": "scale",
       "id": "q1",
       "prompt": "In a meeting, your manager presents a plan you think is a mistake. What do you do?",
+      "steps": 7,
+      "left": "Say nothing: not worth the trouble",
+      "middle": "Say it calmly, once",
+      "right": "Say so at once, bluntly",
+      "ends": {
+        "courage": 2
+      },
+      "mid": {
+        "flow": 1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q2",
+      "prompt": "Friday evening after a hard week: food, wine, the next episode, the phone. What usually happens?",
+      "steps": 7,
+      "left": "Very little: I'm strict with pleasure",
+      "middle": "Enough, and then I stop",
+      "right": "Far more than I meant to",
+      "ends": {
+        "temperance": 2
+      },
+      "mid": {
+        "flow": 1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q3",
+      "prompt": "A friend asks to borrow money again. The last loan was never mentioned. What do you do?",
+      "steps": 7,
+      "left": "Lend again, to keep the peace",
+      "middle": "Talk honestly about the first loan",
+      "right": "Refuse, and name what they owe",
+      "ends": {
+        "justice": 2
+      },
+      "mid": {
+        "flow": 1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "A big decision, a move or a job offer, has to be made by Monday. How do you go about it?",
+      "steps": 7,
+      "left": "Let my mood, or others, decide",
+      "middle": "Think, listen to my heart, decide",
+      "right": "Argue every side, still undecided",
+      "ends": {
+        "wisdom": 2
+      },
+      "mid": {
+        "flow": 1
+      }
+    },
+    {
+      "kind": "multi",
+      "id": "q8",
+      "prompt": "Sometimes a virtue tips both ways at once: one way outside, the other inside, or by turns. Which of these do you know in yourself? Choose up to two.",
+      "max": 2,
       "options": [
         {
-          "text": "Say so at once, bluntly, whatever it costs",
-          "note": "You speak up straight away, without waiting for the right moment or words.",
-          "to": {
-            "courage": 2
-          }
-        },
-        {
-          "text": "Say nothing: it isn't worth the trouble",
-          "note": "You keep your view to yourself to avoid friction.",
-          "to": {
-            "courage": 2
-          }
-        },
-        {
-          "text": "Say it clearly and calmly, once, and let them weigh it",
-          "note": "You speak up without force, then leave the decision with them.",
-          "to": {
-            "flow": 1
-          }
-        },
-        {
-          "text": "Agree in the meeting, then complain about it afterwards",
+          "text": "Agreeing to someone's face, then complaining afterwards",
           "note": "Your real view comes out later, to others, not to the person concerned.",
           "to": {
             "courage": 2,
             "justice": 1
           }
-        }
-      ]
-    },
-    {
-      "kind": "choice",
-      "id": "q2",
-      "prompt": "Friday evening after a hard week: food, wine, the next episode, the phone. What usually happens?",
-      "options": [
-        {
-          "text": "I have more than I meant to, of most of it",
-          "note": "The evening runs past the point where you had planned to stop.",
-          "to": {
-            "temperance": 2
-          }
         },
         {
-          "text": "I allow myself very little; I'm strict with pleasure",
-          "note": "You keep pleasures small and tightly rationed, even after a hard week.",
-          "to": {
-            "temperance": 2
-          }
-        },
-        {
-          "text": "I enjoy it, and stop when I've had enough",
-          "note": "Pleasure is welcome, and you sense the moment it is enough.",
-          "to": {
-            "flow": 1
-          }
-        },
-        {
-          "text": "I swing: strict all week, then far too much",
+          "text": "Strict all week, then far too much at the weekend",
           "note": "Holding back for days, then letting go all at once.",
           "to": {
-            "temperance": 3
-          }
-        }
-      ]
-    },
-    {
-      "kind": "choice",
-      "id": "q3",
-      "prompt": "A friend asks to borrow money again. The last loan was never mentioned. What do you do?",
-      "options": [
-        {
-          "text": "Say no, and remind them what they still owe",
-          "note": "You keep a clear count, and make sure it is settled.",
-          "to": {
-            "justice": 2
+            "temperance": 2
           }
         },
         {
-          "text": "Lend it again; I don't want things to be awkward",
-          "note": "Keeping the peace matters more to you than what you are owed.",
-          "to": {
-            "justice": 2
-          }
-        },
-        {
-          "text": "Talk honestly about the first loan before I decide",
-          "note": "You bring the unspoken thing into the open, kindly and plainly.",
-          "to": {
-            "flow": 1
-          }
-        },
-        {
-          "text": "Lend it, and quietly hold it against them",
+          "text": "Giving or lending, then quietly holding it against them",
           "note": "You give, but the debt is noted and sits between you.",
           "to": {
             "justice": 2
           }
-        }
-      ]
-    },
-    {
-      "kind": "choice",
-      "id": "q4",
-      "prompt": "A big decision, a move or a job offer, has to be made by Monday. How do you go about it?",
-      "max": 2,
-      "options": [
-        {
-          "text": "Lists and research: I can argue every side and still can't decide",
-          "note": "Your thinking keeps going round, and no answer lands.",
-          "to": {
-            "wisdom": 2
-          }
         },
         {
-          "text": "I go with my mood on the day, or with what others think",
-          "note": "The choice is made by how you feel then, or by other voices.",
-          "to": {
-            "wisdom": 2
-          }
-        },
-        {
-          "text": "I think it through, listen to what my heart says, and decide",
-          "note": "Head and heart both get a say, and then you choose.",
-          "to": {
-            "flow": 1
-          }
-        },
-        {
-          "text": "I decide fast and find the reasons afterwards",
+          "text": "Deciding fast, and finding the reasons afterwards",
           "note": "You leap first, and explain the choice to yourself later.",
           "to": {
-            "wisdom": 1,
+            "wisdom": 2,
             "courage": 1
+          }
+        },
+        {
+          "text": "None of these, really",
+          "note": "When you tip, it tends to go one way at a time.",
+          "to": {
+            "flow": 1
           }
         }
       ]
@@ -339,6 +301,6 @@
     "plan": "A replanting plan: one habit to stop and one to plant in its exact place and time, kept for 21 days with a weekly check.",
     "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
   },
-  "ai": "Read where each of the four virtues tips in the learner's real habits, and in which direction: too much (rashness, indulgence, scorekeeping, over-thinking) or too little (holding back, denial, self-neglect, drift). The direction matters as much as the virtue, and the scores cannot show it, so read the wording of the options chosen and the two written habits, and name the pattern plainly (for example 'courage tipping into holding back'). Read by Athena's terms: ethics as habits of energy, virtue as the soul's free flow (ἀεὶ ῥεῖν), the mean (μεσότης) as the hearth of virtue, with Aristotle's mean as the map. Notice where a tip in one virtue appears beside a tip in another, for example holding back in the meeting and quiet scorekeeping over the loan. Never moralise: for Athena desire is sacred in its motive, and healthy shame is the opposite of self-flagellation. Quote the learner's own words for both habits, including what the habit gives them, and write an analysis only, with no plan or advice.",
+  "ai": "Read where each of the four virtues tips in the learner's real habits, and in which direction: too much (rashness, indulgence, scorekeeping, over-thinking) or too little (holding back, denial, self-neglect, drift). The direction matters as much as the virtue, and the scores cannot show it, so read which end of each scenario's line the learner leans towards (the left end is too little, the right too much), the options chosen and the two written habits, and name the pattern plainly (for example 'courage tipping into holding back'). Read by Athena's terms: ethics as habits of energy, virtue as the soul's free flow (ἀεὶ ῥεῖν), the mean (μεσότης) as the hearth of virtue, with Aristotle's mean as the map. Notice where a tip in one virtue appears beside a tip in another, for example holding back in the meeting and quiet scorekeeping over the loan. Never moralise: for Athena desire is sacred in its motive, and healthy shame is the opposite of self-flagellation. Quote the learner's own words for both habits, including what the habit gives them, and write an analysis only, with no plan or advice.",
   "reads": []
 }

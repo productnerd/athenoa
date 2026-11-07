@@ -143,6 +143,15 @@ Each idea in "All the ideas", under the map, has a dot, faint to bright by how c
 
 At Maria's request each of the guide's seven phases is set beside the world's religions and schools: fifteen traditions, each with its own small drawn symbol and a key (Jewish, Christian, Islam, Sufi, Hindu, Buddhist, Sikh, Zoroastrian, Daoist, Confucian, Zen, Shinto, Akan, Stoic, modern philosophy), eight or nine parallels a phase, a strip of six maps that run through all seven (the Ten Ox-herding Pictures, Attar's seven valleys, Teresa of Ávila's Interior Castle, the Kabbalah's Tree of Life, Nietzsche's three metamorphoses, the hero's journey), and one public-domain picture for each phase and the strip. Each phase now ends with a gate: four or five behaviours to tick (kept in the visitor's browser only), each new to its phase, with a line that they are ordinary behaviours, not marks of awakening. Each parallel's link to its phase shows on hover or tap. ALL NEW WORDING, proposed, in src/data/nostos-guide.ts (`echoes`, `maps`, `echoNote`). These parallels are the draft's own, not from Athena's talks, and the page says so; the five that Athena draws herself, or that quote her, link to her talk (Epictetus, Jung's archetype, Advaita and yoga, the bodhisattva, Nietzsche's "good premises").
 
+## Nostos reflections: scales for nuance (7 November 2026)
+
+At Maria's request, a question that is a matter of degree is now a scale of 5 or 7 points, NEW WORDING, proposed, in `src/data/nostos-reflections/*.json`. Some scales also name their middle point.
+
+- **Agree or disagree:** a statement on 7 points, "Strongly disagree" · "Neither agree nor disagree" · "Strongly agree".
+- **The virtue map:** its four scenarios run between two excesses, with the mean in the middle, for example "Say nothing: not worth the trouble" · "Say it calmly, once" · "Say so at once, bluntly". Its mixed answers become a new question: "Sometimes a virtue tips both ways at once: one way outside, the other inside, or by turns. Which of these do you know in yourself? Choose up to two."
+- **New scales:** two in The inner republic, one each in Cave inventory, Wet soul or dry? and Your year, for example "These past weeks, where has your energy been turned?" (Inward · Balanced between the two · Outward).
+- **The quick pairs:** each is now a line between its two ends. Its hint reads "For each pair, tap the point nearest you, quickly." / «Σε κάθε ζευγάρι, πάτησε το σημείο πιο κοντά σου, γρήγορα.» (was "One from each pair, quickly." / «Ένα από κάθε ζευγάρι, γρήγορα.»).
+
 ## Nostos: In practice, locked steps, notes under the options (7 November 2026)
 
 At Maria's request, all NEW WORDING, proposed, in `src/data/nostos/ui.ts`, English and Greek:

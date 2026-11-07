@@ -462,7 +462,7 @@ const data = { r: { ...r, later: undefined }, labels, titles, words: t, need: ne
   .nref__opts--ladder li + li {
     margin-bottom: 0.45rem;
   }
-  /* a five-point line */
+  /* a line of five or seven points: the ends largest (client direction, 7 November 2026: scales for nuance) */
   .nref__scale {
     margin-top: var(--space-m);
   }
@@ -483,24 +483,17 @@ const data = { r: { ...r, later: undefined }, labels, titles, words: t, need: ne
   }
   .nref__dot {
     position: relative;
-    width: 1.8rem;
-    height: 1.8rem;
+    flex: none;
+    width: var(--d, 1.8rem);
+    height: var(--d, 1.8rem);
     padding: 0;
     background: var(--creme);
     border: 2px solid var(--blue);
     border-radius: 50%;
     cursor: pointer;
   }
-  .nref__dot:nth-child(2),
-  .nref__dot:nth-child(4) {
-    width: 1.4rem;
-    height: 1.4rem;
-    margin-top: 0.2rem;
-  }
-  .nref__dot:nth-child(3) {
-    width: 1.1rem;
-    height: 1.1rem;
-    margin-top: 0.35rem;
+  .nref__dots {
+    align-items: center;
   }
   .nref__dot.is-on {
     background: var(--blue);
@@ -516,6 +509,14 @@ const data = { r: { ...r, later: undefined }, labels, titles, words: t, need: ne
   .nref__ends span:last-child {
     text-align: right;
   }
+  /* with a named middle point: three labels, the middle one under it */
+  .nref__ends--mid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  .nref__ends--mid span:nth-child(2) {
+    text-align: center;
+  }
   /* this or that */
   .nref__pairs {
     display: grid;
@@ -524,14 +525,14 @@ const data = { r: { ...r, later: undefined }, labels, titles, words: t, need: ne
     padding: 0;
     list-style: none;
   }
+  /* each pair a line between its two ends, the words above it */
   .nref__pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
+    padding: 0.6rem 0.2rem 0.7rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
   }
-  .nref__pair .nref__opt {
-    justify-content: center;
-    text-align: center;
+  .nref__pair .nref__ends {
+    margin: 0 0 0.45rem;
+    color: var(--ink-strong);
   }
   /* points to share */
   .nref__pts {

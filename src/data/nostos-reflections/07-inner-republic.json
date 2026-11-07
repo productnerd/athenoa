@@ -288,6 +288,30 @@
       ]
     },
     {
+      "kind": "scale",
+      "id": "q6",
+      "prompt": "I tend to follow whatever I feel like at the moment, one wish after another.",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
+      "to": {
+        "democracy": 2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q7",
+      "prompt": "One thing keeps drawing my thoughts back to it, more than I would choose: a craving, a worry, a person or work.",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
+      "to": {
+        "tyranny": 2
+      }
+    },
+    {
       "kind": "text",
       "id": "t1",
       "prompt": "Describe one decision from this week, small or large. If you are honest, what really made it?",

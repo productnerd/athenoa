@@ -20,7 +20,11 @@ type Option = { text: string; to: Score; note?: string };
 export type Item =
   | { kind: 'choice'; id: string; prompt: string; options: Option[]; max?: number }
   | { kind: 'ladder'; id: string; prompt: string; rungs: Option[]; max?: number }
-  | { kind: 'scale'; id: string; prompt: string; left: string; right: string; to: Score }
+  /** a line of 5 or 7 points between two ends (client direction, 7 November 2026: scales wherever
+   *  they fit, for nuance), with an optional label on its middle point. `to` counts from −1 at the left
+   *  end to +1 at the right; `mid` scores the nearer the answer is to the middle (a mean between two
+   *  excesses), `ends` the further from it, either way */
+  | { kind: 'scale'; id: string; prompt: string; left: string; right: string; middle?: string; steps?: 5 | 7; to?: Score; mid?: Score; ends?: Score }
   | { kind: 'pairs'; id: string; prompt: string; pairs: { a: string; aTo: Score; b: string; bTo: Score }[] }
   | { kind: 'rank'; id: string; prompt: string; options: Option[] }
   | { kind: 'points'; id: string; prompt: string; total: number; options: { text: string; to: string }[] }

@@ -120,12 +120,28 @@
       "kind": "scale",
       "id": "q2",
       "prompt": "I can tell what someone thinks of me from their face.",
-      "left": "Rarely",
-      "right": "Almost always",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
       "to": {
         "shadows": 2,
         "credit": -1,
         "watcher": -1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q6",
+      "prompt": "When something about a person or a situation is unclear, I tend to…",
+      "steps": 7,
+      "left": "Fill the gap with a story or a view",
+      "right": "Let it stay unknown for a while",
+      "to": {
+        "watcher": 2,
+        "credit": 1,
+        "shadows": -1,
+        "view": -1
       }
     },
     {
@@ -246,7 +262,9 @@
       "kind": "scale",
       "id": "q5",
       "prompt": "When someone challenges a view I care about, I feel it in my body before I think.",
+      "steps": 7,
       "left": "Rarely",
+      "middle": "Sometimes",
       "right": "Almost always",
       "to": {
         "view": 2,
@@ -268,6 +286,6 @@
     "plan": "A mind-and-media diet: one source to drop, the daily check “is this their mood or mine?”, and one firm belief examined with “what is it based on?”",
     "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
   },
-  "ai": "Read the three things the learner is sure of and, above all, what each rests on: seen, told, read or watched, felt, or tested. Place each on Athena's Line (εἰκασία, conjecture from shadows and projections; δόξα, opinion taken in from the visible world and from others, which becomes conviction when clothed in emotion; πίστις as Athena reads it, credit given while one tests; knowledge of concepts, above the cave), and notice where the three differ: a person may be held by conjecture, the world by opinion, and oneself by an old conviction, one of the false selves Athena lists (my role, my convictions, my knowledge). Use the two scenes, the sources and the two lines to see how much emotion clothes their views and whether they catch the mind at work. Never judge whether a conviction is true or take a side on politics, health or anyone in their life: read only how it is held, since for Athena the one wonder-worker that matters is the mind. Quote each of their three convictions in their own words.",
+  "ai": "Read the three things the learner is sure of and, above all, what each rests on: seen, told, read or watched, felt, or tested. Place each on Athena's Line (εἰκασία, conjecture from shadows and projections; δόξα, opinion taken in from the visible world and from others, which becomes conviction when clothed in emotion; πίστις as Athena reads it, credit given while one tests; knowledge of concepts, above the cave), and notice where the three differ: a person may be held by conjecture, the world by opinion, and oneself by an old conviction, one of the false selves Athena lists (my role, my convictions, my knowledge). Use the two scenes, the sources and the three lines to see how much emotion clothes their views and whether they catch the mind at work. Never judge whether a conviction is true or take a side on politics, health or anyone in their life: read only how it is held, since for Athena the one wonder-worker that matters is the mind. Quote each of their three convictions in their own words.",
   "reads": []
 }

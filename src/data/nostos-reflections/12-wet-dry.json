@@ -61,52 +61,68 @@
       "kind": "scale",
       "id": "q1",
       "prompt": "Fear and worry: when they come, how long do they stay with me?",
+      "steps": 7,
       "left": "Minutes",
+      "middle": "An evening or so",
       "right": "Days or more",
       "to": {
         "soaked": 2,
-        "damp": 1,
         "drying": -1,
         "dry": -2
+      },
+      "mid": {
+        "damp": 2
       }
     },
     {
       "kind": "scale",
       "id": "q2",
       "prompt": "Anger and irritation: how long do they stay?",
+      "steps": 7,
       "left": "Minutes",
+      "middle": "An evening or so",
       "right": "Days or more",
       "to": {
         "soaked": 2,
-        "damp": 1,
         "drying": -1,
         "dry": -2
+      },
+      "mid": {
+        "damp": 2
       }
     },
     {
       "kind": "scale",
       "id": "q3",
       "prompt": "Envy and jealousy: how long do they stay?",
+      "steps": 7,
       "left": "Minutes",
+      "middle": "An evening or so",
       "right": "Days or more",
       "to": {
         "soaked": 2,
-        "damp": 1,
         "drying": -1,
         "dry": -2
+      },
+      "mid": {
+        "damp": 2
       }
     },
     {
       "kind": "scale",
       "id": "q4",
       "prompt": "Clinging (to a person, a thing, a plan, how things were): how long does it hold me?",
+      "steps": 7,
       "left": "Minutes",
+      "middle": "An evening or so",
       "right": "Days or more",
       "to": {
         "soaked": 2,
-        "damp": 1,
         "drying": -1,
         "dry": -2
+      },
+      "mid": {
+        "damp": 2
       }
     },
     {
@@ -185,6 +201,19 @@
           }
         }
       ]
+    },
+    {
+      "kind": "scale",
+      "id": "q9",
+      "prompt": "When a strong feeling rises, I notice it, and can often see where it comes from.",
+      "steps": 7,
+      "left": "Strongly disagree",
+      "middle": "Neither agree nor disagree",
+      "right": "Strongly agree",
+      "to": {
+        "drying": 2,
+        "soaked": -1
+      }
     },
     {
       "kind": "rank",

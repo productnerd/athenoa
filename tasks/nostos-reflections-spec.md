@@ -56,12 +56,25 @@ Each item has an `id` (unique in its file, such as "q1" or "t1") and a `prompt`.
 
 - **`choice`**: a scenario or question with 3 to 5 options, pick one. `"options": [{ "text": "...", "to": {...} }]`. About 20 s.
 - **`ladder`**: like `choice`, but the options are rungs shown from the bottom up (stages, steps, levels). `"rungs": [{ "text": "...", "to": {...} }]`, listed from the lowest rung. About 20 s.
-- **`scale`**: a statement placed on a five-point line. `"left": "Never"`, `"right": "Almost always"`, `"to": {...}`. The answer counts from −1 at the left end to +1 at the right, times the weights, so the left end scores against those types. About 8 s.
-- **`pairs`**: quick this-or-that, 4 to 8 pairs. `"pairs": [{ "a": "...", "aTo": {...}, "b": "...", "bTo": {...} }]`. About 6 s a pair.
+- **`scale`**: a line of 5 or 7 points between two ends (`"steps": 7`; 5 if left out). `"left"` and `"right"` name the ends; `"middle"` (optional) names the middle point. Scoring, any of:
+  - `"to"`: counts from −1 at the left end to +1 at the right, times the weights, so the left end scores against those types (a negative weight scores from the left);
+  - `"mid"`: scores the nearer the answer is to the middle (1 at the middle, 0 at either end), for a mean between two excesses;
+  - `"ends"`: scores the further it is from the middle, either way (an excess, whichever way it tips).
+  About 8 s.
+- **`pairs`**: quick this-or-that, 4 to 8 pairs, each shown as a five-point line between its two ends (client direction, 7 November 2026). `"pairs": [{ "a": "...", "aTo": {...}, "b": "...", "bTo": {...} }]`. The nearer an end, the more it counts (at the middle, half each). About 6 s a pair.
 - **`rank`**: put 4 or 5 options in order, most like you first. `"options": [{ "text": "...", "to": {...} }]`. The first counts fully, the last not at all. About 30 s.
 - **`points`**: share a number of points (`"total": 10`) among 3 to 6 options, for example where your energy went this week. `"options": [{ "text": "...", "to": "type-id" }]` (here `to` is ONE type id). About 35 s.
 - **`multi`**: choose up to `"max"` (2 or 3) of 5 to 8 options. `"options": [{ "text": "...", "to": {...} }]`. About 20 s.
 - **`text`**: free text. `"hint"` (a short line under the prompt) and `"placeholder"` (an example of the kind of answer). No scores; the AI reads it. About 75 s.
+
+## Scales wherever they fit (Maria, 7 November 2026)
+
+Use a `scale` whenever an answer is a matter of degree, to capture nuance:
+- **Two opposing ends:** for example too much and too little, with the mean as the `middle` (the virtues: rashness, courage, cowardice). Use 5 or 7 points.
+- **A statement to agree or disagree with:** use 7 points, `"left": "Strongly disagree"`, `"right": "Strongly agree"`, `"middle": "Neither agree nor disagree"`.
+- **How often or how much:** "Never" to "Almost always".
+
+Keep a `choice` where the options are different things, not points on one line, and for first-reaction and nearest questions.
 
 ## More than one answer (Maria, 7 November 2026)
 
