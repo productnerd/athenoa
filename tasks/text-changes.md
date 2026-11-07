@@ -155,7 +155,7 @@ At Maria's request, all NEW WORDING, proposed, in `src/data/nostos/ui.ts`, Engli
   - The page then offers the existing "Back to Learn".
 - **Thanks, and let it be** (chapter 34) is now in two parts, Gratitude and Let it be, each with its own question at the check-in: "What were you grateful for today?" and "What did you let be?" (`src/data/nostos-praxis/34-let-it-be.json`).
 - **A note under every option** of the reflections' choices, ladders, rankings and multiple picks: 306 short lines in plain words, saying what each option means (in `src/data/nostos-reflections/*.json`).
-- **More than one answer.** Eleven questions now take up to two picks, for example the Odyssey's "Where are you now?". They show the existing "Choose up to 2."
+- **More than one answer.** Ten questions now take up to two picks, for example the Odyssey's "Where are you now?". They show the existing "Choose up to 2."
 
 ## Nostos praxis, and a sixteenth reflection (7 November 2026)
 

@@ -65,7 +65,7 @@ Each item has an `id` (unique in its file, such as "q1" or "t1") and a `prompt`.
 
 ## More than one answer (Maria, 7 November 2026)
 
-A `choice` or `ladder` item may take `"max": 2` (or 3) where life is rarely one thing at once (for example "Where are you now?" on the Odyssey): the learner may then pick up to that many, and the picks share the weight of one answer. Keep single choice where one honest answer is the point of the item. Always single (Maria, 7 November 2026): a first-reaction question ("What moves first in you?") and a question that places you at one point ("Choose the rung nearest you").
+A `choice` or `ladder` item may take `"max": 2` (or 3) where life is rarely one thing at once (for example "Where are you now?" on the Odyssey): the learner may then pick up to that many, and the picks share the weight of one answer. Keep single choice where one honest answer is the point of the item. Always single (Maria, 7 November 2026): a first-reaction question ("What moves first in you?") and a question that places you at one point or asks for the nearest or closest fit ("Choose the rung nearest you", "Which is closest?"). The one exception is the Odyssey's "Where are you now?", which takes up to two (Maria).
 
 ## Notes under the options (Maria, 7 November 2026)
 

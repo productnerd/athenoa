@@ -70,7 +70,6 @@
       "kind": "choice",
       "id": "q1",
       "prompt": "Think of your life these past weeks, not the weather outside. Which is closest?",
-      "max": 2,
       "options": [
         {
           "text": "Something new is starting, and it wants all my energy",
