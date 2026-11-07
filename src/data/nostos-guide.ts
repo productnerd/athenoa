@@ -755,10 +755,35 @@ export interface Echo {
 }
 export interface EchoImage {
   id: string;
-  kind: Kind | Kind[];
+  /** the tradition it comes from; left out for a work beside a step (stepArt) */
+  kind?: Kind | Kind[];
   name: string;
   link: string;
+  /** one of the site's own pictures (src/assets/nostos-art/, credits in src/data/nostos-art.json) */
+  site?: boolean;
 }
+
+/** Art beside the steps, so the page is less dry (client request, 7 November 2026; researched on
+ *  Wikimedia Commons and museum open access, credits in src/data/nostos-guide-images.json; the three
+ *  marked `site` are the site's own pictures). Keyed by a step's name, a hard moment's `when`, or a
+ *  moment of the day by its time. NEW WORDING, proposed: the names and links. */
+export const stepArt: Record<string, EchoImage> = {
+  '06:45': { id: 'pythagoreans', name: 'Hymn of the Pythagoreans to the Rising Sun', link: 'Bronnikov’s Pythagoreans meet the day with a hymn to the rising sun. Yours can be smaller: a minute at the window, looking at the light before you look at the phone.' },
+  '11:00': { id: 'balance', name: 'Woman Holding a Balance', link: 'Vermeer’s woman holds a balance with nothing in its pans and waits for it to come level, a Last Judgement on the wall behind her. Not winning, weighing: the balance you aim for instead of being right.' },
+  '21:30': { id: 'ares-ludovisi', site: true, name: 'The Ludovisi Ares', link: 'Ares sits at rest, his shield laid by his side. In the evening audit you ask where your own warrior’s force went today, and whom it served.' },
+  '22:15': { id: 'angelus', name: 'The Angelus', link: 'At the evening bell two labourers stop in the field and bow their heads, the fork still standing in the earth beside them. Effort and grace side by side, the pairing the old proverb asks of you.' },
+  'Watch your yeses and noes': { id: 'heracles-crossroads', site: true, name: 'The Choice of Heracles', link: 'Carracci paints Heracles at the crossroads, between Virtue and Pleasure, each pointing down her own road. The sum of your small yeses and noes sets your course in the same way.' },
+  'Guard what goes in': { id: 'epidaurus', name: 'The theatre of Epidaurus', link: 'The great theatre at Epidaurus was built in the sanctuary of Asclepius, the healing god, and is still famed for how its sound carries. Athena calls listening the most important spiritual act: what you let in through your ears goes straight to the soul.' },
+  'A real conversation': { id: 'academy', name: '“Plato’s Academy”, a mosaic from Pompeii', link: 'Seven philosophers talk under a tree, a sundial above them; the mosaic is often read as Plato’s Academy. A real conversation needs little more than this: people in one place, reading and asking together.' },
+  'The four turnings': { id: 'sower', name: 'The Sower', link: 'Van Gogh painted his sower striding across a violet field under a huge sun in the days around the summer solstice of 1888. Athena asks you to sow intentions at the turning points of the year; this is what sowing looks like.' },
+  'The winter descent': { id: 'persephone-return', site: true, name: 'The return of Persephone', link: 'Persephone rises from the underworld, Hekate lighting her way with two torches. The winter descent is the same journey: down into the dark, and back up with something new born.' },
+  'The ether meditation': { id: 'motes', name: 'Dust Motes Dancing in the Sunbeams', link: 'No one is in Hammershøi’s room: only a door, a window, and the light that makes the air itself visible. The ether meditation asks the same shift of you, from the objects to the space they sit in.' },
+  'Eyes open, eyes closed': { id: 'closedeyes', name: 'Closed Eyes', link: 'Redon’s face rises above a calm sea with its eyes shut, turned wholly inward. Eyes open, many somethings; eyes closed, Athena asks: is there something here, or a boundless expanse?' },
+  'When you lose someone or something': { id: 'stele', name: 'Grave stele of a little girl', link: 'Nothing on this stone tries to fix the loss: a little girl holds her two doves, one close to her face, as her family chose to remember her. The first step is the same: pause before you fix anything.' },
+  'When something shakes you, or sweeps you up': { id: 'wave', name: 'The Great Wave', link: 'The wave towers over three boats of rowers, and far behind it Mount Fuji sits small and unmoved. Athena’s reminder in the storm: only the soul’s motions are moved, never its essence.' },
+  'When you are afraid of dying': { id: 'hypnos', name: 'Sleep and Death lay a warrior to rest', link: 'For the Greeks, Sleep and Death were twin brothers: here winged Sleep cradles a fallen warrior’s head while Death takes his legs, and they lay him at his tomb. “There is no death,” Athena says, “only sleep, dream and awakening.”' },
+  'Play the role, don’t become it': { id: 'pronomos', name: 'The Pronomos Vase', link: 'The cast of a satyr play gathers round Dionysus, most of them holding their masks in their hands, the faces under the roles in plain view. Play the part fully, Athena says, and remember who is playing.' },
+};
 
 export const echoNote = {
   label: 'The same move elsewhere',

@@ -1,44 +1,50 @@
 ---
-// The practical guide (src/pages/nostos/guide.astro): a picture of a parallel from another tradition.
-// Its link to the phase shows over the picture on hover, on keyboard focus, or on a tap (the page's
-// script); the credit is always under it. Pictures in src/assets/nostos-guide/<id>.jpg, credits in
-// src/data/nostos-guide-images.json; without both, nothing is shown.
+// The practical guide (src/pages/nostos/guide.astro): a picture of a parallel from another tradition,
+// or a work of art beside a step (stepArt, client request, 7 November 2026). Its link shows over the
+// picture on hover, on keyboard focus, or on a tap (the page's script); the credit is always under it.
+// Pictures in src/assets/nostos-guide/<id>.jpg, credits in src/data/nostos-guide-images.json; or, for
+// one of the site's own (`site`), src/assets/nostos-art/<id>.jpg and src/data/nostos-art.json. Without
+// both, nothing is shown. `small` is the size for a card.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import GuideSymbol from './GuideSymbol.astro';
 import type { EchoImage } from '../../data/nostos-guide';
 import { kindLabel } from '../../data/nostos-guide';
+import siteArt from '../../data/nostos-art.json';
 
 interface Props {
   image: EchoImage;
   uid: string;
+  small?: boolean;
 }
-const { image, uid } = Astro.props;
-const list = Array.isArray(image.kind) ? image.kind : [image.kind];
-const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/nostos-guide/*.jpg', { eager: true });
+const { image, uid, small = false } = Astro.props;
+const list = !image.kind ? [] : Array.isArray(image.kind) ? image.kind : [image.kind];
+const files = import.meta.glob<{ default: ImageMetadata }>(['../../assets/nostos-guide/*.jpg', '../../assets/nostos-art/*.jpg'], { eager: true });
 type Credit = { title?: string; artist?: string; date?: string; attribution?: string; page_url?: string };
 const credits = (Object.values(import.meta.glob<Record<string, Credit>>('../../data/nostos-guide-images.json', { eager: true, import: 'default' }))[0] ?? {}) as Record<string, Credit>;
-const pic = files[`../../assets/nostos-guide/${image.id}.jpg`]?.default;
-const credit = credits[image.id];
+const pic = files[`../../assets/${image.site ? 'nostos-art' : 'nostos-guide'}/${image.id}.jpg`]?.default;
+const own = image.site ? siteArt.find((a) => a.id === image.id) : undefined;
+// the site's own pictures carry their whole credit in one title ("Annibale Carracci, The Choice of Heracles, 1596")
+const credit: Credit | undefined = image.site ? own && { title: own.title_en, attribution: own.attribution, page_url: own.page_url } : credits[image.id];
 const by = credit && [credit.artist, credit.title, credit.date].filter((x) => x && !/^unknown/i.test(x)).join(', ');
 ---
 
 {
   pic && credit && (
-    <figure class="ng-fig" data-echo>
+    <figure class:list={['ng-fig', small && 'ng-fig--small']} data-echo>
       <div class="ng-fig__frame">
         <button type="button" class="ng-fig__btn" aria-describedby={uid} aria-expanded="false">
-          <Image src={pic} alt={image.name} widths={[360, 640, 960]} sizes="(min-width: 56rem) 24rem, 92vw" />
+          <Image src={pic} alt={image.name} widths={small ? [320, 640] : [360, 640, 960]} sizes={small ? '(min-width: 56rem) 20rem, 92vw' : '(min-width: 56rem) 24rem, 92vw'} />
         </button>
         <span class="ng-fig__tip" role="tooltip" id={uid}>
-          <span class="ng-fig__trad">
+          {list.length > 0 && <span class="ng-fig__trad">
             {list.map((k) => (
               <span class="ng-fig__kind">
                 <GuideSymbol kind={k} />
                 {kindLabel(k)}
               </span>
             ))}
-          </span>
+          </span>}
           {image.link}
         </span>
       </div>
@@ -82,6 +88,10 @@ const by = credit && [credit.artist, credit.title, credit.date].filter((x) => x 
     max-width: 100%;
     height: auto;
     max-height: 30rem;
+  }
+  /* beside a step, in a card or the day: smaller */
+  .ng-fig--small .ng-fig__btn :global(img) {
+    max-height: 15rem;
   }
   .ng-fig__btn:focus-visible {
     outline: none;

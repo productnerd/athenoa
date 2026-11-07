@@ -143,6 +143,18 @@ Each idea in "All the ideas", under the map, has a dot, faint to bright by how c
 
 At Maria's request each of the guide's seven phases is set beside the world's religions and schools: fifteen traditions, each with its own small drawn symbol and a key (Jewish, Christian, Islam, Sufi, Hindu, Buddhist, Sikh, Zoroastrian, Daoist, Confucian, Zen, Shinto, Akan, Stoic, modern philosophy), eight or nine parallels a phase, a strip of six maps that run through all seven (the Ten Ox-herding Pictures, Attar's seven valleys, Teresa of Ávila's Interior Castle, the Kabbalah's Tree of Life, Nietzsche's three metamorphoses, the hero's journey), and one public-domain picture for each phase and the strip. Each phase now ends with a gate: four or five behaviours to tick (kept in the visitor's browser only), each new to its phase, with a line that they are ordinary behaviours, not marks of awakening. Each parallel's link to its phase shows on hover or tap. ALL NEW WORDING, proposed, in src/data/nostos-guide.ts (`echoes`, `maps`, `echoNote`). These parallels are the draft's own, not from Athena's talks, and the page says so; the five that Athena draws herself, or that quote her, link to her talk (Epictetus, Jung's archetype, Advaita and yoga, the bodhisattva, Nietzsche's "good premises").
 
+## The practical guide: art, icons, banners, colours, Athena's portraits (7 November 2026)
+
+At Maria's request the guide is less dry:
+
+- **Fifteen works of art beside the steps.** Twelve are new: Hokusai's Great Wave, Bronnikov's Hymn of the Pythagoreans, a Hypnos and Thanatos lekythos, Vermeer's Woman Holding a Balance, Millet's Angelus, the Pronomos Vase, the theatre of Epidaurus, Hammershøi's Dust Motes, Redon's Closed Eyes, Van Gogh's Sower, the "Plato's Academy" mosaic, and a grave stele of a girl with doves. Three are the site's own: Carracci's Choice of Heracles, the Ludovisi Ares and the return of Persephone.
+  - Each carries a name and a note on hover saying why it belongs there, NEW WORDING, proposed, all in `stepArt` in `src/data/nostos-guide.ts`. For example: "The wave towers over three boats of rowers, and far behind it Mount Fuji sits small and unmoved. Athena’s reminder in the storm: only the soul’s motions are moved, never its essence."
+  - Each also carries a credit under it, from `src/data/nostos-guide-images.json`.
+- **A small drawing on each habit** in Through the day, Every week and Through the year. No words.
+- **Line-art banners** above When life hits, Love and the people close to you, and Work and the world. No words.
+- **A paper of its own for each section,** and Athena's last word on night blue.
+- **Athena's portrait beside her quotes:** by the sea at the top of the page, and a close portrait by the closing quote. Their alt texts: "Athena Potari by the sea", "Athena Potari".
+
 ## The practical guide: sources as arrows, and a day for the daily habits (7 November 2026)
 
 At Maria's request:

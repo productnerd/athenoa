@@ -10,7 +10,13 @@ import { talkUrl } from '../../lib/nostos';
 import GuideEcho from '../../components/nostos/GuideEcho.astro';
 import GuideFigure from '../../components/nostos/GuideFigure.astro';
 import GuideSymbol from '../../components/nostos/GuideSymbol.astro';
-import { intro, words, phases, habits, meditations, day, hard, love, work, traps, closing, talkShort, echoes, echoNote, maps, kinds, gates, gateNote } from '../../data/nostos-guide';
+import GuideIcon from '../../components/nostos/GuideIcon.astro';
+import Illustration from '../../components/Illustration.astro';
+import { Image } from 'astro:assets';
+// Athena beside her words at the start and the end (client request, 7 November 2026)
+import faceSea from '../../assets/media/portrait-sea.jpg';
+import faceBooks from '../../assets/media/library-portrait.jpg';
+import { intro, words, phases, habits, meditations, day, hard, love, work, traps, closing, talkShort, echoes, echoNote, maps, kinds, gates, gateNote, stepArt } from '../../data/nostos-guide';
 import type { Src } from '../../data/nostos-guide';
 
 const srcUrl = (s: Src) => talkUrl(s[0], s[1]);
@@ -60,9 +66,12 @@ const toc = [
       <h1 class="t-1 ng-hero__title">{intro.title}</h1>
       <p class="ng-hero__sub">{intro.sub}</p>
       <p class="ng-hero__lead">{intro.lead}</p>
-      <figure class="ng-line ng-line--big">
-        <blockquote><p>{intro.line.text}</p></blockquote>
-        <figcaption>Athena <a class="ng-src" href={srcUrl(intro.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(intro.line.src)} data-tip={srcLabel(intro.line.src)}>↗</a></figcaption>
+      <figure class="ng-line ng-line--big ng-line--face">
+        <Image class="ng-face ng-face--arch" src={faceSea} alt="Athena Potari by the sea" widths={[220, 440]} sizes="11rem" />
+        <div>
+          <blockquote><p>{intro.line.text}</p></blockquote>
+          <figcaption>Athena <a class="ng-src" href={srcUrl(intro.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(intro.line.src)} data-tip={srcLabel(intro.line.src)}>↗</a></figcaption>
+        </div>
       </figure>
       <p class="ng-draft">{intro.note}</p>
       <nav class="ng-toc" aria-label="On this page">
@@ -74,7 +83,7 @@ const toc = [
   </header>
 
   {/* 1. the big words */}
-  <section class="section ng-sec" id="ng-words" aria-labelledby="ng-words-h">
+  <section class="section ng-sec ng-sec--words" id="ng-words" aria-labelledby="ng-words-h">
     <div class="wrap">
       <h2 class="t-2" id="ng-words-h">{words.title}</h2>
       <p class="ng-intro">{words.intro}</p>
@@ -219,7 +228,7 @@ const toc = [
 
   {/* 3. a day on the path, holding every daily habit (Maria, 7 November 2026: it replaces "Daily habits"),
       then the habits through the day, every week and through the year, and the meditations written out */}
-  <section class="section ng-sec" id="ng-day" aria-labelledby="ng-day-h">
+  <section class="section ng-sec ng-sec--day" id="ng-day" aria-labelledby="ng-day-h">
     <div class="wrap">
       <h2 class="t-2" id="ng-day-h">{day.title}</h2>
       {day.intro.map((p) => <p class="ng-intro">{p}</p>)}
@@ -232,6 +241,7 @@ const toc = [
               <p class="ng-day__uses">
                 {d.uses.map((u) => (anchors.has(u) ? <a href={`#${anchors.get(u)}`}>{u}</a> : <span>{u}</span>))}
               </p>
+              {stepArt[d.time] && <GuideFigure image={stepArt[d.time]} uid={`ng-art-${d.time.replace(':', '')}`} small />}
             </div>
           </li>
         ))}
@@ -245,9 +255,12 @@ const toc = [
           <ul class="ng-cards" role="list">
             {g.items.map((s) => (
               <li class="ng-step ng-card" id={idOf(s)}>
+                {/* a small drawing of the habit (client request, 7 November 2026) */}
+                <GuideIcon name={s.name} />
                 <p class="ng-step__name">{s.name}</p>
                 <p class="ng-step__how">{s.how}{!s.why && s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>
                 {s.why && <p class="ng-step__why">{s.why}{s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>}
+                {stepArt[s.name] && <GuideFigure image={stepArt[s.name]} uid={`${slug(s.name)}-art`} small />}
               </li>
             ))}
           </ul>
@@ -263,6 +276,7 @@ const toc = [
               <p class="ng-med__name">{m.name}</p>
               <p class="ng-med__mins">{m.mins}</p>
               <ol>{m.steps.map((s, k) => <li>{s}{k === m.steps.length - 1 && <> <a class="ng-src" href={srcUrl(m.src)} target="_blank" rel="noopener" aria-label={srcLabel(m.src)} data-tip={srcLabel(m.src)}>↗</a></>}</li>)}</ol>
+              {stepArt[m.name] && <GuideFigure image={stepArt[m.name]} uid={`${slug(m.name)}-art`} small />}
             </li>
           ))}
         </ul>
@@ -271,8 +285,9 @@ const toc = [
   </section>
 
   {/* 5. hard moments */}
-  <section class="section ng-sec" id="ng-hard" aria-labelledby="ng-hard-h">
+  <section class="section ng-sec ng-sec--hard" id="ng-hard" aria-labelledby="ng-hard-h">
     <div class="wrap">
+      <div class="ng-banner" aria-hidden="true"><Illustration name="guide-hard" note={false} /></div>
       <h2 class="t-2" id="ng-hard-h">{hard.title}</h2>
       <p class="ng-intro">{hard.intro}</p>
       <p class="ng-care">{hard.care}</p>
@@ -286,6 +301,7 @@ const toc = [
                 “{h.line.text}” <a class="ng-src" href={srcUrl(h.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(h.line.src)} data-tip={srcLabel(h.line.src)}>↗</a>
               </p>
             )}
+            {stepArt[h.when] && <GuideFigure image={stepArt[h.when]} uid={`${slug(h.when)}-art`} small />}
           </li>
         ))}
       </ul>
@@ -297,8 +313,9 @@ const toc = [
     { id: 'ng-love', part: love },
     { id: 'ng-work', part: work },
   ].map(({ id, part }) => (
-    <section class="section ng-sec" id={id} aria-labelledby={`${id}-h`}>
+    <section class={`section ng-sec ng-sec--${id.slice(3)}`} id={id} aria-labelledby={`${id}-h`}>
       <div class="wrap">
+        <div class="ng-banner" aria-hidden="true"><Illustration name={id === 'ng-love' ? 'guide-love' : 'guide-work'} note={false} /></div>
         <h2 class="t-2" id={`${id}-h`}>{part.title}</h2>
         <p class="ng-intro">{part.intro} <a class="ng-src" href={srcUrl(part.introSrc)} target="_blank" rel="noopener" aria-label={srcLabel(part.introSrc)} data-tip={srcLabel(part.introSrc)}>↗</a></p>
         <ul class="ng-cards" role="list">
@@ -307,6 +324,7 @@ const toc = [
               <p class="ng-step__name">{s.name}</p>
               <p class="ng-step__how">{s.how}{!s.why && s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>
               {s.why && <p class="ng-step__why">{s.why}{s.src && <> <a class="ng-src" href={srcUrl(s.src)} target="_blank" rel="noopener" aria-label={srcLabel(s.src)} data-tip={srcLabel(s.src)}>↗</a></>}</p>}
+              {stepArt[s.name] && <GuideFigure image={stepArt[s.name]} uid={`${slug(s.name)}-art`} small />}
             </li>
           ))}
         </ul>
@@ -319,7 +337,7 @@ const toc = [
   ))}
 
   {/* 8. traps */}
-  <section class="section ng-sec" id="ng-traps" aria-labelledby="ng-traps-h">
+  <section class="section ng-sec ng-sec--traps" id="ng-traps" aria-labelledby="ng-traps-h">
     <div class="wrap">
       <h2 class="t-2" id="ng-traps-h">{traps.title}</h2>
       <p class="ng-intro">{traps.intro}</p>
@@ -342,11 +360,14 @@ const toc = [
   </section>
 
   {/* Athena's last word (the first thirty days are gone: client direction, 6 November 2026) */}
-  <section class="section ng-end">
+  <section class="section ng-end on-blue-deep">
     <div class="wrap">
-      <figure class="ng-line ng-line--big ng-line--end">
-        <blockquote><p>{closing.line.text}</p></blockquote>
-        <figcaption>Athena <a class="ng-src" href={srcUrl(closing.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(closing.line.src)} data-tip={srcLabel(closing.line.src)}>↗</a></figcaption>
+      <figure class="ng-line ng-line--big ng-line--end ng-line--face">
+        <Image class="ng-face" src={faceBooks} alt="Athena Potari" widths={[200, 389]} sizes="10rem" />
+        <div>
+          <blockquote><p>{closing.line.text}</p></blockquote>
+          <figcaption>Athena <a class="ng-src" href={srcUrl(closing.line.src)} target="_blank" rel="noopener" aria-label={srcLabel(closing.line.src)} data-tip={srcLabel(closing.line.src)}>↗</a></figcaption>
+        </div>
       </figure>
     </div>
   </section>
@@ -475,6 +496,93 @@ const toc = [
   /* sections */
   .ng-sec {
     border-top: 1px solid var(--line);
+  }
+  /* each section its own paper (client request, 7 November 2026): the big words on bright crème, the
+     phases on the page's own, the day on a morning wash of Aegean, hard times on a stormy sand, love on
+     warm crème, work on light sand, the traps on a deeper Aegean, and Athena's last word at night */
+  .ng-sec--words,
+  .ng-sec--day,
+  .ng-sec--hard,
+  .ng-sec--love,
+  .ng-sec--work,
+  .ng-sec--traps,
+  .ng-end {
+    border-top: 0;
+    background-color: var(--paper);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+  }
+  .ng-sec--words {
+    --paper: var(--creme-light);
+  }
+  .ng-sec--day {
+    --paper: color-mix(in srgb, var(--blue-light) 34%, var(--creme-light));
+  }
+  .ng-sec--hard {
+    --paper: color-mix(in srgb, var(--sand) 46%, color-mix(in srgb, var(--blue-light) 30%, var(--creme)));
+  }
+  .ng-sec--love {
+    --paper: var(--creme-deep);
+  }
+  .ng-sec--work {
+    --paper: color-mix(in srgb, var(--sand) 26%, var(--creme-light));
+  }
+  .ng-sec--traps {
+    --paper: color-mix(in srgb, var(--blue-light) 58%, var(--creme));
+  }
+  /* Athena's last word, on night blue */
+  .ng-end .ng-line blockquote p {
+    color: var(--ink-strong);
+  }
+  .ng-end .ng-src::after {
+    color: var(--blue-deep);
+    background: var(--creme-light);
+  }
+  /* a section's banner (client request, 7 November 2026): line art in the page's blue, above its title */
+  .ng-banner {
+    max-width: 62rem;
+    margin: 0 auto var(--space-m);
+    color: var(--ink-strong);
+  }
+  .ng-banner :global(svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  @media (max-width: 40rem) {
+    .ng-banner :global(svg) {
+      stroke-width: 3.4;
+    }
+  }
+  /* art beside a step of the day */
+  .ng-day__body :global(.ng-fig) {
+    margin-top: 0.9rem;
+  }
+  /* Athena beside her words */
+  .ng-line.ng-line--face {
+    display: flex;
+    gap: clamp(1.2rem, 0.6rem + 2.4vw, 2.4rem);
+    align-items: center;
+    max-width: 52rem;
+  }
+  .ng-line--face :global(.ng-face) {
+    flex: none;
+    width: clamp(6.5rem, 4rem + 9vw, 11rem);
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  .ng-line--face :global(.ng-face--arch) {
+    aspect-ratio: 3 / 4;
+    object-position: 70% 20%;
+    border-radius: var(--r-arch);
+  }
+  @media (max-width: 34rem) {
+    .ng-line.ng-line--face {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
   .ng-sec h2 {
     margin: 0 0 var(--space-s);
