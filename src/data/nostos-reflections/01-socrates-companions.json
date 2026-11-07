@@ -1,0 +1,338 @@
+{
+  "id": "socrates-companions",
+  "n": 1,
+  "after": "call-socrates",
+  "title": "Which of Socrates' companions are you?",
+  "line": "How you meet a question that has no easy answer",
+  "intro": "In Plato's dialogues Socrates questions many people, and each meets the question in their own way: one is sure he knows, one collects definitions, one is moved and then pulled away, one is pregnant with an idea. Athena reads Socrates' 'I know that I do not know' as what opens the pores of the soul (ἀπορία), so that truth can begin to show itself. This reflection looks at how you meet a hard question. It is a mirror, not a test.",
+  "concepts": [
+    "socrates",
+    "aporia",
+    "maieutics",
+    "knowthyself",
+    "philosophy"
+  ],
+  "types": [
+    {
+      "id": "euthyphro",
+      "name": "Euthyphro: sure he knows",
+      "short": "You meet a question by defending",
+      "about": "You meet a hard question from a position you already hold, and you defend it. In Plato's dialogue Euthyphro is on his way to prosecute his own father, certain he knows what piety is; when his definitions go round in a circle, he remembers he is in a hurry and leaves. The strength in it is real, a care for what is right; but Athena's teaching names the trap, double ignorance (not knowing that we do not know, and, worse still, believing we know), and says that whoever holds truth as a banner has already lost it.",
+      "concepts": [
+        "agnoia",
+        "aporia"
+      ]
+    },
+    {
+      "id": "meno",
+      "name": "Meno: the collector of definitions",
+      "short": "You meet a question by gathering answers",
+      "about": "You meet a hard question by gathering answers: what others have said, the best definitions, one more book or talk. In Plato's dialogue Meno has heard Gorgias speak on virtue many times, offers Socrates a whole swarm of virtues instead of one, and, when the questions numb him, compares Socrates to a stingray. Athena separates information, which can come from anyone, from knowledge, which must be conceived and born in you; and it is in the Meno that Athena finds learning as recollection (ἀνάμνησις), not shopping for something new.",
+      "concepts": [
+        "anamnesis",
+        "philosophy"
+      ]
+    },
+    {
+      "id": "alcibiades",
+      "name": "Alcibiades: gifted and pulled away",
+      "short": "You are moved, then something else wins",
+      "about": "You see the question clearly and it moves you, and then work, success and other people's attention pull you away before it can do its work. In the Symposium Alcibiades says Socrates is the only person who makes him feel shame: he knows he neglects his own soul, yet once he leaves Socrates the crowd's honours win, and he stops his ears as against the Sirens. Athena reads healthy shame (αἰσχύνη) as justice regulating itself within us, and notes that what we flee in busyness is often not loneliness but conscience.",
+      "concepts": [
+        "shame",
+        "knowthyself"
+      ]
+    },
+    {
+      "id": "theaetetus",
+      "name": "Theaetetus: pregnant with an idea",
+      "short": "A question ripens in you",
+      "about": "A hard question does not leave you alone: you carry it, half-formed answers come, and you let them be tested. In Plato's dialogue young Theaetetus admits he can neither answer what knowledge is nor stop wondering about it, and Socrates tells him he is in labour; wonder, Socrates adds, is where philosophy begins. Athena reads Socrates as a midwife, not a teacher: he spoke only with souls already pregnant, because the gestation must have begun in you, and no one can do that inner work for you.",
+      "concepts": [
+        "maieutics",
+        "philosophy"
+      ]
+    },
+    {
+      "id": "aporia",
+      "name": "In Socrates' aporia",
+      "short": "At home in not-knowing",
+      "about": "You can stand in 'I do not know' without rushing to fill it, and ask from there. This is Socrates' own place: 'I know that I do not know', which Athena reads as opening the pores of the soul (ἀπορία) so that Apollo, the light, can begin to reveal himself. For Socrates, in Athena's reading, the way to truth is subtraction, not acquisition, and the philosopher is a lover of truth rather than its owner: in Athena's words, 'I'm not a knower, I'm a lover of truth.'",
+      "concepts": [
+        "aporia",
+        "socrates"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "At dinner, a friend you respect says something that contradicts a view you have held for years. What happens first in you?",
+      "options": [
+        {
+          "text": "I explain why they are wrong",
+          "to": {
+            "euthyphro": 2
+          }
+        },
+        {
+          "text": "I want to look it up and see what the best sources say",
+          "to": {
+            "meno": 2
+          }
+        },
+        {
+          "text": "It stings a little; I make a joke and we move on",
+          "to": {
+            "alcibiades": 2
+          }
+        },
+        {
+          "text": "I keep turning it over all the way home",
+          "to": {
+            "theaetetus": 2
+          }
+        },
+        {
+          "text": "I ask them how they came to see it that way",
+          "to": {
+            "aporia": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "Your teenage niece, out of nowhere, asks you: “What is a good life, really?” What do you do?",
+      "options": [
+        {
+          "text": "Tell her clearly what I believe",
+          "to": {
+            "euthyphro": 2
+          }
+        },
+        {
+          "text": "Tell her what a book I loved, or a philosopher, says about it",
+          "to": {
+            "meno": 2
+          }
+        },
+        {
+          "text": "Give a light answer: it's a big question for a Tuesday",
+          "to": {
+            "alcibiades": 2
+          }
+        },
+        {
+          "text": "Realise I've been carrying the same question myself",
+          "to": {
+            "theaetetus": 2
+          }
+        },
+        {
+          "text": "Say I'm not sure, and ask what she thinks",
+          "to": {
+            "aporia": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rank",
+      "id": "q3",
+      "prompt": "When something you believed turns out to be wrong, what do you do? Put these in order, most like you first.",
+      "options": [
+        {
+          "text": "Find the reason it was still partly right",
+          "to": {
+            "euthyphro": 2
+          }
+        },
+        {
+          "text": "Look for a better theory to put in its place",
+          "to": {
+            "meno": 2
+          }
+        },
+        {
+          "text": "Put it out of mind and get busy",
+          "to": {
+            "alcibiades": 2
+          }
+        },
+        {
+          "text": "Let it work in me until something new forms",
+          "to": {
+            "theaetetus": 2
+          }
+        },
+        {
+          "text": "Feel lighter: one less thing to defend",
+          "to": {
+            "aporia": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "pairs",
+      "id": "q4",
+      "prompt": "Quickly: which is more like you?",
+      "pairs": [
+        {
+          "a": "I like to be right",
+          "aTo": {
+            "euthyphro": 1
+          },
+          "b": "I like to find out",
+          "bTo": {
+            "aporia": 1
+          }
+        },
+        {
+          "a": "A shelf of books I mean to read",
+          "aTo": {
+            "meno": 1
+          },
+          "b": "One book I've read five times",
+          "bTo": {
+            "theaetetus": 1
+          }
+        },
+        {
+          "a": "Many interests",
+          "aTo": {
+            "alcibiades": 1
+          },
+          "b": "One question that follows me",
+          "bTo": {
+            "theaetetus": 1
+          }
+        },
+        {
+          "a": "Answers",
+          "aTo": {
+            "meno": 1
+          },
+          "b": "Questions",
+          "bTo": {
+            "aporia": 1
+          }
+        },
+        {
+          "a": "Applause",
+          "aTo": {
+            "alcibiades": 1
+          },
+          "b": "Understanding",
+          "bTo": {
+            "theaetetus": 1
+          }
+        },
+        {
+          "a": "In a disagreement I defend",
+          "aTo": {
+            "euthyphro": 1
+          },
+          "b": "In a disagreement I get curious",
+          "bTo": {
+            "aporia": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q5",
+      "prompt": "Saying “I don't know” in front of others makes me uncomfortable.",
+      "left": "Not at all",
+      "right": "Very much",
+      "to": {
+        "euthyphro": 2,
+        "meno": 1,
+        "aporia": -2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q6",
+      "prompt": "A conversation that leaves me with no answer, only a better question, feels worthwhile.",
+      "left": "Rarely",
+      "right": "Almost always",
+      "to": {
+        "aporia": 2,
+        "theaetetus": 1,
+        "euthyphro": -1,
+        "meno": -1
+      }
+    },
+    {
+      "kind": "multi",
+      "id": "q7",
+      "prompt": "Which of these do you know from the inside? Choose up to two.",
+      "max": 2,
+      "options": [
+        {
+          "text": "The pleasure of having the last word",
+          "to": {
+            "euthyphro": 1
+          }
+        },
+        {
+          "text": "Saving articles I never quite read",
+          "to": {
+            "meno": 1
+          }
+        },
+        {
+          "text": "Knowing a lot about something I don't yet live",
+          "to": {
+            "meno": 1
+          }
+        },
+        {
+          "text": "Being moved by a talk, and forgetting it by Monday",
+          "to": {
+            "alcibiades": 1
+          }
+        },
+        {
+          "text": "An idea that wakes me at night",
+          "to": {
+            "theaetetus": 1
+          }
+        },
+        {
+          "text": "The relief of admitting I was wrong",
+          "to": {
+            "aporia": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe a moment when someone questioned something you were sure of. What did you say, and what did you feel just before you said it?",
+      "hint": "A real moment is best: a partner, a colleague, a child, a stranger online.",
+      "placeholder": "When my brother told me that…"
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Is there a question you keep coming back to in your own life? Write it the way you would ask it, and say where it tends to come up.",
+      "hint": "It need not sound philosophical: “Why do I stay?” or “What do I actually want?” are questions too.",
+      "placeholder": "It comes back on Sunday evenings: …"
+    }
+  ],
+  "looks": "How you react when what you know is questioned: you defend it, collect answers, drift away, or grow curious.",
+  "learn": "Socrates’ not-knowing and midwifery, seen from the inside: what stops you saying “I don’t know”.",
+  "later": {
+    "plan": "A 7-day “question diet” for your companion. For example, Euthyphro (sure he knows) asks one question a day instead of making a point, and stops arguing online; Meno (the collector of definitions) asks “what use is this?” before reading on.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read how the learner meets a question that unsettles what they know: by defending (Euthyphro), by collecting answers (Meno), by being moved and then pulled away (Alcibiades), by carrying it until it ripens (Theaetetus), or by resting in not-knowing (aporia). The two written answers matter more than the top score: look at what the learner did in the first seconds of the questioned moment, and whether a question has been gestating in them for some time, which in Athena's reading of the Theaetetus is the sign of a soul already pregnant. Read by Athena's distinctions: information against knowledge that is born in you, truth as a flow rather than a banner, double ignorance against honest not-knowing. Keep each companion faithful to Plato's dialogue, and never cast a type as a failure: each shows one way a soul meets the question. Quote the learner's own words from both answers and name the question they keep returning to. Write an analysis only, with no advice or practices.",
+  "reads": []
+}

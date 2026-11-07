@@ -1,0 +1,304 @@
+{
+  "id": "oracle",
+  "n": 8,
+  "after": "delphi-music",
+  "title": "Your oracle",
+  "line": "Which of Apollo's powers do you most need now?",
+  "intro": "'We are the oracle of Delphi', Athena says: what pilgrims once travelled to the temple to ask, each of us can come to know within. This reflection does two things. It asks you to place yourself again among Apollo's five names, which Plutarch matched to the seeker's condition, so you can see whether you have moved since you first chose one; and it looks for the one of Apollo's four powers you most need now: healing and cleansing, seeing in silence, the archer's single aim, or the music that brings you into harmony with others. It is a mirror, not a test.",
+  "concepts": [
+    "apollo",
+    "delphi",
+    "cratylus",
+    "katharsis",
+    "mantike",
+    "will",
+    "music",
+    "knowthyself"
+  ],
+  "types": [
+    {
+      "id": "healing",
+      "name": "Apollo the healer",
+      "short": "You most need the washing: ἀπολούων",
+      "about": "The power you most need now is Apollo's first, medicine, which Socrates in the Cratylus hears in ἀπολούων, washing. Athena reads it as cleansing what we thought we knew: the views, stances and habits (ἕξεις) that cause suffering, like the Python's stagnant waters that must flow again before the oracle is free. Healing, Athena says, starts with the will to change: nothing moves while we stay stuck.",
+      "concepts": [
+        "katharsis",
+        "health"
+      ]
+    },
+    {
+      "id": "seeing",
+      "name": "The seer in the silence",
+      "short": "You most need the simple: ἁπλοῦς",
+      "about": "The power you most need is Apollo's second, the mantic, which the Cratylus links to ἁπλοῦς, the simple. For Athena μαντική is not laurel and tripods but unmediated knowing: when the many opinions and judgements fall away, a simple truth is known in inner silence, the heart speaking first and then the mind. 'Each of us is a seer', Athena says.",
+      "concepts": [
+        "mantike",
+        "silence"
+      ]
+    },
+    {
+      "id": "archer",
+      "name": "The archer",
+      "short": "You most need one aim: ἀεὶ βάλλων",
+      "about": "The power you most need is Apollo's third, archery, ἀεὶ βάλλων, 'ever-shooting'. Athena reads it as the will that has stopped changing and holds one target: every traveller must choose one direction and carry it through, dropping πολυπραγμοσύνη, wanting to do everything. It is what steadies flashes of insight into a way of life, like a diamond made of one element.",
+      "concepts": [
+        "will"
+      ]
+    },
+    {
+      "id": "music",
+      "name": "The musician",
+      "short": "You most need harmony: ὁμοπολῶν",
+      "about": "The power you most need is Apollo's fourth, music, ὁμοπολῶν, moving the poles together. For Athena music is less an instrument than the art of harmonising opposites, and with the Pythagoreans Athena says that without opposition there is no harmony, so conflict is not to be feared but joined. It is the political step of consciousness: returning to the many and making music with others.",
+      "concepts": [
+        "music",
+        "harmony"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "ladder",
+      "id": "q1",
+      "prompt": "The god appears according to our state, Plutarch says. Which of Apollo's five names is nearest where you stand now?",
+      "rungs": [
+        {
+          "text": "Πύθιος, Pythios: I am beginning to ask whether things are really as I was told",
+          "to": {
+            "healing": 1
+          }
+        },
+        {
+          "text": "Δήλιος, Delios: truth reaches me through signs (a book, a coincidence, a stranger's words)",
+          "to": {
+            "seeing": 1
+          }
+        },
+        {
+          "text": "Φαναῖος, Phanaios: now and then it shines through directly, for an instant",
+          "to": {
+            "archer": 1
+          }
+        },
+        {
+          "text": "Ἰσμήνιος, Ismenios: I know what I have seen, and I am learning to live from it",
+          "to": {
+            "music": 1
+          }
+        },
+        {
+          "text": "Λεσχηνόριος, Leschenorios: what I know comes alive in dialogue, shared for the common good",
+          "to": {
+            "music": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "points",
+      "id": "q2",
+      "prompt": "Share ten points among what would help you most at this point in your life.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Clearing out: old habits, stale views, what I keep carrying",
+          "to": "healing"
+        },
+        {
+          "text": "Quiet: hearing what I already know, without the noise",
+          "to": "seeing"
+        },
+        {
+          "text": "Focus: one aim, followed through",
+          "to": "archer"
+        },
+        {
+          "text": "Harmony: mending, joining, finding the common note with others",
+          "to": "music"
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q3",
+      "prompt": "You have a real decision to make: a job, a move, money, a relationship. What usually happens?",
+      "options": [
+        {
+          "text": "I put it off while the old worries pile up",
+          "to": {
+            "healing": 2
+          }
+        },
+        {
+          "text": "I ask everyone, read everything, and end up more confused",
+          "to": {
+            "seeing": 2
+          }
+        },
+        {
+          "text": "I decide, change my mind, and change it again",
+          "to": {
+            "archer": 2
+          }
+        },
+        {
+          "text": "I decide alone, then struggle to bring the others with me",
+          "to": {
+            "music": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "When I need an answer, I can stop analysing and let it come.",
+      "left": "Hardly ever",
+      "right": "Easily",
+      "to": {
+        "seeing": -2
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "If you could put one question about your life to the oracle today, what would it be? Write it as you would ask it.",
+      "hint": "A real question, about work, a person, a place or a habit. The reading looks at your question; it does not answer it.",
+      "placeholder": "Should I…"
+    },
+    {
+      "kind": "choice",
+      "id": "q5",
+      "prompt": "An evening, and for once an hour to yourself. What is it most likely to become?",
+      "options": [
+        {
+          "text": "Going back to the same habit I promised to drop",
+          "to": {
+            "healing": 2
+          }
+        },
+        {
+          "text": "Filling it: a podcast, a show, messages",
+          "to": {
+            "seeing": 2
+          }
+        },
+        {
+          "text": "Starting three things and finishing none",
+          "to": {
+            "archer": 2
+          }
+        },
+        {
+          "text": "Replaying a disagreement, and what I should have said",
+          "to": {
+            "music": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "multi",
+      "id": "q6",
+      "prompt": "Which of these do you know well lately? Choose up to three.",
+      "max": 3,
+      "options": [
+        {
+          "text": "Promising myself to drop a habit, and not dropping it",
+          "to": {
+            "healing": 1
+          }
+        },
+        {
+          "text": "Holding a view I have never really examined",
+          "to": {
+            "healing": 1
+          }
+        },
+        {
+          "text": "Asking everyone's opinion before I trust my own",
+          "to": {
+            "seeing": 1
+          }
+        },
+        {
+          "text": "Reaching for my phone the moment it goes quiet",
+          "to": {
+            "seeing": 1
+          }
+        },
+        {
+          "text": "Starting things and leaving them half done",
+          "to": {
+            "archer": 1
+          }
+        },
+        {
+          "text": "Knowing what matters, and spending the day elsewhere",
+          "to": {
+            "archer": 1
+          }
+        },
+        {
+          "text": "Avoiding a conversation I need to have",
+          "to": {
+            "music": 1
+          }
+        },
+        {
+          "text": "Feeling out of tune with the people around me",
+          "to": {
+            "music": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q7",
+      "prompt": "This past month I have kept to one aim, even when something newer came along.",
+      "left": "Not at all",
+      "right": "Fully",
+      "to": {
+        "archer": -2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q8",
+      "prompt": "A disagreement with someone close to me stays with me for days.",
+      "left": "Hardly ever",
+      "right": "Almost always",
+      "to": {
+        "music": 2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q9",
+      "prompt": "I keep carrying something (a habit, a routine, an old view) that I know I could put down.",
+      "left": "Not at all",
+      "right": "Very much",
+      "to": {
+        "healing": 2
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Describe a moment when you knew something clearly without being told: about a decision, a person, a turn in the road. What was around you, and in you, at the time?",
+      "hint": "For Athena such knowing comes in inner silence. A small moment is enough.",
+      "placeholder": "I was walking home when…"
+    }
+  ],
+  "looks": "Your step among Apollo's five names now, beside the one you chose before, and the one power you most lack: cleansing, silence, a single aim, or harmony with others.",
+  "learn": "Apollo's four powers as practical capacities you can see in your own week, and the Delphic maxims as rules to live by.",
+  "later": {
+    "plan": "A maxim to live for a month, with a daily cue, plus the practice for your missing power (ten minutes of silence; one aim for a week; one conversation of reconciliation; one thing cleaned out).",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read two things. First the step: compare the name the learner chose here with their earlier result from 'What woke you, and your Apollo name' (the apollo-name reflection), if it is given, and say simply whether they have moved, stayed, or now see themselves differently; in Plutarch's terms the god appears according to our state, so the name describes a state, not a grade, and each has its passage ahead (the washing after Pythios, the simple after Delios, the archer after Phanaios, music after Ismenios). Second, the power most needed: read the points, the two scenes, the four lines, what they know well and both written answers together, and name the one power they most lack now, by Athena's readings of the Cratylus: ἀπολούων (washing), ἁπλοῦς (the simple, seeing in silence), ἀεὶ βάλλων (one aim), ὁμοπολῶν (harmony with others). Read the question they would put to the oracle for what its shape shows (stuck, noisy, scattered, at odds), but never answer it, and quote their words from both written answers. You may end the portrait with one Delphic maxim that fits them, in Greek with its sense, read only as Athena reads it: γνῶθι σαυτόν (consciousness turning to know itself), the E read as εἶ ('you are'), κόσμιος γίνου ('become cosmic', not 'be polite') or αἰσχύνην σέβου ('respect shame', the self-regulation of justice within); μηδὲν ἄγαν ('nothing in excess') is also on the temple, but Athena names it without glossing it, so if you choose it, link it only to Athena's teaching of the mean (μεσότης) and make clear the link is yours. Offer the maxim as a mirror of where they stand, never as a task or advice.",
+  "reads": [
+    "apollo-name"
+  ]
+}

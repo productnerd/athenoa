@@ -1,0 +1,336 @@
+{
+  "id": "eros-ladder",
+  "n": 7,
+  "after": "eros-love",
+  "title": "Where your eros rests",
+  "line": "What do you love, and how do you hold it?",
+  "intro": "For Athena, eros is far more than attraction: it is the soul's impetus towards union, a current that flows through you and carries you beyond yourself. Diotima's ladder, as Athena tells it, shows love widening from a beautiful body to souls, to the city and its laws, to the sciences and the arts, and to the whole. This reflection looks at where your love rests now and how it holds what it loves: as a grip, or as the ally of its freedom. It is a mirror, not a test, and nothing in it assumes you have, or want, a partner.",
+  "concepts": [
+    "eros",
+    "diotima",
+    "love",
+    "beauty",
+    "desire",
+    "politicaleros",
+    "philotes",
+    "freedom"
+  ],
+  "types": [
+    {
+      "id": "bodies",
+      "name": "Beauty you can touch",
+      "short": "The first rung: the delight of the senses",
+      "about": "Your love rests most readily where the senses meet beauty: a face, a body, good food, a lovely place. Diotima's ladder begins here, and Athena is clear that for the ancients bodily attraction is the first rung of eros, not its enemy. Behind it, in Athena's reading, the soul is seeking the fullness of the Good, so desire is sacred in its motive; and eros is woken by beauty, τὸ καλόν.",
+      "concepts": [
+        "beauty",
+        "desire"
+      ]
+    },
+    {
+      "id": "souls",
+      "name": "One soul, then a few",
+      "short": "Love that rests in the people close to you",
+      "about": "Your eros rests mainly in people: a friend, a child, a parent, a partner, a small circle you would do anything for. On Diotima's ladder this is the attraction of souls, and in Athena's telling, loving a partner or a family already lifts us beyond the ἰδιώτης, the one who cuts himself off from the whole. Athena adds that the quality of our love shows first in how we treat ourselves, then in those closest to us, and from there seeps into every other relationship.",
+      "concepts": [
+        "love",
+        "eros"
+      ]
+    },
+    {
+      "id": "city",
+      "name": "Love of the city",
+      "short": "Political eros: beyond yourself and your own",
+      "about": "Your love reaches past your own circle to what you share with others: a street, a town, its people and trees, its institutions and laws. Athena calls this political eros (πολιτικὸς ἔρως) and sets it against a politics founded on fear: an eros of hope that rises beyond a beautiful body and soul to embrace the whole city. For Athena, with Plato, love for all beings and for the common good is the precondition of politics.",
+      "concepts": [
+        "politicaleros",
+        "philotes"
+      ]
+    },
+    {
+      "id": "knowing",
+      "name": "The love of knowing and making",
+      "short": "Eros of the sciences and the arts",
+      "about": "Your eros rests in understanding and in making: a question that will not let you go, learning for its own sake, a craft or an art done well. Diotima's ladder, as Athena tells it, rises through the eros of the sciences and of the arts, and for Athena philosophy itself begins as eros for truth: even the question is erotic, leading towards the all of the answer. In Athena's reading the true knower is not coldly detached but on fire with love.",
+      "concepts": [
+        "eros",
+        "philosophy"
+      ]
+    },
+    {
+      "id": "whole",
+      "name": "The ocean of life",
+      "short": "Love that reaches the whole",
+      "about": "Your love is least tied to one object: it goes out to life itself, to nature and to people you will never meet, without picking favourites. This is the top of Diotima's ladder as Athena tells it, divine eros merging into the ocean of life: cosmic love that recognises the unity of all. Athena takes up the old name φιλότης for this force that makes the many into one universe, and says with Kazantzakis that in a relationship there are two, but in eros there is one.",
+      "concepts": [
+        "philotes",
+        "love"
+      ]
+    },
+    {
+      "id": "grip",
+      "name": "Love that holds tight",
+      "short": "Eros mixed with attachment",
+      "about": "In your answers love often takes the shape of holding: keeping the person, the place or the plan as it is, and fearing to lose it. Athena separates eros sharply from attachment and obsession: eros flows (Athena derives it from ῥέω, to flow), and 'you will do what I want' is, for Athena, control, not love. This is no verdict on your heart: behind every grip, in Athena's reading, the soul is still seeking the fullness of the Good, and Athena's measure is simple: 'To love means: I am the ally of your freedom.'",
+      "concepts": [
+        "eros",
+        "freedom",
+        "desire"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "ladder",
+      "id": "q1",
+      "prompt": "Where does your love mostly rest these days? Choose the rung nearest you.",
+      "rungs": [
+        {
+          "text": "Beauty I can see and touch: a face, a body, good food, lovely things",
+          "to": {
+            "bodies": 2
+          }
+        },
+        {
+          "text": "One person, or a few: the people closest to me",
+          "to": {
+            "souls": 2
+          }
+        },
+        {
+          "text": "Beyond my own: my street or town, its people, how we live together",
+          "to": {
+            "city": 2
+          }
+        },
+        {
+          "text": "Knowing and making: learning, understanding, a craft or an art",
+          "to": {
+            "knowing": 2
+          }
+        },
+        {
+          "text": "The whole of it: life itself, without picking favourites",
+          "to": {
+            "whole": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "An unexpected free Saturday. Where does your heart go first?",
+      "options": [
+        {
+          "text": "Something for the senses: a long lunch, the sea, a beautiful place",
+          "to": {
+            "bodies": 2
+          }
+        },
+        {
+          "text": "Time with someone I love",
+          "to": {
+            "souls": 2
+          }
+        },
+        {
+          "text": "Something for where I live: the market, a neighbour, a local cause",
+          "to": {
+            "city": 2
+          }
+        },
+        {
+          "text": "A book, a class, my craft or an instrument",
+          "to": {
+            "knowing": 2
+          }
+        },
+        {
+          "text": "A long walk where I feel part of everything",
+          "to": {
+            "whole": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rank",
+      "id": "q3",
+      "prompt": "Which beauty stops you in your tracks? Put them in order, the strongest first.",
+      "options": [
+        {
+          "text": "A beautiful face, a body, a lovely room",
+          "to": {
+            "bodies": 2
+          }
+        },
+        {
+          "text": "Someone's kindness or courage",
+          "to": {
+            "souls": 2
+          }
+        },
+        {
+          "text": "A square full of life, a fair law, a town that works",
+          "to": {
+            "city": 2
+          }
+        },
+        {
+          "text": "An idea that suddenly makes sense, or a thing made with mastery",
+          "to": {
+            "knowing": 2
+          }
+        },
+        {
+          "text": "The sea at dusk, the night sky: the whole of it",
+          "to": {
+            "whole": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Think of someone or something you love: a person, a place, a piece of work, an animal, a cause. Describe one ordinary moment that shows how you love them.",
+      "hint": "What you did, said or felt. Choose only what you are happy to write about.",
+      "placeholder": "When my friend rang last week…"
+    },
+    {
+      "kind": "choice",
+      "id": "q4",
+      "prompt": "Someone you love (a friend, a child, a parent, a partner) is offered something wonderful that will take them far away for a year. What moves first in you?",
+      "options": [
+        {
+          "text": "Gladness for them, and the wish to help them go",
+          "to": {
+            "souls": 1,
+            "grip": -1
+          }
+        },
+        {
+          "text": "A pang of loss, then gladness for them",
+          "to": {
+            "souls": 1,
+            "grip": 1
+          }
+        },
+        {
+          "text": "I find reasons it might not be a good idea",
+          "to": {
+            "grip": 2
+          }
+        },
+        {
+          "text": "Wonder at how life keeps moving us all on",
+          "to": {
+            "whole": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q5",
+      "prompt": "When someone I love chooses differently from what I would want for them, I take it personally.",
+      "left": "Hardly ever",
+      "right": "Almost always",
+      "to": {
+        "grip": 3
+      }
+    },
+    {
+      "kind": "pairs",
+      "id": "q6",
+      "prompt": "Quickly: which is more like you?",
+      "pairs": [
+        {
+          "a": "A beautiful face",
+          "aTo": {
+            "bodies": 1
+          },
+          "b": "A beautiful character",
+          "bTo": {
+            "souls": 1
+          }
+        },
+        {
+          "a": "My own people",
+          "aTo": {
+            "souls": 1
+          },
+          "b": "My town and its people",
+          "bTo": {
+            "city": 1
+          }
+        },
+        {
+          "a": "Knowing how things work",
+          "aTo": {
+            "knowing": 1
+          },
+          "b": "Feeling part of how things are",
+          "bTo": {
+            "whole": 1
+          }
+        },
+        {
+          "a": "Keeping what I love close",
+          "aTo": {
+            "grip": 1
+          },
+          "b": "Letting what I love be free",
+          "bTo": {
+            "grip": -1
+          }
+        },
+        {
+          "a": "A song that moves me",
+          "aTo": {
+            "knowing": 1
+          },
+          "b": "A cause that moves me",
+          "bTo": {
+            "city": 1
+          }
+        },
+        {
+          "a": "A good meal",
+          "aTo": {
+            "bodies": 1
+          },
+          "b": "The open sky",
+          "bTo": {
+            "whole": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q7",
+      "prompt": "I can be glad when someone I love is happy without me.",
+      "left": "Hardly ever",
+      "right": "Easily",
+      "to": {
+        "grip": -3
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Describe a time when loving someone or something set you free, and a time when it held you tight. What made the difference?",
+      "hint": "A friendship, a job, a place, a habit, a person: whatever you choose.",
+      "placeholder": "The summer I…"
+    }
+  ],
+  "looks": "What you love, and how you hold it: as a grip, or as the ally of its freedom.",
+  "learn": "Diotima's ladder, and the difference between eros and attachment, seen in what you love and how.",
+  "later": {
+    "plan": "Your next rung, made concrete. For example, from love of one person to love of the city: one act of care for something shared each week. Plus “am I the ally of their freedom?” asked in one relationship, and beauty sought on purpose daily.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read where the learner's love rests (the rung they chose, the free Saturday, the beauty they ranked first) and how it holds what it loves (the year away, the two lines, the pairs). The rung matters less than what Athena calls the movement of eros: widening from one body to souls, the city, knowing and making, and the whole, and whether it flows or grips. Read it by Athena's distinctions: eros as a flow versus attachment and obsession; love as 'the ally of your freedom' versus control ('you will do what I want'); bodily attraction as the first rung, not the enemy. Be gentle: never assume a partner, never moralise desire or the senses (for Athena desire is sacred in its motive), and do not probe beyond what they chose to write. Quote the learner's own words from both moments, and name what, in their own example, made love set them free or hold them tight.",
+  "reads": []
+}

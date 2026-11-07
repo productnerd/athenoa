@@ -1,0 +1,276 @@
+{
+  "id": "life-myth",
+  "n": 14,
+  "after": "mysteries-birth",
+  "title": "Read your life as a myth",
+  "line": "Which myth has your life already lived?",
+  "intro": "For Athena myths are not tales of beings out there but symbols of our own being: theology in the soul's native language. This reflection turns that way of reading on your own life: you choose one turning point, answer a few questions about it, and the page reads it through a Greek myth that Athena reads and places it on the stages of the second birth. Choose a moment you can look at calmly today, and write only what you wish to. It is a mirror, not a test.",
+  "concepts": [
+    "myth",
+    "secondbirth",
+    "persephone",
+    "hero",
+    "mysteries",
+    "meletethanatou"
+  ],
+  "types": [
+    {
+      "id": "persephone",
+      "name": "Persephone's descent and return",
+      "short": "Taken down into the dark, and back",
+      "about": "Your turning point was a descent: something took you down into the dark, a loss, an ending, a long time underground. Athena reads Persephone's three names as three stages of the soul: bearer of death (φέρουσα φόνον), who lives the death of truth; bearer of light (Φερσέφασσα), in whom a light wakes in the depths; and bearer of touch (Φερέπαφα), who touches the immortal and returns to Demeter. In Athena's reading descent is the condition of the inner birth, and Hermes, guide of souls, leads Persephone back up with the spring.",
+      "concepts": [
+        "persephone",
+        "darkness"
+      ]
+    },
+    {
+      "id": "heracles",
+      "name": "Heracles at the crossroads",
+      "short": "Two roads, and a choice",
+      "about": "Your turning point was a choice: two roads opened, and you had to take one. Athena uses Heracles at the fork between Virtue (Ἀρετή) and Vice (Κακία) for the dilemma that faces each of us at every moment: each yes and each no sets our steps, and their sum sets our course and whether life makes us blessed (μακάριοι). The great crossroads makes visible a choosing that never stops.",
+      "concepts": [
+        "arete",
+        "noandyes"
+      ]
+    },
+    {
+      "id": "prisoner",
+      "name": "The prisoner set free",
+      "short": "Suddenly, the chains gave way",
+      "about": "Your turning point came suddenly and from outside: a blow, a meeting, an inspiration, and the familiar wall of shadows was no longer enough. Ἐξαίφνης, Plato's 'suddenly', is a word Athena loves: the prisoner in the cave is released all at once, and Plato calls the leaving λύσις τε καὶ ἴασις, release and healing. The sudden, Athena says, may come as a loss or as a 'good suddenly', and a long, unseen ripening goes before it.",
+      "concepts": [
+        "exaiphnes",
+        "cave"
+      ]
+    },
+    {
+      "id": "dionysus",
+      "name": "Dionysus torn and reborn",
+      "short": "Pulled apart, the heart kept",
+      "about": "Your turning point came when life pulled you in too many directions at once, roles and duties tearing at you until something gave. Athena reads the Titans (from τείνω, to stretch) as our own pulls towards the outside, and their tearing of the child Dionysus as daily life fragmenting attention: work, children, parents, taxes, each pull a role we lock into. In the myth only the heart is left, and the goddess Athena, wisdom, saves it so that Dionysus is reborn.",
+      "concepts": [
+        "dionysus",
+        "titans"
+      ]
+    },
+    {
+      "id": "odysseus",
+      "name": "Odysseus leaves Calypso",
+      "short": "Leaving a good place that was not home",
+      "about": "Your turning point was a leaving: a place, a role or a life that was pleasant, even admired, and still not home. Athena reads Odysseus leaving Circe and Calypso, despite their pleasures and beauty, and even the advanced Phaeacians, as the soul leaving pleasant attachments and high understanding alike, because they are stations, not the goal. Νόστος, homecoming, in Athena's reading means returning to what one loves.",
+      "concepts": [
+        "odyssey",
+        "ithaca"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "Choose one turning point in your life: a time after which things were not the same. How did it begin?",
+      "options": [
+        {
+          "text": "Something was taken from me: a loss, an ending I did not choose",
+          "to": {
+            "persephone": 2
+          }
+        },
+        {
+          "text": "I came to a fork and had to choose one road",
+          "to": {
+            "heracles": 2
+          }
+        },
+        {
+          "text": "Something happened suddenly: a meeting, a blow, a spark",
+          "to": {
+            "prisoner": 2
+          }
+        },
+        {
+          "text": "I was pulled in too many directions until something gave",
+          "to": {
+            "dionysus": 2
+          }
+        },
+        {
+          "text": "I chose to leave something good that no longer felt like mine",
+          "to": {
+            "odysseus": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Now tell it in two or three sentences: what happened, and roughly when.",
+      "hint": "Choose a moment you can look at calmly today. Write only what you wish to.",
+      "placeholder": "The year I left my job in the city…"
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "In the middle of it, what was it like?",
+      "options": [
+        {
+          "text": "Like going underground: dark, slow, far from everyone",
+          "to": {
+            "persephone": 2
+          }
+        },
+        {
+          "text": "Like carrying a decision only I could make",
+          "to": {
+            "heracles": 2
+          }
+        },
+        {
+          "text": "Like waking in a light so bright it hurt",
+          "to": {
+            "prisoner": 2
+          }
+        },
+        {
+          "text": "Like being torn into pieces by everything I had to be",
+          "to": {
+            "dionysus": 2
+          }
+        },
+        {
+          "text": "Like being at sea, between a shore I had left and one I could not yet see",
+          "to": {
+            "odysseus": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q3",
+      "prompt": "It came from outside me rather than from my own choice.",
+      "left": "All my own choice",
+      "right": "Entirely from outside",
+      "to": {
+        "persephone": 1,
+        "prisoner": 1,
+        "heracles": -1,
+        "odysseus": -1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "It came all at once rather than slowly.",
+      "left": "Slowly, over a long time",
+      "right": "All at once",
+      "to": {
+        "prisoner": 1,
+        "dionysus": -1
+      }
+    },
+    {
+      "kind": "multi",
+      "id": "q5",
+      "prompt": "What carried you through? Choose up to two.",
+      "max": 2,
+      "options": [
+        {
+          "text": "Someone who walked beside me for a while",
+          "to": {
+            "persephone": 1,
+            "prisoner": 1
+          }
+        },
+        {
+          "text": "Time, and the slow return of light",
+          "to": {
+            "persephone": 1
+          }
+        },
+        {
+          "text": "Knowing what I valued, and holding to it",
+          "to": {
+            "heracles": 1
+          }
+        },
+        {
+          "text": "What was left at my core when everything else fell away",
+          "to": {
+            "dionysus": 2
+          }
+        },
+        {
+          "text": "Longing for a life that felt like mine",
+          "to": {
+            "odysseus": 1
+          }
+        },
+        {
+          "text": "A decision I would not take back",
+          "to": {
+            "heracles": 1,
+            "odysseus": 1
+          }
+        },
+        {
+          "text": "Curiosity about what I had glimpsed",
+          "to": {
+            "prisoner": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ladder",
+      "id": "q6",
+      "prompt": "Athena maps the second birth as a real pregnancy. Looking at this turning point today, where does it stand?",
+      "rungs": [
+        {
+          "text": "Conceived: something began in me then, but I still cannot name it",
+          "to": {}
+        },
+        {
+          "text": "Carried: it is still growing in me, and old veils keep falling away",
+          "to": {}
+        },
+        {
+          "text": "In labour: it still hurts and pushes; it is not over",
+          "to": {}
+        },
+        {
+          "text": "Born, and still tender: I am learning to live from it, and I protect it",
+          "to": {}
+        },
+        {
+          "text": "Grown strong: in full light I can see what it gave me",
+          "to": {}
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "What came to an end in you then, and what was born? A sentence for each.",
+      "hint": "It might be an old picture of yourself, a fear or a role; and a strength, a love or a freedom.",
+      "placeholder": "What ended: the idea that I… What was born:…"
+    },
+    {
+      "kind": "text",
+      "id": "t3",
+      "prompt": "If this turning point were a scene in a myth, what would the picture be? Describe it in your own images.",
+      "hint": "A door, a sea, a road, a dark room, a light: whatever comes to you.",
+      "placeholder": "I see a narrow road at night, and…"
+    }
+  ],
+  "looks": "One turning point of your life, read through a Greek myth and the stages of the second birth.",
+  "learn": "Myth as the journey of your own soul, and dying before death: a crisis read as a birth.",
+  "later": {
+    "plan": "What your stage asks now (protect, push, or rest), a week of “die a little every day”, and your own retelling in writing.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read the one turning point the learner describes as a myth, the way Athena reads myths: as symbols of the soul's own journey, not stories out there. Name the myth that fits best of these five (Persephone's descent and return, Heracles at the crossroads, the prisoner released suddenly, Dionysus torn and reborn, Odysseus leaving Calypso), checking the page's grouping against the learner's own telling and images, and use only Athena's readings of them; bring in no other myth or reading. Place the moment on the stages of the second birth from the ladder (conception, gestation, labour and birth, nourishment and strengthening, beholding the Sun), and read what ended and what was born as the practice of dying Athena means: the death of an identification, not of a person. This may touch real pain: Athena reads a crisis as a birth, but never make light of what hurt, and if the answers speak of distress that is still sharp, say kindly that it can help to talk with someone they trust or with a professional, as Athena too says help may be needed so that one does not get lost there. Quote the learner's own words and images from all three written answers.",
+  "reads": []
+}

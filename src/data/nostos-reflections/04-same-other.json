@@ -1,0 +1,270 @@
+{
+  "id": "same-other",
+  "n": 4,
+  "after": "soul-memory",
+  "title": "Same and Other",
+  "line": "How far do you get pulled, and how fast do you come back?",
+  "intro": "In Plato's Timaeus the soul is made of two circles crossed like the letter χ. The Circle of the Same is what Athena calls the Hestia within, keeping us centred in being; the Circle of the Other carries the senses, passions and changing moods. This reflection looks at how strongly the Other pulls you and how quickly you return to your centre. It is a mirror, not a test.",
+  "concepts": [
+    "sameandother",
+    "hestia",
+    "equanimity",
+    "senses",
+    "phronesis"
+  ],
+  "types": [
+    {
+      "id": "same",
+      "name": "The Same leads",
+      "short": "A steady centre",
+      "about": "The Circle of the Same is strong in you: moods, news and other people's weather reach you, but they do not carry you far, and you come back. Athena pictures this centre as Hestia, who alone never leaves the middle of Olympus while the other gods come and go. Its shadow can be a steadiness that keeps life at arm's length; Athena's ἀταραξία, untroubled calm, is not apathy, and comes together with equal love for every being.",
+      "concepts": [
+        "hestia",
+        "equanimity"
+      ]
+    },
+    {
+      "id": "other",
+      "name": "The Other leads",
+      "short": "Carried by senses and moods",
+      "about": "The Circle of the Other has the stronger pull: what you see, hear, read and feel moves you quickly and for a long time, and the day's mood becomes your mood. Athena reads the Other (θάτερον) as the circle of senses, passions and moods, and finds in its letters θέατρον, the theatre of roles. Nothing is wrong with the senses in Athena's teaching: they are gates and allies, to be purified rather than renounced, and it was never the body that sensed but the mind.",
+      "concepts": [
+        "sameandother",
+        "senses"
+      ]
+    },
+    {
+      "id": "equinox",
+      "name": "An inner equinox",
+      "short": "The two circles meeting",
+      "about": "Your two circles meet: you take the world in fully, senses open, and you stay centred while you do. Athena maps the circles onto the sky, the Same onto the celestial equator and the Other onto the ecliptic; at an equinox they cross, and that crossing is inner balance. This is what Athena calls true human life: not the Same alone, but the conscious union of both.",
+      "concepts": [
+        "sameandother",
+        "measure"
+      ]
+    },
+    {
+      "id": "spinning",
+      "name": "Spinning",
+      "short": "Turning fast, slow to come back",
+      "about": "Right now the circles turn fast and the centre is hard to find: one input after another, moods that overlap, and little time between them for the motion to settle. In the Timaeus this is the newborn's state, where the Same and the Other are twisted and the world seems upside down until the inflow calms. Athena follows Proclus here: turbulence disturbs the soul's revolutions, never its essence, which is why, for Athena, calm is revealed, not built. The centre is not missing, only covered.",
+      "concepts": [
+        "equanimity",
+        "phronesis"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "You check your phone before getting up: bad news, and a tense message from family. How does the rest of the morning go?",
+      "options": [
+        {
+          "text": "It colours the whole morning",
+          "to": {
+            "other": 2
+          }
+        },
+        {
+          "text": "My mind jumps from one to the other, and on to ten other things",
+          "to": {
+            "spinning": 2
+          }
+        },
+        {
+          "text": "I notice the jolt, take a breath, and the day goes on",
+          "to": {
+            "same": 2
+          }
+        },
+        {
+          "text": "I feel it fully, then I'm back with the coffee and the light in the kitchen",
+          "to": {
+            "equinox": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q2",
+      "prompt": "Other people's moods become my mood.",
+      "left": "Rarely",
+      "right": "Almost always",
+      "to": {
+        "other": 2,
+        "same": -1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q3",
+      "prompt": "In a single hour I switch between many things: messages, tabs, thoughts, plans.",
+      "left": "Rarely",
+      "right": "Almost always",
+      "to": {
+        "spinning": 2,
+        "same": -1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "Even on a busy, noisy day, I can find a quiet place inside.",
+      "left": "Hardly ever",
+      "right": "Almost always",
+      "to": {
+        "same": 2,
+        "equinox": 1,
+        "spinning": -2
+      }
+    },
+    {
+      "kind": "pairs",
+      "id": "q5",
+      "prompt": "Quickly: which is more like you?",
+      "pairs": [
+        {
+          "a": "Background noise",
+          "aTo": {
+            "other": 1
+          },
+          "b": "Silence",
+          "bTo": {
+            "same": 1
+          }
+        },
+        {
+          "a": "I enjoy the senses fully",
+          "aTo": {
+            "equinox": 1,
+            "other": 1
+          },
+          "b": "I keep the senses at arm's length",
+          "bTo": {
+            "same": 1
+          }
+        },
+        {
+          "a": "News all day",
+          "aTo": {
+            "spinning": 1
+          },
+          "b": "News once, or not at all",
+          "bTo": {
+            "same": 1
+          }
+        },
+        {
+          "a": "A grey sky lowers my mood",
+          "aTo": {
+            "other": 1
+          },
+          "b": "A grey sky is just a sky",
+          "bTo": {
+            "same": 1,
+            "equinox": 1
+          }
+        },
+        {
+          "a": "Many things at once",
+          "aTo": {
+            "spinning": 1
+          },
+          "b": "One thing at a time",
+          "bTo": {
+            "equinox": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "ladder",
+      "id": "q6",
+      "prompt": "After something upsets you (a sharp email, a quarrel, bad news), how long until you feel like yourself again?",
+      "rungs": [
+        {
+          "text": "Days, or I'm not sure I ever quite do",
+          "to": {
+            "spinning": 3
+          }
+        },
+        {
+          "text": "A day or so",
+          "to": {
+            "other": 2,
+            "spinning": 1
+          }
+        },
+        {
+          "text": "A few hours",
+          "to": {
+            "other": 1,
+            "equinox": 1
+          }
+        },
+        {
+          "text": "Minutes",
+          "to": {
+            "same": 2,
+            "equinox": 1
+          }
+        },
+        {
+          "text": "I'm moved, but something in me stays still the whole time",
+          "to": {
+            "equinox": 2,
+            "same": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "points",
+      "id": "q7",
+      "prompt": "Think of the last seven days. Share ten points among where your attention mostly was.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Pulled by what came in: news, feeds, other people's moods",
+          "to": "other"
+        },
+        {
+          "text": "Scattered, jumping from thing to thing",
+          "to": "spinning"
+        },
+        {
+          "text": "Steady and inward, sometimes a little apart from things",
+          "to": "same"
+        },
+        {
+          "text": "Present to what was in front of me, and calm while doing it",
+          "to": "equinox"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe one moment this week when something knocked you off centre. What came in (a sound, a sight, a message, a tone of voice), and what happened in you?",
+      "hint": "Be precise about the input: the notification, the headline, the look on someone's face.",
+      "placeholder": "On Tuesday a message from…"
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "And what brings you back? Describe a place, a sound, a scent or a moment when you feel most centred, most yourself.",
+      "hint": "Hestia is the still centre: when, and where, do you find yours?",
+      "placeholder": "Early morning, before anyone else is up…"
+    }
+  ],
+  "looks": "How centred you are, how much the senses, moods and news pull you, and how fast you come back.",
+  "learn": "Timaeus’ two circles and Hestia: calm is uncovered, not built.",
+  "later": {
+    "plan": "A calm routine: five minutes of “eyes open, eyes closed” daily, one input cut (for example news before 10am), your sound and scent choices, a word that brings you back to centre.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read two things: how strongly the Circle of the Other pulls the learner (senses, moods, news, other people) and how quickly they return to the Same. The ladder and the first written moment show the return; the scenario, the scales and the points show the pull. Read by Athena's reading of the Timaeus and Proclus: turbulence moves the soul's revolutions, never its essence, so calm is uncovered, not built, and the senses are gates and allies, to be purified, not escaped. Do not praise a calm that is really distance from life: for Athena equanimity comes with equal love for every being, and the equinox is the two circles meeting, not the Other silenced. Quote the learner's own words from both moments, naming the exact input that pulled them and what brought them back. Write an analysis only, with no plan or advice.",
+  "reads": []
+}

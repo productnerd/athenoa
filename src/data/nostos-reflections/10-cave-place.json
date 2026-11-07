@@ -1,0 +1,355 @@
+{
+  "id": "cave-place",
+  "n": 10,
+  "after": "cave-sun",
+  "title": "Where are you in the cave?",
+  "line": "A map of where you might be, never a score.",
+  "intro": "Athena reads Plato's Cave as the whole path of awakening in one image, and Nostos' Practical Guide sets its stages beside Athena's other ladders as seven phases: the itch, the turn, the cleaning, the long night, glimpses, settling and the return. This reflection looks at which of them your days most resemble now. Read it as a map of where you might be, never as a score: Athena warns that awakening has no checklist, that its hour cannot be scheduled, and that the belief 'I am awakened' shows the separate someone still standing. The map is also a circle, for, in Athena's words, 'every end of mine is my beginning'.",
+  "concepts": [
+    "cave",
+    "paideia",
+    "metastrophe",
+    "katharsis",
+    "secondbirth",
+    "exaiphnes",
+    "immanence"
+  ],
+  "types": [
+    {
+      "id": "itch",
+      "name": "The itch",
+      "short": "Something in you says: this can't be all",
+      "about": "Something in you has started to say 'this can't be all': a loss, a great love or plain exhaustion has knocked something loose, and you catch yourself searching. In the Cave this is the prisoner still in chains but restless, asking whether things are really as he was told; among Apollo's names it is Πύθιος, the beginner who starts to ask. Athena calls pain 'the perfect motive to lead us to truth'.",
+      "concepts": [
+        "suffering",
+        "cave"
+      ]
+    },
+    {
+      "id": "turn",
+      "name": "The turn",
+      "short": "Choosing to look inward",
+      "about": "You have said, in some form, 'I want to know myself', and found a teaching or a practice to do it with, while what you took for real looks less certain. In the Cave this is the prisoner freed and turned round, and Athena calls it the first and hardest transitional stage: one no longer believes what one knew, and has not yet tasted what comes after. Its Greek name is μεταστροφή, the turning of attention from outside to inside.",
+      "concepts": [
+        "metastrophe",
+        "paideia"
+      ]
+    },
+    {
+      "id": "cleaning",
+      "name": "The cleaning",
+      "short": "Watching yourself, washing out",
+      "about": "Your days hold the long middle work: noticing thoughts, moods and reflexes as they happen, and meeting old habits and passions just when you are trying hardest. In the Cave this is the rough, steep ascent with burning eyes; in Apollo's terms it is ἀπολούων, the washing of what we thought we knew. In Athena's sketch of how awakening unfolds, old energies and habits surface in order to be cleansed, and observing them is, in Athena's phrase, 'extremely therapeutic'.",
+      "concepts": [
+        "katharsis",
+        "selfobservation"
+      ]
+    },
+    {
+      "id": "night",
+      "name": "The long night",
+      "short": "Something new is growing",
+      "about": "Something is growing in you that you cannot yet see, and the ground feels unsure: signs and coincidences, rock-bottom days, people close to you wondering what has come over you. Athena reads the approach to the Cave's exit, dazzled and in pain, as the longest night of the soul: the labour of the second birth, whose pains are also death pains. What is gestating, in Athena's reading, is vulnerable, and is carried in quiet.",
+      "concepts": [
+        "secondbirth",
+        "darkness"
+      ]
+    },
+    {
+      "id": "glimpses",
+      "name": "Glimpses",
+      "short": "The veil opens, and closes again",
+      "about": "There have been moments when the separation thinned (in meditation, in nature, in love, even at the sink), and afterwards ordinary life felt flat and you wanted the moment back. In the Cave this is the freed one seeing by night, by starlight, before the eyes can bear the day; among Apollo's names it is Φαναῖος, the veil pierced for an instant. Athena is clear that such experiences are stages, not the goal: 'Awakening is not an experience; it is a witness.'",
+      "concepts": [
+        "light",
+        "awakening"
+      ]
+    },
+    {
+      "id": "settling",
+      "name": "Settling",
+      "short": "Recognising what you already are",
+      "about": "There is less drama: things still happen and you still feel them, but they move the surface more than the depth, and you come back to centre sooner. In the Cave this is seeing by day and then the sun itself; in Athena's reading it is less learning something new than recognising what one is, since calm is not built but uncovered. Athena warns that knowledge is only a vehicle, and some people never get out of the car: the Good lies beyond knowledge.",
+      "concepts": [
+        "equanimity",
+        "eudaimonia"
+      ]
+    },
+    {
+      "id": "return",
+      "name": "The return",
+      "short": "Back in the cave, seeing the One there",
+      "about": "You are back in ordinary life (work, family, admin) and it is no longer quite ordinary; you find you cannot work only for yourself. This is the Cave's forgotten ending, which Athena calls the key to the whole allegory: the freed one goes back down, out of love and justice, to raise the sensible world to its highest beauty. Athena's word for it is ἐμμένεια, immanence: the One that dwells in everything, even at the tax office.",
+      "concepts": [
+        "immanence",
+        "beauty"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "multi",
+      "id": "q1",
+      "prompt": "Which of these have been true of you this past month? Choose up to three.",
+      "max": 3,
+      "options": [
+        {
+          "text": "The thought 'this can't be all' keeps coming back",
+          "to": {
+            "itch": 1
+          }
+        },
+        {
+          "text": "I've chosen one teaching or practice, and I'm staying with it",
+          "to": {
+            "turn": 1
+          }
+        },
+        {
+          "text": "I catch my moods and reactions as they happen, and it isn't always flattering",
+          "to": {
+            "cleaning": 1
+          }
+        },
+        {
+          "text": "Old habits flare up just when I'm trying hardest",
+          "to": {
+            "cleaning": 1
+          }
+        },
+        {
+          "text": "People close to me think I've changed, perhaps gone a little strange",
+          "to": {
+            "night": 1
+          }
+        },
+        {
+          "text": "Moments when everything felt one, and then ordinary life felt flat",
+          "to": {
+            "glimpses": 1
+          }
+        },
+        {
+          "text": "Bad news still reaches me, but I'm back to myself in hours, not days",
+          "to": {
+            "settling": 1
+          }
+        },
+        {
+          "text": "I find I can't work only for myself any more",
+          "to": {
+            "return": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "Something goes wrong: a plan falls through, or there is a row at home. What is most like you now?",
+      "options": [
+        {
+          "text": "It adds to the feeling that there must be more to life than this",
+          "to": {
+            "itch": 2
+          }
+        },
+        {
+          "text": "I watch my reaction rise, and recognise an old pattern in it",
+          "to": {
+            "cleaning": 2
+          }
+        },
+        {
+          "text": "It feels like rock bottom, but something in me holds on",
+          "to": {
+            "night": 2
+          }
+        },
+        {
+          "text": "It shakes me, and I long for the clarity I once glimpsed",
+          "to": {
+            "glimpses": 2
+          }
+        },
+        {
+          "text": "I feel it, and it moves the surface more than the depth",
+          "to": {
+            "settling": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "points",
+      "id": "q3",
+      "prompt": "Share ten points among where your inner energy has gone these past few weeks.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Searching: reading, listening, wondering",
+          "to": "itch"
+        },
+        {
+          "text": "Learning and practising one teaching",
+          "to": "turn"
+        },
+        {
+          "text": "Catching and clearing old habits",
+          "to": "cleaning"
+        },
+        {
+          "text": "Getting through a hard, uncertain stretch",
+          "to": "night"
+        },
+        {
+          "text": "Holding on to moments of opening, or wanting them back",
+          "to": "glimpses"
+        },
+        {
+          "text": "Ordinary work and people, met with presence",
+          "to": "return"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe one ordinary moment from this past week that shows where you are: what happened, and what you did with it.",
+      "hint": "A conversation, a bad morning, a quiet minute, a decision. Concrete is best.",
+      "placeholder": "On Tuesday, at work…"
+    },
+    {
+      "kind": "pairs",
+      "id": "q4",
+      "prompt": "Quickly: which is closer to you now?",
+      "pairs": [
+        {
+          "a": "Looking for a way",
+          "aTo": {
+            "itch": 1
+          },
+          "b": "Walking one way",
+          "bTo": {
+            "turn": 1
+          }
+        },
+        {
+          "a": "Everything feels new",
+          "aTo": {
+            "turn": 1
+          },
+          "b": "Old things keep coming up",
+          "bTo": {
+            "cleaning": 1
+          }
+        },
+        {
+          "a": "It hurts, and I keep going",
+          "aTo": {
+            "night": 1
+          },
+          "b": "It's lighter than it was",
+          "bTo": {
+            "settling": 1
+          }
+        },
+        {
+          "a": "I long for moments of opening",
+          "aTo": {
+            "glimpses": 1
+          },
+          "b": "I don't need special moments",
+          "bTo": {
+            "settling": 1
+          }
+        },
+        {
+          "a": "I need quiet and shelter",
+          "aTo": {
+            "night": 1
+          },
+          "b": "I need work and people",
+          "bTo": {
+            "return": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q5",
+      "prompt": "A friend asks what has changed in you this past year. What would you honestly say?",
+      "options": [
+        {
+          "text": "I'm looking for something; I don't know what yet",
+          "to": {
+            "itch": 2
+          }
+        },
+        {
+          "text": "I've started a practice, and what I took for real looks less certain",
+          "to": {
+            "turn": 2
+          }
+        },
+        {
+          "text": "There have been moments I can't explain, of everything being one",
+          "to": {
+            "glimpses": 2
+          }
+        },
+        {
+          "text": "Less drama: I come back to my centre sooner",
+          "to": {
+            "settling": 2
+          }
+        },
+        {
+          "text": "I care less about my own goals, and more about what I can give",
+          "to": {
+            "return": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q6",
+      "prompt": "I practise on most days, whether I feel like it or not.",
+      "left": "Not yet",
+      "right": "Almost always",
+      "to": {
+        "turn": 1,
+        "cleaning": 1,
+        "itch": -1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q7",
+      "prompt": "Meetings, cooking and admin get the same presence from me as my practice.",
+      "left": "Not at all",
+      "right": "Very much",
+      "to": {
+        "return": 2,
+        "settling": 1
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "What has changed in you since you began looking, and what has not changed at all?",
+      "hint": "Be as honest about the second as about the first.",
+      "placeholder": "I'm calmer with… but I still…"
+    }
+  ],
+  "looks": "Which of the seven phases your behaviour shows now.",
+  "learn": "The ascent as stages: what each one needs, and what endangers it.",
+  "later": {
+    "plan": "Your phase's three practices from the practical guide, its gate as the goals for the next 4 to 6 weeks, and what to protect now.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read which phase the learner's ordinary behaviour shows (the month's signs, the two scenes, the points, the pairs and both written answers), not the phase they might wish for; the spread across the phases matters more than the top score, since the phases overlap and a life can sit in two at once. Name the phase through the Cave's own stages, as the groupings describe them: the restless prisoner, the turn, the steep ascent, the longest night, starlight, the day and the sun, the going back down. Frame it as a map of where they might be, never as a score, a rank or progress to be proud of: Athena warns that awakening has no checklist and that 'I am awakened' shows the separate someone still standing, and Athena's line 'Every end of mine is my beginning' belongs in the reading. Quote their ordinary moment, and what they say has and has not changed, in their own words. If they describe a long low or dark time, say gently that Athena, speaking of depression, says to seek help so as not to get lost there; beyond that, give no advice.",
+  "reads": []
+}

@@ -1,0 +1,299 @@
+{
+  "id": "inner-republic",
+  "n": 6,
+  "after": "goodlife-polis",
+  "title": "Your inner republic",
+  "line": "What actually governs your choices?",
+  "intro": "In the Republic Plato describes five regimes, from the rule of wisdom down to tyranny, and shows each one growing out of a kind of soul. Athena calls this psycho-politics (ψυχοπολιτική): the polis mirrors the soul, so 'the first polity we must learn to govern is our soul'. This reflection looks at what actually rules your decisions: wisdom, honour, money and security, every passing wish, or one desire above all. It is a mirror, not a test.",
+  "concepts": [
+    "psychopolitics",
+    "republic",
+    "justice",
+    "politics",
+    "tripartitesoul"
+  ],
+  "types": [
+    {
+      "id": "aristocracy",
+      "name": "Aristocracy: wisdom governs",
+      "short": "Each part doing its own",
+      "about": "In Plato's best regime the wise part governs, the spirited part is its ally, and the desires keep their place; in you, choices mostly come from what you have understood to be good. Athena reads this as justice in its inner sense, τὰ ἑαυτοῦ πράττειν: each part of the soul doing its own around the one fiery Self, the soul's own constitution (πολίτευμα). Athena also warns that a constitution of the soul built only from mind and heart, with no vital force behind it, has no foundation: wisdom rules, and it needs will and strength to guard it.",
+      "concepts": [
+        "justice",
+        "republic"
+      ]
+    },
+    {
+      "id": "timocracy",
+      "name": "Timocracy: honour governs",
+      "short": "The love of honour and winning",
+      "about": "Honour governs: recognition, standing, winning, being seen to do well. In Plato's second regime the spirited part (τὸ θυμοειδές) takes the throne, and the timocratic person is ambitious and competitive, a lover of honour and of victory. Athena equates the spirited part with the heart and the emotions, and its fire is real; yet in the cave the honours and prizes handed out for predicting shadows lose all their value once the source is seen.",
+      "concepts": [
+        "tripartitesoul",
+        "cave"
+      ]
+    },
+    {
+      "id": "oligarchy",
+      "name": "Oligarchy: money and security govern",
+      "short": "Saving, securing, holding on",
+      "about": "Money and security govern: saving, insuring, keeping, the fear of not having enough. In Plato's third regime the money-loving part is set on the throne as a great king within, and the oligarchic person holds the other desires down out of fear rather than understanding. Athena's reading goes to the root: the soul seeks a fullness that money cannot give ('however much we are paid, money cannot fill us'), and security is a condition for living well, never its source; good fortune (εὐτυχία) turns on a wheel.",
+      "concepts": [
+        "desire",
+        "eutychia"
+      ]
+    },
+    {
+      "id": "democracy",
+      "name": "Democracy: every wish governs",
+      "short": "Each desire an equal vote",
+      "about": "Every passing wish governs: each desire gets an equal vote, and the day is decided by whichever arrives first. Plato's democratic person lives from day to day, one day wine and music, the next a diet, then training, then idleness, then philosophy, with no order in life, and calls it freedom. Athena hears something else in ἐλευθερία, freedom: a word with ἔρως, love, inside it; and Athena warns that a 'democracy' in which desire holds the reins is already an oligarchic tyranny in disguise.",
+      "concepts": [
+        "freedom",
+        "psychopolitics"
+      ]
+    },
+    {
+      "id": "tyranny",
+      "name": "Tyranny: one desire governs",
+      "short": "One desire on the throne",
+      "about": "One desire governs: a craving, a fear, a person, a screen, a goal grown into an obsession, and the rest of the soul serves it. In Plato's last regime a single master passion takes the city of the soul, and the tyrant within is the least free of all, ruled by what rules him. Athena reads it psycho-politically: when the desiring part seizes the reins, the inner regime turns tyrannical. Yet desire, for Athena, is sacred in its motive: the soul is looking in one thing for the fullness of the Good.",
+      "concepts": [
+        "psychopolitics",
+        "desire"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "You are offered a promotion: more money and a better title, but longer hours and less of what you love in the work. What decides it?",
+      "options": [
+        {
+          "text": "Whether it is good, for me and those around me, in the long run",
+          "to": {
+            "aristocracy": 2
+          }
+        },
+        {
+          "text": "The title: being recognised at last",
+          "to": {
+            "timocracy": 2
+          }
+        },
+        {
+          "text": "The money, and the security it buys",
+          "to": {
+            "oligarchy": 2
+          }
+        },
+        {
+          "text": "How I feel that morning; I'd change my mind twice",
+          "to": {
+            "democracy": 2
+          }
+        },
+        {
+          "text": "Whether it leaves room for the one thing I can't stop wanting",
+          "to": {
+            "tyranny": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "A Saturday with nothing planned. What usually decides how the day goes?",
+      "options": [
+        {
+          "text": "A few things I've chosen because they matter, done well",
+          "to": {
+            "aristocracy": 2
+          }
+        },
+        {
+          "text": "Something that will show: progress, a goal, a win",
+          "to": {
+            "timocracy": 2
+          }
+        },
+        {
+          "text": "Chores, bills and errands that keep things safe and in order",
+          "to": {
+            "oligarchy": 2
+          }
+        },
+        {
+          "text": "Whatever I feel like, one thing after another",
+          "to": {
+            "democracy": 2
+          }
+        },
+        {
+          "text": "The same place it always goes: the phone, a person, a craving, work",
+          "to": {
+            "tyranny": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "points",
+      "id": "q3",
+      "prompt": "Think of the last seven days. Share ten points among what really governed your choices.",
+      "total": 10,
+      "options": [
+        {
+          "text": "What I understood to be right and good",
+          "to": "aristocracy"
+        },
+        {
+          "text": "Recognition: how I'd look, winning, being respected",
+          "to": "timocracy"
+        },
+        {
+          "text": "Money, safety, keeping what I have",
+          "to": "oligarchy"
+        },
+        {
+          "text": "Whatever I wanted in the moment",
+          "to": "democracy"
+        },
+        {
+          "text": "One desire or worry that kept coming back",
+          "to": "tyranny"
+        }
+      ]
+    },
+    {
+      "kind": "pairs",
+      "id": "q4",
+      "prompt": "Quickly: which is more like you?",
+      "pairs": [
+        {
+          "a": "Respected",
+          "aTo": {
+            "timocracy": 1
+          },
+          "b": "Secure",
+          "bTo": {
+            "oligarchy": 1
+          }
+        },
+        {
+          "a": "I save",
+          "aTo": {
+            "oligarchy": 1
+          },
+          "b": "I spend on what I feel like",
+          "bTo": {
+            "democracy": 1
+          }
+        },
+        {
+          "a": "I know why I do what I do",
+          "aTo": {
+            "aristocracy": 1
+          },
+          "b": "I do it, then find the reasons",
+          "bTo": {
+            "democracy": 1
+          }
+        },
+        {
+          "a": "Many small wants",
+          "aTo": {
+            "democracy": 1
+          },
+          "b": "One big want",
+          "bTo": {
+            "tyranny": 1
+          }
+        },
+        {
+          "a": "Winning matters",
+          "aTo": {
+            "timocracy": 1
+          },
+          "b": "Understanding matters",
+          "bTo": {
+            "aristocracy": 1
+          }
+        },
+        {
+          "a": "I can stop when I choose",
+          "aTo": {
+            "aristocracy": 1
+          },
+          "b": "Something in me can't stop",
+          "bTo": {
+            "tyranny": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rank",
+      "id": "q5",
+      "prompt": "When these pull against each other in you, which usually wins? Put them in order, the strongest first.",
+      "options": [
+        {
+          "text": "What I know is good",
+          "to": {
+            "aristocracy": 2
+          }
+        },
+        {
+          "text": "What earns respect",
+          "to": {
+            "timocracy": 2
+          }
+        },
+        {
+          "text": "What keeps me safe and provided for",
+          "to": {
+            "oligarchy": 2
+          }
+        },
+        {
+          "text": "What I feel like right now",
+          "to": {
+            "democracy": 2
+          }
+        },
+        {
+          "text": "The one thing I can't stop wanting",
+          "to": {
+            "tyranny": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe one decision from this week, small or large. If you are honest, what really made it?",
+      "hint": "A purchase, a yes you didn't mean, a message you sent, a night you stayed up.",
+      "placeholder": "On Wednesday I agreed to…"
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "If your soul were a city, what unwritten law does it actually live by? Write it as a law, even if you would never say it aloud.",
+      "hint": "For example: “Never let them see you struggle”, “Always keep something in the bank”, “Whatever I feel, I do”.",
+      "placeholder": "The law nobody wrote down is…"
+    }
+  ],
+  "looks": "What actually governs your choices: wisdom, honour, money and security, every passing wish, or one obsession.",
+  "learn": "The five regimes of the Republic as states of the soul, and why you govern yourself first.",
+  "later": {
+    "plan": "Your own “constitution” for the week: three laws you give yourself, one «No» with its «Yes», and one act at your own scale.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read what actually governs the learner's choices as Plato's five regimes of the soul: wisdom (aristocracy), honour (timocracy), money and security (oligarchy), every passing wish (democracy), or one master desire (tyranny). Look at the pattern across the two scenarios, the points and the rank, then test it against the written decision and the unwritten law, which often show the real ruler more honestly than the scores. Read by Athena's psycho-politics: the polis mirrors the soul, justice is each part doing its own around the one Self, and when the desiring part seizes the reins the inner regime turns tyrannical, even while it calls itself freedom. Never moralise desire, money or ambition: for Athena desire is sacred in its motive, seeking the fullness of the Good, and security is a condition of living well, not its source. Quote the learner's own words, especially the unwritten law, and say which part of the soul wrote it. If the learner's charioteer result is there, compare it (the part that held the reins there is often the one on the throne here), and write an analysis only, with no plan or advice.",
+  "reads": [
+    "charioteer"
+  ]
+}

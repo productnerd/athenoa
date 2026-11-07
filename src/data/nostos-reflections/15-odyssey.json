@@ -1,0 +1,277 @@
+{
+  "id": "odyssey",
+  "n": 15,
+  "after": "return-now",
+  "title": "Your Odyssey",
+  "line": "Where are you on the way home?",
+  "intro": "Athena reads the Odyssey as the soul's journey home (νόστος): out into the war of the many, across the seas of the passions, past pleasant islands, to Ithaca, the inner centre, and then the long work of clearing the house of its suitors. This last reflection looks at where you set out, what has moved, what still eats in your house, what your Ithaca is and what your work in the world is, and it reads your earlier reflections together with today's answers. It is a mirror, not a test.",
+  "concepts": [
+    "odyssey",
+    "ithaca",
+    "immanence",
+    "ergon",
+    "oikeionergon"
+  ],
+  "types": [
+    {
+      "id": "troy",
+      "name": "At Troy: the war of the many",
+      "short": "Caught up in the battles of the day",
+      "about": "Most of your strength goes into the war out there: work, competition, worry, the daily struggle and the claims of many people and things. Athena reads Odysseus leaving Ithaca for Troy as the soul going out into human nature, into war, competition, passions and the struggle to survive: the Neoplatonic procession out from the source. Every Odyssey begins here, and here the longing for the day of return, the νόστιμον ἦμαρ, first stirs.",
+      "concepts": [
+        "odyssey",
+        "emanation"
+      ]
+    },
+    {
+      "id": "sea",
+      "name": "At sea: Poseidon's waves",
+      "short": "Tossed, and longing for home",
+      "about": "You have set out for home, but the sea is rough: moods, passions and turns of fortune toss you, and Ithaca comes into sight and is lost again. Athena reads the storms that drive Odysseus off course as the passions that make us lose our Ithaca, and his soaking by Poseidon as the inner flame made wet. Athena's image for what holds here is Odysseus tied to the mast: the central inner axis that stays while fortune's wheel turns.",
+      "concepts": [
+        "drysoul",
+        "eutychia"
+      ]
+    },
+    {
+      "id": "calypso",
+      "name": "On Calypso's island",
+      "short": "Comfortable, and not home",
+      "about": "You have found a pleasant place and stayed: a comfort, a relationship, a routine or a success that holds you gently. Athena reads Odysseus leaving Circe and Calypso, despite their pleasures and beauty, as the soul leaving even pleasant attachments in order to go home. Nothing on the island is wrong; it is simply not Ithaca.",
+      "concepts": [
+        "ithaca",
+        "desire"
+      ]
+    },
+    {
+      "id": "phaeacians",
+      "name": "Among the Phaeacians",
+      "short": "Understanding as a resting place",
+      "about": "You have reached a rich place of understanding: you know the path, its ideas and its words, and it is tempting to stay. Athena reads the Phaeacians, a civilisation far more advanced than Ithaca, as philosophy become an advanced understanding or a mental sport: attractive, and a station, not the goal. In Athena's words, 'as long as you see something, you haven't reached Ithaca'.",
+      "concepts": [
+        "philosophy",
+        "apophatic"
+      ]
+    },
+    {
+      "id": "shore",
+      "name": "Waking on Ithaca's shore",
+      "short": "Home was here all along",
+      "about": "The return has begun to happen in fact: at moments you are simply home, centred in what you love, and you sense you were never far away. Athena's twist on the poem is that Odysseus does not return to Ithaca; he wakes up in Ithaca, because he was always there. Yet arrival is not completion: Odysseus reaches Ithaca only halfway through the poem, and the suitors are still in the house.",
+      "concepts": [
+        "ithaca",
+        "awakening"
+      ]
+    },
+    {
+      "id": "suitors",
+      "name": "Clearing the house",
+      "short": "Home, and the suitors to face",
+      "about": "You are home and at work in the house: old habits, passions and programmes are being brought to light one at a time. Athena reads the suitors as habits, passions, programming and old worldviews, and slaying them as bringing light to them and integrating them. This immanent stage, Athena says, takes longer than the voyage, and it is where insight becomes work in the world, ἔργον, which Athena reads as ἔρωτος γόνος, the offspring of eros.",
+      "concepts": [
+        "immanence",
+        "ergon"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "ladder",
+      "id": "q1",
+      "prompt": "Picture your life as Odysseus' voyage home. Where are you now?",
+      "rungs": [
+        {
+          "text": "Still at Troy: my days are one battle after another",
+          "to": {
+            "troy": 3
+          }
+        },
+        {
+          "text": "At sea: I have set out for home, but the waves keep turning me round",
+          "to": {
+            "sea": 3
+          }
+        },
+        {
+          "text": "On a pleasant island: comfortable, and I have stopped sailing",
+          "to": {
+            "calypso": 3
+          }
+        },
+        {
+          "text": "Among the Phaeacians: I understand a great deal, and I rest in it",
+          "to": {
+            "phaeacians": 3
+          }
+        },
+        {
+          "text": "On Ithaca's shore: at moments I am simply home",
+          "to": {
+            "shore": 3
+          }
+        },
+        {
+          "text": "In the house, facing the suitors one by one",
+          "to": {
+            "suitors": 3
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Where did you set out from? Describe a day of your life as it was when you first began looking for something more, and one thing that is different now.",
+      "hint": "A concrete picture is best: where you were, what filled your days, what you were looking for.",
+      "placeholder": "Back then most evenings I…"
+    },
+    {
+      "kind": "points",
+      "id": "q2",
+      "prompt": "In an ordinary week now, what takes your time and strength? Share ten points.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Work, money and the daily battles",
+          "to": "troy"
+        },
+        {
+          "text": "Moods, quarrels, old hurts",
+          "to": "sea"
+        },
+        {
+          "text": "Comforts: screens, food, the sofa, the easy evening",
+          "to": "calypso"
+        },
+        {
+          "text": "Reading, courses, ideas about the path",
+          "to": "phaeacians"
+        },
+        {
+          "text": "What I love and feel I am here to do",
+          "to": "shore"
+        },
+        {
+          "text": "Facing an old habit, one at a time",
+          "to": "suitors"
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Which suitor eats most at your table: a habit, a thought, a pull? Describe the last time you watched it at work.",
+      "hint": "Concretely: when, where, and what it took from you.",
+      "placeholder": "Last night it was the phone again…"
+    },
+    {
+      "kind": "pairs",
+      "id": "q3",
+      "prompt": "Quickly: which is truer of you now?",
+      "pairs": [
+        {
+          "a": "Moods still toss me about",
+          "aTo": {
+            "sea": 1
+          },
+          "b": "I come back to centre sooner",
+          "bTo": {
+            "shore": 1
+          }
+        },
+        {
+          "a": "I know far more than I live",
+          "aTo": {
+            "phaeacians": 1
+          },
+          "b": "I live what I know, imperfectly",
+          "bTo": {
+            "suitors": 1
+          }
+        },
+        {
+          "a": "Most days are a battle",
+          "aTo": {
+            "troy": 1
+          },
+          "b": "Most days I tend my own house",
+          "bTo": {
+            "suitors": 1
+          }
+        },
+        {
+          "a": "I keep what I love for 'one day'",
+          "aTo": {
+            "calypso": 1
+          },
+          "b": "I do what I love, now",
+          "bTo": {
+            "shore": 1
+          }
+        },
+        {
+          "a": "Too busy to ask where home is",
+          "aTo": {
+            "troy": 1
+          },
+          "b": "Too comfortable to ask",
+          "bTo": {
+            "calypso": 1
+          }
+        },
+        {
+          "a": "Longing for something truer",
+          "aTo": {
+            "sea": 1
+          },
+          "b": "Studying something truer",
+          "bTo": {
+            "phaeacians": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "What I have understood on this path shows in how I live, not only in what I know.",
+      "left": "Not yet",
+      "right": "Very much",
+      "to": {
+        "suitors": 1,
+        "shore": 1,
+        "phaeacians": -1
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t3",
+      "prompt": "What is your Ithaca? Describe one moment when you were, even briefly, at home in yourself, and the work in the world that seems to grow from there.",
+      "hint": "Athena's two signs of one's own work: you burn with zeal for it, and while doing it you lose the sense of time.",
+      "placeholder": "Last summer, teaching my niece to swim, I…"
+    }
+  ],
+  "looks": "Everything so far: your earlier results and today's answers, read together as one journey home.",
+  "learn": "The return home: insight turned into work (ἔργον) in your own life.",
+  "later": {
+    "plan": "A plan for the next season: your Ithaca (the aim), three “suitors” to clear, three practices to keep, one work in the world, and the dates to retake two or three reflections.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "This is the capstone: read the learner's earlier reflection results, oldest first, together with today's answers, as one Odyssey. Write where they set out (their first written answer and their earliest results), what has moved and what has not (compare results over time, especially any reflection taken twice, and say only what the results show; never guess a missing one), the suitors still eating in their house (from the points and the suitor they describe), what their Ithaca is, and the work in the world, ἔργον, that grows from it. Read the station by Athena's Odyssey: the war of the many, the sea of the passions and the mast, the pleasant islands and the Phaeacians' high understanding as stations, not the goal, and Ithaca, where 'Odysseus does not return to Ithaca. Odysseus wakes up in Ithaca.' Arrival is not completion: the suitors, old habits and programming, are brought to light and integrated in the long immanent stage, and for Athena awakening that does not become life is incomplete. Do not flatter a learner who places themselves far along; read what their own words show, and quote them from all three written answers.",
+  "reads": [
+    "socrates-companions",
+    "apollo-name",
+    "charioteer",
+    "same-other",
+    "virtue-map",
+    "inner-republic",
+    "eros-ladder",
+    "oracle",
+    "cave-inventory",
+    "cave-place",
+    "wet-dry",
+    "your-year",
+    "which-god",
+    "life-myth"
+  ]
+}

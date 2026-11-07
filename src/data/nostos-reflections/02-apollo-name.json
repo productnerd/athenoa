@@ -1,0 +1,284 @@
+{
+  "id": "apollo-name",
+  "n": 2,
+  "after": "call-hellenism",
+  "title": "What woke you, and your Apollo name",
+  "line": "The god appears according to your state",
+  "intro": "Plutarch, a priest at Delphi, gives five names of Apollo and matches each to the condition of the seeker: the god appears according to our state. Athena reads the five names as five ordered steps of awakening. This reflection looks at what brought you to this path and how truth reaches you now, and finds the name that answers your step. It is a map, not a ranking, and not a test.",
+  "concepts": [
+    "apollo",
+    "plutarch",
+    "awakening",
+    "delphi",
+    "suffering"
+  ],
+  "types": [
+    {
+      "id": "pythios",
+      "name": "Pythios: the one who asks",
+      "short": "Beginning to learn and inquire",
+      "about": "The first name, Πύθιος, belongs in Plutarch to those beginning to learn and inquire, and Athena places here the restless prisoner who starts to ask whether things really are as he was told. Old, stagnant forces still occupy the soul's oracle, as the Python once rotted in the mud at Delphi (πύθω, to rot). The restlessness is the gift: Athena reads it as ἀπορία, the soul's pores opening, together with the natural appetite to know that Aristotle describes. The passage that follows, in Athena's order, is Apollo the healer, ἀπολούων, 'washing': the cleansing of what we thought we knew.",
+      "concepts": [
+        "aporia",
+        "delphi"
+      ]
+    },
+    {
+      "id": "delios",
+      "name": "Delios: truth through signs",
+      "short": "Truth declared through a medium",
+      "about": "At the second step, Δήλιος, truth is declared through a medium: signs, synchronicities, a sentence that finds you on the right day, a dream. Athena compares them to Leto's birth pangs on Delos, 'the manifest' (δῆλος): the first signs that something is being born. They are real, and so is Athena's caution: signs belong to this step, and the task is to let them settle into a way of life, not to chase them. The passage that follows is ἁπλοῦς, 'the simple', where the many opinions fall away and truth is known without a medium.",
+      "concepts": [
+        "mantike",
+        "spirituality"
+      ]
+    },
+    {
+      "id": "phanaios",
+      "name": "Phanaios: glimpses of the light",
+      "short": "Truth shining through directly",
+      "about": "At the third step, Φαναῖος, truth shines through directly, with no medium: a moment when the veil is pierced and something whole is seen, then closes again. Plutarch names Delios and Phanaios together; making them two steps is Athena's own reading. Such glimpses usually come 'suddenly' (ἐξαίφνης) after long ripening, and they are not yet a way of life: the passage Athena sets after them is the archer, ἀεὶ βάλλων, 'ever-shooting', where the will stops changing and holds one target.",
+      "concepts": [
+        "exaiphnes",
+        "will"
+      ]
+    },
+    {
+      "id": "ismenios",
+      "name": "Ismenios: those who know",
+      "short": "Knowing that has become being",
+      "about": "The fourth name, Ἰσμήνιος, is for those who have knowledge. Athena hears in it ἴσμεν, 'we know', which echoes ἐσμέν, 'we are': here knowing is no longer information but a way of being, and in the cave it is the one who has come out into the light and begins the mystical education. The passage that remains, in Athena's order, is music, ὁμοπολῶν, 'moving the poles together': the return to the many to harmonise them.",
+      "concepts": [
+        "being",
+        "music"
+      ]
+    },
+    {
+      "id": "leschenorios",
+      "name": "Leschenorios: seeking together",
+      "short": "Dialogue shared for the common good",
+      "about": "The fifth name, Λεσχηνόριος, is for those who enjoy dialogue and philosophising with one another. The λέσχη (from λέγω, to speak) was where initiates gathered, and there was one at Delphi; in Athena's words, 'we are a lesche'. Here the search turns from 'I' to 'we': dialogue and philosophy shared for the common good, and life, as Athena puts it, as a feast.",
+      "concepts": [
+        "dialectic",
+        "politics"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "multi",
+      "id": "q1",
+      "prompt": "What first brought you to this path? Choose up to two.",
+      "max": 2,
+      "options": [
+        {
+          "text": "Pain or loss that made me ask why",
+          "to": {
+            "pythios": 1
+          }
+        },
+        {
+          "text": "A crisis: things fell apart and the old answers stopped working",
+          "to": {
+            "pythios": 1
+          }
+        },
+        {
+          "text": "Curiosity: I simply wanted to understand",
+          "to": {
+            "pythios": 1,
+            "ismenios": 1
+          }
+        },
+        {
+          "text": "Signs and coincidences I couldn't ignore",
+          "to": {
+            "delios": 2
+          }
+        },
+        {
+          "text": "Love: a person, or something beautiful, that opened me",
+          "to": {
+            "phanaios": 1
+          }
+        },
+        {
+          "text": "A moment when, for an instant, everything seemed one",
+          "to": {
+            "phanaios": 2
+          }
+        },
+        {
+          "text": "My roots: a language, a family, a place",
+          "to": {
+            "pythios": 1
+          }
+        },
+        {
+          "text": "People: a friend, a group, a conversation that wouldn't end",
+          "to": {
+            "leschenorios": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "What woke you? Describe the moment, or the season of your life, when you started looking.",
+      "hint": "A loss, a love, a book, a crisis, a question that wouldn't go away: whatever it really was.",
+      "placeholder": "It started the winter when…"
+    },
+    {
+      "kind": "ladder",
+      "id": "q2",
+      "prompt": "Which of these is closest to how truth reaches you now?",
+      "rungs": [
+        {
+          "text": "Mostly by reading, asking and listening: I'm learning",
+          "to": {
+            "pythios": 3
+          }
+        },
+        {
+          "text": "Through signs: coincidences, dreams, a line that finds me at the right moment",
+          "to": {
+            "delios": 3
+          }
+        },
+        {
+          "text": "In rare, direct moments, when for an instant everything is clear",
+          "to": {
+            "phanaios": 3
+          }
+        },
+        {
+          "text": "As a quiet knowing that stays, whatever the day brings",
+          "to": {
+            "ismenios": 3
+          }
+        },
+        {
+          "text": "Most of all in dialogue, seeking it together with others",
+          "to": {
+            "leschenorios": 3
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q3",
+      "prompt": "A hard week: a row at home and a mistake at work. Where do you look first for understanding?",
+      "options": [
+        {
+          "text": "To a book, a talk, or someone who knows more than I do",
+          "to": {
+            "pythios": 2
+          }
+        },
+        {
+          "text": "To the signs: what is life trying to tell me?",
+          "to": {
+            "delios": 2
+          }
+        },
+        {
+          "text": "Inward, in silence, until something becomes clear",
+          "to": {
+            "phanaios": 2,
+            "ismenios": 1
+          }
+        },
+        {
+          "text": "To what I already understand: I can see what happened and why",
+          "to": {
+            "ismenios": 2
+          }
+        },
+        {
+          "text": "To a friend I can think it through with",
+          "to": {
+            "leschenorios": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "points",
+      "id": "q4",
+      "prompt": "Think of the last month. Share ten points among the ways you actually sought.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Reading, courses, videos, questions",
+          "to": "pythios"
+        },
+        {
+          "text": "Watching for signs and synchronicities",
+          "to": "delios"
+        },
+        {
+          "text": "Moments of stillness when something opens",
+          "to": "phanaios"
+        },
+        {
+          "text": "Living what I already understand, day to day",
+          "to": "ismenios"
+        },
+        {
+          "text": "Talking it through with others",
+          "to": "leschenorios"
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q5",
+      "prompt": "I feel restless, as if something here doesn't add up.",
+      "left": "Rarely",
+      "right": "Very often",
+      "to": {
+        "pythios": 2,
+        "ismenios": -1
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q6",
+      "prompt": "When a coincidence happens, I take it as a message.",
+      "left": "Never",
+      "right": "Almost always",
+      "to": {
+        "delios": 2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q7",
+      "prompt": "What I have understood shows in how I live on an ordinary Tuesday.",
+      "left": "Not yet",
+      "right": "Mostly",
+      "to": {
+        "ismenios": 2,
+        "leschenorios": 1,
+        "pythios": -1
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Describe the last time something true reached you. Where were you, and how did it come: a sign, a sudden clarity, a conversation, a page?",
+      "hint": "The most recent one, even if it was small.",
+      "placeholder": "Last week, on the bus home…"
+    }
+  ],
+  "looks": "Why you are on this path, and how you seek now.",
+  "learn": "Plutarch’s five names of Apollo as stages of seeking: the god appears according to your state.",
+  "later": {
+    "plan": "The passage ahead of your step. Washing: list three views or habits and drop one this week. Simplicity: ten minutes of silence a day, and stop chasing signs. The archer: one practice for 30 days. Retaken at #8 to show the movement.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read two things together: what woke the learner (the first question and the first written answer) and how truth reaches them now (the ladder, the scenario, the points and the second written answer), then name the step of Apollo that answers their state, as Plutarch matched each name to the seeker's condition. Athena's order is Pythios, Delios, Phanaios, Ismenios, Leschenorios, with the four passages of the Cratylus between them (washing, the simple, the archer, music); name the passage after their step as part of the map, not as a task. It is a map, not a ranking: Athena warns that any 'awakened' identity is a sign the road continues, so be sober with high steps and never flatter. If pain, loss or crisis woke them, read it as Athena does, as the soul's alarm clock and the Platonic 'suddenly', without making light of it; Athena also says help may be needed so that a person does not get lost there. Quote the learner's own words from both written answers, and state the step plainly: reflection 8 ('oracle') will retake this and compare.",
+  "reads": []
+}

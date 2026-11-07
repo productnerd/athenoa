@@ -1,0 +1,315 @@
+{
+  "id": "virtue-map",
+  "n": 5,
+  "after": "goodlife-virtue",
+  "title": "Your virtue map",
+  "line": "Where do your virtues tip into too much, or too little?",
+  "intro": "Aristotle places each virtue at a mean between two failings, one of too much and one of too little. Athena reads virtue (ἀρετή) as the soul's energy flowing freely, and ethics not as morality but as 'habits of energy'; the mean (μεσότης) is the hearth of virtue. This reflection looks at where the four virtues of the Republic (wisdom, courage, temperance and justice) flow in your real habits, and where they tip. It is a map, not a verdict.",
+  "concepts": [
+    "arete",
+    "ethics",
+    "measure",
+    "courage",
+    "justice",
+    "phronesis"
+  ],
+  "types": [
+    {
+      "id": "wisdom",
+      "name": "Wisdom tips",
+      "short": "Into cleverness, or into drift",
+      "about": "The virtue that slips most in you is wisdom (σοφία). It can tip into too much, the clever mind that weighs every side and never lands, which Plato calls cunning once it is cut off from justice; or into too little, drifting on mood, impulse and other people's opinions. Athena reads wisdom as living awareness in contact with the here and now, where life itself tells you what is what, and ties σύνεσις to going along with things like an alert general.",
+      "concepts": [
+        "wisdom",
+        "phronesis"
+      ]
+    },
+    {
+      "id": "courage",
+      "name": "Courage tips",
+      "short": "Into rashness, or into holding back",
+      "about": "The virtue that slips most in you is courage (ἀνδρεία). Aristotle sets it between rashness and cowardice: too much, and you charge in where a pause was needed; too little, and you swallow the word or avoid the step. Athena reads ἀνδρεία as ἀντί + ῥέω, going against the current, and courageous nobility (γενναιότητα) as the opposite of resignation; vital force that has not been purified, Athena adds, turns into the lower Ares of rage and arbitrariness.",
+      "concepts": [
+        "courage",
+        "ares"
+      ]
+    },
+    {
+      "id": "temperance",
+      "name": "Temperance tips",
+      "short": "Into too much, or into denial",
+      "about": "The virtue that slips most in you is temperance (σωφροσύνη), the measure of pleasure. Aristotle sets it between self-indulgence and a rare deadness to pleasure; in daily life it tips into one more glass, episode or purchase, or into a strictness that denies the body what would do it good. Athena does not moralise desire: behind every craving the soul seeks the fullness (κόρος) of the Good, and only when it looks for that fullness in one more thing does it become the insatiable (ἀκόρεστον). The senses, for Athena, are to be purified, not renounced.",
+      "concepts": [
+        "desire",
+        "measure"
+      ]
+    },
+    {
+      "id": "justice",
+      "name": "Justice tips",
+      "short": "Into scorekeeping, or into self-neglect",
+      "about": "The virtue that slips most in you is justice (δικαιοσύνη). Aristotle sets just action between doing injustice and suffering it, between taking too much and taking too little; in daily life it tips into keeping score and needing to be right, or into giving until you are empty. Athena reads justice not as 'getting my rights' but as balance held from the middle of Themis' scale ('where I want to find my rights, I have probably lost justice'), and injustice to oneself, Athena says, radiates outward too.",
+      "concepts": [
+        "justice",
+        "arete"
+      ]
+    },
+    {
+      "id": "flow",
+      "name": "The virtues flowing",
+      "short": "Close to the mean",
+      "about": "Your answers sit mostly near the mean: brave enough, enough and no more, fair to others and to yourself, clear without circling. Athena reads ἀρετή, through Plato's Cratylus, as 'ever-flowing' (ἀεὶ ῥεῖν): virtue is the soul's energy moving freely, and whatever thought, desire or emotion blocks that flow is non-virtue. Because ethics means habits of energy, the mean is never owned once and for all: like Heracles at the crossroads, the soul chooses it, or not, at every moment.",
+      "concepts": [
+        "arete",
+        "ethics"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "In a meeting, your manager presents a plan you think is a mistake. What do you do?",
+      "options": [
+        {
+          "text": "Say so at once, bluntly, whatever it costs",
+          "to": {
+            "courage": 2
+          }
+        },
+        {
+          "text": "Say nothing: it isn't worth the trouble",
+          "to": {
+            "courage": 2
+          }
+        },
+        {
+          "text": "Say it clearly and calmly, once, and let them weigh it",
+          "to": {
+            "flow": 1
+          }
+        },
+        {
+          "text": "Agree in the meeting, then complain about it afterwards",
+          "to": {
+            "courage": 2,
+            "justice": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "Friday evening after a hard week: food, wine, the next episode, the phone. What usually happens?",
+      "options": [
+        {
+          "text": "I have more than I meant to, of most of it",
+          "to": {
+            "temperance": 2
+          }
+        },
+        {
+          "text": "I allow myself very little; I'm strict with pleasure",
+          "to": {
+            "temperance": 2
+          }
+        },
+        {
+          "text": "I enjoy it, and stop when I've had enough",
+          "to": {
+            "flow": 1
+          }
+        },
+        {
+          "text": "I swing: strict all week, then far too much",
+          "to": {
+            "temperance": 3
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q3",
+      "prompt": "A friend asks to borrow money again. The last loan was never mentioned. What do you do?",
+      "options": [
+        {
+          "text": "Say no, and remind them what they still owe",
+          "to": {
+            "justice": 2
+          }
+        },
+        {
+          "text": "Lend it again; I don't want things to be awkward",
+          "to": {
+            "justice": 2
+          }
+        },
+        {
+          "text": "Talk honestly about the first loan before I decide",
+          "to": {
+            "flow": 1
+          }
+        },
+        {
+          "text": "Lend it, and quietly hold it against them",
+          "to": {
+            "justice": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q4",
+      "prompt": "A big decision, a move or a job offer, has to be made by Monday. How do you go about it?",
+      "options": [
+        {
+          "text": "Lists and research: I can argue every side and still can't decide",
+          "to": {
+            "wisdom": 2
+          }
+        },
+        {
+          "text": "I go with my mood on the day, or with what others think",
+          "to": {
+            "wisdom": 2
+          }
+        },
+        {
+          "text": "I think it through, listen to what my heart says, and decide",
+          "to": {
+            "flow": 1
+          }
+        },
+        {
+          "text": "I decide fast and find the reasons afterwards",
+          "to": {
+            "wisdom": 1,
+            "courage": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rank",
+      "id": "q5",
+      "prompt": "Which of the four slips most easily in you? Put them in order, the one that slips most often first.",
+      "options": [
+        {
+          "text": "Wisdom: seeing clearly what matters",
+          "to": {
+            "wisdom": 2
+          }
+        },
+        {
+          "text": "Courage: acting when it is hard",
+          "to": {
+            "courage": 2
+          }
+        },
+        {
+          "text": "Temperance: enough, and no more",
+          "to": {
+            "temperance": 2
+          }
+        },
+        {
+          "text": "Justice: fair to others, and to myself",
+          "to": {
+            "justice": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "multi",
+      "id": "q6",
+      "prompt": "Which of these do you recognise in yourself lately? Choose up to three.",
+      "max": 3,
+      "options": [
+        {
+          "text": "Taking risks I later regret",
+          "to": {
+            "courage": 1
+          }
+        },
+        {
+          "text": "Swallowing what I really think",
+          "to": {
+            "courage": 1
+          }
+        },
+        {
+          "text": "One more: a glass, an episode, a purchase",
+          "to": {
+            "temperance": 1
+          }
+        },
+        {
+          "text": "Denying myself even what would do me good",
+          "to": {
+            "temperance": 1
+          }
+        },
+        {
+          "text": "Keeping score of who owes whom",
+          "to": {
+            "justice": 1
+          }
+        },
+        {
+          "text": "Giving until I'm empty",
+          "to": {
+            "justice": 1
+          }
+        },
+        {
+          "text": "Thinking in circles",
+          "to": {
+            "wisdom": 1
+          }
+        },
+        {
+          "text": "Acting on the mood of the moment",
+          "to": {
+            "wisdom": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q7",
+      "prompt": "On most days my energy flows easily into what I do, without much inner struggle.",
+      "left": "Rarely",
+      "right": "Almost always",
+      "to": {
+        "flow": 3
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe one habit of yours that tips into too much: too much work, food, talk, worry, control, screen. When and where does it happen, and what does it give you?",
+      "hint": "Concrete is best: the time of day, the place, the feeling just before.",
+      "placeholder": "Most evenings around ten I…"
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Now one that tips into too little: something you hold back, avoid or deny yourself. Describe the last time it happened.",
+      "hint": "A word not said, a rest not taken, a no not spoken.",
+      "placeholder": "On Sunday I wanted to say…"
+    }
+  ],
+  "looks": "Where each of the four virtues tips into too much or too little in your real habits.",
+  "learn": "Aristotle’s mean, and Athena’s “ethics means habits of energy”, applied to you.",
+  "later": {
+    "plan": "A replanting plan: one habit to stop and one to plant in its exact place and time, kept for 21 days with a weekly check.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read where each of the four virtues tips in the learner's real habits, and in which direction: too much (rashness, indulgence, scorekeeping, over-thinking) or too little (holding back, denial, self-neglect, drift). The direction matters as much as the virtue, and the scores cannot show it, so read the wording of the options chosen and the two written habits, and name the pattern plainly (for example 'courage tipping into holding back'). Read by Athena's terms: ethics as habits of energy, virtue as the soul's free flow (ἀεὶ ῥεῖν), the mean (μεσότης) as the hearth of virtue, with Aristotle's mean as the map. Notice where a tip in one virtue appears beside a tip in another, for example holding back in the meeting and quiet scorekeeping over the loan. Never moralise: for Athena desire is sacred in its motive, and healthy shame is the opposite of self-flagellation. Quote the learner's own words for both habits, including what the habit gives them, and write an analysis only, with no plan or advice.",
+  "reads": []
+}

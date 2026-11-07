@@ -1,0 +1,342 @@
+{
+  "id": "which-god",
+  "n": 13,
+  "after": "mysteries-gods",
+  "title": "Which god rules your house?",
+  "line": "Which power of your soul rules, and which one do you leave out?",
+  "intro": "Athena reads the gods not as beings out there but as powers of the soul: in the Orphic way of approaching a god, the god becomes a power of one's own soul. In Athena's reading Zeus is the creative mind, the goddess Athena wisdom that rules force, Ares vital force and boundaries, Hestia the still centre, Dionysus the many roles of life, and Aphrodite love and beauty. This reflection looks at which of these powers rules your house and which one you neglect. It is a mirror, not a test.",
+  "concepts": [
+    "divine",
+    "myth",
+    "zeus",
+    "athenagoddess",
+    "ares",
+    "hestia",
+    "dionysus",
+    "aphrodite"
+  ],
+  "types": [
+    {
+      "id": "zeus",
+      "name": "Zeus rules: the creative mind",
+      "short": "Ideas and beginnings lead",
+      "about": "In your house the creative mind rules: ideas, plans, projects, one beginning after another. Athena reads Zeus as our νοῦς, our awareness, consciousness in its creative operation, and his endless loves as the ideas the mind mingles with: every union a birth, and every birth a world. His two names hold his two movements, in Athena's own etymology: Δίας divides and projects outward, Ζεύς unifies and returns things to their source.",
+      "concepts": [
+        "zeus",
+        "nous"
+      ]
+    },
+    {
+      "id": "athena",
+      "name": "The goddess Athena rules: wisdom over force",
+      "short": "Wisdom and foresight lead",
+      "about": "Wisdom holds your house: you think ahead, look for the way that unites rather than divides, and try every other means before a fight. Athena reads the goddess as war 'by union': providence and strategy that remove what is monstrous so that beings can reunite, and as the power that always overcomes Ares, because wisdom rules force. The goddess's owl turns its head and sees the whole, the opposite of the prisoner's one-sided gaze.",
+      "concepts": [
+        "athenagoddess",
+        "wisdom"
+      ]
+    },
+    {
+      "id": "ares",
+      "name": "Ares rules: vital force",
+      "short": "Drive and boundaries lead",
+      "about": "Vital force runs your house: drive, decisiveness, frank speech, the readiness to stand up and fight for something. Athena rescues Ares from the hot-headed war god of the tales: in his higher form he is the upward impulse of birth and the ἕρκος, the fence of Olympus that guards the centre, and Athena calls him the god of peace. Without a base of purity, Athena adds, the same red fire falls into the lower Ares: arrogance, rage and arbitrariness.",
+      "concepts": [
+        "ares",
+        "herkos"
+      ]
+    },
+    {
+      "id": "hestia",
+      "name": "Hestia rules: the still centre",
+      "short": "The hearth holds",
+      "about": "Your house is held by its centre: home, steadiness, an inner hearth you come back to while everything else comes and goes. Athena reads Hestia as οὐσία, essence, the flame that never leaves the centre of Olympus while the other gods travel: the Circle of the Same in the soul. When 'you' are no longer the centre of your world, Athena says, the centre becomes Hestia.",
+      "concepts": [
+        "hestia",
+        "sameandother"
+      ]
+    },
+    {
+      "id": "dionysus",
+      "name": "Dionysus rules: the many roles",
+      "short": "Feeling, play and the drama of life lead",
+      "about": "In your house Dionysus leads: feeling, intensity, play, the many roles of a full life. Athena reads him as the god of theatre, in whose drama the One plays all the roles, and as the Circle of the Other in the soul. In the myth of the Titans (from τείνω, to stretch), Athena sees daily life tearing the child Dionysus apart: work, children, parents and taxes each pull at us, each pull a role we lock into, until only the heart is left and wisdom saves it for rebirth.",
+      "concepts": [
+        "dionysus",
+        "titans"
+      ]
+    },
+    {
+      "id": "aphrodite",
+      "name": "Aphrodite rules: love and beauty",
+      "short": "Closeness and beauty lead",
+      "about": "Love, closeness and beauty rule your house: people, pleasure, the wish to unite. Athena recalls the two Aphrodites of Greek tradition: the heavenly, Οὐρανία, eros 'from here upward' through pure emotion and spirit, and the common, Πάνδημος, eros approached in a bodily, lustful way. Athena also pairs Aphrodite with Ares: love and war are a couple, and Ares, to become a harmoniser, needs Aphrodite's love, beauty and purity to learn to unite.",
+      "concepts": [
+        "aphrodite",
+        "eros"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "points",
+      "id": "q1",
+      "prompt": "Think of the last seven days. Share ten points among the powers that really ran them.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Ideas, plans and new projects",
+          "to": "zeus"
+        },
+        {
+          "text": "Thinking ahead, weighing things up, finding the wise way",
+          "to": "athena"
+        },
+        {
+          "text": "Drive, effort, standing my ground",
+          "to": "ares"
+        },
+        {
+          "text": "Home, routine, a steady centre",
+          "to": "hestia"
+        },
+        {
+          "text": "Feelings, fun, playing many roles at once",
+          "to": "dionysus"
+        },
+        {
+          "text": "Love, closeness, beauty, pleasure",
+          "to": "aphrodite"
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q2",
+      "prompt": "In a meeting, a colleague presents your work as their own. What moves first in you?",
+      "options": [
+        {
+          "text": "I say plainly, there and then, that it was mine",
+          "to": {
+            "ares": 2
+          }
+        },
+        {
+          "text": "I keep calm and look for a way to set it right without a war",
+          "to": {
+            "athena": 2
+          }
+        },
+        {
+          "text": "I play along in the room, and the drama runs in me all evening",
+          "to": {
+            "dionysus": 2
+          }
+        },
+        {
+          "text": "What I mind most is what it does between us",
+          "to": {
+            "aphrodite": 2
+          }
+        },
+        {
+          "text": "I shrug and start on my next, better idea",
+          "to": {
+            "zeus": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "pairs",
+      "id": "q3",
+      "prompt": "Quickly: which is more like you?",
+      "pairs": [
+        {
+          "a": "A new idea",
+          "aTo": {
+            "zeus": 1
+          },
+          "b": "A wise plan",
+          "bTo": {
+            "athena": 1
+          }
+        },
+        {
+          "a": "A clear no",
+          "aTo": {
+            "ares": 1
+          },
+          "b": "A warm yes",
+          "bTo": {
+            "aphrodite": 1
+          }
+        },
+        {
+          "a": "My own hearth",
+          "aTo": {
+            "hestia": 1
+          },
+          "b": "A full house",
+          "bTo": {
+            "dionysus": 1
+          }
+        },
+        {
+          "a": "Beauty",
+          "aTo": {
+            "aphrodite": 1
+          },
+          "b": "Wisdom",
+          "bTo": {
+            "athena": 1
+          }
+        },
+        {
+          "a": "Inventing it",
+          "aTo": {
+            "zeus": 1
+          },
+          "b": "Fighting for it",
+          "bTo": {
+            "ares": 1
+          }
+        },
+        {
+          "a": "Calm",
+          "aTo": {
+            "hestia": 1
+          },
+          "b": "Intensity",
+          "bTo": {
+            "dionysus": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "I can say a clear no, and keep to it.",
+      "left": "Hardly ever",
+      "right": "Almost always",
+      "to": {
+        "ares": 2
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Take one ordinary day from last week. Where did most of your energy go, and which part of you got nothing?",
+      "hint": "Name real things: a meeting, a meal, a quarrel, an hour on the phone.",
+      "placeholder": "On Tuesday most of me went into…"
+    },
+    {
+      "kind": "choice",
+      "id": "q5",
+      "prompt": "A free Sunday with nothing planned. What do you find yourself doing?",
+      "options": [
+        {
+          "text": "Starting a new project, or sketching one out",
+          "to": {
+            "zeus": 2
+          }
+        },
+        {
+          "text": "Thinking something through: reading, taking stock, planning",
+          "to": {
+            "athena": 2
+          }
+        },
+        {
+          "text": "Following the mood: friends, music, wherever the day goes",
+          "to": {
+            "dionysus": 2
+          }
+        },
+        {
+          "text": "Being with someone I love, or somewhere beautiful",
+          "to": {
+            "aphrodite": 2
+          }
+        },
+        {
+          "text": "Staying home: cooking, tidying, enjoying the quiet",
+          "to": {
+            "hestia": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q6",
+      "prompt": "I have a centre, at home or inside me, that I come back to and that steadies me.",
+      "left": "Not really",
+      "right": "Very much",
+      "to": {
+        "hestia": 2,
+        "dionysus": -1
+      }
+    },
+    {
+      "kind": "multi",
+      "id": "q7",
+      "prompt": "Which of these feel thin in your life just now? Choose up to two.",
+      "max": 2,
+      "options": [
+        {
+          "text": "Time to dream up something new",
+          "to": {
+            "zeus": -1
+          }
+        },
+        {
+          "text": "Stepping back to see the whole picture",
+          "to": {
+            "athena": -1
+          }
+        },
+        {
+          "text": "Strength, drive, the courage to say no",
+          "to": {
+            "ares": -1
+          }
+        },
+        {
+          "text": "A quiet centre, a home that holds me",
+          "to": {
+            "hestia": -1
+          }
+        },
+        {
+          "text": "Play, feeling, letting go",
+          "to": {
+            "dionysus": -1
+          }
+        },
+        {
+          "text": "Tenderness, beauty, pleasure",
+          "to": {
+            "aphrodite": -1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Think of a quality you admire in someone close to you but rarely allow yourself. Describe one moment when you saw it in them.",
+      "hint": "Their calm, their nerve, their tenderness, their playfulness: whatever it is.",
+      "placeholder": "My sister can just say no, and…"
+    }
+  ],
+  "looks": "Which powers of your soul rule your days and which you neglect: mind, wisdom, force and boundaries, the centre, play and transformation, love.",
+  "learn": "The gods as powers of the soul: Athena's reading of myth as symbol, seen in your own house.",
+  "later": {
+    "plan": "Strengthen the neglected one: its Orphic hymn read daily for a week, and its concrete practice (Ares: one clear no; Hestia: a daily centring at home).",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read which power of the soul rules this learner's house and which one is left outside, from the pattern across the points, the two scenes and the pairs, checked against the written day and the quality they admire in someone else, which often shows the neglected god. Name the ruling god and also the neglected one (the lowest-scoring power, nuanced by the written answers), and say how each shows in their own days. Read the gods as Athena does, as powers of the soul and not beings out there: Zeus the creative mind, the goddess Athena wisdom ruling force, Ares vital force and boundaries ('our centre is wisdom, but our boundaries must be red'), Hestia the still centre, Dionysus the many roles and the Titans' pulls, Aphrodite love and beauty. No power is bad: for Athena even Ares, raised on purity, is the god of peace, and wisdom puts force back in its place rather than destroying it. Quote the learner's own words from both written answers.",
+  "reads": []
+}

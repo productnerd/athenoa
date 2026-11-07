@@ -1,0 +1,275 @@
+{
+  "id": "wet-dry",
+  "n": 11,
+  "after": "cosmos-one",
+  "title": "Wet soul or dry?",
+  "line": "Which passions soak you, and how long do they stay?",
+  "intro": "Heraclitus says the dry soul is wisest and best. Athena hears in αὔη, dry, 'not rained upon': a soul warmed by the fire of the Good, in which the passions evaporate, while fear, rage, jealousy and envy, which the tradition calls wet and sticky, soak it deeper into Poseidon's waters. This reflection looks at which passions soak you and how long they stay. In Athena's reading such turbulence can disturb the soul's motions but never its essence, so this is about states that pass through you, not about who you are; and it is a mirror, not a test.",
+  "concepts": [
+    "drysoul",
+    "heraclitus",
+    "fire",
+    "logos",
+    "becoming",
+    "equanimity"
+  ],
+  "types": [
+    {
+      "id": "soaked",
+      "name": "Soaked",
+      "short": "The passions stay, and steer",
+      "about": "In your answers the passions do more than visit: fear, anger, envy or a clinging soak in, stay for days, and colour what you see and do. Athena, reading Heraclitus, calls the passions wet and sticky, each one a κόλλημα, a sticking, that soaks the soul deeper into Poseidon's waters, the sea of becoming. In the myth as Athena reads it, even Odysseus is drenched by Poseidon's waves, and the flame is still within.",
+      "concepts": [
+        "drysoul",
+        "becoming"
+      ]
+    },
+    {
+      "id": "damp",
+      "name": "Damp",
+      "short": "Passions linger, then lift",
+      "about": "The passions reach you and linger: a sharp word stays for an evening, a worry for a day or two, and then lifts by itself. In Athena's reading of the Timaeus the embodied soul is plunged into a river whose waves flow in and out through its circles; here the water gets in, but it does not stand. Such turbulence, Athena holds with Proclus, can disturb the soul's motions but never its essence.",
+      "concepts": [
+        "becoming",
+        "equanimity"
+      ]
+    },
+    {
+      "id": "drying",
+      "name": "Drying",
+      "short": "You see them rise, and they loosen",
+      "about": "You often notice a passion as it rises, can trace something of where it comes from, and it loosens sooner than it used to. In Athena's reading this is the work of drying: the soul turning inward, towards the forms, and the cultivation of virtue and justice, which evaporate what is wet. Simply facing what you find, Athena says, already begins the alchemy of κάθαρσις, purification.",
+      "concepts": [
+        "drysoul",
+        "katharsis"
+      ]
+    },
+    {
+      "id": "dry",
+      "name": "Dry flame",
+      "short": "Warmed by the fire, hard to soak",
+      "about": "Passions still arise in you, but they rarely take hold: you feel them, and they burn off quickly. This is Heraclitus' dry soul (αὔη ψυχή), in Athena's reading warmed by the fire of the Good, truth and Apollo; and that fire, Athena says with Heraclitus, is not candle flame but Logos, primordial consciousness. Athena is clear that such evenness is not apathy: it comes together with love for every being.",
+      "concepts": [
+        "drysoul",
+        "fire",
+        "logos"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "scale",
+      "id": "q1",
+      "prompt": "Fear and worry: when they come, how long do they stay with me?",
+      "left": "Minutes",
+      "right": "Days or more",
+      "to": {
+        "soaked": 2,
+        "damp": 1,
+        "drying": -1,
+        "dry": -2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q2",
+      "prompt": "Anger and irritation: how long do they stay?",
+      "left": "Minutes",
+      "right": "Days or more",
+      "to": {
+        "soaked": 2,
+        "damp": 1,
+        "drying": -1,
+        "dry": -2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q3",
+      "prompt": "Envy and jealousy: how long do they stay?",
+      "left": "Minutes",
+      "right": "Days or more",
+      "to": {
+        "soaked": 2,
+        "damp": 1,
+        "drying": -1,
+        "dry": -2
+      }
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "Clinging (to a person, a thing, a plan, how things were): how long does it hold me?",
+      "left": "Minutes",
+      "right": "Days or more",
+      "to": {
+        "soaked": 2,
+        "damp": 1,
+        "drying": -1,
+        "dry": -2
+      }
+    },
+    {
+      "kind": "choice",
+      "id": "q5",
+      "prompt": "Late in the day, a message from your manager: 'Can we have a word tomorrow?' Nothing more. What happens in you?",
+      "options": [
+        {
+          "text": "I barely sleep, going over everything that could be wrong",
+          "to": {
+            "soaked": 2
+          }
+        },
+        {
+          "text": "I worry through the evening, then let it go",
+          "to": {
+            "damp": 2
+          }
+        },
+        {
+          "text": "I notice the fear, and see that it's an old one",
+          "to": {
+            "drying": 2
+          }
+        },
+        {
+          "text": "A flicker of worry, and then I get on with my evening",
+          "to": {
+            "dry": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Describe the last time a feeling soaked you: what set it off, what you did, and how long it stayed.",
+      "hint": "Fear, anger, envy, jealousy, or not being able to let go: whichever came. A small moment is fine.",
+      "placeholder": "On Thursday, after the meeting…"
+    },
+    {
+      "kind": "choice",
+      "id": "q6",
+      "prompt": "Someone is rude to you in a queue, or cuts in front of you on the road. What happens next?",
+      "options": [
+        {
+          "text": "I'm still telling the story at dinner",
+          "to": {
+            "soaked": 2
+          }
+        },
+        {
+          "text": "My heart races, and it takes an hour or so to settle",
+          "to": {
+            "damp": 2
+          }
+        },
+        {
+          "text": "I feel the heat rise, watch it, and it passes",
+          "to": {
+            "drying": 2
+          }
+        },
+        {
+          "text": "It flares for a moment, and it's gone",
+          "to": {
+            "dry": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "rank",
+      "id": "q7",
+      "prompt": "When a strong feeling takes hold, what do you do? Put these in order, most like you first.",
+      "options": [
+        {
+          "text": "Act on it straight away",
+          "to": {
+            "soaked": 2
+          }
+        },
+        {
+          "text": "Distract myself until it passes",
+          "to": {
+            "damp": 2
+          }
+        },
+        {
+          "text": "Look at it, and ask where it comes from",
+          "to": {
+            "drying": 2
+          }
+        },
+        {
+          "text": "Feel it fully, and let it go",
+          "to": {
+            "dry": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "pairs",
+      "id": "q8",
+      "prompt": "Quickly: which sounds more like you?",
+      "pairs": [
+        {
+          "a": "I am angry",
+          "aTo": {
+            "soaked": 1
+          },
+          "b": "Anger is passing through me",
+          "bTo": {
+            "dry": 1
+          }
+        },
+        {
+          "a": "I remember the slight",
+          "aTo": {
+            "soaked": 1
+          },
+          "b": "I remember the lesson",
+          "bTo": {
+            "drying": 1
+          }
+        },
+        {
+          "a": "I go quiet and brood",
+          "aTo": {
+            "damp": 1
+          },
+          "b": "I see what set it off",
+          "bTo": {
+            "drying": 1
+          }
+        },
+        {
+          "a": "Comparing myself with others",
+          "aTo": {
+            "damp": 1
+          },
+          "b": "Glad of others' luck",
+          "bTo": {
+            "dry": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Now the opposite: a time when a strong feeling came and burned off quickly. What was different, in you or around you?",
+      "hint": "It might be sleep, a walk, a word from someone, or simply seeing the feeling for what it was.",
+      "placeholder": "Last month, when…"
+    }
+  ],
+  "looks": "Which passions soak you (fear, anger, envy, attachment), and how long they stick.",
+  "learn": "Heraclitus' dry soul, and the passions as states that pass through you, not who you are.",
+  "later": {
+    "plan": "A drying plan for your stickiest passion: name it when it rises, trace one root, one daily act of the opposite virtue, its strength rated 1 to 5 for two weeks.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read how wet the learner's soul is in Heraclitus' sense, and which passion stays longest: the four 'how long does it stay' lines matter most, then the two scenes, the ranking and the pairs. Name the stickiest passion plainly, through the learner's own example, and read it as Athena does: a wet, sticky state (κόλλημα) that soaks the soul in the waters of becoming, not a fact about who they are, since such turbulence touches the soul's motions, never its essence. Set their two written moments side by side: what made a feeling stick, and what let it burn off, which in Athena's terms is the soul warmed by the fire of the Good. Never moralise or shame a passion, and do not treat dryness as coldness: for Athena evenness comes with love for every being. Quote their words from both moments.",
+  "reads": []
+}

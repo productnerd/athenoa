@@ -1,0 +1,255 @@
+{
+  "id": "cave-inventory",
+  "n": 9,
+  "after": "cave-illusion",
+  "title": "Your cave inventory",
+  "line": "What are you sure of, and what does it rest on?",
+  "intro": "In Plato's Cave the prisoners argue over shadows that wonder-workers cast on a wall, and Athena reads the Divided Line beside it as a map of the mind's modes: conjecture and opinion inside the cave, knowledge above it, and the Good beyond knowledge. This reflection is an inventory: three things you are sure of, what each rests on, and how you hold them. For Athena the one wonder-worker that matters is the mind itself, so this looks at how your mind holds its certainties, not at who is right. It is a mirror, not a test.",
+  "concepts": [
+    "cave",
+    "dividedline",
+    "eikasia",
+    "doxa",
+    "pistis",
+    "wonderworkers",
+    "illusion",
+    "selfobservation"
+  ],
+  "types": [
+    {
+      "id": "shadows",
+      "name": "Reading the shadows",
+      "short": "Conjecture: εἰκασία",
+      "about": "Many of your certainties are read off shadows: a tone of voice, a silence, a frown that becomes a whole story. On Athena's Line this is εἰκασία, conjecture, the lowest mode of the mind, and Athena reads its shadows psychologically: the personality's own shadows, old hurts, and the projections we cast on others, as when someone's morning frown becomes 'he doesn't love me'. This, Athena says, is where psychology and shadow work come in.",
+      "concepts": [
+        "eikasia",
+        "illusion"
+      ]
+    },
+    {
+      "id": "view",
+      "name": "My view",
+      "short": "Opinion and conviction: δόξα",
+      "about": "Your convictions rest mostly on what you have taken in: the news, your feeds, your upbringing, the people around you, held as 'my view'. Athena places δόξα, opinion about the visible world, inside the cave, in what Athena calls the deep cave, and adds that a conviction (πεποίθησις) is an opinion clothed in emotion, which is why it heats up when challenged. Most of us, Athena says with Plato, run through the wonder-worker: 'I have a view and I believe it.'",
+      "concepts": [
+        "doxa",
+        "wonderworkers"
+      ]
+    },
+    {
+      "id": "credit",
+      "name": "Held on credit",
+      "short": "Faith that tests: πίστις",
+      "about": "You tend to hold what you believe the way a scientist holds a new theory: as possible, worth trusting, still to be proved. Athena reads πίστις, faith, not as the opposite of knowledge but as a necessary step towards it, the interval between ignorance and knowledge. To believe (πιστεύω) is to give credit (πίστωση) that something may be so, which is why, Athena notes, πίστη sits inside the word ἐπιστήμη, knowledge.",
+      "concepts": [
+        "pistis"
+      ]
+    },
+    {
+      "id": "reasoned",
+      "name": "Reasoned through",
+      "short": "Knowledge of concepts, above the cave",
+      "about": "Your firmer views tend to rest on reasons you have examined: you ask what the words mean, check what a claim rests on, and read the whole before you judge. On Athena's Line this is knowledge of concepts and ideas, above the cave and, in Athena's phrase, 'almost there'. Athena adds the warning that belongs to this mode: the identity 'I the knower' is another trap, and the Good lies after knowledge.",
+      "concepts": [
+        "dividedline",
+        "gnosis"
+      ]
+    },
+    {
+      "id": "watcher",
+      "name": "Watching the wonder-worker",
+      "short": "Seeing the mind make its pictures",
+      "about": "You often catch the mind at work: the story starting, the view hardening, the heat rising, and you can let a thing stay unknown. Athena calls this observing the mind, recognising at each moment when you are conjecturing and when you simply hold an opinion and believe it, and says that learning to function without the mediation of views, dogmas and convictions is where one begins to leave the cave. The wonder-worker, in this reading, was never only outside: 'There is one wonder-worker: the mind.'",
+      "concepts": [
+        "selfobservation",
+        "wonderworkers"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "Something you are sure of about a person in your life. Write it in a line, then what it rests on.",
+      "hint": "What it rests on: something you saw, were told, read or watched, felt, or tested.",
+      "placeholder": "My brother never listens. It rests on…"
+    },
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "Your manager answers your good morning with a short nod. What happens in you?",
+      "options": [
+        {
+          "text": "A story starts at once: they're unhappy with my work",
+          "to": {
+            "shadows": 2
+          }
+        },
+        {
+          "text": "Nothing much: managers are like that, everyone knows it",
+          "to": {
+            "view": 2
+          }
+        },
+        {
+          "text": "I give them the benefit of the doubt until I know more",
+          "to": {
+            "credit": 2
+          }
+        },
+        {
+          "text": "I look for anything that actually points to my work, and find little",
+          "to": {
+            "reasoned": 2
+          }
+        },
+        {
+          "text": "I notice the story starting, and let it stay unknown",
+          "to": {
+            "watcher": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q2",
+      "prompt": "I can tell what someone thinks of me from their face.",
+      "left": "Rarely",
+      "right": "Almost always",
+      "to": {
+        "shadows": 2,
+        "credit": -1,
+        "watcher": -1
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "Something you are sure of about the world: politics, money, health, or where things are heading. Then what it rests on.",
+      "hint": "Write it as you would say it to a friend.",
+      "placeholder": "Things are getting worse. It rests on…"
+    },
+    {
+      "kind": "multi",
+      "id": "q3",
+      "prompt": "Where do your firmest views mostly come from? Choose up to three.",
+      "max": 3,
+      "options": [
+        {
+          "text": "The news, my feeds, the people I follow",
+          "to": {
+            "view": 1
+          }
+        },
+        {
+          "text": "How I was brought up",
+          "to": {
+            "view": 1
+          }
+        },
+        {
+          "text": "Something that once hurt me",
+          "to": {
+            "shadows": 1
+          }
+        },
+        {
+          "text": "Someone I trust, until I can see for myself",
+          "to": {
+            "credit": 1
+          }
+        },
+        {
+          "text": "Reading or studying a subject properly",
+          "to": {
+            "reasoned": 1
+          }
+        },
+        {
+          "text": "Comparing sources, including ones I disagree with",
+          "to": {
+            "reasoned": 1
+          }
+        },
+        {
+          "text": "Trying it out in my own life",
+          "to": {
+            "credit": 1,
+            "reasoned": 1
+          }
+        },
+        {
+          "text": "Watching quietly how things actually go",
+          "to": {
+            "watcher": 1
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q4",
+      "prompt": "At a family meal, someone says something about politics or health that you think is plainly wrong. What do you do?",
+      "options": [
+        {
+          "text": "The heat rises, and I argue until I've won",
+          "to": {
+            "view": 2
+          }
+        },
+        {
+          "text": "I suspect they're saying it to get at me",
+          "to": {
+            "shadows": 2
+          }
+        },
+        {
+          "text": "I wonder what they've seen that I haven't, and ask what made them think so",
+          "to": {
+            "credit": 2
+          }
+        },
+        {
+          "text": "I ask what they mean by the key word before I answer",
+          "to": {
+            "reasoned": 2
+          }
+        },
+        {
+          "text": "I notice the heat, and what part of me it is protecting",
+          "to": {
+            "watcher": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q5",
+      "prompt": "When someone challenges a view I care about, I feel it in my body before I think.",
+      "left": "Rarely",
+      "right": "Almost always",
+      "to": {
+        "view": 2,
+        "reasoned": -1,
+        "watcher": -1
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t3",
+      "prompt": "Something you are sure of about yourself. Then what it rests on.",
+      "hint": "A quality, a limit, a 'that's just how I am'.",
+      "placeholder": "I'm not a creative person. It rests on…"
+    }
+  ],
+  "looks": "How you hold your convictions, and where they come from.",
+  "learn": "The Divided Line and the wonder-workers, seen in your own mind: conjecture, projection and opinion at work.",
+  "later": {
+    "plan": "A mind-and-media diet: one source to drop, the daily check “is this their mood or mine?”, and one firm belief examined with “what is it based on?”",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read the three things the learner is sure of and, above all, what each rests on: seen, told, read or watched, felt, or tested. Place each on Athena's Line (εἰκασία, conjecture from shadows and projections; δόξα, opinion taken in from the visible world and from others, which becomes conviction when clothed in emotion; πίστις as Athena reads it, credit given while one tests; knowledge of concepts, above the cave), and notice where the three differ: a person may be held by conjecture, the world by opinion, and oneself by an old conviction, one of the false selves Athena lists (my role, my convictions, my knowledge). Use the two scenes, the sources and the two lines to see how much emotion clothes their views and whether they catch the mind at work. Never judge whether a conviction is true or take a side on politics, health or anyone in their life: read only how it is held, since for Athena the one wonder-worker that matters is the mind. Quote each of their three convictions in their own words.",
+  "reads": []
+}

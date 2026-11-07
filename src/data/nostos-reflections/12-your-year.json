@@ -1,0 +1,272 @@
+{
+  "id": "your-year",
+  "n": 12,
+  "after": "cosmos-number",
+  "title": "Your year",
+  "line": "Which turning of the year is your life passing through?",
+  "intro": "Athena reads the four turnings of the year, the two solstices and the two equinoxes, as gates whose outer pattern mirrors movements of the soul: at an equinox the soul's two circles meet, at a solstice they stand farthest apart. This reflection looks at your energy through the seasons, how you meet the dark and the endings in your life, and which turning your own inner year stands at now. It is a mirror, not a test.",
+  "concepts": [
+    "solstice",
+    "darkness",
+    "sameandother",
+    "eternity",
+    "horai",
+    "aion"
+  ],
+  "types": [
+    {
+      "id": "winter-solstice",
+      "name": "The winter solstice: the descent",
+      "short": "Turned inward, in the long night",
+      "about": "Your inner year stands at its winter solstice: your energy has turned inward, and something is being met in the dark. Athena reads the longest night as a privileged gate, not a misfortune: darkness means introversion, the time to go down like Persephone with the hero's torch and face the hidden passions that live there, with their roots in events, family and ancestors. In Athena's reading the inner sun is born from exactly this point, and at rock bottom the choice is 'light or nothing'.",
+      "concepts": [
+        "darkness",
+        "solstice"
+      ]
+    },
+    {
+      "id": "spring-equinox",
+      "name": "The spring equinox: the shoot breaks the soil",
+      "short": "Something new is pushing up",
+      "about": "Something new is pushing up in you, and your energy is rising and turning outward. Athena reads the spring equinox as the return of light at the balance point of the year, when Apollo comes back to Delphi, and as the season of Ares in his higher form: the shoot that cracks the soil with its head, the forcing power of birth, which Athena calls sacred, not brutal. Here an ending has already turned into a start; as Athena puts it, 'Every end of mine is my beginning.'",
+      "concepts": [
+        "ares",
+        "apollo"
+      ]
+    },
+    {
+      "id": "summer-solstice",
+      "name": "The summer solstice: the full sun",
+      "short": "Life at its outward height",
+      "about": "Your year stands at its height: long days, much in flower, energy poured out into the world. Athena reads the summer solstice as a birth, the one an autumn sowing carried for nine months, and every solstice as the time when the soul's two circles stand farthest apart, a tension that can birth the inner hero. Athena also names its risk: a 'material summer' of excess that flings you far from your centre, against a 'spiritual summer' which, like a true school, mirrors the Same, the still centre, in the midst of becoming.",
+      "concepts": [
+        "sameandother",
+        "measure"
+      ]
+    },
+    {
+      "id": "autumn-equinox",
+      "name": "The autumn equinox: the sowing before the dark",
+      "short": "Balance, and the turn inward",
+      "about": "Your year has come to a point of balance: things are settling or closing, and your energy is beginning to turn from outward to inward. Athena reads the autumn equinox as the climax of the Eleusinian Mysteries, a sowing: after it Persephone goes down to Pluto, and what goes into the soil now is carried through the dark towards a later birth. In Athena's reading the equinoxes are spiritual sowings that lead to pregnancies of the soul and, in time, to births.",
+      "concepts": [
+        "mysteries",
+        "persephone"
+      ]
+    },
+    {
+      "id": "no-seasons",
+      "name": "A year without seasons",
+      "short": "Every month much like the last",
+      "about": "Your days run much the same in every season: the same hours, the same light, the same pace, with little sense of the year turning. Athena counts re-attuning to nature's rhythms and the four turnings among the things that pull us out of the cave, and adds that, as with the gym, no one can do it for you. Yet Athena also calls the turnings fertile conditions, not requirements: from the sun's own point of view there is no waxing or waning, and the best moment is always now.",
+      "concepts": [
+        "nature",
+        "nyn"
+      ]
+    }
+  ],
+  "items": [
+    {
+      "kind": "choice",
+      "id": "q1",
+      "prompt": "Think of your life these past weeks, not the weather outside. Which is closest?",
+      "options": [
+        {
+          "text": "Something new is starting, and it wants all my energy",
+          "to": {
+            "spring-equinox": 3
+          }
+        },
+        {
+          "text": "Everything is in full swing: busy, bright, a lot going out",
+          "to": {
+            "summer-solstice": 3
+          }
+        },
+        {
+          "text": "Things are settling or closing; I'm weighing what to keep",
+          "to": {
+            "autumn-equinox": 3
+          }
+        },
+        {
+          "text": "I've turned inward; something hard or hidden has my attention",
+          "to": {
+            "winter-solstice": 3
+          }
+        },
+        {
+          "text": "Honestly, every month feels much like the last",
+          "to": {
+            "no-seasons": 3
+          }
+        }
+      ]
+    },
+    {
+      "kind": "points",
+      "id": "q2",
+      "prompt": "Over the past few weeks, where has your energy gone? Share ten points.",
+      "total": 10,
+      "options": [
+        {
+          "text": "Starting new things",
+          "to": "spring-equinox"
+        },
+        {
+          "text": "Doing, giving, being out in the world",
+          "to": "summer-solstice"
+        },
+        {
+          "text": "Finishing, sorting, bringing things to a close",
+          "to": "autumn-equinox"
+        },
+        {
+          "text": "Rest, withdrawal, looking within",
+          "to": "winter-solstice"
+        },
+        {
+          "text": "Keeping the usual routine going",
+          "to": "no-seasons"
+        }
+      ]
+    },
+    {
+      "kind": "rank",
+      "id": "q3",
+      "prompt": "Athena's four turnings of the year. Put them in order, the one most like your inner life now first.",
+      "options": [
+        {
+          "text": "The winter solstice: the longest night, the turn inward",
+          "to": {
+            "winter-solstice": 2
+          }
+        },
+        {
+          "text": "The spring equinox: the light returns, a shoot breaks the soil",
+          "to": {
+            "spring-equinox": 2
+          }
+        },
+        {
+          "text": "The summer solstice: the full sun, life at its height",
+          "to": {
+            "summer-solstice": 2
+          }
+        },
+        {
+          "text": "The autumn equinox: balance, and seeds going into the soil",
+          "to": {
+            "autumn-equinox": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "scale",
+      "id": "q4",
+      "prompt": "My energy rises and falls with the seasons.",
+      "left": "Hardly at all",
+      "right": "Very much",
+      "to": {
+        "no-seasons": -2
+      }
+    },
+    {
+      "kind": "text",
+      "id": "t1",
+      "prompt": "What is ending, or has ended, in your life this year? Say what it is and how you are carrying it.",
+      "hint": "It can be small: a habit, a role, a way of working, a place. Write only what you want to.",
+      "placeholder": "This year I stopped…"
+    },
+    {
+      "kind": "choice",
+      "id": "q5",
+      "prompt": "A chapter of your life closes: a job, a friendship, a home. What do you tend to do first?",
+      "options": [
+        {
+          "text": "Look straight away for what it opens up",
+          "to": {
+            "spring-equinox": 2
+          }
+        },
+        {
+          "text": "Keep busy and fill the diary",
+          "to": {
+            "summer-solstice": 2
+          }
+        },
+        {
+          "text": "Take stock: what it gave me, what to keep",
+          "to": {
+            "autumn-equinox": 2
+          }
+        },
+        {
+          "text": "Go quiet and let myself feel it",
+          "to": {
+            "winter-solstice": 2
+          }
+        },
+        {
+          "text": "Carry on much as before",
+          "to": {
+            "no-seasons": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "choice",
+      "id": "q6",
+      "prompt": "And the darkest weeks of the year: how do you usually live them?",
+      "options": [
+        {
+          "text": "I fill them with lights, plans and people",
+          "to": {
+            "summer-solstice": 2
+          }
+        },
+        {
+          "text": "I look back over the year and weigh it up",
+          "to": {
+            "autumn-equinox": 2
+          }
+        },
+        {
+          "text": "I go inward gladly; the stillness suits me",
+          "to": {
+            "winter-solstice": 2
+          }
+        },
+        {
+          "text": "I count the days until the light comes back",
+          "to": {
+            "spring-equinox": 2
+          }
+        },
+        {
+          "text": "I hardly notice them; my days stay the same",
+          "to": {
+            "no-seasons": 2
+          }
+        }
+      ]
+    },
+    {
+      "kind": "text",
+      "id": "t2",
+      "prompt": "And what is beginning, or wants to begin, even if it is still a seed under the soil? Where in your days do you feel it?",
+      "hint": "Something nobody else can see yet is fine.",
+      "placeholder": "There's something I keep coming back to…"
+    }
+  ],
+  "looks": "Your energy through the seasons, and how you meet the dark and the endings in your life.",
+  "learn": "Athena's four turnings of the year, seen in your own life: the seasons as gates of the soul, and time as the moving image of eternity.",
+  "later": {
+    "plan": "A dated calendar up to the next turning (the winter solstice, 21 December 2026): what to sow, what to let die, and a simple ritual for that day, with reminders.",
+    "shape": "Maybe (not for every reflection): Add one practice with its dose; Cut one thing; Watch one cue; a check-in after 7 days (did you do it, what changed); a retake after 4 to 6 weeks."
+  },
+  "ai": "Read where the learner's inner year stands now, above all from the two written answers: what is ending, what is beginning, and how they carry each. Read it by Athena's distinction between the equinox, where the soul's two circles meet in balance and sowing, and the solstice, where they stand farthest apart in a tension that can birth the inner hero, and by Athena's reading of each turning: the winter descent and introversion before the inner sun is born, the spring shoot breaking the soil, the summer birth with its risk of a 'material summer', the autumn Eleusinian sowing before Persephone goes down. Today's date is given: relate the reading to the season the learner is in now and to the next of the four turnings, as a reading of where they stand, never as a calendar or plan; Athena's dates are northern, so if the answers show the learner lives south of the equator, the outer seasons run the other way. Never treat a descent or an ending as a failure: for Athena darkness is a privileged gate, though the turnings are fertile conditions, not requirements, and the best moment is always now. Be gentle if what is ending is a loss, and quote the learner's own words from both written answers.",
+  "reads": []
+}
