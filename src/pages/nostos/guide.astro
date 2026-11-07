@@ -518,15 +518,15 @@ const toc = [
     background: var(--blue);
     opacity: 0.6;
   }
-  /* a source (client direction, 7 November 2026): only an arrow, at the right at the end of its text;
-     its title shows on hover, and a click opens it in a new tab */
+  /* a source (client direction, 7 November 2026): only a small arrow, right after the full stop that ends
+     its text; its title shows on hover, and a click opens it in a new tab */
   .ng-src {
     position: relative;
-    float: right;
-    margin-left: 0.6rem;
-    padding: 0 0.15rem;
+    margin-left: 0.1rem;
+    padding: 0 0.1rem;
     font-family: var(--font-body);
-    font-size: 1.05em;
+    font-size: 0.75em;
+    vertical-align: 0.15em;
     font-style: normal;
     font-weight: 400;
     line-height: inherit;
@@ -593,10 +593,6 @@ const toc = [
   }
   .ng-line figcaption a {
     color: inherit;
-  }
-  .ng-line figcaption .ng-src {
-    float: none;
-    margin-left: 0.2rem;
   }
 
   /* the big words */
@@ -846,9 +842,6 @@ const toc = [
   }
   .ng-ladders__name::after {
     content: ':';
-  }
-  .ng-ladders .ng-src {
-    margin-left: auto;
   }
 
   /* habits, love, work */

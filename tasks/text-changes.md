@@ -147,7 +147,7 @@ At Maria's request each of the guide's seven phases is set beside the world's re
 
 At Maria's request:
 
-- **Sources:** every source on the guide is now only an arrow (↗) at the right, at the end of its text. The talk's title shows on hover, and a click opens it in a new tab. The quote captions read "Athena ↗" (was "Athena · {talk}").
+- **Sources:** every source on the guide is now only a small arrow (↗), right after the full stop that ends its text. The talk's title shows on hover, and a click opens it in a new tab. The quote captions read "Athena ↗" (was "Athena · {talk}").
 - **A day on the path:** "Daily habits" is removed as a section and in the page's contents. "A day on the path" takes its place, holding every daily habit, and its Morning and Evening cards are gone because the day tells them. Under the day come the guide's habits introduction, then "Through the day", "Every week" and "Through the year", and the meditations.
 - **Three new moments in the day**, NEW WORDING, proposed:
   - 10:15: "Between two emails you notice you have spent ten minutes comparing your numbers with a colleague’s. You name it, without a verdict: “now I am comparing”. Naming it is already a step out of it."
