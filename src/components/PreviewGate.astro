@@ -3,8 +3,8 @@
 // only when the build has PUBLIC_PREVIEW_GATE=on. It is the newsletter's portico (Portico.astro) over
 // the blurred site: the inscription between the columns, one of Athena's lines to complete, and the
 // answer in the podium. The answer is checked against hashes (src/data/gate.ts); a visitor who knew
-// it hears a key turn, the door's bell and the lyre, and the portico slowly fades as the site comes back into focus. They are then
-// remembered in this browser ("ath-worthy"). A velvet rope, not a lock: the pages are public files.
+// it hears a key turn and the door's bell, «Εἴσελθε» takes the place of the field, and the portico
+// slowly fades as the site comes back into focus. They are then remembered in this browser ("ath-worthy"). A velvet rope, not a lock: the pages are public files.
 import Portico from './Portico.astro';
 import { gate } from '../data/gate';
 import { getLocale } from '../lib/locale';
@@ -22,7 +22,6 @@ const w = gate.words[locale];
   data-hashes={gate.hashes.join(' ')}
   data-refusal={gate.refusal}
   data-welcome={gate.welcome}
-  data-sound={gate.sound}
 >
   <div class="gate__veil" aria-hidden="true"></div>
   <div class="gate__popup">
@@ -35,22 +34,27 @@ const w = gate.words[locale];
       </Fragment>
       <Fragment slot="action">
         <form class="gate__form" id="gate-form" autocomplete="off">
-          <div class="field">
-            <label class="visually-hidden" for="gate-answer">{w.blank}</label>
-            <input
-              id="gate-answer"
-              name="answer"
-              type="text"
-              placeholder={w.placeholder}
-              autocapitalize="none"
-              autocorrect="off"
-              spellcheck="false"
-              enterkeyhint="go"
-            />
+          <!-- The field and the button, and in the same place the welcome that takes their place -->
+          <div class="gate__door">
+            <div class="gate__controls">
+              <div class="field">
+                <label class="visually-hidden" for="gate-answer">{w.blank}</label>
+                <input
+                  id="gate-answer"
+                  name="answer"
+                  type="text"
+                  placeholder={w.placeholder}
+                  autocapitalize="none"
+                  autocorrect="off"
+                  spellcheck="false"
+                  enterkeyhint="go"
+                />
+              </div>
+              <button class="btn" type="submit">{w.knock}</button>
+            </div>
+            <p class="gate__welcome t-3" id="gate-welcome" lang="grc" aria-live="polite"></p>
           </div>
-          <button class="btn" type="submit">{w.knock}</button>
-          <!-- The longest answer, invisible, holds the room the door's answers appear in, so nothing
-               moves when one appears -->
+          <!-- The longest refusal, invisible, holds the room it appears in, so nothing moves -->
           <p class="gate__verdict" lang="grc">
             <span class="gate__sizer" aria-hidden="true">{gate.refusal}</span>
             <span id="gate-verdict" aria-live="polite"></span>
@@ -146,6 +150,42 @@ const w = gate.words[locale];
   .gate__form input {
     text-align: center;
   }
+  /* The controls and the welcome share one cell: the welcome fades in where they were */
+  .gate__door {
+    display: grid;
+  }
+  .gate__door > * {
+    grid-area: 1 / 1;
+  }
+  .gate__controls {
+    display: grid;
+    gap: 0.85rem;
+  }
+  .gate__welcome {
+    margin: 0;
+    align-self: center;
+    justify-self: center;
+    font-size: calc(var(--step-2) * 0.9);
+    letter-spacing: 0.04em;
+    color: var(--ink-strong);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .gate__form.is-welcome .gate__controls {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .gate__form.is-welcome .gate__welcome {
+    opacity: 1;
+  }
+  :global(html.motion) .gate__controls {
+    transition:
+      opacity 0.45s var(--ease-soft),
+      visibility 0s 0.45s;
+  }
+  :global(html.motion) .gate__welcome {
+    transition: opacity 1.1s var(--ease-soft) 0.3s;
+  }
   .gate__verdict {
     margin: 0;
     display: grid;
@@ -179,7 +219,7 @@ const w = gate.words[locale];
     60% { transform: translateX(-0.3rem); }
     80% { transform: translateX(0.15rem); }
   }
-  /* The right one: after the lyre, the portico slowly goes, and the site slowly comes back into focus */
+  /* The right one: after a moment with the welcome, the portico slowly goes, and the site slowly comes back into focus */
   :global(html.motion) .gate.is-leaving .gate__popup {
     opacity: 0;
     transform: translate3d(0, -1.25rem, 0) scale(0.985);
@@ -196,7 +236,7 @@ const w = gate.words[locale];
 <script>
   // Runs once, on the first page loaded. Later pages are reached through the site's own links, which
   // a visitor can only use once past the gate; html.worthy (set in Base.astro) then hides it.
-  import { playSound, preloadSounds, soundContext } from '../scripts/sound';
+  import { soundContext } from '../scripts/sound';
   import { knock, unlock, doorBell } from '../scripts/gate-sounds';
 
   const KEY = 'ath-worthy';
@@ -216,13 +256,11 @@ const w = gate.words[locale];
     const input = gate.querySelector<HTMLInputElement>('#gate-answer')!;
     const verdict = gate.querySelector<HTMLElement>('#gate-verdict')!;
     const hashes = (gate.dataset.hashes || '').split(' ');
-    const sound = gate.dataset.sound || '';
     const behind = [...document.body.children].filter((el) => el !== gate && el.tagName !== 'SCRIPT') as HTMLElement[];
 
     behind.forEach((el) => (el.inert = true));
     root.classList.add('gate-up');
     const rest = setTimeout(() => root.classList.add('gate-rest'), 3500);
-    preloadSounds(sound);
     if (matchMedia('(hover: hover) and (pointer: fine)').matches) input.focus({ preventScroll: true });
 
     const norm = (s: string) =>
@@ -236,18 +274,19 @@ const w = gate.words[locale];
       try {
         localStorage.setItem(KEY, '1');
       } catch {}
-      verdict.textContent = gate.dataset.welcome || '';
+      // The field and the button fade, and «Εἴσελθε» fades in in their place
+      verdict.textContent = '';
       input.disabled = true;
-      // The key turns in the lock; the door's bell rings as the portico begins to go; the lyre as the
-      // site comes back into view
+      form.querySelector('#gate-welcome')!.textContent = gate.dataset.welcome || '';
+      form.classList.add('is-welcome');
+      // The key turns in the lock, and the door's bell rings
       soundContext().then((ctx) => {
         if (!ctx) return;
         unlock(ctx, 0, 0.16);
         doorBell(ctx, 0.75, 0.14);
       });
-      setTimeout(() => playSound(sound, 0.045), 2600);
       const motion = root.classList.contains('motion');
-      // The key, then the slow leaving (about four seconds), then the site is free
+      // A moment to read the welcome, then the slow leaving (about four seconds), then the site is free
       setTimeout(
         () => {
           clearTimeout(rest);
@@ -256,7 +295,7 @@ const w = gate.words[locale];
           gate.classList.add('is-leaving');
           setTimeout(() => root.classList.add('worthy'), motion ? 3900 : 0);
         },
-        motion ? 800 : 900,
+        motion ? 1700 : 1200,
       );
     };
 

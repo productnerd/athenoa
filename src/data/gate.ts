@@ -30,10 +30,8 @@ export const gate = {
   ],
   /** said to a wrong answer: Plato, Phaedo 69c, quoting the Mysteries ("many carry the wand, few are Bacchants") */
   refusal: 'πολλοὶ μὲν ναρθηκοφόροι, βάκχοι δέ τε παῦροι.',
-  /** said to the right one ("enter") */
+  /** said to the right one ("enter"): it fades in where the field and the button were */
   welcome: 'Εἴσελθε.',
-  /** played as the site comes back into view, after the key and the door's bell (src/scripts/gate-sounds.ts) */
-  sound: '/audio/lyre.mp3',
   words: {
     en: { before: 'There is no hero (ἥρως) without', after: '.', blank: 'the missing word', placeholder: 'One word', knock: 'Knock' },
     el: { before: 'Δεν υπάρχει ήρωας (ἥρως) χωρίς', after: '.', blank: 'η λέξη που λείπει', placeholder: 'Μία λέξη', knock: 'Χτυπήστε' },
