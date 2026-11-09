@@ -11,7 +11,6 @@ import { getLocale } from '../lib/locale';
 
 const locale = getLocale(Astro.url);
 const w = gate.words[locale];
-const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
 ---
 
 <div
@@ -31,7 +30,7 @@ const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
       <Fragment slot="head">
         <h2 class="gate__inscription t-3" id="gate-inscription" lang="grc">{gate.inscription}</h2>
         <p class="gate__quote hand">
-          {open}{w.before} <span class="gate__end"><span class="gate__blank" role="img" aria-label={w.blank}></span>{w.after}{close}</span>
+          {w.before} <span class="gate__end"><span class="gate__blank" role="img" aria-label={w.blank}></span>{w.after}</span>
         </p>
       </Fragment>
       <Fragment slot="action">
@@ -198,46 +197,7 @@ const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
   // Runs once, on the first page loaded. Later pages are reached through the site's own links, which
   // a visitor can only use once past the gate; html.worthy (set in Base.astro) then hides it.
   import { playSound, preloadSounds, soundContext } from '../scripts/sound';
-
-  // A knock on a wooden door, made in code: a low thump that drops in pitch, and the short click of
-  // the knuckle on the wood (a burst of noise through a band-pass filter).
-  let noise: AudioBuffer | null = null;
-  function knock(ctx: AudioContext, at: number, level: number) {
-    const t = ctx.currentTime + at;
-    const out = ctx.createGain();
-    out.gain.value = level;
-    out.connect(ctx.destination);
-
-    const body = ctx.createOscillator();
-    body.type = 'sine';
-    body.frequency.setValueAtTime(170, t);
-    body.frequency.exponentialRampToValueAtTime(92, t + 0.09);
-    const bodyGain = ctx.createGain();
-    bodyGain.gain.setValueAtTime(0.0001, t);
-    bodyGain.gain.exponentialRampToValueAtTime(1, t + 0.003);
-    bodyGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
-    body.connect(bodyGain).connect(out);
-    body.start(t);
-    body.stop(t + 0.18);
-
-    if (!noise) {
-      noise = ctx.createBuffer(1, Math.round(ctx.sampleRate * 0.06), ctx.sampleRate);
-      const data = noise.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-    }
-    const click = ctx.createBufferSource();
-    click.buffer = noise;
-    const wood = ctx.createBiquadFilter();
-    wood.type = 'bandpass';
-    wood.frequency.value = 1100;
-    wood.Q.value = 0.9;
-    const clickGain = ctx.createGain();
-    clickGain.gain.setValueAtTime(0.55, t);
-    clickGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
-    click.connect(wood).connect(clickGain).connect(out);
-    click.start(t);
-    click.stop(t + 0.05);
-  }
+  import { knock, unlock, creak } from '../scripts/gate-sounds';
 
   const KEY = 'ath-worthy';
   const root = document.documentElement;
@@ -278,9 +238,16 @@ const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
       } catch {}
       verdict.textContent = gate.dataset.welcome || '';
       input.disabled = true;
-      playSound(sound, 0.07);
+      // The key turns in the lock; the door creaks open as the portico begins to go; the lyre as the
+      // site comes back into view
+      soundContext().then((ctx) => {
+        if (!ctx) return;
+        unlock(ctx, 0, 0.16);
+        creak(ctx, 0.8, 0.12);
+      });
+      setTimeout(() => playSound(sound, 0.05), 2000);
       const motion = root.classList.contains('motion');
-      // A breath with the lyre, then the slow leaving (about four seconds), then the site is free
+      // The key, then the slow leaving (about four seconds), then the site is free
       setTimeout(
         () => {
           clearTimeout(rest);
@@ -289,7 +256,7 @@ const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
           gate.classList.add('is-leaving');
           setTimeout(() => root.classList.add('worthy'), motion ? 3900 : 0);
         },
-        motion ? 1300 : 900,
+        motion ? 800 : 900,
       );
     };
 
