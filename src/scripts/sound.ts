@@ -63,6 +63,22 @@ export function preloadSounds(...files: string[]) {
   if (ctx) files.forEach((file) => load(ctx, file).catch(() => {}));
 }
 
+/** The shared context, ready to play now, or null while the browser holds sound back. For sounds
+ *  made in code rather than played from a file (the preview gate's knocks). */
+export async function soundContext() {
+  const ctx = make();
+  if (!ctx) return null;
+  if (ctx.state !== 'running') {
+    if (!woken) return null;
+    try {
+      await ctx.resume();
+    } catch {
+      return null;
+    }
+  }
+  return ctx;
+}
+
 /** Plays a short sound once, at `volume` (0 to 1). Silent while the browser holds sound back. With
  *  `fade`, it fades in over a moment and fades out from `fade.after` seconds over `fade.over`. */
 export async function playSound(file: string, volume: number, fade?: { after: number; over: number }) {

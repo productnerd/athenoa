@@ -129,7 +129,11 @@ const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
       gated && (
         <script is:inline>
           // Past the gate already? Then hide it before the first paint, here and after every page change.
+          // ?relock in the address forgets this browser's pass, to see the gate again.
           (function () {
+            try {
+              if (new URLSearchParams(location.search).has('relock')) localStorage.removeItem('ath-worthy');
+            } catch (e) {}
             function worthy() {
               try {
                 if (localStorage.getItem('ath-worthy') === '1') document.documentElement.classList.add('worthy');

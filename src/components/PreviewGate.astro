@@ -150,6 +150,15 @@ const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
     margin-top: -0.85rem;
   }
 
+  /* Knock, knock, knock: three small jolts of the portico, in time with the three knocks (at 0, 0.28
+     and 0.56 seconds). Only the portico moves; the blurred page behind stays still. */
+  :global(html.motion) .gate__popup.is-knocking {
+    animation: gate-knock 0.84s linear;
+  }
+  @keyframes gate-knock {
+    0%, 12%, 33%, 45%, 67%, 79%, 100% { transform: none; }
+    3%, 36%, 70% { transform: translate3d(0, 2px, 0) scale(0.996); }
+  }
   /* A wrong answer: the portico shakes its head */
   :global(html.motion) .gate__popup.is-refused {
     animation: gate-refuse 0.5s var(--ease-out);
@@ -177,7 +186,47 @@ const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
 <script>
   // Runs once, on the first page loaded. Later pages are reached through the site's own links, which
   // a visitor can only use once past the gate; html.worthy (set in Base.astro) then hides it.
-  import { playSound, preloadSounds } from '../scripts/sound';
+  import { playSound, preloadSounds, soundContext } from '../scripts/sound';
+
+  // A knock on a wooden door, made in code: a low thump that drops in pitch, and the short click of
+  // the knuckle on the wood (a burst of noise through a band-pass filter).
+  let noise: AudioBuffer | null = null;
+  function knock(ctx: AudioContext, at: number, level: number) {
+    const t = ctx.currentTime + at;
+    const out = ctx.createGain();
+    out.gain.value = level;
+    out.connect(ctx.destination);
+
+    const body = ctx.createOscillator();
+    body.type = 'sine';
+    body.frequency.setValueAtTime(170, t);
+    body.frequency.exponentialRampToValueAtTime(92, t + 0.09);
+    const bodyGain = ctx.createGain();
+    bodyGain.gain.setValueAtTime(0.0001, t);
+    bodyGain.gain.exponentialRampToValueAtTime(1, t + 0.003);
+    bodyGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.16);
+    body.connect(bodyGain).connect(out);
+    body.start(t);
+    body.stop(t + 0.18);
+
+    if (!noise) {
+      noise = ctx.createBuffer(1, Math.round(ctx.sampleRate * 0.06), ctx.sampleRate);
+      const data = noise.getChannelData(0);
+      for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+    }
+    const click = ctx.createBufferSource();
+    click.buffer = noise;
+    const wood = ctx.createBiquadFilter();
+    wood.type = 'bandpass';
+    wood.frequency.value = 1100;
+    wood.Q.value = 0.9;
+    const clickGain = ctx.createGain();
+    clickGain.gain.setValueAtTime(0.55, t);
+    clickGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.035);
+    click.connect(wood).connect(clickGain).connect(out);
+    click.start(t);
+    click.stop(t + 0.05);
+  }
 
   const KEY = 'ath-worthy';
   const root = document.documentElement;
@@ -233,17 +282,33 @@ const [open, close] = locale === 'en' ? ['“', '”'] : ['«', '»'];
       );
     };
 
+    // Knock: three knocks and three jolts of the portico, then the answer from within
+    let knocking = false;
+    const replay = (name: string) => {
+      popup.classList.remove('is-knocking', 'is-refused');
+      void popup.offsetWidth;
+      popup.classList.add(name);
+    };
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (input.disabled) return;
+      if (input.disabled || knocking) return;
       const answer = norm(input.value);
       if (!answer) return input.focus();
-      if (hashes.includes(await digest(answer))) return pass();
-      verdict.textContent = gate.dataset.refusal || '';
-      popup.classList.remove('is-refused');
-      void popup.offsetWidth;
-      popup.classList.add('is-refused');
-      input.select();
+      knocking = true;
+      verdict.textContent = '';
+      const right = digest(answer).then((h) => hashes.includes(h));
+      soundContext().then((ctx) => {
+        if (ctx) [0, 0.28, 0.56].forEach((at) => knock(ctx, at, 0.2));
+      });
+      replay('is-knocking');
+      const isRight = await right;
+      setTimeout(() => {
+        knocking = false;
+        if (isRight) return pass();
+        verdict.textContent = gate.dataset.refusal || '';
+        replay('is-refused');
+        input.select();
+      }, 1000);
     });
   }
 </script>
