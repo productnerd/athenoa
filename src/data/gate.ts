@@ -4,8 +4,10 @@
 //
 // The riddle completes one of Athena's lines (src/data/nostos/lines.json, with its talk and moment).
 // To change it, change the words here and the hashes: `node scripts/gate-hash.mjs <answer> <spellings…>`.
-// NEW WORDING, proposed (see tasks/text-changes.md). The Greek of Athena's line is a translation back
-// from the English and should be checked against the talk.
+// The gate speaks only Ancient Greek, in every language (client direction, 9 November 2026): the
+// inscription, the refusal and the welcome are never translated. Only Athena's line, the field and
+// the button follow the page's language. NEW WORDING, proposed (see tasks/text-changes.md); the Greek
+// of Athena's line is a translation back from the English and should be checked against the talk.
 import type { Locale } from '../lib/locale';
 
 export const gate = {
@@ -22,44 +24,16 @@ export const gate = {
     '6aa32e003214ac6c77014a9fd86ef4d101940a89f2c2b7b72a170c487038a3a6',
     '58a19a9b77bc4f35a98a9c023fd02d206ec8072b2ed19bd5c5a19e46abcfbc5a',
   ],
-  /** said to a wrong answer, in every language: Plato, Phaedo 69c, quoting the Mysteries */
+  /** said to a wrong answer: Plato, Phaedo 69c, quoting the Mysteries ("many carry the wand, few are Bacchants") */
   refusal: 'πολλοὶ μὲν ναρθηκοφόροι, βάκχοι δέ τε παῦροι.',
-  /** said to the right one */
+  /** said to the right one ("enter") */
   welcome: 'Εἴσελθε.',
+  /** played as the gate opens (the lyre of the home page's seminar) */
+  sound: '/audio/lyre.mp3',
   words: {
-    en: {
-      meaning: 'Let no one uninitiated enter.',
-      ask: 'To pass, complete Athena’s words',
-      before: 'Ethics is an anagram of',
-      after: '.',
-      blank: 'the missing word',
-      placeholder: 'One word',
-      knock: 'Knock',
-      refusal: 'Many carry the wand; few are Bacchants. Knock again.',
-      welcome: 'Enter.',
-    },
-    el: {
-      meaning: 'Ας μην εισέλθει κανείς αμύητος.',
-      ask: 'Για να περάσετε, συμπληρώστε τα λόγια της Αθηνάς',
-      before: 'Η ηθική είναι αναγραμματισμός της',
-      after: '.',
-      blank: 'η λέξη που λείπει',
-      placeholder: 'Μία λέξη',
-      knock: 'Χτυπήστε',
-      refusal: 'Πολλοί κρατούν τον νάρθηκα, λίγοι είναι οι βάκχοι. Χτυπήστε ξανά.',
-      welcome: 'Περάστε.',
-    },
-    // Ancient Greek, a draft (the inscription needs no gloss here)
-    grc: {
-      meaning: '',
-      ask: 'Πλήρωσον τὸν λόγον τῆς Ἀθηνᾶς',
-      before: 'Η ηθική είναι αναγραμματισμός της',
-      after: '.',
-      blank: 'τὸ λεῖπον ῥῆμα',
-      placeholder: 'Ἓν ῥῆμα',
-      knock: 'Κροῦε',
-      refusal: 'Κροῦε αὖθις.',
-      welcome: '',
-    },
+    en: { before: 'Ethics is an anagram of', after: '.', blank: 'the missing word', placeholder: 'One word', knock: 'Knock' },
+    el: { before: 'Η ηθική είναι αναγραμματισμός της', after: '.', blank: 'η λέξη που λείπει', placeholder: 'Μία λέξη', knock: 'Χτυπήστε' },
+    // Ancient Greek, a draft; Athena's line stays in her own (modern) Greek
+    grc: { before: 'Η ηθική είναι αναγραμματισμός της', after: '.', blank: 'τὸ λεῖπον ῥῆμα', placeholder: 'Ἓν ῥῆμα', knock: 'Κροῦε' },
   } satisfies Record<Locale, Record<string, string>>,
 };

@@ -263,16 +263,14 @@ See the end of this file once the proofreading pass is in.
 
 ## The preview gate (9 November 2026)
 
-At the client's request, the GitHub Pages preview opens behind a gate: the site blurred, and in front an arch of Greek blue with Athena's owl. It appears only on the preview and in `npm run dev`, never on the real launch (`PUBLIC_PREVIEW_GATE=on`; see `src/components/PreviewGate.astro`). All its words are in `src/data/gate.ts`. The inscription was chosen by Maria; the rest is NEW WORDING, proposed.
+At the client's request, the GitHub Pages preview opens behind a gate: the newsletter's portico (now shared, `src/components/Portico.astro`) over the blurred site. It appears only on the preview and in `npm run dev`, never on the real launch (`PUBLIC_PREVIEW_GATE=on`; see `src/components/PreviewGate.astro`). All its words are in `src/data/gate.ts`. The gate speaks only Ancient Greek, untranslated in every language (client direction): the inscription, the refusal and the welcome. Only Athena's line, the field and the button follow the page's language. No instruction line. A right answer plays the lyre (`/audio/lyre.mp3`), and after a breath the portico slowly fades while the site comes back into focus.
 
 | Part | English | Greek |
 | --- | --- | --- |
-| Inscription (all languages) | ΑΜΥΗΤΟΣ ΜΗΔΕΙΣ ΕΙΣΙΤΩ | same |
-| Under it | Let no one uninitiated enter. | Ας μην εισέλθει κανείς αμύητος. |
-| The ask | To pass, complete Athena’s words | Για να περάσετε, συμπληρώστε τα λόγια της Αθηνάς |
-| The riddle | “Ethics is an anagram of ___.” | «Η ηθική είναι αναγραμματισμός της ___.» (translated back from the English; to check against the talk) |
-| Field and button | One word · Knock | Μία λέξη · Χτυπήστε |
-| A wrong answer | πολλοὶ μὲν ναρθηκοφόροι, βάκχοι δέ τε παῦροι. Many carry the wand; few are Bacchants. Knock again. | same Greek line · Πολλοί κρατούν τον νάρθηκα, λίγοι είναι οι βάκχοι. Χτυπήστε ξανά. |
-| The right answer | Εἴσελθε. Enter. | Εἴσελθε. Περάστε. |
+| Inscription, chosen by Maria (all languages) | ΑΜΥΗΤΟΣ ΜΗΔΕΙΣ ΕΙΣΙΤΩ | same |
+| Athena's line, NEW WORDING proposed | “Ethics is an anagram of ___.” | «Η ηθική είναι αναγραμματισμός της ___.» (translated back from the English; to check against the talk) |
+| Field and button, proposed | One word · Knock | Μία λέξη · Χτυπήστε |
+| A wrong answer (all languages) | πολλοὶ μὲν ναρθηκοφόροι, βάκχοι δέ τε παῦροι. | same |
+| The right answer (all languages) | Εἴσελθε. | same |
 
-The inscription is the sign said to have stood over Plato's Academy, ἀγεωμέτρητος μηδεὶς εἰσίτω ("let no one ignorant of geometry enter"), with the Mysteries' word for the uninitiated in place of geometry. The refusal is Plato, Phaedo 69c, quoting the Mysteries. The riddle is Athena's line "Ethics is an anagram of Ithaca." (talk G9I6oc0TnxI, 22:55, from `src/data/nostos/lines.json`). The Ancient Greek draft has «Πλήρωσον τὸν λόγον τῆς Ἀθηνᾶς», «Ἓν ῥῆμα», «Κροῦε» and «Κροῦε αὖθις.», with Athena's line in modern Greek.
+The inscription is the sign said to have stood over Plato's Academy, ἀγεωμέτρητος μηδεὶς εἰσίτω ("let no one ignorant of geometry enter"), with the Mysteries' word for the uninitiated in place of geometry. The refusal is Plato, Phaedo 69c, quoting the Mysteries ("many carry the wand, few are Bacchants"); the welcome means "enter". The riddle is Athena's line "Ethics is an anagram of Ithaca." (talk G9I6oc0TnxI, 22:55, from `src/data/nostos/lines.json`). The Ancient Greek draft has «Ἓν ῥῆμα» and «Κροῦε», with Athena's line in modern Greek.

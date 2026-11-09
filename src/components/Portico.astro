@@ -1,0 +1,192 @@
+---
+// The small Greek portico that frames a popup (the newsletter, the preview gate), drawn in pieces
+// (portico-*.svg, built by scripts/illustrations/portico-gen.mjs). One unit of that drawing is 1/620
+// of the frame's width, so the pieces always meet; only the shafts stretch with the content.
+//   Wide screens: the head and the action stand in the opening between the two columns.
+//   Narrow screens: no form fits between columns of a believable thickness, so the columns frame
+//   the head and stand on a podium, and the action is set into the face of the podium.
+// The popup around it sets --portico-edge: how far the paper reaches beyond the drawing at the
+// sides and below.
+import Illustration from './Illustration.astro';
+---
+
+<div class="portico">
+  <div class="portico__grid">
+    <div class="portico__paper"></div>
+    <Illustration name="portico-pediment" class="portico__pediment" />
+    {
+      ['left', 'right'].map((side) => (
+        <div class:list={['portico__column', `portico__column--${side}`]}>
+          <Illustration name="portico-capital" />
+          <Illustration name="portico-shaft" class="portico__shaft" />
+          <Illustration name="portico-base" />
+        </div>
+      ))
+    }
+
+    <div class="portico__head"><slot name="head" /></div>
+
+    <!-- The podium, on narrow screens only -->
+    <Illustration name="portico-ledge" class="portico__ledge" />
+    <div class="portico__wall"></div>
+
+    <div class="portico__action"><slot name="action" /></div>
+
+    <Illustration name="portico-steps" class="portico__steps" />
+  </div>
+</div>
+
+<style>
+  .portico {
+    container-type: inline-size;
+    margin: 1.25rem var(--portico-edge, 0.375rem) 0;
+    /* Clicks beside the gable fall through to the popup, like clicks on the backdrop */
+    pointer-events: none;
+  }
+  /* The measures below are those of scripts/illustrations/portico-gen.mjs: the frame is 620 units
+     wide, a column piece 82, and it stands 15 units in from the edge.
+     Rows: pediment and entablature, head, ledge of the podium, action, steps. */
+  .portico__grid {
+    --u: calc(100cqw / 620); /* one unit of the drawing */
+    --portico-line: 1.35px; /* its line weight */
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns:
+      calc(15 * var(--u)) calc(82 * var(--u)) minmax(0, 1fr)
+      calc(82 * var(--u)) calc(15 * var(--u));
+    padding: calc(8 * var(--u)) 0 calc(10 * var(--u));
+  }
+  /* The sheet: crème paper cut to the outline of a temple front, with the rough edge of the other
+     cut-outs. The clip sits on ::before and the filter on its parent, so the edge is displaced
+     after it has been cut. */
+  .portico__paper {
+    position: absolute;
+    inset: 0 calc(-1 * var(--portico-edge, 0.375rem)) calc(-1 * var(--portico-edge, 0.375rem));
+    z-index: -1;
+    filter: url(#rough-sm); /* the finer cut: on a narrow screen the margin round the drawing is small */
+  }
+  .portico__paper::before {
+    /* The gable runs parallel to the roof (a pitch of 0.235), clear of the acroteria. Every corner
+       is taken off with a short second cut, so none of them is sharp. */
+    --eave: calc(72.8 * var(--u) + 0.235 * var(--portico-edge, 0.375rem));
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--creme);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    clip-path: polygon(
+      calc(50% - 0.35rem) 0.04rem,
+      calc(50% + 0.35rem) 0.04rem,
+      calc(50% + 1rem) 0.235rem,
+      calc(100% - 0.8rem) calc(var(--eave) - 0.19rem),
+      calc(100% - 0.15rem) calc(var(--eave) + 0.1rem),
+      100% calc(var(--eave) + 0.7rem),
+      100% calc(100% - 0.9rem),
+      calc(100% - 0.25rem) calc(100% - 0.25rem),
+      calc(100% - 0.9rem) 100%,
+      0.9rem 100%,
+      0.25rem calc(100% - 0.25rem),
+      0 calc(100% - 0.9rem),
+      0 calc(var(--eave) + 0.7rem),
+      0.15rem calc(var(--eave) + 0.1rem),
+      0.8rem calc(var(--eave) - 0.19rem),
+      calc(50% - 1rem) 0.235rem
+    );
+    pointer-events: auto;
+  }
+  .portico__grid :global(svg) {
+    stroke-width: var(--portico-line);
+  }
+  .portico__pediment {
+    grid-area: 1 / 1 / 2 / -1;
+  }
+  .portico__column {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+  }
+  /* The same column, mirrored: both stand with their shaded side outwards */
+  .portico__column--right {
+    grid-column: 4;
+    scale: -1 1;
+  }
+  /* The piece that stretches. It never falls below a believable height: with capital and base,
+     a column of about eight and a half lower diameters. */
+  .portico__shaft {
+    position: relative;
+    flex: 1 1 0;
+    min-height: calc(348 * var(--u));
+  }
+  .portico__shaft :global(svg) {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+  }
+  .portico__ledge {
+    grid-area: 3 / 1 / 4 / -1;
+  }
+  /* The sides of the podium: two lines of the drawing's weight, 23 units in from each edge */
+  .portico__wall {
+    grid-area: 4 / 1 / 5 / -1;
+    margin-inline: calc(23 * var(--u) - var(--portico-line) / 2);
+    border-inline: var(--portico-line) solid var(--ink-strong);
+  }
+  .portico__steps {
+    grid-area: 5 / 1 / 6 / -1;
+  }
+  .portico__head {
+    grid-area: 2 / 3;
+    align-self: center;
+    display: grid;
+    gap: 0.7rem;
+    padding: 0.9rem 0.3rem 1rem;
+    text-align: center;
+    pointer-events: auto;
+  }
+  .portico__action {
+    grid-area: 4 / 1 / 5 / -1;
+    display: grid;
+    /* Inside the wall of the podium (23 units in), with less air on the smallest screens */
+    padding: 1.05rem calc(23 * var(--u) + clamp(0.45rem, 9cqw - 1.2rem, 1rem)) 1.35rem;
+    pointer-events: auto;
+  }
+
+  /* ---------- Wide screens: the action stands between the columns ---------- */
+  @media (min-width: 36rem) {
+    .portico__paper {
+      filter: url(#rough);
+    }
+    .portico {
+      margin-top: 0.5rem;
+    }
+    .portico__ledge,
+    .portico__wall {
+      display: none;
+    }
+    /* The row of the ledge is shut, so the spare height of the columns goes above the head and
+       below the action, not between them */
+    .portico__grid {
+      --portico-line: 1.7px;
+      grid-template-rows: auto auto 0 auto auto;
+    }
+    .portico__column {
+      grid-row: 2 / 5;
+    }
+    .portico__shaft {
+      min-height: calc(338 * var(--u));
+    }
+    .portico__head {
+      align-self: end;
+      gap: 0.9rem;
+      padding: 1.75rem clamp(0.75rem, 4cqw, 1.9rem) 0;
+    }
+    .portico__action {
+      grid-area: 4 / 3;
+      align-self: start;
+      padding: 1.3rem clamp(0.75rem, 4cqw, 1.9rem) 1.5rem;
+    }
+  }
+</style>
