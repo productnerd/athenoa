@@ -606,14 +606,16 @@ const playHref = pathIn(locale, '/nostos/play/');
     --map-soft: color-mix(in srgb, var(--ink) 52%, var(--paper));
     --map-line: color-mix(in srgb, var(--ink) 34%, transparent);
     /* one pigment per theme, so the clusters read at a glance (an exception to the two-ink
-       palette, asked for by Maria on 4 November 2026): deeper by day, lighter on the night sky */
-    --g-path: #a07208;
-    --g-soul: #2238c3;
-    --g-ethics: #587626;
-    --g-cosmos: #b3352d;
-    --g-ways: #18766c;
-    --g-thinkers: #bd6424;
-    --g-gods: #77307f;
+       palette, asked for by Maria on 4 November 2026), in the pigments of Greek pottery and frescoes
+       (client direction, 10 November 2026): terracotta, lapis navy, forest green, ochre, blood red,
+       umber and burgundy; deeper by day, lighter on the night sky */
+    --g-path: #b8582f;
+    --g-soul: #1e3a7a;
+    --g-ethics: #2e6040;
+    --g-cosmos: #a87b1c;
+    --g-ways: #a01c1c;
+    --g-thinkers: #6b4a2e;
+    --g-gods: #6a1838;
     position: relative;
     width: 100vw;
     margin-left: calc(50% - 50vw);
@@ -793,13 +795,13 @@ const playHref = pathIn(locale, '/nostos/play/');
   }
 
   :global(html[data-theme='dark']) .nmap {
-    --g-path: #f0c75e;
-    --g-soul: #a9b9ff;
-    --g-ethics: #b9d27a;
-    --g-cosmos: #f28a80;
-    --g-ways: #80d4c6;
-    --g-thinkers: #f5b07a;
-    --g-gods: #d8a6e4;
+    --g-path: #e89a76;
+    --g-soul: #9fb4f0;
+    --g-ethics: #8fc79a;
+    --g-cosmos: #e9c060;
+    --g-ways: #f07368;
+    --g-thinkers: #cfa77e;
+    --g-gods: #dc8eab;
   }
   [data-g='path'] { --gc: var(--g-path); }
   [data-g='soul'] { --gc: var(--g-soul); }
@@ -891,9 +893,11 @@ const playHref = pathIn(locale, '/nostos/play/');
     gap: 0.45em;
     color: var(--ink);
   }
+  /* (large enough to tell the drawn marks apart: boat, butterfly, sprig, monad, flame, owl, lyre) */
   .nmap__theme svg {
-    width: 0.95em;
-    height: 0.95em;
+    flex: none;
+    width: 1.45em;
+    height: 1.45em;
     color: var(--gc);
   }
   .nmap__theme:hover:not(:disabled) {

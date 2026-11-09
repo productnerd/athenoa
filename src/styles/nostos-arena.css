@@ -750,22 +750,22 @@ html.motion .nconnect__line {
 
 /* an idea's mark from the map, in its theme's pigment (the same seven as the map's stars) */
 .nconnect__idea {
-  --g-path: #a07208;
-  --g-soul: #2238c3;
-  --g-ethics: #587626;
-  --g-cosmos: #b3352d;
-  --g-ways: #18766c;
-  --g-thinkers: #bd6424;
-  --g-gods: #77307f;
+  --g-path: #b8582f;
+  --g-soul: #1e3a7a;
+  --g-ethics: #2e6040;
+  --g-cosmos: #a87b1c;
+  --g-ways: #a01c1c;
+  --g-thinkers: #6b4a2e;
+  --g-gods: #6a1838;
 }
 html[data-theme='dark'] .nconnect__idea {
-  --g-path: #f0c75e;
-  --g-soul: #a9b9ff;
-  --g-ethics: #b9d27a;
-  --g-cosmos: #f28a80;
-  --g-ways: #80d4c6;
-  --g-thinkers: #f5b07a;
-  --g-gods: #d8a6e4;
+  --g-path: #e89a76;
+  --g-soul: #9fb4f0;
+  --g-ethics: #8fc79a;
+  --g-cosmos: #e9c060;
+  --g-ways: #f07368;
+  --g-thinkers: #cfa77e;
+  --g-gods: #dc8eab;
 }
 .nconnect__idea[data-g='path'] { --gc: var(--g-path); }
 .nconnect__idea[data-g='soul'] { --gc: var(--g-soul); }
