@@ -12,6 +12,7 @@ import ContactDialog from '../components/ContactDialog.astro';
 import CookieNotice from '../components/CookieNotice.astro';
 import LemmaNotes from '../components/LemmaNotes.astro';
 import CustomCursor from '../components/CustomCursor.astro';
+import PreviewGate from '../components/PreviewGate.astro';
 import { content } from '../data';
 import { getLocale } from '../lib/locale';
 
@@ -33,6 +34,9 @@ interface Props {
 const { bodyClass, footer = true, header = true, ...seo } = Astro.props;
 const locale = getLocale(Astro.url);
 const { ui } = content(locale);
+// The gate in front of the GitHub Pages preview: on only for the preview build and `npm run dev`
+// (.env.development), never for the real launch.
+const gated = import.meta.env.PUBLIC_PREVIEW_GATE === 'on';
 ---
 
 <!doctype html>
@@ -121,9 +125,26 @@ const { ui } = content(locale);
         }, 5000);
       })();
     </script>
+    {
+      gated && (
+        <script is:inline>
+          // Past the gate already? Then hide it before the first paint, here and after every page change.
+          (function () {
+            function worthy() {
+              try {
+                if (localStorage.getItem('ath-worthy') === '1') document.documentElement.classList.add('worthy');
+              } catch (e) {}
+            }
+            worthy();
+            document.addEventListener('astro:after-swap', worthy);
+          })();
+        </script>
+      )
+    }
     <ClientRouter />
   </head>
   <body class={bodyClass}>
+    {gated && <PreviewGate />}
     <a class="skip-link" href="#main">{ui.skip}</a>
     <SvgDefs />
     {header && <Header />}

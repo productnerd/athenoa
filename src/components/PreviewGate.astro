@@ -1,0 +1,288 @@
+---
+// The gate in front of the GitHub Pages preview (client request, 9 November 2026). Base.astro shows it
+// only when the build has PUBLIC_PREVIEW_GATE=on. The site is drawn behind it, blurred; an arch of
+// Greek blue asks for the last word of one of Athena's lines. The answer is checked against hashes
+// (src/data/gate.ts), and a visitor who knew it is remembered in this browser ("ath-worthy").
+// A velvet rope, not a lock: the pages themselves are public files.
+import Illustration from './Illustration.astro';
+import { gate } from '../data/gate';
+import { getLocale } from '../lib/locale';
+
+const locale = getLocale(Astro.url);
+const w = gate.words[locale];
+---
+
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-ask" data-hashes={gate.hashes.join(' ')}>
+  <div class="gate__veil" aria-hidden="true"></div>
+  <form class="gate__arch on-blue" id="gate-form" autocomplete="off">
+    <Illustration name="hero-b-owl" class="gate__owl" note={false} />
+    <p class="gate__inscr" lang="grc">{gate.inscription}</p>
+    {w.meaning && <p class="gate__meaning">{w.meaning}</p>}
+    <Illustration name="olive-branch" class="gate__olive" note={false} />
+    <p class="gate__ask" id="gate-ask">{w.ask}</p>
+    <p class="gate__quote hand">
+      {locale === 'en' ? '“' : '«'}{w.before} <span class="gate__blank" role="img" aria-label={w.blank}></span>{w.after}{locale === 'en' ? '”' : '»'}
+    </p>
+    <div class="gate__knock">
+      <label class="visually-hidden" for="gate-answer">{w.blank}</label>
+      <input
+        id="gate-answer"
+        name="answer"
+        type="text"
+        placeholder={w.placeholder}
+        autocapitalize="none"
+        autocorrect="off"
+        spellcheck="false"
+        enterkeyhint="go"
+      />
+      <button class="btn" type="submit">{w.knock}</button>
+    </div>
+    <p class="gate__verdict" id="gate-verdict" aria-live="polite" data-refusal={w.refusal} data-welcome={w.welcome}
+      data-refusal-grc={gate.refusal} data-welcome-grc={gate.welcome}></p>
+  </form>
+</div>
+
+<style>
+  .gate {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    overflow-y: auto;
+    padding: max(var(--space-m), env(safe-area-inset-top, 0px)) var(--gutter) max(var(--space-m), env(safe-area-inset-bottom, 0px));
+  }
+  :global(html.worthy) .gate {
+    display: none;
+  }
+  /* The site behind, blurred under a wash of the paper. The blur lives on its own layer and never
+     animates (on her machine a moving blur repaints every frame). */
+  .gate__veil {
+    position: fixed;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--paper) 52%, transparent);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    -webkit-backdrop-filter: blur(14px) saturate(0.9);
+    backdrop-filter: blur(14px) saturate(0.9);
+  }
+  .gate__arch {
+    position: relative;
+    isolation: isolate;
+    width: min(31rem, 100%);
+    display: grid;
+    justify-items: center;
+    gap: var(--space-xs);
+    padding: clamp(2.2rem, 1.6rem + 2vw, 3rem) clamp(1.25rem, 0.8rem + 3vw, 2.75rem) clamp(1.75rem, 1.2rem + 2vw, 2.5rem);
+    border-radius: var(--r-arch);
+    text-align: center;
+  }
+  .gate__arch::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: var(--paper);
+    background-image: var(--grain);
+    background-size: 400px 400px;
+    filter: url(#rough-sm);
+  }
+  .gate__arch :global(.gate__owl) {
+    width: clamp(4.2rem, 3.6rem + 2vw, 5.4rem);
+    color: var(--ink);
+    margin-bottom: 0.15rem;
+  }
+  .gate__arch :global(.gate__owl svg),
+  .gate__arch :global(.gate__olive svg) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .gate__inscr {
+    margin: 0;
+    font-family: var(--font-title);
+    font-size: var(--step-1);
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    padding-left: 0.16em;
+    line-height: 1.2;
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+  .gate__meaning {
+    margin: 0;
+    font-size: var(--step--1);
+    font-style: italic;
+    color: var(--ink-soft);
+  }
+  .gate__arch :global(.gate__olive) {
+    width: 6.5rem;
+    color: var(--ink-soft);
+    margin: 0.2rem 0 0.1rem;
+  }
+  .gate__ask {
+    margin: 0;
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .gate__quote {
+    margin: 0;
+    font-size: var(--step-2);
+    line-height: 1.25;
+    color: var(--ink-strong);
+    text-wrap: balance;
+  }
+  .gate__blank {
+    display: inline-block;
+    width: 3.6em;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-0.12em);
+  }
+  .gate__knock {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2xs);
+    width: 100%;
+    max-width: 24rem;
+    margin-top: var(--space-2xs);
+  }
+  .gate__knock input {
+    flex: 1 1 11rem;
+    min-width: 0;
+    min-height: 3.1rem;
+    padding: 0.6em 1.1em;
+    font: inherit;
+    font-size: var(--step-0);
+    color: var(--ink-strong);
+    background: color-mix(in srgb, var(--ink) 12%, transparent);
+    border: 1.5px solid var(--line);
+    border-radius: var(--r-pill);
+  }
+  .gate__knock input::placeholder {
+    color: var(--ink-soft);
+    opacity: 0.8;
+  }
+  .gate__knock input:focus-visible {
+    outline: 2px solid var(--ink-strong);
+    outline-offset: 2px;
+  }
+  .gate__verdict {
+    margin: 0;
+    min-height: 3em;
+    display: grid;
+    gap: 0.15rem;
+    align-content: start;
+  }
+  .gate__verdict :global(.gr) {
+    font-size: var(--step-0);
+    color: var(--ink-strong);
+  }
+  .gate__verdict :global(.tr) {
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  /* Opening: the blur goes at once, then the arch and the wash fade (opacity and transform only) */
+  .gate.is-opening .gate__veil {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  :global(html.motion) .gate.is-opening .gate__veil,
+  :global(html.motion) .gate.is-opening .gate__arch {
+    transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+  }
+  .gate.is-opening .gate__veil,
+  .gate.is-opening .gate__arch {
+    opacity: 0;
+  }
+  .gate.is-opening .gate__arch {
+    transform: translateY(-1.2rem) scale(0.98);
+  }
+  :global(html.motion) .gate__arch.is-refused {
+    animation: gate-refuse 0.45s var(--ease-out);
+  }
+  @keyframes gate-refuse {
+    20% { transform: translateX(-0.5rem); }
+    40% { transform: translateX(0.45rem); }
+    60% { transform: translateX(-0.3rem); }
+    80% { transform: translateX(0.15rem); }
+  }
+</style>
+
+<script>
+  // Runs once, on the first page loaded. Later pages are reached through the site's own links, which
+  // a visitor can only use once past the gate; html.worthy (set in Base.astro) then hides it.
+  const KEY = 'ath-worthy';
+  const gate = document.getElementById('gate');
+  const worthy = () => {
+    try {
+      return localStorage.getItem(KEY) === '1';
+    } catch {
+      return false;
+    }
+  };
+
+  if (gate && !worthy()) {
+    const form = gate.querySelector<HTMLFormElement>('#gate-form')!;
+    const input = gate.querySelector<HTMLInputElement>('#gate-answer')!;
+    const verdict = gate.querySelector<HTMLElement>('#gate-verdict')!;
+    const hashes = (gate.dataset.hashes || '').split(' ');
+    const behind = [...document.body.children].filter((el) => el !== gate && el.tagName !== 'SCRIPT') as HTMLElement[];
+    behind.forEach((el) => (el.inert = true));
+    if (matchMedia('(pointer: fine)').matches) input.focus({ preventScroll: true });
+
+    const norm = (s: string) =>
+      s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/ς/g, 'σ').replace(/[^a-zα-ω]/g, '');
+    const digest = async (s: string) => {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode('athenoa:' + s));
+      return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+    };
+    const say = (greek: string, translation: string) => {
+      verdict.textContent = '';
+      const gr = document.createElement('span');
+      gr.className = 'gr';
+      gr.lang = 'grc';
+      gr.textContent = greek;
+      verdict.append(gr);
+      if (translation) {
+        const tr = document.createElement('span');
+        tr.className = 'tr';
+        tr.textContent = translation;
+        verdict.append(tr);
+      }
+    };
+    const open = () => {
+      try {
+        localStorage.setItem(KEY, '1');
+      } catch {}
+      behind.forEach((el) => (el.inert = false));
+      gate.classList.add('is-opening');
+      const done = () => {
+        document.documentElement.classList.add('worthy');
+        gate.classList.remove('is-opening');
+      };
+      if (document.documentElement.classList.contains('motion')) setTimeout(done, 750);
+      else done();
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const answer = norm(input.value);
+      if (!answer) return input.focus();
+      const arch = form;
+      if (hashes.includes(await digest(answer))) {
+        say(verdict.dataset.welcomeGrc || '', verdict.dataset.welcome || '');
+        setTimeout(open, 600);
+      } else {
+        say(verdict.dataset.refusalGrc || '', verdict.dataset.refusal || '');
+        arch.classList.remove('is-refused');
+        void arch.offsetWidth;
+        arch.classList.add('is-refused');
+        input.select();
+      }
+    });
+  }
+</script>
