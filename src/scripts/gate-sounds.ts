@@ -1,7 +1,7 @@
 // The preview gate's sounds (src/components/PreviewGate.astro), made in code on the site's one Web
 // Audio context (sound.ts) rather than played from files: knocks on a wooden door, a key turning in
-// an old lock, and a bell as the gate opens. (Tried and dropped, Maria, 9 November 2026: a creaking
-// door, too creepy, and a rising run of glassy bells.)
+// an old lock, and a shop door's bell as the gate opens. (Tried and dropped, Maria, 9 November 2026:
+// a creaking door, too creepy, a rising run of glassy bells, and a temple and a crystal bell.)
 
 let noiseBuffer: AudioBuffer | null = null;
 function noise(ctx: AudioContext) {
@@ -121,26 +121,18 @@ function strike(ctx: AudioContext, dest: AudioNode, t: number, f: number, partia
   }
 }
 
-/** The bells offered for the gate's opening (Maria to choose, 9 November 2026). */
-export const bells = {
-  /** a small bronze temple bell: one warm strike, its hum glowing on (a sweet major third in it) */
-  temple: { f: 523.25, wet: 0.35, partials: [[0.5, 0.45, 6], [1, 0.6, 4.5], [1.0012, 0.35, 4.2], [1.26, 0.3, 3.2], [1.5, 0.22, 2.8], [2, 0.55, 3.2], [3, 0.16, 1.8], [4, 0.08, 1.2]] },
-  /** a crystal bell: one high, pure note, like a struck wine glass, shimmering softly as it fades */
-  crystal: { f: 1174.66, wet: 0.45, partials: [[1, 1, 3.2], [1.0015, 0.6, 3], [2, 0.12, 1.5], [2.76, 0.16, 1.1], [5.4, 0.05, 0.5]] },
-  /** the little brass bell on a spring over a shop door, tinkling as you come in */
-  door: { f: 1760, wet: 0.25, partials: [[1, 1, 0.9], [2.4, 0.3, 0.45], [4.1, 0.12, 0.25]] },
-};
-export type BellName = keyof typeof bells;
-
-/** Rings one of the bells `at` seconds from now. */
-export function bell(ctx: AudioContext, at: number, level: number, name: BellName) {
+/** The little brass bell on a spring over a shop door, ringing as the gate opens (chosen by Maria,
+ *  9 November 2026, over a temple bell and a crystal bell): the clapper swings back and forth, each
+ *  strike softer than the last and in a slightly different place, so a little different in pitch. */
+export function doorBell(ctx: AudioContext, at: number, level: number) {
   const t = ctx.currentTime + at;
-  const b = bells[name];
-  const into = hall(ctx, output(ctx, level), 2.4, b.wet);
-  if (name === 'door') {
-    // the clapper swings back and forth, each strike softer, each in a slightly different place
-    [0, 0.09, 0.17, 0.29, 0.46].forEach((dt, i) =>
-      strike(ctx, into, t + dt, b.f * (1 + (Math.random() - 0.5) * 0.01), b.partials, [1, 0.7, 0.55, 0.35, 0.2][i]),
-    );
-  } else strike(ctx, into, t, b.f, b.partials);
+  const into = hall(ctx, output(ctx, level), 2.4, 0.25);
+  const partials = [
+    [1, 1, 0.9],
+    [2.4, 0.3, 0.45],
+    [4.1, 0.12, 0.25],
+  ];
+  [0, 0.09, 0.17, 0.29, 0.46].forEach((dt, i) =>
+    strike(ctx, into, t + dt, 1760 * (1 + (Math.random() - 0.5) * 0.01), partials, [1, 0.7, 0.55, 0.35, 0.2][i]),
+  );
 }

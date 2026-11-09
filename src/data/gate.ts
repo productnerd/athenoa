@@ -32,7 +32,7 @@ export const gate = {
   refusal: 'πολλοὶ μὲν ναρθηκοφόροι, βάκχοι δέ τε παῦροι.',
   /** said to the right one ("enter") */
   welcome: 'Εἴσελθε.',
-  /** played as the site comes back into view, after the key and the bell (src/scripts/gate-sounds.ts) */
+  /** played as the site comes back into view, after the key and the door's bell (src/scripts/gate-sounds.ts) */
   sound: '/audio/lyre.mp3',
   words: {
     en: { before: 'There is no hero (ἥρως) without', after: '.', blank: 'the missing word', placeholder: 'One word', knock: 'Knock' },
