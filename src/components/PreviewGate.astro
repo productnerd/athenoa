@@ -3,7 +3,7 @@
 // only when the build has PUBLIC_PREVIEW_GATE=on. It is the newsletter's portico (Portico.astro) over
 // the blurred site: the inscription between the columns, one of Athena's lines to complete, and the
 // answer in the podium. The answer is checked against hashes (src/data/gate.ts); a visitor who knew
-// it hears a key turn, a shimmer of light and the lyre, and the portico slowly fades as the site comes back into focus. They are then
+// it hears a key turn, a bell and the lyre, and the portico slowly fades as the site comes back into focus. They are then
 // remembered in this browser ("ath-worthy"). A velvet rope, not a lock: the pages are public files.
 import Portico from './Portico.astro';
 import { gate } from '../data/gate';
@@ -197,7 +197,7 @@ const w = gate.words[locale];
   // Runs once, on the first page loaded. Later pages are reached through the site's own links, which
   // a visitor can only use once past the gate; html.worthy (set in Base.astro) then hides it.
   import { playSound, preloadSounds, soundContext } from '../scripts/sound';
-  import { knock, unlock, shimmer } from '../scripts/gate-sounds';
+  import { knock, unlock, bell, bells, type BellName } from '../scripts/gate-sounds';
 
   const KEY = 'ath-worthy';
   const root = document.documentElement;
@@ -238,12 +238,14 @@ const w = gate.words[locale];
       } catch {}
       verdict.textContent = gate.dataset.welcome || '';
       input.disabled = true;
-      // The key turns in the lock; a shimmer of light as the portico begins to go; the lyre as the
-      // site comes back into view
+      // The key turns in the lock; a bell as the portico begins to go; the lyre as the site comes
+      // back into view. While Maria chooses, ?bell=temple, crystal or door in the address picks it.
+      const asked = new URLSearchParams(location.search).get('bell') || '';
+      const which: BellName = asked in bells ? (asked as BellName) : 'temple';
       soundContext().then((ctx) => {
         if (!ctx) return;
         unlock(ctx, 0, 0.16);
-        shimmer(ctx, 0.75, 0.16);
+        bell(ctx, 0.75, 0.14, which);
       });
       setTimeout(() => playSound(sound, 0.045), 2600);
       const motion = root.classList.contains('motion');

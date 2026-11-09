@@ -1,7 +1,7 @@
 // The preview gate's sounds (src/components/PreviewGate.astro), made in code on the site's one Web
 // Audio context (sound.ts) rather than played from files: knocks on a wooden door, a key turning in
-// an old lock, and a shimmer of light as the gate opens. (A creaking door was tried and dropped: too
-// creepy, Maria, 9 November 2026.)
+// an old lock, and a bell as the gate opens. (Tried and dropped, Maria, 9 November 2026: a creaking
+// door, too creepy, and a rising run of glassy bells.)
 
 let noiseBuffer: AudioBuffer | null = null;
 function noise(ctx: AudioContext) {
@@ -85,90 +85,62 @@ export function unlock(ctx: AudioContext, at: number, level: number) {
   burst(ctx, out, t + 0.62, { freq: 750, q: 1.2, dur: 0.07, gain: 0.6 });
 }
 
-/** A shimmer of light for the moment the gate opens: a rising run of glassy bells (a bright
- *  pentatonic scale, so no two notes can clash), a soft breath of air sweeping up under it, and a
- *  warm chord held beneath, all in a small generated hall. */
-export function shimmer(ctx: AudioContext, at: number, level: number) {
-  const t0 = ctx.currentTime + at;
-  const out = output(ctx, level);
-
-  // The hall: a tail of decaying noise, a little different in each ear
-  const hall = ctx.createConvolver();
-  const length = Math.round(ctx.sampleRate * 2.6);
+/** A small hall for the bells: a tail of decaying noise, a little different in each ear. Returns the
+ *  node to play into; it sends the sound out both dry and through the hall. */
+function hall(ctx: AudioContext, out: AudioNode, seconds: number, wetLevel: number) {
+  const convolver = ctx.createConvolver();
+  const length = Math.round(ctx.sampleRate * seconds);
   const tail = ctx.createBuffer(2, length, ctx.sampleRate);
   for (let ch = 0; ch < 2; ch++) {
     const data = tail.getChannelData(ch);
     for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3);
   }
-  hall.buffer = tail;
+  convolver.buffer = tail;
   const wet = ctx.createGain();
-  wet.gain.value = 0.45;
-  hall.connect(wet).connect(out);
-  const dry = ctx.createGain();
-  dry.gain.value = 0.8;
-  dry.connect(out);
-  const send = (node: AudioNode) => {
-    node.connect(dry);
-    node.connect(hall);
-  };
+  wet.gain.value = wetLevel;
+  convolver.connect(wet).connect(out);
+  const input = ctx.createGain();
+  input.connect(out);
+  input.connect(convolver);
+  return input;
+}
 
-  // The run: D major pentatonic, rising over two octaves. Each bell is a sine with two faint,
-  // slightly out-of-tune overtones, which is what makes it sound like glass.
-  const notes = [587.3, 659.3, 740, 880, 987.8, 1174.7, 1318.5, 1480, 1760];
-  notes.forEach((f, i) => {
-    const t = t0 + i * 0.11 + Math.random() * 0.015;
-    const bell = ctx.createGain();
-    bell.gain.setValueAtTime(0.0001, t);
-    bell.gain.exponentialRampToValueAtTime(0.22 * (1 - i * 0.05), t + 0.006);
-    bell.gain.exponentialRampToValueAtTime(0.0001, t + 2.2);
-    send(bell);
-    for (const [ratio, amp] of [
-      [1, 1],
-      [2.76, 0.25],
-      [5.4, 0.08],
-    ]) {
-      const osc = ctx.createOscillator();
-      osc.type = 'sine';
-      osc.frequency.value = f * ratio * (1 + (Math.random() - 0.5) * 0.002);
-      const g = ctx.createGain();
-      g.gain.value = amp;
-      osc.connect(g).connect(bell);
-      osc.start(t);
-      osc.stop(t + 2.3);
-    }
-  });
-
-  // A breath of air rising under the run
-  const air = ctx.createBufferSource();
-  air.buffer = noise(ctx);
-  air.loop = true;
-  const band = ctx.createBiquadFilter();
-  band.type = 'bandpass';
-  band.Q.value = 1.4;
-  band.frequency.setValueAtTime(900, t0);
-  band.frequency.exponentialRampToValueAtTime(6000, t0 + 1.6);
-  const airGain = ctx.createGain();
-  airGain.gain.setValueAtTime(0.0001, t0);
-  airGain.gain.exponentialRampToValueAtTime(0.12, t0 + 0.7);
-  airGain.gain.exponentialRampToValueAtTime(0.0001, t0 + 2);
-  air.connect(band).connect(airGain);
-  send(airGain);
-  air.start(t0);
-  air.stop(t0 + 2.05);
-
-  // A warm chord beneath (D, A, D), swelling in and away
-  for (const f of [293.7, 440, 587.3]) {
+/** One strike of a bell: each partial a sine at a ratio of `f`, with its own loudness and length. */
+function strike(ctx: AudioContext, dest: AudioNode, t: number, f: number, partials: number[][], level = 1) {
+  for (const [ratio, amp, decay] of partials) {
     const osc = ctx.createOscillator();
-    osc.type = 'triangle';
-    osc.frequency.value = f;
-    osc.detune.value = (Math.random() - 0.5) * 8;
-    const g = ctx.createGain();
-    g.gain.setValueAtTime(0.0001, t0);
-    g.gain.exponentialRampToValueAtTime(0.05, t0 + 0.8);
-    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 3.4);
-    osc.connect(g);
-    send(g);
-    osc.start(t0);
-    osc.stop(t0 + 3.5);
+    osc.type = 'sine';
+    osc.frequency.value = f * ratio;
+    const env = ctx.createGain();
+    env.gain.setValueAtTime(0.0001, t);
+    env.gain.exponentialRampToValueAtTime(amp * level, t + 0.004);
+    env.gain.exponentialRampToValueAtTime(0.0001, t + decay);
+    osc.connect(env).connect(dest);
+    osc.start(t);
+    osc.stop(t + decay + 0.05);
   }
+}
+
+/** The bells offered for the gate's opening (Maria to choose, 9 November 2026). */
+export const bells = {
+  /** a small bronze temple bell: one warm strike, its hum glowing on (a sweet major third in it) */
+  temple: { f: 523.25, wet: 0.35, partials: [[0.5, 0.45, 6], [1, 0.6, 4.5], [1.0012, 0.35, 4.2], [1.26, 0.3, 3.2], [1.5, 0.22, 2.8], [2, 0.55, 3.2], [3, 0.16, 1.8], [4, 0.08, 1.2]] },
+  /** a crystal bell: one high, pure note, like a struck wine glass, shimmering softly as it fades */
+  crystal: { f: 1174.66, wet: 0.45, partials: [[1, 1, 3.2], [1.0015, 0.6, 3], [2, 0.12, 1.5], [2.76, 0.16, 1.1], [5.4, 0.05, 0.5]] },
+  /** the little brass bell on a spring over a shop door, tinkling as you come in */
+  door: { f: 1760, wet: 0.25, partials: [[1, 1, 0.9], [2.4, 0.3, 0.45], [4.1, 0.12, 0.25]] },
+};
+export type BellName = keyof typeof bells;
+
+/** Rings one of the bells `at` seconds from now. */
+export function bell(ctx: AudioContext, at: number, level: number, name: BellName) {
+  const t = ctx.currentTime + at;
+  const b = bells[name];
+  const into = hall(ctx, output(ctx, level), 2.4, b.wet);
+  if (name === 'door') {
+    // the clapper swings back and forth, each strike softer, each in a slightly different place
+    [0, 0.09, 0.17, 0.29, 0.46].forEach((dt, i) =>
+      strike(ctx, into, t + dt, b.f * (1 + (Math.random() - 0.5) * 0.01), b.partials, [1, 0.7, 0.55, 0.35, 0.2][i]),
+    );
+  } else strike(ctx, into, t, b.f, b.partials);
 }
