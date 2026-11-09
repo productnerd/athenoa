@@ -24,12 +24,15 @@ export const gate = {
     'aebfe7be15b011ef1178eac23fa1ad72f864ecb82a4f5551ef9478d761602d0a',
     'be581f5d5d8760c2199db78c6b9ce092e27830c2bfe7fc76a4b6dfdf95d3025c',
     'aff8d644999318efbb4dcc34e405c92e63647b52c4b2b667a68a58fae6f94bdb',
+    '7ddf1459bbe8ae25ba00e5a4c83f74a601ac962586197cbd4b1ed3afefb1f56e',
+    '8da062f0e8edf0685e0c1695bc5cdb874337a4cf7eebf44cba8358154d87584a',
+    '3c52668c21c0539d37fa9959fa7532aa4bbb05a8875dc3c0ede3ee3ee4508c33',
   ],
   /** said to a wrong answer: Plato, Phaedo 69c, quoting the Mysteries ("many carry the wand, few are Bacchants") */
   refusal: 'πολλοὶ μὲν ναρθηκοφόροι, βάκχοι δέ τε παῦροι.',
   /** said to the right one ("enter") */
   welcome: 'Εἴσελθε.',
-  /** played as the site comes back into view, after the key and the creaking door (src/scripts/gate-sounds.ts) */
+  /** played as the site comes back into view, after the key and the shimmer (src/scripts/gate-sounds.ts) */
   sound: '/audio/lyre.mp3',
   words: {
     en: { before: 'There is no hero (ἥρως) without', after: '.', blank: 'the missing word', placeholder: 'One word', knock: 'Knock' },

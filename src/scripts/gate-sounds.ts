@@ -1,6 +1,7 @@
 // The preview gate's sounds (src/components/PreviewGate.astro), made in code on the site's one Web
 // Audio context (sound.ts) rather than played from files: knocks on a wooden door, a key turning in
-// an old lock, and the door creaking open.
+// an old lock, and a shimmer of light as the gate opens. (A creaking door was tried and dropped: too
+// creepy, Maria, 9 November 2026.)
 
 let noiseBuffer: AudioBuffer | null = null;
 function noise(ctx: AudioContext) {
@@ -84,59 +85,90 @@ export function unlock(ctx: AudioContext, at: number, level: number) {
   burst(ctx, out, t + 0.62, { freq: 750, q: 1.2, dur: 0.07, gain: 0.6 });
 }
 
-/** An old door creaking open over `dur` seconds. A hinge creaks by sticking and slipping: tiny
- *  catches whose rate wanders as the door turns (heard as the creak's rising and falling pitch),
- *  ringing through the wood, with the slower crackle of the old timber under it. */
-export function creak(ctx: AudioContext, at: number, level: number, dur = 2.3) {
-  const sr = ctx.sampleRate;
-  const buffer = ctx.createBuffer(1, Math.round(sr * dur), sr);
-  const data = buffer.getChannelData(0);
-  // Two-pole resonators: the squeal of the hinge, its overtone, and the body of the door
-  const res = (f: number, bw: number) => {
-    const r = Math.exp((-Math.PI * bw) / sr);
-    return { a1: 2 * r * Math.cos((2 * Math.PI * f) / sr), a2: -r * r, y1: 0, y2: 0 };
-  };
-  const bands = [
-    { ...res(820, 110), mix: 1 },
-    { ...res(1650, 190), mix: 0.55 },
-    { ...res(240, 70), mix: 0.7 },
-  ];
-  let squeal = 0;
-  let crackle = 0;
-  let wander = 0;
-  let peak = 0;
-  for (let i = 0; i < data.length; i++) {
-    const x = i / data.length; // how far through the swing
-    wander = wander * 0.9995 + (Math.random() - 0.5) * 0.004;
-    const swing = Math.sin(Math.PI * Math.min(1, x * 1.15));
-    const rate = 150 + 230 * swing * (0.8 + 0.2 * Math.sin(x * 19)) + 400 * wander;
-    let impulse = 0;
-    squeal += Math.max(60, rate) / sr;
-    if (squeal >= 1) {
-      squeal -= 1;
-      if (Math.random() > 0.06) impulse += 0.5 + 0.5 * Math.random();
-    }
-    crackle += (28 + 26 * Math.random()) / sr;
-    if (crackle >= 1) {
-      crackle -= 1;
-      impulse += 0.8 * Math.random();
-    }
-    let y = 0;
-    for (const b of bands) {
-      const out = impulse + b.a1 * b.y1 + b.a2 * b.y2;
-      b.y2 = b.y1;
-      b.y1 = out;
-      y += out * b.mix;
-    }
-    // swell in, hold, and let the last of the swing die away
-    const env = Math.min(1, x / 0.07) * Math.min(1, (1 - x) / 0.3) * (0.7 + 0.3 * swing);
-    data[i] = y * env;
-    peak = Math.max(peak, Math.abs(data[i]));
-  }
-  if (peak > 0) for (let i = 0; i < data.length; i++) data[i] = (data[i] / peak) * 0.9;
+/** A shimmer of light for the moment the gate opens: a rising run of glassy bells (a bright
+ *  pentatonic scale, so no two notes can clash), a soft breath of air sweeping up under it, and a
+ *  warm chord held beneath, all in a small generated hall. */
+export function shimmer(ctx: AudioContext, at: number, level: number) {
+  const t0 = ctx.currentTime + at;
+  const out = output(ctx, level);
 
-  const src = ctx.createBufferSource();
-  src.buffer = buffer;
-  src.connect(output(ctx, level));
-  src.start(ctx.currentTime + at);
+  // The hall: a tail of decaying noise, a little different in each ear
+  const hall = ctx.createConvolver();
+  const length = Math.round(ctx.sampleRate * 2.6);
+  const tail = ctx.createBuffer(2, length, ctx.sampleRate);
+  for (let ch = 0; ch < 2; ch++) {
+    const data = tail.getChannelData(ch);
+    for (let i = 0; i < length; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / length, 3);
+  }
+  hall.buffer = tail;
+  const wet = ctx.createGain();
+  wet.gain.value = 0.45;
+  hall.connect(wet).connect(out);
+  const dry = ctx.createGain();
+  dry.gain.value = 0.8;
+  dry.connect(out);
+  const send = (node: AudioNode) => {
+    node.connect(dry);
+    node.connect(hall);
+  };
+
+  // The run: D major pentatonic, rising over two octaves. Each bell is a sine with two faint,
+  // slightly out-of-tune overtones, which is what makes it sound like glass.
+  const notes = [587.3, 659.3, 740, 880, 987.8, 1174.7, 1318.5, 1480, 1760];
+  notes.forEach((f, i) => {
+    const t = t0 + i * 0.11 + Math.random() * 0.015;
+    const bell = ctx.createGain();
+    bell.gain.setValueAtTime(0.0001, t);
+    bell.gain.exponentialRampToValueAtTime(0.22 * (1 - i * 0.05), t + 0.006);
+    bell.gain.exponentialRampToValueAtTime(0.0001, t + 2.2);
+    send(bell);
+    for (const [ratio, amp] of [
+      [1, 1],
+      [2.76, 0.25],
+      [5.4, 0.08],
+    ]) {
+      const osc = ctx.createOscillator();
+      osc.type = 'sine';
+      osc.frequency.value = f * ratio * (1 + (Math.random() - 0.5) * 0.002);
+      const g = ctx.createGain();
+      g.gain.value = amp;
+      osc.connect(g).connect(bell);
+      osc.start(t);
+      osc.stop(t + 2.3);
+    }
+  });
+
+  // A breath of air rising under the run
+  const air = ctx.createBufferSource();
+  air.buffer = noise(ctx);
+  air.loop = true;
+  const band = ctx.createBiquadFilter();
+  band.type = 'bandpass';
+  band.Q.value = 1.4;
+  band.frequency.setValueAtTime(900, t0);
+  band.frequency.exponentialRampToValueAtTime(6000, t0 + 1.6);
+  const airGain = ctx.createGain();
+  airGain.gain.setValueAtTime(0.0001, t0);
+  airGain.gain.exponentialRampToValueAtTime(0.12, t0 + 0.7);
+  airGain.gain.exponentialRampToValueAtTime(0.0001, t0 + 2);
+  air.connect(band).connect(airGain);
+  send(airGain);
+  air.start(t0);
+  air.stop(t0 + 2.05);
+
+  // A warm chord beneath (D, A, D), swelling in and away
+  for (const f of [293.7, 440, 587.3]) {
+    const osc = ctx.createOscillator();
+    osc.type = 'triangle';
+    osc.frequency.value = f;
+    osc.detune.value = (Math.random() - 0.5) * 8;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(0.05, t0 + 0.8);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + 3.4);
+    osc.connect(g);
+    send(g);
+    osc.start(t0);
+    osc.stop(t0 + 3.5);
+  }
 }
