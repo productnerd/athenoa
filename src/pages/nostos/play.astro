@@ -644,6 +644,20 @@ const practice = [
   .njscene.is-on[data-place='cave'] {
     opacity: 0.35;
   }
+  /* Landscape: the drawing filled almost the whole window and was too loud behind the path (client
+     direction, 14 November 2026). It now stands along the foot of the window, about half its height
+     (still at the bottom, by its preserveAspectRatio), and fainter. */
+  @media (orientation: landscape) {
+    .njscene {
+      height: 55%;
+    }
+    .njscene.is-on {
+      opacity: 0.22;
+    }
+    .njscene.is-on[data-place='cave'] {
+      opacity: 0.18;
+    }
+  }
   /* on phones the drawing is small: a heavier line keeps it from turning to hairlines */
   @media (max-width: 37.5rem) {
     .njscene {

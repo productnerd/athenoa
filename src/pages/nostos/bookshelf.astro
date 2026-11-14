@@ -1062,6 +1062,20 @@ const place = (k: number) =>
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
+  /* The cover's picture must never show through on the inside of the open cover (it did in Safari,
+     mirrored: a picture on a layer of its own ignores its parent's backface-visibility). So every
+     piece of the outside hides its back too, and the whole outside goes once the cover has turned
+     past halfway (and comes back at once when the book closes). */
+  .nbook3d__outside > * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  .nbook3d.is-open .nbook3d__outside {
+    visibility: hidden;
+  }
+  html.motion .nbook3d.is-open .nbook3d__outside {
+    transition: visibility 0s 0.55s;
+  }
   .nbook3d__outside {
     display: grid;
     align-content: space-between;
